@@ -88,7 +88,7 @@ class Application {
                 BenchmarkTimer::start( );
 
                 File::import( CONTROL . 'Admin/CronControl.class.php' );
-                $CronControl = new CronControl( );
+                $CronControl = new CronControl2( );
                 $CronControl->init( );
 
                 echo 'Main cron execution time took ' . BenchmarkTimer::stop('Aurora') . " seconds\n\n";
