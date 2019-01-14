@@ -1,0 +1,41 @@
+<?php
+namespace Markaxis\Payroll;
+use \Aurora\AuroraView;
+use \Library\IO\File;
+use \Library\Runtime\Registry;
+
+/**
+ * @author Andy L.W.L <support@markaxis.com>
+ * @since Monday, September 27, 2010
+ * @version $Id: TaxRuleView.class.php, v 2.0 Exp $
+ * @copyright Copyright (c) 2010, Markaxis Corporation
+ */
+
+class TaxRuleView extends AuroraView {
+
+
+    // Properties
+    protected $Registry;
+    protected $i18n;
+    protected $L10n;
+    protected $View;
+    protected $TaxRuleModel;
+
+
+    /**
+    * TaxRuleView Constructor
+    * @return void
+    */
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Registry = Registry::getInstance();
+        $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+        $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
+
+        File::import( MODEL . 'Markaxis/Payroll/TaxRuleModel.class.php' );
+        $TaxRuleModel = TaxRuleModel::getInstance( );
+        $this->TaxRuleModel = $TaxRuleModel;
+    }
+}
+?>

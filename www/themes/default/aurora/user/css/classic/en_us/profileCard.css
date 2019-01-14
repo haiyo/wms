@@ -1,0 +1,63 @@
+.hc-preview { position: relative; display:inline; }
+.hc-name { font-weight:bold; font-size:14px !important; position:relative; display:inline-block; }
+.detailWrapper { top:-10px; left:-10px; margin-right:80px; width:330px; background:#fff; border:solid 1px #ddd; position:absolute; -moz-box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.3); -webkit-box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.3); -o-box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.3); box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.3); }
+.detailWrapper-open-top { bottom:-10px; top:auto; padding:0px 0px 10px 0; }
+
+.hc-details { font-size:12px !important; font-weight:bold; color:#666; text-align:left; line-height:1.5em; padding:2em 10px 10px 10px; }
+.hc-details-top { padding:10px 10px 10px 10px; }
+
+.hc-details .loading { color:#666; }
+.hc-pic { width:70px; margin-top:-1em; float:right;  }
+.hc-details-open-left { left: auto; right:-10px; text-align:right; margin-left:80px; margin-right:0; }
+.hc-details-open-left > .hc-pic { float:left; }
+.hc-details-open-top > .hc-pic { margin-top:10px; float:right;  }
+.hc-details .s-action{ position: absolute; top:8px; right:5px; }
+.hc-details .s-card-pad{ border-top: solid 1px #ccc; margin-top:10px; padding-top:10px; overflow:hidden; }
+.detailWrapper-open-top .s-card-pad { border:none; border-bottom: solid 1px #ccc; margin-top:0;padding-top:0; margin-bottom:10px;padding-bottom:10px; }
+.hc-details .s-card .s-strong{ font-weight:bold; color: #555; }
+.hc-details .s-img{ float: left; margin-right: 10px; max-width: 70px;}
+.hc-details .s-name{ color:#222; font-weight:bold;}
+.hc-details .s-loc{ float:left;}
+.hc-details-open-left .s-loc{ float:right;}
+.hc-details .s-href{ clear:both; float:left;}
+.hc-details .jobTitle { font-size:13px; }
+.hc-details .s-desc{ }
+.hc-details .s-username{ text-decoration:none;}
+.hc-details .s-stats { display:block; float:left; margin-top:5px; clear:both; padding:0px;}
+.hc-details ul.s-stats li{ list-style:none; float:left; display:block; padding:0px 10px !important; border-left:solid 1px #eaeaea;}
+.hc-details ul.s-stats li:first-child{ border:none; padding-left:0 !important;}
+.hc-details .s-count { font-weight: bold;}
+.hc-details .closeIco { position:absolute; top:8px; right:8px; cursor:pointer; }
+.hc-details .closeIco-top { position:absolute; bottom:6px; right:8px; cursor:pointer; }
+.s-btnPanel { background:#efefef; width:100%; height:34px; border-top:1px solid #ccc; }
+.s-btnPanel-open-top { border-top:none; border-bottom:1px solid #ccc; }
+/* Reproduce css for the sake of weird bug encounter in Agenda RSVP */
+.s-buttons button {
+    background:#fff url(../../../../../../../../../www/themes/admin/aurora/form/img/classic/en_us/bg_button.png) repeat-x;
+    border:1px solid #999;
+    cursor:pointer;
+    display:block;
+	float:left;
+    font-size:11px;
+    font-weight:bold;
+    margin:0 10px 0 0;
+    text-decoration:none;
+    text-shadow:0 1px rgba(255,255,255,.75);
+    text-transform:uppercase;
+	overflow:hidden;
+	padding:3px 10px 0px 10px;
+	color:#529214;
+	height:24px;
+    line-height:1px;
+    white-space:nowrap;
+	outline:none;
+    float:right;
+    margin:5px 5px;
+}
+.s-buttons button:hover { background-color:#efefef; border-color:#666; }
+.s-buttons button:active {
+    color:#427510;
+    text-shadow:0 1px rgba(255,255,255,.75);
+	background:#fff url(../../../../../../../../../www/themes/admin/aurora/form/img/classic/en_us/bg_button.png) bottom center repeat-x;
+	border-color:#666;
+}

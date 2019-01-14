@@ -1,0 +1,68 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  connectWindow.css : Andy L.W.L
+* ----------------------------------------------------------------------------*/
+.noConnection {
+    margin-top:25%;
+    font-size:14px;
+    font-weight:bold;
+    text-align:center;
+    color:#999;
+}
+.placeholderWrapper {
+    float:left;
+    border: 1px dashed #666;
+}
+.placeholder {
+    float:left;
+	background-color: #efefef;
+	border: 1px dashed #666;
+    min-width:30px;
+    min-height:30px;
+    margin-left:3px;
+}
+.recipientWrapper {
+    float:left;
+    width:94%;
+    margin:2px 0 3px 5px;
+}
+.connectPanel {
+    margin:0 0 4px 4px;
+    width:96%;
+    height:270px;
+    background-color:#fff;
+    position:absolute;
+    bottom:0;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+}
+.userWrapper {
+    width:99%;
+    height:205px;
+}
+.userList {
+    float:left;
+    width:100%;
+    cursor:move;
+    z-index:9999;
+}
+.column {
+    float:left;
+    padding:3px;
+}
+.name {
+    font-size:12px;
+    font-weight:bold;
+}
+.jobTitle {
+    font-size:11px;
+}
+.userList .status {
+    font-size:9px;
+    font-weight:bold;
+    text-transform: uppercase;
+    margin-top:3px;
+}
+
+.userList .online  { color:#529214; }
+.userList .offline { color:#999; }

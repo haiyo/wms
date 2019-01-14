@@ -1,0 +1,127 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  page.css : Andy L.W.L
+* ------------------------------------------------------------------------------
+*  Aurora Page Styles
+*******************************************************************************/
+
+.contentWrapper {
+    float:left;
+    width:100%;
+	background:#fff url(../../../../../../../../www/themes/admin/aurora/page/img/classic/en_us/content_bg.jpg) repeat-x;
+}
+
+.column { min-height:50px; }
+.placeholder {
+    float:left;
+	background-color: #ccc;
+	border: 1px dashed #999;
+    width:100%;
+	height:32px;
+	margin-bottom:10px;
+}
+
+.dropletContainer { padding:10px 10px 0px 10px; }
+.noDroplet { padding:20px; border:1px dashed #666; background-color:#ccc; margin-bottom:10px; }
+.noDroplet span { font-size:11px; color:#666; text-shadow:0 1px rgba(255,255,255,.75); }
+.noPerm    { padding:20px; border:1px dashed #FF3300; background-color:#FFFFCC; margin-bottom:10px; }
+.notFound  { padding:20px; border:1px dashed #cccccc; background-color:#efefef; margin-bottom:10px; }
+
+ul.tabs {
+    float:left;
+	margin:0px;
+    margin-top:20px;
+    margin-bottom: 1px;
+	padding:0px;
+	list-style:none;
+	height:28px;
+	width:100%;
+	/*border-right: 1px solid #1f538b;*/
+    border-right: 1px solid #666;
+    
+}
+ul.tabs li.tab {
+	float:right;
+	margin: 0;
+	padding: 0;
+	height: 29px;
+	line-height:27px;
+	/*border: 1px solid #1f538b;*/
+    border: 1px solid #666;
+	border-right:none;
+	background: #d7d7d7;
+    white-space:nowrap;
+}
+.tabBlockactive {
+	border: 1px solid #fff;
+	border-right:none;
+	border-bottom:none;
+    width:100%;
+    position:relative;
+}
+.tabBlockactive span { margin-right:1px; }
+.tabBlock {
+	border: 1px solid #fff;
+	height:26px;
+	border-right:none;
+	border-bottom:none;
+}
+.tabBlock:hover {
+	background: #ccc;
+}
+.tab a {
+	text-decoration: none;
+	color: #333;
+	display: block;
+}
+.tabLink { padding:0 8px; }
+.tabLink:hover { color: #666; }
+
+ul.tabs .text a {
+	float:right;
+	margin-top:5px;
+	font-size:10px;
+	/*text-shadow: 1px 1px 0px #1f538b;*/
+    text-shadow: 1px 1px 0px #000;
+	text-decoration: none;
+	text-transform:uppercase;
+	color: #efefef;
+	display:block;
+	padding: 0 10px;
+}
+ul.tabs .text a:hover { color: #fff; }
+
+.icon {
+    float:left;
+    margin-left:2px;
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+}
+
+.icon a {
+	display:block;
+	width:10px;
+	height:10px;
+	text-indent:-9999px;
+}
+
+.edit_ico { background-position: -60px -69px; }
+.edit_ico:hover { background-position: -70px -69px; }
+.trash_ico { background-position: -110px -69px; }
+.trash_ico:hover { background-position: -120px -69px; }
+.vert_move_ico { background-position: -80px -69px; }
+.vert_move_ico a { cursor:n-resize; }
+
+.tabEdit {
+    margin:8px 7px 0px 0px;
+    position:absolute;
+    right:0;
+}
+.tabMove .tabBlockactive .tabLink {
+    padding-right:22px;
+}
+html ul.tabs li.active, html ul.tabs li.active {
+	height:29px;
+    font-weight:bold;
+	background: #e9e9e9;
+	border-bottom: 1px solid #e9e9e9;
+}

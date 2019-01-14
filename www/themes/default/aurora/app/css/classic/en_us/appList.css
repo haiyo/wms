@@ -1,0 +1,94 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  roleList.css : Andy L.W.L
+* ----------------------------------------------------------------------------*/
+#mainWrapper {
+   position: absolute;
+   top:45px;
+   bottom: 0px;
+   width: 581px;
+}
+#main {
+   padding:10px 1px;
+}
+.serverInfo {
+    position:absolute;
+    top:15px;
+    right:55px;
+    color: #000;
+    text-shadow: 1px 1px 0px #999;
+    font-weight: bold;
+}
+#sidebar {
+   width:255px;
+   position:absolute;
+   top:45px;
+   bottom:0px;
+   right: 0;
+   overflow-x:hidden;
+   background:#000 url(../../../../../../../../www/themes/admin/aurora/app/img/classic/en_us/app_bg.png) no-repeat;
+}
+
+#form {
+    padding:10px;
+}
+#sidebar h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffcc00;
+    padding: 20px;
+    padding-bottom: 5px;
+}
+
+#sidebar p.link {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0px;
+    padding:6px 0 6px 20px;
+}
+
+#sidebar p.active {
+    border-top:1px solid #999;
+    color:#333;
+    background:#fff;
+}
+
+#sidebar p.link a { display:block; color:#fff; cursor:default; }
+#sidebar p.link a:hover { color:#999; text-decoration:none; }
+#sidebar p.active a { color:#333; }
+
+#tableMain th { text-align:left; }
+#tableMain td { vertical-align:top; }
+
+.title {
+    font-weight:bold;
+}
+#edit a {
+    display:block;
+    width:10px;
+	height:10px;
+	text-indent:-9999px;
+}
+#edit {
+    font-size:12px;
+    color:#999;
+    top:20px;
+    position:absolute;
+    background:url(../../../../../../../www/themes/admin/aurora.classic/img/core/imageset.png);
+    background-position: -60px -69px;
+}
+#edit:hover { background-position: -70px -69px; }
+
+#tableMain thead tr {
+    color: #fff;
+    text-shadow: 1px 1px 0px #000;
+    background: #666;
+}
+#tableApps tr td {
+    border-bottom:1px solid #ccc;
+}
+#tableApps .title {
+    font-weight: bold;
+    font-size: 13px;
+}

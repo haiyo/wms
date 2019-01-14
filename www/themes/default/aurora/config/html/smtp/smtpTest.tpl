@@ -1,0 +1,1 @@
+<iframe frameborder="0" height="314" width="100%" style="overflow:hidden;" scrolling="0" id="smtpFrame" name="smtpFrame" src="<?TPLVAR_ROOT_URL?>admin/smtp/doTest/<?TPLVAR_SMTP_ADDRESS?>/<?TPLVAR_SMTP_PORT?>/<?TPLVAR_SMTP_CONNECT?>/<?TPLVAR_SMTP_USERNAME?>/<?TPLVAR_SMTP_PASSWORD?>"></iframe>

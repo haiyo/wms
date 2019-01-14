@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<themes>
+  <theme>
+    <title>Aurora Classic</title>
+    <description>Compatible with version 2.0</description>
+    <author>Andy L.W.L</author>
+    <author_email>support@markaxis.com</author_email>
+    <website>http://aurora.markaxis.com/themes</website>
+    <folder>classic</folder>
+    <css>classic/css/</css>
+    <html>classic/html/</html>
+    <img>classic/img/</img>
+  </theme>
+</themes>

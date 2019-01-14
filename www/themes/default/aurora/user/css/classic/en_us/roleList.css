@@ -1,0 +1,133 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  roleList.css : Andy L.W.L
+* ----------------------------------------------------------------------------*/
+#main{
+   float: right;
+   position: absolute;
+   top:45px;
+   bottom: 38px;
+   right: 0;
+   left:230px;
+}
+
+#sidebar{
+   width:230px;
+   float:left;
+   position:absolute;
+   padding-top:15px;
+   top:45px;
+   bottom:41px;
+   overflow-x:hidden;
+   background:#000 url(../../../../../../../../www/themes/admin/aurora/user/img/classic/en_us/role_bg.png) no-repeat;
+}
+
+#form {
+    padding:10px;
+}
+
+#sidebar p.role {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    color:#fff;
+    margin: 0px;
+    padding:6px 0 6px 20px;
+}
+
+#sidebar p.active {
+    border-top:1px solid #999;
+    color:#333;
+    background:#fff;
+}
+
+#sidebar p.role a { display:block; color:#fff; cursor:default; }
+#sidebar p.role a:hover { color:#999; text-decoration:none; }
+#sidebar p.active a { color:#333; }
+
+#title {
+    margin-right:10px;
+    white-space:nowrap;
+}
+#edit a {
+    display:block;
+    width:10px;
+	height:10px;
+	text-indent:-9999px;
+}
+#edit {
+    font-size:12px;
+    color:#999;
+    top:20px;
+    position:absolute;
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+    background-position: -60px -69px;
+}
+#edit:hover { background-position: -70px -69px; }
+
+#permWrapper {
+    margin-top:20px;
+    width:598px;
+    border:1px solid #ccc;
+    position:absolute;
+    bottom:12px;
+}
+
+#permHeader {
+    background:#efefef url(../../../../../../../../www/themes/admin/aurora/form/img/classic/en_us/bg_button.png) repeat-x;
+    padding:6px;
+    color:#333;
+    text-shadow: 1px 1px 0px #efefef;
+    font-weight:bold;
+}
+
+#permRowWrapper {
+    overflow-y:auto;
+}
+
+.permRow {
+    width:100%;
+    float:left;
+}
+.rowHighlight { background:#efefef; }
+
+.permTitleWrapper {
+    float:left;
+    width:400px;
+    padding:12px 10px 15px 20px;
+}
+
+.permTitle {
+    font-size:12px;
+    font-weight:bold;
+}
+
+.permOption {
+    float:left;
+    padding:22px 10px 15px 15px;
+}
+
+.permLink {
+	width: 100%;
+	margin:0px;
+	cursor:pointer;
+	display:block;
+	margin-top: 0;
+	text-decoration: none;
+	font-weight: bold;
+	font-size:13px;
+	text-shadow: 1px 1px 0px #fff;
+	color:#666;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #ccc;
+	height:29px;
+	background:#666 url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/accord.png);
+}
+.permLink:hover { color:#666; text-decoration:none; }
+.selected {
+	color:#333;
+	background: url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/accordActive.png);
+}
+
+.permParentTitle { padding: 6px 5px 0px 28px; }
+.permHide  { display:none; }

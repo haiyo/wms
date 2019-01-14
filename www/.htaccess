@@ -1,0 +1,12 @@
+RewriteEngine On
+#Treats the TestString as a pathname and tests if it exists and is a regular file.
+RewriteCond %{REQUEST_FILENAME} !-f
+#Treats the TestString as a pathname and tests if it exists, and is a directory.
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ index.php?pathInfo=$1 [L]
+
+#php_value upload_max_filesize 20M
+#php_value post_max_size 20M
+#php_value max_execution_time 200
+#php_value max_input_time 200

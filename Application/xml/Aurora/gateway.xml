@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Filters>
+  <filter>Filters/Aurora/i18nFilter</filter>
+  <filter>Filters/Aurora/CSRFGuardFilter</filter>
+  <filter>Filters/Aurora/SessionFilter</filter>
+  <filter>Filters/Aurora/IPRestrictFilter</filter>
+  <filter>Filters/Aurora/AuthenticationFilter</filter>
+  <filter>Filters/Aurora/AuthorizationFilter</filter>
+  <filter>Filters/Markaxis/EmployeeFilter</filter>
+  <filter>Filters/Aurora/SiteCheckFilter</filter>
+  <filter>Filters/Aurora/UserLogFilter</filter>
+  <filter>Filters/Aurora/UserSettingFilter</filter>
+</Filters>

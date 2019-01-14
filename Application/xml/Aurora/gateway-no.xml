@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Filters>
+  <filter>Aurora/i18nFilter</filter>
+  <filter>Aurora/CSRFGuardFilter</filter>
+  <filter>Aurora/IPRestrictFilter</filter>
+  <filter>Aurora/SiteCheckFilter</filter>
+</Filters>

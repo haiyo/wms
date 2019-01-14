@@ -1,0 +1,104 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  config.css : Andy L.W.L
+* ------------------------------------------------------------------------------
+*  System Configurations Panel
+*******************************************************************************/
+
+.configPanel {
+    width:850px;
+    float:left;
+    background:#fff;
+}
+.configPanel h2 {
+    font-size:14px;
+    font-weight:bold;
+    color:#ffcc00;
+    padding:20px;
+    padding-bottom:5px;
+}
+
+.configPanel p.menu {
+    display: block;
+    font-weight: bold;
+    color:#fff;
+    margin: 0px;
+    padding:6px 0 6px 30px;
+}
+
+.configPanel p.active {
+    border-top:1px solid #999;
+    color:#333;
+    background:#fff;
+}
+
+.configPanel p.menu a { display:block; color:#fff; cursor:default; }
+.configPanel p.menu a:hover { color:#999; text-decoration:none; }
+.configPanel p.active a { color:#333; }
+
+.configPanel .formTitle {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0px;
+    padding-bottom: 2px;
+}
+
+.configPanel .formSecTitle {
+    font-size:13px;
+    font-weight:bold;
+    margin: 0px;
+    padding-bottom:5px;
+}
+.configList .columnDescript {
+    margin-bottom:15px;
+}
+
+.configPanel .formField {
+    width:200px;
+    margin-top:10px;
+    margin-left:10px;
+}
+.configPanel .formRadio {
+    margin-top:15px;
+    text-indent:20px;
+}
+.columnDescript {
+    width:320px;
+}
+.configPanel .smtpDesc {
+    width:260px
+}
+.config {
+    display: none;
+    float:left;
+    padding:15px;
+    padding-bottom: 0px;
+}
+.configShow {
+    display: block;
+}
+
+.serverInfo {
+    position:absolute;
+    top:15px;
+    right:55px;
+    color: #000;
+    text-shadow: 1px 1px 0px #999;
+    font-weight: bold;
+}
+
+#configFormWrapper {
+    float:left;
+    width:580px;
+    height:464px;
+    margin-right:1px;
+    overflow:auto;
+}
+
+#configFormMenu {
+    float:left;
+    width:255px;
+    height:468px;
+    overflow:auto;
+    background:#000 url(../../../../../../../../www/themes/admin/aurora/config/img/classic/en_us/config_bg.jpg) no-repeat;
+}

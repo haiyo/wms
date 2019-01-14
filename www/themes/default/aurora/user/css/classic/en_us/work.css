@@ -1,0 +1,101 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  workedu.css : Andy L.W.L
+* ----------------------------------------------------------------------------*/
+.formWrapper {
+    background-color:#efefef;
+    float:left;
+    padding:15px;
+}
+
+.workData { width:360px; margin-right:10px; }
+.deleteWork { width:20px; }
+
+.addButton {
+    padding:2px 2px 2px 2px;
+    margin-right:10px;
+    float:right;
+    font-weight:bold;
+    font-size:11px;
+    color:#999;
+    display:block;
+}
+.addButton:link    { color:#999; text-decoration:none; }
+.addButton:active  { color:#666; text-decoration:none; }
+.addButton:visited { color:#999; text-decoration:none; }
+.addButton:hover   { color:#666; text-decoration:none; }
+
+.sideDateWrapper {
+    margin-left:20px;
+}
+
+.currentCheck {
+    float:left;
+    width:100%;
+    margin:20px 0 18px 0px;
+    text-align:left;
+    color:#666;
+}
+
+.fromMonthSelector, .fromDaySelector {
+    float:left;
+    width:60px;
+    margin-right:5px;
+    text-align:left;
+}
+
+.fromYearSelector, .toYearSelector {
+    float:left;
+    width:40px;
+    text-align:left;
+}
+
+.toMonthSelector, .toDaySelector {
+    float:left;
+    width:60px;
+    margin-right:5px;
+    margin-top:10px;
+    text-align:left;
+}
+
+.fromDaySelector, .toDaySelector {
+    width:45px;
+}
+
+.toYearSelector {
+    margin-top:10px;
+}
+
+.titleInput {
+    float:left;
+    width:100%;
+}
+
+.descriptInput {
+    float:left;
+    width:100%;
+    margin:10px 10px 0 0;
+}
+
+.eduWrapper {
+    float:left;
+    width:100%;
+    margin-bottom:10px;
+}
+.eduTitle, .workTitle { font-weight:bold; }
+.workPosition { color:#666; margin-top:2px; }
+.description { margin-top:5px; color:#333; }
+
+.addLink {
+    float:left;
+    width:100%;
+    margin-top:5px;
+    font-size:11px;
+}
+
+.eduInputWrapper {
+    float:left;
+    width:98%;
+    margin-bottom:15px;
+    display:none;
+}

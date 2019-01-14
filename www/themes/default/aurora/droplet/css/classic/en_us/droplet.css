@@ -1,0 +1,244 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  droplet.css : Andy L.W.L
+* ------------------------------------------------------------------------------
+*  Aurora Droplet Styles
+*******************************************************************************/
+
+#droplets {
+	list-style: none;
+    padding: 0;
+}
+
+#dropletBar {
+	background:#ececec;
+    border: 1px solid #474747;
+    z-index:9999;
+	cursor:default;
+}
+
+#dropletBar .dropletHandle {
+	color:#666;
+    text-shadow: 1px 1px 0px #fff;
+	width:100%;
+	height:29px;
+	line-height:28px;
+	cursor:move;
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+    background-position: -1px -79px;
+    background-repeat: repeat-x;
+}
+#dropletBar .dropletHandle span { margin-left:10px; }
+
+#dropletBar .dropletHandle {
+	color:#666;
+	width:100%;
+	height:29px;
+	line-height:28px;
+	cursor:move;
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+    background-position: -1px -79px;
+    background-repeat: repeat-x;
+}
+
+#dropletBar .dropletBarTitle {
+	color:#efefef;
+    font-weight:bold;
+    text-shadow:none;
+}
+
+#dropletBar .dropletBarClose a {
+    display:block;
+    width:10px;
+    height:10px;
+    margin-top:9px;
+    margin-right: 9px;
+    text-indent: -9999px;
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+	background-position: 0px -69px;
+}
+
+#dropletBar .dropletBarClose a:hover {
+	background-position: -10px -69px;
+}
+
+#dropletBar .dropSearch {
+	padding:10px;
+	background:#d6d6d6;
+	font-weight:bold;
+}
+#dropletBar .dropSearch #magnify {
+    top: 41px;
+    right: 15px;
+}
+#dropletBar .dropSearch .searchsubmit {
+    top: 42px;
+    right: 12px;
+    height: 24px;
+}
+#dropletBar .dropContent {
+	padding:8px;
+	font-size:11px;
+}
+
+#dropletBar .dropContentWindow {
+	background:#fff;
+	border:1px solid #666;
+	width:100%;
+	height:434px;
+}
+
+.dropletLoading {
+	margin-top:50px;
+	color:#666;
+}
+
+.dropletRow { float:left; width:100%; }
+.dropletRow:hover { background:#f4f4f4; }
+.dropletIcon { width:32px; height:32px; margin-right:10px; cursor:move; border:1px solid #000; }
+.dropletContent { width:233px; }
+.smtext { text-transform:uppercase; font-size:9px; font-weight:bold; color:#999; }
+.dropletTitle { font-size:12px;	font-weight:bold; }
+.dropContentWindow { overflow-x:hidden; overflow-y:auto; }
+
+.appLink {
+	width: 100%;
+	margin:0px;
+	cursor:pointer;
+	display:block;
+	margin-top: 0;
+	text-decoration: none;
+	font-weight: bold;
+	font-size:13px;
+	text-shadow: 1px 1px 0px #fff;
+	color:#666;
+	background-color: #00a0c6;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #666;
+	height:29px;
+	background: url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/accord.png);
+}
+.appLink:hover { color:#666; text-decoration:none; }
+.selected {
+	color:#333;
+	background: url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/accordActive.png);
+}
+
+.appTitle { padding: 6px 5px 0px 30px; }
+.appHide  { display:none; }
+.appUnHide{ }
+
+.droplet {
+	margin-bottom:10px;
+	position:relative;
+    float:left;
+    width:100%;
+    border:1px solid #999;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background:#fff;
+}
+.droplet .loadingDroplet {
+    padding: 10px;
+    font-weight: bold;
+    font-style: italic;
+    color: #999;
+    font-size: 14px;
+}
+.dropletTitleBar {
+    height: 50px;
+    border-radius: 6px 6px 0 0;
+    background: #989fa7;
+    background: -moz-linear-gradient(top, #dce1e7 0%, #c2c4ca 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dce1e7), color-stop(100%,#c2c4ca));
+    background: -webkit-linear-gradient(top, #dce1e7 0%,#c2c4ca 100%);
+    background: -o-linear-gradient(top, #dce1e7 0%,#c2c4ca 100%);
+    background: -ms-linear-gradient(top, #dce1e7 0%,#c2c4ca 100%);
+    background: linear-gradient(to bottom, #dce1e7 0%,#c2c4ca 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dce1e7', endColorstr='#c2c4ca',GradientType=0 );
+    border-bottom: 1px solid #a7a9ba;
+    border-top: 1px solid #fff;
+}
+.dropletTitleBar h2 {
+    color:#333;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 0 #efefef;
+    font-size:18px;
+    font-weight:bold;
+    line-height:50px;
+    text-indent:10px;
+}
+.dropletWrapper {
+}
+
+.dropletWrapper h2 {
+    font-size:18px;
+}
+
+.dropletTools {
+	position:absolute;
+	top: 11px;
+    right: 2px;
+	width:auto;
+	height:10px;
+    z-index: 99;
+}
+
+.dropletPlainTools .dropletTools {
+	top:16px;
+	right:8px;
+}
+
+.dropletTools div {
+	float:left;
+    text-indent:-9999px;
+	width:28px;
+	height:28px;
+	margin-right:5px;
+}
+.dropletTools div a {
+    display:block;
+    width:28px;
+	height:28px;
+}
+.dropletHandle {
+    cursor:move;
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+    background-position: 0px -238px;
+}
+.dropletHandle:hover { background-position: -28px -238px; }
+.dropletHandle:active { background-position: -56px -238px; }
+
+.dropletClose {
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+    background-position: 0px -210px;
+}
+.dropletClose:hover { background-position: -28px -210px; }
+.dropletClose:active { background-position: -56px -210px;  }
+
+.dropletEdit {
+    background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/imageset.png);
+    background-position: 0px -266px;
+}
+.dropletEdit:hover { background-position: -28px -266px; }
+.dropletEdit:active { background-position: -56px -266px; }
+
+.dropletInfo { line-height:18px; }
+
+.dropletContentWrapper {
+    box-shadow: inset 0 8px 6px -6px rgba(0,0,0,0.3), inset 0px -1px 0px whiteSmoke;
+}
+.noDroplet {
+    font-size:10px;
+    font-weight:bold;
+    color:#999;
+    text-transform:uppercase;
+    text-align:center;
+    cursor:default;
+    float:left;
+    width:100%;
+}

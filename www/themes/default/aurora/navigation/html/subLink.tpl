@@ -1,0 +1,1 @@
+<li><a href="<?TPLVAR_ROOT_URL?><?TPLVAR_URL?>" class="menu <?TPLVAR_CLASS_NAME?>"><?LANG_LINK?></a></li>

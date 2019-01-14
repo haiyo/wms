@@ -1,0 +1,1 @@
+<li><a href="#<?TPVAR_TAB_ID?>"><?LANG_TITLE?></a></li>

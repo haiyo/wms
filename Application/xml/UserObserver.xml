@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User>
+<event type="getUser">
+  <observer>
+    <classPath>Aurora/UserAvatar</classPath>
+    <className>UserAvatar</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserLog</classPath>
+    <className>UserLog</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserRole</classPath>
+    <className>UserRole</className>
+  </observer>
+</event>
+<event type="addUser">
+  <observer>
+    <classPath>Aurora/UserAvatar</classPath>
+    <className>UserAvatar</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserSettings</classPath>
+    <className>UserSettings</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserLog</classPath>
+    <className>UserLog</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserRole</classPath>
+    <className>UserRole</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserActivate</classPath>
+    <className>UserActivate</className>
+  </observer>
+</event>
+<event type="updateUser">
+  <observer>
+    <classPath>Aurora/UserRole</classPath>
+    <className>UserRole</className>
+  </observer>
+  <observer>
+    <classPath>Aurora/UserActivate</classPath>
+    <className>UserActivate</className>
+  </observer>
+</event>
+</User>

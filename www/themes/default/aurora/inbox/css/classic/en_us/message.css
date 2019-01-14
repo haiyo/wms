@@ -1,0 +1,127 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  message.css : Andy L.W.L
+* ----------------------------------------------------------------------------*/
+.replyListWrapper {
+    float:left;
+    width:100%;
+    border-bottom:1px solid #ccc;
+    padding-bottom:10px;
+}
+.replyList {
+    
+}
+.starTools {
+    -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   padding:10px 20px 0px 15px;
+}
+
+.starTools .star a, .starTools .starred a {
+    width:18px;
+    height:18px;
+    display:block;
+    text-indent:-9999px;
+    margin-right:10px;
+    background:url(../../../../../../../../www/themes/admin/aurora/inbox/img/classic/en_us/starTools.png);
+}
+.starTools .star a { background-position: 0px 0px; }
+.starTools .starred a { background-position: -36px 0px; }
+.starTools .star a:hover { background-position: -18px 0px; }
+.starTools .starred a:hover { background-position: -36px 0px; }
+
+.dateTime {
+    color:#666;
+    text-align: right;
+    padding:10px 20px 0px 0px;
+}
+
+.msgCompose {
+    display:none;
+}
+.msgListUser {
+    font-weight:bold;
+    color:#333;
+}
+.fromUserName {
+    font-size:14px;
+}
+.userExpand {
+    margin-top:3px;
+    display:none;
+}
+.msgDateTime {
+    float:left;
+    font-size:11px;
+    color:#666;
+    margin-top:2px;
+}
+.msgCounter {
+    font-size:10px;
+    font-weight:bold;
+    border-radius:3px;
+    background-color:#999;
+    color:#fff;
+    padding:2px 3px;
+    min-width:18px;
+    text-align:center;
+    bottom:10px;
+    right:5px;
+    position:absolute;
+    display:none;
+}
+.msgSpinner {
+    float:left;
+    margin-left:10px;
+}
+.msgAttachment {
+    float:left;
+    margin-left:8px;
+    width:16px;
+    height:16px;
+    display:none;
+    background:url(../../../../../../../../www/themes/admin/aurora/inbox/img/classic/en_us/attachment_icon.png);
+}
+
+.msgRowDiv {
+    float:left;
+    width:100%;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:1px;
+}
+.msgRow {
+    float:left;
+    width:100%;
+    border-bottom:1px solid #ccc;
+    cursor:pointer;
+}
+.msgRowOver {
+    background-color:#dfdfdf;
+}
+.msgSubject {
+    font-size:13px;
+    font-weight:bold;
+    margin-top:3px;
+}
+.composeSubject {
+    color:#999;
+}
+.formButtons {
+    float:left;
+    margin-left:25%;
+    margin-top:5px;
+}
+.bubble{
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 0 6px #B2B2B2;
+    display: inline-block;
+    padding: 10px 12px 10px 12px;
+    position: relative;
+    vertical-align: top;
+    width:100%;
+}

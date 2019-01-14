@@ -1,0 +1,92 @@
+<?php
+namespace Markaxis\Leave;
+use \Library\IO\File;
+use \Control;
+
+/**
+ * @author Andy L.W.L <support@markaxis.com>
+ * @since Tuesday, July 10th, 2012
+ * @version $Id: LeaveApplyControl.class.php, v 2.0 Exp $
+ * @copyright Copyright (c) 2010, Markaxis Corporation
+ */
+
+class LeaveApplyControl {
+
+
+    // Properties
+    private $LeaveApplyModel;
+
+
+    /**
+     * LeaveApplyControl Constructor
+     * @return void
+     */
+    function __construct( ) {
+        File::import( MODEL . 'Markaxis/Leave/LeaveApplyModel.class.php' );
+        $this->LeaveApplyModel = new LeaveApplyModel( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function dashboard( ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['balance'] ) ) {
+            Control::setOutputArray( array( 'balance' => $this->LeaveApplyModel->calculateBalance( $output['balance'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function apply( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $this->LeaveApplyModel->applyIsValid( $post ) ) {
+            $this->LeaveApplyModel->save( );
+            Control::setPostData( array_merge( $post, $this->LeaveApplyModel->getInfo( ) ) );
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function getHistory( ) {
+        $post = Control::getRequest( )->request( POST );
+        Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function getDateDiff( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( $diff = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
+            $vars['bool'] = 1;
+            $vars['text'] = $diff['text'];
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+}
+?>

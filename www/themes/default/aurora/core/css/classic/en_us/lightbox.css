@@ -1,0 +1,69 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  lightbox.css : Andy L.W.L
+* ------------------------------------------------------------------------------
+*  Lighbox Page Style
+*******************************************************************************/
+
+body, html {
+    overflow:hidden;
+}
+
+.pageWrapper {
+    float:left;
+    width:100%;
+}
+
+#btnPanel {
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height:40px;
+    border-top:1px solid #ccc;
+    background-color:#efefef;
+}
+
+.lightBoxTitle {
+   background: url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/lightBox_title_lt.png) no-repeat;
+   padding-left:2px;
+}
+.lightBoxTitle div {
+   background: url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/lightBox_title_rt.png) top right no-repeat;
+   padding-right:2px;
+}
+.lightBoxTitle div div {
+   background: url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/lightBox_title_bg.png) repeat-x;
+   padding: 0;
+   height:45px;
+}
+
+.lightBoxTitle h2 {
+    text-indent:20px;
+    color:#efefef;
+    text-shadow: 1px 1px 0px #000;
+    line-height:45px;
+}
+
+#contentWrapper {
+    padding:20px;
+}
+
+#controls {
+    float:left;
+    font-size:11px;
+    font-weight:bold;
+    color:#666;
+    line-height:40px;
+    margin-left:20px;
+}
+
+#btnWrapper .buttons {
+    float:right;
+    margin-top:7px;
+}
+
+#spinner {
+    float:right;
+    margin:13px 10px 0px 0px;
+    overflow:hidden;
+}

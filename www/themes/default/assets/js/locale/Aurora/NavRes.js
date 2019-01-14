@@ -1,0 +1,3 @@
+var hash="bb6165a73cc4ca6f329742669ee2a42c";
+function AuroraNavRes(){}
+Aurora.i18n.NavRes = {LANG_SYSTEM_CONTROL : "System Control",LANG_CONFIGURATIONS : "System Configurations",LANG_APPLICATION_MANAGEMENT : "Application Management",LANG_SERVER_INFORMATION : "Server Information",LANG_DROPLET_CUSTOMIZE : "Droplets Customization",LANG_FIRMWARE_UPDATES : "Firmware Updates",LANG_SIGN_OUT : "Sign Out",LANG_SIGN_OUT_CONFIRM : "Sign out of Markaxis Corporation?",LANG_UPLOAD_LOGO : "Upload Your Company Logo",LANG_SELECT_IMAGE : "Select an image file on your computer (4MB max):",};

@@ -1,0 +1,412 @@
+@charset "UTF-8";
+/*******************************************************************************
+*  userList.css : Andy L.W.L
+* ----------------------------------------------------------------------------*/
+.header {
+    float:left;
+    width:100%;
+    padding-bottom:5px;
+    border-bottom:1px solid #999;
+    background-color:#efefef;
+    z-index:2;
+    position: relative;
+}
+
+.headerWrapper {
+    padding:8px;
+    line-height:28px;
+}
+
+.header .headLeft {
+    float:left;
+    width:100px;
+    border:1px solid #efefef;
+    position:relative;
+}
+.header .headLeft a {
+    color:#666;
+    display: block;
+    padding-left:8px;
+}
+.header .headLeft a:hover {
+    color:#333;
+}
+
+.header .headLeftDrop {
+    border:1px solid #ccc;
+    background:#e4e4e4 url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/bg_dropdown_hover.png) no-repeat right center;
+}
+
+.header .headLeftDrop a {
+    color:#333;
+}
+
+.header .menu {
+    position:absolute;
+    border:1px solid #ccc;
+    top:26px;
+    left:-1px;
+    background:#fff;
+    display:none;
+}
+
+.header .menu a {
+    display:block;
+    padding-right:10px;
+    height:23px;
+    line-height:23px;
+    white-space:nowrap;
+}
+.header .menu a:hover {
+    color:#fff;
+    background:#999;
+    text-decoration:none;
+}
+
+.header .headMid {
+    float:left;
+    color:#666;
+    line-height:29px;
+    text-align:right;
+    width:300px;
+}
+
+.alphaSep {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.header .headerRight {
+    float:right;
+    text-align:right;
+    width:400px;
+    margin-right:10px;
+    margin-top: -3px;
+}
+
+.slidePanel, .importExportPanel {
+    position:absolute;
+    background:#eee;
+    border:1px solid #ccc;
+    border-top:none;
+    width:790px;
+    height:350px;
+    top:90px;
+    left:25px;
+    z-index:1;
+    display:none;
+}
+
+.slidePanel .sideLink {
+    float:left;
+    width:140px;
+    position:relative;
+}
+
+.slidePanel #avatarWrapper {
+    position: relative;
+    float:left;
+    width:120px;
+    min-height:131px;
+    max-height:131px;
+    overflow:hidden;
+}
+
+.slidePanel #avatarWrapper input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    border: solid transparent;
+    border-width: 0 0 120px 120px;
+    opacity: 0;
+    filter: alpha(opacity=80);
+    -moz-transform: translate(-300px, 0) scale(4);
+    direction: ltr;
+    cursor: pointer;
+    width:1px;
+}
+
+.slidePanel .avatarTxt {
+    text-align:center;
+    width:70px;
+    top:30%;
+    left:18%;
+    color:#999;
+    text-shadow: 1px 1px 0px #fff;
+    font-weight: bold;
+    position:absolute;
+    cursor:default;
+}
+
+.loadPreviewTxt {
+    position:absolute;
+    bottom:10%;
+    width:100%;
+    text-align:center;
+    font-size:11px;
+    background:#fff;
+}
+
+#formAvatar, #imgTemp {
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+}
+
+.userList .avatar {
+    margin-right:10px;
+}
+
+#avatar { display:none; }
+
+.smAvatar {
+    width:48px;
+    height:48px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    overflow:hidden;
+}
+
+.progressBarWrapper {
+    float:left;
+    width:90%;
+    font-size:11px;
+    margin-left:5px;
+    margin-bottom:5px;
+    height:5px;
+    position:absolute;
+    top:90px;
+    border:1px solid #666;
+    display:none;
+}
+
+.progressBar {
+    position:relative;
+    color:#ccc;
+    text-align:center;
+}
+
+.avatarCancel {
+    position:absolute;
+    width:16px;
+    height:16px;
+    top:3px;
+    right:3px;
+    cursor:pointer;
+    display:none;
+}
+
+.slidePanel .leftNav {
+    float:left;
+    padding:2px;
+    margin-top:5px;
+}
+
+.slidePanel .leftNav a {
+    display:block;
+}
+
+.slidePanel .wrapper {
+    float:left;
+    width:600px;
+}
+
+.slidePanel .form {
+    margin-top:15px;
+}
+
+.slidePanel .formButtons {
+    position:absolute;
+    top:310px;
+    left:95px;
+    width:100%;
+}
+
+.slidePanel .title {
+    font-size:18px;
+    font-weight:bold;
+}
+
+.slidePanel .age {
+    color:#999;
+    margin-left:5px;
+}
+
+.slidePanel li {
+    width:288px;
+    margin-bottom:15px;
+}
+
+.slidePanel li.first {
+    margin-right:20px;
+}
+
+#userfieldWrapper {
+    float:left;
+    width:200px;
+    margin-right:10px;
+}
+
+#filterList {
+    float:left;
+    width:42%;
+}
+
+#search {
+    float:left;
+    width:22px;
+    height:22px;
+    margin:3px 8px 0px 0px;
+    text-indent:9999px;
+    border:1px solid #666;
+    cursor:pointer;
+}
+
+.dropdown { background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/bg_dropdown.png) no-repeat right center; }
+.dropdown-hover, .dropdown a:hover {
+    text-decoration:none;
+	background:url(../../../../../../../../www/themes/admin/aurora/core/img/classic/en_us/bg_dropdown_hover.png) no-repeat right center;
+}
+
+#list {
+    cursor:default;
+    position:relative;
+    width:800px;
+}
+
+.userList {
+    padding:20px;
+    height: 368px;
+    width:808px;
+    overflow:hidden;
+}
+
+.userList .column {
+    float:left;
+}
+
+.userList .checkbox {
+    position:absolute;
+    right:-2px;
+    bottom:-2px;
+    padding-top: 1px;
+    background-color:#e1e1e1;
+}
+
+.userList .row {
+    margin-top:2px;
+}
+
+.userList li {
+    padding:10px;
+    margin-bottom: 20px;
+    margin-right:10px;
+    margin-left:5px;
+    border:3px solid #e1e1e1;
+    position:relative;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+}
+
+li.Pending {
+    border:3px solid #ffb573;
+}
+.userList .checkboxPending {
+    background-color:#ffb573;
+}
+
+li.Suspended {
+    border:3px solid #cb8994;
+}
+.userList .checkboxSuspended {
+    background-color:#cb8994;
+}
+
+.userList .userSelected {
+    background:#efefef;
+}
+
+.userList .name {
+    font-size:14px;
+    font-weight:bold;
+}
+
+.userList .status {
+    font-size:9px;
+    font-weight:bold;
+    text-transform: uppercase;
+    margin-top:3px;
+}
+
+.userList .online  { color:#529214; }
+.userList .offline { color:#999; }
+.userList .suspend { color:#990000; }
+.userList .pending { color:#ff7200; }
+
+.userList .label {
+    position:absolute;
+    bottom:0px;
+    right:21px;
+    padding:2px;
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.userList .label a {
+    display:block;
+    color:#ccc;
+}
+.userList .label a:hover { color:#999; }
+
+a.multiplePages {
+	background-color:#444444;
+	float:left;
+	margin:4px 3px;
+	text-indent:-9999px;
+	width:12px;
+    height:12px;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+}
+
+a.multiplePages:hover,
+a.multiplePages.active{
+	background-color:#2993dd;
+	-moz-box-shadow:0 0 6px #1e435d inset;
+	/*-webkit-box-shadow:0 0 7px #1e435d inset;*/
+	box-shadow:0 0 3px #1e435d inset;
+}
+
+.selectList {
+    width:100%;
+}
+
+.multiList {
+    height:100px;
+}
+.multiList li {
+    height:9px;
+}
+
+#setDefaultRole { float:left; margin-top:8px; font-size:11px; }
+#defRoleTitle { float:left; font-weight:bold; line-height:20px; }
+#defRoleList { float:left; }
+.defRole { float:left; margin-left:8px; line-height:21px; }
+.defRole a { display:block; }
+.defRole a:hover { text-decoration:underline; }
+.defaultRoleSelected {
+    float:left;
+    margin-left:8px;
+    padding:2px 4px;
+    border:1px solid #999;
+    background:#e6e5e5;
+    font-weight:bold;
+}
+.defaultRoleSelected a:hover { text-decoration:none; }
+#controls { margin-left:380px; }
+.pagBtn { margin-top:7px; }

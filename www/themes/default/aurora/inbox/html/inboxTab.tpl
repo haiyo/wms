@@ -1,0 +1,1 @@
+<li class="<?TPVAR_TAB_ID?>"><a href="<?TPVAR_TAB_ID?>" id="<?TPVAR_TAB_ID?>" class="sectionLink tooltip" title="<?LANG_TAB_TITLE?>"><?LANG_TAB_TITLE?></a></li>
