@@ -82,7 +82,8 @@ class CronControl extends Control {
                     throw new Exceptions("Error: Invalid username and password.\n\n");
                 }
 
-                //$this->checkGateway();
+                $Scheduler = new Scheduler( );
+                $Scheduler->run( );
 
                 // Load tasks
             }
