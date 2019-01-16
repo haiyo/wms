@@ -3,6 +3,7 @@ namespace Aurora;
 use \Library\Security\Aurora\Authenticator;
 use \Library\Database\DB;
 use \Library\Util\Aurora\FilterManager, \Library\IO\File;
+use \Library\Exception\Exceptions;
 use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Exception\Aurora\NoPermissionException;
 use \Library\Exception\Aurora\SiteCheckException;
