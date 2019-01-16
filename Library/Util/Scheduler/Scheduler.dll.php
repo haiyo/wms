@@ -1,9 +1,15 @@
 <?php
-
+namespace Library\Util\Scheduler;
+use \Library\IO\File;
+use \Library\Exception\InvalidArgumentException;
 use \DateTime;
-use \Exception;
-use \InvalidArgumentException;
 
+/**
+ * @author Andy L.W.L <support@markaxis.com>
+ * @since Wednesday, July 4th, 2012
+ * @version $Id: Scheduler.class.php, v 2.0 Exp $
+ * @copyright Copyright (c) 2010, Markaxis Corporation
+ */
 class Scheduler {
 
 
@@ -48,6 +54,8 @@ class Scheduler {
      */
     public function __construct( array $config=[] ) {
         $this->config = $config;
+
+        File::import(LIB . 'Util/Scheduler/Job.dll.php');
     }
 
 
@@ -131,7 +139,6 @@ class Scheduler {
         if( !file_exists( $script ) ) {
             $this->pushFailedJob( $job, new InvalidArgumentException('The script should be a valid path to a file.') );
         }
-
         $this->queueJob( $job->configure( $this->config ) );
         return $job;
     }
@@ -174,9 +181,9 @@ class Scheduler {
      * @return Job
      */
     public function raw( $command, $args=[], $id=null ) {
-        $job = new Job($command, $args, $id);
+        $job = new Job( $command, $args, $id );
 
-        $this->queueJob($job->configure($this->config));
+        $this->queueJob( $job->configure($this->config ) );
 
         return $job;
     }
@@ -237,8 +244,7 @@ class Scheduler {
      *
      * @return array
      */
-    public function getExecutedJobs()
-    {
+    public function getExecutedJobs() {
         return $this->executedJobs;
     }
 

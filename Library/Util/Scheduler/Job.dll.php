@@ -1,9 +1,14 @@
 <?php
-
+namespace Library\Util\Scheduler;
+use \Library\Exception\InvalidArgumentException;
 use \DateTime;
-use \Exception;
-use \InvalidArgumentException;
 
+/**
+ * @author Andy L.W.L <support@markaxis.com>
+ * @since Wednesday, July 4th, 2012
+ * @version $Id: Job.class.php, v 2.0 Exp $
+ * @copyright Copyright (c) 2010, Markaxis Corporation
+ */
 class Job {
 
 
@@ -158,7 +163,7 @@ class Job {
         }
         else {
             if( is_string( $command ) ) {
-                $this->id = md5( $command );
+                $this->id = MD5( $command );
             }
             else {
                 /* @var object $command */
@@ -196,7 +201,7 @@ class Job {
     public function isDue( DateTime $date=null ) {
         // The execution time is being defaulted if not defined
         if( !$this->executionTime ) {
-            $this->at( '* * * * *' );
+            //$this->at( '* * * * *' );
         }
 
         $date = $date !== null ? $date : $this->creationTime;
@@ -204,7 +209,7 @@ class Job {
         if( $this->executionYear && $this->executionYear !== $date->format('Y') ) {
             return false;
         }
-        return $this->executionTime->isDue( $date );
+        return true;//$this->executionTime->isDue( $date );
     }
 
 
@@ -379,7 +384,6 @@ class Job {
         else {
             exec( $compiled, $this->output, $this->returnCode );
         }
-
         $this->finalise( );
         return true;
     }
@@ -434,6 +438,7 @@ class Job {
         $outputBuffer = ob_get_clean( );
 
         foreach( $this->outputTo as $filename ) {
+            echo $filename;
             if( $outputBuffer ) {
                 file_put_contents( $filename, $outputBuffer, $this->outputMode === 'a' ? FILE_APPEND : 0 );
             }

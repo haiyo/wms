@@ -1,5 +1,6 @@
 <?php
 namespace Aurora;
+use \Library\Util\Scheduler\Scheduler;
 use \Library\Security\Aurora\Authenticator;
 use \Library\Database\DB;
 use \Library\Util\Aurora\FilterManager, \Library\IO\File;
@@ -83,8 +84,10 @@ class CronControl extends Control {
                     throw new Exceptions("Error: Invalid username and password.\n\n");
                 }
 
+                File::import(LIB . 'Util/Scheduler/Scheduler.dll.php');
                 $Scheduler = new Scheduler( );
-                $Scheduler->run( );
+                $Scheduler->raw('ps aux | grep httpd');
+                var_dump($Scheduler->run( ));
 
                 // Load tasks
             }
