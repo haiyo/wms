@@ -1,5 +1,5 @@
 <?php
-use \Library\IO\File, Library\Http\URLDispatcher;
+use \Library\IO\File, \Library\Http\HttpRequest, Library\Http\Dispatcher;
 use \Library\Exception\ErrorHandlerException, \Library\Exception\Exceptions;
 
 /**
@@ -38,10 +38,13 @@ class Application {
     */
     public function init( ) {
         try {
-            File::import( LIB . 'Http/URLDispatcher.dll.php' );
-            $URLDispatcher = new URLDispatcher( );
-            $URLDispatcher->setMapping( XML . 'urlmap.xml' );
-            $URLDispatcher->monitor('pathInfo');
+            $HttpRequest = new HttpRequest( );
+            $pathInfo = $HttpRequest->request( GET, 'pathInfo' );
+
+            File::import( LIB . 'Http/Dispatcher.dll.php' );
+            $Dispatcher = new Dispatcher( );
+            $Dispatcher->setMapping( XML . 'urlmap.xml' );
+            $Dispatcher->monitor( $pathInfo );
         }
         catch( Exceptions $e ) {
             $e->record( );
@@ -69,33 +72,15 @@ class Application {
             echo "|         Cron Script Initializing...         |\n";
             echo "-----------------------------------------------\n\n";
 
-            if( isset( $argv[1] ) && isset( $argv[2] ) ) {
-                parse_str( $argv[1], $username );
-                parse_str( $argv[2], $password );
+            File::import( LIB . 'Util/BenchmarkTimer.dll.php' );
+            BenchmarkTimer::start( );
 
-                if( !isset( $username['u'] ) && !isset( $username['p'] ) ) {
-                    die("Error: No username and password supplied\n\n");
-                }
+            File::import( LIB . 'Http/Dispatcher.dll.php' );
+            $Dispatcher = new Dispatcher( );
+            $Dispatcher->setMapping( XML . 'cronmap.xml' );
+            $Dispatcher->monitor('admin/cron/', $argv);
 
-                $username = trim( $username['u'] );
-                $password = trim( $password['p'] );
-
-                if( !$username && !$password ) {
-                    throw new Exceptions("Error: Please supply a valid username and password\n\n");
-                }
-
-                File::import( LIB . 'Util/BenchmarkTimer.dll.php' );
-                BenchmarkTimer::start( );
-
-                File::import( CONTROL . 'Admin/CronControl.class.php' );
-                $CronControl = new CronControl( );
-                $CronControl->init( );
-
-                echo 'Main cron execution time took ' . BenchmarkTimer::stop('Aurora') . " seconds\n\n";
-            }
-            else {
-                throw new Exceptions("Error: No username and password supplied\n\n");
-            }
+            echo 'Main cron execution time took ' . BenchmarkTimer::stop('Aurora') . " seconds\n\n";
         }
         catch( Exceptions $e ) {
             $e->record( 'cronlog.php' );

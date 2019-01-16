@@ -2,7 +2,7 @@
 namespace Library\Security\Aurora;
 use \Aurora\User\UserModel;
 use \Library\Exception\Aurora\AuthLoginException;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\IO\File, \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
 
 /**
@@ -48,21 +48,20 @@ class Authenticator {
     * @throws AuthLoginException
     * @return bool
     */
-    public function login( HttpRequest $Request, HttpResponse $Response ) {
-        $userInfo = $this->UserModel->getFieldByUsername( $Request->request( POST, 'username' ), 'userID, password' );
+    public function login( $username, $password, $setSession=true ) {
+        $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password' );
 
-        if( $userInfo && password_verify( $Request->request( POST, 'password' ), $userInfo['password'] ) ) {
-            $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
-            $Session->setSession( $userInfo['userID'] );
+        if( $userInfo && password_verify( $password, $userInfo['password'] ) ) {
+            if( $setSession ) {
+                $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
+                $Session->setSession( $userInfo['userID'] );
 
-            $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
-            $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
+                $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+            }
             return true;
         }
-        else {
-            $Response->setCode( HttpResponse::HTTP_EXPECTATION_FAILED );
-            throw( new AuthLoginException( HttpResponse::HTTP_EXPECTATION_FAILED, $Request ) );
-        }
+        return false;
     }
 
 

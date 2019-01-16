@@ -54,8 +54,13 @@ class AuthenticationFilter implements IFilter {
                             throw new AuthLoginException( HttpResponse::HTTP_UNAUTHORIZED );
                         }
                     }
-                    if( $Authenticator->login( $Request, $Response ) ) {
+                    if( $Authenticator->login( $Request->request( POST, 'username' ),
+                                               $Request->request( POST, 'password' ) ) ) {
                         $BruteForce->clearCurrent( );
+                    }
+                    else {
+                        $Response->setCode( HttpResponse::HTTP_EXPECTATION_FAILED );
+                        throw( new AuthLoginException( HttpResponse::HTTP_EXPECTATION_FAILED, $Request ) );
                     }
                 }
                 catch( AuthLoginException $e ) {
