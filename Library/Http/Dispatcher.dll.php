@@ -5,11 +5,11 @@ use \Library\IO\File, \Library\Util\XML;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
- * @version $Id: URLDispatcher.class.php, v 2.0 Exp $
+ * @version $Id: Dispatcher.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class URLDispatcher {
+class Dispatcher {
 
 
     // Properties
@@ -22,7 +22,7 @@ class URLDispatcher {
 
     
     /**
-    * URLDispatcher Constructor
+    * Dispatcher Constructor
     * @return void
     */
     function __construct( ) {
@@ -68,7 +68,7 @@ class URLDispatcher {
 
 
     /**
-    * Load URL Mapping to Directory from XML Config
+    * Load Mapping to Directory from XML Config
     * @return void
     */
     public function setMapping( $xmlconfig ) {
@@ -77,11 +77,11 @@ class URLDispatcher {
             File::import( LIB . 'Util/XML.dll.php' );
             $XML = new XML( );
             $XMLElement = $XML->load( $xmlconfig );
-            $sizeof = sizeof( $XMLElement->url );
+            $sizeof = sizeof( $XMLElement->path );
 
             for( $i=0; $i<$sizeof; $i++ ) {
-                $map = (string)$XMLElement->url[$i]->attributes( );
-                $this->map[$map] = (string)$XMLElement->url[$i];
+                $path = (string)$XMLElement->path[$i]->attributes( );
+                $this->path[$path] = (string)$XMLElement->path[$i];
             }
         }
         catch( FileNotFoundException $e ) {
@@ -94,30 +94,30 @@ class URLDispatcher {
     * Monitor URL Parameter
     * @return bool
     */
-    public function monitor( $pathInfo ) {
+    public function monitor( $pathInfo, $args=NULL ) {
         // Default to IndexController if no Controller is found.
-        $HttpRequest = new HttpRequest( );
-        $pathInfo = $HttpRequest->request( GET, $pathInfo );
-
         $pathInfo = $pathInfo == '' ? 'index' : $pathInfo;
         $pathInfo = substr( $pathInfo, -1 ) == '/' ? substr( $pathInfo, 0, -1 ) : $pathInfo;
         $pathInfo = explode( '/', $pathInfo );
 
-        foreach( $this->map as $map => $namespace ) {
-            if( $pathInfo[0] != 'admin' && $map == 'index' ) {
+        foreach( $this->path as $path => $namespace ) {
+            if( $pathInfo[0] != 'admin' && $path == 'index' ) {
                 $this->call = $namespace;
                 $this->args = $pathInfo;
-
                 $this->dispatch( );
                 return true;
             }
             else {
-                if( preg_match( "|{$map}(.*)$|i", $pathInfo[0] ) ) {
+                if( preg_match( "|{$path}(.*)$|i", $pathInfo[0] ) ) {
                     $this->call = $namespace;
 
-                    array_shift($pathInfo);
-                    $this->args = $pathInfo;
-
+                    if( !$args ) {
+                        array_shift($pathInfo);
+                        $this->args = $pathInfo;
+                    }
+                    else {
+                        $this->args = $args;
+                    }
                     $this->dispatch( );
                     return true;
                 }

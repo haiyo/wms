@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Markaxis;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarMap extends \DAO {
+class CalendarMap extends DAO {
 
 
     // Properties

@@ -1,5 +1,7 @@
 <?php
 namespace Markaxis;
+use \Application\DAO\DAO;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012

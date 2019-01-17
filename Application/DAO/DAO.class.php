@@ -1,4 +1,5 @@
 <?php
+namespace Application\DAO;
 use \Library\Runtime\Registry;
 
 /**

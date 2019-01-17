@@ -154,7 +154,7 @@ class Registry extends SingletonHelper {
                 $this->set( HKEY_LOCAL, $row['name'], $row['value'] );
             }
             define( 'ROOT_URL', $this->get( HKEY_LOCAL, 'protocol' ) .
-                $this->get( HKEY_LOCAL, 'domain' ) );
+                                $this->get( HKEY_LOCAL, 'domain' ) );
 
             date_default_timezone_set( $this->get( HKEY_LOCAL, 'timezone' ) );
         }

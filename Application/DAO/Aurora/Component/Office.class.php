@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\Component;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Aurora\Component;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Office extends \DAO {
+class Office extends DAO {
 
 
     // Properties

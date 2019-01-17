@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -7,7 +8,7 @@ namespace Markaxis;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Questions extends DAO {
+class Questions extends \DAO {
 
 
     // Properties

@@ -66,9 +66,18 @@ class AutoLoad {
                 File::import( INT . $className . '.dll.php' );
                 return;
             }
-            //if( strstr( $className, 'Helper' ) ) {
             if( substr( $className, -6 ) == 'Helper' ) {
                 File::import( ROOT . $className . '.dll.php' );
+                return;
+            }
+
+            // Try this if everything else failed.
+            if( is_file( ROOT . $className . '.dll.php' ) ) {
+                File::import( ROOT . $className . '.dll.php' );
+                return;
+            }
+            if( is_file( ROOT . $className . '.class.php' ) ) {
+                File::import( ROOT . $className . '.class.php' );
                 return;
             }
         }

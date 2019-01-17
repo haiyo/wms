@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Markaxis\Payroll;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxRule extends \DAO {
+class TaxRule extends DAO {
 
 
     // Properties
