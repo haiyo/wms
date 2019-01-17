@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis;
-use Aurora\DAO, Registry;
+use \Application\DAO\DAO;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -8,7 +9,7 @@ use Aurora\DAO, Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarAttachment extends \DAO {
+class CalendarAttachment extends DAO {
     
 
     // Properties

@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\Component;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -7,7 +8,7 @@ namespace Aurora\Component;
  * @version $Id: AuditLog.class.php, v 2.0 Exp $
  */
 
-class AuditLog extends \DAO {
+class AuditLog extends DAO {
 
 
     // Properties

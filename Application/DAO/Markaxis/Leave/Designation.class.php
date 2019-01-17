@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Leave;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Markaxis\Leave;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Designation extends \DAO {
+class Designation extends DAO {
 
 
     // Properties

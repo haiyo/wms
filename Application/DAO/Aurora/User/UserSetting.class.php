@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\User;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Aurora\User;
  * @desc User Settings Management
 */
 
-class UserSetting extends \DAO {
+class UserSetting extends DAO {
 
 
     // Properties

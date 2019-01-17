@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Markaxis\Employee;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveType extends \DAO {
+class LeaveType extends DAO {
 
 
     // Properties

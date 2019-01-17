@@ -60,14 +60,11 @@ class CronControl extends Control {
                     throw new Exceptions("Error: Please supply a valid username and password\n\n");
                 }
                 // Initialize Database Access Point
-                File::import(LIB . 'Database/DB.dll.php');
                 $DB = new DB(DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT);
                 $DB = $DB->connect();
 
                 // Load Application Settings from the Registry Table
                 $this->initRegistry();
-                File::import(LIB . 'Runtime/Registry.dll.php');
-                File::import(DAO . 'DAO.class.php');
                 $this->Registry = \Library\Runtime\Registry::getInstance();
                 $this->Registry->setDB( $DB );
                 $this->Registry->loadRegistry( );
@@ -84,7 +81,6 @@ class CronControl extends Control {
                     throw new Exceptions("Error: Invalid username and password.\n\n");
                 }
 
-                File::import(LIB . 'Util/Scheduler/Scheduler.dll.php');
                 $Scheduler = new Scheduler( );
                 $Scheduler->raw('ps aux | grep httpd');
                 var_dump($Scheduler->run( ));

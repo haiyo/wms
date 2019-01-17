@@ -1,13 +1,12 @@
 <?php
 namespace Library\Util\Scheduler;
-use \Library\IO\File;
 use \Library\Exception\InvalidArgumentException;
 use \DateTime;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Wednesday, July 4th, 2012
- * @version $Id: Scheduler.class.php, v 2.0 Exp $
+ * @version $Id: Scheduler.dll.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 class Scheduler {
@@ -54,8 +53,6 @@ class Scheduler {
      */
     public function __construct( array $config=[] ) {
         $this->config = $config;
-
-        File::import(LIB . 'Util/Scheduler/Job.dll.php');
     }
 
 

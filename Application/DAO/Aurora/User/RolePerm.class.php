@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\User;
+use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +9,7 @@ namespace Aurora\User;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RolePerm extends \DAO {
+class RolePerm extends DAO {
 
 
     // Properties
