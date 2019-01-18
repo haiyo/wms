@@ -1,5 +1,5 @@
 <?php
-namespace Aurora;
+namespace Aurora\Admin;
 use \Library\Util\Scheduler\Scheduler;
 use \Library\Security\Aurora\Authenticator;
 use \Library\Database\DB;

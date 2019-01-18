@@ -1,5 +1,5 @@
 <?php
-namespace Aurora;
+namespace Library\Util\Aurora;
 use \Library\Util\TaskManager as DefTaskManager;
 use \Library\IO\File;
 use \Library\Exception\InstantiationException;

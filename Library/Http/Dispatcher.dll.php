@@ -138,6 +138,11 @@ class Dispatcher {
             $namespace = explode( '/', $this->call );
             $className = $namespace[0] . '\\' . basename( $this->call );
 
+            $namespace = str_replace( '/', '\\', $this->call );
+            $namespace = str_replace( basename( $this->call ), '', $namespace );
+            //$classPath = $namespace[0] . '\\' . $namespace[1] . '\\' . basename( $classPath );
+            $className = $namespace . basename( $this->call );
+
             $Object = new $className( );
             $Object->init( $this->args );
         }
