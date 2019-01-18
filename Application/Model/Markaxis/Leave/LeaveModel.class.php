@@ -19,7 +19,6 @@ class LeaveModel extends \Model {
     protected $Leave;
 
 
-
     /**
      * LeaveModel Constructor
      * @return void

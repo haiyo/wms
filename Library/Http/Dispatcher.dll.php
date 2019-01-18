@@ -74,7 +74,6 @@ class Dispatcher {
     public function setMapping( $xmlconfig ) {
         try {
             // Start loading XML for Filters information
-            File::import( LIB . 'Util/XML.dll.php' );
             $XML = new XML( );
             $XMLElement = $XML->load( $xmlconfig );
             $sizeof = sizeof( $XMLElement->path );
@@ -132,15 +131,8 @@ class Dispatcher {
     */
     private function dispatch( ) {
         try {
-            File::import( CONTROL . 'Control.class.php' );
-            File::import( CONTROL . $this->call . '.class.php' );
-
-            $namespace = explode( '/', $this->call );
-            $className = $namespace[0] . '\\' . basename( $this->call );
-
             $namespace = str_replace( '/', '\\', $this->call );
             $namespace = str_replace( basename( $this->call ), '', $namespace );
-            //$classPath = $namespace[0] . '\\' . $namespace[1] . '\\' . basename( $classPath );
             $className = $namespace . basename( $this->call );
 
             $Object = new $className( );

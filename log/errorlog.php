@@ -42,4 +42,4 @@
 
 [18/Jan/2019 01:49:53] Error: No username and password supplied.
 
-
+[18/Jan/2019 16:51:16] Unauthorized from user IP: ::1 - SGLPHP39HR2.global.equinix.com[18/Jan/2019 16:51:25] Unauthorized from user IP: ::1 - SGLPHP39HR2.global.equinix.com[18/Jan/2019 17:18:26] Trying to require C:\Program Files (x86)\Apache Software Foundation\Apache2.4\htdocs\wms\Application/Model/Aurora/AuroraView.class.php failed from load() in AutoLoad (AutoLoad).[18/Jan/2019 17:18:42] Trying to require C:\Program Files (x86)\Apache Software Foundation\Apache2.4\htdocs\wms\Application/Model/Aurora/AuroraView.class.php failed from load() in AutoLoad (AutoLoad).

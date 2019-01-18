@@ -45,16 +45,16 @@ class AutoLoad {
             // Convert path to windows/linux compatible
             $className = str_replace( '\\', '/', $className );
 
-            if( $className == 'Model' ) {
-                File::import( MODEL . 'Model.class.php' );
+            if( substr( $className, -7 ) == 'Control' ) {
+                File::import( CONTROL . $className . '.class.php' );
                 return;
             }
-            if( $className == 'Aurora/AuroraView' ) {
-                File::import( VIEW . 'Aurora/AuroraView.class.php' );
+            if( substr( $className, -5 ) == 'Model' ) {
+                File::import( MODEL . $className . '.class.php' );
                 return;
             }
-            if( $className == 'View' ) {
-                File::import( VIEW . 'View.class.php' );
+            if( substr( $className, -4 ) == 'View' ) {
+                File::import( VIEW . $className . '.class.php' );
                 return;
             }
             if( strstr( $className, 'Exception' ) ) {
@@ -70,7 +70,6 @@ class AutoLoad {
                 File::import( ROOT . $className . '.dll.php' );
                 return;
             }
-
             // Try this if everything else failed.
             if( is_file( ROOT . $className . '.dll.php' ) ) {
                 File::import( ROOT . $className . '.dll.php' );
@@ -80,6 +79,7 @@ class AutoLoad {
                 File::import( ROOT . $className . '.class.php' );
                 return;
             }
+            echo ROOT . $className . '.class.php';
         }
     }
 }
