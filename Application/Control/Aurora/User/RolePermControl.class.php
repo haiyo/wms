@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -30,13 +29,9 @@ class RolePermControl {
      * @return void
      */
     public function getMenu( $css ) {
-        File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
         $RolePermModel = RolePermModel::getInstance( );
-
-        File::import( MODEL . 'Aurora/User/PermissionModel.class.php' );
         $PermissionModel = PermissionModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/User/RolePermView.class.php' );
         $RolePermView = new RolePermView( $RolePermModel, $PermissionModel );
         return $RolePermView->renderMenu( $css );
     }
@@ -47,13 +42,9 @@ class RolePermControl {
     * @return void
     */
     public function list( ) {
-        File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
         $RolePermModel = RolePermModel::getInstance( );
-
-        File::import( MODEL . 'Aurora/User/PermissionModel.class.php' );
         $PermissionModel = PermissionModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/User/RolePermView.class.php' );
         $RolePermView = new RolePermView( $RolePermModel, $PermissionModel );
         $RolePermView->printAll( $RolePermView->renderList( ) );
     }
@@ -66,7 +57,6 @@ class RolePermControl {
     public function getPerms( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
         $RolePermModel = RolePermModel::getInstance( );
         echo json_encode( $RolePermModel->getByRoleID( $post['roleID'] ) );
         exit;
@@ -80,7 +70,6 @@ class RolePermControl {
     public function savePerms( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
         $RolePermModel = RolePermModel::getInstance( );
         $RolePermModel->savePerms( $post );
     }
@@ -95,7 +84,6 @@ class RolePermControl {
         $vars['bool'] = 0;
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
         $RolePermModel = RolePermModel::getInstance( );
 
         if( !$RolePermModel->setInfo( $post ) ) {
@@ -120,7 +108,6 @@ class RolePermControl {
         $vars['bool'] = 0;
         $post = Control::getRequest( )->request( POST, 'roleID' );
 
-        File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
         $RolePermModel = RolePermModel::getInstance( );
         
         if( $RolePermModel->delete( $post ) ) {

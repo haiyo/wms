@@ -57,6 +57,15 @@ class AutoLoad {
                 File::import( VIEW . $className . '.class.php' );
                 return;
             }
+            if( substr( $className, -3 ) == 'Res' ) {
+                File::import( LANG . $className . '.lang.php' );
+                return;
+            }
+
+            if( is_file( APP . $className . '.class.php' ) ) {
+                File::import( APP . $className . '.class.php' );
+                return;
+            }
             if( strstr( $className, 'Exception' ) ) {
                 File::import( ROOT . $className . '.dll.php' );
                 return;
@@ -70,7 +79,12 @@ class AutoLoad {
                 File::import( ROOT . $className . '.dll.php' );
                 return;
             }
-            // Try this if everything else failed.
+
+            // If everything else failed...
+            if( is_file( DAO . $className . '.class.php' ) ) {
+                File::import( DAO . $className . '.class.php' );
+                return;
+            }
             if( is_file( ROOT . $className . '.dll.php' ) ) {
                 File::import( ROOT . $className . '.dll.php' );
                 return;
@@ -79,7 +93,11 @@ class AutoLoad {
                 File::import( ROOT . $className . '.class.php' );
                 return;
             }
-            echo ROOT . $className . '.class.php';
+            if( is_file( LANG . $className . '.lang.php' ) ) {
+                File::import( LANG . $className . '.lang.php' );
+                return;
+            }
+            echo $className; exit;
         }
     }
 }

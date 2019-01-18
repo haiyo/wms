@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,8 +29,6 @@ class SignOutControl {
     * @return str
     */
     public function getMainMenu( ) {
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/Page/SignOutView.class.php' );
         $SignOutView = new SignOutView( );
         return $SignOutView->getMainMenu( );
     }

@@ -1,6 +1,6 @@
 <?php
 namespace Library\Helper\Markaxis;
-use \IListHelper;
+use \Library\Interfaces\IListHelper;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010

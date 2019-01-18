@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,7 +29,6 @@ class QuestionControl {
      * @return str
      */
     public function view( ) {
-        File::import( VIEW . 'Aurora/Component/QuestionView.class.php' );
         $QuestionView = new QuestionView( );
         echo $QuestionView->renderEdit( );
     }
@@ -40,7 +39,6 @@ class QuestionControl {
      * @return str
      */
     public function add( ) {
-        File::import( VIEW . 'Aurora/Component/QuestionView.class.php' );
         $QuestionView = new QuestionView( );
         Control::setOutputArrayAppend( array( 'form' => $QuestionView->renderAdd( ) ) );
     }
@@ -53,7 +51,6 @@ class QuestionControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Aurora/Component/QuestionView.class.php' );
         $QuestionView = new QuestionView( );
         Control::setOutputArrayAppend( array( 'form' => $QuestionView->renderEdit( $userID ) ) );
     }
@@ -64,7 +61,6 @@ class QuestionControl {
      * @return str
      */
     public function save( ) {
-        File::import( MODEL . 'Aurora/Component/QuestionModel.class.php' );
         $QuestionModel = QuestionModel::getInstance( );
         $QuestionModel->save( Control::getPostData( ) );
     }

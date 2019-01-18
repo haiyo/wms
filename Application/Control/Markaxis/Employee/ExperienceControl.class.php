@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -21,7 +21,6 @@ class ExperienceControl {
      * @return void
      */
     function __construct( ) {
-        File::import( MODEL . 'Markaxis/Employee/ExperienceModel.class.php' );
         $this->ExperienceModel = ExperienceModel::getInstance( );
     }
 
@@ -31,7 +30,6 @@ class ExperienceControl {
      * @return str
      */
     public function view( ) {
-        File::import( VIEW . 'Markaxis/Employee/EmployeeView.class.php' );
         $EmployeeView = new EmployeeView( );
         echo $EmployeeView->renderEdit( );
     }
@@ -42,7 +40,6 @@ class ExperienceControl {
      * @return str
      */
     public function add( ) {
-        File::import( VIEW . 'Markaxis/Employee/ExperienceView.class.php' );
         $ExperienceView = new ExperienceView( );
         Control::setOutputArrayAppend( array( 'form' => $ExperienceView->renderAdd( ) ) );
     }
@@ -55,7 +52,6 @@ class ExperienceControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Markaxis/Employee/ExperienceView.class.php' );
         $ExperienceView = new ExperienceView( );
         Control::setOutputArrayAppend( array( 'form' => $ExperienceView->renderEdit( $userID ) ) );
     }

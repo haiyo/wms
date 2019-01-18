@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Form;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -34,7 +33,6 @@ class UserMultiListView extends MultiListView {
         $label = 1;
         $option = array( );
 
-        File::import( VIEW . 'Aurora/User/UserAvatarView.class.php' );
         $UserAvatarView = new UserAvatarView( );
 
         foreach( $arrayList as $value => $key ) {

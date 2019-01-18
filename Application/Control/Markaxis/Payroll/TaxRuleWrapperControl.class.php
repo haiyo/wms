@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class TaxRuleWrapperControl {
 
 
     // Properties
+    protected $TaxRuleWrapperView;
 
 
     /**
@@ -21,7 +21,7 @@ class TaxRuleWrapperControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxRuleWrapperView = new TaxRuleWrapperView( );
     }
 
 
@@ -34,9 +34,7 @@ class TaxRuleWrapperControl {
         $taxRule = Control::getOutputArray( );
 
         if( isset( $data[2] ) && $data[2] == 'html' ) {
-            File::import( VIEW . 'Markaxis/Payroll/TaxRuleWrapperView.class.php' );
-            $TaxRuleWrapperView = new TaxRuleWrapperView( );
-            $vars['html'] = $TaxRuleWrapperView->renderTaxRule( $taxRule );
+            $vars['html'] = $this->TaxRuleWrapperView->renderTaxRule( $taxRule );
             $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;
@@ -58,9 +56,7 @@ class TaxRuleWrapperControl {
         $taxRules = Control::getOutputArray( );
 
         if( isset( $data[1] ) && $data[1] == 'html' ) {
-            File::import( VIEW . 'Markaxis/Payroll/TaxRuleWrapperView.class.php' );
-            $TaxRuleWrapperView = new TaxRuleWrapperView( );
-            $vars['html'] = $TaxRuleWrapperView->renderAll( $taxRules );
+            $vars['html'] = $this->TaxRuleWrapperView->renderAll( $taxRules );
             $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;

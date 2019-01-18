@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -34,12 +33,7 @@ class CalendarAttachmentControl {
         $eventInfo = $CalendarModel->getInfo( );
 
         if( $eventInfo['eventID'] > 0 && $eventInfo['attachment'] ) {
-            File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
             $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
-
-            File::import( VIEW . 'Aurora/AuroraView.class.php' );
-            File::import( VIEW . 'Aurora/LightboxView.class.php' );
-            File::import( VIEW . 'Markaxis/Calendar/CalendarAttachmentView.class.php' );
             $CalendarAttachmentView = new CalendarAttachmentView( $CalendarAttachmentModel );
             $vars = array( );
             // Run tabData first as we need fileInfo cache for tab count :D
@@ -66,7 +60,6 @@ class CalendarAttachmentControl {
     * @return void
     */
     public function getRecurs( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
         $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
         Control::setOutputArray( $CalendarAttachmentModel->iterateRecurCount( Control::getOutputArray( ) ) );
     }
@@ -77,12 +70,7 @@ class CalendarAttachmentControl {
     * @return void
     */
     public function newEvent( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
         $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
-
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Markaxis/Calendar/CalendarAttachmentView.class.php' );
         $CalendarAttachmentView = new CalendarAttachmentView( $CalendarAttachmentModel );
         Control::setOutputArrayAppend( array( 'tab'  => $CalendarAttachmentView->renderTab( ),
                                               'data' => $CalendarAttachmentView->renderData( ) ) );
@@ -94,12 +82,7 @@ class CalendarAttachmentControl {
     * @return void
     */
     public function editEvent( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
         $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
-
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Markaxis/Calendar/CalendarAttachmentView.class.php' );
         $CalendarAttachmentView = new CalendarAttachmentView( $CalendarAttachmentModel );
         Control::setOutputArrayAppend( array( 'tab'  => $CalendarAttachmentView->renderTab( ),
                                               'data' => $CalendarAttachmentView->renderData( ) ) );
@@ -112,8 +95,7 @@ class CalendarAttachmentControl {
     */
     public function deleteAtt( ) {
         $post = Control::getRequest( )->request( POST );
-        
-        File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
+
         $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
         $CalendarAttachmentModel->deleteAtt( $post['attID'] );
         exit;
@@ -138,7 +120,6 @@ class CalendarAttachmentControl {
         $post = Control::getRequest( )->request( POST  );
         $file = Control::getRequest( )->request( FILES );
 
-        File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
         $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
 
         if( isset( $post['calID'] ) && isset( $post['eventID'] ) && isset( $file['file'] ) ) {
@@ -163,7 +144,6 @@ class CalendarAttachmentControl {
     */
     public function viewAtt( $param ) {
         if( isset( $param[1] ) && is_numeric( $param[1] ) ) {
-            File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
             $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
             $fileInfo = $CalendarAttachmentModel->getAttachment( $param[1] );
 
@@ -187,7 +167,6 @@ class CalendarAttachmentControl {
     */
     public function download( $param ) {
         if( isset( $param[1] ) && is_numeric( $param[1] ) ) {
-            File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
             $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
             $fileInfo = $CalendarAttachmentModel->getAttachment( $param[1] );
             if( $fileInfo ) {

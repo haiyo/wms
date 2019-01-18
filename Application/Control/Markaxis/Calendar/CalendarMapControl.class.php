@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -30,12 +29,7 @@ class CalendarMapControl {
     * @return void
     */
     public function newEvent( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarMapModel.class.php' );
         $CalendarMapModel = CalendarMapModel::getInstance( );
-
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Markaxis/Calendar/CalendarMapView.class.php' );
         $CalendarMapView = new CalendarMapView( $CalendarMapModel );
         Control::setOutputArrayAppend( array( 'tab'  => $CalendarMapView->renderTab( ),
                                               'data' => $CalendarMapView->renderData( ) ) );
@@ -47,12 +41,7 @@ class CalendarMapControl {
     * @return void
     */
     public function editEvent( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarMapModel.class.php' );
         $CalendarMapModel = CalendarMapModel::getInstance( );
-
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Markaxis/Calendar/CalendarMapView.class.php' );
         $CalendarMapView = new CalendarMapView( $CalendarMapModel );
         Control::setOutputArrayAppend( array( 'tab'  => $CalendarMapView->renderTab( ),
                                               'data' => $CalendarMapView->renderData( ) ) );
@@ -68,12 +57,7 @@ class CalendarMapControl {
         $eventInfo = $CalendarModel->getInfo( );
 
         if( $eventInfo['eventID'] > 0 && $eventInfo['address'] ) {
-            File::import( MODEL . 'Markaxis/Calendar/CalendarMapModel.class.php' );
             $CalendarMapModel = CalendarMapModel::getInstance( );
-
-            File::import( VIEW . 'Aurora/AuroraView.class.php' );
-            File::import( VIEW . 'Aurora/LightboxView.class.php' );
-            File::import( VIEW . 'Markaxis/Calendar/CalendarMapView.class.php' );
             $CalendarMapView = new CalendarMapView( $CalendarMapModel );
             $vars = array( );
             $vars['tab']     = $CalendarMapView->renderAgendaTab( );
@@ -110,7 +94,6 @@ class CalendarMapControl {
     * @return void
     */
     public function saveEvent( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarMapModel.class.php' );
         $CalendarMapModel = CalendarMapModel::getInstance( );
         if( $CalendarMapModel->validate( ) ) {
             $CalendarMapModel->save( );

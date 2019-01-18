@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Interview;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,10 +29,7 @@ class CandidateControl {
      * @return str
      */
     public function getMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Interview/CandidateModel.class.php' );
         $CandidateModel = CandidateModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Interview/CandidateView.class.php' );
         $CandidateView = new CandidateView( $CandidateModel );
         return $CandidateView->renderMenu( $css );
     }

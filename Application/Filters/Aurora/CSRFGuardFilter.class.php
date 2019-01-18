@@ -1,8 +1,9 @@
 <?php
 namespace Filters\Aurora;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
-use Library\Security\Aurora\CSRFGuard;
-use \IFilter, \FilterChain;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Security\Aurora\CSRFGuard;
+use \Library\Interfaces\IFilter, \Library\Util\FilterChain;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -31,7 +32,6 @@ class CSRFGuardFilter implements IFilter {
     */
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
         try {
-            File::import( LIB . 'Security/Aurora/CSRFGuard.dll.php' );
             $CSRFGuard = new CSRFGuard( );
             $CSRFGuard->init( $Request, $Response );
         }

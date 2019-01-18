@@ -1,10 +1,10 @@
 <?php
 namespace Filters\Aurora;
 use \Aurora\User\UserModel;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\Security\Aurora\Authorization;
 use \Library\Exception\Aurora\NoPermissionException;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -36,11 +36,9 @@ class AuthorizationFilter implements IFilter {
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
         $Registry = Registry::getInstance( );
 
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
-        File::import( LIB . 'Security/Aurora/Authorization.dll.php' );
         $Authorization = new Authorization( );
         $Authorization->load( $userInfo['userID'] );
 

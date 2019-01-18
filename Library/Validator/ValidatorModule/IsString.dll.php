@@ -1,4 +1,6 @@
 <?php
+namespace Library\Validator\ValidatorModule;
+use \Library\Interfaces\IValidator;
 
 /**
  * Check if String contains only valid characters.

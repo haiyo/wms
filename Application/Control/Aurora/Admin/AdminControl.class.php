@@ -127,7 +127,6 @@ class AdminControl extends Control {
      */
     public function checkGateway( ) {
         try {
-            File::import( LIB . 'Util/Aurora/FilterManager.dll.php' );
             $FilterManager = new FilterManager( );
             $FilterManager->processFilter( $this->xmlGatewayFile );
             $FilterManager->execute( self::$HttpRequest, self::$HttpResponse );

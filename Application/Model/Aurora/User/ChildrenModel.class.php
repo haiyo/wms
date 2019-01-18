@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 use \Date, \Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -29,7 +29,6 @@ class ChildrenModel extends \Model {
      * @return int
      */
     public function isFoundByID( $userID, $ucID ) {
-        File::import( DAO . 'Aurora/User/Children.class.php' );
         $Children = new Children( );
         return $Children->isFoundByID( $userID, $ucID );
     }
@@ -40,7 +39,6 @@ class ChildrenModel extends \Model {
      * @return int
      */
     public function getByUserID( $userID ) {
-        File::import( DAO . 'Aurora/User/Children.class.php' );
         $Children = new Children( );
         return $Children->getByUserID( $userID );
     }
@@ -68,7 +66,6 @@ class ChildrenModel extends \Model {
         $ucInfo = array( );
         $ucInfo['userID'] = (int)$data['userID'];
 
-        File::import( DAO . 'Aurora/User/Children.class.php' );
         $Children = new Children( );
 
         if( $size == 0 ) {
@@ -76,9 +73,6 @@ class ChildrenModel extends \Model {
             $Children->delete( 'user_children', 'WHERE userID = "' . (int)$data['userID'] . '"' );
         }
         else {
-            File::import( LIB . 'Util/Date.dll.php' );
-            File::import( LIB . 'Validator/Validator.dll.php' );
-
             $saveInfo = array( );
 
             for( $i=0; $i<$size; $i++ ) {
@@ -87,7 +81,6 @@ class ChildrenModel extends \Model {
                     if( !$saveInfo['name'] = Validator::stripTrim( $data['childName_' . $i] ) )
                         continue;
 
-                    File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
                     $CountryModel = CountryModel::getInstance( );
                     if( $CountryModel->isFound( $data['childCountry_' . $i] ) ) {
                         $saveInfo['country'] = (int)$data['childCountry_' . $i];

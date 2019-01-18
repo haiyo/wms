@@ -5,7 +5,7 @@ use \Library\Exception\FileNotFoundException;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, July  30, 2012
- * @version $Id: ResBundle.dll.php, v 2.0 Exp $
+ * @version $Id: ResBundle.lang.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 

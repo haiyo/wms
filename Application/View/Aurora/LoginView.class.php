@@ -1,6 +1,5 @@
 <?php
 namespace Aurora;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**

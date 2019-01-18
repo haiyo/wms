@@ -1,5 +1,5 @@
 <?php
-namespace Markaxis;
+namespace Markaxis\Alumni;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

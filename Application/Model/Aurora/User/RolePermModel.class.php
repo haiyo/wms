@@ -1,7 +1,8 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
-use \Validator, \IsEmpty, \ValidatorException;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty;
+use \Library\Exception\ValidatorException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -33,7 +34,6 @@ class RolePermModel extends Model {
      * @return int
      */
     public function isFound( $roleID, $permID ) {
-        File::import( DAO . 'Aurora/User/RolePerm.class.php' );
         $RolePerm = new RolePerm( );
         return $RolePerm->isFound( $roleID, $permID );
     }
@@ -44,7 +44,6 @@ class RolePermModel extends Model {
     * @return mixed
     */
     public function getAll( ) {
-        File::import( DAO . 'Aurora/User/RolePerm.class.php' );
         $RolePerm = new RolePerm( );
         return $RolePerm->getAll( );
     }
@@ -55,7 +54,6 @@ class RolePermModel extends Model {
     * @return mixed
     */
     public function getByRoleID( $roleID ) {
-        File::import( DAO . 'Aurora/User/RolePerm.class.php' );
         $RolePerm = new RolePerm( );
         return $RolePerm->getByRoleID( $roleID );
     }
@@ -66,10 +64,7 @@ class RolePermModel extends Model {
     * @return void
     */
     public function savePerms( $data ) {
-        File::import( MODEL . 'Aurora/User/RoleModel.class.php' );
         $RoleModel = new RoleModel( );
-
-        File::import( DAO . 'Aurora/User/RolePerm.class.php' );
         $RolePerm = new RolePerm( );
 
         if( $data['roleID'] > 1 ) {
@@ -96,8 +91,6 @@ class RolePermModel extends Model {
     * @return bool
     */
     public function setInfo( $info ) {
-        File::import( LIB . 'Validator/Validator.dll.php' );
-        File::import( LIB . 'Validator/ValidatorModule/IsEmpty.dll.php' );
         $Validator = new Validator( );
         $this->info['roleID']   = (int)$info['roleID'];
         $this->info['title']    = Validator::htmlTrim( $info['title'] );

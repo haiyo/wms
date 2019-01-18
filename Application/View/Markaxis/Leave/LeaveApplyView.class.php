@@ -3,9 +3,7 @@ namespace Markaxis\Leave;
 use \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
 use \Library\Helper\Markaxis\ApplyForHelper;
 use \Markaxis\Employee\SupervisorModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
-use \DateTime;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -36,7 +34,6 @@ class LeaveApplyView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        File::import( MODEL . 'Markaxis/Leave/LeaveApplyModel.class.php' );
         $LeaveApplyModel = LeaveApplyModel::getInstance( );
         $this->LeaveApplyModel = $LeaveApplyModel;
     }
@@ -47,17 +44,14 @@ class LeaveApplyView extends AuroraView {
      * @return str
      */
     public function renderApplyForm( ) {
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $leaveTypeList = $SelectListView->build( 'ltID', $this->LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        File::import( MODEL . 'Markaxis/Employee/SupervisorModel.class.php' );
         $SupervisorModel = SupervisorModel::getInstance( );
         $supervisors = $SupervisorModel->getNameByUserID( $userInfo['userID'] );
 

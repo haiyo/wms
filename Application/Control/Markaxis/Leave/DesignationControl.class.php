@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class DesignationControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Leave/DesignationModel.class.php' );
         $DesignationModel = DesignationModel::getInstance( );
         $DesignationModel->save( $post );
         Control::setPostData( $post );

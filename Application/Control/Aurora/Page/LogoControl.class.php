@@ -2,6 +2,7 @@
 namespace Aurora\Page;
 use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010

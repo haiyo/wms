@@ -7,7 +7,6 @@ use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Comp
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
 use \Aurora\Component\DepartmentModel as A_DepartmentModel;
 use \Markaxis\Employee\DepartmentModel as M_DepartmentModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -40,7 +39,6 @@ class EmployeeView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
         $this->EmployeeModel = EmployeeModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),

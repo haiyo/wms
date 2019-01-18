@@ -1,9 +1,9 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Aurora\AuroraView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
 use \Aurora\Component\UploadModel;
 use \Library\Runtime\Registry;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -34,7 +34,6 @@ class ExperienceView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        File::import( MODEL . 'Markaxis/Employee/ExperienceModel.class.php' );
         $this->ExperienceModel = ExperienceModel::getInstance( );
     }
 
@@ -65,7 +64,6 @@ class ExperienceView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $expFromMonthList = $SelectListView->build( 'expFromMonth', MonthHelper::getL10nShortList( ), '', 'Month' );
         $expToMonthList = $SelectListView->build( 'expToMonth', MonthHelper::getL10nShortList( ), '', 'Month' );
@@ -75,7 +73,6 @@ class ExperienceView extends AuroraView {
                        'TPLVAR_EXP_FROM_YEAR' => '',
                        'TPLVAR_EXP_TO_YEAR' => '' );
 
-        File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
         $UploadModel = new UploadModel( );
 
         $vars['dynamic']['experience'] = false;

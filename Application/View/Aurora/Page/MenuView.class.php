@@ -1,7 +1,6 @@
 <?php
 namespace Aurora\Page;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -48,7 +47,7 @@ class MenuView extends AuroraView {
         $class = $namespace . '\\' . $className;
 
         if (!isset($nav[$class])) {
-            File::import(CONTROL . $folder . '/' . $className . '.class.php');
+            //File::import(CONTROL . $folder . '/' . $className . '.class.php');
             $Menu = new $class;
             $nav[$class] = $Menu;
         }

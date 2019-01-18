@@ -1,4 +1,5 @@
 <?php
+namespace Library\Validator\ValidatorModule;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

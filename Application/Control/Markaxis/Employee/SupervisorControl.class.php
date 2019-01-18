@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -58,7 +58,6 @@ class SupervisorControl {
     public function save( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Employee/SupervisorModel.class.php' );
         $SupervisorModel = SupervisorModel::getInstance( );
         $SupervisorModel->save( $post );
     }

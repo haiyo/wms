@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,8 @@ class StructureControl {
 
 
     // Properties
+    protected $StructureModel;
+    protected $StructureView;
 
 
     /**
@@ -21,7 +22,8 @@ class StructureControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->StructureModel = StructureModel::getInstance( );
+        $this->StructureView = new StructureView( );
     }
 
 
@@ -30,9 +32,7 @@ class StructureControl {
      * @return str
      */
     public function addType( ) {
-        File::import( VIEW . 'Markaxis/Leave/StructureView.class.php' );
-        $StructureView = new StructureView( );
-        Control::setOutputArrayAppend( array( 'form' => $StructureView->renderAddType( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->StructureView->renderAddType( ) ) );
     }
 
 
@@ -43,9 +43,7 @@ class StructureControl {
     public function editType( $args ) {
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Markaxis/Leave/StructureView.class.php' );
-        $StructureView = new StructureView( );
-        Control::setOutputArrayAppend( array( 'form' => $StructureView->renderEditType( $ltID ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->StructureView->renderEditType( $ltID ) ) );
     }
 
 
@@ -56,9 +54,7 @@ class StructureControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Leave/StructureModel.class.php' );
-        $StructureModel = StructureModel::getInstance( );
-        $StructureModel->save( $post );
+        $this->StructureModel->save( $post );
         Control::setPostData( $post );
     }
 }

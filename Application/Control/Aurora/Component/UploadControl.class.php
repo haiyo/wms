@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,7 +29,6 @@ class UploadControl {
      * @return str
      */
     public function view( $args ) {
-        File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
         $UploadModel = new UploadModel( );
         $UploadModel->view( $args );
     }

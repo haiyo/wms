@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -31,7 +31,6 @@ class FormWrapperControl {
     public function add( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Employee/FormWrapperView.class.php' );
         $FormWrapperView = new FormWrapperView( );
         $FormWrapperView->printAll( $FormWrapperView->renderAdd( $output['form'] ) );
     }
@@ -48,7 +47,6 @@ class FormWrapperControl {
         $form  = isset( $output['form'] ) ? $output['form'] : '';
         $photo = isset( $output['photo'] ) ? $output['photo'] : '';
 
-        File::import( VIEW . 'Markaxis/Employee/FormWrapperView.class.php' );
         $FormWrapperView = new FormWrapperView( );
         $FormWrapperView->printAll( $FormWrapperView->renderEdit( $form, $userID, $photo ) );
     }

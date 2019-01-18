@@ -1,7 +1,6 @@
 <?php
 namespace Aurora;
 use \Aurora\Page\MenuModel, \Aurora\Page\MenuView;
-use \Library\IO\File;
 use \Library\Runtime\Registry, \View;
 
 /**
@@ -99,10 +98,7 @@ class AuroraView extends View {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo('userInfo');
 
-        File::import( MODEL . 'Aurora/Page/MenuModel.class.php' );
         $MenuModel = MenuModel::getInstance( );
-
-        File::import( VIEW . 'Aurora/Page/MenuView.class.php' );
         $MenuView = new MenuView( $MenuModel );
 
         return $this->render('aurora/core/navBar.tpl',

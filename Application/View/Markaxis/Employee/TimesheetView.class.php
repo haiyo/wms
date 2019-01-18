@@ -1,9 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Component\DesignationModel, \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel;
-use \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel, \Aurora\Component\DepartmentModel;
-use \Aurora\Component\PaymentMethodModel, \Aurora\Component\BankModel, \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
-use \Library\IO\File;
+use \Aurora\AuroraView;
 use \Library\Runtime\Registry;
 
 /**
@@ -36,7 +33,6 @@ class TimesheetView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        File::import( MODEL . 'Markaxis/Employee/TimesheetModel.class.php' );
         $this->TimesheetModel = TimesheetModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),

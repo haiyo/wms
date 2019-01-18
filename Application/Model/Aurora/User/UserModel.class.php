@@ -1,8 +1,11 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
-use \Aurora\AuditLogModel;
-use \Date, \Validator, \IsEmpty, \IsEmail, \ValidatorException;
+use \Aurora\Component\AuditLogModel;
+use \Library\Util\Date;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
+use \Library\Exception\ValidatorException;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
@@ -38,7 +41,6 @@ class UserModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Aurora/User/User.class.php' );
         $this->User = new User( );
 	}
 
@@ -111,10 +113,6 @@ class UserModel extends \Model {
     * @return bool
     */
     public function isValid( $data ) {
-        File::import( LIB . 'Util/Date.dll.php' );
-        File::import( LIB . 'Validator/Validator.dll.php' );
-        File::import( LIB . 'Validator/ValidatorModule/IsEmpty.dll.php' );
-        File::import( LIB . 'Validator/ValidatorModule/IsEmail.dll.php' );
         $Validator = new Validator( );
 
         $this->info['userID']  = (int)$data['userID'];
@@ -175,7 +173,6 @@ class UserModel extends \Model {
         }
 
         if( isset( $data['religion'] ) ) {
-            File::import( MODEL . 'Aurora/Component/ReligionModel.class.php' );
             $ReligionModel = ReligionModel::getInstance( );
             if( $ReligionModel->isFound( $data['religion'] ) ) {
                 $this->info['religionID'] = $data['religion'];
@@ -183,7 +180,6 @@ class UserModel extends \Model {
         }
 
         if( isset( $data['race'] ) ) {
-            File::import( MODEL . 'Aurora/Component/RaceModel.class.php' );
             $RaceModel = RaceModel::getInstance( );
             if( $RaceModel->isFound( $data['race'] ) ) {
                 $this->info['raceID'] = $data['race'];
@@ -208,20 +204,16 @@ class UserModel extends \Model {
             unset( $this->info['birthday'] );
         }
 
-
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         if( $CountryModel->isFound( $data['country'] ) ) {
             $this->info['country'] = (int)$data['country'];
         }
 
-        File::import( MODEL . 'Aurora/Component/StateModel.class.php' );
         $StateModel = StateModel::getInstance( );
         if( $StateModel->isFound( $data['state'] ) ) {
             $this->info['state'] = (int)$data['state'];
         }
 
-        File::import( MODEL . 'Aurora/Component/CityModel.class.php' );
         $CityModel = CityModel::getInstance( );
         if( $CityModel->isFound( $data['city'] ) ) {
             $this->info['city'] = (int)$data['city'];
@@ -243,7 +235,6 @@ class UserModel extends \Model {
             $this->info['created'] = date( 'Y-m-d H:i:s' );
             $this->info['userID'] = $this->User->insert( 'user', $this->info );
 
-            File::import( DAO . 'Aurora/User/UserLog.class.php' );
             $UserLog = new UserLog( );
             $UserLog->insert( 'user_log', array( 'userID' => $this->info['userID'] ) );
         }
@@ -283,7 +274,6 @@ class UserModel extends \Model {
             $info['suspended'] = $post['status'] == 1 ? 1 : 0;;
             $this->User->update( 'user', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
 
-            File::import( MODEL . 'Aurora/Component/AuditLogModel.class.php' );
             $AuditLogModel = new AuditLogModel( );
 
             $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );

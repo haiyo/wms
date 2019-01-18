@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\PostJob;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**

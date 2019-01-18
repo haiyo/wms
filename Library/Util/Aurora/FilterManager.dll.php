@@ -1,6 +1,6 @@
 <?php
 namespace Library\Util\Aurora;
-use \FilterChain, \Library\Util\XML, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Util\FilterChain, \Library\Util\XML, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\IO\File;
 use \Library\Exception\FileNotFoundException;
 

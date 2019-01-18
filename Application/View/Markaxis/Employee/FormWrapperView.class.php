@@ -2,7 +2,6 @@
 namespace Markaxis\Employee;
 use \Aurora\AuroraView, \Aurora\User\UserModel;
 use \Aurora\Component\DesignationModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -35,7 +34,6 @@ class FormWrapperView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
         $this->EmployeeModel = EmployeeModel::getInstance( );
 
         $this->setStyle( array( 'core' => 'croppie' ) );
@@ -80,7 +78,6 @@ class FormWrapperView extends AuroraView {
      * @return str
      */
     public function renderForm( $form, $userID=0, $photo='' ) {
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
@@ -126,14 +123,12 @@ class FormWrapperView extends AuroraView {
             $vars['dynamic']['mobile'] = false;
         }
 
-        File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
         $EmployeeModel = EmployeeModel::getInstance( );
         $eInfo = $EmployeeModel->getInfo( );
 
         $vars['dynamic']['designation'] = false;
 
         if( isset( $eInfo['dID'] ) ) {
-            File::import( MODEL . 'Aurora/Component/DesignationModel.class.php' );
             $DesignationModel = DesignationModel::getInstance( );
             $dInfo = $DesignationModel->getInfo( );
             $key = array_search( $eInfo['dID'], array_column( $dInfo, 'id') );

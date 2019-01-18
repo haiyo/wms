@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -22,7 +21,6 @@ class LeaveApplyControl {
      * @return void
      */
     function __construct( ) {
-        File::import( MODEL . 'Markaxis/Leave/LeaveApplyModel.class.php' );
         $this->LeaveApplyModel = new LeaveApplyModel( );
     }
 

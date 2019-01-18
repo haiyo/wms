@@ -1,6 +1,5 @@
 <?php
 namespace Library\Util;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -50,7 +49,6 @@ class TaskManager {
     * @return void
     */
     public function addTask( $xmlFile, $task ) {
-        File::import( LIB . 'Util/XML.dll.php' );
         $XML = new XML( );
         $XMLElement = $XML->load( $xmlFile );
         $sizeof = sizeof( $XMLElement->task );

@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\Component\CountryModel, \Aurora\FormSelectListView;
-use \Library\IO\File;
+use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\FormSelectListView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -33,7 +32,6 @@ class OfficeView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/OfficeRes');
 
-        File::import( MODEL . 'Markaxis/Company/CompanyModel.class.php' );
         $this->OfficeModel = CompanyModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),

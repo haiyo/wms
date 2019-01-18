@@ -1,8 +1,11 @@
 <?php
 namespace Filters\Aurora;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse, \Library\Http\IP;
+use \Aurora\Component\IP as AIP;
+use \Library\Util\IP;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\Exception\Aurora\AuthLoginException;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Sunday, July 29, 2012
@@ -33,11 +36,9 @@ class IPRestrictFilter implements IFilter {
         $Registry = Registry::getInstance( );
         if( $Registry->get( HKEY_LOCAL, 'enableIP' ) ) {
             if( $Registry->get( HKEY_LOCAL, 'blockCountry' ) ) {
-                File::import( LIB . 'Util/IP.dll.php' );
-                File::import( DAO . 'Aurora/IP.class.php' );
-                $IP    = new IP( );
-                $DefIP = new DefIP( );
-                $countryInfo = $IP->getCountry( $DefIP->getLong( ) );
+                $IP  = new IP( );
+                $AIP = new AIP( );
+                $countryInfo = $AIP->getCountry( $IP->getLong( ) );
 
                 $countries = explode( ',', $Registry->get( HKEY_LOCAL, 'blockCountry' ) );
                 if( in_array( $countryInfo['country_code'], $countries ) ) {

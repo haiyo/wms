@@ -1,4 +1,6 @@
 <?php
+namespace Library\Util;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012

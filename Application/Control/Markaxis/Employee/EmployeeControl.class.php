@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -22,10 +22,7 @@ class EmployeeControl {
      * @return void
      */
     function __construct( ) {
-        File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
         $this->EmployeeModel = EmployeeModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Employee/EmployeeView.class.php' );
         $this->EmployeeView = new EmployeeView( );
     }
 

@@ -1,11 +1,10 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: EmployeeModel.class.php, v 2.0 Exp $
+ * @version $Id: RoleModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
@@ -16,7 +15,7 @@ class RoleModel extends \Model {
 
 
     /**
-     * EmployeeModel Constructor
+     * RoleModel Constructor
      * @return void
      */
     function __construct( ) {
@@ -30,7 +29,6 @@ class RoleModel extends \Model {
      * @return int
      */
     public function isFound( $roleID ) {
-        File::import(DAO . 'Aurora/User/Role.class.php');
         $Role = new Role();
         return $Role->isFound( $roleID );
     }
@@ -41,7 +39,6 @@ class RoleModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import(DAO . 'Aurora/User/Role.class.php');
         $Role = new Role();
         return $Role->getList( );
     }

@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\PostJob;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -13,6 +13,8 @@ class PostJobControl {
 
 
     // Properties
+    protected $PostJobModel;
+    protected $PostJobView;
 
 
     /**
@@ -20,7 +22,8 @@ class PostJobControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->PostJobModel = PostJobModel::getInstance( );
+        $this->PostJobView = new PostJobView( $this->PostJobModel );
     }
 
 
@@ -29,12 +32,7 @@ class PostJobControl {
      * @return str
      */
     public function getMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Interview/PostJobModel.class.php' );
-        $PostJobModel = PostJobModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Interview/PostJobView.class.php' );
-        $PostJobView = new PostJobView( $PostJobModel );
-        return $PostJobView->renderMenu( $css );
+        return $this->PostJobView->renderMenu( $css );
     }
 
 
@@ -43,12 +41,7 @@ class PostJobControl {
      * @return str
      */
     public function getInternalJobMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Interview/PostJobModel.class.php' );
-        $PostJobModel = PostJobModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Interview/PostJobView.class.php' );
-        $PostJobView = new PostJobView( $PostJobModel );
-        return $PostJobView->renderInternalJobMenu( $css );
+        return $this->PostJobView->renderInternalJobMenu( $css );
     }
 }
 ?>

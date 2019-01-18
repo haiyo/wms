@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,8 @@ class TaxComputingControl {
 
 
     // Properties
+    protected $TaxComputingModel;
+    protected $TaxComputingView;
 
 
     /**
@@ -21,7 +22,8 @@ class TaxComputingControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxComputingModel = TaxComputingModel::getInstance( );
+        $this->TaxComputingView = new TaxComputingView( );
     }
 
 
@@ -34,14 +36,10 @@ class TaxComputingControl {
 
         if( isset( $taxRule['trID'] ) ) {
             if( isset( $data[2] ) && $data[2] == 'html' ) {
-                File::import( VIEW . 'Markaxis/Payroll/TaxComputingView.class.php' );
-                $TaxComputingView = new TaxComputingView( );
-                Control::setOutputArray( array( 'computing' => $TaxComputingView->renderTaxRule( $taxRule ) ) );
+                Control::setOutputArray( array( 'computing' => $this->TaxComputingView->renderTaxRule( $taxRule ) ) );
             }
             else {
-                File::import( MODEL . 'Markaxis/Payroll/TaxComputingModel.class.php' );
-                $TaxComputingModel = TaxComputingModel::getInstance( );
-                Control::setOutputArray( array( 'computing' => $TaxComputingModel->getBytrID( $taxRule['trID'] ) ) );
+                Control::setOutputArray( array( 'computing' => $this->TaxComputingModel->getBytrID( $taxRule['trID'] ) ) );
             }
         }
     }
@@ -53,10 +51,7 @@ class TaxComputingControl {
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
-
-        File::import( VIEW . 'Markaxis/Payroll/TaxComputingView.class.php' );
-        $TaxComputingView = new TaxComputingView( );
-        Control::setOutputArray( $TaxComputingView->renderAll( $taxRules ) );
+        Control::setOutputArray( $this->TaxComputingView->renderAll( $taxRules ) );
     }
 
 
@@ -66,10 +61,7 @@ class TaxComputingControl {
      */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
-
-        File::import( MODEL . 'Markaxis/Payroll/TaxComputingModel.class.php' );
-        $TaxComputingModel = TaxComputingModel::getInstance( );
-        $TaxComputingModel->saveTaxRule( $post );
+        $this->TaxComputingModel->saveTaxRule( $post );
     }
 }
 ?>

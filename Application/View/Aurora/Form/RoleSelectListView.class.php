@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Form;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -29,7 +28,6 @@ class RoleSelectListView extends SelectListView {
     * @return str
     */
     public function getList( $roleList='', $withAdmin=false, $withHeader=false, $id='roles' ) {
-        File::import( DAO . 'Aurora/Role.class.php' );
         $Role = new Role( );
         $roles = $Role->getRoleList( );
         if( !$withAdmin ) unset( $roles[1] );

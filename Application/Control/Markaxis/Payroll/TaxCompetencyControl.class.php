@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class TaxCompetencyControl {
 
 
     // Properties
+    protected $TaxCompetencyModel;
 
 
     /**
@@ -21,7 +21,7 @@ class TaxCompetencyControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxCompetencyModel = TaxCompetencyModel::getInstance( );
     }
 
 
@@ -33,9 +33,7 @@ class TaxCompetencyControl {
         $taxRule = Control::getOutputArray( );
 
         if( isset( $taxRule['trID'] ) ) {
-            File::import( MODEL . 'Markaxis/Payroll/TaxCompetencyModel.class.php' );
-            $TaxCompetencyModel = TaxCompetencyModel::getInstance( );
-            Control::setOutputArray( array( 'competency' => $TaxCompetencyModel->getTaxRule( $taxRule ) ) );
+            Control::setOutputArray( array( 'competency' => $this->TaxCompetencyModel->getTaxRule( $taxRule ) ) );
         }
     }
 
@@ -46,10 +44,7 @@ class TaxCompetencyControl {
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
-
-        File::import( MODEL . 'Markaxis/Payroll/TaxCompetencyModel.class.php' );
-        $TaxCompetencyModel = TaxCompetencyModel::getInstance( );
-        Control::setOutputArray( $TaxCompetencyModel->getAll( $taxRules ) );
+        Control::setOutputArray( $this->TaxCompetencyModel->getAll( $taxRules ) );
     }
 
 
@@ -59,10 +54,7 @@ class TaxCompetencyControl {
      */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
-
-        File::import( MODEL . 'Markaxis/Payroll/TaxCompetencyModel.class.php' );
-        $TaxCompetencyModel = TaxCompetencyModel::getInstance( );
-        $TaxCompetencyModel->saveTaxRule( $post );
+        $this->TaxCompetencyModel->saveTaxRule( $post );
     }
 }
 ?>

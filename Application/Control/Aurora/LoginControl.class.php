@@ -1,7 +1,6 @@
 <?php
 namespace Aurora;
-use \Library\IO\File;
-use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Wednesday, July 4th, 2012
@@ -29,7 +28,6 @@ class LoginControl {
     * @return void
     */
     public function login( ) {
-        File::import( VIEW . 'Aurora/LoginView.class.php' );
         $LoginView = new LoginView( );
         $LoginView->printAll( $LoginView->renderLogin( ) );
     }

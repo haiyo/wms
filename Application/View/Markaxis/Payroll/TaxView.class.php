@@ -35,7 +35,6 @@ class TaxView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxModel.class.php' );
         $TaxModel = TaxModel::getInstance( );
         $this->TaxModel = $TaxModel;
 
@@ -48,28 +47,22 @@ class TaxView extends AuroraView {
      * @return str
      */
     public function renderSettings( $output ) {
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countryList  = $SelectListView->build( 'country', $CountryModel->getList( ),
                             $this->Registry->get(HKEY_LOCAL, 'companyCountry'), 'Select  Country' );
 
-        File::import( MODEL . 'Aurora/Component/ContractModel.class.php' );
         $ContractModel = ContractModel::getInstance( );
         $contractList = $SelectListView->build( 'contract_{id}',
                             $ContractModel->getList( ), '', 'Select Contract Type' );
 
-        File::import( MODEL . 'Aurora/Component/DesignationModel.class.php' );
         $DesignationModel = DesignationModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/Form/SelectGroupListView.class.php' );
         $SelectGroupListView = new SelectGroupListView( );
         $designationList = $SelectGroupListView->build( 'designation_{id}',
                                 $DesignationModel->getList( ), '', 'Select Designation' );
 
-        File::import( VIEW . 'Aurora/Form/RadioView.class.php' );
         $RadioView = new RadioView( );
         $genderRadio  = $RadioView->build( 'gender{template}',  GenderHelper::getL10nList( ), '', 'gender' );
 

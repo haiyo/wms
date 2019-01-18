@@ -1,5 +1,5 @@
 <?php
-namespace Markaxis;
+namespace Markaxis\Calendar;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -22,7 +21,6 @@ class SupervisorControl {
      * @return void
      */
     function __construct( ) {
-        File::import( MODEL . 'Markaxis/Leave/SupervisorModel.class.php' );
         $this->SupervisorModel = new SupervisorModel( );
     }
 
@@ -54,7 +52,6 @@ class SupervisorControl {
             exit;
         }
         else {
-            File::import( MODEL . 'Markaxis/Leave/LeaveApplyModel.class.php' );
             $LeaveApplyModel = LeaveApplyModel::getInstance( );
 
             $vars['bool'] = 0;

@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,9 +29,6 @@ class TimeSheetControl {
      * @return str
      */
     public function timesheet( ) {
-
-
-        File::import( VIEW . 'Markaxis/Employee/TimeSheetView.class.php' );
         $TimeSheetView = new TimeSheetView( );
         $TimeSheetView->printAll( $TimeSheetView->renderList( ) );
     }

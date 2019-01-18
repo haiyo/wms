@@ -1,8 +1,9 @@
 <?php
 namespace Filters\Aurora;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Aurora\Component\Session;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Sunday, July 29, 2012
@@ -32,7 +33,6 @@ class SessionFilter implements IFilter {
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
         $Registry = Registry::getInstance( );
 
-        File::import( DAO . 'Aurora/Component/Session.class.php' );
         $Session = new Session( );
 
         if( $Registry->get( HKEY_LOCAL, 'sessTimeout' ) > 0 ) {

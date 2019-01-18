@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class ChildBornControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Leave/ChildBornModel.class.php' );
         $ChildBornModel = ChildBornModel::getInstance( );
         $ChildBornModel->save( $post );
         Control::setPostData( $post );

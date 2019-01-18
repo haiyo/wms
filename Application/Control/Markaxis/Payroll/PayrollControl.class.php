@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class PayrollControl {
 
 
     // Properties
+    protected $PayrollView;
 
 
     /**
@@ -21,7 +21,7 @@ class PayrollControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->PayrollView = new PayrollView( );
     }
 
 
@@ -30,9 +30,7 @@ class PayrollControl {
      * @return str
      */
     public function overview( ) {
-        File::import( VIEW . 'Markaxis/Payroll/PayrollView.class.php' );
-        $PayrollView = new PayrollView( );
-        $PayrollView->printAll( $PayrollView->renderOverview( ) );
+        $this->PayrollView->printAll( $this->PayrollView->renderOverview( ) );
     }
 
 
@@ -41,9 +39,7 @@ class PayrollControl {
      * @return str
      */
     public function process( ) {
-        File::import( VIEW . 'Markaxis/Payroll/PayrollView.class.php' );
-        $PayrollView = new PayrollView( );
-        $PayrollView->printAll( $PayrollView->renderProcess( ) );
+        $this->PayrollView->printAll( $this->PayrollView->renderProcess( ) );
     }
 
 
@@ -53,10 +49,7 @@ class PayrollControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-
-        File::import( VIEW . 'Markaxis/Payroll/PayrollView.class.php' );
-        $PayrollView = new PayrollView( );
-        $PayrollView->printAll( $PayrollView->renderSettings( $output['form'] ) );
+        $this->PayrollView->printAll( $this->PayrollView->renderSettings( $output['form'] ) );
     }
 }
 ?>

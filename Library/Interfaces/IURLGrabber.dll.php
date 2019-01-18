@@ -1,5 +1,6 @@
 <?php
-namespace Aurora;
+namespace Library\Interfaces;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -10,10 +11,6 @@ namespace Aurora;
 interface IURLGrabber {
 
 
-    /**
-    * Return info
-    * @return mixed
-    */
-    public function getInfo( );
+    public function getInfo( $url );
 }
 ?>

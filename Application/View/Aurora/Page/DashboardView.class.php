@@ -1,7 +1,6 @@
 <?php
 namespace Aurora\Page;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -32,7 +31,6 @@ class DashboardView extends AuroraView {
         $this->Registry = Registry::getInstance();
         $this->HKEY_LOCAL = $this->Registry->get(HKEY_LOCAL);
 
-        File::import( MODEL . 'Aurora/Page/DashboardModel.class.php' );
         $this->DashboardModel = DashboardModel::getInstance( );
 
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');

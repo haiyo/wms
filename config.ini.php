@@ -45,10 +45,10 @@ define( 'LANG',    APP . 'i18n/'    );
 define( 'XML',     APP . 'xml/'     );
 
 // System Library Directories
-define( 'LIB',  ROOT . 'Library/'   );
-define( 'EXC',  LIB  . 'Exception/' );
-define( 'INT',  LIB  . 'Interface/' );
-define( 'HLP',  LIB  . 'Helper/'    );
+define( 'LIB',  ROOT . 'Library/'    );
+define( 'EXC',  LIB  . 'Exception/'  );
+define( 'INT',  LIB  . 'Interfaces/' );
+define( 'HLP',  LIB  . 'Helper/'     );
 
 define( 'AURORA_VERSION', 'Aurora Core 2.0' );
 ?>

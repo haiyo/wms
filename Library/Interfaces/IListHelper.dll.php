@@ -1,4 +1,5 @@
 <?php
+namespace Library\Interfaces;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

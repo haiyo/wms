@@ -1,8 +1,9 @@
 <?php
 namespace Filters\Aurora;
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
 use \Library\Exception\RegistryException;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010

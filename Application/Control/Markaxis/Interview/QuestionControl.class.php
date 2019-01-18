@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Interview;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -13,6 +13,8 @@ class QuestionControl {
 
 
     // Properties
+    protected $QuestionModel;
+    protected $QuestionView;
 
 
     /**
@@ -20,7 +22,8 @@ class QuestionControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->QuestionModel = QuestionModel::getInstance( );
+        $this->QuestionView = new QuestionView( $this->QuestionModel );
     }
 
 
@@ -29,12 +32,7 @@ class QuestionControl {
      * @return str
      */
     public function getMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Interview/QuestionModel.class.php' );
-        $QuestionModel = QuestionModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Interview/QuestionView.class.php' );
-        $QuestionView = new QuestionView( $QuestionModel );
-        return $QuestionView->renderMenu( $css );
+        return $this->QuestionView->renderMenu( $css );
     }
 
 
@@ -43,9 +41,7 @@ class QuestionControl {
      * @return str
      */
     public function view( ) {
-        File::import( VIEW . 'Markaxis/Employee/QuestionView.class.php' );
-        $QuestionView = new QuestionView( );
-        echo $QuestionView->renderEdit( );
+        echo $this->QuestionView->renderEdit( );
     }
 
 
@@ -54,9 +50,7 @@ class QuestionControl {
      * @return str
      */
     public function add( ) {
-        File::import( VIEW . 'Markaxis/Employee/QuestionView.class.php' );
-        $QuestionView = new QuestionView( );
-        Control::setOutputArrayAppend( array( 'form' => $QuestionView->renderAdd( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->QuestionView->renderAdd( ) ) );
     }
 
 
@@ -67,9 +61,7 @@ class QuestionControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Markaxis/Employee/QuestionView.class.php' );
-        $QuestionView = new QuestionView( );
-        Control::setOutputArrayAppend( array( 'form' => $QuestionView->renderEdit( $userID ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->QuestionView->renderEdit( $userID ) ) );
     }
 
 
@@ -78,9 +70,7 @@ class QuestionControl {
      * @return str
      */
     public function save( ) {
-        File::import( MODEL . 'Markaxis/Employee/QuestionModel.class.php' );
-        $QuestionModel = QuestionModel::getInstance( );
-        $QuestionModel->save( Control::getPostData( ) );
+        $this->QuestionModel->save( Control::getPostData( ) );
     }
 }
 ?>

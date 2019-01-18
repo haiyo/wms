@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class GenderControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Leave/GenderModel.class.php' );
         $GenderModel = GenderModel::getInstance( );
         $GenderModel->save( $post );
         Control::setPostData( $post );

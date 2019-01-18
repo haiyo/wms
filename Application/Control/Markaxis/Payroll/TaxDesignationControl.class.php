@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class TaxDesignationControl {
 
 
     // Properties
+    protected $TaxDesignationModel;
 
 
     /**
@@ -21,7 +21,7 @@ class TaxDesignationControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxDesignationModel = TaxDesignationModel::getInstance( );
     }
 
 
@@ -33,9 +33,7 @@ class TaxDesignationControl {
         $taxRule = Control::getOutputArray( );
 
         if( isset( $taxRule['trID'] ) ) {
-            File::import( MODEL . 'Markaxis/Payroll/TaxDesignationModel.class.php' );
-            $TaxDesignationModel = TaxDesignationModel::getInstance( );
-            Control::setOutputArray( array( 'designation' => $TaxDesignationModel->getBytrID( $taxRule['trID'] ) ) );
+            Control::setOutputArray( array( 'designation' => $this->TaxDesignationModel->getBytrID( $taxRule['trID'] ) ) );
         }
     }
 
@@ -46,10 +44,7 @@ class TaxDesignationControl {
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
-
-        File::import( MODEL . 'Markaxis/Payroll/TaxDesignationModel.class.php' );
-        $TaxDesignationModel = TaxDesignationModel::getInstance( );
-        Control::setOutputArray( $TaxDesignationModel->getAll( $taxRules ) );
+        Control::setOutputArray( $this->TaxDesignationModel->getAll( $taxRules ) );
     }
 
 
@@ -58,9 +53,7 @@ class TaxDesignationControl {
      * @return str
      */
     public function saveTaxRule( ) {
-        File::import( MODEL . 'Markaxis/Payroll/TaxDesignationModel.class.php' );
-        $TaxDesignationModel = TaxDesignationModel::getInstance( );
-        $TaxDesignationModel->saveTaxRule( Control::getPostData( ) );
+        $this->TaxDesignationModel->saveTaxRule( Control::getPostData( ) );
     }
 }
 ?>

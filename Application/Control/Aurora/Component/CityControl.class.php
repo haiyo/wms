@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -31,7 +31,6 @@ class CityControl {
     public function cityList( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/Component/CityModel.class.php' );
         $CityModel = CityModel::getInstance( );
         echo json_encode( $CityModel->getList( $post ) );
         exit;
