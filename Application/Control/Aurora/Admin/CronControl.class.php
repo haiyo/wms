@@ -35,7 +35,7 @@ class CronControl extends Control {
 
         $this->xmlTaskFile = XML . 'Aurora/admin.xml';
         $this->xmlGatewayFile = XML . 'Aurora/gateway.xml';
-	}
+    }
 
 
     /**
