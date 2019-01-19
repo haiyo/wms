@@ -20,7 +20,7 @@ class UserImage extends \DAO {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+    }
 
 
     /**

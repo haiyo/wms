@@ -18,8 +18,8 @@ class PaymentMethod extends \DAO {
      * PaymentMethod Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

@@ -18,8 +18,8 @@ class Designation extends \DAO {
      * Designation Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

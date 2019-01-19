@@ -20,7 +20,7 @@ class Children extends \DAO {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+    }
 
 
     /**

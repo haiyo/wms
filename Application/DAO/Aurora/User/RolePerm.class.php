@@ -20,7 +20,7 @@ class RolePerm extends \DAO {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+    }
 
 
     /**

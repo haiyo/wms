@@ -20,7 +20,7 @@ class Role extends \DAO {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+    }
 
 
     /**

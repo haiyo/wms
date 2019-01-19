@@ -20,7 +20,7 @@ class ForgotPassword extends \DAO {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+    }
 
 
     /**

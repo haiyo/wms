@@ -18,8 +18,8 @@ class City extends \DAO {
      * City Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

@@ -18,8 +18,8 @@ class Country extends \DAO {
      * Country Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 
