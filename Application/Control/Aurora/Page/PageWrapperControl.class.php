@@ -21,7 +21,7 @@ class PageWrapperControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

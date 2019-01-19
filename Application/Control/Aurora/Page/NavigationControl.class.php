@@ -20,7 +20,7 @@ class NavigationControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

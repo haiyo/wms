@@ -20,7 +20,7 @@ class MenuControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

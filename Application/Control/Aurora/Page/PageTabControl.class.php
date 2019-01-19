@@ -21,7 +21,7 @@ class PageTabControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

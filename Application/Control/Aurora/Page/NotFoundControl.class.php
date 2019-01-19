@@ -20,7 +20,7 @@ class NotFoundControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

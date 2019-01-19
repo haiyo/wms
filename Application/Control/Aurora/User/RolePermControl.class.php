@@ -21,7 +21,7 @@ class RolePermControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

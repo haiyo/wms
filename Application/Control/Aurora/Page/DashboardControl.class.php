@@ -21,7 +21,7 @@ class DashboardControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

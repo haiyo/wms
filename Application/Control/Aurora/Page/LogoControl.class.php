@@ -21,7 +21,7 @@ class LogoControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**
