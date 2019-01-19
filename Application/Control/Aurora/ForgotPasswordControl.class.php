@@ -21,7 +21,7 @@ class ForgotPasswordControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**

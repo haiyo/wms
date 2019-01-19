@@ -22,7 +22,7 @@ class LogoutControl {
     */
     function __construct( ) {
         $this->Registry = Registry::getInstance( );
-	}
+    }
 
 
     /**

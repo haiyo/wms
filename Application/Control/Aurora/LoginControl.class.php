@@ -20,7 +20,7 @@ class LoginControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**
