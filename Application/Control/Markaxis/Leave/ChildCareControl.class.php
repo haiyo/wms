@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class ChildCareControl {
     public function addType( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Leave/ChildCareView.class.php' );
         $ChildCareView = new ChildCareView( );
         Control::setOutputArrayAppend( array( 'form' => $ChildCareView->renderAddType( ) ) );
     }

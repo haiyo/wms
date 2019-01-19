@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -40,7 +40,6 @@ class FinanceControl {
      * @return str
      */
     public function add( ) {
-        File::import( VIEW . 'Markaxis/Employee/FinanceView.class.php' );
         $FinanceView = new FinanceView( );
         Control::setOutputArrayAppend( array( 'form' => $FinanceView->renderAdd( ) ) );
     }
@@ -53,7 +52,6 @@ class FinanceControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Markaxis/Employee/FinanceView.class.php' );
         $FinanceView = new FinanceView( );
         Control::setOutputArrayAppend( array( 'form' => $FinanceView->renderEdit( $userID ) ) );
     }
@@ -64,7 +62,6 @@ class FinanceControl {
      * @return str
      */
     public function save( ) {
-        File::import( MODEL . 'Markaxis/Employee/FinanceModel.class.php' );
         $FinanceModel = FinanceModel::getInstance( );
         $FinanceModel->save( Control::getPostData( ) );
     }

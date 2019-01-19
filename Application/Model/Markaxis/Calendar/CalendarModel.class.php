@@ -1,7 +1,5 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
-use Registry, Aurora\User;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -62,7 +60,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getCalByDefault( ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         return $Calendar->getCalByDefault( $this->userInfo['userID'] );
     }
@@ -73,7 +70,6 @@ class CalendarModel extends \Model {
     * @return mixed[]
     */
     public function getByCalID( $calID ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         return $Calendar->getByCalID( $calID );
     }
@@ -136,7 +132,6 @@ class CalendarModel extends \Model {
     * @return mixed[]
     */
     public function getEventIDByCalID( $calID ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         return $Calendar->getEventIDByCalID( $calID );
     }
@@ -147,7 +142,6 @@ class CalendarModel extends \Model {
     * @return bool
     */
     public function loadEvent( $eventID /*, $startDate='', $endDate=''*/ ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         if( !$this->info = $Calendar->getEventByID( $eventID ) ) {
             return false;
@@ -289,7 +283,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getTableList( ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         return $Calendar->getTableList( );
     }
@@ -316,7 +309,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getEvents( $info ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         if( isset( $info['allDay'] ) && $info['allDay'] == 'true' ) {
             $info['end'] = strtotime( date( 'Y-m-d 23:59:59', $info['end'] ) );
@@ -331,62 +323,46 @@ class CalendarModel extends \Model {
     * Retrieve recurring events
     * @return mixed
     */
-    public function getRecurs( $info ) {        
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
+    public function getRecurs( $info ) {
         $Calendar = new Calendar( );
         $effective = array( );
         $eventInfo = $Calendar->getRecurs( $info['calID'] );
         $size = sizeof( $eventInfo );
 
-        File::import( LIB . 'Util/Markaxis/Calendar/Recur.dll.php' );
-        File::import( LIB . 'Util/Markaxis/Calendar/Event.dll.php' );
-
         for( $i=0; $i<$size; $i++ ) {
             if( $eventInfo[$i]['recurType'] === 'day' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
                 $DayRecur = new DayRecur( $info['start'], $info['end'] );
                 $DayRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $DayRecur->getEvents( );
             }
             else if( $eventInfo[$i]['recurType'] === 'week' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                File::import( LIB . 'Util/Markaxis/Calendar/WeekRecur.dll.php' );
                 $WeekRecur = new WeekRecur( $info['start'], $info['end'] );
                 $WeekRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $WeekRecur->getEvents( );
             }
             else if( $eventInfo[$i]['recurType'] === 'weekday' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                File::import( LIB . 'Util/Markaxis/Calendar/WeekDayRecur.dll.php' );
                 $WeekDayRecur = new WeekDayRecur( $info['start'], $info['end'] );
                 $WeekDayRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $WeekDayRecur->getEvents( );
             }
             else if( $eventInfo[$i]['recurType'] === 'monWedFri' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                File::import( LIB . 'Util/Markaxis/Calendar/NDayRecur.dll.php' );
                 $NDayRecur = new NDayRecur( $info['start'], $info['end'] );
                 $NDayRecur->setNDay( array(1,3,5) );
                 $NDayRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $NDayRecur->getEvents( );
             }
             else if( $eventInfo[$i]['recurType'] === 'tueThur' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                File::import( LIB . 'Util/Markaxis/Calendar/NDayRecur.dll.php' );
                 $NDayRecur = new NDayRecur( $info['start'], $info['end'] );
                 $NDayRecur->setNDay( array(2,4) );
                 $NDayRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $NDayRecur->getEvents( );
             }
             else if( $eventInfo[$i]['recurType'] === 'month' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/MonthRecur.dll.php' );
                 $MonthRecur = new MonthRecur( $info['start'], $info['end'] );
                 $MonthRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $MonthRecur->getEvents( );
             }
             else if( $eventInfo[$i]['recurType'] === 'year' ) {
-                File::import( LIB . 'Util/Markaxis/Calendar/MonthRecur.dll.php' );
-                File::import( LIB . 'Util/Markaxis/Calendar/YearRecur.dll.php'  );
                 $YearRecur = new YearRecur( $info['start'], $info['end'] );
                 $YearRecur->setEvent( new Event( $eventInfo[$i] ) );
                 $effective[] = $YearRecur->getEvents( );
@@ -401,7 +377,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function save( ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         $param = array( );
         $param['calID']    = $this->info['calID'];
@@ -455,7 +430,6 @@ class CalendarModel extends \Model {
     */
     public function updateEventDrag( $post ) {
         if( $this->loadEvent( $post['eventID'] ) ) {
-            File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
             $Calendar = new Calendar( );
             $param = array( );
             $param['start'] = $post['start'];
@@ -490,11 +464,9 @@ class CalendarModel extends \Model {
             }
 
             if( $perm == 'changeShare' ) {
-                File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
                 $CalendarAttachmentModel = new CalendarAttachmentModel( );
                 $CalendarAttachmentModel->deleteAllFilesByEventID( );
 
-                File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
                 $Calendar = new Calendar( );
                 $Calendar->delete( 'markaxis_event', 'WHERE eventID = "' . (int)$this->info['eventID'] . '" AND
                                                             userID = "' . (int)$this->userInfo['userID'] . '"' );
@@ -511,7 +483,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getLabels( ) {
-        File::import( DAO . 'Markaxis/Calendar/Label.class.php' );
         $Label = new Label( );
         return $Label->getLabels( );
     }
@@ -522,7 +493,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function saveLabel( $labelID, $label, $labelOrder ) {
-        File::import( DAO . 'Markaxis/Calendar/Label.class.php' );
         $Label = new Label( );
         $info = array( );
         $info['label']  = $label;

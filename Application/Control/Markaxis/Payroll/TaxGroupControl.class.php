@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,8 @@ class TaxGroupControl {
 
 
     // Properties
+    protected $TaxGroupModel;
+    protected $TaxGroupView;
 
 
     /**
@@ -21,7 +22,8 @@ class TaxGroupControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxGroupModel = TaxGroupModel::getInstance( );
+        $this->TaxGroupView = new TaxGroupView( );
     }
 
 
@@ -30,9 +32,7 @@ class TaxGroupControl {
      * @return mixed
      */
     public function getSelectList( ) {
-        File::import( MODEL . 'Markaxis/Payroll/TaxGroupModel.class.php' );
-        $TaxGroupModel = TaxGroupModel::getInstance( );
-        echo json_encode( $TaxGroupModel->getSelectList( ) );
+        echo json_encode( $this->TaxGroupModel->getSelectList( ) );
         exit;
     }
 
@@ -44,17 +44,13 @@ class TaxGroupControl {
     public function getTaxGroup( $data ) {
         if( isset( $data[1] ) ) {
             if( isset( $data[2] ) && $data[2] == 'html' ) {
-                File::import(VIEW . 'Markaxis/Payroll/TaxGroupView.class.php');
-                $TaxGroupView = new TaxGroupView( );
-                $vars['html'] = $TaxGroupView->renderTaxGroup( $data[1] );
+                $vars['html'] = $this->TaxGroupView->renderTaxGroup( $data[1] );
                 $vars['bool'] = 1;
                 echo json_encode($vars);
                 exit;
             }
             else {
-                File::import( MODEL . 'Markaxis/Payroll/TaxGroupModel.class.php' );
-                $TaxGroupModel = TaxGroupModel::getInstance( );
-                if( $data = $TaxGroupModel->getBytgID( $data[1] ) ) {
+                if( $data = $this->TaxGroupModel->getBytgID( $data[1] ) ) {
                     $vars['data'] = $data;
                     $vars['bool'] = 1;
                     echo json_encode( $vars );
@@ -70,9 +66,7 @@ class TaxGroupControl {
      * @return str
      */
     public function settings( ) {
-        File::import( VIEW . 'Markaxis/Payroll/TaxGroupView.class.php' );
-        $TaxGroupView = new TaxGroupView( );
-        Control::setOutputArray( array( 'groupList' => $TaxGroupView->renderSettings( ) ) );
+        Control::setOutputArray( array( 'groupList' => $this->TaxGroupView->renderSettings( ) ) );
     }
 
 
@@ -85,11 +79,8 @@ class TaxGroupControl {
         $vars = array( );
         $vars['bool'] = 0;
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxGroupModel.class.php' );
-        $TaxGroupModel = TaxGroupModel::getInstance( );
-
-        if( $TaxGroupModel->saveTaxGroup( $post ) ) {
-            $vars['data'] = $TaxGroupModel->getInfo( );
+        if( $this->TaxGroupModel->saveTaxGroup( $post ) ) {
+            $vars['data'] = $this->TaxGroupModel->getInfo( );
             $vars['bool'] = 1;
         }
         echo json_encode( $vars );

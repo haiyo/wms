@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Interview;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**

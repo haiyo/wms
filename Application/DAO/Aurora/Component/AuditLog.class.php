@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +7,7 @@ use \Application\DAO\DAO;
  * @version $Id: AuditLog.class.php, v 2.0 Exp $
  */
 
-class AuditLog extends DAO {
+class AuditLog extends \DAO {
 
 
     // Properties
@@ -18,8 +17,8 @@ class AuditLog extends DAO {
      * AuditLog Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 }
 ?>

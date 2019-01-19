@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Company;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,7 +29,6 @@ class OfficeControl {
      * @return str
      */
     public function settings( ) {
-        File::import( VIEW . 'Markaxis/Company/OfficeView.class.php' );
         $OfficeView = new OfficeView( );
         Control::setOutputArrayAppend( array( 'form' => $OfficeView->renderSettings( ) ) );
     }
@@ -42,7 +41,6 @@ class OfficeControl {
     public function getOfficeResults( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Markaxis/Company/OfficeModel.class.php' );
         $OfficeModel = OfficeModel::getInstance( );
         echo json_encode( $OfficeModel->getResults( $post ) );
         exit;
@@ -56,13 +54,11 @@ class OfficeControl {
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = new UserModel( );
 
         if( $UserModel->isValid( $post ) ) {
             $post['userID'] = $UserModel->save( );
 
-            File::import( MODEL . 'Aurora/User/ChildrenModel.class.php' );
             $ChildrenModel = new ChildrenModel( );
             $ChildrenModel->save( $post );
 

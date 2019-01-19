@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
 use \Aurora\Component\OfficeModel AS AuroraOffice;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class OfficeModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/Office.class.php' );
         $this->Office = new Office( );
     }
 
@@ -56,7 +54,6 @@ class OfficeModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['office'] ) && is_array( $data['office'] ) ) {
-            File::import( MODEL . 'Aurora/Component/OfficeModel.class.php' );
             $OfficeModel = AuroraOffice::getInstance( );
             $office = $OfficeModel->getList( );
 

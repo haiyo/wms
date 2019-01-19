@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,7 +25,6 @@ class TypeModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/Type.class.php' );
         $this->Type = new Type( );
 
         $this->info['name'] = '';
@@ -93,8 +91,6 @@ class TypeModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        File::import( LIB . 'Validator/Validator.dll.php' );
-
         $this->info = array( );
         $this->info['name'] = Validator::stripTrim( $data['leaveTypeName'] );
         $this->info['code'] = Validator::stripTrim( $data['leaveCode'] );
@@ -140,8 +136,6 @@ class TypeModel extends \Model {
                 }
             }
         }
-
-        File::import( DAO . 'Markaxis/Leave/Type.class.php' );
         $Type = new Type( );
 
         if( $data['ltID'] && $this->isFound( $data['ltID'] ) ) {

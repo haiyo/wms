@@ -1,6 +1,8 @@
 <?php
-namespace Aurora;
-use \File, \String;
+namespace Library\Util\Aurora;
+use \Library\Interfaces\IURLGrabber;
+use \Library\Util\MXString;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -31,7 +33,6 @@ class VimeoGrabber extends URLGrabber implements IURLGrabber {
         $load = simplexml_load_file( 'http://www.vimeo.com/api/oembed.xml?url=' . $this->url . '&maxwidth=300', 'SimpleXMLElement', LIBXML_NOCDATA );
         if( !$load ) return false;
 
-        File::import( LIB . 'Util/MXString.dll.php' );
         $MXString = new MXString( );
         $info['title'] = $MXString->cropText( (string)$load->title, 300 );
         $info['description'] = nl2br( $MXString->cropText( (string)$load->description, 300 ) );

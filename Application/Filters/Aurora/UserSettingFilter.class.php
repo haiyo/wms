@@ -1,8 +1,9 @@
 <?php
 namespace Filters\Aurora;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Aurora\User\UserSettingModel, \Aurora\User\UserModel;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -32,11 +33,9 @@ class UserSettingFilter implements IFilter {
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
         $Registry = Registry::getInstance( );
 
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
-        File::import( MODEL . 'Aurora/User/UserSettingModel.class.php' );
         $UserSettingModel = new UserSettingModel( );
         $UserSettingModel->load( $userInfo['userID'] );
 

@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -58,7 +58,6 @@ class DepartmentControl {
     public function save( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Employee/DepartmentModel.class.php' );
         $DepartmentModel = DepartmentModel::getInstance( );
         $DepartmentModel->save( $post );
     }

@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
 use \Aurora\Component\ContractModel AS AuroraContract;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class ContractModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/Contract.class.php' );
         $this->Contract = new Contract( );
     }
 
@@ -56,7 +54,6 @@ class ContractModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['contractType'] ) && is_array( $data['contractType'] ) ) {
-            File::import( MODEL . 'Aurora/Component/ContractModel.class.php' );
             $ContractModel = AuroraContract::getInstance( );
             $contract = $ContractModel->getIDList( );
 

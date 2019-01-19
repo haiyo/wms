@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -13,6 +13,8 @@ class HelpControl {
 
 
     // Properties
+    protected $HelpModel;
+    protected $HelpView;
 
 
     /**
@@ -20,7 +22,8 @@ class HelpControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->HelpModel = HelpModel::getInstance( );
+        $this->HelpView = new HelpView( $this->HelpModel );
     }
 
 
@@ -29,12 +32,7 @@ class HelpControl {
      * @return str
      */
     public function getMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Help/HelpModel.class.php' );
-        $HelpModel = HelpModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Help/HelpView.class.php' );
-        $HelpView = new HelpView( $HelpModel );
-        return $HelpView->renderMenu( $css );
+        return $this->HelpView->renderMenu( $css );
     }
 
 
@@ -43,12 +41,7 @@ class HelpControl {
      * @return str
      */
     public function getGuideMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Help/HelpModel.class.php' );
-        $HelpModel = HelpModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Help/HelpView.class.php' );
-        $HelpView = new HelpView( $HelpModel );
-        return $HelpView->renderGuideMenu( $css );
+        return $this->HelpView->renderGuideMenu( $css );
     }
 
 
@@ -57,12 +50,7 @@ class HelpControl {
      * @return str
      */
     public function getFAQMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Help/HelpModel.class.php' );
-        $HelpModel = HelpModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Help/HelpView.class.php' );
-        $HelpView = new HelpView( $HelpModel );
-        return $HelpView->renderFAQMenu( $css );
+        return $this->HelpView->renderFAQMenu( $css );
     }
 
 
@@ -71,12 +59,7 @@ class HelpControl {
      * @return str
      */
     public function getContactMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Help/HelpModel.class.php' );
-        $HelpModel = HelpModel::getInstance( );
-
-        File::import( VIEW . 'Markaxis/Help/HelpView.class.php' );
-        $HelpView = new HelpView( $HelpModel );
-        return $HelpView->renderContactMenu( $css );
+        return $this->HelpView->renderContactMenu( $css );
     }
 
 }

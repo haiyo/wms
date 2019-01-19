@@ -8,7 +8,6 @@ use \Markaxis\Employee\LeaveTypeModel as EmployeeLeaveTypeModel;
 use \Markaxis\Payroll\CalendarModel as PayrollCalendarModel;
 use \Markaxis\Payroll\TaxGroupModel as PayrollTaxGroupModel;
 use \Markaxis\Leave\TypeModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -40,7 +39,6 @@ class FinanceView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/AdditionalRes');
 
-        File::import( MODEL . 'Markaxis/Employee/FinanceModel.class.php' );
         $this->FinanceModel = FinanceModel::getInstance( );
     }
 
@@ -61,19 +59,15 @@ class FinanceView extends AuroraView {
      */
     public function renderEdit( $userID ) {
         if( $userID ) {
-            File::import(MODEL . 'Markaxis/Employee/BankModel.class.php');
             $BankModel = BankModel::getInstance( );
             $BankModel->loadInfo( $userID );
 
-            File::import(MODEL . 'Markaxis/Employee/PayrollModel.class.php');
             $PayrollModel = EmployeePayrollModel::getInstance( );
             $PayrollModel->loadInfo( $userID );
 
-            File::import(MODEL . 'Markaxis/Employee/TaxModel.class.php');
             $TaxModel = EmployeeTaxModel::getInstance( );
             $TaxModel->getListByUserID( $userID );
 
-            File::import(MODEL . 'Markaxis/Employee/LeaveTypeModel.class.php');
             $LeaveTypeModel = EmployeeLeaveTypeModel::getInstance( );
             $LeaveTypeModel->getListByUserID( $userID );
         }
@@ -86,44 +80,34 @@ class FinanceView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import(MODEL . 'Markaxis/Employee/BankModel.class.php');
         $BankModel = BankModel::getInstance( );
         $bankInfo = $BankModel->getInfo( );
 
-        File::import(MODEL . 'Markaxis/Employee/PayrollModel.class.php');
         $PayrollModel = EmployeePayrollModel::getInstance( );
         $payrollInfo = $PayrollModel->getInfo( );
 
-        File::import(MODEL . 'Markaxis/Employee/TaxModel.class.php');
         $TaxModel = EmployeeTaxModel::getInstance( );
         $taxInfo = $TaxModel->getInfo( );
 
-        File::import(MODEL . 'Markaxis/Employee/LeaveTypeModel.class.php');
         $LeaveTypeModel = EmployeeLeaveTypeModel::getInstance( );
         $leaveTypeInfo = $LeaveTypeModel->getInfo( );
 
-        File::import( MODEL . 'Markaxis/Payroll/CalendarModel.class.php' );
         $CalendarModel = PayrollCalendarModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $payrollCalList = $SelectListView->build( 'pcID', $CalendarModel->getList( ), $payrollInfo['pcID'], 'Select Payroll Calendar' );
 
-        File::import( MODEL . 'Aurora/Component/PaymentMethodModel.class.php' );
         $PaymentMethodModel = PaymentMethodModel::getInstance( );
         $pmID = $bankInfo['pmID'] ? $bankInfo['pmID'] : '';
         $SelectListView->setClass( 'paymentMethodList' );
         $paymentMethodList = $SelectListView->build( 'pmID',  $PaymentMethodModel->getList( ), $pmID, 'Select Payment Method' );
 
-        File::import( MODEL . 'Aurora/Component/BankModel.class.php' );
         $BankModel = AuroraBankModel::getInstance( );
         $bkID = $bankInfo['bkID'] ? $bankInfo['bkID'] : '';
         $bankList = $SelectListView->build( 'bank',  $BankModel->getList( ), $bkID, 'Select Bank' );
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxGroupModel.class.php' );
         $TaxGroupModel = PayrollTaxGroupModel::getInstance( );
 
-        File::import( MODEL . 'Markaxis/Leave/TypeModel.class.php' );
         $TypeModel = TypeModel::getInstance( );
 
         $SelectListView->isMultiple( true );

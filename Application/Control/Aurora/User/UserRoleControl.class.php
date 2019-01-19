@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -58,7 +58,6 @@ class UserRoleControl {
     public function save( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Aurora/User/UserRoleModel.class.php' );
         $UserRoleModel = UserRoleModel::getInstance( );
         $UserRoleModel->save( $post );
     }

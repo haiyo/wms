@@ -36,7 +36,6 @@ class CalendarView extends AuroraView {
         $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get( HKEY_LOCAL );
 
-        File::import( MODEL . 'Markaxis/Calendar/CalendarModel.class.php' );
         $this->CalendarModel = CalendarModel::getInstance( );
 
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
@@ -141,19 +140,18 @@ class CalendarView extends AuroraView {
                        'TPLVAR_ALL_DAY' => $param['allDay'] );
 
         $vars['dynamic']['list'] = false;
-        File::import( LIB . 'Util/String.dll.php' );
+
         $String = new Stringify( );
-        File::import( LIB . 'Util/Date.dll.php' );
         $dateRange = Date::dateRangeArray( $param['start'], $param['end'] );
 
         $class = '';
         $type  = RecurHelper::getL10nList( );
-        while( list( , $date ) = each( $dateRange ) ) {
+
+        foreach( $dateRange as $date ) {
             $dateArray = explode( '-', $date );
             $list  = '';
             $class = $class == '' ? 'bgList' : '';
 
-            File::import( VIEW . 'Aurora/User/UserAvatarView.class.php' );
             $UserAvatarView = new UserAvatarView( );
             $majorityType   = array( );
 
@@ -245,11 +243,11 @@ class CalendarView extends AuroraView {
         $list['html'] = '';
 
         if( sizeof( $userList ) > 0 ) {
-            File::import( VIEW . 'Aurora/User/UserAvatarView.class.php' );
             $UserAvatarView = new UserAvatarView( );
-            while( list( , $row ) = each( $userList ) ) {
-                if( $row['attending'] == $type ) {
-                    $list['html'] .= $UserAvatarView->renderAvatar( $row, 'micro' );
+
+            foreach( $userList as $value ) {
+                if( $value['attending'] == $type ) {
+                    $list['html'] .= $UserAvatarView->renderAvatar( $value, 'micro' );
                     $list['num']++;
                 }
             }
@@ -270,9 +268,7 @@ class CalendarView extends AuroraView {
             $repeatType  = $RecurHelper[$eventInfo['recurType']];
         }
 
-        File::import( LIB . 'Util/String.dll.php' );
         $String = new String( );
-
         $vars = array( 'TPLVAR_EVENT_ID'      => $eventInfo['eventID'],
                        'TPLVAR_ETITLE'        => nl2br( $String->makeLink( htmlspecialchars( $eventInfo['eTitle'] ) ) ),
                        'TPLVAR_DESCRIPT'      => nl2br( $String->makeLink( htmlspecialchars( $eventInfo['descript'] ) ) ),
@@ -300,7 +296,6 @@ class CalendarView extends AuroraView {
             $vars['dynamic']['allDay'][] = true;
         }
         else {
-            File::import( LIB . 'Util/Date.dll.php' );
             $daysDiff = Date::daysDiff( $eventInfo['start'], $eventInfo['end'] );
 
             if( $daysDiff > 0 ) {
@@ -355,7 +350,6 @@ class CalendarView extends AuroraView {
     public function renderEventForm( ) {
         $info = $this->CalendarModel->getInfo( );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $SelectListView->setClass('selectList');
         $unixStart = strtotime( $info['start'] );
@@ -368,7 +362,6 @@ class CalendarView extends AuroraView {
         $recurring  = $SelectListView->build( 'recurType',  RecurHelper::getL10nList( ), $info['recurType'] );
         $endRecur   = $SelectListView->build( 'endRecur',   EndRecurHelper::getL10nList( ), $info['endRecur'] );
 
-        File::import( VIEW . 'Aurora/Form/DayIntListView.class.php' );
         $DayIntListView = new DayIntListView( );
         $DayIntListView->setClass('selectList');
         $startDay = $DayIntListView->getList( 'startDay', date('d', $unixStart ) );
@@ -376,23 +369,21 @@ class CalendarView extends AuroraView {
         $DayIntListView->setClass('selectList repeatList');
         $repeat = $DayIntListView->getList( 'repeatTimes', $info['repeatTimes'] );
 
-        File::import( VIEW . 'Aurora/Form/YearListView.class.php' );
         $YearListView = new YearListView( );
         $YearListView->setClass('selectList');
         $startYear = $YearListView->getList( 'startYear', date('Y', $unixStart ) );
         $endYear   = $YearListView->getList( 'endYear',   date('Y', $unixEnd ) );
 
-        File::import( VIEW . 'Aurora/Form/RadioView.class.php' );
         $RadioView = new RadioView( );
         $privacy = $RadioView->build( 'privacy', PrivacyHelper::getL10nList( ), $info['privacy'] );
 
         $allDay = $info['allDay'] == 'true' ? 1 : 0;
-        File::import( VIEW . 'Aurora/Form/CheckboxView.class.php' );
+
         $CheckboxView = new CheckboxView( );
         $allDay = $CheckboxView->build( 'allDay', array( '1' => $this->EventRes->getContents('LANG_ALL_DAY') ), $allDay );
 
         $labels = $this->CalendarModel->getLabels( );
-        File::import( VIEW . 'Markaxis/Calendar/LabelListView.class.php' );
+
         $LabelListView = new LabelListView( );
         $labelList = $LabelListView->getList( 'label', $labels, $info['label'] );
         $email = $SelectListView->build( 'email', ReminderHelper::getL10nList( ), $info['email'] );
@@ -401,8 +392,8 @@ class CalendarView extends AuroraView {
 
         $staffID = '';
         if( isset( $info['rsvp'] ) && is_array( $info['rsvp'] ) && sizeof( $info['rsvp'] ) > 0 ) {
-            while( list( , $row ) = each( $info['rsvp'] ) ) {
-                $staffID .= $row['userID'] . ',';
+            foreach( $info['rsvp'] as $value ) {
+                $staffID .= $value['userID'] . ',';
             }
             $staffID = substr( $staffID, 0, -1 );
         }
@@ -458,14 +449,14 @@ class CalendarView extends AuroraView {
     public function getFileList( $list ) {
         $tpl = '';
         if( is_array( $list ) && sizeof( $list ) > 0 ) {
-            while( list( , $row ) = each( $list ) ) {
-                $ext = strtolower( array_pop( explode( '.', $row['filename'] ) ) );
+            foreach( $list as $value ) {
+                $ext = strtolower( array_pop( explode( '.', $value['filename'] ) ) );
                 if( $ext == 'jpg' || $ext == 'jpeg' || $ext == 'png' || $ext == 'gif' ) {
                     $ext = 'image';
                 }
-                $vars = array( 'TPLVAR_FILE_ID'   => $row['attachID'],
-                               'TPLVAR_FILENAME'  => $row['filename'],
-                               'TPLVAR_FILESIZE'  => File::formatBytes( $row['filesize'] ),
+                $vars = array( 'TPLVAR_FILE_ID'   => $value['attachID'],
+                               'TPLVAR_FILENAME'  => $value['filename'],
+                               'TPLVAR_FILESIZE'  => File::formatBytes( $value['filesize'] ),
                                'TPLVAR_FILETYPE'  => $ext,
                                'LANG_DELETE_FILE' => $this->EventRes->getContents('LANG_DELETE_FILE') );
                 $tpl .= $this->View->render( 'markaxis/calendar/html/fileList.tpl', $vars );

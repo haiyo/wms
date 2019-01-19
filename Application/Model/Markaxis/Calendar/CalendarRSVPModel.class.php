@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
 use Aurora\NotificationModel;
 
 /**
@@ -34,7 +33,6 @@ class CalendarRSVPModel extends \Model {
     * @return mixed[]
     */
     public function getByEventID( $eventID ) {
-        File::import( DAO . 'Markaxis/Calendar/CalendarRSVP.class.php' );
         $CalendarRSVP = new CalendarRSVP( );
         return $CalendarRSVP->getByEventID( $eventID );
     }
@@ -88,7 +86,6 @@ class CalendarRSVPModel extends \Model {
     * @return mixed
     */
     public function save( ) {
-        File::import( DAO . 'Markaxis/Calendar/CalendarRSVP.class.php' );
         $CalendarRSVP = new CalendarRSVP( );
         $rsvpList = $CalendarRSVP->getByEventID( $this->info['eventID'] );
 
@@ -115,7 +112,6 @@ class CalendarRSVPModel extends \Model {
             $CalendarRSVP->delete( 'markaxis_event_rsvp', 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
         }
         if( sizeof( $invitees ) > 0 ) {
-            File::import( MODEL . 'Aurora/Notification/NotificationModel.class.php' );
             $NotificationModel = new NotificationModel( );
 
             $CalendarModel = CalendarModel::getInstance( );
@@ -158,7 +154,6 @@ class CalendarRSVPModel extends \Model {
         $valid = array( 1, 0, '-1', 2 );
 
         if( in_array( $type, $valid ) ) {
-            File::import( DAO . 'Markaxis/Calendar/CalendarRSVP.class.php' );
             $CalendarRSVP = new CalendarRSVP( );
             $info = array( );
             $info['attending'] = $type;
@@ -174,14 +169,14 @@ class CalendarRSVPModel extends \Model {
     * @return bool
     */
     public function setInfo( $info ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarModel.class.php' );
         $CalendarModel = CalendarModel::getInstance( );
 
         if( isset( $info['eventID'] ) && $CalendarModel->loadEvent( $info['eventID'] ) ) {
             $eventInfo = $CalendarModel->getInfo( );
+
             if( $eventInfo['privacy'] ) {
-                File::import( DAO . 'Markaxis/Calendar/CalendarRSVP.class.php' );
                 $CalendarRSVP = new CalendarRSVP( );
+
                 if( !$CalendarRSVP->isInvited( $info['eventID'], $this->userInfo['userID'] ) ) {
                     return false;
                 }

@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class TaxGenderControl {
 
 
     // Properties
+    protected $TaxGenderModel;
 
 
     /**
@@ -21,7 +21,7 @@ class TaxGenderControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxGenderModel = TaxGenderModel::getInstance( );
     }
 
 
@@ -33,9 +33,7 @@ class TaxGenderControl {
         $output = Control::getOutputArray( );
 
         if( isset( $output['trID'] ) ) {
-            File::import( MODEL . 'Markaxis/Payroll/TaxGenderModel.class.php' );
-            $TaxGenderModel = TaxGenderModel::getInstance( );
-            Control::setOutputArray( array( 'gender' => $TaxGenderModel->getBytrID( $output['trID'] ) ) );
+            Control::setOutputArray( array( 'gender' => $this->TaxGenderModel->getBytrID( $output['trID'] ) ) );
         }
     }
 
@@ -46,10 +44,7 @@ class TaxGenderControl {
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
-
-        File::import( MODEL . 'Markaxis/Payroll/TaxGenderModel.class.php' );
-        $TaxGenderModel = TaxGenderModel::getInstance( );
-        Control::setOutputArray( $TaxGenderModel->getAll( $taxRules ) );
+        Control::setOutputArray( $this->TaxGenderModel->getAll( $taxRules ) );
     }
 
 
@@ -58,9 +53,7 @@ class TaxGenderControl {
      * @return str
      */
     public function saveTaxRule( ) {
-        File::import( MODEL . 'Markaxis/Payroll/TaxGenderModel.class.php' );
-        $TaxGenderModel = TaxGenderModel::getInstance( );
-        $TaxGenderModel->saveTaxRule( Control::getPostData( ) );
+        $this->TaxGenderModel->saveTaxRule( Control::getPostData( ) );
     }
 }
 ?>

@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Aurora\Component\RecruitSourceModel;
-use \Validator;
+use \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -14,7 +14,7 @@ class AdditionalModel extends \Model {
 
 
     // Properties
-
+    protected $Additional;
 
 
     /**
@@ -24,6 +24,8 @@ class AdditionalModel extends \Model {
     function __construct( ) {
         parent::__construct( );
         $this->info['resume'] = $this->info['notes'] = '';
+
+        $this->Additional = new Additional( );
     }
 
 
@@ -32,9 +34,7 @@ class AdditionalModel extends \Model {
      * @return int
      */
     public function isFoundByUserID( $userID ) {
-        File::import(DAO . 'Markaxis/Employee/Additional.class.php');
-        $Additional = new Additional( );
-        return $Additional->isFoundByUserID( $userID );
+        return $this->Additional->isFoundByUserID( $userID );
     }
 
 
@@ -43,9 +43,7 @@ class AdditionalModel extends \Model {
      * @return int
      */
     public function getByUserID( $userID, $column ) {
-        File::import(DAO . 'Markaxis/Employee/Additional.class.php');
-        $Additional = new Additional( );
-        return $Additional->getByUserID( $userID, $column );
+        return $this->Additional->getByUserID( $userID, $column );
     }
 
 
@@ -57,7 +55,6 @@ class AdditionalModel extends \Model {
         $this->info['notes'] = Validator::stripTrim( $data['notes'] );
 
         if( isset( $data['recruitSource'] ) ) {
-            File::import( MODEL . 'Aurora/Component/RecruitSourceModel.class.php' );
             $RecruitSourceModel = RecruitSourceModel::getInstance( );
 
             if( $RecruitSourceModel->isFound( $data['recruitSource'] ) ) {
@@ -65,16 +62,13 @@ class AdditionalModel extends \Model {
             }
         }
 
-        File::import(DAO . 'Markaxis/Employee/Additional.class.php');
-        $Additional = new Additional( );
-
         if( $this->isFoundByUserID( $data['userID'] ) ) {
-            $Additional->update( 'employee_additional', $this->info, 'WHERE userID = "' . (int)$data['userID'] . '"' );
+            $this->Additional->update( 'employee_additional', $this->info, 'WHERE userID = "' . (int)$data['userID'] . '"' );
         }
         else {
             $this->info['userID'] = (int)$data['userID'];
             $this->info['eID'] = (int)$data['eID'];
-            $Additional->insert('employee_additional', $this->info);
+            $this->Additional->insert('employee_additional', $this->info);
         }
     }
 }

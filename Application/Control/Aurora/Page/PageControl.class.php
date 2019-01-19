@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -21,7 +21,7 @@ class PageControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**
@@ -29,10 +29,8 @@ class PageControl {
     * @return void
     */
     public function page( $args ) {
-        File::import( MODEL . 'Aurora/Page/PageModel.class.php' );
         $PageModel = PageModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/Page/PageView.class.php' );
         $PageView = new PageView( $PageModel );
         Control::setOutputAppend( $PageView->renderPage( $args ) );
         
@@ -47,8 +45,7 @@ class PageControl {
     */
     public function saveDroplets( ) {
         $post = Control::getRequest( )->request( POST );
-        
-        File::import( MODEL . 'Aurora/Page/PageModel.class.php' );
+
         $PageModel = new PageModel( );
         echo $PageModel->saveDroplets( $post['pageURL'][0], $post['droplets'] );
         exit;
@@ -62,7 +59,6 @@ class PageControl {
     public function saveSorting( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/Page/PageModel.class.php' );
         $PageModel = new PageModel( );
         echo $PageModel->saveSorting( $post );
         exit;
@@ -76,7 +72,6 @@ class PageControl {
     public function removeDroplet( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/Page/PageModel.class.php' );
         $PageModel = new PageModel( );
         echo $PageModel->removeDroplet( $post['dropletID'] );
         exit;

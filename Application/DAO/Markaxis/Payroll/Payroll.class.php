@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +8,7 @@ use \Application\DAO\DAO;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Payroll extends DAO {
+class Payroll extends \DAO {
 
 
     // Properties

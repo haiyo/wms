@@ -1,6 +1,5 @@
 <?php
-namespace Markaxis;
-use \Application\DAO\DAO;
+namespace Markaxis\Calendar;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +8,7 @@ use \Application\DAO\DAO;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarMap extends DAO {
+class CalendarMap extends \DAO {
 
 
     // Properties
@@ -20,8 +19,8 @@ class CalendarMap extends DAO {
     * @return void
     */
     function __construct( ) {
-        parent::__construct();
-	}
+        parent::__construct( );
+    }
 
 
     /**

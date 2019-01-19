@@ -1,7 +1,7 @@
 <?php
 namespace Aurora;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Wednesday, July 4th, 2012
@@ -21,7 +21,7 @@ class ForgotPasswordControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**
@@ -29,14 +29,11 @@ class ForgotPasswordControl {
      * @return void
      */
     public function forgotPassword( $data ) {
-        File::import( MODEL . 'Aurora/ForgotPasswordModel.class.php' );
         $ForgotPasswordModel = ForgotPasswordModel::getInstance( );
 
         if( isset( $data[0] ) && isset( $data[1] ) ) {
             if( $data[0] == 'token' ) {
                 if( $info = $ForgotPasswordModel->isValidToken( $data[1] ) ) {
-                    File::import( VIEW . 'Aurora/LoginView.class.php' );
-                    File::import( VIEW . 'Aurora/ForgotPasswordView.class.php' );
                     $ForgotPasswordView = ForgotPasswordView::getInstance( );
                     $ForgotPasswordView->printAll( $ForgotPasswordView->renderChangePassword( $data[1] ) );
                     exit;
@@ -68,7 +65,6 @@ class ForgotPasswordControl {
         $post = Control::getRequest( )->request( POST );
         $vars = array( );
 
-        File::import( MODEL . 'Aurora/ForgotPasswordModel.class.php' );
         $ForgotPasswordModel = ForgotPasswordModel::getInstance( );
 
         if( $ForgotPasswordModel->changePassword( $post ) ) {

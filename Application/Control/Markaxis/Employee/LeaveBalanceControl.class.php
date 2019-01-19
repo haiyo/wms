@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,7 +29,6 @@ class LeaveBalanceControl {
      * @return str
      */
     public function dashboard( ) {
-        File::import( MODEL . 'Markaxis/Employee/LeaveBalanceModel.class.php' );
         $LeaveBalanceModel = new LeaveBalanceModel( );
         Control::setOutputArray( array( 'balance' => $LeaveBalanceModel->getSidebar( ) ) );
     }

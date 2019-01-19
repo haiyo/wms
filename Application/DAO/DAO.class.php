@@ -1,5 +1,4 @@
 <?php
-namespace Application\DAO;
 use \Library\Runtime\Registry;
 
 /**
@@ -25,7 +24,7 @@ class DAO {
         $Registry = Registry::getInstance( );
         $this->DB = $Registry->get( HKEY_CLASS, 'DB' );
         $this->limit = '';
-	}
+    }
 
 
     /**

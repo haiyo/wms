@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -30,7 +30,6 @@ class CompetencyControl {
      */
     public function getCompetency( $args ) {
         if( isset( $args[1] ) ) {
-            File::import( MODEL . 'Aurora/Component/CompetencyModel.class.php' );
             $CompetencyModel = CompetencyModel::getInstance( );
             echo json_encode( $CompetencyModel->getResults( $args[1] ) );
             exit;
@@ -73,7 +72,6 @@ class CompetencyControl {
         $post = Control::getPostData( );
 
         if( isset( $post['competency'] ) ) {
-            File::import( MODEL . 'Aurora/Component/CompetencyModel.class.php' );
             $CompetencyModel = CompetencyModel::getInstance( );
             $post['competency'] = $CompetencyModel->save( $post['competency'] );
             Control::setPostData( $post );

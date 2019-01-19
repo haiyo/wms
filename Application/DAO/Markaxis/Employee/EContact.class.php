@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +8,7 @@ use \Application\DAO\DAO;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EContact extends DAO {
+class EContact extends \DAO {
 
 
     // Properties
@@ -19,8 +18,8 @@ class EContact extends DAO {
      * EContact Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

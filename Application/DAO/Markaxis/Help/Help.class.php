@@ -1,6 +1,5 @@
 <?php
-namespace Markaxis;
-use \Application\DAO\DAO;
+namespace Markaxis\Help;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +8,7 @@ use \Application\DAO\DAO;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Help extends DAO {
+class Help extends \DAO {
 
 
     // Properties

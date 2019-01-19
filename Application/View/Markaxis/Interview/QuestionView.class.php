@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Interview;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -76,7 +75,6 @@ class QuestionView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( MODEL . 'Aurora/Component/QuestionModel.class.php' );
         $QuestionModel = \Aurora\QuestionModel::getInstance( );
         $questions = $QuestionModel->getList( );
         $count = 1;

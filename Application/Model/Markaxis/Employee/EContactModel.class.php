@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -13,7 +13,7 @@ class EContactModel extends \Model {
 
 
     // Properties
-
+    protected $EContact;
 
 
     /**
@@ -22,6 +22,8 @@ class EContactModel extends \Model {
      */
     function __construct( ) {
         parent::__construct( );
+
+        $this->EContact = new EContact( );
     }
 
 
@@ -30,9 +32,7 @@ class EContactModel extends \Model {
      * @return int
      */
     public function isFoundByUserID( $userID, $ecID ) {
-        File::import( DAO . 'Markaxis/Employee/EContact.class.php' );
-        $EContact = new EContact( );
-        return $EContact->isFoundByUserID( $userID, $ecID );
+        return $this->EContact->isFoundByUserID( $userID, $ecID );
     }
 
 
@@ -41,9 +41,7 @@ class EContactModel extends \Model {
      * @return int
      */
     public function getByUserID( $userID, $column ) {
-        File::import( DAO . 'Markaxis/Employee/EContact.class.php' );
-        $EContact = new EContact( );
-        return $EContact->getByUserID( $userID, $column );
+        return $this->EContact->getByUserID( $userID, $column );
     }
 
 
@@ -65,20 +63,15 @@ class EContactModel extends \Model {
         $ecID = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $size = sizeof( $ecID );
 
-        File::import( LIB . 'Validator/Validator.dll.php' );
-        File::import( DAO . 'Markaxis/Employee/EContact.class.php' );
-        $EContact = new EContact( );
-
         for( $i=0; $i<$size; $i++ ) {
             if( !$this->info['name'] = Validator::stripTrim( $data['eName_' . $i] ) ) {
 
                 if( $this->isFoundByUserID( $data['userID'], $data['ecID_' . $i] ) ) {
-                    $EContact->delete( 'employee_econtact', 'WHERE ecID = "' . (int)$data['ecID_' . $i] . '" AND
+                    $this->EContact->delete( 'employee_econtact', 'WHERE ecID = "' . (int)$data['ecID_' . $i] . '" AND
                                                                                 userID = "' . (int)$data['userID'] . '"' );
                 }
                 continue;
             }
-
             $this->info['relationship'] = Validator::stripTrim( $data['eRs_' . $i] );
             $this->info['phone'] = Validator::stripTrim( $data['ePhone_' . $i] );
             $this->info['mobile'] = Validator::stripTrim( $data['eMobile_' . $i] );
@@ -86,14 +79,14 @@ class EContactModel extends \Model {
             if( !$data['ecID_' . $i] || !$this->isFoundByUserID( $data['userID'], $data['ecID_' . $i] ) ) {
                 $this->info['userID'] = (int)$data['userID'];
                 $this->info['eID'] = (int)$data['eID'];
-                $EContact->insert( 'employee_econtact', $this->info );
+                $this->EContact->insert( 'employee_econtact', $this->info );
             }
             else {
                 // Check permission if can update own or somebody else
 
-                $EContact->update( 'employee_econtact', $this->info,
-                                  'WHERE ecID = "' . (int)$data['ecID_' . $i] . '" AND 
-                                                userID = "' . (int)$data['userID'] . '"' );
+                $this->EContact->update( 'employee_econtact', $this->info,
+                                      'WHERE ecID = "' . (int)$data['ecID_' . $i] . '" AND 
+                                                    userID = "' . (int)$data['userID'] . '"' );
             }
         }
     }

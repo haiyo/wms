@@ -1,7 +1,6 @@
 <?php
 namespace Aurora\Form;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -30,7 +29,6 @@ class ONOFFRadioView extends AuroraView {
     * @return str
     */
     public static function build( $name, $value ) {
-        File::import( VIEW . 'Aurora/Form/RadioView.class.php' );
         $RadioView = new RadioView( );
         return $RadioView->build( $name, OnOffHelper::getL10nList( ), $value );
     }

@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,8 @@ class CalendarControl {
 
 
     // Properties
+    protected $CalendarModel;
+    protected $CalendarView;
 
 
     /**
@@ -21,7 +22,8 @@ class CalendarControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->CalendarModel = CalendarModel::getInstance( );
+        $this->CalendarView = new CalendarView( );
     }
 
 
@@ -30,9 +32,7 @@ class CalendarControl {
      * @return str
      */
     public function settings( ) {
-        File::import( VIEW . 'Markaxis/Payroll/CalendarView.class.php' );
-        $CalendarView = new CalendarView( );
-        Control::setOutputArrayAppend( array( 'form' => $CalendarView->renderSettings( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->CalendarView->renderSettings( ) ) );
     }
 
 
@@ -43,9 +43,7 @@ class CalendarControl {
     public function getCalResults( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Markaxis/Payroll/CalendarModel.class.php' );
-        $CalendarModel = CalendarModel::getInstance( );
-        echo json_encode( $CalendarModel->getCalResults( $post ) );
+        echo json_encode( $this->CalendarModel->getCalResults( $post ) );
         exit;
     }
 
@@ -58,9 +56,7 @@ class CalendarControl {
         $post = Control::getRequest( )->request( POST );
         $vars = array( );
 
-        File::import( VIEW . 'Markaxis/Payroll/CalendarView.class.php' );
-        $CalendarView = new CalendarView( );
-        $vars['data'] = $CalendarView->renderEndDate( $post );
+        $vars['data'] = $this->CalendarView->renderEndDate( $post );
         echo json_encode( $vars );
         exit;
     }
@@ -74,9 +70,7 @@ class CalendarControl {
         $post = Control::getRequest( )->request( POST );
         $vars = array( );
 
-        File::import( VIEW . 'Markaxis/Payroll/CalendarView.class.php' );
-        $CalendarView = new CalendarView( );
-        $vars['data'] = $CalendarView->renderPaymentRecur( $post );
+        $vars['data'] = $this->CalendarView->renderPaymentRecur( $post );
         echo json_encode( $vars );
         exit;
     }
@@ -91,10 +85,7 @@ class CalendarControl {
         $vars = array( );
         $vars['bool'] = 0;
 
-        File::import( MODEL . 'Markaxis/Payroll/CalendarModel.class.php' );
-        $CalendarModel = CalendarModel::getInstance( );
-
-        if( $vars['data'] = $CalendarModel->savePayrun( $post ) ) {
+        if( $vars['data'] = $this->CalendarModel->savePayrun( $post ) ) {
             $vars['bool'] = 1;
         }
         echo json_encode( $vars );

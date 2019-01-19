@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -33,7 +32,6 @@ class TaxGroupView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxGroupModel.class.php' );
         $TaxGroupModel = TaxGroupModel::getInstance( );
         $this->TaxGroupModel = $TaxGroupModel;
 

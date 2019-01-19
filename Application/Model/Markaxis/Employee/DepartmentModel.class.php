@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,14 +12,17 @@ class DepartmentModel extends \Model {
 
 
     // Properties
+    protected $Department;
 
 
     /**
      * DepartmentModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Department = new Department( );
     }
 
 
@@ -29,9 +31,7 @@ class DepartmentModel extends \Model {
      * @return int
      */
     public function isFound( $edID ) {
-        File::import(DAO . 'Markaxis/Employee/Department.class.php');
-        $Department = new Department();
-        return $Department->isFound( $edID );
+        return $this->Department->isFound( $edID );
     }
 
 
@@ -40,9 +40,7 @@ class DepartmentModel extends \Model {
      * @return int
      */
     public function isFoundByUserID( $userID, $dID ) {
-        File::import(DAO . 'Markaxis/Employee/Department.class.php');
-        $Department = new Department();
-        return $Department->isFoundByUserID( $userID, $dID );
+        return $this->Department->isFoundByUserID( $userID, $dID );
     }
 
 
@@ -51,9 +49,7 @@ class DepartmentModel extends \Model {
      * @return mixed
      */
     public function getByUserID( $userID ) {
-        File::import(DAO . 'Markaxis/Employee/Department.class.php');
-        $Department = new Department();
-        return $Department->getByUserID( $userID );
+        return $this->Department->getByUserID( $userID );
     }
 
 
@@ -62,9 +58,7 @@ class DepartmentModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import(DAO . 'Markaxis/Employee/Department.class.php');
-        $Department = new Department();
-        return $Department->getList( );
+        return $this->Department->getList( );
     }
 
 
@@ -74,11 +68,7 @@ class DepartmentModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['department'] ) && is_array( $data['department'] ) && isset( $data['userID'] ) && $data['userID'] ) {
-            File::import( DAO . 'Aurora/Component/Department.class.php' );
             $DepartmentComponent = new \Aurora\Department( );
-
-            File::import( DAO . 'Markaxis/Employee/Department.class.php' );
-            $Department = new Department( );
 
             foreach( $data['department'] as $value ) {
                 if( $DepartmentComponent->isFound( $value ) && !$this->isFoundByUserID( $data['userID'], $value ) ) {
@@ -86,11 +76,11 @@ class DepartmentModel extends \Model {
                     $info['userID'] = (int)$data['userID'];
                     $info['eID'] = (int)$data['eID'];
                     $info['dID'] = (int)$value;
-                    $Department->insert( 'employee_department', $info );
+                    $this->Department->insert( 'employee_department', $info );
                 }
             }
-            $Department->delete( 'employee_department', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
-                                    dID NOT IN(' . addslashes( implode( ',', $data['department'] ) ) . ')' );
+            $this->Department->delete( 'employee_department', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
+                                        dID NOT IN(' . addslashes( implode( ',', $data['department'] ) ) . ')' );
         }
     }
 }

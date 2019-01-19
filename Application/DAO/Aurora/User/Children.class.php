@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\User;
-use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +8,7 @@ use \Application\DAO\DAO;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Children extends DAO {
+class Children extends \DAO {
 
 
     // Properties
@@ -21,7 +20,7 @@ class Children extends DAO {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+    }
 
 
     /**

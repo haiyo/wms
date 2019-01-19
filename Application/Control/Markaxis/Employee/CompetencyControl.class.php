@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -31,7 +31,6 @@ class CompetencyControl {
     public function save( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Employee/CompetencyModel.class.php' );
         $CompetencyModel = CompetencyModel::getInstance( );
         $CompetencyModel->save( $post );
     }

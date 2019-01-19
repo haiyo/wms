@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -25,7 +24,6 @@ class TaxGenderModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        File::import( DAO . 'Markaxis/Payroll/TaxGender.class.php' );
         $this->TaxGender = new TaxGender( );
     }
 

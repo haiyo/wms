@@ -1,10 +1,10 @@
 <?php
 namespace Filters\Aurora;
 use \Library\Security\Aurora\BruteForce;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\Security\Aurora\Authenticator;
 use \Library\Exception\Aurora\AuthLoginException;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -38,16 +38,13 @@ class AuthenticationFilter implements IFilter {
             $FilterChain->doFilter( $Request, $Response );
             return;
         }
-
         $Registry = Registry::getInstance( );
-        File::import( LIB . 'Security/Aurora/Authenticator.dll.php' );
         $Authenticator = new Authenticator( );
 
         if( $Response->getCode( ) == HttpResponse::HTTP_UNAUTHORIZED ) {
             if( $Request->request( POST, 'auroraLogin' ) ) {
                 try {
                     if( $Registry->get( HKEY_LOCAL, 'enableBF' ) ) {
-                        File::import( LIB . 'Security/Aurora/BruteForce.dll.php' );
                         $BruteForce = new BruteForce( );
                         if( $BruteForce->isExceeded( ) ) {
                             $Response->setCode( HttpResponse::HTTP_SERVICE_UNAVAILABLE );

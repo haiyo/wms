@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
-use \Library\IO\File;
+use \Library\Runtime\Registry, \Aurora\AuroraView;
+use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -33,7 +33,6 @@ class CompanyView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/CompanyRes');
 
-        File::import( MODEL . 'Markaxis/Company/CompanyModel.class.php' );
         $this->CompanyModel = CompanyModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
@@ -202,16 +201,12 @@ class CompanyView extends AuroraView {
             }
         }*/
 
-
-        File::import( MODEL . 'Markaxis/Company/CompanyTypeModel.class.php' );
         $CompanyTypeModel = CompanyTypeModel::getInstance( );
         $companyTypes = $CompanyTypeModel->getList( );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $companyTypeList = $SelectListView->build( 'companyType', $companyTypes, $this->info['companyType'], 'Select Company Type' );
         $countryList = $SelectListView->build( 'country', $countries, $this->info['companyCountry'], 'Select Country' );

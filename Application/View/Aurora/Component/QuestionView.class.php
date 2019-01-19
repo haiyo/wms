@@ -1,6 +1,5 @@
 <?php
 namespace Aurora;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -33,7 +32,6 @@ class QuestionView extends AuroraView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
         $this->YesNoRes = $this->i18n->loadLanguage('Aurora/Helper/YesNoRes');
 
-        File::import( MODEL . 'Aurora/Component/QuestionModel.class.php' );
         $this->QuestionModel = QuestionModel::getInstance( );
     }
 

@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class TaxGroupModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
-        File::import( DAO . 'Markaxis/Payroll/TaxGroup.class.php' );
         $this->TaxGroup = new TaxGroup( );
     }
 
@@ -119,8 +117,6 @@ class TaxGroupModel extends \Model {
      * @return mixed
      */
     public function saveTaxGroup( $data ) {
-        File::import(LIB . 'Validator/Validator.dll.php');
-
         $this->info['title'] = Validator::stripTrim( $data['groupTitle'] );
         $this->info['description'] = Validator::stripTrim( $data['groupDescription'] );
         $this->info['parent'] = (int)$data['parent'];

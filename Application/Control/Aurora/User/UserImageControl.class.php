@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -21,7 +21,6 @@ class UserImageControl {
      * @return void
      */
     function __construct( ) {
-        File::import( MODEL . 'Aurora/User/UserImageModel.class.php' );
         $this->UserImageModel = UserImageModel::getInstance( );
     }
 

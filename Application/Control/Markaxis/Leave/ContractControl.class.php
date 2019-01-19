@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class ContractControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Leave/ContractModel.class.php' );
         $ContractModel = ContractModel::getInstance( );
         $ContractModel->save( $post );
         Control::setPostData( $post );

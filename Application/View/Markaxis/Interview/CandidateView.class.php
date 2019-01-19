@@ -1,7 +1,6 @@
 <?php
-namespace Markaxis;
+namespace Markaxis\Interview;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -26,13 +25,14 @@ class CandidateView extends AuroraView {
     * CandidateView Constructor
     * @return void
     */
-    function __construct( CandidateModel $CandidateModel ) {
+    function __construct( ) {
         parent::__construct( );
 
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Interview/CandidateRes');
-        $this->CandidateModel = $CandidateModel;
+
+        $this->CandidateModel = CandidateModel::getInstance();;
     }
 
 

@@ -1,4 +1,5 @@
 <?php
+namespace Library\Util;
 
 /**
  * Project:     Securimage: A PHP class for creating and managing form CAPTCHA images<br />

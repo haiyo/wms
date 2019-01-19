@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class TaxControl {
     public function settings( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Payroll/TaxView.class.php' );
         $TaxView = new TaxView( );
         Control::setOutputArrayAppend( array( 'form' => $TaxView->renderSettings( $output ) ) );
     }

@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\AuroraView;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -33,7 +32,6 @@ class TaxComputingView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxComputingModel.class.php' );
         $TaxComputingModel = TaxComputingModel::getInstance( );
         $this->TaxComputingModel = $TaxComputingModel;
     }
@@ -44,7 +42,6 @@ class TaxComputingView extends AuroraView {
      * @return mixed
      */
     public function renderTaxRule( $taxRule ) {
-
         if( isset( $taxRule['trID'] ) && $computingInfo = $this->TaxComputingModel->getBytrID( $taxRule['trID'] ) ) {
 
             $criteriaSet = $age = $salary = $workforce = array( );

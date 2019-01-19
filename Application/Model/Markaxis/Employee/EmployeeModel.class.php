@@ -4,7 +4,7 @@ use \Library\IO\File;
 use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
-use \Date, \Validator;
+use \Library\Util\Date, \Library\Validator\Validator;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012

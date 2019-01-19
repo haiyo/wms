@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +8,7 @@ use \Application\DAO\DAO;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Department extends DAO {
+class Department extends \DAO {
 
 
     // Properties
@@ -19,8 +18,8 @@ class Department extends DAO {
      * Department Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

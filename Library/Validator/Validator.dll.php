@@ -1,4 +1,8 @@
 <?php
+namespace Library\Validator;
+use \Library\Interfaces\IValidator;
+use \Library\Exception\ValidatorException;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010

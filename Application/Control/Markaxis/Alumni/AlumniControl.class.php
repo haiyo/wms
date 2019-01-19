@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,10 +29,8 @@ class AlumniControl {
      * @return str
      */
     public function getMenu( $css ) {
-        File::import( MODEL . 'Markaxis/Alumni/AlumniModel.class.php' );
         $AlumniModel = AlumniModel::getInstance( );
 
-        File::import( VIEW . 'Markaxis/Alumni/AlumniView.class.php' );
         $AlumniView = new AlumniView( $AlumniModel );
         return $AlumniView->renderMenu( $css );
     }

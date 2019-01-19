@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Application\DAO\DAO;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,7 +7,7 @@ use \Application\DAO\DAO;
  * @version $Id: Page.class.php, v 2.0 Exp $
  */
 
-class Page extends DAO {
+class Page extends \DAO {
 
     // Properties
     

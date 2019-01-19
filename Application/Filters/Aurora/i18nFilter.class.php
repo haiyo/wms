@@ -1,8 +1,9 @@
 <?php
 namespace Filters\Aurora;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
-use \Library\Runtime\Registry, \IFilter, \FilterChain;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
 use \i18n;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -32,7 +33,6 @@ class i18nFilter implements IFilter {
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
         $Registry = Registry::getInstance( );
 
-        File::import( LANG . 'i18n.dll.php' );
         $i18n = new i18n('Aurora/languages.xml');
 
         if( $Request->request( GET, 'lang' ) ) {

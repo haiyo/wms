@@ -7,7 +7,6 @@ use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Comp
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
 use \Aurora\Component\DepartmentModel as A_DepartmentModel;
 use \Markaxis\Employee\DepartmentModel as M_DepartmentModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -34,13 +33,12 @@ class EmployeeView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-            parent::__construct( );
+        parent::__construct( );
 
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
         $this->EmployeeModel = EmployeeModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
@@ -100,8 +98,6 @@ class EmployeeView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
-        File::import( VIEW . 'Aurora/Form/DayIntListView.class.php' );
         $DayIntListView = new DayIntListView( );
         $SelectListView = new SelectListView( );
 
@@ -136,10 +132,8 @@ class EmployeeView extends AuroraView {
             $passExpiryYear  = $passExpiry[0];
         }
 
-        File::import( MODEL . 'Aurora/Component/DesignationModel.class.php' );
         $DesignationModel = DesignationModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/Form/SelectGroupListView.class.php' );
         $SelectGroupListView = new SelectGroupListView( );
         $pID = isset( $this->info['pID'] ) ? $this->info['pID'] : '';
         $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $pID, 'Select Designation' );
@@ -158,50 +152,39 @@ class EmployeeView extends AuroraView {
 
         $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), $this->info['currency'], 'Currency' );
 
-        File::import( MODEL . 'Aurora/Component/SalaryTypeModel.class.php' );
         $SalaryTypeModel = SalaryTypeModel::getInstance( );
         $stID = isset( $this->info['stID'] ) ? $this->info['stID'] : '';
         $SelectListView->setClass( 'salaryTypeList' );
         $salaryTypeList = $SelectListView->build( 'salaryType',  $SalaryTypeModel->getList( ), $stID, 'Salary Rate Type' );
 
-        File::import( MODEL . 'Aurora/Component/OfficeModel.class.php' );
         $OfficeModel = OfficeModel::getInstance( );
         $oID = isset( $this->info['oID'] ) ? $this->info['oID'] : '';
         $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $oID, 'Select Office (Location)' );
 
-        File::import( MODEL . 'Aurora/Component/ContractModel.class.php' );
         $ContractModel = ContractModel::getInstance( );
         $cID = isset( $this->info['cID'] ) ? $this->info['cID'] : '';
         $contractList = $SelectListView->build( 'contractType',  $ContractModel->getList( ), $cID, 'Select Contract Type' );
 
-        File::import( MODEL . 'Aurora/Component/PassTypeModel.class.php' );
         $PassTypeModel = PassTypeModel::getInstance( );
         $ptID = isset( $this->info['ptID'] ) ? $this->info['ptID'] : '';
         $passTypeList = $SelectGroupListView->build( 'passType',  $PassTypeModel->getList( ), $ptID, 'Select Pass Type' );
 
-        File::import( MODEL . 'Aurora/User/UserRoleModel.class.php' );
         $UserRoleModel = UserRoleModel::getInstance( );
-
-        File::import( MODEL . 'Aurora/User/RoleModel.class.php' );
         $RoleModel = RoleModel::getInstance( );
         $SelectListView->isMultiple( true );
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
         $roleList = $SelectListView->build( 'role',  $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
-        File::import( MODEL . 'Markaxis/Employee/SupervisorModel.class.php' );
         $SupervisorModel = SupervisorModel::getInstance( );
         $supervisors = $this->info['userID'] ? $SupervisorModel->getNameByUserID( $this->info['userID'] ) : '';
 
-        File::import( MODEL . 'Aurora/Component/DepartmentModel.class.php' );
         $ComponentDepartmentModel = A_DepartmentModel::getInstance( );
 
-        File::import( MODEL . 'Markaxis/Employee/DepartmentModel.class.php' );
         $DepartmentModel = M_DepartmentModel::getInstance( );
 
         $departmentList = $SelectListView->build( 'department',  $ComponentDepartmentModel->getList( ),
                                                     $DepartmentModel->getByUserID( $this->info['userID'] ), 'Select Department' );
 
-        File::import( MODEL . 'Markaxis/Employee/CompetencyModel.class.php' );
         $CompetencyModel = CompetencyModel::getInstance( );
         $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );
 

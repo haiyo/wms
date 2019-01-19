@@ -1,8 +1,7 @@
 <?php
 namespace Markaxis\Leave;
 use \Aurora\User\UserModel;
-use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class SupervisorModel extends \Model {
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import(DAO . 'Markaxis/Leave/Supervisor.class.php');
         $this->Supervisor = new Supervisor( );
     }
 
@@ -85,7 +83,6 @@ class SupervisorModel extends \Model {
             $supervisors = explode( ';', $data['supervisors'] );
 
             if( sizeof( $supervisors ) > 0 ) {
-                File::import( MODEL . 'Aurora/User/UserModel.class.php' );
                 $UserModel = new UserModel( );
 
                 foreach( $supervisors as $value ) {

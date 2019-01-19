@@ -1,11 +1,10 @@
 <?php
 namespace Markaxis\Company;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
- * @version $Id: CompanyTypeModel.class.php, v 2.0 Exp $
+ * @version $Id: OfficeModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
@@ -13,7 +12,7 @@ class OfficeModel extends \Model {
 
 
     // Properties
-    protected $Offce;
+    protected $Office;
 
 
     /**
@@ -23,7 +22,6 @@ class OfficeModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-        File::import( DAO . 'Markaxis/Company/Office.class.php' );
         $this->Office = new Office( );
 	}
 

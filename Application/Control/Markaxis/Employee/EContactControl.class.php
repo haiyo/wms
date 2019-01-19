@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,7 +29,6 @@ class EContactControl {
      * @return str
      */
     public function save( ) {
-        File::import( MODEL . 'Markaxis/Employee/EContactModel.class.php' );
         $EContactModel = EContactModel::getInstance( );
         $EContactModel->save( Control::getPostData( ) );
     }

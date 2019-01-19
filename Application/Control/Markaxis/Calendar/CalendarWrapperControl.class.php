@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -32,9 +32,6 @@ class CalendarWrapperControl {
         $tab    = isset( $output['tab']  ) ? $output['tab'] : '';
         $data   = isset( $output['data'] ) ? $output['data'] : '';
 
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Markaxis/Calendar/CalendarWrapperView.class.php' );
         $CalendarWrapperView = new CalendarWrapperView( );
 
         if( isset( $param[1] ) ) { // track calID and "permission"!
@@ -54,9 +51,6 @@ class CalendarWrapperControl {
         $tab    = isset( $output['tab']  ) ? $output['tab'] : '';
         $data   = isset( $output['data'] ) ? $output['data'] : '';
 
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Markaxis/Calendar/CalendarWrapperView.class.php' );
         $CalendarWrapperView = new CalendarWrapperView( );
 
         if( isset( $param[1] ) ) { // track eventID and "permission"!
@@ -77,9 +71,6 @@ class CalendarWrapperControl {
             $date[1] = $param[2];
             $date[2] = $param[3];
 
-            File::import( VIEW . 'Aurora/AuroraView.class.php' );
-            File::import( VIEW . 'Aurora/LightboxView.class.php' );
-            File::import( VIEW . 'Markaxis/Calendar/CalendarWrapperView.class.php' );
             $CalendarWrapperView = new CalendarWrapperView( );
             $LightboxView = LightboxView::getInstance( );
             $LightboxView->printAll( $CalendarWrapperView->renderAgendaWrapper( $date, Control::getOutputArray( ) ) );

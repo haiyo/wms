@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\AuroraView, \Library\Helper\Aurora\GenderHelper;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -33,7 +32,6 @@ class TaxRuleWrapperView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxRuleWrapperModel.class.php' );
         $TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
         $this->TaxRuleWrapperModel = $TaxRuleWrapperModel;
     }

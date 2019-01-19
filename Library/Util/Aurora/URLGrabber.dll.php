@@ -1,7 +1,5 @@
 <?php
-namespace Aurora;
-use \URLSanitizer, \Validator, \ValidatorException;
-use \Library\IO\File;
+namespace Library\Util\Aurora;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

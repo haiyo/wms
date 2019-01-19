@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Form;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -29,7 +28,6 @@ class UserListView extends SelectListView {
     * @return str
     */
     public function getList( $userList ) {
-        File::import( DAO . 'Aurora/User.class.php' );
         $User = new User( );
         $user = $User->getUserList( );
         return $this->build( 'users', $user, $userList );

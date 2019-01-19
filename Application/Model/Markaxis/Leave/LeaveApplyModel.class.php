@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\LeaveBalanceModel, \Markaxis\Employee\EmployeeModel;
-use \Library\IO\File;
 use \Library\Util\Date;
 use \DateTime;
 
@@ -29,7 +28,6 @@ class LeaveApplyModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        File::import( DAO . 'Markaxis/Leave/LeaveApply.class.php' );
         $this->LeaveApply = new LeaveApply( );
     }
 
@@ -119,17 +117,12 @@ class LeaveApplyModel extends \Model {
             $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
             return false;
         }
-
-        File::import( MODEL . 'Markaxis/Employee/LeaveBalanceModel.class.php' );
         $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
 
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         if( $balInfo = $LeaveBalanceModel->getByltIDUserID( $data['ltID'], $userInfo['userID'] ) ) {
-            File::import(LIB . 'Util/Date.dll.php');
-            File::import(LIB . 'Validator/Validator.dll.php');
-
             if( isset( $data['startDate'] ) && isset( $data['endDate'] ) ) {
                 $startDate = DateTime::createFromFormat('d M Y', $data['startDate'] );
                 $endDate = DateTime::createFromFormat('d M Y', $data['endDate'] );
@@ -170,17 +163,13 @@ class LeaveApplyModel extends \Model {
             $data['startDate'] && $data['endDate'] && $data['startTime'] && $data['endTime'] ) {
 
             // Get leave type to check if half day allowed
-            File::import( MODEL . 'Markaxis/Leave/TypeModel.class.php' );
             $TypeModel = TypeModel::getInstance( );
 
             if( $typeInfo = $TypeModel->getByID( $data['ltID'] ) ) {
-
-                File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
                 $EmployeeModel = EmployeeModel::getInstance( );
                 $empInfo = $EmployeeModel->getInfo( );
 
                 // Get office time shift
-                File::import( MODEL . 'Markaxis/Leave/OfficeModel.class.php' );
                 $OfficeModel = OfficeModel::getInstance( );
 
                 if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['oID'] ) ) {
@@ -250,7 +239,6 @@ class LeaveApplyModel extends \Model {
      * @return str
      */
     public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
-        File::import(LIB . 'Util/Date.dll.php' );
         return Date::daysDiff( $startDate, $endDate, true );
     }
 }

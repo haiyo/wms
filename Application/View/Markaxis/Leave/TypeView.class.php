@@ -6,7 +6,6 @@ use \Library\Helper\Aurora\YesNoHelper, \Aurora\Component\CountryModel, \Aurora\
 use \Library\Helper\Markaxis\ProRatedHelper, \Library\Helper\Markaxis\HalfDayHelper, \Library\Helper\Markaxis\PaidLeaveHelper;
 use \Library\Helper\Markaxis\AppliedHelper, \Library\Helper\Markaxis\UnusedLeaveHelper;
 use \Library\Helper\Markaxis\LeavePeriodHelper, \Library\Helper\Markaxis\CarryPeriodHelper;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -38,7 +37,6 @@ class TypeView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        File::import( MODEL . 'Markaxis/Leave/TypeModel.class.php' );
         $this->TypeModel = TypeModel::getInstance( );
     }
 
@@ -81,14 +79,12 @@ class TypeView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( VIEW . 'Aurora/Form/RadioView.class.php' );
         $RadioView = new RadioView( );
         $proRated = $RadioView->build( 'proRated', ProRatedHelper::getL10nList( ), $this->info['proRated'] );
         $halfDayRadio = $RadioView->build( 'halfDay', HalfDayHelper::getL10nList( ), $this->info['halfDay'] );
         $paidLeave = $RadioView->build( 'paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
         $childCare = $RadioView->build( 'childCare', YesNoHelper::getL10nList( ), 0 );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
 
         $appliedList = $SelectListView->build( 'applied', AppliedHelper::getL10nList( ), $this->info['applied'] );
@@ -105,16 +101,13 @@ class TypeView extends AuroraView {
         $gender = $this->info['gender'] == 'all' ? $this->info['gender'] : explode(',', $this->info['gender'] );
         $genderList = $SelectListView->build( 'gender', GenderHelper::getL10nList( ), $gender );
 
-        File::import( VIEW . 'Aurora/Form/SelectGroupListView.class.php' );
-        File::import( VIEW . 'Markaxis/Form/DesignationListView.class.php' );
         $SelectGroupListView = new DesignationListView( );
         $SelectGroupListView->isMultiple( true );
-        File::import( MODEL . 'Aurora/Component/DesignationModel.class.php' );
+
         $DesignationModel = DesignationModel::getInstance( );
         $designation = $this->info['designation'] == 'all' ? $this->info['designation'] : explode(',', $this->info['designation'] );
         $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $designation );
 
-        File::import( MODEL . 'Aurora/Component/ContractModel.class.php' );
         $ContractModel = ContractModel::getInstance( );
         $contract = $this->info['contract'] == 'all' ? $this->info['contract'] : explode(',', $this->info['contract'] );
 
@@ -122,16 +115,13 @@ class TypeView extends AuroraView {
         //$childrenList = $SelectListView->build( 'haveChild', YesNoHelper::getL10nList( ), $this->info['haveChild'] );
         $childrenList = $RadioView->build( 'haveChild', YesNoHelper::getL10nList( ), $this->info['haveChild'] );
 
-        File::import( MODEL . 'Aurora/Component/OfficeModel.class.php' );
         $OfficeModel = OfficeModel::getInstance( );
         $office = $this->info['office'] == 'all' ? $this->info['office'] : explode(',', $this->info['office'] );
         $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $office );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $childCountryList = $SelectListView->build( 'childBorn', $countries, $this->info['childBorn'], 'Select a Country' );
 

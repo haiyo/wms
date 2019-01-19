@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Attendance;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

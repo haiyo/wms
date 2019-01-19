@@ -1,4 +1,6 @@
 <?php
+namespace Library\Util;
+use \Library\Interfaces\IFilter;
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 
 /**

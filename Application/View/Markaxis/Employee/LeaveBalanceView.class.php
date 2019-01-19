@@ -1,8 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
-use \Aurora\Component\OfficeModel, \Aurora\Component\CountryModel;
-use \Library\IO\File;
+use \Aurora\AuroraView;
 use \Library\Runtime\Registry;
 
 /**
@@ -34,7 +32,6 @@ class LeaveBalanceView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        File::import( MODEL . 'Markaxis/Employee/LeaveBalanceModel.class.php' );
         $this->LeaveBalanceModel = LeaveBalanceModel::getInstance( );
     }
 }

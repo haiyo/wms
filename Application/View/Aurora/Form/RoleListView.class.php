@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Form;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -39,7 +38,6 @@ class RoleListView extends MultiListView {
     * @return str
     */
     public function getList( $roleList='', $withAdmin=false, $withHeader=false, $id='roles', $extras=array( ) ) {
-        File::import( DAO . 'Aurora/Role.class.php' );
         $Role = new Role( );
         $roles = $Role->getRoleList( );
         if( !$withAdmin ) unset( $roles[1] ); // Perhaps to be in the model...
@@ -52,7 +50,6 @@ class RoleListView extends MultiListView {
             }
         }
         if( $this->cropTextChar ) {
-            File::import( LIB . 'Util/MXString.dll.php' );
             array_walk_recursive( $roles, array( $this, 'recurCrop' ) );
         }
         ksort( $roles );

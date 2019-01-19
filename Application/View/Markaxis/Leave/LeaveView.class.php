@@ -3,7 +3,6 @@ namespace Markaxis\Leave;
 use \Aurora\AuroraView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\ApplyForHelper;
 use \Markaxis\Employee\SupervisorModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -35,7 +34,6 @@ class LeaveView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        File::import( MODEL . 'Markaxis/Leave/LeaveModel.class.php' );
         $LeaveModel = LeaveModel::getInstance( );
         $this->LeaveModel = $LeaveModel;
     }
@@ -49,13 +47,11 @@ class LeaveView extends AuroraView {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $leaveTypeList = $SelectListView->build( 'ltID', $this->LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        File::import( MODEL . 'Markaxis/Employee/SupervisorModel.class.php' );
         $SupervisorModel = SupervisorModel::getInstance( );
         $supervisors = $SupervisorModel->getNameByUserID( $userInfo['userID'] );
 
@@ -74,15 +70,17 @@ class LeaveView extends AuroraView {
      * @return str
      */
     public function renderBalance( ) {
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
+        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js',
+                                                                        'checkboxes.min.js',
+                                                                        'mark.min.js'),
                                   'plugins/visualization/d3' => array( 'd3.min.js', 'd3_tooltip.js' ),
                                   'jquery' => array( 'mark.min.js' ) ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
         $this->setBreadcrumbs( array( 'link' => '',
-            'icon' => 'mi-schedule',
-            'text' => $this->L10n->getContents('LANG_BALANCE_STATUS') ) );
+                                      'icon' => 'mi-schedule',
+                                      'text' => $this->L10n->getContents('LANG_BALANCE_STATUS') ) );
 
         return $this->render( 'markaxis/leave/balance.tpl', $vars );
     }

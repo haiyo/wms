@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Application\DAO\DAO;
 use \Library\Http\HttpRequest, \Library\Util\UserAgent;
 
 /**
@@ -9,7 +8,7 @@ use \Library\Http\HttpRequest, \Library\Util\UserAgent;
  * @version $Id: Session.class.php, v 2.0 Exp $
  */
 
-class Session extends DAO {
+class Session extends \DAO {
 
 
     // Properties

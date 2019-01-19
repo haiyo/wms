@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class OfficeControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        File::import( MODEL . 'Markaxis/Leave/OfficeModel.class.php' );
         $OfficeModel = OfficeModel::getInstance( );
         $OfficeModel->save( $post );
         Control::setPostData( $post );

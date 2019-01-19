@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class TaxRuleControl {
 
 
     // Properties
+    protected $TaxRuleModel;
 
 
     /**
@@ -21,7 +21,7 @@ class TaxRuleControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxRuleModel = new TaxRuleModel( );
     }
 
 
@@ -31,9 +31,7 @@ class TaxRuleControl {
      */
     public function getTaxRule( $data ) {
         if( isset( $data[1] ) ) {
-            File::import(MODEL . 'Markaxis/Payroll/TaxRuleModel.class.php');
-            $TaxRuleModel = new TaxRuleModel( );
-            Control::setOutputArray( $TaxRuleModel->getBytrID( $data[1] ) );
+            Control::setOutputArray( $this->TaxRuleModel->getBytrID( $data[1] ) );
         }
     }
 
@@ -43,9 +41,7 @@ class TaxRuleControl {
      * @return str
      */
     public function getAll( ) {
-        File::import(MODEL . 'Markaxis/Payroll/TaxRuleModel.class.php');
-        $TaxRuleModel = new TaxRuleModel( );
-        Control::setOutputArray( $TaxRuleModel->getAll( ) );
+        Control::setOutputArray( $this->TaxRuleModel->getAll( ) );
     }
 
 
@@ -57,15 +53,12 @@ class TaxRuleControl {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
         $vars = array( );
 
-        File::import( MODEL . 'Markaxis/Payroll/TaxRuleModel.class.php' );
-        $TaxRuleModel = TaxRuleModel::getInstance( );
-
-        if( $post['trID'] = $TaxRuleModel->saveTaxRule( $post ) ) {
+        if( $post['trID'] = $this->TaxRuleModel->saveTaxRule( $post ) ) {
             Control::setPostData( $post );
         }
         else {
             $vars['bool'] = 0;
-            $vars['errMsg'] = $TaxRuleModel->getErrMsg( );
+            $vars['errMsg'] = $this->TaxRuleModel->getErrMsg( );
             echo json_encode( $vars );
             exit;
         }

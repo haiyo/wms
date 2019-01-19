@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -29,7 +28,6 @@ class PermissionModel extends \Model {
     * @return mixed
     */
     public function getAll( ) {
-        File::import( DAO . 'Aurora/User/Permission.class.php' );
         $Permission = new Permission( );
         return $Permission->getAll( );
     }

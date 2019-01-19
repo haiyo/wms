@@ -1,6 +1,7 @@
 <?php
 use Library\Helper\SingletonHelper;
 use \Library\Runtime\Registry;
+use \Library\Interfaces\IObserver;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-abstract class Model extends SingletonHelper implements IObservable {
+abstract class Model extends SingletonHelper {
 
 
     // Properties

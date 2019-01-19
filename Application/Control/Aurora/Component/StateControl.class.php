@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -31,7 +31,6 @@ class StateControl {
     public function stateList( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/Component/StateModel.class.php' );
         $StateModel = StateModel::getInstance( );
         echo json_encode( $StateModel->getList( $post ) );
         exit;

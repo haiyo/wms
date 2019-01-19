@@ -1,9 +1,10 @@
 <?php
 namespace Filters\Markaxis;
-use \Library\IO\File, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
+use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Markaxis\Employee\EmployeeModel;
 use \Aurora\User\UserModel;
-use \IFilter, \FilterChain;
+use \Library\Interfaces\IFilter, \Library\Util\FilterChain;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Sunday, July 29, 2012
@@ -31,11 +32,9 @@ class EmployeeFilter implements IFilter {
     * @return void
     */
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
-        File::import( MODEL . 'Markaxis/Employee/EmployeeModel.class.php' );
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getFieldByUserID( $userInfo['userID'], '*' );
 

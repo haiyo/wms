@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -72,10 +71,7 @@ class PageView {
         $dropletCount = sizeof( $droplets );
 
         if( $dropletCount > 0 ) {
-            File::import( MODEL . 'Aurora/Droplet/DropletModel.class.php' );
             $DropletModel = new DropletModel( );
-
-            File::import( VIEW . 'Aurora/Droplet/DropletView.class.php' );
             $DropletView = new DropletView( $DropletModel );
 
             for( $i=0; $i<$dropletCount; $i++ ) {

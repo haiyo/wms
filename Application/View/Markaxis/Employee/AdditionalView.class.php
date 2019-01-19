@@ -4,7 +4,6 @@ use \Aurora\AuroraView, \Aurora\Form\SelectListView;
 use \Aurora\Component\RecruitSourceModel;
 use \Library\Helper\Aurora\RelationshipHelper;
 use \Library\Runtime\Registry;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -37,7 +36,6 @@ class AdditionalView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/AdditionalRes');
 
-        File::import( MODEL . 'Markaxis/Employee/AdditionalModel.class.php' );
         $this->AdditionalModel = AdditionalModel::getInstance( );
     }
 
@@ -60,7 +58,6 @@ class AdditionalView extends AuroraView {
         $existInfo = $this->AdditionalModel->getByUserID( $userID, '*' );
         $this->info = $existInfo ? $existInfo : $this->AdditionalModel->getInfo( );
 
-        File::import( MODEL . 'Markaxis/Employee/EContactModel.class.php' );
         $EContactModel = EContactModel::getInstance( );
         $this->eContactInfo = $EContactModel->getByUserID( $userID, '*' );
 
@@ -73,10 +70,7 @@ class AdditionalView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
-
-        File::import( MODEL . 'Aurora/Component/RecruitSourceModel.class.php' );
         $RecruitSourceModel = RecruitSourceModel::getInstance( );
         $rsID = isset( $this->info['rsID'] ) ? $this->info['rsID'] : '';
         $rsList = $SelectListView->build( 'recruitSource',  $RecruitSourceModel->getList( ), $rsID, 'Select Recruitment Source' );

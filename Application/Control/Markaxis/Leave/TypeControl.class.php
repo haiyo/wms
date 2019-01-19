@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -32,7 +31,6 @@ class TypeControl {
     public function settings( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Leave/TypeView.class.php' );
         $TypeView  = new TypeView( );
         Control::setOutputArrayAppend( array( 'form' => $TypeView->renderSettings( ) ) );
     }
@@ -45,7 +43,6 @@ class TypeControl {
     public function addType( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Leave/TypeView.class.php' );
         $TypeView  = new TypeView( );
         Control::setOutputArrayAppend( array( 'form' => $TypeView->renderAddType( ) ) );
     }
@@ -58,7 +55,6 @@ class TypeControl {
     public function editType( $args ) {
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Markaxis/Leave/TypeView.class.php' );
         $TypeView  = new TypeView( );
         Control::setOutputArrayAppend( array( 'form' => $TypeView->renderEditType( $ltID ) ) );
     }
@@ -71,7 +67,6 @@ class TypeControl {
     public function saveType( ) {;
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        File::import( MODEL . 'Markaxis/Leave/TypeModel.class.php' );
         $TypeModel = TypeModel::getInstance( );
 
         if( $post['ltID'] = $TypeModel->save( $post ) ) {

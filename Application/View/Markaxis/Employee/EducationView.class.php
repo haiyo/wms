@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Aurora\AuroraView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
 use \Aurora\Component\CountryModel, \Aurora\Component\UploadModel;
 use \Library\Runtime\Registry;
@@ -35,7 +34,6 @@ class EducationView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        File::import( MODEL . 'Markaxis/Employee/EducationModel.class.php' );
         $this->EducationModel = EducationModel::getInstance( );
     }
 
@@ -66,12 +64,10 @@ class EducationView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
         $SelectListView = new SelectListView( );
         $eduFromMonthList = $SelectListView->build( 'eduFromMonth', MonthHelper::getL10nShortList( ), '', 'Month' );
         $eduToMonthList = $SelectListView->build( 'eduToMonth', MonthHelper::getL10nShortList( ), '', 'Month' );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
         $eduCountryList  = $SelectListView->build( 'eduCountry', $countries, '', 'Choose a Country' );
@@ -82,7 +78,6 @@ class EducationView extends AuroraView {
                         'TPLVAR_EDU_FROM_YEAR' => '',
                         'TPLVAR_EDU_TO_YEAR' => '' );
 
-        File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
         $UploadModel = new UploadModel( );
 
         $vars['dynamic']['education'] = false;

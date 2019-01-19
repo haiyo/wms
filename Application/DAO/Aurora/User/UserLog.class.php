@@ -1,8 +1,6 @@
 <?php
 namespace Aurora\User;
-use \Application\DAO\DAO;
-use \Library\IO\File;
-use \Library\Util\UserAgent, \Library\Util\IP;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -10,7 +8,7 @@ use \Library\Util\UserAgent, \Library\Util\IP;
  * @desc User Log Management
 */
 
-class UserLog extends DAO {
+class UserLog extends \DAO {
 
 
     // Properties

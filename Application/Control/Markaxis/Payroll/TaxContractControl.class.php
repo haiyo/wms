@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -14,6 +13,7 @@ class TaxContractControl {
 
 
     // Properties
+    protected $TaxContractModel;
 
 
     /**
@@ -21,7 +21,7 @@ class TaxContractControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TaxContractModel = TaxContractModel::getInstance( );
     }
 
 
@@ -33,9 +33,7 @@ class TaxContractControl {
         $taxRule = Control::getOutputArray( );
 
         if( isset( $taxRule['trID'] ) ) {
-            File::import( MODEL . 'Markaxis/Payroll/TaxContractModel.class.php' );
-            $TaxContractModel = TaxContractModel::getInstance( );
-            Control::setOutputArray( array( 'contract' => $TaxContractModel->getBytrID( $taxRule['trID'] ) ) );
+            Control::setOutputArray( array( 'contract' => $this->TaxContractModel->getBytrID( $taxRule['trID'] ) ) );
         }
     }
 
@@ -46,10 +44,7 @@ class TaxContractControl {
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
-
-        File::import( MODEL . 'Markaxis/Payroll/TaxContractModel.class.php' );
-        $TaxContractModel = TaxContractModel::getInstance( );
-        Control::setOutputArray( $TaxContractModel->getAll( $taxRules ) );
+        Control::setOutputArray( $this->TaxContractModel->getAll( $taxRules ) );
     }
 
 
@@ -58,9 +53,7 @@ class TaxContractControl {
      * @return str
      */
     public function saveTaxRule( ) {
-        File::import( MODEL . 'Markaxis/Payroll/TaxContractModel.class.php' );
-        $TaxContractModel = TaxContractModel::getInstance( );
-        $TaxContractModel->saveTaxRule( Control::getPostData( ) );
+        $this->TaxContractModel->saveTaxRule( Control::getPostData( ) );
     }
 }
 ?>

@@ -1,7 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
-use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -21,7 +20,7 @@ class NotFoundControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**
@@ -29,10 +28,7 @@ class NotFoundControl {
      * @return void
      */
     public function notFound( ) {
-        File::import( MODEL . 'Aurora/Page/NotFoundModel.class.php' );
         $NotFoundModel = NotFoundModel::getInstance( );
-
-        File::import( VIEW . 'Aurora/Page/NotFoundView.class.php' );
         $NotFoundView = new NotFoundView( $NotFoundModel );
         $NotFoundView->printAll( $NotFoundView->renderPage( ) );
     }

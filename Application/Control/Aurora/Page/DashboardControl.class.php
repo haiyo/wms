@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -21,7 +21,7 @@ class DashboardControl {
     */
     function __construct( ) {
         //
-	}
+    }
 
 
     /**
@@ -29,7 +29,6 @@ class DashboardControl {
     * @return void
     */
     public function getMenu( $css ) {
-        File::import( VIEW . 'Aurora/Page/DashboardView.class.php' );
         $DashboardView = new DashboardView( );
         return $DashboardView->renderMenu( $css );
     }
@@ -42,7 +41,6 @@ class DashboardControl {
     public function dashboard( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Aurora/Page/DashboardView.class.php' );
         $DashboardView = new DashboardView( );
         $DashboardView->printAll( $DashboardView->renderDashboard( $output ) );
     }

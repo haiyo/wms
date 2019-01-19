@@ -1,7 +1,6 @@
 <?php
-namespace Markaxis;
-use \Library\IO\File;
-use \Validator;
+namespace Markaxis\Interview;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -32,7 +31,6 @@ class QuestionModel extends \Model {
      * @return int
      */
     public function isFound( $qsID ) {
-        File::import( DAO . 'Markaxis/Interview/Question.class.php' );
         $Question = new Question( );
         return $Question->isFound( $qsID );
     }
@@ -43,7 +41,6 @@ class QuestionModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Markaxis/Interview/Question.class.php' );
         $Question = new Question( );
         return $Question->getList( );
     }

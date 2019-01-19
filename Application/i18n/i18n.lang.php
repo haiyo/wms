@@ -1,13 +1,14 @@
 <?php
 use \Library\IO\File;
 use \Library\Util\XML;
-use \Library\Exception\FileNotFoundException, \Library\Exception\InterfaceException;
+use \Library\Exception\FileNotFoundException;
+use \Library\Exception\InterfaceException;
 
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, July  30, 2012
- * @version $Id: i18n.dll.php, v 2.0 Exp $
+ * @version $Id: Locale.lang.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
@@ -39,7 +40,6 @@ class i18n {
     private function loadConfig( $xmlconfig ) {
         try {
             // Start loading XML for Filters information
-            File::import( LIB . 'Util/XML.dll.php' );
             $XML = new XML( );
             $XMLElement = $XML->load( XML . $xmlconfig );
             $sizeof = sizeof( $XMLElement->language );
@@ -106,7 +106,6 @@ class i18n {
             $file    = LANG . $this->userLang . '/' . $langFile . '.lang.php';
 
             if( is_file( $resFile ) && is_file( $file ) ) {
-                File::import( LANG .'ResBundle.dll.php' );
                 File::import( $resFile );
                 File::import( $file );
 

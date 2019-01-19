@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 use \Control;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -29,7 +29,6 @@ class UserControl {
      * @return str
      */
     public function add( ) {
-        File::import( VIEW . 'Aurora/User/UserView.class.php' );
         $UserView = new UserView( );
         Control::setOutputArrayAppend( array( 'form' => $UserView->renderAdd( ) ) );
     }
@@ -42,7 +41,6 @@ class UserControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Aurora/User/UserView.class.php' );
         $UserView = new UserView( );
         Control::setOutputArrayAppend( array( 'form' => $UserView->renderEdit( $userID ) ) );
     }
@@ -61,7 +59,6 @@ class UserControl {
         if( $UserModel->isValid( $post ) ) {
             $post['userID'] = $UserModel->save( );
 
-            File::import( MODEL . 'Aurora/User/ChildrenModel.class.php' );
             $ChildrenModel = new ChildrenModel( );
             $ChildrenModel->save( $post );
 
@@ -83,7 +80,6 @@ class UserControl {
     public function setSuspendStatus( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = UserModel::getInstance( );
 
         $vars = array( );

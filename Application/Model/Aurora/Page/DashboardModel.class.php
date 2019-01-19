@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -21,17 +20,6 @@ class DashboardModel extends \Model {
      */
     function __construct( ) {
         parent::__construct( );
-    }
-
-
-    /**
-     * Retrieve a Page Information
-     * @return mixed
-     */
-    public function getMenu( ) {
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Menu = new Menu( );
-        return $Menu->getMenuInfo( );
     }
 }
 ?>

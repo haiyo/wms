@@ -608,60 +608,6 @@
             }
         }
 
-        // Apply "Back" and "Next" button styling
-        $('.stepy-step').find('.button-next').addClass('btn btn-primary btn-next');
-        $('.stepy-step').find('.button-back').addClass('btn btn-default');
-
-        $("#dobMonth").select2({minimumResultsForSearch: -1});
-        $("#dobDay").select2({minimumResultsForSearch: -1});
-        $("#country").select2( );
-        $("#state").select2( );
-        $("#city").select2( );
-        $("#designation").select2( );
-        $("#department").select2( );
-        $("#currency").select2( );
-        $("#confirmMonth").select2( );
-        $("#confirmDay").select2( );
-        $("#startMonth").select2( );
-        $("#startDay").select2( );
-        $("#endMonth").select2( );
-        $("#endDay").select2( );
-        $("#passType").select2( );
-        $("#passExpiryMonth").select2( );
-        $("#passExpiryDay").select2( );
-        $("#eduCountry").select2( );
-        $("#eduFromMonth").select2( );
-        $("#eduToMonth").select2( );
-        $("#expFromMonth").select2( );
-        $("#expToMonth").select2( );
-        $("#recruitSource").select2( );
-        $(".relationship").select2( );
-        $(".childSelect").select2( );
-
-        $(".raceList").select2({minimumResultsForSearch: -1});
-        $(".maritalList").select2({minimumResultsForSearch: -1});
-        $(".salaryTypeList").select2({minimumResultsForSearch: -1});
-        $(".paymentMethodList").select2({minimumResultsForSearch: -1});
-
-        $("#pcID").select2();
-        $("#tgID").multiselect({includeSelectAllOption: true});
-        $("#ltID").multiselect({includeSelectAllOption: true});
-
-        $(".styled").uniform({
-            radioClass: 'choice'
-        });
-
-        $(".file-styled").uniform({
-            fileButtonClass: 'action btn bg-blue'
-        });
-
-        $("#showPwd").on("mousedown", function() {
-            $("#loginPassword").attr("type", "text");
-
-        }).on("mouseup", function() {
-            $("#loginPassword").attr("type", "password");
-        });
-
         //======== Supervisors =====
 
         // Use Bloodhound engine

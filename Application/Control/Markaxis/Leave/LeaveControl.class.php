@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -30,7 +29,6 @@ class LeaveControl {
      * @return str
      */
     public function dashboard( ) {
-        File::import( VIEW . 'Markaxis/Leave/LeaveView.class.php' );
         $LeaveView = new LeaveView( );
         Control::setOutputArrayAppend( $LeaveView->renderApplyForm( ) );
     }
@@ -43,7 +41,6 @@ class LeaveControl {
     public function balance( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Leave/LeaveView.class.php' );
         $LeaveView  = new LeaveView( );
         $LeaveView->printAll( $LeaveView->renderBalance( ) );
     }
@@ -56,7 +53,6 @@ class LeaveControl {
     public function settings( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Leave/LeaveView.class.php' );
         $LeaveView  = new LeaveView( );
         $LeaveView->printAll( $LeaveView->renderSettings( $output['form'] ) );
     }
@@ -69,7 +65,6 @@ class LeaveControl {
     public function addType( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Markaxis/Leave/LeaveView.class.php' );
         $LeaveView  = new LeaveView( );
         $LeaveView->printAll( $LeaveView->renderTypeForm( $output['form'] ) );
     }
@@ -83,7 +78,6 @@ class LeaveControl {
         $output = Control::getOutputArray( );
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        File::import( VIEW . 'Markaxis/Leave/LeaveView.class.php' );
         $LeaveView  = new LeaveView( );
         $LeaveView->printAll( $LeaveView->renderTypeForm( $output['form'], $ltID ) );
     }

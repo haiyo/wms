@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Component\CompetencyModel;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,7 +25,6 @@ class TaxCompetencyModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        File::import( DAO . 'Markaxis/Payroll/TaxCompetency.class.php' );
         $this->TaxCompetency = new TaxCompetency( );
     }
 
@@ -99,7 +97,6 @@ class TaxCompetencyModel extends \Model {
         $cInfo['trID'] = (int)$data['trID'];
 
         if( isset( $data['competency'] ) && strlen( trim( $data['competency'] ) ) > 0 ) {
-            File::import(MODEL . 'Aurora/Component/CompetencyModel.class.php');
             $CompetencyModel = CompetencyModel::getInstance();
             $competencies = $CompetencyModel->save( $data['competency'] );
         }

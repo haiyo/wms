@@ -2,7 +2,8 @@
 namespace Markaxis\Employee;
 use \Library\IO\File;
 use \Aurora\Component\UploadModel;
-use \Date, \Uploader, \Validator;
+use \Library\Util\Date, \Library\Util\Uploader, \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012

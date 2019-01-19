@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Company;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -23,7 +22,6 @@ class CompanyTypeModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-        File::import( DAO . 'Markaxis/Company/CompanyType.class.php' );
         $this->CompanyType = new CompanyType( );
 	}
 
