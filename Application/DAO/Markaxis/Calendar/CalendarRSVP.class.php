@@ -19,8 +19,8 @@ class CalendarRSVP extends \DAO {
     * @return void
     */
     function __construct( ) {
-        parent::__construct();
-	}
+        parent::__construct( );
+    }
 
 
     /**

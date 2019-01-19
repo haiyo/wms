@@ -20,7 +20,7 @@ class Calendar extends \DAO {
     */
     function __construct( ) {
         parent::__construct();
-	}
+    }
 
 
     /**

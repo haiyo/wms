@@ -18,8 +18,8 @@ class Office extends \DAO {
      * Office Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

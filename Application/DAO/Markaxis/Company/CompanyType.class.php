@@ -18,8 +18,8 @@ class CompanyType extends \DAO {
      * CompanyType Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 

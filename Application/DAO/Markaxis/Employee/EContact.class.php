@@ -18,8 +18,8 @@ class EContact extends \DAO {
      * EContact Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
     }
 
 
