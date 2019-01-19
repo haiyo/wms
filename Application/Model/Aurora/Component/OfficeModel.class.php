@@ -1,7 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
-use \Aurora\Component\CountryModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -21,11 +19,9 @@ class OfficeModel extends \Model {
      * OfficeModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
 
-        File::import( DAO . 'Aurora/Component/Office.class.php' );
         $this->Office = new Office( );
     }
 
@@ -56,7 +52,6 @@ class OfficeModel extends \Model {
         $list = $this->Office->getList( );
         $newList = array( );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
 

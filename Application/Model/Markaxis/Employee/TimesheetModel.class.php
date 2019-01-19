@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\Util\Date, \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -58,7 +57,6 @@ class TimesheetModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Markaxis/Employee/Employee.class.php' );
         $Employee = new Employee( );
         return $Employee->getList( );
     }

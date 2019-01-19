@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
-use \Uploader, \ImageManipulation;
+use \Library\Util\Uploader, \Library\Util\ImageManipulation;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -67,7 +67,7 @@ class LogoModel extends \Model {
         $this->fileInfo['hashDir'] = MD5( date('Y-m-d') );
         $dir = $this->dir . $this->fileInfo['hashDir'] . '/';
         File::createDir( $dir );
-        File::import( LIB . 'Util/Uploader.dll.php' );
+
         $Uploader = new Uploader( array( 'uploadDir' => $dir ) );
         if( $Uploader->validate( $file ) ) {
             $Uploader->upload( );
@@ -110,7 +110,6 @@ class LogoModel extends \Model {
         $fileInfo = explode( '.', $this->fileInfo['hashName'] );
         $this->fileInfo['thumbnail'] = $this->fileInfo['hashDir'] . '/' . $fileInfo[0] . '_thumbnail.'  . $fileInfo[1];
 
-        File::import( LIB . 'Util/ImageManipulation.dll.php' );
         $ImageManipulation = new ImageManipulation( $this->Registry->get( HKEY_LOCAL, 'imageLib' ) );
         //$ImageManipulation->autoRotate( $this->dir . $this->fileInfo['hashDir'] . '/' . $this->fileInfo['hashName'] );
         $ImageManipulation->copyResized( $this->dir . $this->fileInfo['hashDir'] . '/' . $this->fileInfo['hashName'],

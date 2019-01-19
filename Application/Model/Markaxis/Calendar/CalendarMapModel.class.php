@@ -29,7 +29,6 @@ class CalendarMapModel extends \Model {
     * @return bool
     
     public function getByEventID( $eventID ) {
-        File::import( DAO . 'Markaxis/Calendar/CalendarMap.class.php' );
         $CalendarMap = new CalendarMap( );
         return $CalendarMap->getByEventID( $eventID );
     }*/
@@ -70,7 +69,6 @@ class CalendarMapModel extends \Model {
     
     public function iterateAddress( $eventInfo ) {
         if( sizeof( $eventInfo ) > 0 ) {
-            File::import( DAO . 'Markaxis/Calendar/CalendarMap.class.php' );
             $CalendarMap = new CalendarMap( );
             while( list( $key, $row ) = each( $eventInfo ) ) {
                 if( $row['map'] ) {
@@ -89,7 +87,6 @@ class CalendarMapModel extends \Model {
     
     public function iterateRecurAddress( $eventInfo ) {
         if( sizeof( $eventInfo['data'] ) > 0 ) {
-            File::import( DAO . 'Markaxis/Calendar/CalendarMap.class.php' );
             $CalendarMap  = new CalendarMap( );
             $addressCache = array( );
 
@@ -115,7 +112,6 @@ class CalendarMapModel extends \Model {
     * @return mixed
     */
     public function save( ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         /*$info = array( );
         $info['eventID'] = (int)$this->info['eventID'];

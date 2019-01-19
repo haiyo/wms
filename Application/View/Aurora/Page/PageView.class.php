@@ -58,8 +58,7 @@ class PageView {
         //$Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         //$userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-        /*File::import( MODEL . 'Aurora/User/MessageModel.class.php' );
-        $MessageModel = MessageModel::getInstance( );
+        /*$MessageModel = MessageModel::getInstance( );
         $pmCount = $MessageModel->getCountCache( );
         $title   = $pmCount ? '(' . $pmCount . ') ' : '';
         $title  .= $this->HKEY_LOCAL['websiteName'] . ': ' . $pageInfo['pageTitle'];*/

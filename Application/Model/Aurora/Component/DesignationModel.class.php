@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class DesignationModel extends \Model {
 
 
     // Properties
+    protected $Designation;
 
 
     /**
      * DesignationModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Designation = new Designation( );
     }
 
 
@@ -30,9 +31,7 @@ class DesignationModel extends \Model {
      * @return int
      */
     public function isFound( $id ) {
-        File::import( DAO . 'Aurora/Component/Designation.class.php' );
-        $Designation = new Designation( );
-        return $Designation->isFound( $id );
+        return $this->Designation->isFound( $id );
     }
 
 
@@ -41,9 +40,7 @@ class DesignationModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Designation.class.php' );
-        $Designation = new Designation( );
-        return $this->info = $Designation->getList( );
+        return $this->info = $this->Designation->getList( );
     }
 
 
@@ -52,9 +49,7 @@ class DesignationModel extends \Model {
      * @return mixed
      */
     public function getIDList( ) {
-        File::import( DAO . 'Aurora/Component/Designation.class.php' );
-        $Designation = new Designation( );
-        return $this->info = $Designation->getIDList( );
+        return $this->info = $this->Designation->getIDList( );
     }
 }
 ?>

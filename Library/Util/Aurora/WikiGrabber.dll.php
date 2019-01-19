@@ -102,7 +102,6 @@ class WikiGrabber extends URLGrabber implements IURLGrabber {
 
             $info = array( );
             if( isset( $content['query']['pages'] ) ) {
-                File::import( LIB . 'Util/String.dll.php' );
                 $String = new String( );
 
                 while( list( $pageID, $data ) = each( $content['query']['pages'] ) ) {
@@ -127,8 +126,6 @@ class WikiGrabber extends URLGrabber implements IURLGrabber {
 
             $DOM = new DOMDocument( );
             $content = $this->getURLPage( );
-
-            File::import( LIB . 'Sanitizer/HTMLSanitizer.dll.php' );
             $content = HTMLSanitizer::sanitize( $content['content'] );
 
             if( !@$DOM->loadHTML( $content ) ) {

@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class RaceModel extends \Model {
 
 
     // Properties
+    protected $Race;
 
 
     /**
      * RaceModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Race = new Race( );
     }
 
 
@@ -30,9 +31,7 @@ class RaceModel extends \Model {
      * @return int
      */
     public function isFound( $id ) {
-        File::import( DAO . 'Aurora/Component/Race.class.php' );
-        $Race = new Race( );
-        return $Race->isFound( $id );
+        return $this->Race->isFound( $id );
     }
 
 
@@ -41,9 +40,7 @@ class RaceModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Race.class.php' );
-        $Race = new Race( );
-        return $Race->getList( );
+        return $this->Race->getList( );
     }
 }
 ?>

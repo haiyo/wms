@@ -1,6 +1,7 @@
 <?php
 namespace PHPMailer;
-use \File, \MXString;
+use \Library\Util\MXString;
+
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
@@ -791,7 +792,6 @@ class SMTP {
   * @return void
   */
   public function outPutError( $errMsg ) {
-      File::import( LIB . 'Util/MXString.dll.php' );
       $MXString = new MXString( );
       echo '<script>output("' . addslashes( str_replace( array("\r\n", "\n", "\r"), '', $MXString->makeLink( $errMsg ) ) ) . '<br />");</script>';
       //echo str_replace( array("\r\n", "\n", "\r"), '', $String->makeLink( $errMsg ) ) . '<br />';

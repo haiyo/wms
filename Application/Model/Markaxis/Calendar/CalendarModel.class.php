@@ -293,7 +293,6 @@ class CalendarModel extends \Model {
     * @return mixed
     
     public function getAllEvents( $info ) {
-        File::import( DAO . 'Markaxis/Calendar/Calendar.class.php' );
         $Calendar = new Calendar( );
         if( isset( $info['allDay'] ) && $info['allDay'] == 'true' ) {
             $info['end'] = strtotime( date( 'Y-m-d 23:59:59', $info['end'] ) );

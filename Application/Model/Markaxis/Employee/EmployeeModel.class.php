@@ -1,10 +1,10 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -32,7 +32,6 @@ class EmployeeModel extends \Model {
         $this->info['passNumber'] = $this->info['confirmDate'] =
         $this->info['startDate'] = $this->info['endDate'] = $this->info['passExpiryDate'] = '';
 
-        File::import( DAO . 'Markaxis/Employee/Employee.class.php' );
         $this->Employee = new Employee( );
     }
 
@@ -123,8 +122,7 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getLogsByUserID( $post, $userID ) {
-        File::import( DAO . 'Aurora/User/User.class.php' );
-        $User = new User( );
+        $User = new \Aurora\User\User( );
 
         if( $userInfo = $User->getFieldByUserID( $userID, 'userID, fname, lname' ) ) {
             $this->Employee->setLimit( $post['start'], $post['length'] );
@@ -166,9 +164,6 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        File::import( LIB . 'Util/Date.dll.php' );
-        File::import( LIB . 'Validator/Validator.dll.php' );
-
         $saveInfo = array( );
         $saveInfo['idnumber'] = Validator::stripTrim( $data['idnumber'] );
         $saveInfo['passNumber'] = Validator::stripTrim( $data['passNumber'] );
@@ -179,7 +174,6 @@ class EmployeeModel extends \Model {
         }
 
         if( isset( $data['salaryType'] ) ) {
-            File::import( MODEL . 'Aurora/Component/SalaryTypeModel.class.php' );
             $SalaryTypeModel = SalaryTypeModel::getInstance( );
             if( $SalaryTypeModel->isFound( $data['salaryType'] ) ) {
                 $saveInfo['stID'] = (int)$data['salaryType'];
@@ -187,7 +181,6 @@ class EmployeeModel extends \Model {
         }
 
         if( isset( $data['office'] ) ) {
-            File::import( MODEL . 'Aurora/Component/OfficeModel.class.php' );
             $OfficeModel = OfficeModel::getInstance( );
             if( $OfficeModel->isFound( $data['office'] ) ) {
                 $saveInfo['oID'] = (int)$data['office'];
@@ -195,7 +188,6 @@ class EmployeeModel extends \Model {
         }
 
         if( isset( $data['designation'] ) ) {
-            File::import( MODEL . 'Aurora/Component/DesignationModel.class.php' );
             $DesignationModel = DesignationModel::getInstance( );
             if( $DesignationModel->isFound( $data['designation'] ) ) {
                 $saveInfo['dID'] = (int)$data['designation'];
@@ -203,7 +195,6 @@ class EmployeeModel extends \Model {
         }
 
         if( isset( $data['contractType'] ) ) {
-            File::import( MODEL . 'Aurora/Component/ContractModel.class.php' );
             $ContractModel = ContractModel::getInstance( );
             if( $ContractModel->isFound( $data['contractType'] ) ) {
                 $saveInfo['cID'] = (int)$data['contractType'];
@@ -211,7 +202,6 @@ class EmployeeModel extends \Model {
         }
 
         if( isset( $data['passType'] ) ) {
-            File::import( MODEL . 'Aurora/Component/PassTypeModel.class.php' );
             $PassTypeModel = PassTypeModel::getInstance( );
             if( $PassTypeModel->isFound( $data['passType'] ) ) {
                 $saveInfo['ptID'] = (int)$data['passType'];
@@ -268,7 +258,6 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function setResignStatus( $post ) {
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = new UserModel( );
 
         if( $UserModel->isFound( $post['userID'] ) ) {
@@ -276,7 +265,6 @@ class EmployeeModel extends \Model {
             $info['resigned'] = $post['status'] == 1 ? 1 : 0;;
             $this->Employee->update( 'employee', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
 
-            File::import( MODEL . 'Aurora/Component/AuditLogModel.class.php' );
             $AuditLogModel = new AuditLogModel( );
 
             $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );

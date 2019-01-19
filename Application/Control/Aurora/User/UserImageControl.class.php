@@ -30,7 +30,7 @@ class UserImageControl {
      * @return str
      */
     public function add( ) {
-        /*File::import( VIEW . 'Aurora/User/UserView.class.php' );
+        /*
         $UserView = new UserView( );
         Control::setOutputArrayAppend( array( 'form' => $UserView->renderAdd( ) ) );*/
     }

@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\User;
+use \Library\Util\UserAgent, \Library\Util\IP;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -42,7 +43,6 @@ class UserLog extends \DAO {
             }
         }
         if( $event == 'addUser' ) {
-            File::import( LIB . 'Util/IP.dll.php' );
             $UserAgent = new UserAgent( );
             $DefIP = new IP( );
             $this->userLog['userID']    = $sender->getUserInfo( 'userID' );
@@ -143,7 +143,6 @@ class UserLog extends \DAO {
         $logInfo = array( );
 
         if( $status ) {
-            File::import( LIB . 'Util/IP.dll.php' );
             $UserAgent = new UserAgent( );
             $IP = new IP( );
             $logInfo['ipAddress'] = $IP->getAddress( );

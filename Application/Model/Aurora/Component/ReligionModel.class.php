@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class ReligionModel extends \Model {
 
 
     // Properties
+    protected $Religion;
 
 
     /**
      * ReligionModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Religion = new Religion( );
     }
 
 
@@ -30,9 +31,7 @@ class ReligionModel extends \Model {
      * @return int
      */
     public function isFound( $id ) {
-        File::import( DAO . 'Aurora/Component/Religion.class.php' );
-        $Religion = new Religion( );
-        return $Religion->isFound( $id );
+        return $this->Religion->isFound( $id );
     }
 
 
@@ -41,9 +40,7 @@ class ReligionModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Religion.class.php' );
-        $Religion = new Religion( );
-        return $Religion->getList( );
+        return $this->Religion->getList( );
     }
 }
 ?>

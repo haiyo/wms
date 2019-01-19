@@ -43,7 +43,6 @@ class CalendarRSVPView {
     * @return str
     */
     public function getNotification( $info ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarModel.class.php' );
         $CalendarModel = CalendarModel::getInstance( );
         $CalendarModel->loadEvent( $info['refID'] );
         $eventInfo = $CalendarModel->getInfo( );
@@ -106,9 +105,6 @@ class CalendarRSVPView {
     * @return void
     */
     public function renderRoles( ) {
-        File::import( VIEW . 'Aurora/View.class.php' );
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
-        File::import( VIEW . 'Aurora/Form/RoleSelectListView.class.php' );
         $RoleSelectListView = new RoleSelectListView( );
         $RoleSelectListView->setClass('selectList');
         return $RoleSelectListView->getList( '', true, $this->L10n->getContents('LANG_SELECT_ROLE') );
@@ -122,9 +118,8 @@ class CalendarRSVPView {
     public function renderUserList( $post ) {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-        $excludeUserID = array( $userInfo['userID'] );
 
-        File::import( MODEL . 'Aurora/User/UserRoleModel.class.php' );
+        $excludeUserID = array( $userInfo['userID'] );
         $UserRoleModel = UserRoleModel::getInstance( );
 
         if( $post['rsvpType'] == 'name' && $post['rsvpInput'] != '' ) {
@@ -137,8 +132,6 @@ class CalendarRSVPView {
             $userList = $UserRoleModel->getUsers( $post['currPage'], 20, $excludeUserID );
         }
 
-        File::import( VIEW . 'Aurora/Form/MultiListView.class.php' );
-        File::import( VIEW . 'Aurora/Form/UserMultiListView.class.php' );
         $UserMultiListView = new UserMultiListView( );
         $UserMultiListView->setClass( 'rsvpList' );
         return array( 'pages' => (int)ceil( $userList['total']/20 ),
@@ -175,7 +168,6 @@ class CalendarRSVPView {
         $maybe         = '';
         $notYetReplied = '';
 
-        File::import( VIEW . 'Aurora/User/UserAvatarView.class.php' );
         $UserAvatarView = new UserAvatarView( );
 
         while( list(  , $row ) = each( $info ) ) {
@@ -208,12 +200,9 @@ class CalendarRSVPView {
         if( $isInvited ) {
             $vars['dynamic']['rsvpBtn'][] = true;
         }
-
-        File::import( MODEL . 'Markaxis/Feed/FeedModel.class.php' );
         $FeedModel = new FeedModel( );
         $FeedModel->setTable( 'markaxis_rsvp_feed' );
 
-        File::import( VIEW . 'Markaxis/Feed/FeedView.class.php' );
         $FeedView = new FeedView( $FeedModel );
         $vars['TPL_FEED'] = $FeedView->renderFeed( 'AND eventID = "' . (int)$eventInfo['eventID'] . '"' );
 

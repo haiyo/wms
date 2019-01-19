@@ -13,6 +13,7 @@ class FinanceControl {
 
 
     // Properties
+    protected $FinanceView;
 
 
     /**
@@ -20,7 +21,7 @@ class FinanceControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->FinanceView = new FinanceView( );
     }
 
 
@@ -29,7 +30,6 @@ class FinanceControl {
      * @return str
 
     public function view( ) {
-        File::import( VIEW . 'Markaxis/Employee/EmployeeView.class.php' );
         $EmployeeView = new EmployeeView( );
         echo $EmployeeView->renderEdit( );
     } */
@@ -40,8 +40,7 @@ class FinanceControl {
      * @return str
      */
     public function add( ) {
-        $FinanceView = new FinanceView( );
-        Control::setOutputArrayAppend( array( 'form' => $FinanceView->renderAdd( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->FinanceView->renderAdd( ) ) );
     }
 
 
@@ -52,8 +51,7 @@ class FinanceControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        $FinanceView = new FinanceView( );
-        Control::setOutputArrayAppend( array( 'form' => $FinanceView->renderEdit( $userID ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->FinanceView->renderEdit( $userID ) ) );
     }
 
 

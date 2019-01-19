@@ -11,10 +11,12 @@ use \Library\Exception\ValidatorException;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RolePermModel extends Model {
+class RolePermModel extends \Model {
 
 
     // Properties
+    protected $Role;
+    protected $RolePerm;
 
 
     /**
@@ -26,6 +28,9 @@ class RolePermModel extends Model {
 
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/RolePermRes');
+
+        $this->Role = new Role( );
+        $this->RolePerm = new RolePerm( );
 	}
 
 
@@ -34,8 +39,7 @@ class RolePermModel extends Model {
      * @return int
      */
     public function isFound( $roleID, $permID ) {
-        $RolePerm = new RolePerm( );
-        return $RolePerm->isFound( $roleID, $permID );
+        return $this->RolePerm->isFound( $roleID, $permID );
     }
 
 
@@ -44,8 +48,7 @@ class RolePermModel extends Model {
     * @return mixed
     */
     public function getAll( ) {
-        $RolePerm = new RolePerm( );
-        return $RolePerm->getAll( );
+        return $this->RolePerm->getAll( );
     }
 
 
@@ -54,8 +57,7 @@ class RolePermModel extends Model {
     * @return mixed
     */
     public function getByRoleID( $roleID ) {
-        $RolePerm = new RolePerm( );
-        return $RolePerm->getByRoleID( $roleID );
+        return $this->RolePerm->getByRoleID( $roleID );
     }
 
 
@@ -64,22 +66,21 @@ class RolePermModel extends Model {
     * @return void
     */
     public function savePerms( $data ) {
-        $RoleModel = new RoleModel( );
-        $RolePerm = new RolePerm( );
-
         if( $data['roleID'] > 1 ) {
             if( isset( $data['perms'] ) && is_array( $data['perms'] ) &&
                 isset( $data['roleID'] ) && $data['roleID'] > 1 ) {
+
+                $RoleModel = new RoleModel( );
 
                 foreach( $data['perms'] as $permID ) {
                     if( $RoleModel->isFound( $data['roleID'] ) && !$this->isFound( $data['roleID'], $permID ) ) {
                         $permSet = array( );
                         $permSet['roleID'] = (int)$data['roleID'];
                         $permSet['permID'] = (int)$permID;
-                        $RolePerm->insert( 'role_perm', $permSet );
+                        $this->RolePerm->insert( 'role_perm', $permSet );
                     }
                 }
-                $RolePerm->delete( 'role_perm', 'WHERE roleID = "' . (int)$data['roleID'] . '" AND 
+                $this->RolePerm->delete( 'role_perm', 'WHERE roleID = "' . (int)$data['roleID'] . '" AND 
                                     permID NOT IN(' . addslashes( implode( ',', $data['department'] ) ) . ')' );
             }
         }
@@ -113,16 +114,13 @@ class RolePermModel extends Model {
     * @return void
     */
     public function saveInfo( ) {
-        File::import( DAO . 'Aurora/User/Role.class.php' );
-        $Role = new Role( );
-
         if( $this->info['roleID'] == 0 ) {
             unset( $this->info['roleID'] );
             $this->info['created'] = date( 'Y-m-d H:i:s' );
-            $this->info['roleID'] = $Role->insert( 'role', $this->info );
+            $this->info['roleID'] = $this->Role->insert( 'role', $this->info );
         }
         else {
-            $Role->update( 'role', $this->info, 'WHERE roleID="' . (int)$this->info['roleID'] . '"' );
+            $this->Role->update( 'role', $this->info, 'WHERE roleID="' . (int)$this->info['roleID'] . '"' );
         }
     }
 
@@ -132,9 +130,7 @@ class RolePermModel extends Model {
     * @return void
     */
     public function delete( $roleID ) {
-        File::import( DAO . 'Aurora/User/Role.class.php' );
-        $Role = new Role( );
-        return $Role->delete( 'role', 'WHERE roleID="' . (int)$roleID . '"' );
+        return $this->Role->delete( 'role', 'WHERE roleID="' . (int)$roleID . '"' );
     }
 }
 ?>

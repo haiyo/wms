@@ -1,7 +1,6 @@
 <?php
 namespace Library\Security\Aurora;
-use \Aurora\User\UserRoleModel;
-use \Library\IO\File;
+use \Aurora\User\UserRoleModel, \Aurora\User\RolePermModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -48,17 +47,17 @@ class Authorization {
     * @return void
     */
     public function load( $userID ) {
-        File::import( MODEL . 'Aurora/User/UserRoleModel.class.php' );
         $this->UserRoleModel = new UserRoleModel( );
         $this->roleInfo = $this->UserRoleModel->getByUserID( $userID );
 
         if( !in_array( 1, $this->roleInfo ) ) {
-            File::import( MODEL . 'Aurora/User/RolePermModel.class.php' );
             $this->RolePermModel = new RolePermModel( );
-            while( list( , $roleID ) = each( $this->roleInfo ) ) {
+
+            foreach( $this->roleInfo as $roleID ) {
                 $info = $this->RolePermModel->getByRoleID( $roleID );
+
                 if( sizeof( $info ) > 0 ) {
-                    while( list( , $row ) = each( $info ) ) {
+                    foreach( $info as $row ) {
                         $this->rpInfo[$row['namespace']][] = $row['action'];
                     }
                 }
@@ -85,7 +84,7 @@ class Authorization {
     */
     public function hasAnyRole( $role ) {
         if( is_array( $role ) ) {
-            while( list( , $roleID ) = each( $role ) ) {
+            foreach( $role as $roleID ) {
                 if( in_array( $roleID, $this->roleInfo ) ) {
                     return true;
                 }

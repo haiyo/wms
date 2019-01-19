@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Aurora\Component\UploadModel;
+use \Library\IO\File;
 use \Library\Util\Date, \Library\Util\Uploader, \Library\Validator\Validator;
 
 /**
@@ -26,7 +26,6 @@ class ExperienceModel extends \Model {
         parent::__construct( );
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
 
-        File::import( DAO . 'Markaxis/Employee/Experience.class.php' );
         $this->Experience = new Experience( );
 
         $this->info['company'] = $this->info['designation'] =  $this->info['description'] =
@@ -88,9 +87,6 @@ class ExperienceModel extends \Model {
         $expCompany = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $size = sizeof( $expCompany );
 
-        File::import( LIB . 'Util/Date.dll.php' );
-        File::import( LIB . 'Validator/Validator.dll.php' );
-
         for( $i=0; $i<$size; $i++ ) {
             if( !$this->info['company'] = Validator::stripTrim( $data['expCompany_' . $i] ) )
                 continue;
@@ -110,7 +106,6 @@ class ExperienceModel extends \Model {
             $hashName = Validator::stripTrim( $data['expHashName_' . $i] );
 
             if( $testimonial && $hashName ) {
-                File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
                 $UploadModel = new UploadModel( );
                 if( $UploadModel->isFound( $testimonial, $hashName ) ) {
                     $this->info['uID'] = $testimonial;
@@ -148,7 +143,6 @@ class ExperienceModel extends \Model {
                 $this->Experience->delete( 'employee_experience', 'WHERE expID = "' . (int)$expInfo['expID'] . '"' );
 
                 if( $expInfo['uID'] ) {
-                    File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
                     $UploadModel = new UploadModel( );
                     $fileInfo = $UploadModel->getByUID( $expInfo['uID'] );
                     $UploadModel->deleteFile( $fileInfo['uID'], $fileInfo['hashName'] );
@@ -171,13 +165,11 @@ class ExperienceModel extends \Model {
 
         File::createDir( USER_EXP_DIR . $this->fileInfo['dir'] );
 
-        File::import( LIB . 'Util/Uploader.dll.php' );
         $Uploader = new Uploader( array( 'uploadDir' => USER_EXP_DIR . $this->fileInfo['dir'] ) );
 
         if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
             $this->fileInfo = array_merge( $this->fileInfo, $Uploader->getFileInfo( ) );
 
-            File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
             $UploadModel = new UploadModel( );
             $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
 
@@ -201,7 +193,6 @@ class ExperienceModel extends \Model {
      */
     public function updateTestimonial( $data ) {
         if( isset( $data['expID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
-            File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
             $UploadModel = new UploadModel( );
 
             if( $UploadModel->isFound( $data['uID'], $data['hashName'] ) ) {
@@ -225,7 +216,6 @@ class ExperienceModel extends \Model {
      */
     public function deleteTestimonial( $data ) {
         if( isset( $data['expID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
-            File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
             $UploadModel = new UploadModel( );
 
             if( $this->isFoundByUID( $data['expID'], $data['uID'] ) ) {

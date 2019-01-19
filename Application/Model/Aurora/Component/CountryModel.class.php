@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class CountryModel extends \Model {
 
 
     // Properties
+    protected $Country;
 
 
     /**
      * CountryModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Country = new Country( );
     }
 
 
@@ -30,9 +31,7 @@ class CountryModel extends \Model {
      * @return int
      */
     public function isFound( $cID ) {
-        File::import( DAO . 'Aurora/Component/Country.class.php' );
-        $Country = new Country( );
-        return $Country->isFound( $cID );
+        return $this->Country->isFound( $cID );
     }
 
 
@@ -41,9 +40,7 @@ class CountryModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Country.class.php' );
-        $Country = new Country( );
-        return $Country->getList( );
+        return $this->Country->getList( );
     }
 }
 ?>

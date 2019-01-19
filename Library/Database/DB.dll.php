@@ -39,7 +39,6 @@ class DB {
     * @return obj DatastoreHelper
     */
     public function connect( ) {
-        File::import( LIB . 'Database/DBModules/' . $this->module . '.dll.php' );
         $class = '\\Library\Database\DBModules\\' . $this->module;
         return new $class( $this->dbHost, $this->dbName, $this->dbUser,
                                   $this->dbPass, $this->dbPort );

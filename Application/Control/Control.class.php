@@ -1,7 +1,7 @@
 <?php
 
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
-use \Library\Runtime\Registry, \Library\IO\File;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -196,7 +196,6 @@ class Control {
     */
     public function initRegistry( ) {
         // Load Registry Table
-        File::import( LIB . 'Runtime/Registry.dll.php' );
         $this->Registry = Registry::getInstance( );
     }
 }

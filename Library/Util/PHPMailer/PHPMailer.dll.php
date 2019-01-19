@@ -1,6 +1,6 @@
 <?php
 namespace PHPMailer;
-use \File, \MXString;
+
 /*~ class.phpmailer.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
@@ -787,7 +787,6 @@ class PHPMailer {
    * @return bool
    */
   protected function SmtpSend($header, $body) {
-    File::import( LIB . 'Util/PHPMailer/SMTP.dll.php' );
     $bad_rcpt = array();
 
     if(!$this->SmtpConnect()) {
@@ -2127,7 +2126,7 @@ class PHPMailer {
   * @return void
   */
   public function outPutError( $errMsg ) {
-      /*File::import( LIB . 'Util/MXString.dll.php' );
+      /*
       $MXString = new MXString( );
       echo '<script>output("Connecting Host: ' . $this->Host . ':' . $this->Port . ' (' . $this->SMTPSecure . ') ' .
           addslashes( str_replace( array("\r\n", "\n", "\r"), '', $MXString->makeLink( $errMsg ) ) ) . '<br />");</script>';

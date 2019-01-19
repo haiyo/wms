@@ -88,7 +88,6 @@ abstract class Model extends SingletonHelper {
     */
     public function getSetInfo( $dropletID=NULL ) {
         if( $dropletID != NULL ) {
-            File::import( MODEL . 'Aurora/Droplet/DropletModel.class.php' );
             $DropletModel = new DropletModel( );
 
             if( $setInfo = $DropletModel->getSettings( $dropletID ) ) {
@@ -104,7 +103,6 @@ abstract class Model extends SingletonHelper {
     * @return mixed
     */
     public function saveSettings( $dropletID, $setInfo ) {
-        File::import( MODEL . 'Aurora/Droplet/DropletModel.class.php' );
         $DropletModel = new DropletModel( );
         $DropletModel->saveSettings( $dropletID, $setInfo );
     }

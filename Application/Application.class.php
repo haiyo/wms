@@ -1,5 +1,6 @@
 <?php
-use \Library\IO\File, \Library\Http\HttpRequest, Library\Http\Dispatcher;
+use \Library\Util\BenchmarkTimer;
+use \Library\Http\HttpRequest, Library\Http\Dispatcher;
 use \Library\Exception\ErrorHandlerException, \Library\Exception\Exceptions;
 
 /**
@@ -23,10 +24,6 @@ class Application {
         // Load essential files
         require_once( LIB . 'IO/File.dll.php' );
         require_once( LIB . 'AutoLoad.dll.php' );
-        
-        File::import( LIB . 'Util/UserAgent.dll.php' );
-        File::import( LIB . 'Http/HttpRequest.dll.php' );
-        File::import( LIB . 'Http/HttpResponse.dll.php' );
 
         ErrorHandlerException::init( );
     }
@@ -41,7 +38,6 @@ class Application {
             $HttpRequest = new HttpRequest( );
             $pathInfo = $HttpRequest->request( GET, 'pathInfo' );
 
-            File::import( LIB . 'Http/Dispatcher.dll.php' );
             $Dispatcher = new Dispatcher( );
             $Dispatcher->setMapping( XML . 'urlmap.xml' );
             $Dispatcher->monitor( $pathInfo );
@@ -72,10 +68,8 @@ class Application {
             echo "|         Cron Script Initializing...         |\n";
             echo "-----------------------------------------------\n\n";
 
-            File::import( LIB . 'Util/BenchmarkTimer.dll.php' );
             BenchmarkTimer::start( );
 
-            File::import( LIB . 'Http/Dispatcher.dll.php' );
             $Dispatcher = new Dispatcher( );
             $Dispatcher->setMapping( XML . 'cronmap.xml' );
             $Dispatcher->monitor('admin/cron/', $argv);

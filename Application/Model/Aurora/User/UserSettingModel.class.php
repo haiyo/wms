@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\User;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,6 +12,7 @@ class UserSettingModel extends \Model {
 
 
     // Properties
+    protected $UserSetting;
 
 
     /**
@@ -22,7 +22,8 @@ class UserSettingModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-	}
+        $this->UserSetting = new UserSetting( );
+    }
 
 
     /**
@@ -30,9 +31,7 @@ class UserSettingModel extends \Model {
     * @return void
     */
     public function load( $userID ) {
-        File::import( DAO . 'Aurora/User/UserSetting.class.php' );
-        $UserSetting = new UserSetting( );
-        $this->info = $UserSetting->getByUserID( $userID );
+        $this->info = $this->UserSetting->getByUserID( $userID );
     }
 
 
@@ -44,9 +43,7 @@ class UserSettingModel extends \Model {
         $info = array( );
         $info[$field] = $value;
 
-        File::import( DAO . 'Aurora/User/UserSetting.class.php' );
-        $UserSetting = new UserSetting( );
-        return $UserSetting->update( 'user_setting', $info, 'WHERE userID = "' . (int)$userID . '"' );
+        return $this->UserSetting->update( 'user_setting', $info, 'WHERE userID = "' . (int)$userID . '"' );
     }
 }
 ?>

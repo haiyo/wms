@@ -45,59 +45,64 @@ class AutoLoad {
             // Convert path to windows/linux compatible
             $className = str_replace( '\\', '/', $className );
 
-            if( substr( $className, -7 ) == 'Control' ) {
-                File::import( CONTROL . $className . '.class.php' );
-                return;
-            }
-            if( substr( $className, -5 ) == 'Model' ) {
-                File::import( MODEL . $className . '.class.php' );
-                return;
-            }
-            if( substr( $className, -4 ) == 'View' ) {
-                File::import( VIEW . $className . '.class.php' );
-                return;
-            }
-            if( substr( $className, -3 ) == 'Res' ) {
-                File::import( LANG . $className . '.lang.php' );
-                return;
-            }
+            try {
+                if( substr( $className, -7 ) == 'Control' ) {
+                    File::import( CONTROL . $className . '.class.php' );
+                    return;
+                }
+                if( substr( $className, -5 ) == 'Model' ) {
+                    File::import( MODEL . $className . '.class.php' );
+                    return;
+                }
+                if( substr( $className, -4 ) == 'View' ) {
+                    File::import( VIEW . $className . '.class.php' );
+                    return;
+                }
+                if( substr( $className, -3 ) == 'Res' ) {
+                    File::import( LANG . $className . '.lang.php' );
+                    return;
+                }
 
-            if( is_file( APP . $className . '.class.php' ) ) {
-                File::import( APP . $className . '.class.php' );
-                return;
-            }
-            if( strstr( $className, 'Exception' ) ) {
-                File::import( ROOT . $className . '.dll.php' );
-                return;
-            }
-            // Interface
-            if( preg_match( '/^I[A-Z]{1}[a-zA-Z]+$/', $className ) ) {
-                File::import( INT . $className . '.dll.php' );
-                return;
-            }
-            if( substr( $className, -6 ) == 'Helper' ) {
-                File::import( ROOT . $className . '.dll.php' );
-                return;
-            }
+                if( is_file( APP . $className . '.class.php' ) ) {
+                    File::import( APP . $className . '.class.php' );
+                    return;
+                }
+                if( strstr( $className, 'Exception' ) ) {
+                    File::import( ROOT . $className . '.dll.php' );
+                    return;
+                }
+                // Interface
+                if( preg_match( '/^I[A-Z]{1}[a-zA-Z]+$/', $className ) ) {
+                    File::import( INT . $className . '.dll.php' );
+                    return;
+                }
+                if( substr( $className, -6 ) == 'Helper' ) {
+                    File::import( ROOT . $className . '.dll.php' );
+                    return;
+                }
 
-            // If everything else failed...
-            if( is_file( DAO . $className . '.class.php' ) ) {
-                File::import( DAO . $className . '.class.php' );
-                return;
+                // If everything else failed...
+                if( is_file( DAO . $className . '.class.php' ) ) {
+                    File::import( DAO . $className . '.class.php' );
+                    return;
+                }
+                if( is_file( ROOT . $className . '.dll.php' ) ) {
+                    File::import( ROOT . $className . '.dll.php' );
+                    return;
+                }
+                if( is_file( ROOT . $className . '.class.php' ) ) {
+                    File::import( ROOT . $className . '.class.php' );
+                    return;
+                }
+                if( is_file( LANG . $className . '.lang.php' ) ) {
+                    File::import( LANG . $className . '.lang.php' );
+                    return;
+                }
             }
-            if( is_file( ROOT . $className . '.dll.php' ) ) {
-                File::import( ROOT . $className . '.dll.php' );
-                return;
+            catch( \Library\Exception\FileNotFoundException $e ) {
+                $e->record( );
+                $e->toScreen( );
             }
-            if( is_file( ROOT . $className . '.class.php' ) ) {
-                File::import( ROOT . $className . '.class.php' );
-                return;
-            }
-            if( is_file( LANG . $className . '.lang.php' ) ) {
-                File::import( LANG . $className . '.lang.php' );
-                return;
-            }
-            echo $className; exit;
         }
     }
 }

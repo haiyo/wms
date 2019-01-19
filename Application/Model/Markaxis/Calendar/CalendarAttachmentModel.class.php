@@ -44,7 +44,6 @@ class CalendarAttachmentModel extends \Model {
     * @return bool
     */
     public function getByEventID( $eventID ) {
-        File::import( DAO . 'Markaxis/Calendar/CalendarAttachment.class.php' );
         $CalendarAttachment = new CalendarAttachment( );
         return $CalendarAttachment->getByEventID( $eventID );
     }
@@ -55,7 +54,6 @@ class CalendarAttachmentModel extends \Model {
     * @return str
     */
     public function getAttachment( $attID ) {
-        File::import( DAO . 'Markaxis/Calendar/CalendarAttachment.class.php' );
         $CalendarAttachment = new CalendarAttachment( );
         $fileInfo = $CalendarAttachment->getByID( $attID );
 
@@ -81,7 +79,6 @@ class CalendarAttachmentModel extends \Model {
     */
     public function iterateCount( $eventInfo ) {
         if( sizeof( $eventInfo ) > 0 ) {
-            File::import( DAO . 'Markaxis/Calendar/CalendarAttachment.class.php' );
             $CalendarAttachment = new CalendarAttachment( );
             while( list( $key, $row ) = each( $eventInfo ) ) {
                 if( $row['attachment'] ) {
@@ -99,7 +96,6 @@ class CalendarAttachmentModel extends \Model {
     */
     public function iterateRecurCount( $eventInfo ) {
         if( isset( $eventInfo['data'] ) ) {
-            File::import( DAO . 'Markaxis/Calendar/CalendarAttachment.class.php' );
             $CalendarAttachment = new CalendarAttachment( );
             $countCache = array( );
 
@@ -130,8 +126,7 @@ class CalendarAttachmentModel extends \Model {
         File::createDir( $this->uploadPath . (int)$calID );
         File::createDir( $this->uploadPath . (int)$calID . '/' . (int)$eventID );
         File::createDir( $this->uploadPath . $this->fileInfo['dir'] );
-        
-        File::import( LIB . 'Util/Uploader.dll.php' );
+
         $Uploader = new Uploader( array( 'uploadDir' => $this->uploadPath . $this->fileInfo['dir'] ) );
         if( $Uploader->validate( $file ) ) {
             $Uploader->upload( );
@@ -165,7 +160,6 @@ class CalendarAttachmentModel extends \Model {
         $fileInfo = explode( '.', $this->fileInfo['hashName'] );
         $this->fileInfo['thumbnail']  = $this->fileInfo['dir'] . '/' . $fileInfo[0] . '_thumbnail.'  . $fileInfo[1];
 
-        File::import( LIB . 'Util/ImageManipulation.dll.php' );
         $ImageManipulation = new ImageManipulation( $this->Registry->get( HKEY_LOCAL, 'imageLib' ) );
         $ImageManipulation->autoRotate( $this->uploadPath . $this->fileInfo['dir'] . '/' . $this->fileInfo['hashName'] );
         $ImageManipulation->copyResized( $this->uploadPath . $this->fileInfo['dir'] . '/' . $this->fileInfo['hashName'],
@@ -188,7 +182,6 @@ class CalendarAttachmentModel extends \Model {
         $info['size']     = $this->fileInfo['size'];
         $info['created']  = date( 'Y-m-d H:i:s' );
 
-        File::import( DAO . 'Markaxis/Calendar/CalendarAttachment.class.php' );
         $CalendarAttachment = new CalendarAttachment( );
         $this->fileInfo['attID'] = $CalendarAttachment->insert( 'markaxis_event_attachment', $info );
         
@@ -204,7 +197,6 @@ class CalendarAttachmentModel extends \Model {
     * @return bool
     */
     public function deleteAtt( $fileInfo, $force=false ) {
-        File::import( DAO . 'Markaxis/Calendar/CalendarAttachment.class.php' );
         $CalendarAttachment = new CalendarAttachment( );
         if( is_numeric( $fileInfo ) ) {
             $fileInfo = $CalendarAttachment->getByID( $fileInfo );

@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -22,9 +21,7 @@ class LeaveBalanceModel extends \Model {
      */
     function __construct( ) {
         parent::__construct( );
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
 
-        File::import( DAO . 'Markaxis/Employee/LeaveBalance.class.php' );
         $this->LeaveBalance = new LeaveBalance( );
     }
 

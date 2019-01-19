@@ -2,7 +2,7 @@
 namespace Library\Security\Aurora;
 use \Aurora\User\UserModel;
 use \Library\Exception\Aurora\AuthLoginException;
-use \Library\IO\File, \Library\Http\HttpResponse;
+use \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
 
 /**
@@ -28,8 +28,6 @@ class Authenticator {
     */
     function __construct( ) {
         $this->Registry  = Registry::getInstance( );
-        
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $this->UserModel = UserModel::getInstance( );
 	}
 

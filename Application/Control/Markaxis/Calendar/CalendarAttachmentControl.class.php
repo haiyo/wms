@@ -49,7 +49,6 @@ class CalendarAttachmentControl {
     * @return void
     
     public function getEvents( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarAttachmentModel.class.php' );
         $CalendarAttachmentModel = CalendarAttachmentModel::getInstance( );
         Control::setOutputArray( $CalendarAttachmentModel->iterateCount( Control::getOutputArray( ) ) );
     }*/

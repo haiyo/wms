@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -13,15 +13,17 @@ class CompetencyModel extends \Model {
 
 
     // Properties
+    protected $Competency;
 
 
     /**
      * CompetencyModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Competency = new Competency( );
     }
 
 
@@ -30,9 +32,7 @@ class CompetencyModel extends \Model {
      * @return int
      */
     public function isFound( $ecID ) {
-        File::import( DAO . 'Aurora/Component/Competency.class.php' );
-        $Competency = new Competency( );
-        return $Competency->isFound( $ecID );
+        return $this->Competency->isFound( $ecID );
     }
 
 
@@ -41,9 +41,7 @@ class CompetencyModel extends \Model {
      * @return int
      */
     public function getIdByCompetency( $competency ) {
-        File::import( DAO . 'Aurora/Component/Competency.class.php' );
-        $Competency = new Competency( );
-        return $Competency->getIdByCompetency( $competency );
+        return $this->Competency->getIdByCompetency( $competency );
     }
 
 
@@ -52,9 +50,7 @@ class CompetencyModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Competency.class.php' );
-        $Competency = new Competency( );
-        return $Competency->getList( );
+        return $this->Competency->getList( );
     }
 
 
@@ -63,9 +59,7 @@ class CompetencyModel extends \Model {
      * @return mixed
      */
     public function getResults( $q ) {
-        File::import( DAO . 'Aurora/Component/Competency.class.php' );
-        $Competency = new Competency( );
-        return $Competency->getResults( $q );
+        return $this->Competency->getResults( $q );
     }
 
 
@@ -78,20 +72,17 @@ class CompetencyModel extends \Model {
             $competency = explode( ';', $competency );
 
             if( sizeof( $competency ) > 0 ) {
-                File::import( LIB . 'Validator/Validator.dll.php' );
-                File::import( DAO . 'Aurora/Component/Competency.class.php' );
-                $Competency = new Competency( );
                 $list = array( );
 
                 foreach( $competency as $value ) {
                     $value = Validator::stripTrim( $value );
 
                     if( $value ) {
-                        if( $info = $Competency->getIdByCompetency( $value ) ) {
+                        if( $info = $this->Competency->getIdByCompetency( $value ) ) {
                             array_push( $list, $info['cID'] );
                         }
                         else {
-                            array_push( $list, $Competency->insert( 'competency', array( 'competency' => $value ) ) );
+                            array_push( $list, $this->Competency->insert( 'competency', array( 'competency' => $value ) ) );
                         }
                     }
                 }

@@ -1,7 +1,6 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
-use \Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -13,7 +12,7 @@ class QuestionModel extends \Model {
 
 
     // Properties
-
+    protected $Question;
 
 
     /**
@@ -22,12 +21,13 @@ class QuestionModel extends \Model {
      */
     function __construct( ) {
         parent::__construct( );
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
 
         $this->info['resume'] = $this->info['recruitSourceID'] = $this->info['eName1'] =
         $this->info['eRelationship1'] = $this->info['eHome1'] = $this->info['eMobile1'] =
         $this->info['ename2'] = $this->info['eRelationship2'] = $this->info['eHome2'] =
         $this->info['eMobile2'] = $this->info['notes'] = '';
+
+        $this->Question = new Question( );
     }
 
 
@@ -36,9 +36,7 @@ class QuestionModel extends \Model {
      * @return int
      */
     public function isFound( $qsID ) {
-        File::import( DAO . 'Aurora/Component/Question.class.php' );
-        $Question = new Question( );
-        return $Question->isFound( $qsID );
+        return $this->Question->isFound( $qsID );
     }
 
 
@@ -47,9 +45,7 @@ class QuestionModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Question.class.php' );
-        $Question = new Question( );
-        return $Question->getList( );
+        return $this->Question->getList( );
     }
 }
 ?>

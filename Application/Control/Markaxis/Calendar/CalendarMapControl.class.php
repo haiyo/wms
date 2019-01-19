@@ -72,7 +72,6 @@ class CalendarMapControl {
     * @return void
     
     public function getEvents( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarMapModel.class.php' );
         $CalendarMapModel = CalendarMapModel::getInstance( );
         Control::setOutputArray( $CalendarMapModel->iterateAddress( Control::getOutputArray( ) ) );
     }*/
@@ -83,7 +82,6 @@ class CalendarMapControl {
     * @return void
     
     public function getRecurs( ) {
-        File::import( MODEL . 'Markaxis/Calendar/CalendarMapModel.class.php' );
         $CalendarMapModel = CalendarMapModel::getInstance( );
         Control::setOutputArray( $CalendarMapModel->iterateRecurAddress( Control::getOutputArray( ) ) );
     }*/
