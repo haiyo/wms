@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\Component;
 use \Library\IO\File;
+use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -24,7 +25,6 @@ class UploadModel extends \Model {
         parent::__construct();
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
 
-        File::import( DAO . 'Aurora/Component/Upload.class.php' );
         $this->Upload = new Upload( );
     }
 

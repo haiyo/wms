@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class StateModel extends \Model {
 
 
     // Properties
+    protected $State;
 
 
     /**
      * StateModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->State = new State( );
     }
 
 
@@ -30,9 +31,7 @@ class StateModel extends \Model {
      * @return int
      */
     public function isFound( $sID ) {
-        File::import( DAO . 'Aurora/Component/State.class.php' );
-        $State = new State( );
-        return $State->isFound( $sID );
+        return $this->State->isFound( $sID );
     }
 
 
@@ -42,9 +41,7 @@ class StateModel extends \Model {
      */
     public function getList( $data ) {
         if( isset( $data['country'] ) ) {
-            File::import(DAO . 'Aurora/Component/State.class.php');
-            $State = new State();
-            return $State->getList( $data['country'] );
+            return $this->State->getList( $data['country'] );
         }
         return false;
     }

@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class PassTypeModel extends \Model {
 
 
     // Properties
+    protected $PassType;
 
 
     /**
      * PassTypeModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->PassType = new PassType( );
     }
 
 
@@ -30,9 +31,7 @@ class PassTypeModel extends \Model {
      * @return int
      */
     public function isFound( $id ) {
-        File::import( DAO . 'Aurora/Component/PassType.class.php' );
-        $PassType = new PassType( );
-        return $PassType->isFound( $id );
+        return $this->PassType->isFound( $id );
     }
 
 
@@ -41,9 +40,7 @@ class PassTypeModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/PassType.class.php' );
-        $PassType = new PassType( );
-        return $PassType->getList( );
+        return $this->PassType->getList( );
     }
 }
 ?>

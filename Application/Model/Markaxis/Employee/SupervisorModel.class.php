@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserModel;
-use \Library\IO\File;
 use \Library\Validator\Validator;
 
 /**
@@ -27,7 +26,6 @@ class SupervisorModel extends \Model {
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import(DAO . 'Markaxis/Employee/Supervisor.class.php');
         $this->Supervisor = new Supervisor( );
     }
 
@@ -69,7 +67,6 @@ class SupervisorModel extends \Model {
             $supervisors = explode( ';', $data['supervisors'] );
 
             if( sizeof( $supervisors ) > 0 ) {
-                File::import( MODEL . 'Aurora/User/UserModel.class.php' );
                 $UserModel = new UserModel( );
                 $success = array( );
 

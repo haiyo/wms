@@ -44,7 +44,6 @@ class CalendarMessageModel extends \Model implements IObserver {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'fname, lname' );
 
-        File::import( MODEL . 'Aurora/User/MessageModel.class.php' );
         $MessageModel = MessageModel::getInstance( );
         $msgInfo = $MessageModel->getByNotificationID( $info['eventID'] );
         $message = unserialize( $msgInfo['message'] );
@@ -66,10 +65,7 @@ class CalendarMessageModel extends \Model implements IObserver {
             $setInfo = $sender->getSetInfo( );
             $setInfo['approvalRoles'][] = 1; // Add in Administrator Role
 
-            File::import( MODEL . 'Aurora/User/MessageModel.class.php' );
             $MessageModel = MessageModel::getInstance( );
-
-            File::import( MODEL . 'Aurora/User/UserRoleModel.class.php' );
             $UserRoleModel = UserRoleModel::getInstance( );
 
             //$Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );

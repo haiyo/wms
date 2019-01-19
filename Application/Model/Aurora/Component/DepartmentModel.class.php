@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,14 +12,17 @@ class DepartmentModel extends \Model {
 
 
     // Properties
+    protected $Department;
 
 
     /**
      * DepartmentModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->Department = new Department( );
     }
 
 
@@ -29,9 +31,7 @@ class DepartmentModel extends \Model {
      * @return int
      */
     public function isFound( $id ) {
-        File::import(DAO . 'Aurora/Component/Department.class.php');
-        $Department = new Department();
-        return $Department->isFound( $id );
+        return $this->Department->isFound( $id );
     }
 
 
@@ -40,9 +40,7 @@ class DepartmentModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import(DAO . 'Aurora/Component/Department.class.php');
-        $Department = new Department();
-        return $Department->getList( );
+        return $this->Department->getList( );
     }
 }
 ?>

@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,6 +12,7 @@ class BankModel extends \Model {
 
 
     // Properties
+    protected $Bank;
 
 
     /**
@@ -21,7 +21,8 @@ class BankModel extends \Model {
      */
     function __construct() {
         parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+
+        $this->Bank = new Bank( );
     }
 
 
@@ -30,9 +31,7 @@ class BankModel extends \Model {
      * @return int
      */
     public function isFound( $bkID ) {
-        File::import( DAO . 'Aurora/Component/Bank.class.php' );
-        $Bank = new Bank( );
-        return $Bank->isFound( $bkID );
+        return $this->Bank->isFound( $bkID );
     }
 
 
@@ -41,9 +40,7 @@ class BankModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/Bank.class.php' );
-        $Bank = new Bank( );
-        return $Bank->getList( );
+        return $this->Bank->getList( );
     }
 }
 ?>

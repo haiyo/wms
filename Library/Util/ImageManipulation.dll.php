@@ -60,12 +60,10 @@ class ImageManipulation {
             $height = $maxHeight;
         }
         if( $this->engine == 'gd' ) {
-            File::import( LIB . 'Util/GD.dll.php' );
             $GD = new GD( );
             $GD->resize( $file, $saveAs, $width, $height, $originWidth, $originHeight, $type );
         }
         else if( $this->engine == 'im' ) {
-            File::import( LIB . 'Util/ImageMagick.dll.php' );
             $ImageMagick = new ImageMagick( );
             $ImageMagick->resize( $file, $saveAs, $width, $height );
         }
@@ -88,7 +86,6 @@ class ImageManipulation {
             $saveAs = $saveAs ? $saveAs : $file;
             
             if( $this->engine == 'gd' ) {
-                File::import( LIB . 'Util/GD.dll.php' );
                 $GD = new GD( );
                 $GD->rotate( $file, $saveAs, $acceptOrient[$orientation] );
             }

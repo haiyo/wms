@@ -69,7 +69,6 @@ class CalendarAttachmentView {
         $data = $CalendarModel->getInfo('data');
 
         if( isset( $data['attachment'] ) && $data['attachment'] > 0 ) {
-            File::import( LIB . 'Util/String.dll.php' );
             $attList = $this->CalendarAttachmentModel->getByEventID( $data['eventID'] );
 
             while( list( , $row ) = each( $attList ) ) {
@@ -115,14 +114,12 @@ class CalendarAttachmentView {
         $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $deletable = $userInfo['userID'] == $eventInfo['userID'] ? true : false;
 
-        File::import( LIB . 'Util/Aurora/IconDisplay.dll.php' );
         $IconDisplay = new IconDisplay( );
         $IconDisplay->setThumbnailDir( ROOT . UPLOAD_DIR . 'markaxis/calendar/' .
                                        (int)$eventInfo['calID'] . '/' .
                                        (int)$eventInfo['eventID'] . '/' );
 
         $i = 1;
-        File::import( LIB . 'Util/String.dll.php' );
         while( list(  , $row ) = each( $info ) ) {
             $iconInfo = $IconDisplay->getIcon( $row );
 

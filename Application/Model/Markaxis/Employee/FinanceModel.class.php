@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Markaxis\Employee\PayrollModel as FinancePayrollModel;
 use \Markaxis\Employee\TaxModel as FinanceTaxModel;
 use \Markaxis\Employee\LeaveTypeModel as FinanceLeaveTypeModel;
@@ -52,19 +51,15 @@ class FinanceModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        File::import(MODEL . 'Markaxis/Employee/BankModel.class.php');
         $BankModel = new BankModel( );
         $BankModel->save( $data );
 
-        File::import(MODEL . 'Markaxis/Employee/PayrollModel.class.php');
         $PayrollModel = new FinancePayrollModel( );
         $PayrollModel->save( $data );
 
-        File::import(MODEL . 'Markaxis/Employee/TaxModel.class.php');
         $FinanceTaxModel = new FinanceTaxModel( );
         $FinanceTaxModel->save( $data );
 
-        File::import(MODEL . 'Markaxis/Employee/LeaveTypeModel.class.php');
         $FinanceLeaveTypeModel = new FinanceLeaveTypeModel( );
         $FinanceLeaveTypeModel->save( $data );
     }

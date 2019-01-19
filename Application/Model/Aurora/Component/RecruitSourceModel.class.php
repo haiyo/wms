@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,6 +12,7 @@ class RecruitSourceModel extends \Model {
 
 
     // Properties
+    protected $RecruitSource;
 
 
     /**
@@ -21,7 +21,8 @@ class RecruitSourceModel extends \Model {
      */
     function __construct() {
         parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+
+        $this->RecruitSource = new RecruitSource( );
     }
 
 
@@ -30,9 +31,7 @@ class RecruitSourceModel extends \Model {
      * @return int
      */
     public function isFound( $rsID ) {
-        File::import( DAO . 'Aurora/Component/RecruitSource.class.php' );
-        $RecruitSource = new RecruitSource( );
-        return $RecruitSource->isFound( $rsID );
+        return $this->RecruitSource->isFound( $rsID );
     }
 
 
@@ -41,9 +40,7 @@ class RecruitSourceModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/RecruitSource.class.php' );
-        $RecruitSource = new RecruitSource( );
-        return $RecruitSource->getList( );
+        return $this->RecruitSource->getList( );
     }
 }
 ?>

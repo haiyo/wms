@@ -106,6 +106,7 @@ class i18n {
             $file    = LANG . $this->userLang . '/' . $langFile . '.lang.php';
 
             if( is_file( $resFile ) && is_file( $file ) ) {
+                // Must use File::import!
                 File::import( $resFile );
                 File::import( $file );
 

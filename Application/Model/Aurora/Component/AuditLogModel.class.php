@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class AuditLogModel extends \Model {
 
 
     // Properties
+    protected $AuditLog;
 
 
     /**
      * AuditLogModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->AuditLog = new AuditLog( );
     }
 
 
@@ -30,9 +31,7 @@ class AuditLogModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/AuditLog.class.php' );
-        $AuditLog = new AuditLog( );
-        $AuditLog->getList( );
+        $this->AuditLog->getList( );
     }
 
 
@@ -50,9 +49,7 @@ class AuditLogModel extends \Model {
      * @return int
      */
     public function log( $data ) {
-        File::import( DAO . 'Aurora/Component/AuditLog.class.php' );
-        $AuditLog = new AuditLog( );
-        $AuditLog->insert( 'audit_log', $data );
+        $this->AuditLog->insert( 'audit_log', $data );
     }
 }
 ?>

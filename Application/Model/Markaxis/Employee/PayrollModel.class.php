@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -25,8 +24,6 @@ class PayrollModel extends \Model {
         parent::__construct( );
 
         $this->info['pcID'] = '';
-
-        File::import(DAO . 'Markaxis/Employee/Payroll.class.php');
         $this->Payroll = new Payroll( );
     }
 

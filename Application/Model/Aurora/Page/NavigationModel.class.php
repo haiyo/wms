@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,6 +12,7 @@ class NavigationModel extends \Model {
 
 
     // Properties
+    protected $Menu;
 
 
     /**
@@ -21,7 +21,9 @@ class NavigationModel extends \Model {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+
+        $this->Menu = new Menu( );
+    }
 
 
     /**
@@ -29,9 +31,7 @@ class NavigationModel extends \Model {
     * @return mixed
     */
     public function getMenu( ) {
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Menu = new Menu( );
-        return $Menu->getMenuInfo( );
+        return $this->Menu->getMenuInfo( );
     }
 }
 ?>

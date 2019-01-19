@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class CityModel extends \Model {
 
 
     // Properties
+    protected $City;
 
 
     /**
      * CityModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->City = new City( );
     }
 
 
@@ -30,9 +31,7 @@ class CityModel extends \Model {
      * @return int
      */
     public function isFound( $cID ) {
-        File::import( DAO . 'Aurora/Component/City.class.php' );
-        $City = new City( );
-        return $City->isFound( $cID );
+        return $this->City->isFound( $cID );
     }
 
 
@@ -42,9 +41,7 @@ class CityModel extends \Model {
      */
     public function getList( $data ) {
         if( isset( $data['state'] ) ) {
-            File::import(DAO . 'Aurora/Component/City.class.php');
-            $City = new City( );
-            return $City->getList( $data['state']  );
+            return $this->City->getList( $data['state']  );
         }
         return false;
     }

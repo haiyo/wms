@@ -53,7 +53,6 @@ class UserControl {
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = new UserModel( );
 
         if( $UserModel->isValid( $post ) ) {

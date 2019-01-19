@@ -94,7 +94,7 @@ class CompanyView extends AuroraView {
      * @return str
      */
     public function renderSetupForm( ) {
-        /*File::import( VIEW . 'Aurora/Form/RadioView.class.php' );
+        /*
         $RadioView = new RadioView( );
         $genderRadio = $RadioView->build( 'gender', GenderHelper::getL10nList( ), $this->info['gender'] );
         $childrenRadio = $RadioView->build( 'children', YesNoHelper::getL10nList( ), $this->info['children'] );
@@ -107,14 +107,11 @@ class CompanyView extends AuroraView {
             $dobYear  = $birthday[0];
         }
 
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
-        File::import( VIEW . 'Aurora/Form/DayIntListView.class.php' );
         $DayIntListView = new DayIntListView( );
         $SelectListView = new SelectListView( );
         $dobDayList   = $DayIntListView->getList( 'dobDay', $dobDay, 'Day' );
         $dobMonthList = $SelectListView->build( 'dobMonth', MonthHelper::getL10nList( ), $dobMonth, 'Month' );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
         $countryList = $SelectListView->build( 'country', $countries, $this->info['country'], 'Select Country' );
@@ -124,12 +121,10 @@ class CompanyView extends AuroraView {
         $nationalityList = $SelectListView->build( 'nationality', NationalityHelper::getL10nList( ),
                                                     $this->info['nationality'], 'Select Nationality' );
 
-        File::import( MODEL . 'Aurora/Component/ReligionModel.class.php' );
         $ReligionModel = ReligionModel::getInstance( );
         $religionID = isset( $this->info['religionID'] ) ? $this->info['religionID'] : '';
         $religionList = $SelectListView->build( 'religion', $ReligionModel->getList( ), $religionID, 'Select Religion' );
 
-        File::import( MODEL . 'Aurora/Component/RaceModel.class.php' );
         $RaceModel = RaceModel::getInstance( );
         $raceID = isset( $this->info['raceID'] ) ? $this->info['raceID'] : '';
         $SelectListView->setClass( 'raceList' );
@@ -173,7 +168,6 @@ class CompanyView extends AuroraView {
         $vars['dynamic']['children'] = false;
 
         if( $this->info['userID'] ) {
-            File::import(MODEL . 'Aurora/User/ChildrenModel.class.php');
             $ChildrenModel = new ChildrenModel( );
 
             $id = 0;

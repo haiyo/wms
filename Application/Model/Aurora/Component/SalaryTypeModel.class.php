@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,15 +12,17 @@ class SalaryTypeModel extends \Model {
 
 
     // Properties
+    protected $SalaryType;
 
 
     /**
      * SalaryTypeModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+    function __construct( ) {
+        parent::__construct( );
+
+        $this->SalaryType = new SalaryType( );
     }
 
 
@@ -30,9 +31,7 @@ class SalaryTypeModel extends \Model {
      * @return int
      */
     public function isFound( $stID ) {
-        File::import( DAO . 'Aurora/Component/SalaryType.class.php' );
-        $SalaryType = new SalaryType( );
-        return $SalaryType->isFound( $stID );
+        return $this->SalaryType->isFound( $stID );
     }
 
 
@@ -41,9 +40,7 @@ class SalaryTypeModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/SalaryType.class.php' );
-        $SalaryType = new SalaryType( );
-        return $SalaryType->getList( );
+        return $this->SalaryType->getList( );
     }
 }
 ?>

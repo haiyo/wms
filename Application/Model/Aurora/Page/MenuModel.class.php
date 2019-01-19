@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -29,7 +28,6 @@ class MenuModel extends \Model {
      * @return mixed
      */
     public function getMenu( ) {
-        File::import( DAO . 'Aurora/Page/Menu.class.php' );
         $Menu = new Menu( );
         return $Menu->getMenu( );
     }

@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,6 +12,7 @@ class PaymentMethodModel extends \Model {
 
 
     // Properties
+    protected $PaymentMethod;
 
 
     /**
@@ -21,7 +21,8 @@ class PaymentMethodModel extends \Model {
      */
     function __construct() {
         parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+
+        $this->PaymentMethod = new PaymentMethod( );
     }
 
 
@@ -30,9 +31,7 @@ class PaymentMethodModel extends \Model {
      * @return int
      */
     public function isFound( $pmID ) {
-        File::import( DAO . 'Aurora/Component/PaymentMethod.class.php' );
-        $PaymentMethod = new PaymentMethod( );
-        return $PaymentMethod->isFound( $pmID );
+        return $this->PaymentMethod->isFound( $pmID );
     }
 
 
@@ -41,9 +40,7 @@ class PaymentMethodModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import( DAO . 'Aurora/Component/PaymentMethod.class.php' );
-        $PaymentMethod = new PaymentMethod( );
-        return $PaymentMethod->getList( );
+        return $this->PaymentMethod->getList( );
     }
 }
 ?>

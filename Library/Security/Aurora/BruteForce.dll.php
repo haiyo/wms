@@ -1,8 +1,7 @@
 <?php
 namespace Library\Security\Aurora;
-use \Library\Runtime\Registry;
+use \Library\Runtime\Registry, \Library\Util\Aurora\MailManager;
 use \Library\Util\IP;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -41,7 +40,6 @@ class BruteForce {
         else {
             $this->cache = unserialize( file_get_contents( $this->logFile ) );
         }
-        File::import( LIB . 'Util/IP.dll.php' );
         $IP = new IP( );
         $this->ip = $IP->getAddress( );
         if( $this->cache) $this->cleanUp( );
@@ -93,7 +91,6 @@ class BruteForce {
             $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
             $L10n = $i18n->loadLanguage( 'Aurora/Config/BFLoginRes' );
 
-            File::import( LIB . 'Util/Aurora/MailManager.dll.php' );
             $MailManager = new MailManager( );
             $MailManager->isFromSystem( );
             $MailManager->setSubject( $L10n->getContents('LANG_ALERT_SUBJECT') );

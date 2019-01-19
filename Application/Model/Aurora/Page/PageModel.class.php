@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,6 +12,7 @@ class PageModel extends \Model {
 
 
     // Properties
+    protected $Page;
 
 
     /**
@@ -21,7 +21,9 @@ class PageModel extends \Model {
     */
     function __construct( ) {
         parent::__construct( );
-	}
+
+        $this->Page = new Page( );
+    }
 
 
     /**
@@ -29,13 +31,10 @@ class PageModel extends \Model {
     * @return mixed
     */
     public function getPageInfo( $pageID ) {
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Page = new Page( );
-        $pageInfo = $Page->getPageByID( $pageID );
+        $pageInfo = $this->Page->getPageByID( $pageID );
 
         if( $pageInfo ) {
             if( $pageInfo['perm'] == 3 ) {
-                File::import( DAO . 'Aurora/PageRole.class.php' );
                 $PageRole = new PageRole( );
                 $pageInfo['pageRoles'] = $PageRole->getPageRoles( $pageInfo['pageID'] );
             }
@@ -50,9 +49,7 @@ class PageModel extends \Model {
      * @return bool
      */
     public function getDefaultPage( ) {
-        File::import( DAO . 'Aurora/Page/Page.class.php' );
-        $Page = new Page( );
-        return $Page->getDefaultPage( );
+        return $this->Page->getDefaultPage( );
     }
 
 
@@ -61,9 +58,7 @@ class PageModel extends \Model {
     * @return mixed
     */
     public function getAllPage( ) {
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Page = new Page( );
-        return $Page->getAllPage( );
+        return $this->Page->getAllPage( );
     }
 
 
@@ -73,13 +68,11 @@ class PageModel extends \Model {
     */
     public function saveDroplets( $page, $droplets ) {
         $page = pathinfo( $page );
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Page = new Page( );
 
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-        if( is_numeric( $page['basename'] ) && $Page->isFound( $page['basename'], $userInfo['userID'] ) ) {
+        if( is_numeric( $page['basename'] ) && $this->Page->isFound( $page['basename'], $userInfo['userID'] ) ) {
             $sortList = '';
             $droplets = explode( '|', $droplets );
 
@@ -92,8 +85,8 @@ class PageModel extends \Model {
 
             $info = array( );
             $info['droplets'] = $sortList;
-            return $Page->update( 'page', $info, 'WHERE userID = "' . (int)$userInfo['userID'] . '" AND
-                                                        pageID = "' . (int)$page['basename'] . '"' );
+            return $this->Page->update( 'page', $info, 'WHERE userID = "' . (int)$userInfo['userID'] . '" AND
+                                                                           pageID = "' . (int)$page['basename'] . '"' );
         }
         return 0;
     }
@@ -107,16 +100,13 @@ class PageModel extends \Model {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Page = new Page( );
-
         $post = explode( '=', $post['sorting'] );
         $i=0;
         while( list( , $pageID ) = each( $post ) ) {
             $info = array( );
             $info['sorting'] = $i;
-            $Page->update( 'page', $info, 'WHERE userID = "' . (int)$userInfo['userID'] . '" AND
-                                                 pageID = "' . (int)$pageID . '"' );
+            $this->Page->update( 'page', $info, 'WHERE userID = "' . (int)$userInfo['userID'] . '" AND
+                                                             pageID = "' . (int)$pageID . '"' );
             $i++;
         }
 
@@ -135,17 +125,14 @@ class PageModel extends \Model {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-        File::import( DAO . 'Aurora/Page.class.php' );
-        $Page = new Page( );
-
-        if( $pageInfo = $Page->getPageByIDAndUserID( $pageID, $userInfo['userID'], 'droplets' ) ) {
+        if( $pageInfo = $this->Page->getPageByIDAndUserID( $pageID, $userInfo['userID'], 'droplets' ) ) {
             $info = array( );
             $info['droplets'] = str_replace( $dropletID . ',', '', $pageInfo['droplets'] );
             $info['droplets'] = str_replace( ',' . $dropletID, '', $info['droplets'] );
             $info['droplets'] = str_replace( $dropletID,       '', $info['droplets'] );
 
-            $Page->update( 'page', $info, 'WHERE pageID="' . (int)$pageID . '"' );
-            $Page->delete( 'droplet_setting', 'WHERE dropletID="' . addslashes( $dropletID ) . '"' );
+            $this->Page->update( 'page', $info, 'WHERE pageID="' . (int)$pageID . '"' );
+            $this->Page->delete( 'droplet_setting', 'WHERE dropletID="' . addslashes( $dropletID ) . '"' );
             return true;
         }
     }

@@ -1,7 +1,8 @@
 <?php
 namespace Aurora\User;
+use \Aurora\Component\UploadModel;
 use \Library\IO\File;
-use \Date, \Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
@@ -25,8 +26,6 @@ class UserImageModel extends \Model {
         parent::__construct( );
 
         $this->fileInfo = array( );
-
-        File::import( DAO . 'Aurora/User/UserImage.class.php' );
         $this->UserImage = new UserImage( );
 	}
 
@@ -65,7 +64,6 @@ class UserImageModel extends \Model {
                     $image = base64_decode( $image );
 
                     if( $image ) {
-                        File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
                         $UploadModel = new UploadModel( );
 
                         $this->fileInfo['hashDir'] = MD5( date('Y-m-d') ) . '/';
@@ -98,7 +96,6 @@ class UserImageModel extends \Model {
     */
     public function delete( $userID ) {
         if( $uiInfo = $this->getByUserID( $userID, '*' ) ) {
-            File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
             $UploadModel = new UploadModel( );
             $UploadModel->deleteFile( $uiInfo['uID'], $uiInfo['hashName'], USER_PHOTO_DIR );
 
