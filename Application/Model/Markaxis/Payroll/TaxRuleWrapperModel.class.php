@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -32,7 +31,6 @@ class TaxRuleWrapperModel extends \Model {
      * @return mixed
      */
     public function getAllTax( $trID ) {
-        File::import( DAO . 'Markaxis/Payroll/TaxRuleWrapper.class.php' );
         $TaxRuleWrapper = new TaxRuleWrapper( );
         return $TaxRuleWrapper->getAllTax( $trID );
     }

@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Component\ContractModel;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,7 +25,6 @@ class TaxContractModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        File::import( DAO . 'Markaxis/Payroll/TaxContract.class.php' );
         $this->TaxContract = new TaxContract( );
     }
 
@@ -105,7 +103,6 @@ class TaxContractModel extends \Model {
 
                     switch( $data['criteria_' . $id] ) {
                         case 'contract' :
-                            File::import(MODEL . 'Aurora/Component/ContractModel.class.php');
                             $ContractModel = ContractModel::getInstance( );
 
                             // Check if base table exist or not first.

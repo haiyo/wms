@@ -1,6 +1,8 @@
 <?php
-namespace Aurora;
-use \File, \String;
+namespace Library\Util\Aurora;
+use \Library\Interfaces\IURLGrabber;
+use \Library\Util\MXString;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -31,7 +33,6 @@ class ViddlerGrabber extends URLGrabber implements IURLGrabber {
         $load = @simplexml_load_file( 'http://lab.viddler.com/services/oembed/?url=' . $this->url, 'SimpleXMLElement', LIBXML_NOCDATA );
         if( !$load ) return false;
 
-        File::import( LIB . 'Util/MXString.dll.php' );
         $MXString = new MXString( );
         $info['title'] = $MXString->cropText( (string)$load->title, 300 );
         $info['description'] = '<a href="' . (string)$load->author_url . '">' . (string)$load->author_name . '</a>';

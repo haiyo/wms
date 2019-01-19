@@ -28,7 +28,6 @@ class LeaveModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        File::import( DAO . 'Markaxis/Leave/Leave.class.php' );
         $this->Leave = new Leave( );
     }
 
@@ -38,7 +37,6 @@ class LeaveModel extends \Model {
      * @return mixed
      */
     public function getTypeListByUserID( $userID ) {
-        File::import( MODEL . 'Markaxis/Employee/LeaveBalanceModel.class.php' );
         $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
         return $LeaveBalanceModel->getTypeListByUserID( $userID );
     }
@@ -49,11 +47,8 @@ class LeaveModel extends \Model {
      * @return mixed
      */
     public function getLeaveBalance( ) {
-        File::import( MODEL . 'Markaxis/Employee/LeaveBalanceModel.class.php' );
         $LeaveBalanceModel = TypeModel::getInstance( );
 
-
-        File::import( MODEL . 'Markaxis/Leave/TypeModel.class.php' );
         $TypeModel = TypeModel::getInstance( );
         $leaveType = $TypeModel->getFullList( );
 
@@ -61,7 +56,6 @@ class LeaveModel extends \Model {
             $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
             $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-            File::import(MODEL . 'Markaxis/Employee/EmployeeModel.class.php');
             $EmployeeModel = EmployeeModel::getInstance();
             $empInfo = $EmployeeModel->getFieldByUserID( $userInfo['userID'], 'oID, dID, cID, confirmDate, startDate, endDate' );
 
@@ -95,8 +89,6 @@ class LeaveModel extends \Model {
 
                     // Both of these criteria we need to retrieve children info.
                     if( $type['childAge'] && $type['childBorn'] ) {
-
-                        File::import(MODEL . 'Aurora/user/ChildrenModel.class.php');
                         $ChildrenModel = ChildrenModel::getInstance();
                         $children = $ChildrenModel->getByUserID( $userInfo['userID'] );
 
@@ -109,8 +101,6 @@ class LeaveModel extends \Model {
                                 if( $aTimestamp == $bTimestamp ) return 0;
                                 return $aTimestamp < $bTimestamp;
                             });
-
-                            File::import(LIB . 'Util/Date.dll.php');
                             if( !Date::getAge( $children[0]['birthday'] ) > $type['childAge'] ) {
                                 // Child age overshot, no longer eligible.
                                 continue;

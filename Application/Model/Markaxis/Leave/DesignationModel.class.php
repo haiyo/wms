@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
 use \Aurora\Component\DesignationModel AS AuroraDesignation;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class DesignationModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/Designation.class.php' );
         $this->Designation = new Designation( );
     }
 
@@ -56,7 +54,6 @@ class DesignationModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['designation'] ) && is_array( $data['designation'] ) ) {
-            File::import( MODEL . 'Aurora/Component/DesignationModel.class.php' );
             $DesignationModel = AuroraDesignation::getInstance( );
             $designation = $DesignationModel->getIDList( );
 

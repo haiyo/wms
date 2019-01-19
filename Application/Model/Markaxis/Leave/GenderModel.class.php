@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
 use \Library\Helper\Aurora\GenderHelper;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class GenderModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/Gender.class.php' );
         $this->Gender = new Gender( );
     }
 

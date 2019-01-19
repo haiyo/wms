@@ -1,6 +1,7 @@
 <?php
-namespace Aurora;
-use \Library\IO\File;
+namespace Library\Util\Aurora;
+use \Library\Interfaces\IURLGrabber;
+use \Library\Util\MXString;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -32,7 +33,6 @@ class FlickrGrabber extends URLGrabber implements IURLGrabber {
         $load = @simplexml_load_file( 'http://flickr.com/services/oembed?url=' . $this->url . '&maxwidth=120&maxheight=90', 'SimpleXMLElement', LIBXML_NOCDATA );
         if( !$load ) return false;
 
-        File::import( LIB . 'Util/MXString.dll.php' );
         $MXString = new MXString( );
         $info['title'] = $MXString->cropText( (string)$load->title, 300 );
         $info['description'] = '<a href="' . (string)$load->author_url . '">' . (string)$load->author_name . '</a>';

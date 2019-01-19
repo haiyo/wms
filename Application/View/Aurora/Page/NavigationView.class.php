@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -50,7 +49,6 @@ class NavigationView {
         $class  = $namespace . '\\' . $className;
 
         if( !isset( $nav[$class] ) ) {
-            File::import( CONTROL . $folder . '/' . $className . '.class.php' );
             $Menu = new $class;
             $nav[$class] = $Menu;
         }

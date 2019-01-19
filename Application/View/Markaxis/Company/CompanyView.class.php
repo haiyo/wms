@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
+use \Library\Runtime\Registry, \Aurora\AuroraView;
+use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

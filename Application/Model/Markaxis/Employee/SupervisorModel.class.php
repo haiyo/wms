@@ -2,7 +2,7 @@
 namespace Markaxis\Employee;
 use \Aurora\User\UserModel;
 use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

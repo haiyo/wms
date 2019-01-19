@@ -1,8 +1,5 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
-use Aurora\MessageModel, Aurora\User\UserRoleModel;
-use \IObserver;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

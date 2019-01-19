@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -25,7 +24,6 @@ class StructureModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/Structure.class.php' );
         $this->Structure = new Structure( );
     }
 

@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Calendar;
 use Registry, Aurora\LightboxView, Aurora\IconDisplay;
-use \Library\IO\File;
 use \MXString;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
@@ -58,12 +58,11 @@ class CalendarAttachmentView {
     public function renderData( ) {
         $totalSize  = ini_get( 'post_max_size' );
         $uploadSize = ini_get( 'upload_max_filesize' );
-        
-        File::import( LIB . 'Util/String.dll.php' );
+
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPLVAR_TOTAL_B'    => String::strToBytes( ($totalSize+1) . 'M' ),
+                array( 'TPLVAR_TOTAL_B'    => MXString::strToBytes( ($totalSize+1) . 'M' ),
                        'TPLVAR_TOTAL_TXT'  => $totalSize,
-                       'TPLVAR_UPLOAD_B'   => String::strToBytes( $uploadSize ),
+                       'TPLVAR_UPLOAD_B'   => MXString::strToBytes( $uploadSize ),
                        'TPLVAR_UPLOAD_TXT' => $uploadSize ) );
 
         $CalendarModel = CalendarModel::getInstance( );

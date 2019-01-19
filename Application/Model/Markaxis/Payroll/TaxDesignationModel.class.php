@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Component\DesignationModel;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class TaxDesignationModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        File::import( DAO . 'Markaxis/Payroll/TaxDesignation.class.php' );
         $this->TaxDesignation = new TaxDesignation( );
     }
 
@@ -106,7 +104,6 @@ class TaxDesignationModel extends \Model {
 
                     switch( $data['criteria_' . $id] ) {
                         case 'designation' :
-                            File::import(MODEL . 'Aurora/Component/DesignationModel.class.php');
                             $DesignationModel = DesignationModel::getInstance();
 
                             if( $DesignationModel->isFound($data['designation_' . $id] ) ) {

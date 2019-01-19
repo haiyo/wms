@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Aurora\Component\BankModel as AuroraBankModel;
-use \Validator;
+use \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -29,7 +29,6 @@ class BankModel extends \Model {
         $this->info['bankCode'] = $this->info['branchCode'] = $this->info['bankHolderName'] =
         $this->info['swiftCode'] = $this->info['branchName'] = '';
 
-        File::import(DAO . 'Markaxis/Employee/Bank.class.php');
         $this->Bank = new Bank( );
     }
 
@@ -66,8 +65,6 @@ class BankModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        File::import( LIB . 'Validator/Validator.dll.php' );
-
         $saveInfo['pmID'] = (int)$data['pmID'];
         $saveInfo['bankNumber'] = Validator::stripTrim( $data['bankNumber'] );
         $saveInfo['bankCode'] = Validator::stripTrim( $data['bankCode'] );
@@ -77,7 +74,6 @@ class BankModel extends \Model {
         $saveInfo['branchName'] = Validator::stripTrim( $data['branchName'] );
 
         if( isset( $data['paymentMethod'] ) && $data['paymentMethod'] ) {
-            File::import( MODEL . 'Aurora/Component/PaymentMethodModel.class.php' );
             $PaymentMethodModel = PaymentMethodModel::getInstance( );
 
             if( $PaymentMethodModel->isFound( $data['paymentMethod'] ) ) {
@@ -86,7 +82,6 @@ class BankModel extends \Model {
         }
 
         if( isset( $data['bank'] ) && $data['bank'] ) {
-            File::import( MODEL . 'Aurora/Component/BankModel.class.php' );
             $BankModel = AuroraBankModel::getInstance( );
 
             if( $BankModel->isFound( $data['bank'] ) ) {

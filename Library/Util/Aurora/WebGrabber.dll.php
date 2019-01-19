@@ -1,7 +1,9 @@
 <?php
-namespace Aurora;
-use \File, \String, \Validator;
+namespace Library\Util\Aurora;
+use \Library\Interfaces\IURLGrabber;
+use \Library\Util\MXString;
 use \DOMDocument, \DOMXPath;
+
 /** * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
  * @version $Id: WebGrabber.class.php, v 2.0 Exp $
@@ -40,7 +42,6 @@ class WebGrabber extends URLGrabber implements IURLGrabber {
             $info['title'] = strip_tags( trim( @$XPath->query('//title')->item(0)->nodeValue ) );
 
             if( $info['title'] != '' ) {
-                File::import( LIB . 'Util/MXString.dll.php' );
                 $MXString = new MXString( );
                 $info['title'] = $MXString->cropText( $info['title'], 300 );
                 $info['url']   = strtolower( $MXString->cropText( $content['url'], 300 ) );
@@ -108,7 +109,6 @@ class WebGrabber extends URLGrabber implements IURLGrabber {
      * * @return void
      */
     public function getInfo1( ) {
-        File::import( LIB . 'Util/SimpleHTML.dll.php' );
         $html = file_get_html( $this->url );
         if( !$html ) {
             return false;
@@ -118,7 +118,6 @@ class WebGrabber extends URLGrabber implements IURLGrabber {
                 $title = strip_tags( $element->plaintext );
             }
             if( $title != '' ) {
-                File::import( LIB . 'Util/MXString.dll.php' );
                 $MXString = new MXString( );
                 $info = array( );
                 $info['title'] = utf8_decode( $title );

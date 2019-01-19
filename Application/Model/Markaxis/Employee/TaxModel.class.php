@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -25,8 +24,6 @@ class TaxModel extends \Model {
         parent::__construct( );
 
         $this->info['pcID'] = '';
-
-        File::import(DAO . 'Markaxis/Employee/Tax.class.php');
         $this->Tax = new Tax( );
     }
 

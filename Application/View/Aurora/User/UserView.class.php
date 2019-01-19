@@ -4,7 +4,6 @@ use \Aurora\AuroraView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Au
 use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\YesNoHelper, \Library\Helper\Aurora\MonthHelper;
 use \Library\Helper\Aurora\MaritalHelper, \Library\Helper\Aurora\NationalityHelper;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
-use \Library\IO\File;
 use \Library\Runtime\Registry;
 
 /**
@@ -37,7 +36,6 @@ class UserView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $this->UserModel = UserModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
@@ -74,7 +72,6 @@ class UserView extends AuroraView {
      * @return str
      */
     public function renderForm( ) {
-        File::import( VIEW . 'Aurora/Form/RadioView.class.php' );
         $RadioView = new RadioView( );
         $genderRadio = $RadioView->build( 'gender', GenderHelper::getL10nList( ), $this->info['gender'] );
         $childrenRadio = $RadioView->build( 'children', YesNoHelper::getL10nList( ), $this->info['children'] );
@@ -86,15 +83,11 @@ class UserView extends AuroraView {
             $dobMonth = $birthday[1];
             $dobYear  = $birthday[0];
         }
-
-        File::import( VIEW . 'Aurora/Form/SelectListView.class.php' );
-        File::import( VIEW . 'Aurora/Form/DayIntListView.class.php' );
         $DayIntListView = new DayIntListView( );
         $SelectListView = new SelectListView( );
         $dobDayList   = $DayIntListView->getList( 'dobDay', $dobDay, 'Day' );
         $dobMonthList = $SelectListView->build( 'dobMonth', MonthHelper::getL10nList( ), $dobMonth, 'Month' );
 
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
         $countryList = $SelectListView->build( 'country', $countries, $this->info['country'], 'Select Country' );
@@ -104,12 +97,10 @@ class UserView extends AuroraView {
         $nationalityList = $SelectListView->build( 'nationality', NationalityHelper::getL10nList( ),
                                                     $this->info['nationality'], 'Select Nationality' );
 
-        File::import( MODEL . 'Aurora/Component/ReligionModel.class.php' );
         $ReligionModel = ReligionModel::getInstance( );
         $religionID = isset( $this->info['religionID'] ) ? $this->info['religionID'] : '';
         $religionList = $SelectListView->build( 'religion', $ReligionModel->getList( ), $religionID, 'Select Religion' );
 
-        File::import( MODEL . 'Aurora/Component/RaceModel.class.php' );
         $RaceModel = RaceModel::getInstance( );
         $raceID = isset( $this->info['raceID'] ) ? $this->info['raceID'] : '';
         $SelectListView->setClass( 'raceList' );
@@ -153,7 +144,6 @@ class UserView extends AuroraView {
         $vars['dynamic']['children'] = false;
 
         if( $this->info['userID'] ) {
-            File::import(MODEL . 'Aurora/User/ChildrenModel.class.php');
             $ChildrenModel = new ChildrenModel( );
 
             $id = 0;

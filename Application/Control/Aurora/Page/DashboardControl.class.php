@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -30,7 +29,6 @@ class DashboardControl {
     * @return void
     */
     public function getMenu( $css ) {
-        File::import( VIEW . 'Aurora/Page/DashboardView.class.php' );
         $DashboardView = new DashboardView( );
         return $DashboardView->renderMenu( $css );
     }
@@ -43,7 +41,6 @@ class DashboardControl {
     public function dashboard( ) {
         $output = Control::getOutputArray( );
 
-        File::import( VIEW . 'Aurora/Page/DashboardView.class.php' );
         $DashboardView = new DashboardView( );
         $DashboardView->printAll( $DashboardView->renderDashboard( $output ) );
     }

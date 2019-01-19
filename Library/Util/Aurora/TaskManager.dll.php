@@ -1,7 +1,6 @@
 <?php
 namespace Library\Util\Aurora;
 use \Library\Util\TaskManager as DefTaskManager;
-use \Library\IO\File;
 use \Library\Exception\InstantiationException;
 
 /**
@@ -46,7 +45,6 @@ class TaskManager extends DefTaskManager {
     */
     private function importClass( $tasks ) {
         foreach( $tasks as $classPath => $childPath ) {
-            File::import( CONTROL . $classPath . '.class.php' );
             if( sizeof( $childPath ) > 0 ) {
                 $this->importClass( $childPath );
             }

@@ -1,6 +1,7 @@
 <?php
-namespace Markaxis;
-use \DateTime;
+namespace Library\Util\Markaxis\Calendar;
+use \DateTime, \DateInterval;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -72,14 +73,21 @@ class MonthRecur extends Recur {
                                     $this->Event->getInfo('start', 'd') );*/
 
         while( $this->rangeStart <= $this->rangeEnd ) {
-            $currView  = mktime( 0, 0, 0, $this->rangeStart->format('m'), $this->Event->getInfo('start', 'd'), $this->rangeStart->format('Y') );
-            $eventDate = mktime( 0, 0, 0, $this->Event->getInfo('start', 'm'), $this->Event->getInfo('start', 'd'), $this->Event->getInfo('start', 'Y') );
+
+            $currView  = mktime( 0, 0, 0, $this->rangeStart->format('m'),
+                                                               $this->Event->getInfo('start', 'd'),
+                                                               $this->rangeStart->format('Y') );
+
+            $eventDate = mktime( 0, 0, 0, $this->Event->getInfo('start', 'm'),
+                                                               $this->Event->getInfo('start', 'd'),
+                                                               $this->Event->getInfo('start', 'Y') );
+
             $this->interval = round(($currView-$eventDate) / 60 / 60 / 24 / 30); // months difference
 
-            $monthsAway = $this->Event->getInfo('start', 'm')+$this->interval; //8
-            $recurMonth = $this->Event->getInfo('start', 'm')%$this->getRecurTotal( ); // 0
+            $monthsAway = $this->Event->getInfo('start', 'm') + $this->interval; //8
+            $recurMonth = $this->Event->getInfo('start', 'm') % $this->getRecurTotal( ); // 0
 
-            if( $monthsAway%$this->getRecurTotal( ) == $recurMonth ) {
+            if( $monthsAway % $this->getRecurTotal( ) == $recurMonth ) {
                 // Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
                 $nextRecur = $this->getNextRecur( $this->Event->getInfo('start', 'U'), $this->interval );
                 $endRecur  = $this->getNextRecur( $this->Event->getInfo('end',   'U'), $this->interval );
@@ -87,7 +95,7 @@ class MonthRecur extends Recur {
                 // Store first created recur
                 if( sizeof( $this->collection ) == 0 ) {
                     $this->collection[] = array( 'start' => $this->Event->getInfo( 'start', 'Y-m-d' ),
-                                                 'end' => $this->Event->getInfo( 'end', 'Y-m-d' ) );
+                                                 'end'   => $this->Event->getInfo( 'end', 'Y-m-d' ) );
                 }
 
                 //$nextRecur = self::addMonth( $this->Event->getInfo( 'start', false ), $this->Event->getInfo('start', false ), $this->forceMonthEnd );
@@ -115,8 +123,8 @@ class MonthRecur extends Recur {
 
                     $this->collection[] = $eventInfo;
                 }
-                $this->Event->setInfo( 'start', new \DateTime( $eventInfo['start'] ) );
-                $this->Event->setInfo( 'end', new \DateTime( $eventInfo['end'] ) );
+                $this->Event->setInfo( 'start', new DateTime( $eventInfo['start'] ) );
+                $this->Event->setInfo( 'end', new DateTime( $eventInfo['end'] ) );
             }
             //$this->rangeStart->modify('+' . $this->Event->repeatTimes( ) . ' ' . $this->Event->getInfo('recurType') );
             //$this->rangeStart->setDate( $this->rangeStart->format('Y'), $this->rangeStart->format('m'), $this->Event->getInfo( 'start', 'd') );
@@ -133,7 +141,7 @@ class MonthRecur extends Recur {
      */
     public static function addMonth( DateTime $startDate, DateTime $currentDate, $forceMonthEnd=false ) {
         $addMon = clone $currentDate;
-        $addMon->add( new \DateInterval("P1M") );
+        $addMon->add( new DateInterval("P1M") );
 
         $nextMon = clone $currentDate;
         $nextMon->modify('last day of next month' );

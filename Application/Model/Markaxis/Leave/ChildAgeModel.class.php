@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,7 +25,6 @@ class ChildAgeModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/ChildAge.class.php' );
         $this->ChildAge = new ChildAge( );
     }
 

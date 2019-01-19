@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\FormSelectListView;
+use \Library\Runtime\Registry, \Aurora\AuroraView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

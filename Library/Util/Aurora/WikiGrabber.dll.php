@@ -1,6 +1,8 @@
 <?php
-namespace Aurora;
-use \File, \String, \HTMLSanitizer;
+namespace Library\Util\Aurora;
+use \Library\Interfaces\IURLGrabber;
+use \Library\Util\MXString;
+use \HTMLSanitizer;
 use \DOMDocument, \DOMXPath;
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -32,7 +34,6 @@ class WikiGrabber extends URLGrabber implements IURLGrabber {
         $DOM = new DOMDocument( );
         $content = $this->getURLPage( );
 
-        File::import( LIB . 'Sanitizer/HTMLSanitizer.dll.php' );
         $content = HTMLSanitizer::sanitize( $content['content'] );
 
         if( !@$DOM->loadHTML( $content ) ) {
@@ -44,8 +45,7 @@ class WikiGrabber extends URLGrabber implements IURLGrabber {
             $info['title'] = strip_tags( trim( $XPath->query('//title')->item(0)->nodeValue ) );
 
             if( $info['title'] != '' ) {
-                File::import( LIB . 'Util/String.dll.php' );
-                $String = new String( );
+                $String = new MXString( );
                 $info['title'] = str_replace( 'Incompatible Browser | ', '', $info['title'] );
                 $info['title'] = $String->cropText( $info['title'], 300 );
                 $info['url']   = $String->cropText( $this->url, 300 );

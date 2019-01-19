@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -30,12 +29,8 @@ class LogoControl {
     * @return void
     */
     public function logo( ) {
-        File::import( MODEL . 'Aurora/Page/LogoModel.class.php' );
         $LogoModel = LogoModel::getInstance( );
 
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/LightboxView.class.php' );
-        File::import( VIEW . 'Aurora/Page/LogoView.class.php' );
         $LogoView = new LogoView( $LogoModel );
         $LightboxView = LightboxView::getInstance( );
         $LightboxView->printAll( $LogoView->render( ) );
@@ -49,7 +44,6 @@ class LogoControl {
     public function updateTxt( ) {
         $post = Control::getRequest( )->request( POST );
 
-        File::import( MODEL . 'Aurora/Page/LogoModel.class.php' );
         $LogoModel = LogoModel::getInstance( );
         $LogoModel->updateTxt( $post );
         $info = $LogoModel->getInfo( );
@@ -74,7 +68,6 @@ class LogoControl {
         $vars = array( );
         $file = Control::getRequest( )->request( FILES );
 
-        File::import( MODEL . 'Aurora/Page/LogoModel.class.php' );
         $LogoModel = LogoModel::getInstance( );
         
         if( $LogoModel->uploadSuccess( $file['file'] ) ) {
@@ -98,7 +91,6 @@ class LogoControl {
     * @return void
     */
     public function remove( ) {
-        File::import( MODEL . 'Aurora/Page/LogoModel.class.php' );
         $LogoModel = LogoModel::getInstance( );
         $LogoModel->remove( );
         $vars = array( );

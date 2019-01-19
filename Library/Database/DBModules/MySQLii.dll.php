@@ -42,7 +42,7 @@ class MySQLii extends DataStoreHelper {
         $this->dbUser = (string)$dbUser;
         $this->dbPass = (string)$dbPass;
         $this->dbPort = (int)$dbPort;
-        $this->connect();
+        $this->connect( );
     }
 
 
@@ -52,7 +52,7 @@ class MySQLii extends DataStoreHelper {
      * @access private
      * @return void
      */
-    private function connect() {
+    private function connect( ) {
         try {
             $dbHost = $this->dbHost ;
             $this->conn = mysqli_connect( $dbHost, $this->dbUser, $this->dbPass );
@@ -79,7 +79,7 @@ class MySQLii extends DataStoreHelper {
      * @access private
      * @return void
      */
-    private function selectDB() {
+    private function selectDB( ) {
         if( !mysqli_select_db( $this->conn, $this->dbName ) ) {
             $this->dbName = NULL;
             throw( new DatabaseException( mysqli_error($this->conn) ) );
@@ -97,8 +97,8 @@ class MySQLii extends DataStoreHelper {
     public function select( $query, $file, $line ) {
         try {
             if( !$sql = mysqli_query( $this->conn, $query ) ) {
-                throw( new DatabaseException( mysqli_error($this->conn) . ' on query: ' .
-                    $query, mysqli_errno($this->conn), $file, $line ) );
+                throw( new DatabaseException( mysqli_error( $this->conn ) . ' on query: ' .
+                    $query, mysqli_errno( $this->conn ), $file, $line ) );
             }
             return $sql;
         }
@@ -205,7 +205,7 @@ class MySQLii extends DataStoreHelper {
      * Get database size
      * @return int
      */
-    public function size() {
+    public function size( ) {
         $sql = $this->select( 'SHOW TABLE STATUS FROM ' . addslashes( $this->dbName ), __FILE__, __LINE__ );
         $total = 0;
         while( $row = $this->fetch( $sql ) ) {
@@ -219,7 +219,7 @@ class MySQLii extends DataStoreHelper {
      * Get MySQLi Version
      * @return string
      */
-    public function version() {
+    public function version( ) {
         $sql = $this->select( 'SELECT VERSION()', __FILE__, __LINE__ );
         $row = $this->fetch( $sql );
         return 'MySQL/' . $row['VERSION()'];
@@ -230,8 +230,8 @@ class MySQLii extends DataStoreHelper {
      * Close Database Connection
      * @return void
      */
-    public function __destruct() {
-        if($this->conn) {
+    public function __destruct( ) {
+        if( $this->conn ) {
             mysqli_close( $this->conn );
         }
     }

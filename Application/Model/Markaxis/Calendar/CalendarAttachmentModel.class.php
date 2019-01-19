@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\IO\File;
 use \Uploader, \ImageManipulation;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010

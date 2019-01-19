@@ -11,6 +11,6 @@ namespace Library\Interfaces;
 interface IURLGrabber {
 
 
-    public function getInfo( $url );
+    public function getInfo( );
 }
 ?>

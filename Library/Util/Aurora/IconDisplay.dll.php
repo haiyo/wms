@@ -1,5 +1,6 @@
 <?php
-namespace Aurora;
+namespace Library\Util\Aurora;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 25th, 2012

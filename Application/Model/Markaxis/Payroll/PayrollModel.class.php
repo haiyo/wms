@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -32,7 +31,6 @@ class PayrollModel extends \Model {
      * @return int
      */
     public function isFound( $prID ) {
-        File::import( DAO . 'Markaxis/Payroll/Payroll.class.php' );
         $Payroll = new Payroll( );
         $Payroll->isFound( $prID );
     }

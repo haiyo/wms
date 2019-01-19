@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Aurora\User\UserModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

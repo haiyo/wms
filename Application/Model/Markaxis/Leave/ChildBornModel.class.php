@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Leave;
 use \Aurora\Component\CountryModel;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,7 +26,6 @@ class ChildBornModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        File::import( DAO . 'Markaxis/Leave/ChildBorn.class.php' );
         $this->ChildBorn = new ChildBorn( );
     }
 
@@ -56,7 +54,6 @@ class ChildBornModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['childBorn'] ) && $data['childBorn'] ) {
-            File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
             $CountryModel = CountryModel::getInstance( );
             $countries = $CountryModel->getList( );
 

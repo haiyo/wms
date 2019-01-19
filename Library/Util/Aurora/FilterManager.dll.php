@@ -1,7 +1,6 @@
 <?php
 namespace Library\Util\Aurora;
 use \Library\Util\FilterChain, \Library\Util\XML, \Library\Http\HttpRequest, \Library\Http\HttpResponse;
-use \Library\IO\File;
 use \Library\Exception\FileNotFoundException;
 
 /**
@@ -23,7 +22,6 @@ class FilterManager {
     * @return void
     */
     function __construct( ) {
-        File::import( LIB . 'Util/FilterChain.dll.php' );
         $this->FilterChain = new FilterChain;
 	}
 
@@ -35,13 +33,11 @@ class FilterManager {
     public function processFilter( $xmlFile ) {
         try {
             // Start loading XML for Filters information
-            File::import( LIB . 'Util/XML.dll.php' );
             $XML = new XML( );
             $XMLElement = $XML->load( $xmlFile );
             $sizeof = sizeof( $XMLElement->filter );
 
             for( $i=0; $i<$sizeof; $i++ ) {
-                File::import( APP . $XMLElement->filter[$i] . '.class.php' );
                 $className = str_replace( '/', '\\', (string)$XMLElement->filter[$i] );
                 //echo $className . '<br>';
                 $this->FilterChain->addFilter( new $className( ) );

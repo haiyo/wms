@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Admin;
 use \Library\Database\DB, \Library\Http\HttpResponse;
-use \Library\Util\XML, \Library\Util\Aurora\TaskManager, \Library\Util\Aurora\FilterManager, \Library\IO\File;
+use \Library\Util\XML, \Library\Util\Aurora\TaskManager, \Library\Util\Aurora\FilterManager;
 use \Aurora\Page\PageModel;
 use \Markaxis\Company\CompanyModel;
 use \Library\Exception\Aurora\AuthLoginException;
@@ -47,14 +47,11 @@ class AdminControl extends Control {
     public function init( $args ) {
         try {
             // Initialize Database Access Point
-            File::import( LIB . 'Database/DB.dll.php' );
             $DB = new DB( DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT );
             $DB = $DB->connect( );
 
             // Load Application Settings from the Registry Table
             $this->initRegistry( );
-            File::import( LIB . 'Runtime/Registry.dll.php' );
-            File::import( DAO . 'DAO.class.php' );
             $this->Registry = \Library\Runtime\Registry::getInstance( );
             $this->Registry->setDB( $DB );
             $this->Registry->loadRegistry( );
@@ -65,7 +62,6 @@ class AdminControl extends Control {
             $this->checkGateway( );
 
             // Setup company profile if not already
-            File::import( MODEL . 'Markaxis/Company/CompanyModel.class.php' );
             $CompanyModel = CompanyModel::getInstance( );
 
             /*if( !$CompanyModel->loadInfo( ) ) {
@@ -82,7 +78,6 @@ class AdminControl extends Control {
                 exit;
             }
             else if( self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
-                File::import( MODEL . 'Aurora/Page/PageModel.class.php' );
                 $PageModel = PageModel::getInstance( );
                 $defPageInfo = $PageModel->getDefaultPage( );
                 echo $defPageInfo['pageID'];
@@ -107,7 +102,6 @@ class AdminControl extends Control {
      * @return bool
      */
     public function setXMLTasks( $task ) {
-        File::import( LIB . 'Util/XML.dll.php' );
         $XML = new XML( );
         $XMLElement = $XML->load( XML . 'Aurora/admin-no.xml' );
         $sizeof = sizeof( $XMLElement->task );
@@ -189,8 +183,6 @@ class AdminControl extends Control {
                 array_shift( $args[0] );
                 $args = $args[0];
             }
-            File::import( LIB . 'Util/TaskManager.dll.php' );
-            File::import( LIB . 'Util/Aurora/TaskManager.dll.php' );
             $TaskManager = new TaskManager( );
             $TaskManager->addTask( $this->xmlTaskFile, $task );
             $TaskManager->escalate( $args );

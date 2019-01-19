@@ -1,5 +1,6 @@
 <?php
 namespace Library\Util;
+use \Library\Exception\FileNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

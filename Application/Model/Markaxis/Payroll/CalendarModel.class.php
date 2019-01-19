@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\IO\File;
-use \Validator;
+use \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -32,7 +32,6 @@ class CalendarModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        File::import(DAO . 'Markaxis/Payroll/Calendar.class.php');
         $Calendar = new Calendar( );
         return $Calendar->getList( );
     }
@@ -43,7 +42,6 @@ class CalendarModel extends \Model {
      * @return mixed
      */
     public function getCalResults( $data ) {
-        File::import( DAO . 'Markaxis/Payroll/Calendar.class.php' );
         $Calendar = new Calendar( );
         $Calendar->setLimit( $data['start'], $data['length'] );
 
@@ -69,17 +67,12 @@ class CalendarModel extends \Model {
 
         $results = $Calendar->getCalResults( $data['search']['value'], $order . $dir );
         $sizeof  = sizeof( $results );
-
-        File::import( LIB . 'Util/Markaxis/Calendar/Recur.dll.php' );
-        File::import( LIB . 'Util/Markaxis/Calendar/Event.dll.php' );
         $currDate = new \DateTime( );
 
         for( $i=0; $i<$sizeof; $i++ ) {
             if( isset( $results[$i] ) ) {
                 switch( $results[$i]['payPeriod'] ) {
                     case 'weekly' :
-                        File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                        File::import( LIB . 'Util/Markaxis/Calendar/WeekRecur.dll.php' );
                         // Setup canvas for NOW to next week
                         $nextWeek = new \DateTime( );
                         $nextWeek = $nextWeek->modify('+1 week');
@@ -109,8 +102,6 @@ class CalendarModel extends \Model {
                         }
                         break;
                     case 'monthly' :
-                        File::import( LIB . 'Util/Markaxis/Calendar/MonthRecur.dll.php' );
-
                         // Setup canvas for NOW to next month
                         //$nextMonth = MonthRecur::addMonth( $currDate, $currDate );
                         $MonthRecur = new MonthRecur( $currDate->format( 'Y-m-01' ), $currDate->format( 'Y-m-t' ) ); //2018-08-01 == 2018-09-01
@@ -188,8 +179,6 @@ class CalendarModel extends \Model {
                     $startDate->modify('+2 week' );
                     break;
                 case 'monthly' :
-                    File::import( LIB . 'Util/Markaxis/Calendar/Recur.dll.php' );
-                    File::import( LIB . 'Util/Markaxis/Calendar/MonthRecur.dll.php' );
                     $startDate = MonthRecur::addMonth( $startDate, $startDate );
                     $startDate->modify( '-1 day' );
                     break;
@@ -206,9 +195,6 @@ class CalendarModel extends \Model {
      */
     public function getPaymentRecur( $data ) {
         if( isset( $data['startDate'] ) && isset( $data['payPeriod'] ) ) {
-            File::import( LIB . 'Util/Markaxis/Calendar/Recur.dll.php' );
-            File::import( LIB . 'Util/Markaxis/Calendar/Event.dll.php' );
-
             // A bug related to @https://stackoverflow.com/questions/17785443/strtotime-and-datetime-giving-wrong-year-when-parsing-a-year
             // Datetime and strtotime is producing WRONG YEAR! We now use createFromFormat() to more accurately match the format we received
             // from the UI calendar.
@@ -226,8 +212,6 @@ class CalendarModel extends \Model {
 
             switch( $data['payPeriod'] ) {
                 case 'weekly' :
-                    File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                    File::import( LIB . 'Util/Markaxis/Calendar/WeekRecur.dll.php' );
                     $canvasEnd->modify('+3 weeks' );
 
                     $WeekRecur = new WeekRecur( $canvasStart->format( 'Y-m-d' ), $canvasEnd->format( 'Y-m-d' ) );
@@ -242,8 +226,6 @@ class CalendarModel extends \Model {
                     }
                     break;
                 case 'biweekly' :
-                    File::import( LIB . 'Util/Markaxis/Calendar/DayRecur.dll.php' );
-                    File::import( LIB . 'Util/Markaxis/Calendar/WeekRecur.dll.php' );
                     $canvasEnd->modify('+1 month' );
 
                     $WeekRecur = new WeekRecur( $canvasStart->format( 'Y-m-d' ), $canvasEnd->format( 'Y-m-t' ) );
@@ -258,8 +240,6 @@ class CalendarModel extends \Model {
                     }
                     break;
                 case 'monthly' :
-                    File::import( LIB . 'Util/Markaxis/Calendar/MonthRecur.dll.php' );
-
                     // Expand the canvas range by 3 months for display
                     $canvasEnd->modify('+3 months' );
                     $MonthRecur = new MonthRecur( $canvasStart->format( 'Y-m-d' ), $canvasEnd->format( 'Y-m-t' ) );
@@ -293,9 +273,6 @@ class CalendarModel extends \Model {
      * @return mixed
      */
     public function savePayrun( $data ) {
-        File::import(LIB . 'Util/Date.dll.php');
-        File::import(LIB . 'Validator/Validator.dll.php');
-
         $this->info['pcID'] = (int)$data['pcID'];
         $this->info['calName'] = Validator::stripTrim( $data['calName'] );
         $this->info['startDate']   = \DateTime::createFromFormat( 'j F, Y', $data['startDate'] );
@@ -308,7 +285,6 @@ class CalendarModel extends \Model {
         $this->info['startDate']   = $this->info['startDate']->format('Y-m-d');
         $this->info['paymentDate'] = $this->info['paymentDate']->format('Y-m-d');
 
-        File::import( DAO . 'Markaxis/Payroll/Calendar.class.php' );
         $Calendar = new Calendar( );
 
         if( $this->isFound( $this->info['pcID'] ) ) {

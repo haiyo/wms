@@ -3,7 +3,7 @@ namespace Aurora\Admin;
 use \Library\Util\Scheduler\Scheduler;
 use \Library\Security\Aurora\Authenticator;
 use \Library\Database\DB;
-use \Library\Util\Aurora\FilterManager, \Library\IO\File;
+use \Library\Util\Aurora\FilterManager;
 use \Library\Exception\Exceptions;
 use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Exception\Aurora\NoPermissionException;
@@ -65,17 +65,15 @@ class CronControl extends Control {
 
                 // Load Application Settings from the Registry Table
                 $this->initRegistry();
-                $this->Registry = \Library\Runtime\Registry::getInstance();
+                $this->Registry = \Library\Runtime\Registry::getInstance( );
                 $this->Registry->setDB( $DB );
                 $this->Registry->loadRegistry( );
 
-                File::import( LANG . 'i18n.dll.php' );
                 $i18n = new i18n('Aurora/languages.xml');
                 $i18n->setUserLang( $this->Registry->get( HKEY_LOCAL, 'language' ) );
                 $this->Registry->set( HKEY_CLASS, 'i18n', $i18n );
 
-                File::import(LIB . 'Security/Aurora/Authenticator.dll.php');
-                $Authenticator = new Authenticator();
+                $Authenticator = new Authenticator( );
 
                 if( !$Authenticator->login( $username, $password, false ) ) {
                     throw new Exceptions("Error: Invalid username and password.\n\n");
@@ -104,7 +102,6 @@ class CronControl extends Control {
     */
     public function checkGateway( ) {
         try {
-            File::import( LIB . 'Util/Aurora/FilterManager.dll.php' );
             $FilterManager = new FilterManager( );
             $FilterManager->processFilter( $this->xmlGatewayFile );
             $FilterManager->execute( self::$HttpRequest, self::$HttpResponse );
@@ -144,8 +141,6 @@ class CronControl extends Control {
                 array_shift( $args[0] );
                 $args = $args[0];
             }
-            File::import( LIB . 'Util/TaskManager.dll.php' );
-            File::import( LIB . 'Util/Aurora/TaskManager.dll.php' );
             $TaskManager = new TaskManager( );
             $TaskManager->addTask( $this->xmlTaskFile, $task );
             $TaskManager->escalate( $args );

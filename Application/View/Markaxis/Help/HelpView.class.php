@@ -1,5 +1,5 @@
 <?php
-namespace Markaxis;
+namespace Markaxis\Help;
 use \Aurora\AuroraView;
 use \Library\Runtime\Registry;
 

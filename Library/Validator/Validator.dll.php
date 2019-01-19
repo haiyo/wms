@@ -1,5 +1,6 @@
 <?php
 namespace Library\Validator;
+use \Library\Interfaces\IValidator;
 use \Library\Exception\ValidatorException;
 
 /**

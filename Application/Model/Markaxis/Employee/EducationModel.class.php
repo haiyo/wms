@@ -1,8 +1,9 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\IO\File;
 use \Aurora\Component\CountryModel, \Aurora\Component\UploadModel;
-use \Date, \Uploader, \Validator;
+use \Library\IO\File;
+use \Library\Util\Date, \Library\Util\Uploader, \Library\Validator\Validator;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
@@ -25,7 +26,6 @@ class EducationModel extends \Model {
         parent::__construct( );
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
 
-        File::import( DAO . 'Markaxis/Employee/Education.class.php' );
         $this->Education = new Education( );
 
         $this->info['school'] = $this->info['country'] =  $this->info['level'] =
@@ -87,10 +87,6 @@ class EducationModel extends \Model {
         $eduSchool = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $size = sizeof( $eduSchool );
 
-        File::import( LIB . 'Util/Date.dll.php' );
-        File::import( LIB . 'Validator/Validator.dll.php' );
-
-        File::import( MODEL . 'Aurora/Component/CountryModel.class.php' );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
 
@@ -117,7 +113,6 @@ class EducationModel extends \Model {
             $hashName = Validator::stripTrim( $data['eduHashName_' . $i] );
 
             if( $certificate && $hashName ) {
-                File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
                 $UploadModel = new UploadModel( );
                 if( $UploadModel->isFound( $certificate, $hashName ) ) {
                     $this->info['uID'] = $certificate;
@@ -133,7 +128,6 @@ class EducationModel extends \Model {
                 $this->Education->insert( 'employee_education', $this->info );
             }
             else {
-
                 // Check permission if can update own or somebody else
 
                 $this->Education->update( 'employee_education', $this->info,
@@ -156,7 +150,6 @@ class EducationModel extends \Model {
                 $this->Education->delete( 'employee_education', 'WHERE eduID = "' . (int)$eduInfo['eduID'] . '"' );
 
                 if( $eduInfo['uID'] ) {
-                    File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
                     $UploadModel = new UploadModel( );
                     $fileInfo = $UploadModel->getByUID( $eduInfo['uID'] );
                     $UploadModel->deleteFile( $fileInfo['uID'], $fileInfo['hashName'] );
@@ -179,13 +172,11 @@ class EducationModel extends \Model {
 
         File::createDir( USER_EDU_DIR . $this->fileInfo['dir'] );
 
-        File::import( LIB . 'Util/Uploader.dll.php' );
         $Uploader = new Uploader( array( 'uploadDir' => USER_EDU_DIR . $this->fileInfo['dir'] ) );
 
         if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
             $this->fileInfo = array_merge( $this->fileInfo, $Uploader->getFileInfo( ) );
 
-            File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
             $UploadModel = new UploadModel( );
             $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
 
@@ -209,7 +200,6 @@ class EducationModel extends \Model {
      */
     public function updateCertificate( $data ) {
         if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
-            File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
             $UploadModel = new UploadModel( );
 
             if( $UploadModel->isFound( $data['uID'], $data['hashName'] ) ) {
@@ -234,7 +224,6 @@ class EducationModel extends \Model {
     public function deleteCertificate( $data ) {
         if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
             if( $this->isFoundByUID( $data['eduID'], $data['uID'] ) ) {
-                File::import( MODEL . 'Aurora/Component/UploadModel.class.php' );
                 $UploadModel = new UploadModel( );
                 return $UploadModel->deleteFile( $data['uID'], $data['hashName'] );
             }

@@ -1,6 +1,8 @@
 <?php
-namespace Aurora;
-use \File, \String;
+namespace Library\Util\Aurora;
+use \Library\Interfaces\IURLGrabber;
+use \Library\Util\MXString;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -38,7 +40,6 @@ class YouTubeGrabber extends URLGrabber implements IURLGrabber {
             $load = @simplexml_load_file( 'http://gdata.youtube.com/feeds/api/videos/' . $param, 'SimpleXMLElement', LIBXML_NOCDATA );
             if( !$load ) return false;
 
-            File::import( LIB . 'Util/MXString.dll.php' );
             $MXString = new MXString( );
             $media  = $load->children('http://search.yahoo.com/mrss/');
             $info   = array( );

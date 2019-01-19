@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Page;
-use \Library\IO\File;
 use \Control;
 
 /**
@@ -29,11 +28,7 @@ class MenuControl {
     * @return void
     */
     public function page( $args ) {
-        File::import( MODEL . 'Aurora/Page/NavigationModel.class.php' );
         $NavigationModel = new NavigationModel( );
-
-        File::import( VIEW . 'Aurora/AuroraView.class.php' );
-        File::import( VIEW . 'Aurora/Page/NavigationView.class.php' );
         $NavigationView = new NavigationView( $NavigationModel, $args );
         Control::setOutput( $NavigationView->renderAcctHeader( ) );
     }

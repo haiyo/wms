@@ -1,7 +1,11 @@
 <?php
 namespace Aurora;
-use \Library\IO\File;
-use \Validator, \IsEmpty, \IsEmail, \ValidatorException;
+use \Aurora\User\UserModel;
+use \Library\Util\Aurora\MailManager;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
+use \Library\Exception\ValidatorException;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
@@ -13,6 +17,7 @@ class ForgotPasswordModel extends \Model {
 
 
     // Properties
+    protected $ForgotPassword;
 
 
     /**
@@ -25,6 +30,8 @@ class ForgotPasswordModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/ForgotPasswordRes');
         $this->UserL10n = $i18n->loadLanguage('Aurora/User/UserRes');
+
+        $this->ForgotPassword = new ForgotPassword( );
 	}
 
 
@@ -33,9 +40,7 @@ class ForgotPasswordModel extends \Model {
      * @return bool
      */
     public function getByToken( $token ) {
-        File::import( DAO . 'Aurora/ForgotPassword.class.php' );
-        $ForgotPassword = new ForgotPassword( );
-        return $ForgotPassword->getByToken( $token );
+        return $this->ForgotPassword->getByToken( $token );
     }
 
 
@@ -64,8 +69,6 @@ class ForgotPasswordModel extends \Model {
     * @return bool
     */
     public function isValidEmail( $email ) {
-        File::import( LIB . 'Validator/Validator.dll.php' );
-        File::import( LIB . 'Validator/ValidatorModule/IsEmail.dll.php' );
         $Validator = new Validator( );
         $this->info['email']  = Validator::stripTrim( $email );
         $Validator->addModule( 'email1', new IsEmail( $this->info['email'] ) );
@@ -79,7 +82,6 @@ class ForgotPasswordModel extends \Model {
                 return false;
             }
         }
-        File::import( MODEL . 'Aurora/User/UserModel.class.php' );
         $UserModel = new UserModel( );
         return $UserModel->getFieldByEmail( $this->info['email'], '*' );
     }
@@ -97,13 +99,9 @@ class ForgotPasswordModel extends \Model {
             $info['token']  = MD5( microtime( ) . rand( ) );
             $info['created'] = date( 'Y-m-d H:i:s' );
 
-            File::import( DAO . 'Aurora/ForgotPassword.class.php' );
-            $ForgotPassword = new ForgotPassword( );
-
-            if( $ForgotPassword->insert('forgot_password', $info ) ) {
+            if( $this->ForgotPassword->insert('forgot_password', $info ) ) {
                 $local = $this->Registry->get( HKEY_LOCAL );
 
-                File::import( LIB . 'Util/Aurora/MailManager.dll.php' );
                 $MailManager = new MailManager( );
                 $MailManager->setDebug(2);
                 $MailManager->isFromSystem( );
@@ -132,8 +130,6 @@ class ForgotPasswordModel extends \Model {
      */
     public function changePassword( $data ) {
         if( $tokenInfo = $this->isValidToken( $data['token'] ) ) {
-            File::import( LIB . 'Validator/Validator.dll.php' );
-            File::import( LIB . 'Validator/ValidatorModule/IsEmpty.dll.php' );
             $Validator = new Validator( );
             $Validator->addModule( 'password', new IsEmpty( $data['password'] ) );
 
@@ -149,13 +145,10 @@ class ForgotPasswordModel extends \Model {
                 $info = array( );
                 $info['password'] = password_hash( $data['password'],PASSWORD_DEFAULT );
 
-                File::import( DAO . 'Aurora/User/User.class.php' );
-                $User = new User( );
+                $User = new \Aurora\User\User( );
                 $User->update( 'user', $info, 'WHERE userID = "' . (int)$tokenInfo['userID'] . '"' );
 
-                File::import( DAO . 'Aurora/ForgotPassword.class.php' );
-                $ForgotPassword = new ForgotPassword( );
-                $ForgotPassword->delete('forgot_password', 'WHERE fpID = "' . (int)$tokenInfo['fpID'] . '"' );
+                $this->ForgotPassword->delete('forgot_password', 'WHERE fpID = "' . (int)$tokenInfo['fpID'] . '"' );
                 return true;
             }
         }

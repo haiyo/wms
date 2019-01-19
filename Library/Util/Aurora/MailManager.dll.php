@@ -1,7 +1,6 @@
 <?php
 namespace Library\Util\Aurora;
 use PHPMailer\PHPMailer;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -25,8 +24,7 @@ class MailManager {
     function __construct( ) {
         $Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $Registry->get( HKEY_LOCAL );
-        
-        File::import( LIB . 'Util/PHPMailer/PHPMailer.dll.php' );
+
         $this->PHPMailer = new PHPMailer( );
 
         if( !$this->HKEY_LOCAL['enableSMTP'] ) {

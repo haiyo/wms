@@ -1,5 +1,6 @@
 <?php
 namespace Library\Validator\ValidatorModule;
+use \Library\Interfaces\IValidator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
