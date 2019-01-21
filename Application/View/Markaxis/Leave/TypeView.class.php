@@ -81,7 +81,7 @@ class TypeView extends AuroraView {
     public function renderForm( ) {
         $RadioView = new RadioView( );
         $proRated = $RadioView->build( 'proRated', ProRatedHelper::getL10nList( ), $this->info['proRated'] );
-        $halfDayRadio = $RadioView->build( 'halfDay', HalfDayHelper::getL10nList( ), $this->info['halfDay'] );
+        $allowHalfDayRadio = $RadioView->build( 'allowHalfDay', HalfDayHelper::getL10nList( ), $this->info['allowHalfDay'] );
         $paidLeave = $RadioView->build( 'paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
         $childCare = $RadioView->build( 'childCare', YesNoHelper::getL10nList( ), 0 );
 
@@ -140,7 +140,7 @@ class TypeView extends AuroraView {
                        'TPLVAR_CPERIOD' => $this->info['cPeriod'],
                        'TPLVAR_UPERIOD' => $this->info['uPeriod'],
                        'TPL_PRO_RATED_RADIO' => $proRated,
-                       'TPL_HALF_DAY_RADIO' => $halfDayRadio,
+                       'TPL_ALLOW_HALF_DAY_RADIO' => $allowHalfDayRadio,
                        'TPL_CHILD_CARE_RADIO' => $childCare,
                        'TPL_PAID_LEAVE' => $paidLeave,
                        'TPL_APPLIED_LIST' => $appliedList,

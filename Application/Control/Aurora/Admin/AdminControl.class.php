@@ -8,7 +8,6 @@ use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Exception\Aurora\PageNotFoundException;
 use \Library\Exception\Aurora\NoPermissionException;
 use \Library\Exception\Aurora\SiteCheckException;
-use \Library\Exception\FileNotFoundException;
 use \Library\Exception\InstantiationException;
 use \Control;
 
@@ -89,10 +88,6 @@ class AdminControl extends Control {
             $e->record( );
             HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
             header( 'location: ' . ROOT_URL . 'admin/notfound' );
-        }
-        catch( FileNotFoundException $e ) {
-            $e->record( );
-            HttpResponse::sendHeader( HttpResponse::HTTP_INTERNAL_SERVER_ERROR );
         }
     }
 
@@ -188,9 +183,6 @@ class AdminControl extends Control {
             $TaskManager->escalate( $args );
         }
         catch( InstantiationException $e ) {
-            $e->record( );
-        }
-        catch( FileNotFoundException $e ) {
             $e->record( );
         }
         catch( PageNotFoundException $e ) {

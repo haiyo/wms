@@ -135,9 +135,6 @@ class LeaveView extends AuroraView {
         if( isset( $data['startDate'] ) && isset( $data['endDate'] ) && $data['startDate'] && $data['endDate'] ) {
             $days = (int)$this->LeaveModel->getDateDiff( $data['startDate'], $data['endDate'] );
 
-            if( $data['halfDay'] == 'true' ) {
-                $days -= .5;
-            }
             return array( 'days' => $days,
                           'text' => $this->L10n->getText( 'LANG_APPLY_DAYS', $days ) );
         }

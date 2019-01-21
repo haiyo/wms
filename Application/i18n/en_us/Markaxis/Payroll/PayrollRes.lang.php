@@ -31,6 +31,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_CREATE_NEW_PAY_CALENDAR'] = 'Create New Pay Calendar';
         $this->contents['LANG_STARTDATE_HELP'] = 'This pay period ends on {endDate} and repeats {payPeriod}';
         $this->contents['LANG_FIRST_PAYMENT_HELP'] = 'Upcoming Payment Dates: {dates}';
+        $this->contents['LANG_MY_PAYSLIPS'] = 'My Payslips';
     }
 }
 ?>

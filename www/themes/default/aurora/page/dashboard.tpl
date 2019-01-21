@@ -242,12 +242,12 @@
                         </a>
                     </div>
                     <div class="box-content right">
-                        <a href=""><i class="icon-cash3"></i><h4>My Payslips</h4>
+                        <a href="<?TPLVAR_ROOT_URL?>admin/payroll/slips"><i class="icon-cash3"></i><h4>My Payslips</h4>
                             <div class="box-content-descript">View or download your monthly payslips</div>
                         </a>
                     </div>
                     <div class="box-content">
-                        <a href=""><i class="mi-favorite-border mr-3 mi-2x"></i><h4>Benefits</h4>
+                        <a href="<?TPLVAR_ROOT_URL?>admin/company/benefits"><i class="mi-favorite-border mr-3 mi-2x"></i><h4>Benefits</h4>
                             <div class="box-content-descript">See which company benefits you are enrolled in</div>
                         </a>
                     </div>

@@ -25,7 +25,6 @@ class EmployeeModel extends \Model {
      */
     function __construct( ) {
         parent::__construct( );
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
 
         $this->info['userID'] = $this->info['salary'] = 0;
         $this->info['idnumber'] = $this->info['currency'] =
@@ -68,7 +67,7 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getFieldByUserID( $userID, $column ) {
-        return $this->info = $this->Employee->getFieldByUserID( $userID, $column );
+        return $this->Employee->getFieldByUserID( $userID, $column );
     }
 
 
@@ -104,7 +103,6 @@ class EmployeeModel extends \Model {
                     break;
             }
         }
-
         $results = $this->Employee->getResults( $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
@@ -146,7 +144,6 @@ class EmployeeModel extends \Model {
                         break;
                 }
             }
-
             $results = $this->Employee->getLogsByUserID( $post['search']['value'], $userID, $order . $dir );
             $total = $results['recordsTotal'];
             unset( $results['recordsTotal'] );

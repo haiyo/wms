@@ -133,10 +133,6 @@ var MarkaxisApplyLeave = (function( ) {
                 }
             });
 
-            $("#halfDay").change(function() {
-                that.getDaysDiff( );
-            });
-
             $("#saveApplyLeave").on("click", function ( ) {
                 that.saveApplyLeave();
                 return false;
@@ -158,8 +154,7 @@ var MarkaxisApplyLeave = (function( ) {
                     startDate: $("#startDate").val( ),
                     endDate: $("#endDate").val( ),
                     startTime: $("#startTime").val( ),
-                    endTime: $("#endTime").val( ),
-                    //halfDay: $("#halfDay").is(":checked")
+                    endTime: $("#endTime").val( )
                 },
                 success: function( res   ) {
                     var obj = $.parseJSON( res );
