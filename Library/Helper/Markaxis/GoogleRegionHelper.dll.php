@@ -87,7 +87,8 @@ class GoogleRegionHelper implements IListHelper {
     public static function getL10nList( ) {
         $array = self::getList( );
         $list  = array( );
-        while( list( , $value ) = each( $array ) ) {
+
+        foreach( $array as $value ) {
             $list[$value] = $value;
         }
         return $list;

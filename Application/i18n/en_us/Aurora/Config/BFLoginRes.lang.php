@@ -1,5 +1,5 @@
 <?php
-namespace Aurora;
+namespace Aurora\Config;
 use \Resource;
 /**
  * @author Andy L.W.L <support@markaxis.com>

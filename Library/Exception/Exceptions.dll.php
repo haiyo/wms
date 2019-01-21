@@ -105,7 +105,7 @@ class Exceptions extends \Exception {
         array_shift( $trace );
         array_shift( $trace );
 
-        while( list( $key, $value ) = each( $trace ) ) {
+        foreach( $trace as $key => $value ) {
             $str .= '#' . $key . ' ';
             if( isset( $value['file']     ) ) $str .= $value['file'];
             if( isset( $value['line']     ) ) $str .= '(' . $value['line'] . '): ';
@@ -114,7 +114,7 @@ class Exceptions extends \Exception {
             if( isset( $value['function'] ) ) $str .= $value['function'] . '(';
 
             if( isset( $value['args'] ) && is_array( $value['args'] ) ) {
-                while( list( $key1, $value1 ) = each( $value['args'] ) ) {
+                foreach( $value['args'] as $key1 => $value1 ) {
                     $quote = '';
                     if( !is_array( $value1 ) && !is_object( $value1 ) ) {
                         $quote = '\'';

@@ -34,8 +34,8 @@ class LabelListView extends AuroraView {
         $vars   = array( 'TPLVAR_NAME' => $name,
                          'LANG_MANAGE_LABEL' => $L10n->getContents('LANG_MANAGE_LABEL') );
         $option = array( );
-        
-        while( list( $labelID, $row ) = each( $arrayList ) ) {
+
+        foreach( $arrayList as $row ) {
             $select = '';
             if( $selected != '' ) {
                 if( $selected == $row['color'] ) {

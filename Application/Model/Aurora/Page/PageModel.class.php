@@ -77,7 +77,7 @@ class PageModel extends \Model {
             $droplets = explode( '|', $droplets );
 
             if( sizeof( $droplets ) > 0 ) {
-                while( list( , $value ) = each( $droplets ) ) {
+                foreach( $droplets as $value ) {
                     $sortList .= substr( $value, 0, -1 ) . '|';
                 }
                 $sortList = substr( $sortList, 0, -1 );
@@ -102,7 +102,7 @@ class PageModel extends \Model {
 
         $post = explode( '=', $post['sorting'] );
         $i=0;
-        while( list( , $pageID ) = each( $post ) ) {
+        foreach( $post as $pageID ) {
             $info = array( );
             $info['sorting'] = $i;
             $this->Page->update( 'page', $info, 'WHERE userID = "' . (int)$userInfo['userID'] . '" AND
