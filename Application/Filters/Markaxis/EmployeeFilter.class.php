@@ -41,6 +41,8 @@ class EmployeeFilter implements IFilter {
         // We can check employee end date here to prevent access but I think for now
         // we move the check to cron. Anyway we still need this filter to load up
         // employee data for other object easy access.
+
+        $FilterChain->doFilter( $Request, $Response );
     }
 }
 ?>

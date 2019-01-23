@@ -65,7 +65,7 @@ class CalendarRSVPModel extends \Model {
                         $this->info['invite'] = array( );
                         $this->info['invite'][$this->userInfo['userID']] = 1;
 
-                        while( list( , $userID ) = each( $this->info['rsvpID'] ) ) {
+                        foreach( $this->info['rsvpID'] as $userID ) {
                             if( $UserModel->getFieldByUserID( $userID, 'u.userID' ) ) {
                                 $this->info['invite'][$userID] = 0;
                             }
@@ -91,7 +91,8 @@ class CalendarRSVPModel extends \Model {
 
         $rsvp = 0;
         $invitees = array( );
-        while( list( $userID, $attending ) = each( $this->info['invite'] ) ) {
+
+        foreach( $this->info['invite'] as $userID => $attending ) {
             if( isset( $rsvpList[$userID] ) ) {
                 // Restore back the already exist list if found
                 $info = array( );
@@ -131,7 +132,7 @@ class CalendarRSVPModel extends \Model {
                                                'Markaxis',
                                                'CalendarRSVPControl' );
             $rsvp = 1;
-            while( list( , $row ) = each( $invitees ) ) {
+            foreach( $invitees as $row ) {
                 $CalendarRSVP->insert( 'markaxis_event_rsvp', $row );
 
                 if( $row['userID'] != $this->userInfo['userID'] ) {

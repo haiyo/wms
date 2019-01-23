@@ -161,6 +161,10 @@ class AuroraView extends View {
                        'TPL_NAV_BAR' => !$setup ? $this->renderNavBar( ) : $this->renderSetupNavBar( ),
                        'TPL_PAGE_HEADER' => !$setup ? $this->renderPageHeader( ) : '',
                        'TPL_CONTENT' => $template );
+
+        header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
+        header('Pragma: no-cache'); // HTTP 1.0.
+        header('Expires: 0');
         echo $this->render( 'aurora/page/left.tpl', $vars );
     }
 }

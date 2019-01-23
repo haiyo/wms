@@ -102,7 +102,7 @@ class CalendarModel extends \Model {
             $setInfo = unserialize( $calInfo['settings'] );
 
             if( isset( $setInfo['people'] ) ) {
-                while( list( $userID, $value ) = each( $setInfo['people'] ) ) {
+                foreach( $setInfo['people'] as $userID => $value ) {
                     if( $userID == $this->userInfo['userID'] ) {
                         return $value['perm'];
                     }

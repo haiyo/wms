@@ -83,10 +83,10 @@ class CalendarMessageModel extends \Model implements IObserver {
             $elements['buttons'] = array( $this->L10n->getContents('LANG_APPROVE') => 1,
                                           $this->L10n->getContents('LANG_DISAPPROVE') => 0 );
 
-            while( list( , $roleID ) = each( $setInfo['approvalRoles'] ) ) {
+            foreach( $setInfo['approvalRoles'] as $roleID ) {
                 $userIDs = $UserRoleModel->getByRoleID( $roleID );
 
-                while( list( , $toUserInfo ) = each( $userIDs ) ) {
+                foreach( $userIDs as $toUserInfo ) {
                     $MessageModel->sendNew( $toUserInfo['userID'], $info['userID'],
                                             $this->L10n->getContents('LANG_SUBJECT'),
                                             serialize( $elements ),

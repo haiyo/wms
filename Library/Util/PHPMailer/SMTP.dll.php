@@ -1,5 +1,5 @@
 <?php
-namespace PHPMailer;
+namespace Library\Util\PHPMailer;
 use \Library\Util\MXString;
 
 /*~ class.smtp.php
@@ -391,7 +391,7 @@ class SMTP {
 
     $max_line_length = 998; // used below; set here for ease in change
 
-    while(list(,$line) = @each($lines)) {
+    foreach( $lines as $line ) {
       $lines_out = null;
       if($line == "" && $in_headers) {
         $in_headers = false;
