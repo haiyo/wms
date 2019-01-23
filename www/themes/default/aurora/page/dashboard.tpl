@@ -19,66 +19,13 @@
             </div>
 
             <?TPL_SIDEBAR_CARDS?>
-            <div class="card">
-                <div class="card-header bg-transparent header-elements-inline">
-                    <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Upcoming Events &nbsp;-&nbsp;
-                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar">View Calendar</a> &nbsp;|&nbsp; <a href="">Add New Event</a></span>
-                </div>
-
-                <div class="card-body">
-                    <ul class="media-list">
-                        <li class="media media-list-body">
-                            <div class="mr-3 mt-5 position-relative">
-                                <i class="mi-event-note mi-2x"></i>
-                            </div>
-
-                            <div class="media-body">
-                                <div class="d-flex justify-content-between">
-                                    <a href="#">21st Dec 2018</a>
-                                    <span class="font-size-sm text-muted">14:58</span>
-                                </div>
-
-                                The constitutionally inventoried precariously...
-                            </div>
-                        </li>
-
-                        <li class="media media-list-body">
-                            <div class="mr-3 mt-5 position-relative">
-                                <i class="mi-event-note mi-2x"></i>
-                            </div>
-
-                            <div class="media-body">
-                                <div class="d-flex justify-content-between">
-                                    <a href="#">11th Nov 2018</a>
-                                    <span class="font-size-sm text-muted">12:16</span>
-                                </div>
-
-                                Pinched a well more moral chose goodness...
-                            </div>
-                        </li>
-
-                        <li class="media media-list-body">
-                            <div class="mr-3 mt-5 position-relative">
-                                <i class="mi-event-note mi-2x"></i>
-                            </div>
-
-                            <div class="media-body">
-                                <div class="d-flex justify-content-between">
-                                    <a href="#">5th Nov 2018</a>
-                                    <span class="font-size-sm text-muted">09:48</span>
-                                </div>
-
-                                Pert thickly mischievous clung frowned well...
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
 
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
-                    <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">My Team Members (3)</span>
+                    <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">My Team Members (3) &nbsp;-&nbsp;
+                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar">Create a Team</a> &nbsp;|&nbsp; <a href="">Join Existing Team</a>
+                    </span>
                 </div>
 
                 <div class="card-body">
@@ -201,6 +148,63 @@
             </div>
             <!-- /online-users -->
 
+            <div class="card">
+                <div class="card-header bg-transparent header-elements-inline">
+                    <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Upcoming Events &nbsp;-&nbsp;
+                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar">View Calendar</a> &nbsp;|&nbsp; <a href="">Add New Event</a>
+                    </span>
+                </div>
+
+                <div class="card-body">
+                    <ul class="media-list">
+                        <li class="media media-list-body">
+                            <div class="mr-3 mt-5 position-relative">
+                                <i class="mi-event-note mi-2x"></i>
+                            </div>
+
+                            <div class="media-body">
+                                <div class="d-flex justify-content-between">
+                                    <a href="#">21st Dec 2018</a>
+                                    <span class="font-size-sm text-muted">14:58</span>
+                                </div>
+
+                                The constitutionally inventoried precariously...
+                            </div>
+                        </li>
+
+                        <li class="media media-list-body">
+                            <div class="mr-3 mt-5 position-relative">
+                                <i class="mi-event-note mi-2x"></i>
+                            </div>
+
+                            <div class="media-body">
+                                <div class="d-flex justify-content-between">
+                                    <a href="#">11th Nov 2018</a>
+                                    <span class="font-size-sm text-muted">12:16</span>
+                                </div>
+
+                                Pinched a well more moral chose goodness...
+                            </div>
+                        </li>
+
+                        <li class="media media-list-body">
+                            <div class="mr-3 mt-5 position-relative">
+                                <i class="mi-event-note mi-2x"></i>
+                            </div>
+
+                            <div class="media-body">
+                                <div class="d-flex justify-content-between">
+                                    <a href="#">5th Nov 2018</a>
+                                    <span class="font-size-sm text-muted">09:48</span>
+                                </div>
+
+                                Pert thickly mischievous clung frowned well...
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
 
         </div>
         <!-- /sidebar content -->
@@ -214,7 +218,8 @@
 
             <div class="panel-heading dashboard-heading">
                 <h1 class="panel-title">Welcome Andy Lam<?TPLVAR_FNAME?>!</h1>
-                <div class="panel-descript">You're looking at HRMS, your new tool for work. Here's a quick look at some of the things you can do here in HRMS.</div>
+                <div class="panel-descript">You're looking at HRMS, your new tool for work. Here's a quick look at some
+                    of the things you can do here in HRMS.</div>
             </div>
 
             <div class="quick-boxes">
@@ -226,12 +231,12 @@
                     </div>
                     <div class="box-content right">
                         <a href="<?TPLVAR_ROOT_URL?>admin/calendar"><i class="mi-event-note mr-3 mi-2x"></i><h4>My Calendar</h4>
-                            <div class="box-content-descript">Search for coworkers and their contact info</div>
+                            <div class="box-content-descript">Search for coworkers and their contact information</div>
                         </a>
                     </div>
                     <div class="box-content">
                         <a href="<?TPLVAR_ROOT_URL?>admin/employee/list"><i class="icon-people"></i><h4>Staff Directory</h4>
-                            <div class="box-content-descript">Search for coworkers and their contact info</div>
+                            <div class="box-content-descript">Search for coworkers and their contact information</div>
                         </a>
                     </div>
                 </div>
