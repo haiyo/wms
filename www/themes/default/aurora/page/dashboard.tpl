@@ -62,7 +62,7 @@
                                         <span class="badge badge-info badge-pill badge-float border-2 border-white">9</span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-force dropdown-menu-left" x-placement="bottom-end">
-                                        <a href="#" class="dropdown-item"><i class="icon-bubbles4"></i> Chat with David</a>
+                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalChat"><i class="icon-bubbles4"></i> Chat with David</a>
                                         <div class="divider"></div>
                                         <a href="#" class="dropdown-item"><i class="icon-calendar"></i> View David's Calendar</a>
                                         <a href="#" class="dropdown-item"><i class="icon-user"></i> View David's Profile</a>
@@ -582,4 +582,244 @@
         <!-- /tabs content -->
     </div>
 
+</div>
+
+<div id="modalChat" class="modal fade" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header chat-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title">Create New Tax Rule</h6>
+            </div>
+
+            <div class="modal-body">
+                <form id="saveTaxRule" name="saveTaxRule" method="post" action="">
+                    <input type="hidden" id="trID" name="trID" value="0" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tax Rule Title: <span class="text-danger-400">*</span></label>
+                                <input type="text" name="ruleTitle" id="ruleTitle" class="form-control" value=""
+                                       placeholder="Enter a title for this tax rule" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Belong to Group:</label>
+                                <select name="group" id="group" data-placeholder="" placeholder="" data-id=""
+                                        class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Select Country: <span class="text-danger-400">*</span></label>
+                                <?TPL_COUNTRY_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Enter State (Optional):</label>
+                                <select name="state" data-placeholder="Select State" placeholder="Select State" id="state" class="form-control select ">
+                                    <option value="">Select State</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Enter City (Optional):</label>
+                                <select name="city" data-placeholder="Select City" placeholder="Select City" id="city" class="form-control select ">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="card">
+                                <div id="rulesWrapper" class="card-body" style="padding: 12px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="criteriaTemplate" class="hide">
+                            <div id="criteriaRow_{id}" class="col-md-3 criteriaRow criteriaFirstCol">
+                                <div class="form-group">
+                                    <label>Select Criteria: <span class="text-danger-400">*</span></label>
+                                    <select name="criteria_{id}" id="criteria_{id}" data-placeholder="" placeholder="" data-id="{id}"
+                                            class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                        <option value=""></option>
+                                        <optgroup label="Computing Variables">
+                                            <option value="age">Age</option>
+                                            <option value="salary">Salary</option>
+                                            <option value="workforce">Total Workforce</option>
+                                        </optgroup>
+
+                                        <optgroup label="Other Employee Variables">
+                                            <option value="competency">Competency</option>
+                                            <option value="contract">Contract Type</option>
+                                            <option value="designation">Designation</option>
+                                            <option value="gender">Gender</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="computingTemplate" class="hide">
+                            <div class="col-md-3">
+                                <input type="hidden" id="tcID_{id}" name="tcID_{id}" value="" />
+                                <div class="form-group">
+                                    <label>Computing:</label>
+                                    <select name="computing_{id}" id="computing_{id}" data-placeholder="" placeholder=""
+                                            class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                        <option value="lt">Less Than</option>
+                                        <option value="gt">Greater Than</option>
+                                        <option value="lte">Less Than Equal</option>
+                                        <option value="gte">Greater Than Equal</option>
+                                        <option value="eq">Equal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Amount Type:</label>
+                                    <select name="valueType_{id}" id="valueType_{id}" data-placeholder="" placeholder=""
+                                            class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                        <option value="percentage">Percentage</option>
+                                        <option value="fixed" selected>Fixed / Integer</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="col_{id}" class="col-md-2">
+                                <div class="form-group">
+                                    <label>Value:</label>
+                                    <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 criteriaLastCol">
+                                <div class="form-group addCol">
+                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="competencyTemplate" class="hide">
+                            <div id="col_{id}" class="col-md-8">
+                                <input type="hidden" id="cID_{id}" name="cID_{id}" value="" />
+                                <div class="form-group">
+                                    <label>Enter Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
+                                                                  data-original-title="<?LANG_COMPETENCY_INFO?>"></i>
+                                        <span class="text-muted">(Type and press Enter to add new competency)</span></label>
+                                    <input type="text" id="competency{template}" name="competency{template}" class="form-control tokenfield-typeahead"
+                                           placeholder="Enter skillsets or knowledge"
+                                           value="" autocomplete="off" data-fouc />
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 criteriaLastCol">
+                                <div class="form-group addCol">
+                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="contractTemplate" class="hide">
+                            <div id="col_{id}" class="col-md-8">
+                                <input type="hidden" id="contractID_{id}" name="contractID_{id}" value="" />
+                                <div class="form-group">
+                                    <label>Select Contract Type:</label>
+                                    <?TPL_CONTRACT_LIST?>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 criteriaLastCol">
+                                <div class="form-group addCol">
+                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="designationTemplate" class="hide">
+                            <div id="col_{id}" class="col-md-8">
+                                <input type="hidden" id="designationID_{id}" name="designationID_{id}" value="" />
+                                <div class="form-group">
+                                    <label>Select Designation:</label>
+                                    <?TPL_DESIGNATION_LIST?>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 criteriaLastCol">
+                                <div class="form-group addCol">
+                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="genderTemplate" class="hide">
+                            <div id="col_{id}" class="col-md-8">
+                                <input type="hidden" id="genderID_{id}" name="genderID_{id}" value="" />
+                                <div class="form-group">
+                                    <label>Select Gender:</label>
+                                    <div class="form-group p-8">
+                                        <?TPL_GENDER_RADIO?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 criteriaLastCol">
+                                <div class="form-group addCol">
+                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div style="width:100%; margin:15px 0 15px 0;"></div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Apply above criteria as:</label>
+                                <select name="applyType" id="applyType" data-placeholder="" placeholder=""
+                                        class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                    <option value="salaryDeduction" selected>Deduction From Employee Salary</option>
+                                    <option value="employerContribution">Employer Contribution</option>
+                                    <option value="employerLevy">Employer Levy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Type of Value:</label>
+                                <select name="applyValueType" id="applyValueType" data-placeholder="" placeholder=""
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="percentage">Percentage</option>
+                                    <option value="fixed" selected>Fixed Amount / Integer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Value: <span class="text-danger-400">*</span></label>
+                                <input type="number" class="form-control" id="applyValue" name="applyValue" placeholder="" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
