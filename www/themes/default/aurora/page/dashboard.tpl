@@ -89,7 +89,7 @@
                                     <a href="#" class="mr-3 position-relative" data-toggle="dropdown">
                                         <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face5.jpg" width="48" height="48" class="rounded-circle" alt="">
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-left">
+                                    <div class="dropdown-menu dropdown-menu-force dropdown-menu-left">
                                         <a href="#" class="dropdown-item"><i class="icon-bubbles4"></i> Chat with Sam</a>
                                         <div class="divider"></div>
                                         <a href="#" class="dropdown-item"><i class="icon-calendar"></i> View Sam's Calendar</a>
@@ -101,7 +101,7 @@
                                     <a href="#" class="mr-3 position-relative" data-toggle="dropdown">
                                         <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face13.jpg" width="48" height="48" class="rounded-circle" alt="">
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-left">
+                                    <div class="dropdown-menu dropdown-menu-force dropdown-menu-left">
                                         <a href="#" class="dropdown-item"><i class="icon-bubbles4"></i> Chat with Sally</a>
                                         <div class="divider"></div>
                                         <a href="#" class="dropdown-item"><i class="icon-calendar"></i> View Sally's Calendar</a>
@@ -109,12 +109,12 @@
                                     </div>
                                 </li>
 
-                                <li class="media">
-                                    <a href="#" class="mr-3 position-relative" data-toggle="dropdown">
+                                <li class="media dropdown">
+                                    <a href="#" class="mr-3 dropdown-toggle position-relative" data-toggle="dropdown" aria-expanded="false">
                                         <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face25.jpg" width="48" height="48" class="rounded-circle" alt="">
                                         <span class="badge badge-info badge-pill badge-float border-2 border-white">9</span>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-left">
+                                    <div class="dropdown-menu dropdown-menu-force dropdown-menu-left" x-placement="bottom-end">
                                         <a href="#" class="dropdown-item"><i class="icon-bubbles4"></i> Chat with David</a>
                                         <div class="divider"></div>
                                         <a href="#" class="dropdown-item"><i class="icon-calendar"></i> View David's Calendar</a>
@@ -257,6 +257,19 @@
     </div>
 
     <?TPL_CONTENT?>
+
+    <div class="bg-transparent header-elements-inline">
+        <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Pending Activities</span>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="no-notification text-center">
+                <i class="icon-pulse2 mr-3 icon-3x"></i>
+                <span>You have no activities at the moment...</span>
+            </div>
+        </div>
+    </div>
 
     <div class="bg-transparent header-elements-inline">
         <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">What's Happening at Markaxis?</span>
@@ -562,21 +575,6 @@
             </div>
         </div>
         <!-- /tabs content -->
-
-    </div>
-    <!-- /my messages -->
-
-    <div class="bg-transparent header-elements-inline">
-        <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">What's Happening at Markaxis?</span>
-    </div>
-
-    <div class="card">
-        <div class="card-body">
-            <div class="no-notification text-center">
-                <i class="icon-pulse2 mr-3 icon-3x"></i>
-                <span>There are no activities at the moment...</span>
-            </div>
-        </div>
     </div>
 
 </div>

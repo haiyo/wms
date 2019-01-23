@@ -1,4 +1,10 @@
 <style>
+    .col-md-9, .col-md-9 .col-md-3:first-child {
+        padding-left:0
+    }
+    .col-md-9, .col-md-9 .col-md-3:last-child {
+        padding-right:0
+    }
     .payroll-nav {
         display: -ms-flexbox;
         display: flex;
