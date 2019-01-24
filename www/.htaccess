@@ -3,7 +3,6 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 #Treats the TestString as a pathname and tests if it exists, and is a directory.
 RewriteCond %{REQUEST_FILENAME} !-d
-
 RewriteRule ^(.*)$ index.php?pathInfo=$1 [L]
 
 #php_value upload_max_filesize 20M

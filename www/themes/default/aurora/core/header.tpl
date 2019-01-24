@@ -17,9 +17,9 @@
     <script type="text/javascript" src="<?TPLVAR_ROOT_URL?>www/themes/<?TPLVAR_THEME?>/assets/js/<?TPLVAR_JNAME?>"></script>
     <!-- END DYNAMIC BLOCK: jsRow -->
 
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script>
     <script>
-        var socket = io.connect('http://localhost:3000');
+        var socket = io.connect('http://services.markaxis.com:5000');
     </script>
 </head>
 <body class="navbar-top">

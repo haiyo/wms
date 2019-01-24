@@ -1,5 +1,6 @@
 $(function() {
     $(".chat-header").on("mousedown", function(mousedownEvt) {
+        mousedownEvt.preventDefault()
         var $draggable = $(this);
         var x = mousedownEvt.pageX - $draggable.offset().left,
             y = mousedownEvt.pageY - $draggable.offset().top;
@@ -17,11 +18,18 @@ $(function() {
         });
     });
 
-    $("#modalChat").on("show.bs.modal", function(e) {
-        var $invoker = $(e.relatedTarget);
-        var tgID = $invoker.attr("data-id");
+    $(".modalClose").click(function( ) {
+        $("#modalChat").hide( );
+    });
 
-        console.log("sdfds")
+    $(".modalChat").click(function( ) {
+        $("#modalChat").css({
+            top: "-2%",
+            right: "25%",
+            bottom: "0",
+            left: "23%",
+        });
+        $("#modalChat").show( );
         /*if( tgID ) {
             var data = {
                 bundle: {
