@@ -30,10 +30,12 @@ class LeaveApply extends \DAO {
     public function getSidebarByUserID( $userID ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT la.ltID, SUM(la.days) AS days FROM leave_apply la
-                                   LEFT JOIN employee_leave_bal elb ON ( elb.ltID = la.ltID )
-                                   WHERE la.userID = "' . (int)$userID . '" AND elb.sidebar = "1"
-                                   GROUP BY la.ltID',
+        $sql = $this->DB->select( 'SELECT elb.ltID, la.days FROM employee_leave_bal elb
+                                   LEFT JOIN ( SELECT ltID, SUM(days) AS days 
+                                               FROM leave_apply WHERE userID = "' . (int)$userID . '"
+                                               GROUP BY ltID ) AS la ON la.ltID = elb.ltID
+                                   WHERE elb.userID = "' . (int)$userID . '" AND elb.sidebar = "1"
+                                   GROUP BY elb.ltID',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

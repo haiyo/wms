@@ -10,7 +10,7 @@
                 <div class="header-inline">
                     <div class="avatar"><img src="http://localhost/wms/themes/default/assets/images/face11.jpg" alt=""></div>
                     <div class="bg-transparent dashboard-side-header">
-                        <div class="dashboard-side-role"><h2>Andy Lam</h2></div>
+                        <div class="dashboard-side-role"><h2><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h2></div>
                         <div class="dashboard-side-role">HR Administrator</div>
                     </div>
                 </div>
@@ -19,7 +19,6 @@
             </div>
 
             <?TPL_SIDEBAR_CARDS?>
-
 
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
@@ -73,7 +72,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- Online users -->
             <div class="card">
@@ -217,7 +215,7 @@
             <div class="card-body">
 
                 <div class="panel-heading dashboard-heading">
-                    <h1 class="panel-title">Welcome Andy Lam<?TPLVAR_FNAME?>!</h1>
+                    <h1 class="panel-title">Welcome <?TPLVAR_FNAME?> <?TPLVAR_LNAME?>!</h1>
                     <div class="panel-descript">You're looking at HRMS, your new tool for work. Here's a quick look at some
                         of the things you can do here in HRMS.</div>
                 </div>

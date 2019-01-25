@@ -149,9 +149,8 @@ class AdminControl extends Control {
             exit;
         }
         catch( NoPermissionException $e ) {
-            $e->record( );
-            echo 0;
-            exit;
+            $vars['error'] = 'loginError';
+            die( json_encode( $vars ) );
         }
         catch( SiteCheckException $e ) {
             $e->record( );
@@ -161,7 +160,8 @@ class AdminControl extends Control {
             // Site is turned off. Only allow Administrator to enter.
             $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
             if( !$Authorization->isAdmin( ) ) {
-                die( );
+                $vars['error'] = 'unavailable';
+                die( json_encode( $vars ) );
             }
         }
     }

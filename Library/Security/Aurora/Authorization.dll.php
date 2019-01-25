@@ -108,7 +108,8 @@ class Authorization {
         $this->namespace = $namespace;
         $this->action = $action;
 
-        if( $this->isAdmin( ) || in_array( $action, $this->rpInfo[$namespace] ) ) {
+        if( $this->isAdmin( ) || ( isset( $this->rpInfo[$namespace] ) &&
+                                   in_array( $action, $this->rpInfo[$namespace] ) ) ) {
             return true;
         }
         return false;

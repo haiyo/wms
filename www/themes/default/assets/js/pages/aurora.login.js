@@ -30,7 +30,7 @@ $(document).ready( function( ) {
                     ladda.stop( );
 
                     var obj = $.parseJSON( res );
-                    console.log(obj)
+
                     if( obj.error ) {
                         if( obj.error == 'loginError' ) {
                             swal({

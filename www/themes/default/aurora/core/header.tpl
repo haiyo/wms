@@ -22,7 +22,7 @@
         var socket = io.connect('http://services.markaxis.com:5000');
 
         socket.on("connect", function(e) {
-            socket.emit("subscribe", 33)
+            socket.emit("subscribe", Aurora.USERID);
         });
     </script>
 </head>

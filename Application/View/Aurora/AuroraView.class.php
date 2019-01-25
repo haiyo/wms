@@ -51,7 +51,7 @@ class AuroraView extends View {
                                   'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'aurora.init.js.php?' .
                                                    'ROOT_URL=' . urlencode( ROOT_URL ) .
                                                    '&THEME=' . $this->HKEY_LOCAL['theme'] .
-                                                   '&LANG=' . $this->i18n->getUserLang( ) ) . $userID,
+                                                   '&LANG=' . $this->i18n->getUserLang( ) . $userID ),
                                   'plugins/loaders' => array( 'blockui.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/forms/selects' => array( 'bootstrap_multiselect.js', 'select2.min.js' ),
