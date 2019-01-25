@@ -115,6 +115,8 @@ class AdminControl extends Control {
      * @return void
      */
     public function checkGateway( ) {
+        $vars = array( );
+
         try {
             $FilterManager = new FilterManager( );
             $FilterManager->processFilter( $this->xmlGatewayFile );
@@ -122,8 +124,6 @@ class AdminControl extends Control {
         }
         catch( AuthLoginException $e ) {
             $e->record( );
-
-            $vars = array( );
 
             if( self::$HttpResponse->getCode( ) == HttpResponse::HTTP_EXPECTATION_FAILED &&
                 self::$HttpRequest->request( POST, 'auroraLogin' ) ) {

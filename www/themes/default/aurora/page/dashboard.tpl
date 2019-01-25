@@ -758,13 +758,12 @@
                 <script>
                     $(document).ready( function( ) {
                         $("#sendMessage").on("click", function ( ) {
-                            var res = [];
-                                res["notifyUserIDs"] = 33;
-                                res["notifyEvent"] = "chatMessage";
-                                res["notifyType"] = "normal";
-                                console.log(res)
-                            console.log(socket)
-                            socket.emit("notify", JSON.stringify(res) );
+                            var data = {
+                                success: function (res) {
+                                    socket.emit("notify", (res) );
+                                }
+                            }
+                            Aurora.WebService.AJAX( "admin/dashboard/test", data );
                             return false;
                         });
                     })

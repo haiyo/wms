@@ -44,5 +44,19 @@ class DashboardControl {
         $DashboardView = new DashboardView( );
         $DashboardView->printAll( $DashboardView->renderDashboard( $output ) );
     }
+
+
+    /**
+     * DashboardControl Main
+     * @return void
+     */
+    public function test( ) {
+        $info['notifyUserIDs'] = array( 33 );
+        $info['notifyEvent'] = 'chatMessage';
+        $info['notifyType'] = 'normal';
+        $vars['data'] = $info;
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

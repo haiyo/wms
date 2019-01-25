@@ -15,12 +15,13 @@ io.on("connection", function( socket ){
 
     socket.on("notify", function( data ) {
         var obj = JSON.parse( data );
+
         for( var i=0; i<obj.data.notifyUserIDs.length; i++ ) {
             var to = clients[obj.data.notifyUserIDs[i]];
+
             if( to ) {
                 if( obj.data.notifyType == "broadcast" ) {
                     // Broadcast to everyone else except for the socket that starts it.
-                    // TaskPoster and Other Bidders receive bid counter upate
                     socket.broadcast.emit( obj.data.notifyEvent, data );
                 }
                 else {

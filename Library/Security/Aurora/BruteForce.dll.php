@@ -129,7 +129,6 @@ class BruteForce {
           ( $this->cache[$this->ipHash]['time']+$this->bfWindow ) < time( ) ) {
             unset( $this->cache[$this->ipHash] );
         }
-        echo serialize( $this->cache );
         $file = fopen( $this->logFile, 'w' );
         fwrite( $file, serialize( $this->cache ) );
         fclose( $file );
