@@ -147,7 +147,6 @@ var MarkaxisApplyLeave = (function( ) {
                 swal("Error!", "Invalid date range selected", "error");
                 return false;
             }
-
             var data = {
                 bundle: {
                     ltID: $("#ltID").val( ),

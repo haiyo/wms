@@ -755,14 +755,29 @@
                 </div>
                 <!-- contact list -->
 
+                <script>
+                    $(document).ready( function( ) {
+                        $("#sendMessage").on("click", function ( ) {
+                            var res = [];
+                                res["notifyUserIDs"] = 33;
+                                res["notifyEvent"] = "chatMessage";
+                                res["notifyType"] = "normal";
+                                console.log(res)
+                            console.log(socket)
+                            socket.emit("notify", JSON.stringify(res) );
+                            return false;
+                        });
+                    })
+                </script>
+
                 <div class="col-md-9 messages">
                     <div class="typing">Sally Chan is typing...</div>
                     <div class="col-md-10 textfield-wrapper">
                         <div class="textfield">
-                            <input type="textfield" name="" class="form-control" placeholder="Type message here..." />
+                            <input type="textfield" id="message" name="message" class="form-control" placeholder="Type message here..." />
                         </div>
                         <div class="send">
-                            <a href="#" class="btn bg-blue" id="addMoreExp">Send <i class="icon-arrow-right14 ml-2"></i></a>
+                            <a href="#" class="btn bg-blue" id="sendMessage">Send <i class="icon-arrow-right14 ml-2"></i></a>
                         </div>
                     </div>
                 </div>

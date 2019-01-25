@@ -19,10 +19,13 @@
 
     <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script>
     <script>
-        var socket = io.connect('http://services.markaxis.com:5000');
-
+        socket = io.connect('http://services.markaxis.com:5000');
         socket.on("connect", function(e) {
             socket.emit("subscribe", Aurora.USERID);
+
+            socket.on("chatMessage", function(e) {
+                alert("You've got a message!")
+            });
         });
     </script>
 </head>
