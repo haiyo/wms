@@ -664,7 +664,8 @@
         }
         .contact {
             position:relative;
-            display:inline-block;
+            display:block;
+            float:left;
             width:100%;
             padding:10px;
             border-bottom:1px solid rgba(0,0,0,.125);
@@ -672,6 +673,7 @@
         }
         .contact:hover {
             color:#666;
+            background-color:#efefef;
         }
         .contact-name {
             padding:0;
@@ -742,7 +744,6 @@
                             <div class="contact-position">HR Manager</div>
                         </div>
                     </a>
-
                     <a href="" class="contact read">
                         <div class="col-md-3">
                             <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face25.jpg" width="48" height="48" class="rounded-circle" alt="">
@@ -753,7 +754,6 @@
                         </div>
                         <div class="badge badge-info badge-pill badge-float">9</div>
                     </a>
-
                 </div>
                 <!-- contact list -->
 

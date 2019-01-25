@@ -25,9 +25,8 @@ $(function() {
     $(".modalChat").click(function( ) {
         $("#modalChat").css({
             top: "-2%",
-            right: "25%",
-            bottom: "0",
-            left: "23%",
+            left: "17%",
+            bottom: "0"
         });
         $("#modalChat").show( );
         /*if( tgID ) {

@@ -20,6 +20,10 @@
     <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script>
     <script>
         var socket = io.connect('http://services.markaxis.com:5000');
+
+        socket.on("connect", function(e) {
+            socket.emit("subscribe", 33)
+        });
     </script>
 </head>
 <body class="navbar-top">
