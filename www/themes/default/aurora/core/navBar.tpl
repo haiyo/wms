@@ -63,8 +63,6 @@
     <div class="navbar-collapse collapse" id="navbar-mobile">
         <?TPL_MENU?>
 
-        <p class="navbar-text"><span class="label bg-success">Online</span></p>
-
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown language-switch">
                 <a class="dropdown-toggle" data-toggle="dropdown">

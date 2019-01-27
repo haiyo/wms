@@ -70,7 +70,7 @@ class CalendarMapModel extends \Model {
     public function iterateAddress( $eventInfo ) {
         if( sizeof( $eventInfo ) > 0 ) {
             $CalendarMap = new CalendarMap( );
-            while( list( $key, $row ) = each( $eventInfo ) ) {
+            foreach( $eventInfo as $key => $row ) {
                 if( $row['map'] ) {
                     $mapInfo = $CalendarMap->getByEventID( $row['eventID'] );
                     $eventInfo[$key]['address'] = $mapInfo['address'];
@@ -90,8 +90,8 @@ class CalendarMapModel extends \Model {
             $CalendarMap  = new CalendarMap( );
             $addressCache = array( );
 
-            while( list( $key, $eventArray ) = each( $eventInfo['data'] ) ) {
-                while( list( $key2, $row ) = each( $eventArray ) ) {
+            foreach( $eventInfo['data'] as $key => $eventArray ) {
+                foreach( $eventArray as $key2 => $row ) {
                     if( $row['map'] ) {
                         if( !isset( $addressCache[$row['eventID']] ) ) {
                             $mapInfo = $CalendarMap->getByEventID( $row['eventID'] );

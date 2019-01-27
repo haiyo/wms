@@ -53,7 +53,10 @@ class AuthenticationFilter implements IFilter {
                     }
                     if( $Authenticator->login( $Request->request( POST, 'username' ),
                                                $Request->request( POST, 'password' ) ) ) {
-                        $BruteForce->clearCurrent( );
+
+                        if( $Registry->get( HKEY_LOCAL, 'enableBF' ) ) {
+                            $BruteForce->clearCurrent( );
+                        }
                     }
                     else {
                         $Response->setCode( HttpResponse::HTTP_EXPECTATION_FAILED );

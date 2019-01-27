@@ -1,6 +1,7 @@
 <?php
 namespace Library\Util\Aurora;
-use PHPMailer\PHPMailer;
+use \Library\Util\PHPMailer\PHPMailer;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -85,7 +86,8 @@ class MailManager {
         $email = explode( "\r\n", $this->HKEY_LOCAL['mailFromEmail'] );
         if( is_array( $email ) ) {
             $first=1;
-            while( list( , $value ) = each( $email ) ) {
+
+            foreach( $email as $value ) {
                 if( $first ) {
                     $this->sendTo( $value, $this->HKEY_LOCAL['mailFromEmail'] );
                     $first=0;

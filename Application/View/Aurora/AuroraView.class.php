@@ -1,5 +1,6 @@
 <?php
 namespace Aurora;
+use \Aurora\User\UserModel;
 use \Aurora\Page\MenuModel, \Aurora\Page\MenuView;
 use \Library\Runtime\Registry, \View;
 
@@ -20,6 +21,7 @@ class AuroraView extends View {
     protected $PageRes;
     protected $UserRes;
     protected $breadcrumbs;
+    protected $userInfo;
 
 
     /**
@@ -41,12 +43,15 @@ class AuroraView extends View {
         $this->PageRes = $this->i18n->loadLanguage('Aurora/Page/PageRes');
         $this->UserRes = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
+        $this->userInfo = UserModel::getInstance( )->getInfo( );
+        $userID = isset( $this->userInfo['userID'] ) ? '&USERID=' . (int)$this->userInfo['userID'] : '';
+
         $this->setJScript( array( 'aurora.noiframe' => 'aurora/aurora.noiframe.js',
                                   'jquery' => 'jquery-3.3.1.min.js',
                                   'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'aurora.init.js.php?' .
                                                    'ROOT_URL=' . urlencode( ROOT_URL ) .
                                                    '&THEME=' . $this->HKEY_LOCAL['theme'] .
-                                                   '&LANG=' . $this->i18n->getUserLang( ) ),
+                                                   '&LANG=' . $this->i18n->getUserLang( ) . $userID ),
                                   'plugins/loaders' => array( 'blockui.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/forms/selects' => array( 'bootstrap_multiselect.js', 'select2.min.js' ),
@@ -95,16 +100,13 @@ class AuroraView extends View {
      * @return str
      */
     public function renderNavBar( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo('userInfo');
-
         $MenuModel = MenuModel::getInstance( );
         $MenuView = new MenuView( $MenuModel );
 
         return $this->render('aurora/core/navBar.tpl',
                               array( 'TPL_MENU' => $MenuView->renderMenu( ),
-                                     'TPLVAR_FNAME' => $userInfo['fname'],
-                                     'TPLVAR_LNAME' => $userInfo['lname'] ) );
+                                     'TPLVAR_FNAME' => $this->userInfo['fname'],
+                                     'TPLVAR_LNAME' => $this->userInfo['lname'] ) );
     }
 
 
@@ -113,12 +115,9 @@ class AuroraView extends View {
      * @return str
      */
     public function renderSetupNavBar( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo('userInfo');
-
         return $this->render('aurora/core/setupNavBar.tpl',
-            array( 'TPLVAR_FNAME' => $userInfo['fname'],
-                   'TPLVAR_LNAME' => $userInfo['lname'] ) );
+            array( 'TPLVAR_FNAME' => $this->userInfo['fname'],
+                   'TPLVAR_LNAME' => $this->userInfo['lname'] ) );
     }
 
 
@@ -161,6 +160,10 @@ class AuroraView extends View {
                        'TPL_NAV_BAR' => !$setup ? $this->renderNavBar( ) : $this->renderSetupNavBar( ),
                        'TPL_PAGE_HEADER' => !$setup ? $this->renderPageHeader( ) : '',
                        'TPL_CONTENT' => $template );
+
+        header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
+        header('Pragma: no-cache'); // HTTP 1.0.
+        header('Expires: 0');
         echo $this->render( 'aurora/page/left.tpl', $vars );
     }
 }

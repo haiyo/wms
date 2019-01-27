@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\AuroraView;
+use \Aurora\User\UserModel, \Aurora\AuroraView;
 use \Library\Runtime\Registry;
 
 /**
@@ -95,7 +95,11 @@ class DashboardView extends AuroraView {
      * @return str
      */
     public function renderDashboard( $output ) {
-        $vars = array( );
+        $userInfo = UserModel::getInstance( )->getInfo( );
+
+        $vars = array( 'TPLVAR_FNAME' => $userInfo['fname'],
+                       'TPLVAR_LNAME' => $userInfo['lname'] );
+
         $vars['TPL_SIDEBAR_SEARCH_BOX'] = $this->renderSearchbox( $output );
 
         $vars['TPL_SIDEBAR_CARDS'] = '';

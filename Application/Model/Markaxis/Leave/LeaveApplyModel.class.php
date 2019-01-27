@@ -136,9 +136,6 @@ class LeaveApplyModel extends \Model {
                         $this->setErrMsg( $this->L10n->getContents('LANG_INSUFFICIENT_LEAVE') );
                         return false;
                     }
-                    if( isset( $data['halfDay'] ) ) {
-                        $days -= .5;
-                    }
                     $this->info['userID'] = $userInfo['userID'];
                     $this->info['ltID'] = $data['ltID'];
                     $this->info['reason'] = $data['reason'];

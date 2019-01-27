@@ -114,7 +114,7 @@
 }
 .box-content a {
     display:block;
-    padding:50px 0;
+    padding:50px 16px;
     color:#666;
 }
 .box-content i {

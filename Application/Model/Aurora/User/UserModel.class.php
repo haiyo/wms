@@ -1,5 +1,8 @@
 <?php
 namespace Aurora\User;
+use \Library\Helper\Aurora\NationalityHelper, \Library\Helper\Aurora\MaritalHelper;
+use \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
+use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Aurora\Component\AuditLogModel;
 use \Library\Util\Date;
 use \Library\Validator\Validator;
@@ -77,7 +80,7 @@ class UserModel extends \Model {
     * @return mixed
     */
     public function getFieldByUserID( $userID, $column ) {
-        return $this->info = $this->User->getFieldByUserID( $userID, $column );
+        return $this->User->getFieldByUserID( $userID, $column );
     }
 
 

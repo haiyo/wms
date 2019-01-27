@@ -98,8 +98,8 @@ class TypeModel extends \Model {
         if( isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
             $this->info['paidLeave'] = $data['paidLeave'];
         }
-        if( isset( HalfDayHelper::getL10nList( )[$data['halfDay']] ) ) {
-            $this->info['allowHalfDay'] = $data['halfDay'];
+        if( isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
+            $this->info['allowHalfDay'] = $data['allowHalfDay'];
         }
         if( isset( AppliedHelper::getL10nList( )[$data['applied']] ) ) {
             $this->info['applied'] = $data['applied'];

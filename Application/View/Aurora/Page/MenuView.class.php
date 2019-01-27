@@ -106,8 +106,8 @@ class MenuView extends AuroraView {
                 $vars['dynamic']['firstLevel'][] = array('TPLVAR_URL' => $value['url'],
                                                          'TPLVAR_ICON' => $value['icon'],
                                                          'LANG_LINK' => $L10n->getContents( $value['langText'] ),
-                                                         'TPL_SECOND_LEVEL' => $secondMenu,
-                                                         'TPLVAR_TOGGLE' => $toggle );
+                                                         'TPLVAR_TOGGLE' => $toggle,
+                                                         'TPL_SECOND_LEVEL' => $secondMenu );
             }
         }
         return $this->render('aurora/menu/firstLevel.tpl', $vars );

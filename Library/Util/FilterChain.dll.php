@@ -40,7 +40,6 @@ class FilterChain {
     * @return void
     */
     public function doFilter( HttpRequest $Request, HttpResponse $Response ) {
-
         $Filter = array_shift( $this->Filter );
         if( !$Filter ) return;
         $Filter->doFilter( $Request, $Response, $this );

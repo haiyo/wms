@@ -1,4 +1,13 @@
 <style>
+    .balance-chart .col-md-9, .balance-chart .col-md-9 .col-md-3:first-child {
+        padding-left:0px;
+    }
+    .balance-chart .pl-0, .balance-chart .pl-0 .col-md-12:last-child {
+        padding-right:0
+    }
+    .balance-chart pl-0 {
+        padding-right:0px;
+    }
     .payroll-nav {
         display: -ms-flexbox;
         display: flex;
@@ -420,7 +429,7 @@
 
 </script>
 
-<div class="row mt-10">
+<div class="row mt-10 balance-chart">
 
     <div class="col-md-9">
         <div class="col-md-3">

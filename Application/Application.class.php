@@ -25,7 +25,7 @@ class Application {
         require_once( LIB . 'IO/File.dll.php' );
         require_once( LIB . 'AutoLoad.dll.php' );
 
-        ErrorHandlerException::init( );
+        //ErrorHandlerException::init( );
     }
 
 

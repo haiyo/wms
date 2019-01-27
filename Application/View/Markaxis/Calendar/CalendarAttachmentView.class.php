@@ -71,7 +71,7 @@ class CalendarAttachmentView {
         if( isset( $data['attachment'] ) && $data['attachment'] > 0 ) {
             $attList = $this->CalendarAttachmentModel->getByEventID( $data['eventID'] );
 
-            while( list( , $row ) = each( $attList ) ) {
+            foreach( $attList as $row ) {
                 $vars['dynamic']['attList'][] = array_merge( $this->L10n->getContents( ),
                                                 array( 'TPLVAR_ATTID' => $row['attID'],
                                                        'TPLVAR_NAME'  => String::cropFilename( $row['name'], 55 ),
@@ -120,7 +120,7 @@ class CalendarAttachmentView {
                                        (int)$eventInfo['eventID'] . '/' );
 
         $i = 1;
-        while( list(  , $row ) = each( $info ) ) {
+        foreach( $info as $row ) {
             $iconInfo = $IconDisplay->getIcon( $row );
 
             $totalSize += $row['size'];

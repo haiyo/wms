@@ -1,5 +1,6 @@
 <?php
-namespace PHPMailer;
+namespace Library\Util\PHPMailer;
+use \Library\Exception\PHPMailer\PHPMailerException;
 
 /*~ class.phpmailer.php
 .---------------------------------------------------------------------------.
@@ -1626,7 +1627,7 @@ class PHPMailer {
   protected function EncodeFile($path, $encoding = 'base64') {
     try {
       if (!is_readable($path)) {
-        throw new PHPMailerException($this->Lang('file_open') . $path, self::STOP_CONTINUE);
+        throw new PHPMailerException($this->Lang('file_open') . $path);
       }
       if (function_exists('get_magic_quotes')) {
         function get_magic_quotes() {
@@ -1651,7 +1652,7 @@ class PHPMailer {
 	    }
 	  }
       return $file_buffer;
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
       $this->SetError($e->getMessage());
       return '';
     }
@@ -2374,7 +2375,7 @@ class PHPMailer {
       if (isset($this->$name) ) {
         $this->$name = $value;
       } else {
-        throw new PHPMailerException($this->Lang('variable_set') . $name, self::STOP_CRITICAL);
+        throw new PHPMailerException($this->Lang('variable_set') . $name);
       }
     } catch (Exception $e) {
       $this->SetError($e->getMessage());

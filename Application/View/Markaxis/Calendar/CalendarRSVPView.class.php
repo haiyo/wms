@@ -85,7 +85,7 @@ class CalendarRSVPView {
             $attendee = $this->CalendarRSVPModel->getByEventID( $data['eventID'] );
 
             if( sizeof( $attendee ) > 0 ) {
-                while( list( , $row ) = each( $attendee ) ) {
+                foreach( $attendee as $row ) {
                     $rsvpID .= $row['userID'] . ',';
                 }
                 $rsvpID = substr( $rsvpID, 0, -1 );
@@ -170,7 +170,7 @@ class CalendarRSVPView {
 
         $UserAvatarView = new UserAvatarView( );
 
-        while( list(  , $row ) = each( $info ) ) {
+        foreach( $info as $row ) {
             if( $row['userID'] == $userInfo['userID'] ) {
                 $isInvited  = true;
                 $userStatus = $row['attending'];

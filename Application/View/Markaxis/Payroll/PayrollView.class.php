@@ -66,7 +66,23 @@ class PayrollView extends AuroraView {
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-stats-bars2',
                                       'text' => $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') ) );
+
         return $this->render( 'markaxis/payroll/overview.tpl', $vars );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function renderSlips( ) {
+        $this->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
+            'icon' => 'icon-cash3',
+            'text' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
+
+        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
+
+        return $this->render( 'markaxis/payroll/slips.tpl', $vars );
     }
 
 

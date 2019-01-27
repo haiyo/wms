@@ -22,7 +22,7 @@
 
         <div class="col-md-3">
             <label class="display-block">&nbsp;</label>
-            <?TPL_HALF_DAY_RADIO?>
+            <?TPL_ALLOW_HALF_DAY_RADIO?>
         </div>
     </div>
 

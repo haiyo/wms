@@ -38,6 +38,15 @@ class PayrollControl {
      * Render main navigation
      * @return str
      */
+    public function slips( ) {
+        $this->PayrollView->printAll( $this->PayrollView->renderSlips( ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
     public function process( ) {
         $this->PayrollView->printAll( $this->PayrollView->renderProcess( ) );
     }

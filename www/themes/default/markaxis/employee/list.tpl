@@ -99,7 +99,7 @@
                                     '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                                         '<i class="icon-menu9"></i></a>' +
                                     '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
+                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view\' + data + \'">' +
                                             '<i class="icon-user"></i> View Employee Info</a>' +
                                         '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
                                             '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
@@ -138,11 +138,11 @@
                 "style": "multi"
             },
             order: [],
-            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
                 searchPlaceholder: 'Search Employee',
-                lengthMenu: '<span>Show:</span> _MENU_',
+                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
@@ -196,6 +196,8 @@
             minimumResultsForSearch: Infinity,
             width: 'auto'
         });
+
+        $(".list-action-btns").insertAfter(".dataTables_filter");
     });
 
     function dateDiff( date ) {
@@ -306,31 +308,30 @@
         return false;
     }
 </script>
-
+<style>
+    .list-action-btns{float:right;}
+</style>
 <div class="panel panel-flat">
-    <div class="panel-heading">
-        <h5 class="panel-title">Employee List<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-        <div class="heading-elements">
-            <ul class="icons-list">
-                <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
-                        <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                        <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
-                        <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
-                        <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
-                        <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
-                        <li class="divider"></li>
-                        <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <div class="list-action-btns">
+        <ul class="icons-list">
+            <li>
+                <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
+                    <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
     <table class="table table-bordered employeeTable">

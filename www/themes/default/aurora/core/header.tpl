@@ -17,6 +17,17 @@
     <script type="text/javascript" src="<?TPLVAR_ROOT_URL?>www/themes/<?TPLVAR_THEME?>/assets/js/<?TPLVAR_JNAME?>"></script>
     <!-- END DYNAMIC BLOCK: jsRow -->
 
+    <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script>
+    <script>
+        socket = io.connect('http://services.markaxis.com:5000');
+        socket.on("connect", function(e) {
+            socket.emit("subscribe", Aurora.USERID);
+
+            socket.on("chatMessage", function(e) {
+                alert("You've got a message!")
+            });
+        });
+    </script>
 </head>
 <body class="navbar-top">
 

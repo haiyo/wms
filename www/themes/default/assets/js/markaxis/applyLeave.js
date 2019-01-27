@@ -133,10 +133,6 @@ var MarkaxisApplyLeave = (function( ) {
                 }
             });
 
-            $("#halfDay").change(function() {
-                that.getDaysDiff( );
-            });
-
             $("#saveApplyLeave").on("click", function ( ) {
                 that.saveApplyLeave();
                 return false;
@@ -151,15 +147,13 @@ var MarkaxisApplyLeave = (function( ) {
                 swal("Error!", "Invalid date range selected", "error");
                 return false;
             }
-
             var data = {
                 bundle: {
                     ltID: $("#ltID").val( ),
                     startDate: $("#startDate").val( ),
                     endDate: $("#endDate").val( ),
                     startTime: $("#startTime").val( ),
-                    endTime: $("#endTime").val( ),
-                    //halfDay: $("#halfDay").is(":checked")
+                    endTime: $("#endTime").val( )
                 },
                 success: function( res   ) {
                     var obj = $.parseJSON( res );

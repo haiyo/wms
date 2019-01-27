@@ -61,7 +61,7 @@ class CalendarView extends AuroraView {
         $tab  = array( 'general' => $this->EventRes->getContents('LANG_GENERAL'),
                        'other'   => $this->EventRes->getContents('LANG_REMINDER_REPEAT') );
 
-        while( list( $id, $title ) = each( $tab ) ) {
+        foreach( $tab as $id => $title ) {
             $vars = array( 'TPVAR_TAB_ID' => $id,
                            'LANG_TITLE'   => $title );
             $html .= $this->View->render( 'markaxis/calendar/html/tab.tpl', $vars );
@@ -85,7 +85,7 @@ class CalendarView extends AuroraView {
             $ownerSet = unserialize( $ownerCal['settings'] );
 
             if( isset( $ownerSet['people'] ) ) {
-                while( list( $userID, $value ) = each( $ownerSet['people'] ) ) {
+                foreach( $ownerSet['people'] as $userID => $value ) {
                     if( $userID == $this->userInfo['userID'] ) {
                         if( $value['perm'] == 'viewAll' ) {
                             $editAble = 0;
@@ -474,7 +474,7 @@ class CalendarView extends AuroraView {
         $labels = $this->CalendarModel->getLabels( );
         $vars = array( );
         if( sizeof( $labels ) > 0 ) {
-            while( list( $labelID, $row ) = each( $labels ) ) {
+            foreach( $labels as $labelID => $row ) {
                 $vars['dynamic']['label'][] = array( 'TPLVAR_LABEL_ID' => $labelID,
                                                      'TPLVAR_COLOR'    => $row['color'],
                                                      'TPLVAR_LABEL'    => $row['label'] );

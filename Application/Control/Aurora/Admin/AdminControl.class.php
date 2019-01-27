@@ -8,7 +8,6 @@ use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Exception\Aurora\PageNotFoundException;
 use \Library\Exception\Aurora\NoPermissionException;
 use \Library\Exception\Aurora\SiteCheckException;
-use \Library\Exception\FileNotFoundException;
 use \Library\Exception\InstantiationException;
 use \Control;
 
@@ -90,10 +89,6 @@ class AdminControl extends Control {
             HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
             header( 'location: ' . ROOT_URL . 'admin/notfound' );
         }
-        catch( FileNotFoundException $e ) {
-            $e->record( );
-            HttpResponse::sendHeader( HttpResponse::HTTP_INTERNAL_SERVER_ERROR );
-        }
     }
 
 
@@ -120,6 +115,8 @@ class AdminControl extends Control {
      * @return void
      */
     public function checkGateway( ) {
+        $vars = array( );
+
         try {
             $FilterManager = new FilterManager( );
             $FilterManager->processFilter( $this->xmlGatewayFile );
@@ -127,8 +124,6 @@ class AdminControl extends Control {
         }
         catch( AuthLoginException $e ) {
             $e->record( );
-
-            $vars = array( );
 
             if( self::$HttpResponse->getCode( ) == HttpResponse::HTTP_EXPECTATION_FAILED &&
                 self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
@@ -154,9 +149,8 @@ class AdminControl extends Control {
             exit;
         }
         catch( NoPermissionException $e ) {
-            $e->record( );
-            echo 0;
-            exit;
+            $vars['error'] = 'loginError';
+            die( json_encode( $vars ) );
         }
         catch( SiteCheckException $e ) {
             $e->record( );
@@ -166,7 +160,8 @@ class AdminControl extends Control {
             // Site is turned off. Only allow Administrator to enter.
             $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
             if( !$Authorization->isAdmin( ) ) {
-                die( );
+                $vars['error'] = 'unavailable';
+                die( json_encode( $vars ) );
             }
         }
     }
@@ -188,9 +183,6 @@ class AdminControl extends Control {
             $TaskManager->escalate( $args );
         }
         catch( InstantiationException $e ) {
-            $e->record( );
-        }
-        catch( FileNotFoundException $e ) {
             $e->record( );
         }
         catch( PageNotFoundException $e ) {

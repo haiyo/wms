@@ -104,8 +104,8 @@ class WikiGrabber extends URLGrabber implements IURLGrabber {
             if( isset( $content['query']['pages'] ) ) {
                 $String = new String( );
 
-                while( list( $pageID, $data ) = each( $content['query']['pages'] ) ) {
-                    while( list( $key, $value ) = each( $data) ) {
+                foreach( $content['query']['pages'] as $pageID => $data ) {
+                    foreach( $data as $key => $value ) {
                         if( $key == 'title' ) {
                             $info['title'] = $String->cropText( $String->makeLink( (string)$value ), 300 );
                         }

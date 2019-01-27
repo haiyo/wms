@@ -36,7 +36,8 @@ class UserView extends AuroraView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
-        $this->UserModel = UserModel::getInstance( );
+        // We'll be doing user setup so make sure we use a new model instead of instance.
+        $this->UserModel = new UserModel( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
                                   'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js' ),

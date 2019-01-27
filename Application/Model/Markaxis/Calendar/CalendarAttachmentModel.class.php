@@ -80,7 +80,8 @@ class CalendarAttachmentModel extends \Model {
     public function iterateCount( $eventInfo ) {
         if( sizeof( $eventInfo ) > 0 ) {
             $CalendarAttachment = new CalendarAttachment( );
-            while( list( $key, $row ) = each( $eventInfo ) ) {
+
+            foreach( $eventInfo as $key => $row ) {
                 if( $row['attachment'] ) {
                     $eventInfo[$key]['attachNum'] = $CalendarAttachment->countByEventID( $row['eventID'] );
                 }
@@ -99,8 +100,8 @@ class CalendarAttachmentModel extends \Model {
             $CalendarAttachment = new CalendarAttachment( );
             $countCache = array( );
 
-            while( list( $key, $eventArray ) = each( $eventInfo['data'] ) ) {
-                while( list( $key2, $row ) = each( $eventArray ) ) {
+            foreach( $eventInfo['data'] as $key => $eventArray ) {
+                foreach( $eventArray as $key2 => $row ) {
                     if( $row['attachment'] ) {
                         if( !isset( $countCache[$row['eventID']] ) ) {
                             $countCache[$row['eventID']] = $CalendarAttachment->countByEventID( $row['eventID'] );

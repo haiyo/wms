@@ -1264,7 +1264,7 @@
         </div>
 
 
-        <div class="content-wrapper side-content-wrapper rp">
+            <div class="side-content-wrapper rp">
             <form id="employeeForm" class="stepy" action="#">
                 <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
                 <?TPL_FORM?>

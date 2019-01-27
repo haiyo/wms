@@ -20,6 +20,7 @@ class BruteForce {
     private $bfWindow;
     private $cache;
     private $ip;
+    private $ipHash;
 
 
     /**
@@ -42,6 +43,7 @@ class BruteForce {
         }
         $IP = new IP( );
         $this->ip = $IP->getAddress( );
+        $this->ipHash = MD5( $this->ip );
         if( $this->cache) $this->cleanUp( );
 	}
 
@@ -51,9 +53,9 @@ class BruteForce {
     * @return bool
     */
     public function isExceeded( ) {
-        if( isset( $this->cache[$this->ip] ) ) {
-            if( $this->cache[$this->ip]['attempt'] >= $this->HKEY_LOCAL['bfNumFailed'] ) {
-                if( ( $this->cache[$this->ip]['time']+$this->bfWindow ) > time( ) ) {
+        if( isset( $this->cache[$this->ipHash] ) ) {
+            if( $this->cache[$this->ipHash]['attempt'] >= $this->HKEY_LOCAL['bfNumFailed'] ) {
+                if( ( $this->cache[$this->ipHash]['time']+$this->bfWindow ) > time( ) ) {
                     $this->sendAlert( );
                     return true;
                 }
@@ -68,15 +70,15 @@ class BruteForce {
     * @return bool
     */
     public function logIP( ) {
-        if( !isset( $this->cache[$this->ip] ) ) {
-            $this->cache[$this->ip] = array( 'time'    => time( ),
-                                             'mail'    => 0,
-                                             'attempt' => 1 );
+        if( !isset( $this->cache[$this->ipHash] ) ) {
+            $this->cache[$this->ipHash] = array( 'time'    => time( ),
+                                                 'mail'    => 0,
+                                                 'attempt' => 1 );
         }
-        else if( $this->cache[$this->ip]['attempt'] < $this->HKEY_LOCAL['bfNumFailed'] ) {
-            $this->cache[$this->ip] = array( 'time'    => time( ),
-                                             'mail'    => 0,
-                                             'attempt' => ($this->cache[$this->ip]['attempt']+1) );
+        else if( $this->cache[$this->ipHash]['attempt'] < $this->HKEY_LOCAL['bfNumFailed'] ) {
+            $this->cache[$this->ipHash] = array( 'time'    => time( ),
+                                                 'mail'    => 0,
+                                                 'attempt' => ($this->cache[$this->ipHash]['attempt']+1) );
         }
         $this->cleanUp( );
     }
@@ -87,7 +89,7 @@ class BruteForce {
     * @return bool
     */
     public function sendAlert( ) {
-        if( !$this->cache[$this->ip]['mail'] && $this->HKEY_LOCAL['bfAlert'] ) {
+        if( !$this->cache[$this->ipHash]['mail'] && $this->HKEY_LOCAL['bfAlert'] ) {
             $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
             $L10n = $i18n->loadLanguage( 'Aurora/Config/BFLoginRes' );
 
@@ -99,7 +101,7 @@ class BruteForce {
             $search  = array( '{ip_address}','{num_failed}','{bf_action}' );
             $MailManager->setMsg( str_replace( $search, $replace, $L10n->getContents('LANG_ALERT_MSG') ) );
             $MailManager->send( );
-            $this->cache[$this->ip]['mail'] = 1;
+            $this->cache[$this->ipHash]['mail'] = 1;
         }
     }
 
@@ -109,8 +111,8 @@ class BruteForce {
     * @return void
     */
     public function clearCurrent( ) {
-        if( isset( $this->cache[$this->ip] ) ) {
-            unset( $this->cache[$this->ip] );
+        if( isset( $this->cache[$this->ipHash] ) ) {
+            unset( $this->cache[$this->ipHash] );
             $file = fopen( $this->logFile, 'w' );
             fwrite( $file, serialize( $this->cache ) );
             fclose( $file );
@@ -123,9 +125,9 @@ class BruteForce {
     * @return void
     */
     public function cleanUp( ) {
-        if( isset( $this->cache[$this->ip] ) &&
-          ( $this->cache[$this->ip]['time']+$this->bfWindow ) < time( ) ) {
-            unset( $this->cache[$this->ip] );
+        if( isset( $this->cache[$this->ipHash] ) &&
+          ( $this->cache[$this->ipHash]['time']+$this->bfWindow ) < time( ) ) {
+            unset( $this->cache[$this->ipHash] );
         }
         $file = fopen( $this->logFile, 'w' );
         fwrite( $file, serialize( $this->cache ) );
