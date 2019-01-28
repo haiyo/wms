@@ -40,7 +40,7 @@ class RoomModel extends \Model {
 
 
     /**
-     * Mark all as read
+     * Create room
      * @return array
      */
     public function create( $data ) {
@@ -70,7 +70,7 @@ class RoomModel extends \Model {
                 }
             }
         }
-        // Either no crID or crID > 0 but not found, shrug!
+        // Either no crID or crID > 0 but not found, trying to be funny!
         return array( 'crID' => false );
     }
 

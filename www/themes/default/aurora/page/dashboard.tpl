@@ -713,17 +713,23 @@
             bottom:64px;
         }
         .message-wrapper {
-            position: relative;
-            width: 99%;
-            height: 84%;
-            margin-top: 10px;
-            padding: 10px;
-            overflow: hidden;
-            overflow-y: auto;
+            position:relative;
+            width:99%;
+            height:84%;
+            margin-top:10px;
+            padding:10px;
+            overflow:hidden;
+            overflow-y:auto;
         }
         .message {
-            padding: 30px;
-            border: 1px solid #ccc;
+            padding:9px;
+        }
+        .message .name {
+            font-weight: bold;
+        }
+        .message .datetime {
+            font-size: 13px;
+            margin-left: 5px;
         }
     </style>
     <div id="modalChat" class="modal-dialog chat-dialog modal-xl ">
@@ -773,6 +779,14 @@
                         var crID = 0;
                         var users = [];
 
+                        $("#message").keypress(function (e) {
+                            var key = e.which;
+                            if( key == 13 ) {
+                                $("#sendMessage").click();
+                                return false;
+                            }
+                        });
+
                         $("#sendMessage").on("click", function ( ) {
                             var selected = $(".selected");
                             var crID = selected.attr("data-room");
@@ -785,21 +799,22 @@
                                     message: $("#message").val( )
                                 },
                                 success: function (res) {
-                                    console.log(res)
                                     var obj = $.parseJSON(res);
-
+                                    console.log(obj)
                                     if( obj.bool == 0 ) {
                                         swal("error", obj.errMsg);
                                         return;
                                     }
                                     else {
+                                        selected.attr("data-room", obj.data.crID);
+                                        $("#message").val("");
                                         $(".message-wrapper").append( $(obj.html) ); //.hide( ).fadeIn("fast") );
                                         var height = $(".message-wrapper").prop("scrollHeight");
                                         $(".message-wrapper").scrollTop( height );
                                     }
 
                                     //what happen if some garbage sent to socket? will it terminate?
-                                    //socket.emit("notify", (res) );
+                                    socket.emit("notify", (res) );
                                 }
                             }
                             Aurora.WebService.AJAX( "admin/chat/send", data );

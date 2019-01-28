@@ -31,11 +31,10 @@ class MessageModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['cuID'] ) && isset( $data['message'] ) ) {
-            $info = array( );
-            $info['cuID'] = (int)$data['cuID'];
-            $info['message'] = $data['message'];
-            $info['created'] = date( 'Y-m-d H:i:s' );
-            return $this->Message->insert( 'chat_message', $info );
+            $this->info['cuID'] = (int)$data['cuID'];
+            $this->info['message'] = $data['message'];
+            $this->info['created'] = date( 'Y-m-d H:i:s' );
+            return $this->Message->insert( 'chat_message', $this->info );
         }
     }
 }

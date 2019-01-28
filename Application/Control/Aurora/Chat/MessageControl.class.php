@@ -36,11 +36,10 @@ class MessageControl {
 
         if( $this->MessageModel->save( $post ) ) {
             $vars['bool'] = 1;
-            $vars['html'] = '<div class="message">' . $post['message'] . '</div>';
+            $vars['data'] = $post;
+            $vars['html'] = $this->MessageView->renderMessage( $post );
             echo json_encode( $vars );
             exit;
-
-            //$this->MessageView->render( $post );
         }
     }
 }

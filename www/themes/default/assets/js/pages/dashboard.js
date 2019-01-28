@@ -29,6 +29,7 @@ $(function() {
             bottom: "0"
         });
         $("#modalChat").show( );
+        $("#message").focus( );
         /*if( tgID ) {
             var data = {
                 bundle: {

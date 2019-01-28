@@ -1,7 +1,8 @@
 <?php
 namespace Aurora\Chat;
 use \Aurora\Admin\AdminView;
-use \Library\Runtime\Registry;
+use \Aurora\User\UserModel;
+use \Library\Runtime\Registry, \Library\Util\MXString;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -40,55 +41,20 @@ class MessageView extends AdminView {
      * Render main navigation
      * @return str
      */
-    public function renderList( ) {
-        $SelectListView = new SelectListView( );
-        $RecruitSourceModel = RecruitSourceModel::getInstance( );
-        $rsID = isset( $this->info['rsID'] ) ? $this->info['rsID'] : '';
-        $rsList = $SelectListView->build( 'recruitSource',  $RecruitSourceModel->getList( ), $rsID, 'Select Recruitment Source' );
+    public function renderMessage( $data ) {
+        $userInfo = UserModel::getInstance( )->getInfo( );
+        $messageInfo = $this->MessageModel->getInfo( );
+        $MXString = new MXString( );
 
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_RS_LIST' => $rsList,
-                       'TPLVAR_NOTES' => $this->info['notes'] ) );
+        $time = strtotime( $messageInfo['created'] );
 
-        $count = 0;
-        if( $this->eContactInfo ) {
-            $size = sizeof( $this->eContactInfo );
+        $vars = array( 'TPLVAR_FNAME' => $userInfo['fname'],
+                       'TPLVAR_LNAME' => $userInfo['lname'],
+                       'TPLVAR_TIME' => date( 'g:i A', $time ),
+                       'TPLVAR_DATE_TIME' => $messageInfo['created'],
+                       'TPLVAR_MESSAGE' => $MXString->makeLink( $messageInfo['message'] ) );
 
-            for( $i=0; $i<$size; $i++ ) {
-                $eRsList = $SelectListView->build( 'eRs_' . $i, RelationshipHelper::getL10nList( ),
-                                                    $this->eContactInfo[$i]['relationship'], 'Select Relationship' );
-
-                $vars['dynamic']['econtact'][] = array_merge( $this->L10n->getContents( ),
-                                                 array( 'TPLVAR_INDEX' => $i,
-                                                        'TPLVAR_COUNT' => $i+1,
-                                                        'TPLVAR_ECID' => $this->eContactInfo[$i]['ecID'],
-                                                        'TPLVAR_NAME' => $this->eContactInfo[$i]['name'],
-                                                        'TPLVAR_PHONE' => $this->eContactInfo[$i]['phone'],
-                                                        'TPLVAR_MOBILE' => $this->eContactInfo[$i]['mobile'],
-                                                        'TPL_ERS_LIST' => $eRsList ) );
-                $count++;
-            }
-        }
-
-        // At least show 2 input set for eContact.
-        $SelectListView->setClass( 'relationship' );
-
-        if( $count < 2 ) {
-            for( $i=$count; $i<2; $i++ ) {
-                $eRsList = $SelectListView->build( 'eRs_' . $i, RelationshipHelper::getL10nList( ),
-                                                    '', 'Select Relationship' );
-
-                $vars['dynamic']['econtact'][] = array_merge( $this->L10n->getContents( ),
-                                                 array( 'TPLVAR_INDEX' => $i,
-                                                        'TPLVAR_COUNT' => $i+1,
-                                                        'TPLVAR_ECID' => '',
-                                                        'TPLVAR_NAME' => '',
-                                                        'TPLVAR_PHONE' => '',
-                                                        'TPLVAR_MOBILE' => '',
-                                                        'TPL_ERS_LIST' => $eRsList ) );
-            }
-        }
-        return $this->render( 'markaxis/employee/additionalForm.tpl', $vars );
+        return $this->render( 'aurora/chat/message.tpl', $vars );
     }
 }
 ?>
