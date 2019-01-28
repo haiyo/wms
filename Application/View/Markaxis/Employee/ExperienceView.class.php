@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
 use \Aurora\Component\UploadModel;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ExperienceView extends AuroraView {
+class ExperienceView extends AdminView {
 
 
     // Properties

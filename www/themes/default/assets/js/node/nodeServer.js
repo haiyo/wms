@@ -26,7 +26,7 @@ io.on("connection", function( socket ){
                 }
                 else {
                     // Normal request to individual
-                    io.sockets.socket(to).emit( obj.data.notifyEvent, data );
+                    io.to(to).emit( obj.data.notifyEvent, data );
                 }
             }
         }

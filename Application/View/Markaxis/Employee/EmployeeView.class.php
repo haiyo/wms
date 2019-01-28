@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Component\DesignationModel, \Aurora\Form\SelectGroupListView;
+use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel, \Aurora\Form\SelectGroupListView;
 use \Aurora\Form\DayIntListView, \Aurora\Form\SelectListView;
 use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\SalaryTypeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel;
@@ -16,7 +16,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EmployeeView extends AuroraView {
+class EmployeeView extends AdminView {
 
 
     // Properties

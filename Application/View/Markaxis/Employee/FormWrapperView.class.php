@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\User\UserModel;
+use \Aurora\Admin\AdminView, \Aurora\User\UserModel;
 use \Aurora\Component\DesignationModel;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class FormWrapperView extends AuroraView {
+class FormWrapperView extends AdminView {
 
 
     // Properties

@@ -112,6 +112,15 @@ class UserModel extends \Model {
 
 
     /**
+     * Search name
+     * @return mixed
+     */
+    public function getListValidCount( $userIDs ) {
+        return $this->User->getListValidCount( $userIDs );
+    }
+
+
+    /**
     * Set User Property Info
     * @return bool
     */

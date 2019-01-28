@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Component\RecruitSourceModel;
 use \Library\Helper\Aurora\RelationshipHelper;
 use \Library\Runtime\Registry;
@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class AdditionalView extends AuroraView {
+class AdditionalView extends AdminView {
 
 
     // Properties

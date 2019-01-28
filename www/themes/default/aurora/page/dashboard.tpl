@@ -61,7 +61,7 @@
                                         <span class="badge badge-info badge-pill badge-float border-2 border-white">9</span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-force dropdown-menu-left" x-placement="bottom-end">
-                                        <a href="#" class="dropdown-item modalChat" data-toggle="modal"><i class="icon-bubbles4"></i> Chat with David</a>
+                                        <a href="#" class="dropdown-item modalChat" data-toggle="modal" id="34"><i class="icon-bubbles4"></i> Chat with David</a>
                                         <div class="divider"></div>
                                         <a href="#" class="dropdown-item"><i class="icon-calendar"></i> View David's Calendar</a>
                                         <a href="#" class="dropdown-item"><i class="icon-user"></i> View David's Profile</a>
@@ -626,14 +626,14 @@
             padding:0;
             height:650px;
         }
-        .chat-body .contact-list {
+        .chat-body .room-list {
             padding:0;
             height: 100%;
             border-right: 1px solid #efefef;
             -webkit-box-shadow:1px 0 5px -2px rgba(0,0,0,.5);
             box-shadow:1px 0 5px -2px rgba(0,0,0,.5);
         }
-        .chat-body .messages {
+        .chat-body .right-window {
             position:relative;
             padding-right:0;
             height:100%;
@@ -660,7 +660,7 @@
             text-align:center;
             display:none;
         }
-        .contact {
+        .room {
             position:relative;
             display:block;
             float:left;
@@ -669,7 +669,7 @@
             border-bottom:1px solid rgba(0,0,0,.125);
             color:inherit;
         }
-        .contact:hover {
+        .room:hover {
             color:#666;
             background-color:#efefef;
         }
@@ -686,19 +686,19 @@
         .read {
             color:#999;
         }
-        .contact .badge-float {
+        .room .badge-float {
             position: absolute;
             right:1em;
             top:3em;
         }
-        .contact .badge-pill {
+        .room .badge-pill {
             padding-right:.5em;
             padding-left:.5em;
         }
-        .messages .textfield, .messages .send {
+        .right-window .textfield, .right-window .send {
             float:left;
         }
-        .messages .textfield {
+        .right-window .textfield {
             margin-right:10px;
             width:90%;
         }
@@ -712,6 +712,19 @@
             position:absolute;
             bottom:64px;
         }
+        .message-wrapper {
+            position: relative;
+            width: 99%;
+            height: 84%;
+            margin-top: 10px;
+            padding: 10px;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        .message {
+            padding: 30px;
+            border: 1px solid #ccc;
+        }
     </style>
     <div id="modalChat" class="modal-dialog chat-dialog modal-xl ">
         <div class="modal-content">
@@ -723,7 +736,7 @@
             <div class="modal-body chat-body">
 
                 <!-- contact list -->
-                <div class="col-md-3 contact-list">
+                <div class="col-md-3 room-list">
                     <div class="search">
                         <label>
                             <input type="search" class="" placeholder="Filter" />
@@ -733,7 +746,7 @@
                         You have no chat history at the moment
                     </div>
 
-                    <a href="" class="contact">
+                    <!--<a href="" class="room" data-user="0" data-room="">
                         <div class="col-md-3">
                             <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face13.jpg" width="48" height="48" class="rounded-circle" alt="">
                         </div>
@@ -742,7 +755,7 @@
                             <div class="contact-position">HR Manager</div>
                         </div>
                     </a>
-                    <a href="" class="contact read">
+                    <a href="" class="room read" data-user="" data-room="">
                         <div class="col-md-3">
                             <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face25.jpg" width="48" height="48" class="rounded-circle" alt="">
                         </div>
@@ -751,25 +764,90 @@
                             <div class="contact-position">HR Manager</div>
                         </div>
                         <div class="badge badge-info badge-pill badge-float">9</div>
-                    </a>
+                    </a>-->
                 </div>
                 <!-- contact list -->
 
                 <script>
                     $(document).ready( function( ) {
+                        var crID = 0;
+                        var users = [];
+
                         $("#sendMessage").on("click", function ( ) {
+                            var selected = $(".selected");
+                            var crID = selected.attr("data-room");
+                            var users = selected.attr("data-user");
+
                             var data = {
+                                bundle: {
+                                    crID: crID,
+                                    users: users,
+                                    message: $("#message").val( )
+                                },
                                 success: function (res) {
-                                    socket.emit("notify", (res) );
+                                    console.log(res)
+                                    var obj = $.parseJSON(res);
+
+                                    if( obj.bool == 0 ) {
+                                        swal("error", obj.errMsg);
+                                        return;
+                                    }
+                                    else {
+                                        $(".message-wrapper").append( $(obj.html) ); //.hide( ).fadeIn("fast") );
+                                        var height = $(".message-wrapper").prop("scrollHeight");
+                                        $(".message-wrapper").scrollTop( height );
+                                    }
+
+                                    //what happen if some garbage sent to socket? will it terminate?
+                                    //socket.emit("notify", (res) );
                                 }
                             }
-                            Aurora.WebService.AJAX( "admin/dashboard/test", data );
+                            Aurora.WebService.AJAX( "admin/chat/send", data );
                             return false;
+                        });
+
+                        $(".room").on("click", function ( ) {
+                            crID = $(this).attr("data-room");
+
+                            // load last 10/20 messages in window
+                        });
+
+                        $(".modalChat").on("click", function ( ) {
+                            var found = false;
+                            var userID = $(this).attr("id");
+                            users.push( userID );
+
+                            $(".no-history").hide( );
+
+                            $(".room").each(function( i ) {
+                                if( $(this).attr("data-user") == userID ) {
+                                    // highlight existing room tab
+                                    found = true;
+                                }
+                            });
+
+                            if( !found ) {
+                                // create new room tab
+                                var html = '<a href="" class="room selected" data-user="' + users.join( ) + '" data-room="0">\n' +
+                                            '<div class="col-md-3">\n' +
+                                            '<img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face25.jpg" width="48" height="48" class="rounded-circle" alt="">\n' +
+                                            '</div>\n' +
+                                            '<div class="col-md-9 contact-name">David Seaman\n' +
+                                            '<div class="contact-position">HR Manager</div>\n' +
+                                            '</div>\n' +
+                                            '<div class="badge badge-info badge-pill badge-float">9</div>\n' +
+                                            '</a>';
+
+                                $(".room-list").append(html);
+                            }
+
+                            // load last 10/20 messages in window
                         });
                     })
                 </script>
 
-                <div class="col-md-9 messages">
+                <div class="col-md-9 right-window">
+                    <div class="message-wrapper"></div>
                     <div class="typing">Sally Chan is typing...</div>
                     <div class="col-md-10 textfield-wrapper">
                         <div class="textfield">

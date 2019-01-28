@@ -3,8 +3,9 @@ namespace Aurora\Page;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
- * @since Monday, September 27, 2010
- * @version $Id: Page.class.php, v 2.0 Exp $
+ * @since Saturday, August 4th, 2012
+ * @version $Id: Menu.class.php, v 2.0 Exp $
+ * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
 class Menu extends \DAO {

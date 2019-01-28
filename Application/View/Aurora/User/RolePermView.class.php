@@ -8,7 +8,7 @@ namespace Aurora\User;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RolePermView extends AuroraView {
+class RolePermView extends AdminView {
 
 
     // Properties

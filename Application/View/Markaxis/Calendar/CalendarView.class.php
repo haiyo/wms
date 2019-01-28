@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\Form\CheckboxView;
+use \Library\Runtime\Registry, \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\CheckboxView;
 use \Aurora\DayIntListView, Aurora\YearListView, Aurora\MonthHelper, Aurora\TimeHelper;
 use \Aurora\RadioView, Aurora\PermListView, Aurora\YesNoRadioView, Aurora\UserAvatarView;
 use \Aurora\RoleListView;
@@ -13,7 +13,7 @@ use \Date, \Stringify;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarView extends AuroraView {
+class CalendarView extends AdminView {
 
 
     // Properties

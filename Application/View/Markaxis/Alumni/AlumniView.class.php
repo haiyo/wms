@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class AlumniView extends AuroraView {
+class AlumniView extends AdminView {
 
 
     // Properties

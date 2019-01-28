@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
 use \Library\Helper\Markaxis\ApplyForHelper;
 use \Markaxis\Employee\SupervisorModel;
 use \Library\Runtime\Registry;
@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveApplyView extends AuroraView {
+class LeaveApplyView extends AdminView {
 
 
     // Properties

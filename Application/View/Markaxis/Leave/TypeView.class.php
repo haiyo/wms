@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Markaxis\Form\DesignationListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Markaxis\Form\DesignationListView;
 use \Library\Helper\Aurora\GenderHelper, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
 use \Library\Helper\Aurora\YesNoHelper, \Aurora\Component\CountryModel, \Aurora\Component\OfficeModel;
 use \Library\Helper\Markaxis\ProRatedHelper, \Library\Helper\Markaxis\HalfDayHelper, \Library\Helper\Markaxis\PaidLeaveHelper;
@@ -15,7 +15,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TypeView extends AuroraView {
+class TypeView extends AdminView {
 
 
     // Properties

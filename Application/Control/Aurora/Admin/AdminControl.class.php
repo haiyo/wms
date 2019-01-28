@@ -6,6 +6,7 @@ use \Aurora\Page\PageModel;
 use \Markaxis\Company\CompanyModel;
 use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Exception\Aurora\PageNotFoundException;
+use \Library\Exception\Aurora\TaskNotFoundException;
 use \Library\Exception\Aurora\NoPermissionException;
 use \Library\Exception\Aurora\SiteCheckException;
 use \Library\Exception\InstantiationException;
@@ -185,7 +186,7 @@ class AdminControl extends Control {
         catch( InstantiationException $e ) {
             $e->record( );
         }
-        catch( PageNotFoundException $e ) {
+        catch( TaskNotFoundException $e ) {
             $e->record( );
             header( 'location: ' . ROOT_URL . 'admin/notFound' );
         }

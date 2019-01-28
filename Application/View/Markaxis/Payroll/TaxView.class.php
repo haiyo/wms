@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
 use \Aurora\Component\CountryModel, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
 use \Library\Helper\Aurora\GenderHelper;
 use \Library\IO\File;
@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxView extends AuroraView {
+class TaxView extends AdminView {
 
 
     // Properties

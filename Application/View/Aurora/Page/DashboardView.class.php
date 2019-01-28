@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\User\UserModel, \Aurora\AuroraView;
+use \Aurora\User\UserModel, \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class DashboardView extends AuroraView {
+class DashboardView extends AdminView {
 
 
     // Properties

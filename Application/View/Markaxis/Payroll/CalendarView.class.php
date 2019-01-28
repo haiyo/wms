@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\RecurHelper;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarView extends AuroraView {
+class CalendarView extends AdminView {
 
 
     // Properties

@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Form;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +9,7 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RadioView extends AuroraView {
+class RadioView extends AdminView {
 
 
     // Properties

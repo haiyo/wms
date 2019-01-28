@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView;
+use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
 use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
 
 /**
@@ -10,7 +10,7 @@ use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CompanyView extends AuroraView {
+class CompanyView extends AdminView {
 
 
     // Properties

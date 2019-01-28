@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\User;
-use \Aurora\AuroraView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Aurora\Form\DayIntListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Aurora\Form\DayIntListView;
 use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\YesNoHelper, \Library\Helper\Aurora\MonthHelper;
 use \Library\Helper\Aurora\MaritalHelper, \Library\Helper\Aurora\NationalityHelper;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class UserView extends AuroraView {
+class UserView extends AdminView {
 
 
     // Properties

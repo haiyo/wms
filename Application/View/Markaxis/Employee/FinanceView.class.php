@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Component\PaymentMethodModel, \Aurora\Component\BankModel as AuroraBankModel;
 use \Markaxis\Employee\PayrollModel as EmployeePayrollModel;
 use \Markaxis\Employee\TaxModel as EmployeeTaxModel;
@@ -17,7 +17,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class FinanceView extends AuroraView {
+class FinanceView extends AdminView {
 
 
     // Properties

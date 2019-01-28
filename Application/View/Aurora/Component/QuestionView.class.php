@@ -8,7 +8,7 @@ namespace Aurora;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class QuestionView extends AuroraView {
+class QuestionView extends AdminView {
 
 
     // Properties

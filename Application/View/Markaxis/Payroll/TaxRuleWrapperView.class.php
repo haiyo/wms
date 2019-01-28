@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView, \Library\Helper\Aurora\GenderHelper;
+use \Aurora\Admin\AdminView, \Library\Helper\Aurora\GenderHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxRuleWrapperView extends AuroraView {
+class TaxRuleWrapperView extends AdminView {
 
 
     // Properties

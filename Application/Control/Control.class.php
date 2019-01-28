@@ -183,7 +183,7 @@ class Control {
     
     /**
     * Get Post Data
-    * @return void
+    * @return array
     */
     public static function getPostData( ) {
         return self::$postData;

@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView;
+use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +9,7 @@ use \Library\Runtime\Registry, \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class OfficeView extends AuroraView {
+class OfficeView extends AdminView {
 
 
     // Properties

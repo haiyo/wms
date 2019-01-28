@@ -104,7 +104,7 @@ class View extends SingletonHelper {
 
     /**
     * Render Display View
-    * @return void
+    * @return str
     */
     public function render( $file, $vars=array( ) ) {
         $TPL = new HTMLHelper( $this->tplPath );

@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +10,7 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class NotFoundView extends AuroraView {
+class NotFoundView extends AdminView {
 
 
     // Properties
@@ -24,12 +25,12 @@ class NotFoundView extends AuroraView {
      * NotFoundView Constructor
      * @return void
      */
-    function __construct( NotFoundModel $NotFoundModel ) {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
 
-        $this->Registry = Registry::getInstance();
+        $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get(HKEY_LOCAL);
-        $this->NotFoundModel = $NotFoundModel;
+        $this->NotFoundModel = NotFoundModel::getInstance( );;
 
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $i18n->loadLanguage('Aurora/Page/NotFoundRes');

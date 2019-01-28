@@ -140,6 +140,20 @@ class User extends \DAO {
      * Retrieve a user column by searching fname and lname
      * @return mixed
      */
+    public function getListValidCount( $userIDs ) {
+        $sql = $this->DB->select( 'SELECT COUNT(*) FROM user
+                                   WHERE userID IN(' . addslashes( $userIDs ) . ') AND
+                                         suspended <> "1" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve a user column by searching fname and lname
+     * @return mixed
+     */
     public function searchByName( $name ) {
         $list = array( );
         $sql = $this->DB->select( 'SELECT userID, CONCAT(fname," ",lname) as name FROM user

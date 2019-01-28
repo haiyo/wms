@@ -24,7 +24,9 @@
             socket.emit("subscribe", Aurora.USERID);
 
             socket.on("chatMessage", function(e) {
-                alert("You've got a message!")
+                var t = $.parseJSON(e);
+
+                alert(t.data.notifyMessage)
             });
         });
     </script>

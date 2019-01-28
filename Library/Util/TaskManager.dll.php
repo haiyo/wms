@@ -45,7 +45,7 @@ class TaskManager {
 
 
     /**
-    * Add Task To List
+    * Add task to list
     * @return void
     */
     public function addTask( $xmlFile, $task ) {
@@ -64,7 +64,7 @@ class TaskManager {
 
 
     /**
-    * Recusively Add Task To List
+    * Recusively add task to list
     * @return mixed
     */
     private function recursive( $XMLElement, $taskList=NULL ) {
@@ -72,6 +72,7 @@ class TaskManager {
 
         for( $i=0; $i<$sizeof; $i++ ) {
             $task = (string)$XMLElement[$i]->attributes( );
+
             if( !isset( $taskList[$task] ) ) {
                 $taskList[$task] = array( );
             }

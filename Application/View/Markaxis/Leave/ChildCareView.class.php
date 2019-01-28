@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\Component\CountryModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\CountryModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ChildCareView extends AuroraView {
+class ChildCareView extends AdminView {
 
 
     // Properties
