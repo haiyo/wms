@@ -24,10 +24,10 @@
             socket.emit("subscribe", Aurora.USERID);
 
             socket.on("chatMessage", function(e) {
-                var t = $.parseJSON(e);
-                console.log(t)
-                //socket.join('some room');
-                alert(t.data.notifyMessage)
+                var obj = $.parseJSON(e);
+                console.log( obj )
+
+                //alert(t.data.notifyMessage)
             });
         });
     </script>

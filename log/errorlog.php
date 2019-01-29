@@ -793,4 +793,273 @@
                                           LEFT JOIN user u ON(u.userID = nu.userID)
                                           LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
                                    WHERE nu.toUserID = "33"
-                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | C:\Program Files (x86)\Apache Software Foundation\Apache2.4\htdocs\wms\Application\DAO\Aurora\Page\Notification.class.php | 51
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | C:\Program Files (x86)\Apache Software Foundation\Apache2.4\htdocs\wms\Application\DAO\Aurora\Page\Notification.class.php | 51[28/Jan/2019 18:37:45] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:37:47] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:58] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:37:59] Unauthorized from user IP: ::1 - localhost[28/Jan/2019 18:38:04] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:38:04] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:41:02] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:41:02] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:41:10] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:41:11] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:42:53] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:42:54] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:43:09] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:43:09] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:43:12] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:12" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:13] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:13" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:14] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:14" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:14] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:14" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:14] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:14" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:14] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:14" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:14] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:14" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:43:14] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sdfdsf", created = "2019-01-28 18:43:14" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:44:25] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:44:26] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:45:12] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:45:13] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:46:38] Cannot add or update a child row: a foreign key constraint fails (`aurora`.`chat_message`, CONSTRAINT `FK_CHAT_MESSGAE_CUID` FOREIGN KEY (`cuID`) REFERENCES `chat_user` (`cuID`) ON DELETE CASCADE ON UPDATE NO ACTION) on query: INSERT INTO chat_message
+                                   SET cuID = "1", message = "sfdf", created = "2019-01-28 18:46:38" | /Users/andylam/Sites/wms/Application/DAO/DAO.class.php | 72[28/Jan/2019 18:47:00] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:47:01] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:47:04] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:47:05] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:48:03] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:48:04] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:48:08] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:48:09] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:50:12] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:50:13] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:50:14] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:50:14] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:57:59] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:58:00] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:58:01] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 18:58:01] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:02:01] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:02:02] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:02:07] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:02:07] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:41:36] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:41:36] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:41:43] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[28/Jan/2019 19:41:44] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:40:04] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:40:05] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:40:20] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:20] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:20] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:20] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:21] Unauthorized from user IP: ::1 - localhost[29/Jan/2019 09:40:26] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:40:27] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:45:14] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:45:15] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:45:48] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:45:48] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:48:58] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:48:59] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "33"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:49:00] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51[29/Jan/2019 09:49:00] Table 'aurora.user_avatar' doesn't exist on query: SELECT *, nu.created AS nuCreated FROM notification_user nu
+                                          LEFT JOIN notification n ON(n.nID = nu.nID)
+                                          LEFT JOIN user u ON(u.userID = nu.userID)
+                                          LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
+                                   WHERE nu.toUserID = "34"
+                                          ORDER BY nuCreated DESC  LIMIT 1, 10 | /Users/andylam/Sites/wms/Application/DAO/Aurora/Page/Notification.class.php | 51

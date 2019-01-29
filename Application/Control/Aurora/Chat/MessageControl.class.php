@@ -35,8 +35,13 @@ class MessageControl {
         $post = Control::getPostData( );
 
         if( $this->MessageModel->save( $post ) ) {
+            $post['notifyUserIDs'] = array( 34 );
+            $post['notifyEvent'] = 'chatMessage';
+            $post['notifyType'] = 'normal';
+
             $vars['bool'] = 1;
             $vars['data'] = $post;
+            //$info['notifyMessage'] = $post['message'];
             $vars['html'] = $this->MessageView->renderMessage( $post );
             echo json_encode( $vars );
             exit;
