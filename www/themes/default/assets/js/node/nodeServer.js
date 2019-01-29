@@ -7,28 +7,31 @@ http.listen(5000, function(){
 
 var io = require("socket.io")(http);
 var clients = {};
+var rooms = {};
 
 io.on("connection", function( socket ){
     socket.on( "subscribe", function( userID ) {
-        clients[userID] = socket.id;
+        clients[userID] = socket;
     });
 
     socket.on("notify", function( data ) {
         var obj = JSON.parse( data );
+        var from = clients[obj.data.from];
 
-        for( var i=0; i<obj.data.notifyUserIDs.length; i++ ) {
-            var to = clients[obj.data.notifyUserIDs[i]];
+        for( var i=0; i<obj.data.to.length; i++ ) {
+            var to = clients[obj.data.to[i]];
 
             if( to ) {
-                if( obj.data.notifyType == "broadcast" ) {
-                    // Broadcast to everyone else except for the socket that starts it.
-                    socket.broadcast.emit( obj.data.notifyEvent, data );
+                if( !rooms.hasOwnProperty( obj.data.crID ) ) {
+                    console.log(to.id + " join room " + obj.data.crID);
+                    console.log("event " + obj.data.event);
+
+                    rooms[obj.data.crID] = 1;
+                    from.join( obj.data.crID );
+                    to.join( obj.data.crID );
                 }
-                else {
-                    // Normal request to individual
-                    socket.join( obj.data.crID );
-                    io.to(to).emit( obj.data.notifyEvent, data );
-                }
+                io.to( obj.data.crID).emit( obj.data.event, data  );
+                //io.to(to).emit( obj.data.notifyEvent, data );
             }
         }
     });

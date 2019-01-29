@@ -35,7 +35,8 @@ class User extends \DAO {
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            $row = $this->DB->fetch( $sql );
+            return $row['cuID'];
         }
         return false;
     }

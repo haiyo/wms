@@ -800,21 +800,15 @@
                                 },
                                 success: function (res) {
                                     var obj = $.parseJSON(res);
-                                    console.log(obj)
+                                    //console.log(obj)
                                     if( obj.bool == 0 ) {
                                         swal("error", obj.errMsg);
                                         return;
                                     }
                                     else {
-                                        selected.attr("data-room", obj.data.crID);
-                                        $("#message").val("");
-                                        $(".message-wrapper").append( $(obj.html) ); //.hide( ).fadeIn("fast") );
-                                        var height = $(".message-wrapper").prop("scrollHeight");
-                                        $(".message-wrapper").scrollTop( height );
+                                        //what happen if some garbage sent to socket? will it terminate?
+                                        socket.emit("notify", (res) );
                                     }
-
-                                    //what happen if some garbage sent to socket? will it terminate?
-                                    socket.emit("notify", (res) );
                                 }
                             }
                             Aurora.WebService.AJAX( "admin/chat/send", data );

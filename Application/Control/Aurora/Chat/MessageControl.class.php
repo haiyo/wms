@@ -35,9 +35,10 @@ class MessageControl {
         $post = Control::getPostData( );
 
         if( $this->MessageModel->save( $post ) ) {
-            $post['notifyUserIDs'] = array( 34 );
-            $post['notifyEvent'] = 'chatMessage';
-            $post['notifyType'] = 'normal';
+            $post['from'] = 33;
+            $post['to'] = array( 34 );
+            $post['event'] = 'chatMessage';
+            $post['type'] = 'normal';
 
             $vars['bool'] = 1;
             $vars['data'] = $post;

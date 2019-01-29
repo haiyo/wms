@@ -27,6 +27,12 @@
                 var obj = $.parseJSON(e);
                 console.log( obj )
 
+                var selected = $(".selected");
+                selected.attr("data-room", obj.data.crID);
+                $("#message").val("");
+                $(".message-wrapper").append( $(obj.html) ); //.hide( ).fadeIn("fast") );
+                var height = $(".message-wrapper").prop("scrollHeight");
+                $(".message-wrapper").scrollTop( height );
                 //alert(t.data.notifyMessage)
             });
         });
