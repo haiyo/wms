@@ -30,8 +30,7 @@ io.on("connection", function( socket ){
                     from.join( obj.data.crID );
                     to.join( obj.data.crID );
                 }
-                io.to( obj.data.crID).emit( obj.data.event, data  );
-                //io.to(to).emit( obj.data.notifyEvent, data );
+                io.to( obj.data.crID).emit( obj.data.event, data );
             }
         }
     });

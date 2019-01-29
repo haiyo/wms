@@ -30,10 +30,9 @@
                 var selected = $(".selected");
                 selected.attr("data-room", obj.data.crID);
                 $("#message").val("");
-                $(".message-wrapper").append( $(obj.html) ); //.hide( ).fadeIn("fast") );
+                $(".message-wrapper").append( $(obj.html) );
                 var height = $(".message-wrapper").prop("scrollHeight");
                 $(".message-wrapper").scrollTop( height );
-                //alert(t.data.notifyMessage)
             });
         });
     </script>
