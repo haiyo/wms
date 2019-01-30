@@ -17,9 +17,12 @@
     <script type="text/javascript" src="<?TPLVAR_ROOT_URL?>www/themes/<?TPLVAR_THEME?>/assets/js/<?TPLVAR_JNAME?>"></script>
     <!-- END DYNAMIC BLOCK: jsRow -->
 
-    <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script>
+    <!-- <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script> -->
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
     <script>
-        socket = io.connect('http://services.markaxis.com:5000');
+        //socket = io.connect('http://services.markaxis.com:5000');
+        socket = io.connect('localhost:5000');
+
         socket.on("connect", function(e) {
             socket.emit("subscribe", Aurora.USERID);
 

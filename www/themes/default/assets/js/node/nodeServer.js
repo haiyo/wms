@@ -1,15 +1,19 @@
 var express = require("express")();
-var http = require("http").Server(express);
+var http = require("http");
+var app = http.Server(express);
 
-http.listen(5000, function(){
+app.listen(5000, function(){
     console.log("listening on *:5000");
 });
 
-var io = require("socket.io")(http);
+var io = require("socket.io")(app);
 var clients = {};
 var rooms = {};
 
-io.on("connection", function( socket ){
+io.on("connection", function( socket ) {
+    var address = socket.handshake.address;
+    console.log(address)
+
     socket.on( "subscribe", function( userID ) {
         clients[userID] = socket;
     });
