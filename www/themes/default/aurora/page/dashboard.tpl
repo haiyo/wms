@@ -806,6 +806,7 @@
                                         return;
                                     }
                                     else {
+                                        console.log(socket)
                                         //what happen if some garbage sent to socket? will it terminate?
                                         socket.emit("notify", (res) );
                                     }

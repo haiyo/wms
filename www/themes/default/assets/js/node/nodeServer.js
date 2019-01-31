@@ -1,12 +1,38 @@
 var express = require("express")();
+var httpProxy = require("http-proxy");
 var http = require("http");
-var app = http.Server(express);
+//var app = http.Server(express);
 
-app.listen(5000, function(){
+//create proxy template object with websockets enabled
+var proxy = httpProxy.createProxyServer({ws: true});
+
+//create node server on port 80 and proxy to ports accordingly
+http.createServer(function (req, res) {
+    proxy.web(req, res, { target: 'http://localhost:5000' });
+}).listen(5000, function(){
     console.log("listening on *:5000");
 });
 
-var io = require("socket.io")(app);
+/*
+ProxyRequests Off
+RewriteEngine On
+RewriteCond %{HTTP:Upgrade} websocket [NC]
+RewriteRule /(.*) ws://localhost:5000/$1 [P,L]
+
+RewriteCond %{REQUEST_URI}  ^/socket.io [NC]
+RewriteCond %{QUERY_STRING} transport=polling [NC]
+RewriteRule /(.*) http://localhost:5000/$1 [P,L]
+
+ProxyPass /ws/ http://localhost:5000/
+ProxyPassReverse /ws/ http://localhost:5000/
+* */
+
+
+/*app.listen(5000, function(){
+    console.log("listening on *:5000");
+});*/
+
+var io = require("socket.io")(http);
 var clients = {};
 var rooms = {};
 
@@ -16,6 +42,7 @@ io.on("connection", function( socket ) {
 
     socket.on( "subscribe", function( userID ) {
         clients[userID] = socket;
+        console.log(userID + " Subscribed!")
     });
 
     socket.on("notify", function( data ) {
