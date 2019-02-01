@@ -31,6 +31,7 @@
     </task>
     <task type="team">
         <observer controller="Markaxis/Team/TeamControl"></observer>
+        <observer controller="Markaxis/Team/TeamMemberControl"></observer>
     </task>
     <task type="calendar">
         <observer controller="Markaxis/Calendar/CalendarControl"></observer>

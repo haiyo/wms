@@ -5,16 +5,15 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: TeamControl.class.php, v 2.0 Exp $
+ * @version $Id: TeamMemberControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TeamControl {
+class TeamMemberControl {
 
 
     // Properties
-    protected $TeamModel;
-    protected $EmployeeView;
+    protected $TeamMemberModel;
 
 
     /**
@@ -22,7 +21,7 @@ class TeamControl {
      * @return void
      */
     function __construct( ) {
-        $this->TeamModel = TeamModel::getInstance( );
+        $this->TeamMemberModel = TeamMemberModel::getInstance( );
     }
 
 
@@ -33,7 +32,7 @@ class TeamControl {
     public function create( ) {
         $post = Control::getPostData( );
 
-        $post['eID'] = $this->TeamModel->create( $post );
+        $post['eID'] = $this->TeamMemberModel->create( $post );
         Control::setPostData( $post );
     }
 }
