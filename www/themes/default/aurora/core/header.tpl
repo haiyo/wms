@@ -18,10 +18,11 @@
     <!-- END DYNAMIC BLOCK: jsRow -->
 
     <!-- <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script> -->
-    <script src="http://localhost/ws/socket.io/socket.io.js"></script>
+    <!-- <script src="http://localhost/ws/socket.io/socket.io.js"></script> -->
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
     <script>
         //socket = io.connect('http://services.markaxis.com:5000');
-        socket = io.connect('http://localhost/ws/');
+        socket = io.connect('http://localhost:5000');
 
         socket.on("connect", function(e) {
             socket.emit("subscribe", Aurora.USERID);

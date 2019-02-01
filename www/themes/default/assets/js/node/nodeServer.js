@@ -1,8 +1,9 @@
 var express = require("express")();
-var httpProxy = require("http-proxy");
+//var httpProxy = require("http-proxy");
 var http = require("http");
-//var app = http.Server(express);
+var app = http.Server(express);
 
+/*
 //create proxy template object with websockets enabled
 var proxy = httpProxy.createProxyServer({ws: true});
 
@@ -11,28 +12,16 @@ http.createServer(function (req, res) {
     proxy.web(req, res, { target: 'http://localhost:5000' });
 }).listen(5000, function(){
     console.log("listening on *:5000");
-});
-
-/*
-ProxyRequests Off
-RewriteEngine On
-RewriteCond %{HTTP:Upgrade} websocket [NC]
-RewriteRule /(.*) ws://localhost:5000/$1 [P,L]
-
-RewriteCond %{REQUEST_URI}  ^/socket.io [NC]
-RewriteCond %{QUERY_STRING} transport=polling [NC]
-RewriteRule /(.*) http://localhost:5000/$1 [P,L]
-
-ProxyPass /ws/ http://localhost:5000/
-ProxyPassReverse /ws/ http://localhost:5000/
-* */
-
-
-/*app.listen(5000, function(){
-    console.log("listening on *:5000");
 });*/
 
-var io = require("socket.io")(http);
+
+app.listen(5000, function(){
+    console.log("listening on *:5000");
+});
+
+var io = require("socket.io")(app);
+    io.set( 'origins', '*localhost:80' );
+
 var clients = {};
 var rooms = {};
 
