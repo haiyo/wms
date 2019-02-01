@@ -6,11 +6,13 @@
  */
 var MarkaxisEmployee = (function( ) {
 
+
     /**
      * MarkaxisEmployee Constructor
      * @return void
      */
     MarkaxisEmployee = function( ) {
+        this.uploadCrop = false;
         this.init( );
     };
 
@@ -33,9 +35,114 @@ var MarkaxisEmployee = (function( ) {
         initEvents: function( ) {
             var that = this;
 
+            // Override defaults
+            $.fn.stepy.defaults.legend = false;
+            $.fn.stepy.defaults.transition = 'fade';
+            $.fn.stepy.defaults.duration = 150;
+            $.fn.stepy.defaults.backLabel = '<i class="icon-arrow-left13 position-left"></i> Back';
+            $.fn.stepy.defaults.nextLabel = 'Next <i class="icon-arrow-right14 position-right"></i>';
+
+            $(".stepy").stepy({
+                titleClick: true,
+                validate: true,
+                focusInput: true,
+                //block: true,
+                next: function(index) {
+                    $(".form-control").removeClass("border-danger");
+                    $(".error").remove( );
+                    $(".stepy").validate(validate)
+                },
+                finish: function( index ) {
+                    if( $(".stepy").valid() )  {
+                        that.saveEmployeeForm( );
+                        return false;
+                    }
+                }
+            });
+
+            jQuery.validator.addMethod("validEmail", function(value, element) {
+                if(value == '')
+                    return true;
+                var temp1;
+                temp1 = true;
+                var ind = value.indexOf('@');
+                var str2=value.substr(ind+1);
+                var str3=str2.substr(0,str2.indexOf('.'));
+                if(str3.lastIndexOf('-')==(str3.length-1)||(str3.indexOf('-')!=str3.lastIndexOf('-')))
+                    return false;
+                var str1=value.substr(0,ind);
+                if((str1.lastIndexOf('_')==(str1.length-1))||(str1.lastIndexOf('.')==(str1.length-1))||(str1.lastIndexOf('-')==(str1.length-1)))
+                    return false;
+                str = /(^[a-zA-Z0-9]+[\._-]{0,1})+([a-zA-Z0-9]+[_]{0,1})*@([a-zA-Z0-9]+[-]{0,1})+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,3})$/;
+                temp1 = str.test(value);
+                return temp1;
+            }, "Please enter valid email address.");
+
+
+            // Initialize validation
+            var validate = {
+                ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
+                successClass: 'validation-valid-label',
+                highlight: function(element, errorClass) {
+                    $(element).addClass("border-danger");
+                },
+                unhighlight: function(element, errorClass) {
+                    $(element).removeClass("border-danger");
+                },
+                // Different components require proper error label placement
+                errorPlacement: function(error, element) {
+                    // Styled checkboxes, radios, bootstrap switch
+                    if( element.parents('div').hasClass("checker") || element.parents('div').hasClass("choice") ||
+                        element.parent().hasClass('bootstrap-switch-container') ) {
+                        if(element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
+                            error.appendTo( element.parent().parent().parent().parent() );
+                        }
+                        else {
+                            error.appendTo( element.parent().parent().parent().parent().parent() );
+                        }
+                    }
+
+                    // Unstyled checkboxes, radios
+                    else if (element.parents('div').hasClass('checkbox') || element.parents('div').hasClass('radio')) {
+                        error.appendTo( element.parent().parent().parent() );
+                    }
+
+                    // Input with icons and Select2
+                    else if (element.parents('div').hasClass('has-feedback') || element.hasClass('select2-hidden-accessible')) {
+                        //error.appendTo( element.parent() );
+                        element.next().find(".select2-selection").addClass("border-danger");
+                    }
+
+                    // Inline checkboxes, radios
+                    else if (element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
+                        error.appendTo( element.parent().parent() );
+                    }
+
+                    // Input group, styled file input
+                    else if (element.parent().hasClass('uploader') || element.parents().hasClass('input-group')) {
+                        error.appendTo( element.parent().parent() );
+                    }
+
+                    else {
+                        if( $(".error").length == 0 )
+                            $(".stepy-navigator").prepend(error);
+                    }
+                },
+                rules: {
+                    fname : "required",
+                    lname : "required",
+                    idnumber : "required",
+                    email1: {
+                        validEmail: true,
+                        required: true
+                    }
+                }
+            };
+
             // Apply "Back" and "Next" button styling
-            $(".stepy-step").find(".button-next").addClass("btn btn-primary btn-next");
-            $(".stepy-step").find(".button-back").addClass("btn btn-default");
+            var stepy = $(".stepy-step");
+            stepy.find(".button-next").addClass("btn btn-primary btn-next");
+            stepy.find(".button-back").addClass("btn btn-default");
 
             $("#dobMonth").select2({minimumResultsForSearch: -1});
             $("#dobDay").select2({minimumResultsForSearch: -1});
@@ -61,8 +168,6 @@ var MarkaxisEmployee = (function( ) {
             $("#expToMonth").select2( );
             $("#recruitSource").select2( );
             $(".relationship").select2( );
-            $(".childSelect").select2( );
-
             $(".raceList").select2({minimumResultsForSearch: -1});
             $(".maritalList").select2({minimumResultsForSearch: -1});
             $(".salaryTypeList").select2({minimumResultsForSearch: -1});
@@ -94,6 +199,7 @@ var MarkaxisEmployee = (function( ) {
                 }
             });
 
+            $(".childSelect").select2( );
             $(".childSelect").select2("destroy");
 
             // Editing with existing children
@@ -134,6 +240,15 @@ var MarkaxisEmployee = (function( ) {
                     $.uniform.update( );
                 }
                 return false;
+            });
+
+            that.uploadCrop = $("#upload-demo").croppie({
+                viewport: {
+                    width: 290,
+                    height: 290,
+                    type: "circle"
+                },
+                enableExif: true
             });
         },
 
@@ -178,6 +293,74 @@ var MarkaxisEmployee = (function( ) {
             }
             $("#loginPassword").val( pass );
         },
+
+
+        /**
+         * Save Employee Data
+         * @return void
+         */
+        saveEmployeeForm: function( ) {
+            $uploadCrop.croppie("result", {
+                type: "canvas",
+                size: "viewport"
+            }).then(function( resp ) {
+                var formData = Aurora.WebService.serializePost("#employeeForm");
+
+                var data = {
+                    bundle: {
+                        laddaClass: ".stepy-finish",
+                        data: formData,
+                        image: encodeURIComponent( resp )
+                    },
+                    success: function( res, ladda ) {
+                        ladda.stop( );
+
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            if( $("#userID").val( ) == 0 ) {
+                                title = "New Employee Added  Successfully";
+                                goToURL = Aurora.ROOT_URL + "admin/employee/add";
+                                backToURL = Aurora.ROOT_URL + "admin/employee/list";
+                                confirmButtonText = "Add Another Employee";
+                                cancelButtonText = "Go to Employee Listing";
+                            }
+                            else {
+                                title = "Employee Updated Successfully";
+                                cancelButtonText = "Continue Editing This Employee";
+                                goToURL = Aurora.ROOT_URL + "admin/employee/list";
+                                backToURL = Aurora.ROOT_URL + "admin/employee/edit/" + $("#userID").val( );
+                                confirmButtonText = "Go to Employee Listing";
+                            }
+
+                            swal({
+                                title: title,
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: confirmButtonText,
+                                cancelButtonText: cancelButtonText,
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                if( isConfirm === false ) {
+                                    window.location.href = backToURL;
+                                }
+                                else {
+                                    window.location.href = goToURL;
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/employee/save", data );
+            });
+        }
     }
     return MarkaxisEmployee;
 })();

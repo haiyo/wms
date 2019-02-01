@@ -41,7 +41,7 @@ class UserImage extends \DAO {
     */
     public function getByUserID( $userID, $column ) {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user_image ui
-                                   LEFT JOIN upload u ON (ui.uID = u.uID)
+                                   LEFT JOIN upload up ON (ui.uID = up.uID)
                                    WHERE ui.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 

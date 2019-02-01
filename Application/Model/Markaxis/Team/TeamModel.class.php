@@ -1,5 +1,5 @@
 <?php
-namespace Markaxis\Employee;
+namespace Markaxis\Team;
 use \Aurora\User\UserImageModel;
 use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
@@ -9,19 +9,19 @@ use \Library\Util\Date, \Library\Validator\Validator;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: EmployeeModel.class.php, v 2.0 Exp $
+ * @version $Id: TeamModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EmployeeModel extends \Model {
+class TeamModel extends \Model {
 
 
     // Properties
-    protected $Employee;
+    protected $Team;
 
 
     /**
-     * EmployeeModel Constructor
+     * TeamModel Constructor
      * @return void
      */
     function __construct( ) {
@@ -32,7 +32,7 @@ class EmployeeModel extends \Model {
         $this->info['passNumber'] = $this->info['confirmDate'] =
         $this->info['startDate'] = $this->info['endDate'] = $this->info['passExpiryDate'] = '';
 
-        $this->Employee = new Employee( );
+        $this->Team = new Team( );
     }
 
 

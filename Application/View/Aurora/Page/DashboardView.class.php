@@ -41,6 +41,7 @@ class DashboardView extends AdminView {
                                                       'pickers/picker.date.js', 'pickers/picker.time.js' ),
                                   'plugins/visualization' => array( 'd3/d3.min.js', 'd3/d3_tooltip.js' ),
                                   'plugins/forms' => array( 'styling/switchery.min.js', 'tags/tokenfield.min.js',
+                                                            'input/handlebars.js',
                                                             'input/typeahead.bundle.min.js' ) ) );
 
         $this->setStyle( array( 'core' => 'dashboard' ) );

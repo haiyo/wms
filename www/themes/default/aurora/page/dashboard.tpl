@@ -23,7 +23,8 @@
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
                     <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">My Team Members (3) &nbsp;-&nbsp;
-                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar">Create a Team</a> &nbsp;|&nbsp; <a href="">Join Existing Team</a>
+                        <a href="#" class="" data-toggle="modal" data-target="#modalNewTeam">Create New Team</a> &nbsp;|&nbsp;
+                        <a href="">Join Existing Team</a>
                     </span>
                 </div>
 
@@ -246,7 +247,7 @@
                         </div>
                         <div class="box-content right">
                             <a href="<?TPLVAR_ROOT_URL?>admin/payroll/slips"><i class="icon-cash3"></i><h4>My Payslips</h4>
-                                <div class="box-content-descript">View or download your monthly payslips</div>
+                                <div class="box-content-descript">View history or download your monthly payslips</div>
                             </a>
                         </div>
                         <div class="box-content">
@@ -867,6 +868,152 @@
                             <a href="#" class="btn bg-blue" id="sendMessage">Send <i class="icon-arrow-right14 ml-2"></i></a>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            var engine1 = new Bloodhound({
+                remote: {
+                    url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
+                    wildcard: '%QUERY',
+                    filter: function( response ) {
+                        var tokens = $(".teamMemberList").tokenfield("getTokens");
+
+                        return $.map( response, function( d ) {
+                            if( engine1.valueCache.indexOf(d.name) === -1) {
+                                engine1.valueCache.push(d.name);
+                            }
+                            var exists = false;
+                            for( var i=0; i<tokens.length; i++ ) {
+                                if( d.name === tokens[i].label ) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                            if( !exists ) {
+                                return {
+                                    id: d.userID,
+                                    value: d.name,
+                                    image: d.image,
+                                    designation: d.designation
+                                }
+                            }
+                        });
+                    }
+                },
+                datumTokenizer: function(d) {
+                    return Bloodhound.tokenizers.whitespace(d.value);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            // Initialize engine
+            engine1.valueCache = [];
+            engine1.initialize();
+
+            // Initialize tokenfield
+            $(".teamMemberList").tokenfield({
+                delimiter: ';',
+                typeahead: [{
+                    minLength:1,
+                    highlight:true,
+                    hint:false
+                },{
+                    displayKey: 'value',
+                    source: engine1.ttAdapter(),
+                    templates: {
+                        suggestion: Handlebars.compile([
+                            '<div class="col-md-12">',
+                            '<div class="col-md-2"><img src="{{image}}" width="48" height="48" ',
+                            'style="padding:0;" class="rounded-circle" /></div>',
+                            '<div class="col-md-10"><span class="typeahead-name">{{value}}</span>',
+                            '<div class="typeahead-designation">{{designation}}</div></div>',
+                            '</div>'
+                        ].join(''))
+                    }
+                }]
+            });
+
+            $(".teamMemberList").on("tokenfield:createtoken", function( event ) {
+                var exists = false;
+                $.each( engine1.valueCache, function(index, value) {
+                    if( event.attrs.value === value ) {
+                        exists = true;
+                    }
+                });
+                if( !exists ) {
+                    event.preventDefault( );
+                }
+            });
+
+            $("#createTeam").click( function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#createTeamForm")
+                    },
+                    success: function( res, ladda ) {
+                        ladda.stop( );
+
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            //
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/team/create", data );
+            });
+        });
+    </script>
+
+    <div id="modalNewTeam" class="modal fade">
+        <div class="modal-dialog modal-med">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title">Create New Team</h6>
+                </div>
+
+                <div class="modal-body overflow-y-visible">
+                    <form id="createTeamForm" name="createTeamForm" method="post" action="">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Name your team:</label>
+                                    <input type="text" name="teamName" id="teamName" class="form-control" value=""
+                                           placeholder="Give your team a short and sweet name!" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Describe your team's objective:</label>
+                                    <textarea name="teamDescript" id="teamDescript" rows="6" cols="5"
+                                              placeholder="We are the warriors of the company! Improving the quality of products, services, processes and communications!"
+                                              class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Invite team members to join in the fun!</label>
+                                <input type="text" name="teamMembers" class="form-control tokenfield-typeahead teamMemberList"
+                                       placeholder="Enter team member's name" autocomplete="off" data-fouc />
+                                       <!--value="<?TPLVAR_TEAM_MEMBERS?>"-->
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                            <button id="createTeam" type="submit" class="btn btn-primary">Create Team</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

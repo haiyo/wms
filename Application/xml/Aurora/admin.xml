@@ -29,6 +29,9 @@
     <task type="notification">
         <observer controller="Aurora/Notification/NotificationControl"></observer>
     </task>
+    <task type="team">
+        <observer controller="Markaxis/Team/TeamControl"></observer>
+    </task>
     <task type="calendar">
         <observer controller="Markaxis/Calendar/CalendarControl"></observer>
     </task>
