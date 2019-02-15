@@ -58,23 +58,21 @@ class EmployeeModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getList( $q='' ) {
-        $row = $this->Employee->getList( $q );
+    public function getList( $q='', $includeOwn=false ) {
+        $exclude = '';
+
+        if( !$includeOwn ) {
+            $userInfo = UserModel::getInstance( )->getInfo( );
+            $exclude = $userInfo['userID'];
+        }
+
+        $row = $this->Employee->getList( $q, $exclude );
 
         if( sizeof( $row ) > 0 ) {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $row as $key => $value ) {
-                $image = $UserImageModel->getByUserID( $row[$key]['userID'],
-                                                       'up.hashDir, up.hashName');
-
-                if( $image ) {
-                    $image = ROOT_URL . 'www/mars/user/photo/' . $image['hashDir'] . '/' . $image['hashName'];
-                }
-                else {
-                    $image = ROOT_URL . 'www/themes/default/assets/images/silhouette.png';
-                }
-                $row[$key]['image'] = $image;
+                $row[$key]['image'] = $UserImageModel->getByUserID( $row[$key]['userID'], 'up.hashDir, up.hashName');
             }
         }
         return $row;
@@ -86,7 +84,7 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getFieldByUserID( $userID, $column ) {
-        return $this->Employee->getFieldByUserID( $userID, $column );
+        return $this->info = $this->Employee->getFieldByUserID( $userID, $column );
     }
 
 

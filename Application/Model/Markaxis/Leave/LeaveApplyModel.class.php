@@ -197,8 +197,23 @@ class LeaveApplyModel extends \Model {
                     $endDate = DateTime::createFromFormat('d M Y h:i A', $data['endDate'] . ' ' . $data['endTime'] );
                     $daysDiff = $startDate->diff( $endDate )->d;
 
+                    // create an iterateable period of date (P1D equates to 1 day)
+                    $period = new \DatePeriod($startDate, new \DateInterval('P1D'), $endDate);
+
+                    foreach($period as $dt) {
+                        $curr = $dt->format('D');
+
+                        // substract if Saturday or Sunday
+                        if ($curr == 'Sat' || $curr == 'Sun') {
+                            $daysDiff--;
+                        }
+                        /*else if( in_array( $dt->format('Y-m-d'), $holidays ) ) {
+                            $daysDiff--;
+                        }*/
+                    }
+
                     $storing = $daysDiff+$decimal;
-                    echo $storing; exit;
+                    //echo $storing; exit;
 
                     $hours = $days = '';
 

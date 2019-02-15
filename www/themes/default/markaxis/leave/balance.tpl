@@ -8,6 +8,9 @@
     .balance-chart pl-0 {
         padding-right:0px;
     }
+    .balance-chart .clear {
+        clear:left;
+    }
     .payroll-nav {
         display: -ms-flexbox;
         display: flex;
@@ -270,14 +273,14 @@
                 searchable : false,
                 className: "text-center",
                 data: 'laID',
-                render: function (data, type, full, meta) {
+                render: function(data, type, full, meta) {
                     return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
                 orderable: true,
-                width: '250px',
-                render: function (data, type, full, meta) {
+                width: '230px',
+                render: function(data, type, full, meta) {
                     return full["name"] + ' (' + full["code"] + ")";
                 }
             },{
@@ -296,7 +299,7 @@
             },{
                 targets: [4],
                 orderable: true,
-                width: '280px',
+                width: '260px',
                 data: 'reason'
             },{
                 targets: [5],
@@ -442,7 +445,7 @@
                     <div class="col-md-1">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#458AF2;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Available</div>
                     </div>
 
@@ -451,10 +454,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#c3d8f8;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Consumed</div>
                     </div>
 
@@ -463,10 +466,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Acrued So Far</div>
                     </div>
 
@@ -474,10 +477,10 @@
                         <div>0 Days</div>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Annual Quota</div>
                     </div>
 
@@ -499,7 +502,7 @@
                     <div class="col-md-1">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#EC407A;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Available</div>
                     </div>
 
@@ -508,10 +511,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#fad0df;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Consumed</div>
                     </div>
 
@@ -520,10 +523,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Acrued So Far</div>
                     </div>
 
@@ -531,10 +534,10 @@
                         <div>0 Days</div>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Annual Quota</div>
                     </div>
 
@@ -556,7 +559,7 @@
                     <div class="col-md-1">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ffaf23;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Available</div>
                     </div>
 
@@ -565,10 +568,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#fee8c8;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Consumed</div>
                     </div>
 
@@ -577,10 +580,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Acrued So Far</div>
                     </div>
 
@@ -588,10 +591,10 @@
                         <div>0 Days</div>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Annual Quota</div>
                     </div>
 
@@ -613,7 +616,7 @@
                     <div class="col-md-1">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#70b754;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Available</div>
                     </div>
 
@@ -622,10 +625,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#d4f1c8;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Consumed</div>
                     </div>
 
@@ -634,10 +637,10 @@
                     </div>
 
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Acrued So Far</div>
                     </div>
 
@@ -645,10 +648,10 @@
                         <div>0 Days</div>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 clear">
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>Annual Quota</div>
                     </div>
 
@@ -662,7 +665,7 @@
     </div>
 
     <div class="col-md-3 pl-0">
-        <div class="col-md-12">
+        <div class="col-md-12 pl-0">
             <div class="card card-body" style="height:329px;">
                 <h6 class="font-weight-semibold mb-0 mt-1">Leave Actions</h6>
 

@@ -1,11 +1,10 @@
-
 <style>
     .tabWrapper {
         position:relative;
         margin:0 auto;
         overflow:hidden;
         padding:5px;
-        height:99px;
+        height:90px;
     }
     .nav-pills {
         width:100%;
@@ -21,7 +20,7 @@
     }
 
     .tab-pane .content {
-        padding:20px;
+        padding:12px 0px;
         padding-bottom:0px;
     }
 
@@ -73,9 +72,6 @@
     .nav-pills > li > a.complete-tab > .status {
         background-color: #3b8c41;
     }
-    .nav-pills h4 {
-        margin-top:5px;
-    }
     .nav-pills > li > a.pending-tab {
         background-color: #FFD166 !important;
     }
@@ -99,6 +95,7 @@
         display:block;
         margin-top:5px;
         padding: 3px;
+        font-size:12px;
     }
     .nav-pills > li > .active > .status {
         margin-bottom: 5px;
@@ -125,7 +122,7 @@
         position: absolute;
         top:0px;
         z-index:100;
-        height:93px;
+        height:85px;
     }
 
     .scroller-right{
@@ -150,7 +147,7 @@
         };
 
         var widthOfHidden = function () {
-            return $(".tabWrapper").outerWidth() - widthOfList() - getLeftPosi() - scrollBarWidths;
+            return $(".tabWrapper").outerWidth()-widthOfList()-getLeftPosi()-scrollBarWidths;
         };
 
         var getLeftPosi = function () {
@@ -187,6 +184,7 @@
                 $(".scroller-right").fadeOut("slow");
             });
         });
+        $(".scroller-right").click().click();
 
         $(".scroller-left").click(function () {
             $(".tabWrapper").animate({scrollLeft: "+=" + getLeftPosi( )}, "slow", function () {
@@ -202,238 +200,141 @@
         });
     });
 </script>
-<div class="panel panel-flat">
 
-    <div class="panel-body">
-        <div id="exTab1" class="exTab1">
+<div id="exTab1" class="exTab1">
+    <div class="scroller scroller-left"><i class="icon-arrow-left15"></i></div>
+    <div class="scroller scroller-right"><i class="icon-arrow-right15"></i></div>
+    <div class="tabWrapper">
+        <ul class="nav nav-pills">
+            <!-- BEGIN DYNAMIC BLOCK: tab -->
+            <li>
+                <a class="tab <?TPLVAR_STATUS_TAB?>" href="#<?TPLVAR_MONTH?>" data-id="<?TPLVAR_MONTH?>" data-toggle="tab">
+                    <h4><?TPLVAR_MONTH?></h4>
+                    <div><?TPLVAR_YEAR?></div>
+                    <div class="status"><?TPLVAR_STATUS?></div>
+                </a>
+            </li>
+            <!-- END DYNAMIC BLOCK: tab -->
+        </ul>
+    </div>
 
-            <div class="scroller scroller-left"><i class="icon-arrow-left15"></i></div>
-            <div class="scroller scroller-right"><i class="icon-arrow-right15"></i></div>
-            <div class="tabWrapper">
-                <ul class="nav nav-pills">
-                    <li>
-                        <a class="tab complete-tab" href="#janMonth" data-id="janMonth" data-toggle="tab">
-                            <h4>Jan</h4>
-                            <div>2018</div>
-                            <div class="status">Completed</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab complete-tab" href="#febMonth" data-id="febMonth" data-toggle="tab">
-                            <h4>Feb</h4>
-                            <div>2018</div>
-                            <div class="status">Completed</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab complete-tab" href="#marMonth" data-id="marMonth" data-toggle="tab">
-                            <h4>Mar</h4>
-                            <div>2018</div>
-                            <div class="status">Completed</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab complete-tab" href="#aprMonth" data-id="aprMonth" data-toggle="tab">
-                            <h4>Apr</h4>
-                            <div>2018</div>
-                            <div class="status">Completed</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab complete-tab" href="#mayMonth" data-id="mayMonth" data-toggle="tab">
-                            <h4>May</h4>
-                            <div>2018</div>
-                            <div class="status">Completed</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab complete-tab" href="#junMonth" data-id="junMonth" data-toggle="tab">
-                            <h4>Jun</h4>
-                            <div>2018</div>
-                            <div class="status">Completed</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab pending-tab" href="#julMonth" data-id="julMonth" data-toggle="tab">
-                            <h4>Jul</h4>
-                            <div>2018</div>
-                            <div class="status">Pending</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab current-tab active" href="#augMonth" data-id="augMonth" data-toggle="tab">
-                            <h4>Aug</h4>
-                            <div>2018</div>
-                            <div class="status">Current</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab upcoming-tab" href="#sepMonth" data-id="sepMonth" data-toggle="tab">
-                            <h4>Sep</h4>
-                            <div>2018</div>
-                            <div class="status">Upcoming</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab upcoming-tab" href="#octMonth" data-id="octMonth" data-toggle="tab">
-                            <h4>Oct</h4>
-                            <div>2018</div>
-                            <div class="status">Upcoming</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab upcoming-tab" href="#novMonth" data-id="novMonth" data-toggle="tab">
-                            <h4>Nov</h4>
-                            <div>2018</div>
-                            <div class="status">Upcoming</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="tab upcoming-tab" href="#decMonth" data-id="decMonth" data-toggle="tab">
-                            <h4>Dec</h4>
-                            <div>2018</div>
-                            <div class="status">Upcoming</div>
-                        </a>
-                    </li>
-                </ul>
+    <div class="tab-content clearfix">
+
+        <div class="tab-pane complete-tab" id="marMonth" data-id="complete">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="daterange-custom daterange-custom2 d-flex align-items-center justify-content-center" style="margin-top:10px;">
+                            <div class="daterange-custom-display daterange-custom2"><i>1</i>
+                                <b><i>Jul</i> <i>2018</i></b><em> – </em><i>31</i> <b><i>Jul</i> <i>2018</i></b>
+                            </div>
+                            <span class="badge badge-primary ml-2">31 Days</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="font-weight-semibold">ESTIMATED OVERHEAD / MONTH</div>
+                        <h2>SGD$19,000</h2>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="font-weight-semibold">TOTAL EMPLOYEES</div>
+                        <h2>45</h2>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="font-weight-semibold">WORKING DAYS</div>
+                        <h2>23</h2>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="tab-content clearfix">
-
-                <div class="tab-pane complete-tab" id="marMonth" data-id="complete">
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="daterange-custom daterange-custom2 d-flex align-items-center justify-content-center" style="margin-top:10px;">
-                                    <div class="daterange-custom-display daterange-custom2"><i>1</i>
-                                        <b><i>Jul</i> <i>2018</i></b><em> – </em><i>31</i> <b><i>Jul</i> <i>2018</i></b>
-                                    </div>
-                                    <span class="badge badge-primary ml-2">31 Days</span>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">ESTIMATED OVERHEAD / MONTH</div>
-                                <h2>SGD$19,000</h2>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">TOTAL EMPLOYEES</div>
-                                <h2>45</h2>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">WORKING DAYS</div>
-                                <h2>23</h2>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-top:10px">
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <div class="chart has-fixed-height" id="marMonthChart"></div>
-                            </div>
-                        </div>
+            <div class="row" style="margin-top:10px">
+                <div class="card-body">
+                    <div class="chart-container">
+                        <div class="chart has-fixed-height" id="marMonthChart"></div>
                     </div>
                 </div>
-                <div class="tab-pane complete-tab" id="aprMonth" data-id="complete"></div>
-                <div class="tab-pane complete-tab" id="mayMonth" data-id="complete"></div>
-                <div class="tab-pane complete-tab" id="junMonth" data-id="complete"></div>
-
-                <div class="tab-pane pending-tab" id="julMonth" data-id="pending">
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="daterange-custom daterange-custom2 d-flex align-items-center justify-content-center" style="margin-top:10px;">
-                                    <div class="daterange-custom-display daterange-custom2"><i>1</i>
-                                        <b><i>Jul</i> <i>2018</i></b><em> – </em><i>31</i> <b><i>Jul</i> <i>2018</i></b>
-                                    </div>
-                                    <span class="badge badge-primary ml-2">31 Days</span>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">ESTIMATED OVERHEAD / MONTH</div>
-                                <h2>SGD$19,000</h2>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">TOTAL EMPLOYEES</div>
-                                <h2>45</h2>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">WORKING DAYS</div>
-                                <h2>23</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-top:10px">
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <div class="chart has-fixed-height" id="julMonthChart"></div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <!-- BEGIN DYNAMIC BLOCK: tab-pane -->
+        <div class="tab-pane <?TPLVAR_STATUS_TAB?>" id="<?TPLVAR_MONTH?>" data-id="<?TPLVAR_DATA_ID?>">
+            <div class="content">
+                <div class="no-data">
+                    <div class="row"><h2><?TPLVAR_LONG_MONTH?> <?TPLVAR_YEAR?> <?LANG_NOT_PROCESS_YET?></h2></div>
+                    <a type="button" class="btn btn-lg bg-grey-400 btn-labeled" data-date="<?TPLVAR_DATE?>" data-toggle="modal" data-target="#modalEnterPassword">
+                    <b><i class="icon-calculator2"></i></b> <?LANG_LETS_DO_IT?></a>
                 </div>
+            </div>
+        </div>
+        <!-- END DYNAMIC BLOCK: tab-pane -->
+    </div>
+</div>
+<div id="modalEnterPassword" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title"><i class="icon-lock"></i>&nbsp; Verify Credential</h6>
+            </div>
 
-
-                <div class="tab-pane pending-tab" data-id="pending"></div>
-
-
-
-                <div class="tab-pane active current-tab" id="augMonth" data-id="current">
-                    <div class="content">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="daterange-custom daterange-custom2 d-flex align-items-center justify-content-center" style="margin-top:10px;">
-                                    <div class="daterange-custom-display daterange-custom2"><i>1</i>
-                                        <b><i>Aug</i> <i>2018</i></b><em> – </em><i>31</i> <b><i>Aug</i> <i>2018</i></b>
-                                    </div>
-                                    <span class="badge badge-primary ml-2">31 Days</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">ESTIMATED OVERHEAD / MONTH</div>
-                                <h2>SGD$20,000</h2>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">TOTAL EMPLOYEES</div>
-                                <h2>50</h2>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="font-weight-semibold">WORKING DAYS</div>
-                                <h2>23</h2>
-                            </div>
+            <div class="modal-body overflow-y-visible">
+                <form id="createTeamForm" name="createTeamForm" method="post" action="">
+                    <input type="hidden" name="processDate" id="processDate" value="" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Enter your password to continue:</label>
+                            <input type="password" name="password" id="password" class="form-control" value=""
+                                   placeholder="" />
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top:10px">
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <div class="chart has-fixed-height" id="augMonthChart"></div>
-                            </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                        <button id="unlock" type="submit" class="btn btn-primary">Unlock</button>
                     </div>
-                </div>
-
-                <div class="tab-pane upcoming-tab" id="sepMonth" data-id="upcoming"></div>
-                <div class="tab-pane upcoming-tab" id="octMonth" data-id="upcoming"></div>
-                <div class="tab-pane upcoming-tab" id="novMonth" data-id="upcoming"></div>
-                <div class="tab-pane upcoming-tab" id="decMonth" data-id="upcoming"></div>
-
+                </form>
             </div>
         </div>
     </div>
 </div>
+
 <script>
 
-    $(document).ready(function(){
+    $(document).ready(function( ){
+        $("#modalEnterPassword").on("shown.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            $("#processDate").val( $invoker.attr("data-date") );
+            $("#password").focus( );
+        });
+
+        $("#unlock").on("click", function( ) {
+            var processDate = $("#processDate").val( );
+
+            var data = {
+                bundle: {
+                    processDate: processDate,
+                    password: $("#password").val( )
+                },
+                success: function( res, ladda ) {
+                    ladda.stop( );
+
+                    var obj = $.parseJSON( res );
+                    if( obj.bool == 0 ) {
+                        $("#password").focus( );
+                        swal("Error!", obj.errMsg, "error");
+                        return;
+                    }
+                    else {
+                        window.location = Aurora.ROOT_URL + 'admin/payroll/process/' + processDate;
+                    }
+                }
+            };
+            Aurora.WebService.AJAX( "admin/payroll/getProcessPass", data );
+            return false;
+        });
+
         $(".tab").on("click", function( ) {
             var dataID = $(this).attr("data-id");
 

@@ -62,7 +62,7 @@ class AdminView extends View {
                                   'locale' => $this->UserRes->getL10n( ) ) );
 
         $this->setStyle( array( 'core' => array( 'bootstrap', 'colors', 'components', 'core' ),
-                                'fonts' => array( 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );
+                                'fonts' => array( 'helvetica/styles', 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );
 	}
 
 
@@ -169,7 +169,6 @@ class AdminView extends View {
                        'TPL_CONTENT' => $template );
 
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
-        header('Pragma: no-cache'); // HTTP 1.0.
         header('Expires: 0');
         echo $this->render( 'aurora/page/left.tpl', $vars );
     }

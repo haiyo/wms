@@ -31,9 +31,9 @@ class TeamControl {
      * @return str
      */
     public function create( ) {
-        $post = Control::getPostData( );
+        $post = Control::getRequest( )->request( POST, 'data' );
 
-        $post['eID'] = $this->TeamModel->create( $post );
+        $post['tID'] = $this->TeamModel->create( $post );
         Control::setPostData( $post );
     }
 }

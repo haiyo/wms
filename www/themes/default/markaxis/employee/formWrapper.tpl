@@ -446,7 +446,7 @@
         // Use Bloodhound engine
         var engine1 = new Bloodhound({
             remote: {
-                url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
+                url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY/includeOwn',
                 wildcard: '%QUERY',
                 filter: function( response ) {
                     var tokens = $(".supervisorList").tokenfield("getTokens");
@@ -463,7 +463,12 @@
                             }
                         }
                         if( !exists ) {
-                            return {value: d.name, id: d.userID}
+                            return {
+                                id: d.userID,
+                                value: d.name,
+                                image: d.image,
+                                designation: d.designation
+                            }
                         }
                     });
                 }
@@ -487,7 +492,17 @@
                 hint:false
             }, {
                 displayKey: 'value',
-                source: engine1.ttAdapter()
+                source: engine1.ttAdapter(),
+                templates: {
+                    suggestion: Handlebars.compile([
+                        '<div class="col-md-12">',
+                        '<div class="col-md-2"><img src="{{image}}" width="40" height="40" ',
+                        'style="padding:0;" class="rounded-circle" /></div>',
+                        '<div class="col-md-10"><span class="typeahead-name">{{value}}</span>',
+                        '<div class="typeahead-designation">{{designation}}</div></div>',
+                        '</div>'
+                    ].join(''))
+                }
             }]
         });
 
@@ -1054,7 +1069,7 @@
                             <div class="photo-wrap">
                                 <div class="photo">
                                     <a href="#" class="deletePhoto"><i class="icon-bin"></i></a>
-                                    <img src="<?TPLVAR_ROOT_URL?>www/mars/user/photo/<?TPLVAR_PHOTO?>" />
+                                    <img src="<?TPLVAR_PHOTO?>" />
                                 </div>
                             </div>
                             <!-- END DYNAMIC BLOCK: photo -->

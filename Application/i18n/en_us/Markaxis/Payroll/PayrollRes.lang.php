@@ -32,6 +32,14 @@ class PayrollRes extends Resource {
         $this->contents['LANG_STARTDATE_HELP'] = 'This pay period ends on {endDate} and repeats {payPeriod}';
         $this->contents['LANG_FIRST_PAYMENT_HELP'] = 'Upcoming Payment Dates: {dates}';
         $this->contents['LANG_MY_PAYSLIPS'] = 'My Payslips';
+        $this->contents['LANG_UPCOMING'] = 'Upcoming';
+        $this->contents['LANG_COMPLETED'] = 'Completed';
+        $this->contents['LANG_PENDING'] = 'Pending';
+        $this->contents['LANG_NO_DATA'] = 'No Data';
+        $this->contents['LANG_VERIFICATION_FAILED'] = 'Verification Failed';
+        $this->contents['LANG_NOT_PROCESS_YET'] = 'payroll have not yet been processed.<br />Do you want to process it now?';
+        $this->contents['LANG_LETS_DO_IT'] = 'Yes, let\'s do it!';
+        $this->contents['LANG_ENTER_PASSWORD'] = 'Please enter your password to continue';
     }
 }
 ?>

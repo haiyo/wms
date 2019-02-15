@@ -51,4 +51,3 @@ define( 'INT',  LIB  . 'Interfaces/' );
 define( 'HLP',  LIB  . 'Helper/'     );
 
 define( 'AURORA_VERSION', 'Aurora Core 2.0' );
-?>

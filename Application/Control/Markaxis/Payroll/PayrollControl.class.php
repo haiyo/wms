@@ -13,6 +13,7 @@ class PayrollControl {
 
 
     // Properties
+    protected $PayrollModel;
     protected $PayrollView;
 
 
@@ -21,6 +22,7 @@ class PayrollControl {
      * @return void
      */
     function __construct( ) {
+        $this->PayrollModel = PayrollModel::getInstance( );
         $this->PayrollView = new PayrollView( );
     }
 
@@ -47,8 +49,30 @@ class PayrollControl {
      * Render main navigation
      * @return str
      */
-    public function process( ) {
-        $this->PayrollView->printAll( $this->PayrollView->renderProcess( ) );
+    public function getProcessPass( ) {
+        $vars = array( );
+        $post = Control::getRequest( )->request( POST );
+
+        if( $this->PayrollModel->allowProcessPass( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->PayrollModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function process( $args ) {
+        if( isset( $args[1] ) ) {
+            $this->PayrollView->printAll( $this->PayrollView->renderProcess( $args[1] ) );
+        }
     }
 
 

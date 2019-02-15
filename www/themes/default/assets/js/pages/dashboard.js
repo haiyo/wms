@@ -18,9 +18,6 @@ $(function() {
         });
     });
 
-    /*$(".modalNewTeam").click(function( ) {
-    });*/
-
     $(".modalClose").click(function( ) {
         $("#modalChat").hide( );
     });

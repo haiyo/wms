@@ -875,6 +875,10 @@
 
     <script>
         $(function() {
+            $("#modalNewTeam").on("shown.bs.modal", function(e) {
+                $("#teamName").focus( );
+            });
+
             var engine1 = new Bloodhound({
                 remote: {
                     url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
@@ -927,7 +931,7 @@
                     templates: {
                         suggestion: Handlebars.compile([
                             '<div class="col-md-12">',
-                            '<div class="col-md-2"><img src="{{image}}" width="48" height="48" ',
+                            '<div class="col-md-2"><img src="{{image}}" width="40" height="40" ',
                             'style="padding:0;" class="rounded-circle" /></div>',
                             '<div class="col-md-10"><span class="typeahead-name">{{value}}</span>',
                             '<div class="typeahead-designation">{{designation}}</div></div>',
@@ -949,13 +953,14 @@
                 }
             });
 
-            $("#createTeam").click( function( ) {
+            $("#createTeam").on("click", function ( ) {
                 var data = {
                     bundle: {
                         data: Aurora.WebService.serializePost("#createTeamForm")
                     },
                     success: function( res, ladda ) {
-                        ladda.stop( );
+
+                        //ladda.stop( );
 
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
@@ -968,6 +973,7 @@
                     }
                 };
                 Aurora.WebService.AJAX( "admin/team/create", data );
+                return false;
             });
         });
     </script>

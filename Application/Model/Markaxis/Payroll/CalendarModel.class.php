@@ -1,5 +1,9 @@
 <?php
 namespace Markaxis\Payroll;
+use \Library\Util\Markaxis\Calendar\WeekRecur;
+use \Library\Util\Markaxis\Calendar\MonthRecur;
+use \Library\Helper\Markaxis\RecurHelper;
+use \Library\Util\Markaxis\Calendar\Event;
 use \Library\Validator\Validator;
 
 /**

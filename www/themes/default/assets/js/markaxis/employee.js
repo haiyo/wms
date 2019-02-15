@@ -252,7 +252,6 @@ var MarkaxisEmployee = (function( ) {
             });
         },
 
-
         addChildren: function( ) {
             var length = $("#childWrapper .childRow").length;
             var child = $("#childTemplate").html( );
@@ -293,7 +292,6 @@ var MarkaxisEmployee = (function( ) {
             }
             $("#loginPassword").val( pass );
         },
-
 
         /**
          * Save Employee Data
