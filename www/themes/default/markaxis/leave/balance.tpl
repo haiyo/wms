@@ -273,14 +273,14 @@
                 searchable : false,
                 className: "text-center",
                 data: 'laID',
-                render: function (data, type, full, meta) {
+                render: function(data, type, full, meta) {
                     return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
                 orderable: true,
-                width: '250px',
-                render: function (data, type, full, meta) {
+                width: '230px',
+                render: function(data, type, full, meta) {
                     return full["name"] + ' (' + full["code"] + ")";
                 }
             },{
@@ -299,7 +299,7 @@
             },{
                 targets: [4],
                 orderable: true,
-                width: '280px',
+                width: '260px',
                 data: 'reason'
             },{
                 targets: [5],
@@ -665,7 +665,7 @@
     </div>
 
     <div class="col-md-3 pl-0">
-        <div class="col-md-12">
+        <div class="col-md-12 pl-0">
             <div class="card card-body" style="height:329px;">
                 <h6 class="font-weight-semibold mb-0 mt-1">Leave Actions</h6>
 
