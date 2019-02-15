@@ -127,7 +127,7 @@ class User extends \DAO {
     public function getFieldByName( $name, $column ) {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user 
                                    WHERE CONCAT(fname," ",lname) = "' . addslashes( $name ) . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

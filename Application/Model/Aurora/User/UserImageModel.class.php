@@ -44,7 +44,14 @@ class UserImageModel extends \Model {
     * @return mixed
     */
     public function getByUserID( $userID, $column ) {
-        return $this->UserImage->getByUserID( $userID, $column );
+        if( $imgInfo = $this->UserImage->getByUserID( $userID, $column ) ) {
+            $image = ROOT_URL . 'www/mars/user/photo/' . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
+        }
+        else {
+            // Default silhouette
+            $image = ROOT_URL . 'www/themes/default/assets/images/silhouette.png';
+        }
+        return $image;
     }
 
 

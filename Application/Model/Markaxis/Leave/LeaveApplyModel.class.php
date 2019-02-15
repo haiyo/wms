@@ -198,7 +198,7 @@ class LeaveApplyModel extends \Model {
                     $daysDiff = $startDate->diff( $endDate )->d;
 
                     $storing = $daysDiff+$decimal;
-                    echo $storing; exit;
+                    //echo $storing; exit;
 
                     $hours = $days = '';
 

@@ -40,7 +40,7 @@ class FormWrapperView extends AdminView {
 
         $this->setJScript( array( 'core' => 'aurora.uploader.js',
                                   'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                            'input/typeahead.bundle.min.js' ),
+                                                            'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
@@ -101,9 +101,9 @@ class FormWrapperView extends AdminView {
             $vars['dynamic']['email'] = false;
         }
 
-        if( is_array( $photo ) ) {
+        if( $photo ) {
             $vars['TPLVAR_DEF_PHOTO'] = 'hide';
-            $vars['dynamic']['photo'][] = array( 'TPLVAR_PHOTO' => $photo['hashDir'] . $photo['hashName'] );
+            $vars['dynamic']['photo'][] = array( 'TPLVAR_PHOTO' => $photo );
         }
         else {
             $vars['dynamic']['photo'] = false;

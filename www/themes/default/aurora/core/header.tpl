@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <!-- BEGIN DYNAMIC BLOCK: cssRow -->
     <style type="text/css">@import "<?TPLVAR_ROOT_URL?>www/themes/<?TPLVAR_THEME?>/assets/css/<?TPLVAR_CSSNAME?>.css?<?TPLVAR_MICRO?>";</style>
     <!-- END DYNAMIC BLOCK: cssRow -->

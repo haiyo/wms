@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Admin\AdminView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\OfficeModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -51,21 +51,58 @@ class PayrollView extends AdminView {
      */
     public function renderOverview( ) {
         $vars = array( );
+        $startDate = new \DateTime( date('Y-m-01') );
+        $startDate = $startDate->modify( '-11 month' );
+        $endDate   = new \DateTime( date('Y-m-01') );
+        $endDate   = $endDate->modify( '+1 month' );
 
-        $dataDays = '';
-        $month = date('n');
-        $year  = date('Y' );
-        $nDays = cal_days_in_month(CAL_GREGORIAN, $month, $year ); // 31
+        $processed = $this->PayrollModel->getByRange( $startDate->format('Y-m-d'), $endDate->format('Y-m-d') );
 
-        for( $i=1; $i<=$nDays; $i++ ) {
-            $dataDays .= "'$year/$month/$i',";
+        $interval = \DateInterval::createFromDateString('1 month');
+        $period = new \DatePeriod( $startDate, $interval, $endDate );
+
+        foreach( $period as $datetime ) {
+            $index = $datetime->format('n');
+
+            $dataID = 'upcoming';
+            $statusTab = 'upcoming-tab';
+            $status = $this->L10n->getContents( 'LANG_NO_DATA' );
+
+            if( isset( $processed[$index] ) ) {
+                $statusTab = 'upcoming-tab';
+                $status = $this->L10n->getContents( 'LANG_UPCOMING' );
+
+                if( $processed[$index]['completed'] ) {
+                    $dataID = 'complete';
+                    $statusTab = 'complete-tab';
+                    $status = $this->L10n->getContents( 'LANG_COMPLETED' );
+                }
+            }
+            else if( $index == date('n') ) {
+                $dataID = 'pending';
+                $statusTab = 'pending-tab active';
+                $status = $this->L10n->getContents( 'LANG_PENDING' );
+            }
+
+            $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
+                                               'TPLVAR_MONTH' => $datetime->format('M'),
+                                               'TPLVAR_YEAR' => $datetime->format('Y'),
+                                               'TPLVAR_STATUS' => $status );
+
+            $vars['dynamic']['tab-pane'][] = array( 'TPLVAR_DATA_ID' => $dataID,
+                                                    'TPLVAR_STATUS_TAB' => $statusTab,
+                                                    'TPLVAR_LONG_MONTH' => $datetime->format('F'),
+                                                    'TPLVAR_MONTH' => $datetime->format('M'),
+                                                    'TPLVAR_YEAR' => $datetime->format('Y'),
+                                                    'TPLVAR_DATE' => $datetime->format('Y-m-d') );
         }
-
-        $vars['TPLVAR_DATA_DAYS'] = $dataDays;
-
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-stats-bars2',
                                       'text' => $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') ) );
+
+        $this->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ) ) );
+
+        $vars = array_merge( $this->L10n->getContents( ), $vars );
 
         return $this->render( 'markaxis/payroll/overview.tpl', $vars );
     }
@@ -77,8 +114,8 @@ class PayrollView extends AdminView {
      */
     public function renderSlips( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
-            'icon' => 'icon-cash3',
-            'text' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
+                                      'icon' => 'icon-cash3',
+                                      'text' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
 
@@ -106,13 +143,17 @@ class PayrollView extends AdminView {
      * @return str
      */
     public function renderProcess( ) {
-        $vars = array_merge( $this->L10n->getContents( ), array( ) );
+        $OfficeModel = OfficeModel::getInstance( );
+        $SelectListView = new SelectListView( );
+        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), '', '-- Filter by Office / Location --' );
+
+        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_OFFICE_LIST' => $officeList ) );
 
         $this->setBreadcrumbs( array( 'link' => '',
-            'icon' => 'icon-cog2',
-            'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
+                                      'icon' => 'icon-calculator2',
+                                      'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
 
-        return $this->render( 'markaxis/payroll/payruns.tpl', $vars );
+        return $this->render( 'markaxis/payroll/process.tpl', $vars );
     }
 
 

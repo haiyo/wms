@@ -55,5 +55,25 @@ class Payroll extends \DAO {
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getByRange( $startDate, $endDate ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT *, MONTH(startDate) AS startIndex FROM payroll p WHERE startDate 
+                                   BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['startIndex']] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

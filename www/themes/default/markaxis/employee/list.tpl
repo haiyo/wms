@@ -115,23 +115,6 @@
                                     '</div>' +
                                 '</div>' +
                             '</div>';
-
-                    /*return '<ul class="action icons-list">\n' +
-                        '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-                        '<i class="icon-menu9"></i>\n' +
-                        '</a>\n' +
-                        '<ul class="dropdown-menu dropdown-menu-right">\n' +
-                        '<li><a><i class="icon-user"></i> View Employee Info</a></li>\n' +
-
-                        '<li><a href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '"><i class="icon-pencil5"></i> Edit Employee Info</a></li>\n' +
-                        '<li><a data-href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '"><i class="icon-mail5"></i> Message Employee</a></li>\n' +
-                        '<li><a data-title="View ' + name + ' History Log" data-href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '" data-toggle="modal" data-target="#modalLoad"><i class="icon-history"></i> View History Log</a></li>\n' +
-                        '<li class="divider"></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')"><i class="icon-user-block"></i> ' + statusText + '</a></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')"><i class="icon-exit3"></i> Employee Resigned</a></li>\n' +
-                        '</ul>\n' +
-                        '</li>\n' +
-                        '</ul>'*/
                 }
             }],
             select: {
@@ -141,7 +124,7 @@
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee',
+                searchPlaceholder: 'Search Employee, Designation or Contract Type',
                 lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
@@ -308,9 +291,6 @@
         return false;
     }
 </script>
-<style>
-    .list-action-btns{float:right;}
-</style>
 <div class="panel panel-flat">
     <div class="list-action-btns">
         <ul class="icons-list">

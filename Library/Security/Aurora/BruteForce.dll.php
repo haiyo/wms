@@ -31,7 +31,7 @@ class BruteForce {
         $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get( HKEY_LOCAL );
 
-        $this->logFile  = LOG_DIR . 'brutelog.php';
+        $this->logFile  = LOG_DIR . 'bruteforce.php';
         $this->bfWindow = $this->HKEY_LOCAL['bfAction']*60;
         
         if( !file_exists( $this->logFile ) ) {
@@ -44,7 +44,7 @@ class BruteForce {
         $IP = new IP( );
         $this->ip = $IP->getAddress( );
         $this->ipHash = MD5( $this->ip );
-        if( $this->cache) $this->cleanUp( );
+        if( $this->cache ) $this->cleanUp( );
 	}
 
 
@@ -85,28 +85,6 @@ class BruteForce {
 
 
     /**
-    * Send email alert if not already sent
-    * @return bool
-    */
-    public function sendAlert( ) {
-        if( !$this->cache[$this->ipHash]['mail'] && $this->HKEY_LOCAL['bfAlert'] ) {
-            $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-            $L10n = $i18n->loadLanguage( 'Aurora/Config/BFLoginRes' );
-
-            $MailManager = new MailManager( );
-            $MailManager->isFromSystem( );
-            $MailManager->setSubject( $L10n->getContents('LANG_ALERT_SUBJECT') );
-
-            $replace = array( $this->ip, $this->HKEY_LOCAL['bfNumFailed'], $this->HKEY_LOCAL['bfAction'] );
-            $search  = array( '{ip_address}','{num_failed}','{bf_action}' );
-            $MailManager->setMsg( str_replace( $search, $replace, $L10n->getContents('LANG_ALERT_MSG') ) );
-            $MailManager->send( );
-            $this->cache[$this->ipHash]['mail'] = 1;
-        }
-    }
-
-
-    /**
     * Performs a clear on current IP if login successful
     * @return void
     */
@@ -132,6 +110,28 @@ class BruteForce {
         $file = fopen( $this->logFile, 'w' );
         fwrite( $file, serialize( $this->cache ) );
         fclose( $file );
+    }
+
+
+    /**
+     * Send email alert if not already sent
+     * @return bool
+     */
+    public function sendAlert( ) {
+        if( !$this->cache[$this->ipHash]['mail'] && $this->HKEY_LOCAL['bfAlert'] ) {
+            $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
+            $L10n = $i18n->loadLanguage( 'Aurora/Config/BFLoginRes' );
+
+            $MailManager = new MailManager( );
+            $MailManager->isFromSystem( );
+            $MailManager->setSubject( $L10n->getContents('LANG_ALERT_SUBJECT') );
+
+            $replace = array( $this->ip, $this->HKEY_LOCAL['bfNumFailed'], $this->HKEY_LOCAL['bfAction'] );
+            $search  = array( '{ip_address}','{num_failed}','{bf_action}' );
+            $MailManager->setMsg( str_replace( $search, $replace, $L10n->getContents('LANG_ALERT_MSG') ) );
+            $MailManager->send( );
+            $this->cache[$this->ipHash]['mail'] = 1;
+        }
     }
 }
 ?>

@@ -55,8 +55,7 @@ class HttpRequest {
             return $this->source[strtoupper($source)][$key];
         }
         else if( isset( $this->source[strtoupper($source)][$key] ) &&
-                sizeof( $this->source[strtoupper($source)] > 0 ) )
-        {
+                sizeof( $this->source[strtoupper($source)] > 0 ) ) {
             return $this->source[strtoupper($source)];
         }
         else if( is_null( $key ) && isset( $this->source[strtoupper($source)] ) ) {

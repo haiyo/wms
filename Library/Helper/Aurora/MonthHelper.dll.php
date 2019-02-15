@@ -68,19 +68,18 @@ class MonthHelper implements IListHelper {
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
         $L10n = $i18n->loadLanguage('Aurora/Helper/CalendarRes');
 
-        return array( '' => '',
-                        '01' => $L10n->getContents('LANG_JAN'),
-                        '02' => $L10n->getContents('LANG_FEB'),
-                        '03' => $L10n->getContents('LANG_MAR'),
-                        '04' => $L10n->getContents('LANG_APR'),
-                        '05' => $L10n->getContents('LANG_MAY'),
-                        '06' => $L10n->getContents('LANG_JUN'),
-                        '07' => $L10n->getContents('LANG_JUL'),
-                        '08' => $L10n->getContents('LANG_AUG'),
-                        '09' => $L10n->getContents('LANG_SEP'),
-                        '10' => $L10n->getContents('LANG_OCT'),
-                        '11' => $L10n->getContents('LANG_NOV'),
-                        '12' => $L10n->getContents('LANG_DEC') );
+        return array( '01' => $L10n->getContents('LANG_JAN'),
+                      '02' => $L10n->getContents('LANG_FEB'),
+                      '03' => $L10n->getContents('LANG_MAR'),
+                      '04' => $L10n->getContents('LANG_APR'),
+                      '05' => $L10n->getContents('LANG_MAY'),
+                      '06' => $L10n->getContents('LANG_JUN'),
+                      '07' => $L10n->getContents('LANG_JUL'),
+                      '08' => $L10n->getContents('LANG_AUG'),
+                      '09' => $L10n->getContents('LANG_SEP'),
+                      '10' => $L10n->getContents('LANG_OCT'),
+                      '11' => $L10n->getContents('LANG_NOV'),
+                      '12' => $L10n->getContents('LANG_DEC') );
     }
 }
 ?>

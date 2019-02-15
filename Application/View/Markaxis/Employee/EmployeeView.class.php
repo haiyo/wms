@@ -159,7 +159,7 @@ class EmployeeView extends AdminView {
 
         $OfficeModel = OfficeModel::getInstance( );
         $oID = isset( $this->info['oID'] ) ? $this->info['oID'] : '';
-        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $oID, 'Select Office (Location)' );
+        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $oID, 'Select Office / Location' );
 
         $ContractModel = ContractModel::getInstance( );
         $cID = isset( $this->info['cID'] ) ? $this->info['cID'] : '';

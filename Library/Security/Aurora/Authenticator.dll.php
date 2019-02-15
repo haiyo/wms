@@ -34,7 +34,7 @@ class Authenticator {
 
     /**
     * Return User Model Object
-    * @return obj
+    * @return '\Aurora\User\UserModel'
     */
     public function getUserModel( ) {
         return $this->UserModel;

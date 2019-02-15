@@ -51,9 +51,11 @@ class Employee extends \DAO {
      * Retrieve a user list normally use for building select list
      * @return mixed
      */
-    public function getList( $q='' ) {
+    public function getList( $q='', $excludeUserID='' ) {
         $q = $q ? addslashes( $q ) : '';
         $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" )' : '';
+
+        $exclude = $excludeUserID ? 'AND u.userID NOT IN(' . addslashes( $excludeUserID ) . ')' : '';
 
         $list = array( );
 
@@ -62,7 +64,7 @@ class Employee extends \DAO {
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    LEFT JOIN designation d ON ( e.dID = d.dID )
-                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND deleted <> "1" ' . $q . '
+                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND deleted <> "1" ' . $q . ' ' . $exclude . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -105,7 +107,7 @@ class Employee extends \DAO {
             $q = $q ? addslashes( $q ) : '';
             $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
                        OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
-                       OR c.type LIKE "%' . $q . '%" )' : '';
+                       OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
