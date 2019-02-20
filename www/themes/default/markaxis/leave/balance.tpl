@@ -681,20 +681,18 @@
 </div>
 
 
-<div class="panel panel-flat leave-history">
-    <table class="table table-bordered leaveHistoryTable">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Leave Type (Code)</th>
-            <th>Period</th>
-            <th>Days</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Approved By</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+<table class="table table-bordered leaveHistoryTable">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Leave Type (Code)</th>
+        <th>Period</th>
+        <th>Days</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Approved By</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>

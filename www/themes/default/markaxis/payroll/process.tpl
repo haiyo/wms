@@ -300,6 +300,7 @@
         $(".payroll-range").insertAfter(".dataTables_filter");
         $(".officeFilter").insertAfter(".dataTables_filter");
         $("#office").select2( );
+        $(".itemType").select2( );
         $(".select").select2({minimumResultsForSearch: -1});
     });
 </script>
@@ -403,7 +404,7 @@
     }
 </style>
 <div id="modalCalPayroll" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -412,36 +413,149 @@
 
             <div class="modal-body overflow-y-visible">
                 <form id="createTeamForm" name="createTeamForm" method="post" action="">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Name your team:</label>
-                                <input type="text" name="teamName" id="teamName" class="form-control" value=""
-                                       placeholder="Give your team a short and sweet name!" />
-                            </div>
+
+                    <div class="row" style="border-bottom: 1px solid #ccc;padding-bottom: 19px;">
+                        <h3>Payee: Andy Lam</h3>
+                    </div>
+
+                    <div class="row" style="border-bottom: 1px solid #ccc;padding-bottom: 19px;">
+                        <div class="col-md-3">
+                            <label>Item Type:</label>
+                            <select class="form-control itemType"><option>Basic Pay</option></select>
                         </div>
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Describe your team's objective:</label>
-                                <textarea name="teamDescript" id="teamDescript" rows="6" cols="5"
-                                          placeholder="We are the warriors of the company! Improving the quality of products, services, processes and communications!"
-                                          class="form-control"></textarea>
-                            </div>
+                        <div class="col-md-2">
+                            <label>Amount:</label>
+                            <input type="text" name="teamName" id="teamName" class="form-control" value=""
+                                   placeholder="Give your team a short and sweet name!" />
                         </div>
 
-                        <div class="col-md-12">
-                            <label>Invite team members to join in the fun!</label>
+                        <div class="col-md-2">
+                            <label>Remark</label>
                             <input type="text" name="teamMembers" class="form-control tokenfield-typeahead teamMemberList"
                                    placeholder="Enter team member's name" autocomplete="off" data-fouc />
-                            <!--value="<?TPLVAR_TEAM_MEMBERS?>"-->
 
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <label>CPF</label>
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <label>Tax</label>
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <label>SDL</label>
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <label>SHG</label>
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1">
+                            <label>Total</label>
+                            $30,000
+                        </div>
+                    </div>
+
+                    <div class="row" style="border-bottom: 1px solid #ccc;padding-bottom: 19px;">
+                        <div class="col-md-3">
+                            <select class="form-control itemType"><option>Allowance</option></select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <input type="text" name="teamName" id="teamName" class="form-control" value=""
+                                   placeholder="Give your team a short and sweet name!" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <input type="text" name="teamMembers" class="form-control tokenfield-typeahead teamMemberList"
+                                   placeholder="Enter team member's name" autocomplete="off" data-fouc />
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1 text-center">
+                            <div><input type="checkbox" checked="checked" /></div>
+                        </div>
+
+                        <div class="col-lg-1">
+                            $30
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4" style="border-bottom:1px solid #ccc;padding:5px;">
+                                Sub Total
+                            </div>
+                            <div class="col-md-4 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
+                                SGD$3,000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4" style="border-bottom:1px solid #ccc;padding:5px;">
+                                Value Added Tax
+                            </div>
+                            <div class="col-md-4 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
+                                SGD$3,000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4" style="border-bottom:1px solid #ccc;padding:5px;">
+                                Total After Tax
+                            </div>
+                            <div class="col-md-4 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
+                                SGD$2,200
+                            </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button id="createTeam" type="submit" class="btn btn-primary">Create Team</button>
+                        <button id="createTeam" type="submit" class="btn btn-primary">Save Payroll</button>
                     </div>
                 </form>
             </div>
