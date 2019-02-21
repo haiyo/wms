@@ -60,7 +60,7 @@ var MarkaxisEmployee = (function( ) {
                 }
             });
 
-            jQuery.validator.addMethod("validEmail", function(value, element) {
+            $.validator.addMethod("validEmail", function(value, element) {
                 if(value == '')
                     return true;
                 var temp1;
@@ -242,7 +242,7 @@ var MarkaxisEmployee = (function( ) {
                 return false;
             });
 
-            that.uploadCrop = $("#upload-demo").croppie({
+            this.uploadCrop = $("#upload-demo").croppie({
                 viewport: {
                     width: 290,
                     height: 290,
@@ -250,6 +250,8 @@ var MarkaxisEmployee = (function( ) {
                 },
                 enableExif: true
             });
+
+            $("#upload").on("change", function( ) { that.readFile(this); });
         },
 
         addChildren: function( ) {
@@ -293,12 +295,37 @@ var MarkaxisEmployee = (function( ) {
             $("#loginPassword").val( pass );
         },
 
+
+        readFile: function( input ) {
+            var that = this;
+
+            if( input.files && input.files[0] ) {
+                var reader = new FileReader( );
+
+                reader.onload = function (e) {
+                    $(".upload-demo-wrap").addClass('ready');
+                    $(".caption").addClass("mt-30");
+
+                    that.uploadCrop.croppie('bind', {
+                        url: e.target.result
+                    }).then(function(){
+                        console.log('jQuery bind complete');
+                    });
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                swal("Sorry - you're browser doesn't support the FileReader API");
+            }
+        },
+
+
         /**
          * Save Employee Data
          * @return void
          */
         saveEmployeeForm: function( ) {
-            $uploadCrop.croppie("result", {
+            this.uploadCrop.croppie("result", {
                 type: "canvas",
                 size: "viewport"
             }).then(function( resp ) {

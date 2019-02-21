@@ -291,49 +291,47 @@
         return false;
     }
 </script>
-<div class="panel panel-flat">
-    <div class="list-action-btns">
-        <ul class="icons-list">
-            <li>
-                <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
-                    <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <table class="table table-bordered employeeTable">
-        <thead>
-        <tr>
-            <th rowspan="2"></th>
-            <th rowspan="2">Employee ID</th>
-            <th colspan="3">HR Information</th>
-            <th colspan="3">Contact</th>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Status</th>
-            <th>E-mail</th>
-            <th>Mobile</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<div class="list-action-btns">
+    <ul class="icons-list">
+        <li>
+            <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
+                <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
+                <li class="divider"></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
+            </ul>
+        </li>
+    </ul>
 </div>
+
+<table class="table table-bordered employeeTable">
+    <thead>
+    <tr>
+        <th rowspan="2"></th>
+        <th rowspan="2">Employee ID</th>
+        <th colspan="3">HR Information</th>
+        <th colspan="3">Contact</th>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Status</th>
+        <th>E-mail</th>
+        <th>Mobile</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 <div id="modalLoad" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
