@@ -15,7 +15,7 @@
     <!-- BEGIN DYNAMIC BLOCK: jsRow -->
     <script type="text/javascript" src="<?TPLVAR_ROOT_URL?>www/themes/<?TPLVAR_THEME?>/assets/js/<?TPLVAR_JNAME?>"></script>
     <!-- END DYNAMIC BLOCK: jsRow -->
-    <link rel="stylesheet" href="https://use.typekit.net/mfq1awo.css">
+
     <!-- <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script> -->
     <!-- <script src="http://localhost/ws/socket.io/socket.io.js"></script> -->
     <script src="http://localhost:5000/socket.io/socket.io.js"></script>

@@ -62,7 +62,7 @@ class AdminView extends View {
                                   'locale' => $this->UserRes->getL10n( ) ) );
 
         $this->setStyle( array( 'core' => array( 'bootstrap', 'colors', 'components', 'core' ),
-                                'fonts' => array( 'helvetica/styles', 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );
+                                'fonts' => array( 'proxima/styles', 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );
 	}
 
 
