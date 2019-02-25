@@ -1,7 +1,7 @@
 
 <script>
     $(function() {
-        $(".employeeTable").DataTable({
+        var employeeTable = $(".employeeTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
@@ -34,7 +34,7 @@
                 searchable : false,
                 data: 'userID',
                 render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
@@ -131,11 +131,14 @@
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
                 Popups.init();
+                $(".employeeTable [type=checkbox]").uniform();
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
             }
         });
+
+
 
         // Alternative pagination
         $('.datatable-pagination').DataTable({

@@ -37,8 +37,6 @@
                             <input type="number" id="eduFromYear" name="eduFromYear" class="form-control" placeholder="Year" value="<?TPLVAR_EDU_FROM_YEAR?>" />
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -110,7 +108,7 @@
 
         <div class="row" id="appendEdu">
             <div class="col-md-6">
-                <a href="#" class="btn bg-blue" id="addMoreEdu">Add More Education <i class="icon-arrow-right14 ml-2"></i></a>
+                <a href="#" class="btn bg-blue" id="addMoreEdu">Add More Education <i class="icon-plus22 ml-2"></i></a>
             </div>
         </div>
 

@@ -104,7 +104,7 @@
 
         <div class="row" id="appendExp">
             <div class="col-md-6">
-                <a href="#" class="btn bg-blue" id="addMoreExp">Add More Experience <i class="icon-arrow-right14 ml-2"></i></a>
+                <a href="#" class="btn bg-blue" id="addMoreExp">Add More Experience <i class="icon-plus22 ml-2"></i></a>
             </div>
         </div>
 
