@@ -418,7 +418,7 @@
     }
     .tipsIco{float: left;margin-right: 7px;color:orange}
     .tipsTxt{float: left;width: 90%;}
-    .useTemplate{margin-left: 23px;}
+    .useTemplate{margin-left:23px;}
 </style>
 <div id="modalCalPayroll" class="modal fade">
     <div class="modal-dialog modal-xl">
@@ -582,9 +582,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-4">&nbsp;</div>
 
-                        <div class="col-md-5 text-light">
+                        <div class="col-md-4 text-light">
                             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
                                 <strong>Foreign Worker Levy (FWL):</strong>
                             </div>
@@ -604,9 +604,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-4">&nbsp;</div>
 
-                        <div class="col-md-5 text-light">
+                        <div class="col-md-4 text-light">
                             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
                                 <strong>Skill Development Levy (SDL):</strong>
                             </div>
@@ -626,9 +626,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-4">&nbsp;</div>
 
-                        <div class="col-md-5 text-light">
+                        <div class="col-md-4 text-light">
                             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
                                 <strong>Employer CPF Contribution:</strong>
                             </div>
