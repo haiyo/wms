@@ -33,8 +33,7 @@ class CalendarView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $CalendarModel = CalendarModel::getInstance( );
-        $this->CalendarModel = $CalendarModel;
+        $this->CalendarModel = CalendarModel::getInstance( );
 
         $this->setJScript( array( ) );
     }

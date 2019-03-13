@@ -32,8 +32,7 @@ class TaxRuleView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $TaxRuleModel = TaxRuleModel::getInstance( );
-        $this->TaxRuleModel = $TaxRuleModel;
+        $this->TaxRuleModel = TaxRuleModel::getInstance( );
     }
 }
 ?>

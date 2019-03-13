@@ -666,7 +666,7 @@
 
     <div class="col-md-3 pl-0">
         <div class="col-md-12 pl-0">
-            <div class="card card-body" style="height:329px;">
+            <div class="card card-body" style="height:340px;">
                 <h6 class="font-weight-semibold mb-0 mt-1">Leave Actions</h6>
 
                 <a href="#" class="button-next btn btn-primary btn-next mt-20">Apply Leave Now</a>

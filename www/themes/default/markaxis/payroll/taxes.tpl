@@ -970,6 +970,7 @@
                                         <option value=""></option>
                                         <optgroup label="Computing Variables">
                                             <option value="age">Age</option>
+                                            <option value="payrollItem">Payroll Item</option>
                                             <option value="salary">Salary</option>
                                             <option value="workforce">Total Workforce</option>
                                         </optgroup>
@@ -1017,6 +1018,22 @@
                                 <div class="form-group">
                                     <label>Value:</label>
                                     <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 criteriaLastCol">
+                                <div class="form-group addCol">
+                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="payrollItemTemplate" class="hide">
+                            <div id="col_{id}" class="col-md-8">
+                                <input type="hidden" id="tpiID_{id}" name="tpiID_{id}" value="" />
+                                <div class="form-group">
+                                    <label>Select Payroll Item:</label>
+                                    <?TPL_PAYROLL_ITEM_LIST?>
                                 </div>
                             </div>
 
@@ -1212,6 +1229,9 @@
             if( $(this).val( ) == "age" ) {
                 addComputing( $(this) );
             }
+            if( $(this).val( ) == "payrollItem" ) {
+                addPayrollItem( $(this) );
+            }
             if( $(this).val( ) == "salary" ) {
                 addComputing( $(this) );
             }
@@ -1259,13 +1279,21 @@
             return false;
         });
 
+        function addPayrollItem( element ) {
+            var id = element.attr("data-id");
+            var html = $("#payrollItemTemplate").html( );
+            html = html.replace(/\{id\}/g, id );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#payrollItem_" + id).select2({minimumResultsForSearch:Infinity});
+        }
+
         function addComputing( element ) {
             var id = element.attr("data-id");
             var html = $("#computingTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#computing_" + id).select2({minimumResultsForSearch: Infinity});
-            $("#valueType_" + id).select2({minimumResultsForSearch: Infinity});
+            $("#computing_" + id).select2({minimumResultsForSearch:Infinity});
+            $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
         }
 
         function addContract( element ) {
@@ -1493,7 +1521,6 @@
                             return;
                         }
                         else {
-                            console.log(obj)
                             $("#trID").val( obj.data.trID );
                             $("#ruleTitle").val( obj.data.title );
                             $("#group").val( obj.data.tgID ).trigger("change");

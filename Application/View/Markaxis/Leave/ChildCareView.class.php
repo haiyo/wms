@@ -32,7 +32,7 @@ class ChildCareView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        $this->ChildCareModel = ChildCareModel::getInstance( );;
+        $this->ChildCareModel = ChildCareModel::getInstance( );
     }
 
 

@@ -414,7 +414,7 @@
     }
     .prePopulateTxt {
         position:absolute;
-        top:-75px;
+        top:-118px;
     }
     .tipsIco{float: left;margin-right: 7px;color:orange}
     .tipsTxt{float: left;width: 90%;}
@@ -439,13 +439,13 @@
                             <div class="text-light"><strong>Department:</strong> Marketing Department</div>
                             <div class="text-light"><strong>Contract Type:</strong> Full Time / Permanent</div>
                         </div>
-                        <div class="col-md-3" style="width:31%;padding-left:24px;border-right: 1px solid #ccc;">
+                        <div class="col-md-3" style="width:33%;padding-left:24px;border-right: 1px solid #ccc;">
                             <h5><strong>Employee ID:</strong> 0000001</h5>
                             <div class="text-light"><strong>Employment Start Date:</strong> 01 Jan 2008 (12yr 1 mth)</div>
                             <div class="text-light"><strong>Employment End Date:</strong> N/A</div>
-                            <div class="text-light"><strong>Total Working Days For This Month:</strong> 21 days</div>
+                            <div class="text-light" style="overflow: hidden; text-overflow: ellipsis;"><strong>Total Working Days For This Month:</strong> 21 days</div>
                         </div>
-                        <div class="col-md-4" style="width:30%;padding-left:24px;">
+                        <div class="col-md-4" style="width:28%;padding-left:24px;">
                             <h5><strong>Payment Method:</strong> Bank Transfer</h5>
                             <div class="text-light"><strong>Bank:</strong> POSB Savings</div>
                             <div class="text-light"><strong>Bank / Branch Code:</strong> 7171 / 081</div>
@@ -582,9 +582,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-4">&nbsp;</div>
 
-                        <div class="col-md-5 text-light">
+                        <div class="col-md-4 text-light">
                             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
                                 <strong>Foreign Worker Levy (FWL):</strong>
                             </div>
@@ -604,9 +604,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-4">&nbsp;</div>
 
-                        <div class="col-md-5 text-light">
+                        <div class="col-md-4 text-light">
                             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
                                 <strong>Skill Development Levy (SDL):</strong>
                             </div>
@@ -626,9 +626,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">&nbsp;</div>
+                        <div class="col-md-4">&nbsp;</div>
 
-                        <div class="col-md-5 text-light">
+                        <div class="col-md-4 text-light">
                             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
                                 <strong>Employer CPF Contribution:</strong>
                             </div>

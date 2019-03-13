@@ -21,7 +21,7 @@ class CompanyRes extends Resource {
     function __construct( ) {
         $this->contents = array( );
         $this->contents['LANG_COMPANY'] = 'Company';
-        $this->contents['LANG_MY_COMPANY_BENEFITS'] = 'My Company Benefits';
+        $this->contents['LANG_MY_BENEFITS'] = 'My Benefits';
         $this->contents['LANG_COMPANY_SETTINGS'] = 'Company Settings';
     }
 }

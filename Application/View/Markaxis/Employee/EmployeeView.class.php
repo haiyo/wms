@@ -39,7 +39,8 @@ class EmployeeView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        $this->EmployeeModel = EmployeeModel::getInstance( );
+        // Get new instance!
+        $this->EmployeeModel = new EmployeeModel( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );

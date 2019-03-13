@@ -1,16 +1,16 @@
 <?php
-namespace Markaxis\Payroll;
+namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\OfficeModel;
 use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
- * @version $Id: PayrollView.class.php, v 2.0 Exp $
+ * @version $Id: ExpenseView.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollView extends AdminView {
+class ExpenseView extends AdminView {
 
 
     // Properties
@@ -18,11 +18,11 @@ class PayrollView extends AdminView {
     protected $i18n;
     protected $L10n;
     protected $View;
-    protected $PayrollModel;
+    protected $ExpenseModel;
 
 
     /**
-    * PayrollView Constructor
+    * ExpenseView Constructor
     * @return void
     */
     function __construct( ) {
@@ -32,7 +32,7 @@ class PayrollView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $this->PayrollModel = PayrollModel::getInstance( );
+        $this->ExpenseModel = ExpenseModel::getInstance( );
 
         $this->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
                                   'plugins/moment' => 'moment.min.js',

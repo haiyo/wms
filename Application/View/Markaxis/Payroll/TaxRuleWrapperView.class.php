@@ -32,8 +32,7 @@ class TaxRuleWrapperView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
-        $TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
-        $this->TaxRuleWrapperModel = $TaxRuleWrapperModel;
+        $this->TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
     }
 
 

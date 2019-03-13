@@ -32,8 +32,7 @@ class TaxComputingView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
-        $TaxComputingModel = TaxComputingModel::getInstance( );
-        $this->TaxComputingModel = $TaxComputingModel;
+        $this->TaxComputingModel = TaxComputingModel::getInstance( );
     }
 
 

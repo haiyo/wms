@@ -1,6 +1,6 @@
 
 <fieldset style="display: none;">
-    <legend class="text-semibold">Finance &amp; Taxes</legend>
+    <legend class="text-semibold">Finance &amp; Leave</legend>
 
     <div class="row">
         <div class="col-md-4">

@@ -34,8 +34,7 @@ class LeaveView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        $LeaveModel = LeaveModel::getInstance( );
-        $this->LeaveModel = $LeaveModel;
+        $this->LeaveModel = LeaveModel::getInstance( );
     }
 
 

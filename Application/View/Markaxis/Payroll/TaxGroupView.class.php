@@ -32,8 +32,7 @@ class TaxGroupView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $TaxGroupModel = TaxGroupModel::getInstance( );
-        $this->TaxGroupModel = $TaxGroupModel;
+        $this->TaxGroupModel = TaxGroupModel::getInstance( );
 
         $this->setJScript( array( ) );
     }
