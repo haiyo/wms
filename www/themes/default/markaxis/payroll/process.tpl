@@ -418,7 +418,7 @@
     }
     .tipsIco{float: left;margin-right: 7px;color:orange}
     .tipsTxt{float: left;width: 90%;}
-    .useTemplate{margin-left: 23px;}
+    .useTemplate{margin-left:23px;}
 </style>
 <div id="modalCalPayroll" class="modal fade">
     <div class="modal-dialog modal-xl">
