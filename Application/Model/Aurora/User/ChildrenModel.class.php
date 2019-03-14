@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\User;
-use \Date, \Validator;
+use \Aurora\Component\CountryModel;
+use \Library\Validator\Validator, \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

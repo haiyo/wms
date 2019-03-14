@@ -103,6 +103,9 @@ class HTMLHelper {
         foreach( $tplArray as $key => $val ) {
 			if( !empty( $key ) ) {
 				if( gettype($val) != 'string' ) {
+				    if( is_array( $val ) ) {
+				        var_dump($val);
+                    }
 					settype( $val, 'string' );
 				}
                 $template = str_replace( '<?' . $key . '?>', "$val", "$template" );

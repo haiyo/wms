@@ -68,10 +68,10 @@ class DepartmentModel extends \Model {
      */
     public function save( $data ) {
         if( isset( $data['department'] ) && is_array( $data['department'] ) && isset( $data['userID'] ) && $data['userID'] ) {
-            $DepartmentComponent = new \Aurora\Department( );
+            $DepartmentModel = new \Aurora\Component\DepartmentModel( );
 
             foreach( $data['department'] as $value ) {
-                if( $DepartmentComponent->isFound( $value ) && !$this->isFoundByUserID( $data['userID'], $value ) ) {
+                if( $DepartmentModel->isFound( $value ) && !$this->isFoundByUserID( $data['userID'], $value ) ) {
                     $info = array( );
                     $info['userID'] = (int)$data['userID'];
                     $info['eID'] = (int)$data['eID'];

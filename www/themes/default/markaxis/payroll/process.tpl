@@ -733,11 +733,6 @@
         </table>
     </fieldset>
 
-
-
-
-
-
     <fieldset>
         <legend class="text-semibold">Select Pay Items</legend>
 

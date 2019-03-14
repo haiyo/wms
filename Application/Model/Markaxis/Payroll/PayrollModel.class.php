@@ -84,5 +84,14 @@ class PayrollModel extends \Model {
         $this->errMsg = $this->L10n->getContents( 'LANG_VERIFICATION_FAILED' );
         return false;
     }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function test( ) {
+        return $this->Payroll->test( );
+    }
 }
 ?>

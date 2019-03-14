@@ -61,68 +61,73 @@ var MarkaxisEmployee = (function( ) {
             });
 
             $.validator.addMethod("validEmail", function(value, element) {
-                if(value == '')
+                if( value == '' )
                     return true;
                 var temp1;
                 temp1 = true;
-                var ind = value.indexOf('@');
-                var str2=value.substr(ind+1);
-                var str3=str2.substr(0,str2.indexOf('.'));
-                if(str3.lastIndexOf('-')==(str3.length-1)||(str3.indexOf('-')!=str3.lastIndexOf('-')))
+                var ind  = value.indexOf('@');
+                var str2 = value.substr(ind+1);
+                var str3 = str2.substr(0,str2.indexOf('.'));
+                if( str3.lastIndexOf('-') == (str3.length-1) ||
+                    (str3.indexOf('-') != str3.lastIndexOf('-')) )
                     return false;
-                var str1=value.substr(0,ind);
-                if((str1.lastIndexOf('_')==(str1.length-1))||(str1.lastIndexOf('.')==(str1.length-1))||(str1.lastIndexOf('-')==(str1.length-1)))
+
+                var str1 = value.substr(0,ind );
+                if( (str1.lastIndexOf('_') == (str1.length-1)) ||
+                    (str1.lastIndexOf('.') == (str1.length-1)) ||
+                    (str1.lastIndexOf('-') == (str1.length-1)) )
                     return false;
                 str = /(^[a-zA-Z0-9]+[\._-]{0,1})+([a-zA-Z0-9]+[_]{0,1})*@([a-zA-Z0-9]+[-]{0,1})+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,3})$/;
                 temp1 = str.test(value);
                 return temp1;
             }, "Please enter valid email address.");
 
-
             // Initialize validation
             var validate = {
                 ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
                 successClass: 'validation-valid-label',
-                highlight: function(element, errorClass) {
+                highlight: function( element, errorClass ) {
                     $(element).addClass("border-danger");
                 },
-                unhighlight: function(element, errorClass) {
+                unhighlight: function( element, errorClass ) {
                     $(element).removeClass("border-danger");
                 },
                 // Different components require proper error label placement
-                errorPlacement: function(error, element) {
+                errorPlacement: function( error, element ) {
                     // Styled checkboxes, radios, bootstrap switch
-                    if( element.parents('div').hasClass("checker") || element.parents('div').hasClass("choice") ||
+                    if( element.parents('div').hasClass("checker") ||
+                        element.parents('div').hasClass("choice") ||
                         element.parent().hasClass('bootstrap-switch-container') ) {
-                        if(element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
+
+                        if( element.parents('label').hasClass('checkbox-inline') ||
+                            element.parents('label').hasClass('radio-inline')) {
                             error.appendTo( element.parent().parent().parent().parent() );
                         }
                         else {
                             error.appendTo( element.parent().parent().parent().parent().parent() );
                         }
                     }
-
                     // Unstyled checkboxes, radios
-                    else if (element.parents('div').hasClass('checkbox') || element.parents('div').hasClass('radio')) {
+                    else if( element.parents('div').hasClass('checkbox') ||
+                             element.parents('div').hasClass('radio') ) {
                         error.appendTo( element.parent().parent().parent() );
                     }
-
                     // Input with icons and Select2
-                    else if (element.parents('div').hasClass('has-feedback') || element.hasClass('select2-hidden-accessible')) {
+                    else if( element.parents('div').hasClass('has-feedback') ||
+                             element.hasClass('select2-hidden-accessible') ) {
                         //error.appendTo( element.parent() );
                         element.next().find(".select2-selection").addClass("border-danger");
                     }
-
                     // Inline checkboxes, radios
-                    else if (element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
+                    else if( element.parents('label').hasClass('checkbox-inline') ||
+                             element.parents('label').hasClass('radio-inline') ) {
                         error.appendTo( element.parent().parent() );
                     }
-
                     // Input group, styled file input
-                    else if (element.parent().hasClass('uploader') || element.parents().hasClass('input-group')) {
+                    else if( element.parent().hasClass('uploader') ||
+                             element.parents().hasClass('input-group') ) {
                         error.appendTo( element.parent().parent() );
                     }
-
                     else {
                         if( $(".error").length == 0 )
                             $(".stepy-navigator").prepend(error);
@@ -191,7 +196,7 @@ var MarkaxisEmployee = (function( ) {
             });
 
             $("#showPwd").on("click", function() {
-                if ($("#loginPassword").attr("type") == "text") {
+                if( $("#loginPassword").attr("type") == "text" ) {
                     $("#loginPassword").attr("type", "password");
                 }
                 else {
@@ -226,12 +231,12 @@ var MarkaxisEmployee = (function( ) {
                 that.addChildren();
             }
 
-            $(document).on( "click", ".addChildren", function ( ) {
+            $(document).on("click", ".addChildren", function ( ) {
                 that.addChildren( );
                 return false;
             });
 
-            $(document).on( "click", ".removeChildren", function ( ) {
+            $(document).on("click", ".removeChildren", function ( ) {
                 var id = $(this).attr("href");
                 $("#childRowWrapper_" + id).addClass("childRow").html("").hide();
 
@@ -250,7 +255,6 @@ var MarkaxisEmployee = (function( ) {
                 },
                 enableExif: true
             });
-
             $("#upload").on("change", function( ) { that.readFile(this); });
         },
 
@@ -360,7 +364,6 @@ var MarkaxisEmployee = (function( ) {
                                 backToURL = Aurora.ROOT_URL + "admin/employee/edit/" + $("#userID").val( );
                                 confirmButtonText = "Go to Employee Listing";
                             }
-
                             swal({
                                 title: title,
                                 text: "What do you want to do next?",

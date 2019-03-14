@@ -144,9 +144,13 @@ class PayrollView extends AdminView {
     public function renderProcess( ) {
         $OfficeModel = OfficeModel::getInstance( );
         $SelectListView = new SelectListView( );
-        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), '', '-- Filter by Office / Location --' );
+        $officeList = $SelectListView->build( 'office',
+                        $OfficeModel->getList( ), '',
+                        '-- Filter by Office / Location --' );
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_OFFICE_LIST' => $officeList ) );
+
+        $this->PayrollModel->test();
 
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-calculator2',
