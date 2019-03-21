@@ -75,31 +75,5 @@ class Payroll extends \DAO {
         }
         return $list;
     }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
-    public function test( ) {
-        $sql = $this->DB->select( 'SELECT tr.*, compute.* FROM user u
-                                    LEFT JOIN tax_rule tr ON (tr.country = u.country)
-                                    LEFT JOIN ( SELECT * FROM tax_computing tc ) AS compute ON compute.trID = tr.trID 
-                                    -- LEFT JOIN tax_competency tcp ON (tcp.trID = tr.trID)
-                                    -- LEFT JOIN tax_contract tcr ON (tcr.trID = tr.trID)
-                                    -- LEFT JOIN tax_designation td ON (td.trID = tr.trID)
-                                    -- LEFT JOIN tax_gender tg ON (tg.trID = tr.trID)
-                                    WHERE u.userID = 33 
-                                    GROUP BY tr.trID',
-            __FILE__, __LINE__);
-
-        $list = array( );
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
-            }
-        }
-        var_dump($list);
-    }
 }
 ?>

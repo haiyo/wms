@@ -150,8 +150,6 @@ class PayrollView extends AdminView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_OFFICE_LIST' => $officeList ) );
 
-        $this->PayrollModel->test();
-
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-calculator2',
                                       'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
