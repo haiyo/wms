@@ -14,7 +14,7 @@ class BankModel extends \Model {
 
 
     // Properties
-    protected $Bank;
+    protected $Payment;
 
 
 
@@ -25,9 +25,9 @@ class BankModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-        $this->info['bkID'] = $this->info['pmID'] = $this->info['bankNumber'] =
-        $this->info['bankCode'] = $this->info['branchCode'] = $this->info['bankHolderName'] =
-        $this->info['swiftCode'] = $this->info['branchName'] = '';
+        $this->info['bkID'] = $this->info['bankNumber'] =
+        $this->info['bankCode'] = $this->info['bankBranchCode'] = $this->info['bankHolderName'] =
+        $this->info['bankSwiftCode'] = '';
 
         $this->Bank = new Bank( );
     }
@@ -68,22 +68,19 @@ class BankModel extends \Model {
         $saveInfo['pmID'] = (int)$data['pmID'];
         $saveInfo['bankNumber'] = Validator::stripTrim( $data['bankNumber'] );
         $saveInfo['bankCode'] = Validator::stripTrim( $data['bankCode'] );
-        $saveInfo['branchCode'] = Validator::stripTrim( $data['branchCode'] );
+        $saveInfo['bankBranchCode'] = Validator::stripTrim( $data['bankBranchCode'] );
         $saveInfo['bankHolderName'] = Validator::stripTrim( $data['bankHolderName'] );
-        $saveInfo['swiftCode'] = Validator::stripTrim( $data['swiftCode'] );
-        $saveInfo['branchName'] = Validator::stripTrim( $data['branchName'] );
+        $saveInfo['bankSwiftCode'] = Validator::stripTrim( $data['bankSwiftCode'] );
 
         if( isset( $data['paymentMethod'] ) && $data['paymentMethod'] ) {
             $PaymentMethodModel = PaymentMethodModel::getInstance( );
-
             if( $PaymentMethodModel->isFound( $data['paymentMethod'] ) ) {
-                $saveInfo['pmID'] = (int)$data['paymentMethod'];
+                $saveInfo['paymentMethodID'] = (int)$data['paymentMethod'];
             }
         }
 
         if( isset( $data['bank'] ) && $data['bank'] ) {
             $BankModel = AuroraBankModel::getInstance( );
-
             if( $BankModel->isFound( $data['bank'] ) ) {
                 $saveInfo['bkID'] = (int)$data['bank'] ;
             }

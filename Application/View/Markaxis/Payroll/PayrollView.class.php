@@ -1,5 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Employee\EmployeeModel, \Aurora\Component\DepartmentModel, \Aurora\Component\ContractModel;
+use \Aurora\User\UserImageModel, \Aurora\Component\DesignationModel, \Aurora\Component\PaymentMethodModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\OfficeModel;
 use \Library\Runtime\Registry;
 
@@ -141,20 +143,69 @@ class PayrollView extends AdminView {
      * Render main navigation
      * @return str
      */
-    public function renderProcess( ) {
+    public function renderProcess( $processDate ) {
         $OfficeModel = OfficeModel::getInstance( );
         $SelectListView = new SelectListView( );
         $officeList = $SelectListView->build( 'office',
                         $OfficeModel->getList( ), '',
                         '-- Filter by Office / Location --' );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_OFFICE_LIST' => $officeList ) );
+        $vars = array_merge( $this->L10n->getContents( ),
+                             array( 'TPLVAR_PROCESS_DATE' => $processDate,
+                                    'TPL_OFFICE_LIST' => $officeList ) );
 
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-calculator2',
                                       'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
 
         return $this->render( 'markaxis/payroll/process.tpl', $vars );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
+    public function renderProcessForm( $userID, $processDate ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'u.fname, u.lname, e.idnumber, e.departmentID,
+                                                               e.designationID, e.contractID, e.paymentMethodID,
+                                                               DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
+                                                               DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate' );
+
+        if( $empInfo ) {
+            $UserImageModel = UserImageModel::getInstance( );
+            $image = $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' );
+
+            $DepartmentModel = DepartmentModel::getInstance( );
+            $dptInfo = $DepartmentModel->getByID( $empInfo['departmentID'] );
+            $department = $dptInfo ? $dptInfo['name'] : '';
+
+            $DesignationModel = DesignationModel::getInstance( );
+            $dsgInfo = $DesignationModel->getByID( $empInfo['designationID'] );
+            $designation = $dsgInfo ? $dsgInfo['title'] : '';
+
+            $ContractModel = ContractModel::getInstance( );
+            $conInfo = $ContractModel->getByID( $empInfo['contractID'] );
+            $contractType = $conInfo ? $conInfo['type'] : '';
+
+            $PaymentMethodModel = PaymentMethodModel::getInstance( );
+            $pmInfo = $PaymentMethodModel->getByID( $empInfo['paymentMethodID'] );
+            $method = $pmInfo ? $pmInfo['method'] : '';
+
+            $vars = array( 'TPLVAR_IMAGE' => $image,
+                           'TPLVAR_FNAME' => $empInfo['fname'],
+                           'TPLVAR_LNAME' => $empInfo['lname'],
+                           'TPLVAR_DEPARTMENT' => $department,
+                           'TPLVAR_DESIGNATION' => $designation,
+                           'TPLVAR_CONTRACT_TYPE' => $contractType,
+                           'TPLVAR_IDNUMBER' => $empInfo['idnumber'],
+                           'TPLVAR_START_DATE' => $empInfo['startDate'],
+                           'TPLVAR_END_DATE' => $empInfo['endDate'] ? $empInfo['endDate'] : ' -- ',
+                           'TPLVAR_PAYMENT_METHOD' => $method ? $method : ' -- ' );
+
+            return $this->render( 'markaxis/payroll/processForm.tpl', $vars );
+        }
     }
 
 

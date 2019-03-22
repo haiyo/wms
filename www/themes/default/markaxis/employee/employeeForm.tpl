@@ -8,8 +8,8 @@
         </div>
 
         <div class="col-md-4">
-            <label>Select Designation:</label>
-            <?TPL_DESIGNATION_LIST?>
+            <label>Select Department:</label>
+            <?TPL_DEPARTMENT_LIST?>
         </div>
 
         <div class="col-md-3">
@@ -25,8 +25,8 @@
 
     <div class="row">
         <div class="col-md-6">
-            <label>Select Department(s):</label>
-            <?TPL_DEPARTMENT_LIST?>
+            <label>Select Designation:</label>
+            <?TPL_DESIGNATION_LIST?>
         </div>
 
         <div class="col-md-6">

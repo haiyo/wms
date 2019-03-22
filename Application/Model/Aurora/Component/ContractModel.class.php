@@ -1,6 +1,5 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -34,6 +33,15 @@ class ContractModel extends \Model {
      */
     public function isFound( $ecID ) {
         return $this->Contract->isFound( $ecID );
+    }
+
+
+    /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getByID( $cID ) {
+        return $this->Contract->getByID( $cID );
     }
 
 

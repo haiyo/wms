@@ -36,6 +36,15 @@ class DesignationModel extends \Model {
 
 
     /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getByID( $dID ) {
+        return $this->Designation->getByID( $dID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-        <h6 class="mb-0 ml-10 font-weight-bold">Employee Bank Details:</h6>
+        <h6 class="mb-0 ml-10 font-weight-bold">Employee Payment Details:</h6>
         <div class="card">
             <div class="card-body">
                 <div class="col-md-3">
@@ -51,8 +51,8 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Branch Code:</label>
-                        <input type="text" name="branchCode" placeholder="081" class="form-control" value="<?TPLVAR_BRANCH_CODE?>" />
+                        <label>Bank Branch Code:</label>
+                        <input type="text" name="bankBranchCode" placeholder="081" class="form-control" value="<?TPLVAR_BANK_BRANCH_CODE?>" />
                     </div>
                 </div>
 
@@ -65,15 +65,8 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Swift Code:</label>
-                        <input type="text" name="swiftCode" placeholder="DBSSSGSG" class="form-control" value="<?TPLVAR_SWIFT_CODE?>" />
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Branch name:</label>
-                        <input type="text" name="branchName" placeholder="Branch Name" class="form-control" value="<?TPLVAR_BRANCH_NAME?>" />
+                        <label>Bank Swift Code:</label>
+                        <input type="text" name="bankSwiftCode" placeholder="DBSSSGSG" class="form-control" value="<?TPLVAR_SWIFT_CODE?>" />
                     </div>
                 </div>
 

@@ -29,9 +29,24 @@ class Contract extends \DAO {
      */
     public function isFound( $cID ) {
         $sql = $this->DB->select( 'SELECT COUNT(cID) FROM contract WHERE cID = "' . (int)$cID . '"',
-                                    __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $cID ) {
+        $sql = $this->DB->select( 'SELECT * FROM contract WHERE cID = "' . (int)$cID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 

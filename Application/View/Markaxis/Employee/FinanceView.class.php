@@ -97,8 +97,11 @@ class FinanceView extends AdminView {
         $SelectListView = new SelectListView( );
         $payrollCalList = $SelectListView->build( 'pcID', $CalendarModel->getList( ), $payrollInfo['pcID'], 'Select Payroll Calendar' );
 
+        $EmployeeModel = EmployeeModel::getInstance();
+        $empInfo = $EmployeeModel->getInfo( );
+
         $PaymentMethodModel = PaymentMethodModel::getInstance( );
-        $pmID = $bankInfo['pmID'] ? $bankInfo['pmID'] : '';
+        $pmID = $empInfo['paymentMethodID'] ? $empInfo['paymentMethodID'] : '';
         $SelectListView->setClass( 'paymentMethodList' );
         $paymentMethodList = $SelectListView->build( 'pmID',  $PaymentMethodModel->getList( ), $pmID, 'Select Payment Method' );
 
@@ -123,10 +126,9 @@ class FinanceView extends AdminView {
         $vars = array_merge( $this->L10n->getContents( ),
             array( 'TPLVAR_BANK_NUMBER' => $bankInfo['bankNumber'],
                    'TPLVAR_BANK_CODE' => $bankInfo['bankCode'],
-                   'TPLVAR_BRANCH_CODE' => $bankInfo['branchCode'],
+                   'TPLVAR_BANK_BRANCH_CODE' => $bankInfo['bankBranchCode'],
                    'TPLVAR_BANK_HOLDER_NAME' => $bankInfo['bankHolderName'],
-                   'TPLVAR_SWIFT_CODE' => $bankInfo['swiftCode'],
-                   'TPLVAR_BRANCH_NAME' => $bankInfo['branchName'],
+                   'TPLVAR_SWIFT_CODE' => $bankInfo['bankSwiftCode'],
                    'TPL_PAYROLL_CAL_LIST' => $payrollCalList,
                    'TPL_TAX_GROUP_LIST' => $taxGroupList,
                    'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,

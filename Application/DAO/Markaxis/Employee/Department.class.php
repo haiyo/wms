@@ -44,7 +44,7 @@ class Department extends \DAO {
         $sql = $this->DB->select( 'SELECT COUNT(edID) FROM employee_department 
                                    WHERE userID = "' . (int)$userID . '" AND
                                          dID = "' . (int)$dID . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -54,18 +54,31 @@ class Department extends \DAO {
      * Retrieve all user roles
      * @return mixed
      */
-    public function getByUserID( $userID ) {
-        $list = array( );
-
-        $sql = $this->DB->select( 'SELECT dID FROM employee_department WHERE userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+    public function getByID( $dID ) {
+        $sql = $this->DB->select( 'SELECT * FROM department WHERE dID = "' . (int)$dID . '"',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row['dID'];
-            }
+            return $this->DB->fetch( $sql );
         }
-        return $list;
+        return false;
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT d.dID, d.name FROM employee_department ed
+                                   LEFT JOIN department d on ed.dID = d.dID
+                                   WHERE userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 

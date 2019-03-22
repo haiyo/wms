@@ -36,6 +36,21 @@ class Bank extends \DAO {
 
 
     /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $bkID ) {
+        $sql = $this->DB->select( 'SELECT * FROM bank WHERE bkID = "' . (int)$bkID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */

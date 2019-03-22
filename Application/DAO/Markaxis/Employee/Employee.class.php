@@ -63,7 +63,7 @@ class Employee extends \DAO {
                                           d.title AS designation
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN designation d ON ( e.dID = d.dID )
+                                   LEFT JOIN designation d ON ( e.dID = d.designationID )
                                    WHERE e.resigned <> "1" AND u.suspended <> "1" AND deleted <> "1" ' . $q . ' ' . $exclude . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );
 
@@ -81,7 +81,7 @@ class Employee extends \DAO {
      * @return mixed
      */
     public function getFieldByUserID( $userID, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
+        $sql = $this->DB->select( 'SELECT ' . $column . ' FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1" AND e.resigned <> "1"',
             __FILE__, __LINE__ );
@@ -117,8 +117,8 @@ class Employee extends \DAO {
                                           ad.descript AS suspendReason
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN designation d ON ( d.dID = e.dID )
-                                   LEFT JOIN contract c ON ( c.cID = e.cID )
+                                   LEFT JOIN designation d ON ( d.dID = e.designationID )
+                                   LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID

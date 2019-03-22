@@ -36,6 +36,15 @@ class BankModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByID( $bkID ) {
+        return $this->Bank->getByID( $bkID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

@@ -51,8 +51,8 @@ class FinanceModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        $BankModel = new BankModel( );
-        $BankModel->save( $data );
+        $PaymentModel = new PaymentModel( );
+        $PaymentModel->save( $data );
 
         $PayrollModel = new FinancePayrollModel( );
         $PayrollModel->save( $data );

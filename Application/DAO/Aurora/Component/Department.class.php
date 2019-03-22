@@ -36,6 +36,21 @@ class Department extends \DAO {
 
 
     /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $dID ) {
+        $sql = $this->DB->select( 'SELECT * FROM department WHERE dID = "' . (int)$dID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */

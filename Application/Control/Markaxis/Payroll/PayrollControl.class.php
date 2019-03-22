@@ -80,6 +80,18 @@ class PayrollControl {
      * Render main navigation
      * @return str
      */
+    public function processForm( $args ) {
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            echo $this->PayrollView->renderProcessForm( $args[1], $args[2] );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return str
+     */
     public function settings( ) {
         $output = Control::getOutputArray( );
         $this->PayrollView->printAll( $this->PayrollView->renderSettings( $output['form'] ) );

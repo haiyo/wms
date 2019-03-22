@@ -183,7 +183,6 @@ var MarkaxisApplyLeave = (function( ) {
                     data: formData
                 },
                 success: function( res, ladda ) {
-                    console.log(res)
                     ladda.stop( );
 
                     var obj = $.parseJSON( res );

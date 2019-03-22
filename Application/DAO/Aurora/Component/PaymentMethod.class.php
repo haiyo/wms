@@ -36,6 +36,21 @@ class PaymentMethod extends \DAO {
 
 
     /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $pmID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payment_method WHERE pmID = "' . (int)$pmID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */

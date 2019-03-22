@@ -50,7 +50,6 @@ class FinanceControl {
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
         Control::setOutputArrayAppend( array( 'form' => $this->FinanceView->renderEdit( $userID ) ) );
     }
 

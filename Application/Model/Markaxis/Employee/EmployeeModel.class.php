@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserImageModel;
-use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
+use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DepartmentModel, \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
@@ -190,35 +190,42 @@ class EmployeeModel extends \Model {
         if( isset( $data['salaryType'] ) ) {
             $SalaryTypeModel = SalaryTypeModel::getInstance( );
             if( $SalaryTypeModel->isFound( $data['salaryType'] ) ) {
-                $saveInfo['stID'] = (int)$data['salaryType'];
+                $saveInfo['salaryTypetID'] = (int)$data['salaryType'];
             }
         }
 
         if( isset( $data['office'] ) ) {
             $OfficeModel = OfficeModel::getInstance( );
             if( $OfficeModel->isFound( $data['office'] ) ) {
-                $saveInfo['oID'] = (int)$data['office'];
+                $saveInfo['officeID'] = (int)$data['office'];
+            }
+        }
+
+        if( isset( $data['department'] ) ) {
+            $DepartmentModel = DepartmentModel::getInstance( );
+            if( $DepartmentModel->isFound( $data['department'] ) ) {
+                $saveInfo['departmentID'] = (int)$data['department'];
             }
         }
 
         if( isset( $data['designation'] ) ) {
             $DesignationModel = DesignationModel::getInstance( );
             if( $DesignationModel->isFound( $data['designation'] ) ) {
-                $saveInfo['dID'] = (int)$data['designation'];
+                $saveInfo['designationID'] = (int)$data['designation'];
             }
         }
 
         if( isset( $data['contractType'] ) ) {
             $ContractModel = ContractModel::getInstance( );
             if( $ContractModel->isFound( $data['contractType'] ) ) {
-                $saveInfo['cID'] = (int)$data['contractType'];
+                $saveInfo['contractID'] = (int)$data['contractType'];
             }
         }
 
         if( isset( $data['passType'] ) ) {
             $PassTypeModel = PassTypeModel::getInstance( );
             if( $PassTypeModel->isFound( $data['passType'] ) ) {
-                $saveInfo['ptID'] = (int)$data['passType'];
+                $saveInfo['passTypeID'] = (int)$data['passType'];
             }
         }
 
@@ -243,7 +250,8 @@ class EmployeeModel extends \Model {
         $startYear  = (int)Validator::stripTrim( $data['startYear'] );
 
         if( !$saveInfo['startDate'] = Date::getDateStr( $startMonth, $startDay, $startYear ) ) {
-            unset( $saveInfo['startDate'] );
+            // Default to current date if no date set.
+            $saveInfo['startDate'] = date('Y-m-d');
         }
 
         $endDay   = (int)Validator::stripTrim( $data['endDay'] );

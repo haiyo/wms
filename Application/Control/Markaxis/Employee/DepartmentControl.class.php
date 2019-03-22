@@ -54,12 +54,12 @@ class DepartmentControl {
     /**
      * Render main navigation
      * @return str
-     */
+
     public function save( ) {
         $post = Control::getPostData( );
 
         $DepartmentModel = DepartmentModel::getInstance( );
         $DepartmentModel->save( $post );
-    }
+    } */
 }
 ?>

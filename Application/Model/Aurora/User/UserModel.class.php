@@ -230,7 +230,6 @@ class UserModel extends \Model {
         if( $CityModel->isFound( $data['city'] ) ) {
             $this->info['city'] = (int)$data['city'];
         }
-
         return true;
     }
 

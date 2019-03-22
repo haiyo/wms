@@ -5,8 +5,7 @@ use \Aurora\Form\DayIntListView, \Aurora\Form\SelectListView;
 use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\SalaryTypeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel;
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
-use \Aurora\Component\DepartmentModel as A_DepartmentModel;
-use \Markaxis\Employee\DepartmentModel as M_DepartmentModel;
+use \Aurora\Component\DepartmentModel as DepartmentModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -134,41 +133,45 @@ class EmployeeView extends AdminView {
         }
 
         $DesignationModel = DesignationModel::getInstance( );
-
         $SelectGroupListView = new SelectGroupListView( );
-        $pID = isset( $this->info['pID'] ) ? $this->info['pID'] : '';
-        $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $pID, 'Select Designation' );
+        $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
+        $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $designationID, 'Select Designation' );
 
-        $confirmDayList   = $DayIntListView->getList( 'confirmDay', $confirmDay, 'Day' );
+        $confirmDayList = $DayIntListView->getList( 'confirmDay', $confirmDay, 'Day' );
         $confirmMonthList = $SelectListView->build( 'confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );
 
-        $startDayList   = $DayIntListView->getList( 'startDay', $startDay, 'Day' );
+        $startDayList = $DayIntListView->getList( 'startDay', $startDay, 'Day' );
         $startMonthList = $SelectListView->build( 'startMonth', MonthHelper::getL10nList( ), $startMonth, 'Month' );
 
-        $endDayList   = $DayIntListView->getList( 'endDay', $endDay, 'Day' );
+        $endDayList = $DayIntListView->getList( 'endDay', $endDay, 'Day' );
         $endMonthList = $SelectListView->build( 'endMonth', MonthHelper::getL10nList( ), $endMonth, 'Month' );
 
-        $passExpiryDayList   = $DayIntListView->getList( 'passExpiryDay', $passExpiryDay, 'Day' );
+        $passExpiryDayList = $DayIntListView->getList( 'passExpiryDay', $passExpiryDay, 'Day' );
         $passExpiryMonthList = $SelectListView->build( 'passExpiryMonth', MonthHelper::getL10nList( ), $passExpiryMonth, 'Month' );
-
         $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), $this->info['currency'], 'Currency' );
 
         $SalaryTypeModel = SalaryTypeModel::getInstance( );
-        $stID = isset( $this->info['stID'] ) ? $this->info['stID'] : '';
+        $salaryTypeID = isset( $this->info['salaryTypeID'] ) ? $this->info['salaryTypeID'] : '';
         $SelectListView->setClass( 'salaryTypeList' );
-        $salaryTypeList = $SelectListView->build( 'salaryType',  $SalaryTypeModel->getList( ), $stID, 'Salary Rate Type' );
+        $salaryTypeList = $SelectListView->build( 'salaryType',  $SalaryTypeModel->getList( ), $salaryTypeID, 'Salary Rate Type' );
 
         $OfficeModel = OfficeModel::getInstance( );
-        $oID = isset( $this->info['oID'] ) ? $this->info['oID'] : '';
-        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $oID, 'Select Office / Location' );
+        $officeID = isset( $this->info['officeID'] ) ? $this->info['officeID'] : '';
+        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $officeID, 'Select Office / Location' );
 
         $ContractModel = ContractModel::getInstance( );
-        $cID = isset( $this->info['cID'] ) ? $this->info['cID'] : '';
-        $contractList = $SelectListView->build( 'contractType',  $ContractModel->getList( ), $cID, 'Select Contract Type' );
+        $contractID = isset( $this->info['contractID'] ) ? $this->info['contractID'] : '';
+        $contractList = $SelectListView->build( 'contractType',  $ContractModel->getList( ), $contractID, 'Select Contract Type' );
 
         $PassTypeModel = PassTypeModel::getInstance( );
-        $ptID = isset( $this->info['ptID'] ) ? $this->info['ptID'] : '';
-        $passTypeList = $SelectGroupListView->build( 'passType',  $PassTypeModel->getList( ), $ptID, 'Select Pass Type' );
+        $passTypeID = isset( $this->info['passTypeID'] ) ? $this->info['passTypeID'] : '';
+        $passTypeList = $SelectGroupListView->build( 'passType',  $PassTypeModel->getList( ), $passTypeID, 'Select Pass Type' );
+
+        $DepartmentModel = DepartmentModel::getInstance( );
+        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
+        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Select Department' );
+
+        // === MULTI LIST LEVEL BELOW ===
 
         $UserRoleModel = UserRoleModel::getInstance( );
         $RoleModel = RoleModel::getInstance( );
@@ -178,13 +181,6 @@ class EmployeeView extends AdminView {
 
         $SupervisorModel = SupervisorModel::getInstance( );
         $supervisors = $this->info['userID'] ? $SupervisorModel->getNameByUserID( $this->info['userID'] ) : '';
-
-        $ComponentDepartmentModel = A_DepartmentModel::getInstance( );
-
-        $DepartmentModel = M_DepartmentModel::getInstance( );
-
-        $departmentList = $SelectListView->build( 'department',  $ComponentDepartmentModel->getList( ),
-                                                    $DepartmentModel->getByUserID( $this->info['userID'] ), 'Select Department' );
 
         $CompetencyModel = CompetencyModel::getInstance( );
         $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );

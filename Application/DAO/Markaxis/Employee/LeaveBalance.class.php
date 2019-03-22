@@ -151,8 +151,8 @@ class LeaveBalance extends \DAO {
                                           ad.descript AS suspendReason
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN designation d ON ( d.dID = e.dID )
-                                   LEFT JOIN contract c ON ( c.cID = e.cID )
+                                   LEFT JOIN designation d ON ( d.dID = e.designationID )
+                                   LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID

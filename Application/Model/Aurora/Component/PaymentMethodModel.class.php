@@ -36,6 +36,15 @@ class PaymentMethodModel extends \Model {
 
 
     /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getByID( $pmID ) {
+        return $this->PaymentMethod->getByID( $pmID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */
