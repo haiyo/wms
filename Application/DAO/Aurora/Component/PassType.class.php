@@ -28,10 +28,25 @@ class PassType extends \DAO {
      * @return int
      */
     public function isFound( $ptID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(ptID) FROM passtype WHERE ptID = "' . (int)$ptID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(ptID) FROM pass_type WHERE ptID = "' . (int)$ptID . '"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $ptID ) {
+        $sql = $this->DB->select( 'SELECT * FROM pass_type WHERE ptID = "' . (int)$ptID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -41,8 +56,8 @@ class PassType extends \DAO {
      */
     public function getList( ) {
         $sql = $this->DB->select( 'SELECT e.ptID AS parentID, r.ptID AS id, r.title, r.parent
-                                   FROM passtype r
-                                   LEFT JOIN passtype e ON r.parent = e.ptID
+                                   FROM pass_type r
+                                   LEFT JOIN pass_type e ON r.parent = e.ptID
                                    ORDER BY COALESCE(parentID, r.ptID), r.ptID', __FILE__, __LINE__ );
 
         $list = array( );

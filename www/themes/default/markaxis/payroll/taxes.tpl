@@ -971,7 +971,7 @@
                                         <optgroup label="Computing Variables">
                                             <option value="age">Age</option>
                                             <option value="payrollItem">Payroll Item</option>
-                                            <option value="salary">Salary</option>
+                                            <option value="salary">Basic Salary</option>
                                             <option value="workforce">Total Workforce</option>
                                         </optgroup>
 

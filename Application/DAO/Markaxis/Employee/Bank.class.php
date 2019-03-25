@@ -37,6 +37,19 @@ class Bank extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(ebID) FROM employee_bank
+                                   WHERE userID = "' . (int)$userID . '"',
+                                    __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve all user roles
      * @return mixed
      */

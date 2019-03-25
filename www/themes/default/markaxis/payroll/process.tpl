@@ -225,7 +225,8 @@
             var $invoker = $(e.relatedTarget);
 
             $(this).find(".modal-body").load( $invoker.attr("href") + $("#processDate").val(), function() {
-
+                $(".check-input").uniform();
+                $(".itemType").select2({minimumResultsForSearch: -1});
             });
         });
 
@@ -306,9 +307,7 @@
         $(".payroll-range").insertAfter(".dataTables_filter");
         $(".officeFilter").insertAfter(".dataTables_filter");
         $("#office").select2( );
-        $(".itemType").select2({minimumResultsForSearch: -1});
         $(".select").select2({minimumResultsForSearch: -1});
-        $('.check-input').uniform();
     });
 </script>
 <style>
@@ -410,7 +409,8 @@
         line-height:30px;
     }
     #processForm .row {
-        margin-bottom:11px;
+        margin-top:12px;
+        margin-bottom: 0px;
     }
     #processForm .sm-addrm {
         width:5%;
@@ -418,13 +418,16 @@
     #processForm .modal-footer {
         margin-top: 20px;
     }
+    #itemWrapper .row:last-child {
+        border-bottom:none !important;
+    }
     .prePopulateTxt {
         position:absolute;
         top:-118px;
     }
     .tipsIco{float: left;margin-right: 7px;color:orange}
     .tipsTxt{float: left;width: 90%;}
-    .useTemplate{margin-left:23px;}
+    .useTemplate{margin-left:23px;margin-top: 10px;}
 </style>
 <div id="modalCalPayroll" class="modal fade">
     <div class="modal-dialog modal-xl">

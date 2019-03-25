@@ -104,7 +104,7 @@ class TaxComputingModel extends \Model {
                         case 'age' :
                         case 'salary' :
                         case 'workforce' :
-                            if( isset( $data['computing_' . $id] ) && isset($data['valueType_' . $id]) &&
+                            if( isset( $data['computing_' . $id] ) && isset( $data['valueType_' . $id] ) &&
                                 isset( $data['value_' . $id] ) ) {
 
                                 if( $data['computing_' . $id] == 'lt' || $data['computing_' . $id] == 'gt' ||
@@ -115,7 +115,7 @@ class TaxComputingModel extends \Model {
                                 if( $data['valueType_' . $id] == 'fixed' || $data['valueType_' . $id] == 'percentage' ) {
                                     $valueType = $data['valueType_' . $id];
                                 }
-                                $value = (int)$data['value_' . $id];
+                                $value = (float)$data['value_' . $id];
 
                                 $cInfo['criteria'] = $data['criteria_' . $id];
                                 $cInfo['computing'] = $computing;

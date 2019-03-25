@@ -54,6 +54,15 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getCalculateUserInfo( $userID ) {
+        return $this->Payroll->getCalculateUserInfo( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function allowProcessPass( $data ) {
         if( isset( $data['password'] ) && isset( $data['processDate'] ) ) {
             try {

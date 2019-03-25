@@ -62,13 +62,13 @@ class TaxComputingView extends AdminView {
                 $txt = 'Employee age ';
 
                 if( $age[0]['computing'] == 'gt' ) {
-                    $txt .= 'more than ' . $age[0]['value'];
+                    $txt .= 'more than ' . (float)$age[0]['value'];
                 }
                 if( $age[0]['computing'] == 'lt' ) {
-                    $txt .= 'less than ' . $age[0]['value'];
+                    $txt .= 'less than ' . (float)$age[0]['value'];
                 }
                 if( $age[0]['computing'] == 'eq' ) {
-                    $txt .=  $age[0]['value'];
+                    $txt .=  (float)$age[0]['value'];
                 }
                 array_push($criteriaSet, $txt );
             }
@@ -76,7 +76,7 @@ class TaxComputingView extends AdminView {
             if( sizeof( $age ) == 2 ) {
                 if( $age[0]['value'] < $age[1]['value'] ) {
                     $txt  = 'Employee age from ';
-                    $txt .= $age[0]['value'] . ' to ' . $age[1]['value'];
+                    $txt .= (float)$age[0]['value'] . ' to ' . (float)$age[1]['value'];
                     array_push($criteriaSet, $txt );
                 }
             }
@@ -85,13 +85,13 @@ class TaxComputingView extends AdminView {
                 $txt = 'Employee salary ';
 
                 if( $salary[0]['computing'] == 'gt' ) {
-                    $txt .= 'more than ' . $currency . $salary[0]['value'];
+                    $txt .= 'more than ' . $currency . (float)$salary[0]['value'];
                 }
                 if( $salary[0]['computing'] == 'lt' ) {
-                    $txt .= 'less than ' . $currency . $salary[0]['value'];
+                    $txt .= 'less than ' . $currency . (float)$salary[0]['value'];
                 }
                 if( $salary[0]['computing'] == 'eq' ) {
-                    $txt .= $currency . $salary[0]['value'];
+                    $txt .= $currency . (float)$salary[0]['value'];
                 }
                 array_push($criteriaSet, $txt );
             }
@@ -99,7 +99,7 @@ class TaxComputingView extends AdminView {
             if( sizeof( $salary ) == 2 ) {
                 if( $salary[0]['value'] < $salary[1]['value'] ) {
                     $txt  = 'Employee salary from ';
-                    $txt .= $currency . $salary[0]['value'] . ' to ' . $currency . $salary[1]['value'];
+                    $txt .= $currency . (float)$salary[0]['value'] . ' to ' . $currency . (float)$salary[1]['value'];
                     array_push($criteriaSet, $txt );
                 }
             }

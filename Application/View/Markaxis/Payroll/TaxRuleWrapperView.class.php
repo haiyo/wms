@@ -47,7 +47,7 @@ class TaxRuleWrapperView extends AdminView {
                 $applyAs = $taxRule['applyValue'] . '% ';
             }
             else { // Fixed
-                $applyAs = $taxRule['currencyCode'] . $taxRule['currencySymbol'] . $taxRule['applyValue'] . ' ';
+                $applyAs = $taxRule['currencyCode'] . $taxRule['currencySymbol'] . (float)$taxRule['applyValue'] . ' ';
             }
 
             if( $taxRule['applyType'] == 'salaryDeduction' ) {

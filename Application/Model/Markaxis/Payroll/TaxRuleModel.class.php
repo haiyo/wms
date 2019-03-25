@@ -91,7 +91,7 @@ class TaxRuleModel extends \Model {
             $this->info['applyValueType'] = $data['applyValueType'];
         }
 
-        $this->info['applyValue'] = (int)$data['applyValue'];
+        $this->info['applyValue'] = (float)$data['applyValue'];
 
         if( $this->info['tgID'] ) {
             $TaxGroupModel = new TaxGroupModel( );

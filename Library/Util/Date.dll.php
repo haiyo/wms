@@ -64,20 +64,8 @@ class Date {
     * @param the file name
     * @returns void
     */
-    public static function getAge( $birthday, $z=8 ) {
-        if( preg_match( '/(\d{4})-(\d{2})-(\d{2})/', $birthday, $parts ) ) {
-            $yeardiff  = gmdate( 'Y', time( ) + $z*3600 ) - intval( $parts[1] );
-            $monthdiff = gmdate( 'm', time( ) + $z*3600 ) - intval( $parts[2] );
-            $daydiff   = gmdate( 'j', time( ) + $z*3600 ) - intval( $parts[3] );
-
-            if( $monthdiff < 0 || $monthdiff == 0 && $daydiff <= 0 ) {
-                $age = $yeardiff - 1;
-            }
-            else {
-                $age = $yeardiff;
-            }
-            return $age;
-        }
+    public static function getAge( $birthday ) {
+        return \DateTime::createFromFormat('Y-m-d', $birthday)->diff(new \DateTime('now'))->y;
     }
 
     

@@ -81,7 +81,7 @@ class Employee extends \DAO {
      * @return mixed
      */
     public function getFieldByUserID( $userID, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . $column . ' FROM user u
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1" AND e.resigned <> "1"',
             __FILE__, __LINE__ );

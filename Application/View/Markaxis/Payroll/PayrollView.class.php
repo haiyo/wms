@@ -1,9 +1,8 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Employee\EmployeeModel, \Aurora\Component\DepartmentModel, \Aurora\Component\ContractModel;
-use \Aurora\User\UserImageModel, \Aurora\Component\DesignationModel, \Aurora\Component\PaymentMethodModel;
+use \Aurora\User\UserImageModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\OfficeModel;
-use \Library\Runtime\Registry;
+use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -167,42 +166,51 @@ class PayrollView extends AdminView {
      * @return str
      */
     public function renderProcessForm( $userID, $processDate ) {
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'u.fname, u.lname, e.idnumber, e.departmentID,
-                                                               e.designationID, e.contractID, e.paymentMethodID,
-                                                               DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
-                                                               DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate' );
+        $userInfo = $this->PayrollModel->getCalculateUserInfo( $userID );
 
-        if( $empInfo ) {
+        if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
             $image = $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' );
 
-            $DepartmentModel = DepartmentModel::getInstance( );
-            $dptInfo = $DepartmentModel->getByID( $empInfo['departmentID'] );
-            $department = $dptInfo ? $dptInfo['name'] : '';
-
-            $DesignationModel = DesignationModel::getInstance( );
-            $dsgInfo = $DesignationModel->getByID( $empInfo['designationID'] );
-            $designation = $dsgInfo ? $dsgInfo['title'] : '';
-
-            $ContractModel = ContractModel::getInstance( );
-            $conInfo = $ContractModel->getByID( $empInfo['contractID'] );
-            $contractType = $conInfo ? $conInfo['type'] : '';
-
-            $PaymentMethodModel = PaymentMethodModel::getInstance( );
-            $pmInfo = $PaymentMethodModel->getByID( $empInfo['paymentMethodID'] );
-            $method = $pmInfo ? $pmInfo['method'] : '';
+            $duration = \DateTime::createFromFormat('jS M Y', $userInfo['startDate'])->diff( new \DateTime('now') );
 
             $vars = array( 'TPLVAR_IMAGE' => $image,
-                           'TPLVAR_FNAME' => $empInfo['fname'],
-                           'TPLVAR_LNAME' => $empInfo['lname'],
-                           'TPLVAR_DEPARTMENT' => $department,
-                           'TPLVAR_DESIGNATION' => $designation,
-                           'TPLVAR_CONTRACT_TYPE' => $contractType,
-                           'TPLVAR_IDNUMBER' => $empInfo['idnumber'],
-                           'TPLVAR_START_DATE' => $empInfo['startDate'],
-                           'TPLVAR_END_DATE' => $empInfo['endDate'] ? $empInfo['endDate'] : ' -- ',
-                           'TPLVAR_PAYMENT_METHOD' => $method ? $method : ' -- ' );
+                           'TPLVAR_FNAME' => $userInfo['fname'],
+                           'TPLVAR_LNAME' => $userInfo['lname'],
+                           'TPLVAR_AGE' => $userInfo['birthday'] ? Date::getAge( $userInfo['birthday'] ) : ' -- ',
+                           'TPLVAR_DEPARTMENT' => $userInfo['department'] ? $userInfo['department'] : ' -- ',
+                           'TPLVAR_DESIGNATION' => $userInfo['designation'] ? $userInfo['designation'] : ' -- ',
+                           'TPLVAR_CONTRACT_TYPE' => $userInfo['contractType'] ? $userInfo['contractType'] : ' -- ',
+                           'TPLVAR_WORK_PASS' => $userInfo['passType'] ? $userInfo['passType'] : $userInfo['nationality'],
+                           'TPLVAR_IDNUMBER' => $userInfo['idnumber'],
+                           'TPLVAR_START_DATE' => $userInfo['startDate'],
+                           'TPLVAR_END_DATE' => $userInfo['endDate'] ? $userInfo['endDate'] : ' -- ',
+                           'TPLVAR_CONFIRM_DATE' => $userInfo['confirmDate'] ? $userInfo['confirmDate'] : ' -- ',
+                           'TPLVAR_DURATION_YEAR' => $duration->y,
+                           'TPLVAR_DURATION_MONTH' => $duration->m,
+                           'TPLVAR_CURRENCY' => $userInfo['currency'],
+                           'TPLVAR_PAYMENT_METHOD' => $userInfo['paymentMethod'] ? $userInfo['paymentMethod'] : ' -- ',
+                           'TPLVAR_BANK_NAME' => $userInfo['bankName'] ? $userInfo['bankName'] : ' -- ',
+                           'TPLVAR_BANK_NUMBER' => $userInfo['number'] ? $userInfo['number'] : ' -- ',
+                           'TPLVAR_BANK_CODE' => $userInfo['code'] ? $userInfo['code'] : ' -- ',
+                           'TPLVAR_BRANCH_CODE' => $userInfo['branchCode'] ? $userInfo['branchCode'] : ' -- ',
+                           'TPLVAR_BANK_SWIFT_CODE' => $userInfo['swiftCode'] ? $userInfo['swiftCode'] : ' -- ' );
+
+            $ItemModel = ItemModel::getInstance( );
+            $SelectListView = new SelectListView( );
+            $SelectListView->setClass('itemType');
+
+            $grossAmount = 0;
+            $vars['dynamic']['item'] = false;
+
+            if( $userInfo['salary'] ) {
+                $grossAmount = $userInfo['salary'];
+                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), 3, 'Select Payroll Item' );
+                $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . $userInfo['salary'],
+                                                    'TPL_PAYROLL_ITEM_LIST' => $itemType );
+            }
+
+            $vars['TPLVAR_GROSS_AMOUNT'] = $grossAmount;
 
             return $this->render( 'markaxis/payroll/processForm.tpl', $vars );
         }

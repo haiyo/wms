@@ -54,7 +54,7 @@
 
         <div class="col-md-2">
             <div class="form-group">
-                <label>Salary / Rate:</label>
+                <label>Basic Salary / Rate:</label>
                 <input type="number" name="salary" placeholder="5000" class="form-control" value="<?TPLVAR_SALARY?>" />
             </div>
         </div>

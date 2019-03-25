@@ -1,9 +1,9 @@
 <?php
 namespace Aurora\User;
-use \Library\Helper\Aurora\NationalityHelper, \Library\Helper\Aurora\MaritalHelper;
+use \Library\Helper\Aurora\MaritalHelper;
 use \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
-use \Aurora\Component\AuditLogModel;
+use \Aurora\Component\AuditLogModel, \Aurora\Component\NationalityModel;
 use \Library\Util\Date;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
@@ -32,10 +32,10 @@ class UserModel extends \Model {
 
         $this->info['fname'] = $this->info['lname'] = $this->info['email1'] =
         $this->info['email2'] = $this->info['gender'] = $this->info['birthday'] =
-        $this->info['country'] = $this->info['address1'] = $this->info['address2'] =
+        $this->info['countryID'] = $this->info['address1'] = $this->info['address2'] =
         $this->info['postal'] = $this->info['city'] = $this->info['state'] =
         $this->info['phone'] = $this->info['mobile'] = $this->info['nric'] =
-        $this->info['marital'] = $this->info['nationality'] = $this->info['username'] =
+        $this->info['marital'] = $this->info['nationalityID'] = $this->info['username'] =
         $this->info['image'] = '';
 
         $this->info['userID'] = $this->info['suspended'] = $this->info['deleted'] =
@@ -180,10 +180,6 @@ class UserModel extends \Model {
             $this->info['gender'] = '';
         }
 
-        if( in_array( $data['nationality'], NationalityHelper::getL10nList( ) ) ) {
-            $this->info['nationality'] = $data['nationality'];
-        }
-
         if( isset( $data['religion'] ) ) {
             $ReligionModel = ReligionModel::getInstance( );
             if( $ReligionModel->isFound( $data['religion'] ) ) {
@@ -218,7 +214,12 @@ class UserModel extends \Model {
 
         $CountryModel = CountryModel::getInstance( );
         if( $CountryModel->isFound( $data['country'] ) ) {
-            $this->info['country'] = (int)$data['country'];
+            $this->info['countryID'] = (int)$data['country'];
+        }
+
+        $NationalityModel = NationalityModel::getInstance( );
+        if( $NationalityModel->isFound( $data['nationality'] ) ) {
+            $this->info['nationalityID'] = (int)$data['nationality'];
         }
 
         $StateModel = StateModel::getInstance( );

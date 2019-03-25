@@ -2,7 +2,7 @@
 namespace Aurora\User;
 use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Aurora\Form\DayIntListView;
 use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\YesNoHelper, \Library\Helper\Aurora\MonthHelper;
-use \Library\Helper\Aurora\MaritalHelper, \Library\Helper\Aurora\NationalityHelper;
+use \Library\Helper\Aurora\MaritalHelper, \Aurora\Component\NationalityModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Library\Runtime\Registry;
 
@@ -91,12 +91,14 @@ class UserView extends AdminView {
 
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
-        $countryList = $SelectListView->build( 'country', $countries, $this->info['country'], 'Select Country' );
+        $countryList = $SelectListView->build( 'country', $countries, $this->info['countryID'], 'Select Country' );
+
+        $NationalityModel = NationalityModel::getInstance( );
+        $nationalities = $NationalityModel->getList( );
+        $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->info['nationalityID'], 'Select Nationality' );
 
         $SelectListView->setClass( 'maritalList' );
         $maritalList  = $SelectListView->build( 'marital', MaritalHelper::getL10nList( ), $this->info['marital'], 'Select Status' );
-        $nationalityList = $SelectListView->build( 'nationality', NationalityHelper::getL10nList( ),
-                                                    $this->info['nationality'], 'Select Nationality' );
 
         $ReligionModel = ReligionModel::getInstance( );
         $religionID = isset( $this->info['religionID'] ) ? $this->info['religionID'] : '';

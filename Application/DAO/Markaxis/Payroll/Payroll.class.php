@@ -61,6 +61,37 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
+    public function getCalculateUserInfo( $userID ) {
+        $sql = $this->DB->select( 'SELECT u.fname, u.lname, u.birthday, n.nationality, emp.idnumber, emp.currency, emp.salary,
+                                          dpt.name AS department, dsg.title AS designation, cont.type AS contractType, 
+                                          pm.method AS paymentMethod, pt.title AS passType, emp_bk.*, bk.name AS bankName,
+                                          DATE_FORMAT(emp.startDate, "%D %b %Y") AS startDate, 
+                                          DATE_FORMAT(emp.confirmDate, "%D %b %Y") AS confirmDate, 
+                                          DATE_FORMAT(emp.endDate, "%D %b %Y") AS endDate
+                                   FROM user u
+                                          LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                          LEFT JOIN employee emp ON ( u.userID = emp.userID )
+                                          LEFT JOIN employee_bank emp_bk ON ( u.userID = emp_bk.userID )
+                                          LEFT JOIN bank bk ON ( emp_bk.bkID = bk.bkID )
+                                          LEFT JOIN department dpt ON ( emp.departmentID = dpt.dID )
+                                          LEFT JOIN designation dsg ON ( emp.designationID = dsg.dID )
+                                          LEFT JOIN contract cont ON ( emp.contractID = cont.cID )
+                                          LEFT JOIN payment_method pm ON ( emp.paymentMethodID = pm.pmID )
+                                          LEFT JOIN pass_type pt ON ( emp.passTypeID = pt.ptID )
+                                   WHERE u.userID = "' . (int)$userID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
     public function getByRange( $startDate, $endDate ) {
         $list = array( );
 

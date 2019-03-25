@@ -25,9 +25,9 @@ class BankModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-        $this->info['bkID'] = $this->info['bankNumber'] =
-        $this->info['bankCode'] = $this->info['bankBranchCode'] = $this->info['bankHolderName'] =
-        $this->info['bankSwiftCode'] = '';
+        $this->info['bkID'] = $this->info['number'] =
+        $this->info['code'] = $this->info['branchCode'] = $this->info['holderName'] =
+        $this->info['swiftCode'] = '';
 
         $this->Bank = new Bank( );
     }
@@ -65,19 +65,11 @@ class BankModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        $saveInfo['pmID'] = (int)$data['pmID'];
-        $saveInfo['bankNumber'] = Validator::stripTrim( $data['bankNumber'] );
-        $saveInfo['bankCode'] = Validator::stripTrim( $data['bankCode'] );
-        $saveInfo['bankBranchCode'] = Validator::stripTrim( $data['bankBranchCode'] );
-        $saveInfo['bankHolderName'] = Validator::stripTrim( $data['bankHolderName'] );
-        $saveInfo['bankSwiftCode'] = Validator::stripTrim( $data['bankSwiftCode'] );
-
-        if( isset( $data['paymentMethod'] ) && $data['paymentMethod'] ) {
-            $PaymentMethodModel = PaymentMethodModel::getInstance( );
-            if( $PaymentMethodModel->isFound( $data['paymentMethod'] ) ) {
-                $saveInfo['paymentMethodID'] = (int)$data['paymentMethod'];
-            }
-        }
+        $saveInfo['number'] = Validator::stripTrim( $data['bankNumber'] );
+        $saveInfo['code'] = Validator::stripTrim( $data['bankCode'] );
+        $saveInfo['branchCode'] = Validator::stripTrim( $data['bankBranchCode'] );
+        $saveInfo['holderName'] = Validator::stripTrim( $data['bankHolderName'] );
+        $saveInfo['swiftCode'] = Validator::stripTrim( $data['bankSwiftCode'] );
 
         if( isset( $data['bank'] ) && $data['bank'] ) {
             $BankModel = AuroraBankModel::getInstance( );

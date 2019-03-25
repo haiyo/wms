@@ -103,7 +103,7 @@ class FinanceView extends AdminView {
         $PaymentMethodModel = PaymentMethodModel::getInstance( );
         $pmID = $empInfo['paymentMethodID'] ? $empInfo['paymentMethodID'] : '';
         $SelectListView->setClass( 'paymentMethodList' );
-        $paymentMethodList = $SelectListView->build( 'pmID',  $PaymentMethodModel->getList( ), $pmID, 'Select Payment Method' );
+        $paymentMethodList = $SelectListView->build( 'paymentMethod',  $PaymentMethodModel->getList( ), $pmID, 'Select Payment Method' );
 
         $BankModel = AuroraBankModel::getInstance( );
         $bkID = $bankInfo['bkID'] ? $bankInfo['bkID'] : '';
@@ -124,16 +124,16 @@ class FinanceView extends AdminView {
         $leaveTypeList = $SelectListView->build( 'ltID', $TypeModel->getList( ), $leaveType, 'Select Leave Type' );
 
         $vars = array_merge( $this->L10n->getContents( ),
-            array( 'TPLVAR_BANK_NUMBER' => $bankInfo['bankNumber'],
-                   'TPLVAR_BANK_CODE' => $bankInfo['bankCode'],
-                   'TPLVAR_BANK_BRANCH_CODE' => $bankInfo['bankBranchCode'],
-                   'TPLVAR_BANK_HOLDER_NAME' => $bankInfo['bankHolderName'],
-                   'TPLVAR_SWIFT_CODE' => $bankInfo['bankSwiftCode'],
-                   'TPL_PAYROLL_CAL_LIST' => $payrollCalList,
-                   'TPL_TAX_GROUP_LIST' => $taxGroupList,
-                   'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
-                   'TPL_PAYMENT_METHOD_LIST' => $paymentMethodList,
-                   'TPL_BANK_LIST' => $bankList ) );
+                array( 'TPLVAR_BANK_NUMBER' => $bankInfo['number'],
+                       'TPLVAR_BANK_CODE' => $bankInfo['code'],
+                       'TPLVAR_BANK_BRANCH_CODE' => $bankInfo['branchCode'],
+                       'TPLVAR_BANK_HOLDER_NAME' => $bankInfo['holderName'],
+                       'TPLVAR_SWIFT_CODE' => $bankInfo['swiftCode'],
+                       'TPL_PAYROLL_CAL_LIST' => $payrollCalList,
+                       'TPL_TAX_GROUP_LIST' => $taxGroupList,
+                       'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
+                       'TPL_PAYMENT_METHOD_LIST' => $paymentMethodList,
+                       'TPL_BANK_LIST' => $bankList ) );
 
         return $this->render( 'markaxis/employee/financeForm.tpl', $vars );
     }

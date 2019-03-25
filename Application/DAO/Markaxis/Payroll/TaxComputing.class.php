@@ -63,6 +63,7 @@ class TaxComputing extends \DAO {
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['value'] = (float)$row['value'];
                 $list[] = $row;
             }
         }

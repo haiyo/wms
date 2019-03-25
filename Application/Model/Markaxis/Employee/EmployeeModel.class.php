@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\User\UserImageModel;
+use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
 use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DepartmentModel, \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
@@ -190,7 +190,7 @@ class EmployeeModel extends \Model {
         if( isset( $data['salaryType'] ) ) {
             $SalaryTypeModel = SalaryTypeModel::getInstance( );
             if( $SalaryTypeModel->isFound( $data['salaryType'] ) ) {
-                $saveInfo['salaryTypetID'] = (int)$data['salaryType'];
+                $saveInfo['salaryTypeID'] = (int)$data['salaryType'];
             }
         }
 
@@ -219,6 +219,13 @@ class EmployeeModel extends \Model {
             $ContractModel = ContractModel::getInstance( );
             if( $ContractModel->isFound( $data['contractType'] ) ) {
                 $saveInfo['contractID'] = (int)$data['contractType'];
+            }
+        }
+
+        if( isset( $data['paymentMethod'] ) ) {
+            $PaymentMethodModel = PaymentMethodModel::getInstance( );
+            if( $PaymentMethodModel->isFound( $data['paymentMethod'] ) ) {
+                $saveInfo['paymentMethodID'] = (int)$data['paymentMethod'];
             }
         }
 
@@ -262,13 +269,12 @@ class EmployeeModel extends \Model {
             unset( $saveInfo['endDate'] );
         }
 
-        $saveInfo['userID'] = (int)$data['userID'];
-
-        if( $info = $this->getFieldByUserID( $saveInfo['userID'], 'e.eID' ) ) {
+        if( $info = $this->getFieldByUserID( $data['userID'], 'e.eID' ) ) {
             $eID = $info['eID'];
             $this->Employee->update( 'employee', $saveInfo, 'WHERE eID = "' . (int)$eID . '"' );
         }
         else {
+            $saveInfo['userID'] = (int)$data['userID'];
             $eID = $this->Employee->insert('employee', $saveInfo);
         }
         return $eID;
