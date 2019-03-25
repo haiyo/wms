@@ -4,7 +4,7 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollModel.class.php, v 2.0 Exp $
+ * @version $Id: ItemModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
@@ -17,7 +17,7 @@ class ItemModel extends \Model {
 
 
     /**
-     * PayrollModel Constructor
+     * ItemModel Constructor
      * @return void
      */
     function __construct( ) {
