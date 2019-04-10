@@ -927,11 +927,6 @@
             });
         });
 
-
-
-
-
-
         /*$("#thumb").on("click", function( ev ) {
             $uploadCrop.croppie('result', {
                 type: "canvas",
@@ -960,71 +955,7 @@
         });
     });
 </script>
-<style>
-    .file-btn input[type="file"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor:pointer;
-    }
-    #upload {
-        cursor:pointer;
-    }
-   .upload-demo-wrap,
-    .upload-demo .upload-result,
-    .upload-demo.ready .upload-msg {
-        display: none;
-       position: absolute;
-       top:0;
-    }
-    .ready {
-        display: block;
-    }
-    .upload-demo.ready .upload-result {
-        display: inline-block;
-    }
-    .upload-demo-wrap, .defPhoto {
-        width: 296px;
-        height: 322px;
-        margin: 0 auto;
-    }
-    .upload-cancel, .deletePhoto {
-        position: absolute;
-        top: -3px;
-        right: 12px;
-        z-index: 99;
-        color: #fff;
-        font-size: 29px;
-        opacity:.6;
-    }
-    .deletePhoto {
-        color:#666;
-    }
-    .upload-cancel:hover, .deletePhoto:hover {
-        opacity:1;
-        color: #000;
-    }
-    .photo-wrap {
-        width: 100%;
-        height: 322px;
-        margin: 0 auto;
-        position:absolute;
-        top:0;
-    }
-    .photo {
-        position:relative;
-        top:0;
-        width:290px;
-        height:290px;
-    }
-    .photo img {
-        margin-top: 16px;
-        margin-left: 2px;
-    }
-</style>
+
 <div class="sidebar sidebar-secondary sidebar-default">
     <div class="sidebar-content profile-content">
 

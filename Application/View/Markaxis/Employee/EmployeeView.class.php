@@ -153,7 +153,7 @@ class EmployeeView extends AdminView {
         $SalaryTypeModel = SalaryTypeModel::getInstance( );
         $salaryTypeID = isset( $this->info['salaryTypeID'] ) ? $this->info['salaryTypeID'] : '';
         $SelectListView->setClass( 'salaryTypeList' );
-        $salaryTypeList = $SelectListView->build( 'salaryType',  $SalaryTypeModel->getList( ), $salaryTypeID, 'Salary Rate Type' );
+        $salaryTypeList = $SelectListView->build( 'salaryType',  $SalaryTypeModel->getList( ), $salaryTypeID, 'Salary Type' );
 
         $OfficeModel = OfficeModel::getInstance( );
         $officeID = isset( $this->info['officeID'] ) ? $this->info['officeID'] : '';
@@ -191,7 +191,7 @@ class EmployeeView extends AdminView {
                        'TPLVAR_START_YEAR' => $startYear,
                        'TPLVAR_END_YEAR' => $endYear,
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
-                       'TPLVAR_SALARY' => $this->info['salary'],
+                       'TPLVAR_SALARY' => number_format( $this->info['salary'] ),
                        'TPLVAR_PASS_NUMBER' => $this->info['passNumber'],
                        'TPLVAR_SUPERVISORS' => isset( $supervisors['name'] ) ? $supervisors['name'] : '',
                        'TPLVAR_COMPETENCY' => $competencyList['competency'],
