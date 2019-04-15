@@ -80,7 +80,6 @@ class LeaveApplyModel extends \Model {
         $results = array( );
         if( $sql = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir ) ) {
             while( $row = $this->LeaveApply->fetch( $sql ) ) {
-
                 if( $row['approved'] == 0 ) {
                     $row['approved'] = $this->L10n->getContents('LANG_PENDING');
                 }

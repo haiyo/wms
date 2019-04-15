@@ -506,17 +506,17 @@
             }]
         });
 
-        $(".supervisorList").on("tokenfield:createtoken", function( event ) {
-            var exists = false;
-            $.each( engine1.valueCache, function(index, value) {
-                if( event.attrs.value === value ) {
-                    exists = true;
+            $(".supervisorList").on("tokenfield:createtoken", function( event ) {
+                var exists = false;
+                $.each( engine1.valueCache, function(index, value) {
+                    if( event.attrs.value === value ) {
+                        exists = true;
+                    }
+                });
+                if( !exists ) {
+                    event.preventDefault( );
                 }
             });
-            if( !exists ) {
-                event.preventDefault( );
-            }
-        });
 
 
         //======== Supervisors =====

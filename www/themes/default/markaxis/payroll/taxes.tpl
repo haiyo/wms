@@ -18,10 +18,10 @@
         </div>
     </div>
 
-    <div class="content">
+    <div class="">
 
 
-        <div class="list-group list-group-root well">
+        <div class="list-group list-group-root border-top border-top-grey">
             <!-- BEGIN DYNAMIC BLOCK: noGroup -->
             <div class="blankCanvasNotice">
                 <h6>Hooray! No Tax!</h6>
@@ -884,7 +884,7 @@
                             <div class="form-group">
                                 <label>Parent:</label>
                                 <select name="parent" id="parent" data-placeholder="" placeholder="" data-id=""
-                                        class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                 </select>
                             </div>
                         </div>
@@ -924,7 +924,7 @@
                             <div class="form-group">
                                 <label>Belong to Group:</label>
                                 <select name="group" id="group" data-placeholder="" placeholder="" data-id=""
-                                        class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                 </select>
                             </div>
                         </div>
@@ -1449,7 +1449,7 @@
                                 $("#groupTitle_" + tgID).html( obj.data.title );
                                 $("#groupDescription_" + tgID).html( obj.data.description );
                                 $("#group_" + tgID).appendTo( $("#item-" + obj.data.parent) );
-                                swal("Done!", obj.data.title + " has been succesfully updated!", "success");
+                                swal("Done!", obj.data.title + " has been successfully updated!", "success");
                             }
                             else {
                                 var data = {

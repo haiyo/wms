@@ -216,6 +216,7 @@ $(document).ready( function( ) {
         */
         AJAX : function( url, data ) {
             var parent = this;
+            var ladda;
 
             if( data.bundle == undefined || data.bundle == "" ) {
                 data.bundle = {};
@@ -231,8 +232,8 @@ $(document).ready( function( ) {
                     if( typeof data.beforeSend === "function" ) {
                         data.beforeSend( xhr, settings );
                     }
-                    else {
-                        var laddaClass = data.bundle.laddaClass ? data.bundle.laddaClass : ".btn";
+                    else if( data.bundle.laddaClass ) {
+                        var laddaClass = data.bundle.laddaClass;
                         ladda = Ladda.create( document.querySelector( laddaClass ) );
                         ladda.start();
                     }

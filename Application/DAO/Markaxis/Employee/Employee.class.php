@@ -63,7 +63,7 @@ class Employee extends \DAO {
                                           d.title AS designation
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN designation d ON ( e.dID = d.designationID )
+                                   LEFT JOIN designation d ON ( e.designationID = d.dID )
                                    WHERE e.resigned <> "1" AND u.suspended <> "1" AND deleted <> "1" ' . $q . ' ' . $exclude . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );
 

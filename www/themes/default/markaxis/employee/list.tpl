@@ -88,7 +88,7 @@
                 orderable: false,
                 searchable : false,
                 width: '100px',
-                className : "text-center",
+                className : "text-center p-0",
                 data: 'userID',
                 render: function(data, type, full, meta) {
                     var name   = full["name"];
@@ -98,8 +98,8 @@
                                 '<div class="list-icons-item dropdown">' +
                                     '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                                         '<i class="icon-menu9"></i></a>' +
-                                    '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view\' + data + \'">' +
+                                    '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
+                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view/' + data + '">' +
                                             '<i class="icon-user"></i> View Employee Info</a>' +
                                         '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
                                             '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
@@ -138,8 +138,6 @@
             }
         });
 
-
-
         // Alternative pagination
         $('.datatable-pagination').DataTable({
             pagingType: "simple",
@@ -161,17 +159,16 @@
 
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
-        var table = $(".dataTable").DataTable( );
 
         $(".dataTable tbody").on("mouseover", "td", function( ) {
-            var colIdx = table.cell(this).index( ).column;
+            var colIdx = employeeTable.cell(this).index( ).column;
 
             if( colIdx !== lastIdx ) {
-                $(table.cells().nodes()).removeClass("active");
-                $(table.column(colIdx).nodes()).addClass("active");
+                $(employeeTable.cells().nodes()).removeClass("active");
+                $(employeeTable.column(colIdx).nodes()).addClass("active");
             }
         }).on("mouseleave", function() {
-            $(table.cells().nodes()).removeClass("active");
+            $(employeeTable.cells().nodes()).removeClass("active");
         });
 
         // External table additions
@@ -316,7 +313,7 @@
     </ul>
 </div>
 
-<table class="table table-bordered employeeTable">
+<table class="table table-hover employeeTable">
     <thead>
     <tr>
         <th rowspan="2"></th>

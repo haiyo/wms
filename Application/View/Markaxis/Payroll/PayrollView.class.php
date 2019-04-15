@@ -170,11 +170,10 @@ class PayrollView extends AdminView {
 
         if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
-            $image = $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' );
 
             $duration = \DateTime::createFromFormat('jS M Y', $userInfo['startDate'])->diff( new \DateTime('now') );
 
-            $vars = array( 'TPLVAR_IMAGE' => $image,
+            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
                            'TPLVAR_FNAME' => $userInfo['fname'],
                            'TPLVAR_LNAME' => $userInfo['lname'],
                            'TPLVAR_AGE' => $userInfo['birthday'] ? Date::getAge( $userInfo['birthday'] ) : ' -- ',
@@ -205,12 +204,12 @@ class PayrollView extends AdminView {
 
             if( $userInfo['salary'] ) {
                 $grossAmount = $userInfo['salary'];
-                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), 3, 'Select Payroll Item' );
+                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), $ItemModel->getIsBasicID( ), 'Select Payroll Item' );
                 $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $userInfo['salary'] ),
                                                     'TPL_PAYROLL_ITEM_LIST' => $itemType );
             }
 
-            $vars['TPLVAR_GROSS_AMOUNT'] = $grossAmount;
+            $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $grossAmount );
 
             return $this->render( 'markaxis/payroll/processForm.tpl', $vars );
         }

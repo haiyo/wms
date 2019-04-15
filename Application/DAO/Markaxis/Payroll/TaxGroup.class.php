@@ -42,7 +42,7 @@ class TaxGroup extends \DAO {
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group WHERE forEmployee = "1"', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

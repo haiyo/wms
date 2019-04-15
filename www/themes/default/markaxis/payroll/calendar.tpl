@@ -1,10 +1,10 @@
 <script>
     $(document).ready(function( ) {
-        $(".payCalTable").DataTable({
+        var payCalTable = $(".payCalTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['userID']);
+                $(nRow).attr('id', 'payCalTable-row' + aData['pcID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/payroll/getCalResults",
@@ -24,27 +24,39 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: [0],
+                targets: 0,
+                checkboxes: {
+                    selectRow: true
+                },
+                width: '10px',
+                orderable: false,
+                searchable : false,
+                data: 'pcID',
+                render: function (data, type, full, meta) {
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                }
+            },{
+                targets: [1],
                 orderable: true,
                 width: '250px',
                 data: 'calName'
             },{
-                targets: [1],
+                targets: [2],
                 orderable: true,
                 width: '280px',
                 data: 'payPeriod'
             },{
-                targets: [2],
+                targets: [3],
                 orderable: true,
                 width: '260px',
                 data: 'nextPayPeriod'
             },{
-                targets: [3],
+                targets: [4],
                 orderable: true,
                 width: '220px',
                 data: 'nextPayment'
             },{
-                targets: [4],
+                targets: [5],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -58,7 +70,7 @@
                         '<div class="list-icons-item dropdown">' +
                         '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                         '<i class="icon-menu9"></i></a>' +
-                        '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                        '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                         '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
                         '<i class="icon-user"></i> View Employee Info</a>' +
                         '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
@@ -77,16 +89,17 @@
                 "style": "multi"
             },
             order: [],
-            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee',
-                lengthMenu: '<span>Show:</span> _MENU_',
+                searchPlaceholder: 'Search Pay Calendar',
+                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
                 Popups.init();
+                $(".payCalTable [type=checkbox]").uniform();
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
@@ -114,17 +127,16 @@
 
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
-        var table = $('.datatable').DataTable();
 
-        $('.datatable tbody').on('mouseover', 'td', function() {
-            var colIdx = table.cell(this).index().column;
+        $('.payCalTable tbody').on('mouseover', 'td', function() {
+            var colIdx = payCalTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(table.cells().nodes()).removeClass('active');
-                $(table.column(colIdx).nodes()).addClass('active');
+                $(payCalTable.cells().nodes()).removeClass('active');
+                $(payCalTable.column(colIdx).nodes()).addClass('active');
             }
         }).on('mouseleave', function() {
-            $(table.cells().nodes()).removeClass("active");
+            $(payCalTable.cells().nodes()).removeClass("active");
         });
 
         // Enable Select2 select for the length option
@@ -132,6 +144,8 @@
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
+
+        $(".calendars-list-action-btns").insertAfter("#calendars .dataTables_filter");
 
         $("#payPeriod").select2({minimumResultsForSearch: Infinity});
 
@@ -224,23 +238,21 @@
 </script>
 
 <div class="tab-pane fade show active" id="calendars">
-    <div class="panel-heading">
-        <h5 class="panel-title">&nbsp;<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-        <div class="heading-elements">
-            <ul class="icons-list">
-                <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled"
-                       data-toggle="modal" data-target="#modalAddPayrun">
-                        <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_PAY_CALENDAR?>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="list-action-btns calendars-list-action-btns">
+        <ul class="icons-list">
+            <li>
+                <a type="button" class="btn bg-purple-400 btn-labeled"
+                   data-toggle="modal" data-target="#modalAddPayrun">
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_PAY_CALENDAR?>
+                </a>
+            </li>
+        </ul>
     </div>
 
     <table class="table table-hover datatable payCalTable">
         <thead>
         <tr>
+            <th></th>
             <th>Name</th>
             <th>Pay Period</th>
             <th>Next Pay Period</th>

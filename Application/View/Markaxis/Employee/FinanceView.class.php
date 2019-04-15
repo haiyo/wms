@@ -3,10 +3,8 @@ namespace Markaxis\Employee;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Component\PaymentMethodModel, \Aurora\Component\BankModel as AuroraBankModel;
 use \Markaxis\Employee\PayrollModel as EmployeePayrollModel;
-use \Markaxis\Employee\TaxModel as EmployeeTaxModel;
-use \Markaxis\Employee\LeaveTypeModel as EmployeeLeaveTypeModel;
-use \Markaxis\Payroll\CalendarModel as PayrollCalendarModel;
-use \Markaxis\Payroll\TaxGroupModel as PayrollTaxGroupModel;
+use \Markaxis\Payroll\CalendarModel;
+use \Markaxis\Payroll\TaxGroupModel;
 use \Markaxis\Leave\TypeModel;
 use \Library\Runtime\Registry;
 
@@ -65,10 +63,10 @@ class FinanceView extends AdminView {
             $PayrollModel = EmployeePayrollModel::getInstance( );
             $PayrollModel->loadInfo( $userID );
 
-            $TaxModel = EmployeeTaxModel::getInstance( );
+            $TaxModel = TaxModel::getInstance( );
             $TaxModel->getListByUserID( $userID );
 
-            $LeaveTypeModel = EmployeeLeaveTypeModel::getInstance( );
+            $LeaveTypeModel = LeaveTypeModel::getInstance( );
             $LeaveTypeModel->getListByUserID( $userID );
         }
         return $this->renderForm( );
@@ -86,13 +84,13 @@ class FinanceView extends AdminView {
         $PayrollModel = EmployeePayrollModel::getInstance( );
         $payrollInfo = $PayrollModel->getInfo( );
 
-        $TaxModel = EmployeeTaxModel::getInstance( );
+        $TaxModel = TaxModel::getInstance( );
         $taxInfo = $TaxModel->getInfo( );
 
-        $LeaveTypeModel = EmployeeLeaveTypeModel::getInstance( );
+        $LeaveTypeModel = LeaveTypeModel::getInstance( );
         $leaveTypeInfo = $LeaveTypeModel->getInfo( );
 
-        $CalendarModel = PayrollCalendarModel::getInstance( );
+        $CalendarModel = CalendarModel::getInstance( );
 
         $SelectListView = new SelectListView( );
         $payrollCalList = $SelectListView->build( 'pcID', $CalendarModel->getList( ), $payrollInfo['pcID'], 'Select Payroll Calendar' );
@@ -109,8 +107,7 @@ class FinanceView extends AdminView {
         $bkID = $bankInfo['bkID'] ? $bankInfo['bkID'] : '';
         $bankList = $SelectListView->build( 'bank',  $BankModel->getList( ), $bkID, 'Select Bank' );
 
-        $TaxGroupModel = PayrollTaxGroupModel::getInstance( );
-
+        $TaxGroupModel = TaxGroupModel::getInstance( );
         $TypeModel = TypeModel::getInstance( );
 
         $SelectListView->isMultiple( true );

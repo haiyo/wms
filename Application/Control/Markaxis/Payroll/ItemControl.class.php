@@ -40,11 +40,9 @@ class ItemControl {
      * Render main navigation
      * @return str
      */
-    public function getCalResults( ) {
+    public function getItemResults( ) {
         $post = Control::getRequest( )->request( POST );
-
-        echo json_encode( $this->CalendarModel->getCalResults( $post ) );
-        exit;
+        Control::setOutputArray( array( 'list' => $this->ItemModel->getItemResults( $post ) ) );
     }
 
 

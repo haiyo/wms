@@ -44,7 +44,7 @@ class TaxRuleWrapperView extends AdminView {
 
         if( isset( $taxRule['trID'] ) ) {
             if( $taxRule['applyValueType'] == 'percentage' ) {
-                $applyAs = $taxRule['applyValue'] . '% ';
+                $applyAs = (float)$taxRule['applyValue'] . '% ';
             }
             else { // Fixed
                 $applyAs = $taxRule['currencyCode'] . $taxRule['currencySymbol'] . (float)$taxRule['applyValue'] . ' ';

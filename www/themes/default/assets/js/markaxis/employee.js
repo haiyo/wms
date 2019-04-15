@@ -61,10 +61,8 @@ var MarkaxisEmployee = (function( ) {
             });
 
             $.validator.addMethod("validEmail", function(value, element) {
-                if( value == '' )
-                    return true;
-                var temp1;
-                temp1 = true;
+                if( value == '' ) return true;
+
                 var ind  = value.indexOf('@');
                 var str2 = value.substr(ind+1);
                 var str3 = str2.substr(0,str2.indexOf('.'));

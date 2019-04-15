@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Library\Helper\Markaxis\RecurHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -44,7 +43,16 @@ class ItemView extends AdminView {
      * @return str
      */
     public function renderSettings( ) {
-        $vars = array_merge( $this->L10n->getContents( ), array( ) );
+        $SelectListView = new SelectListView( );
+        $SelectListView->isMultiple( true );
+        $SelectListView->includeBlank( false );
+
+        $TaxGroupModel = TaxGroupModel::getInstance( );
+
+        //$taxGroup = isset( $taxInfo['tgID'] ) ? explode(',', $taxInfo['tgID'] ) : '';
+        $taxGroupList = $SelectListView->build( 'itemTaxGroup', $TaxGroupModel->getList( ), '', 'Select Tax Group' );
+
+        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_TAX_GROUP_LIST' => $taxGroupList ) );
 
         return $this->render( 'markaxis/payroll/items.tpl', $vars );
     }
