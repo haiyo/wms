@@ -314,6 +314,7 @@
 
             var data = {
                 bundle: {
+                    laddaClass : ".btn",
                     processDate: processDate,
                     password: $("#password").val( )
                 },

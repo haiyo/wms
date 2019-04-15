@@ -26,7 +26,7 @@ class RadioView extends AdminView {
 
     /**
     * Build Radio Buttons
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='', $class='' ) {
         $label = 1;
@@ -54,7 +54,7 @@ class RadioView extends AdminView {
 
     /**
     * Parse Radio Buttons Template
-    * @return str
+    * @return string
     */
     private function parseTPL( $radio ) {
         $vars['dynamic']['radio'] = $radio;

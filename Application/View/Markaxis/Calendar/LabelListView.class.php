@@ -25,7 +25,7 @@ class LabelListView extends AdminView {
     
     /**
     * Build Select List
-    * @return str
+    * @return string
     */
     public function getList( $name, $arrayList, $selected='' ) {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );

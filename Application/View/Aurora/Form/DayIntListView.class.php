@@ -25,7 +25,7 @@ class DayIntListView extends SelectListView {
 
     /**
     * Reurn Day List
-    * @return str
+    * @return string
     */
     public function getList( $id, $day='', $placeHolder='' ) {
         $list = array( );

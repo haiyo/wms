@@ -26,7 +26,7 @@ class UserControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         $UserView = new UserView( );
@@ -36,7 +36,7 @@ class UserControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -48,7 +48,7 @@ class UserControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
@@ -74,7 +74,7 @@ class UserControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function setSuspendStatus( ) {
         $post = Control::getRequest( )->request( POST );

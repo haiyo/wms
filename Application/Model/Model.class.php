@@ -36,7 +36,7 @@ abstract class Model extends SingletonHelper {
 
     /**
     * Get Error Message
-    * @return str
+    * @return string
     */
     public function getErrMsg( ) {
         return $this->errMsg;

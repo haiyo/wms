@@ -40,7 +40,7 @@ class LogoView {
 
     /**
     * Render Upload Form
-    * @return str
+    * @return string
     */
     public function render( ) {
         $UserSettingModel = $this->Registry->get( HKEY_CLASS, 'UserSettingModel' );

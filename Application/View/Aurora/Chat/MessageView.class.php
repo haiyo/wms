@@ -39,7 +39,7 @@ class MessageView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderMessage( $data ) {
         $userInfo = UserModel::getInstance( )->getInfo( );

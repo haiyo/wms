@@ -47,7 +47,7 @@ abstract class ResBundle {
 
     /**
     * Replace a string with dynamic vars.
-    * @return str
+    * @return string
     */
     public function strReplace( $search, $replace, $key ) {
         if( isset( $this->contents[$key] ) ) {
@@ -61,7 +61,7 @@ abstract class ResBundle {
 
     /**
     * Retrieve text based on plural rules
-    * @return str
+    * @return string
     */
     public function getText( $key, $apply, $replace='', $rules='' ) {
         if( isset( $this->contents[$key] ) ) {
@@ -107,7 +107,7 @@ abstract class ResBundle {
 
     /**
     * Generate contents to JavaScript and return the cache file name
-    * @return str
+    * @return string
     */
     public function getL10n( ) {
         $locale = ROOT . 'www/themes/default/assets/js/locale/';
@@ -136,7 +136,7 @@ abstract class ResBundle {
     * Generate contents to JavaScript
     * NOTE: Before using this to output JS, make sure you've already created your
     * own namespace in a JS file!
-    * @return str
+    * @return string
     */
     private function genJS( $hash, $dirname, $filename ) {
         $info = pathinfo( $filename );

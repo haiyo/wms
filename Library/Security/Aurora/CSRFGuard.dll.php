@@ -29,7 +29,7 @@ class CSRFGuard {
 
     /**
     * Return a Unique CSRF Token
-    * @return str
+    * @return string
     */
     public function getCSRFToken( ) {
         return 'aurora-' . MD5( microtime( ) ) . '-csrfTokenv2';

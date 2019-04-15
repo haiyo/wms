@@ -39,7 +39,7 @@ class CalendarMapView {
 
     /**
     * Render Tab
-    * @return str
+    * @return string
     */
     public function renderTab( ) {
         $vars = array( 'TPVAR_TAB_ID' => 'map',
@@ -51,7 +51,7 @@ class CalendarMapView {
 
     /**
     * Return map form
-    * @return str
+    * @return string
     */
     public function renderData( ) {
         $CalendarModel = CalendarModel::getInstance( );
@@ -69,7 +69,7 @@ class CalendarMapView {
 
     /**
     * Render Agenda Tab
-    * @return str
+    * @return string
     */
     public function renderAgendaTab( ) {
         $vars = array( 'TPVAR_TAB_ID' => 'agendaMap',
@@ -81,7 +81,7 @@ class CalendarMapView {
 
     /**
     * Render Agenda
-    * @return str
+    * @return string
     */
     public function renderAgendaData( $eventInfo ) {
         $vars = array( 'TPLVAR_ADDRESS' => $eventInfo['eAddress'] );

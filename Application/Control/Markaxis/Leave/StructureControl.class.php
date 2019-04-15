@@ -29,7 +29,7 @@ class StructureControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function addType( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->StructureView->renderAddType( ) ) );
@@ -38,7 +38,7 @@ class StructureControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function editType( $args ) {
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -49,7 +49,7 @@ class StructureControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveType( ) {
         $post = Control::getPostData( );

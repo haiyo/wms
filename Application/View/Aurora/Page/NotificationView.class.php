@@ -39,7 +39,7 @@ class NotificationView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderMenuIcon( ) {
         $count = $this->NotificationModel->getUnreadCount( );
@@ -56,7 +56,7 @@ class NotificationView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderNavWindow( ) {
         $vars = array( 'TPLVAR_ID' => 'notifyWindow',
@@ -70,7 +70,7 @@ class NotificationView extends AdminView {
 
     /**
      * Get Navigation Class
-     * @return str
+     * @return string
      */
     public function getNavClass( $folder, $namespace, $className ) {
         static $nav;
@@ -87,7 +87,7 @@ class NotificationView extends AdminView {
 
     /**
      * Return Section
-     * @return str
+     * @return string
      */
     public function renderWindow( ) {
         $list = $this->NotificationModel->getByUserID( );

@@ -26,7 +26,7 @@ class TaxControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );

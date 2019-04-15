@@ -26,7 +26,7 @@ class SupervisorControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( ) {
         //
@@ -35,7 +35,7 @@ class SupervisorControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         //
@@ -44,7 +44,7 @@ class SupervisorControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         //
@@ -53,7 +53,7 @@ class SupervisorControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getPostData( );

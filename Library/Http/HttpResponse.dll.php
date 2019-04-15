@@ -181,7 +181,7 @@ class HttpResponse {
 
     /**
     * Return HTTP Header
-    * @return str
+    * @return string
     */
     public static function getHttpHeader( $code ) {
 		return 'HTTP/1.1 ' . self::$messages[$code];
@@ -190,7 +190,7 @@ class HttpResponse {
 
     /**
     * Return Message by Code
-    * @return str
+    * @return string
     */
 	public static function getMessageByCode( $code ) {
 		return self::$messages[$code];

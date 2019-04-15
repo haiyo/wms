@@ -25,7 +25,7 @@ class LanguageListView extends SelectListView {
 
     /**
     * Return Language List
-    * @return str
+    * @return string
     */
     public function getList( ) {
         return $this->build( 'language', $this->i18n->getLanguages( ),

@@ -27,7 +27,7 @@ class TeamMemberControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function create( ) {
         $post = Control::getPostData( );

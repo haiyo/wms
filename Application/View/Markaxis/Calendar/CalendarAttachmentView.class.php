@@ -41,7 +41,7 @@ class CalendarAttachmentView {
 
     /**
     * Render Tab
-    * @return str
+    * @return string
     */
     public function renderTab( ) {
         $vars = array( 'TPVAR_TAB_ID' => 'attach',
@@ -53,7 +53,7 @@ class CalendarAttachmentView {
 
     /**
     * Return attachment form
-    * @return str
+    * @return string
     */
     public function renderData( ) {
         $totalSize  = ini_get( 'post_max_size' );
@@ -90,7 +90,7 @@ class CalendarAttachmentView {
 
     /**
     * Render Agenda Tab
-    * @return str
+    * @return string
     */
     public function renderAgendaTab( ) {
         $vars = array( 'TPVAR_TAB_ID' => 'agendaAttachment',
@@ -102,7 +102,7 @@ class CalendarAttachmentView {
 
     /**
     * Render Agenda
-    * @return str
+    * @return string
     */
     public function renderAgendaData( $eventInfo ) {
         $info = $this->CalendarAttachmentModel->getByEventID( $eventInfo['eventID'] );

@@ -27,7 +27,7 @@ class SupervisorControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getHistory( ) {
         $data = Control::getOutputArray( );
@@ -38,7 +38,7 @@ class SupervisorControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function apply( ) {
         $post = Control::getPostData( );

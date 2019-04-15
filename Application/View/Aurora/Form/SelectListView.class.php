@@ -69,7 +69,7 @@ class SelectListView extends AdminView {
 
     /**
     * Build Select List
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='', $placeHolder='', $id=true ) {
 

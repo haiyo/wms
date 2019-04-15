@@ -26,7 +26,7 @@ class LeaveBalanceControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function dashboard( ) {
         $LeaveBalanceModel = new LeaveBalanceModel( );

@@ -47,7 +47,7 @@ class PayrollView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderOverview( ) {
         $vars = array( );
@@ -83,7 +83,6 @@ class PayrollView extends AdminView {
                 $statusTab = 'pending-tab active';
                 $status = $this->L10n->getContents( 'LANG_PENDING' );
             }
-
             $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
                                                'TPLVAR_MONTH' => $datetime->format('M'),
                                                'TPLVAR_YEAR' => $datetime->format('Y'),
@@ -110,7 +109,7 @@ class PayrollView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSlips( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
@@ -125,7 +124,7 @@ class PayrollView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
@@ -140,7 +139,7 @@ class PayrollView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderProcess( $processDate ) {
         $OfficeModel = OfficeModel::getInstance( );
@@ -163,7 +162,7 @@ class PayrollView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderProcessForm( $userID, $processDate ) {
         $userInfo = $this->PayrollModel->getCalculateUserInfo( $userID );
@@ -204,7 +203,7 @@ class PayrollView extends AdminView {
 
             if( $userInfo['salary'] ) {
                 $grossAmount = $userInfo['salary'];
-                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), $ItemModel->getIsBasicID( ), 'Select Payroll Item' );
+                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), $ItemModel->getBasicID( ), 'Select Payroll Item' );
                 $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $userInfo['salary'] ),
                                                     'TPL_PAYROLL_ITEM_LIST' => $itemType );
             }
@@ -218,7 +217,7 @@ class PayrollView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAllByID( $data ) {
         $vars = array( );

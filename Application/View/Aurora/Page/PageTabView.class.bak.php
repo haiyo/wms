@@ -40,7 +40,7 @@ class PageTabView extends AdminView {
 
     /**
     * Page Page Tab
-    * @return str
+    * @return string
     */
     public function renderTab( ) {
         $pages  = $this->PageModel->getAllPage( );

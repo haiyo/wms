@@ -36,10 +36,19 @@ class ItemTaxModel extends \Model {
     public function getItemResults( $list ) {
         if( isset( $list['data'] ) ) {
             foreach( $list['data'] as $key => $value ) {
-                $list['data'][$key]['taxGroups'] = $this->ItemTax->getByPiID( $value['piID'] );
+                $list['data'][$key]['taxGroups'] = $this->ItemTax->getBypiID( $value['piID'] );
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBypiID( $piID ) {
+        return $this->ItemTax->getBypiID( $piID );
     }
 }
 ?>

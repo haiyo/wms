@@ -26,7 +26,7 @@ class ChildAgeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveType( ) {
         $post = Control::getPostData( );

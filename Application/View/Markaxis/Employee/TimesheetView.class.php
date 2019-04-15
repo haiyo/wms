@@ -42,7 +42,7 @@ class TimesheetView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderList( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/employee/timesheet',

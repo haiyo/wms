@@ -54,6 +54,22 @@ class Item extends \DAO {
 
 
     /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBypiID( $piID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item pi
+                                   WHERE pi.piID = "' . (int)$piID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */

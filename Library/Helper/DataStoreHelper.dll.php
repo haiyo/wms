@@ -106,7 +106,7 @@ abstract class DataStoreHelper {
 
     /**
     * Performs Data Security Filters
-    * @return str
+    * @return string
     */
     public function compose( $sql ) {
     	$sqlarr = array( );

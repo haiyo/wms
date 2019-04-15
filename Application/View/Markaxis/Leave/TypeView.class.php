@@ -43,7 +43,7 @@ class TypeView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
@@ -55,7 +55,7 @@ class TypeView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAddType( ) {
         $this->info = $this->TypeModel->getInfo( );
@@ -65,7 +65,7 @@ class TypeView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEditType( $ltID ) {
         if( $this->info = $this->TypeModel->getByID( $ltID ) ) {
@@ -76,7 +76,7 @@ class TypeView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );

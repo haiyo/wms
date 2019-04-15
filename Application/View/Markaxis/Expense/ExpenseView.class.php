@@ -46,7 +46,7 @@ class ExpenseView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderOverview( ) {
         $vars = array( );
@@ -109,7 +109,7 @@ class ExpenseView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSlips( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
@@ -124,7 +124,7 @@ class ExpenseView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
@@ -139,7 +139,7 @@ class ExpenseView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderProcess( ) {
         $OfficeModel = OfficeModel::getInstance( );
@@ -158,7 +158,7 @@ class ExpenseView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAllByID( $data ) {
         $vars = array( );

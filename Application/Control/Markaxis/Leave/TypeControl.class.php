@@ -26,7 +26,7 @@ class TypeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
@@ -38,7 +38,7 @@ class TypeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function addType( ) {
         $output = Control::getOutputArray( );
@@ -50,7 +50,7 @@ class TypeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function editType( $args ) {
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -62,7 +62,7 @@ class TypeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveType( ) {;
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );

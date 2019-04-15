@@ -29,7 +29,7 @@ class TaxComputingControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( $data ) {
         $taxRule = Control::getOutputArray( );
@@ -47,7 +47,7 @@ class TaxComputingControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
@@ -57,7 +57,7 @@ class TaxComputingControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );

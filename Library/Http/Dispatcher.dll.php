@@ -33,7 +33,7 @@ class Dispatcher {
 
     /**
     * Return Calling Directory
-    * @return str
+    * @return string
     */
     public function getDir( ) {
         return $this->dir;
@@ -42,7 +42,7 @@ class Dispatcher {
 
     /**
     * Return Call ~ ring ~ ring ~ :(
-    * @return str
+    * @return string
     */
     public function getCall( ) {
         return $this->call;
@@ -51,7 +51,7 @@ class Dispatcher {
 
     /**
     * Return Event Name
-    * @return str
+    * @return string
     */
     public function getEvent( ) {
         return $this->event;
@@ -60,7 +60,7 @@ class Dispatcher {
 
     /**
     * Return Arguments
-    * @return str
+    * @return string
     */
     public function getArgs( ) {
         return $this->args;

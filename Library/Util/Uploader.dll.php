@@ -57,7 +57,7 @@ class Uploader {
 
     /**
     * Rename filename which already exist in the server with an extension
-    * @return str
+    * @return string
     */
     protected function upCountName( $matches ) {
         $index = isset( $matches[1] ) ? (int)$matches[1] + 1 : 1;
@@ -68,7 +68,7 @@ class Uploader {
 
     /**
     * Normalize filename and prevent filename crashes
-    * @return str
+    * @return string
     */
     protected function trimFileName( $name, $type ) {
         // Remove path information and dots around the filename, to prevent uploading

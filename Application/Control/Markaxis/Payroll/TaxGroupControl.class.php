@@ -39,7 +39,7 @@ class TaxGroupControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxGroup( $data ) {
         if( isset( $data[1] ) ) {
@@ -63,7 +63,7 @@ class TaxGroupControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         Control::setOutputArray( array( 'groupList' => $this->TaxGroupView->renderSettings( ) ) );
@@ -72,7 +72,7 @@ class TaxGroupControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxGroup( ) {
         $post = Control::getRequest( )->request( POST );

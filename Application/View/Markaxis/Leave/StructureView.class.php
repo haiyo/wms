@@ -38,7 +38,7 @@ class StructureView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAddType( ) {
         $vars = array_merge( $this->L10n->getContents( ),
@@ -51,7 +51,7 @@ class StructureView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEditType( $ltID ) {
         $vars = array_merge( $this->L10n->getContents( ),

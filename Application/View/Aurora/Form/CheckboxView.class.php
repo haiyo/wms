@@ -37,7 +37,7 @@ class CheckboxView extends AdminView {
 
     /**
     * Build Checkbox
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='' ) {
         $label = 1;
@@ -66,7 +66,7 @@ class CheckboxView extends AdminView {
 
     /**
     * Parse Checkbox Template
-    * @return str
+    * @return string
     */
     private function parseTPL( $checkbox ) {
         $vars['dynamic']['checkbox'] = $checkbox;

@@ -50,7 +50,7 @@ class FormWrapperView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( $form ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/employee/add',
@@ -62,7 +62,7 @@ class FormWrapperView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $form, $userID, $photo ) {
         $this->setBreadcrumbs( array( 'link' => '',
@@ -75,7 +75,7 @@ class FormWrapperView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( $form, $userID=0, $photo='' ) {
         $UserModel = UserModel::getInstance( );

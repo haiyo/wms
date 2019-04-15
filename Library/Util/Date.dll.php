@@ -218,7 +218,7 @@ class Date {
     * Output Since Time Ago Calculation
     * @param string $dateFrom
     * @param string $dateTo
-    * @return str
+    * @return string
     */
     public static function timeSince( $dateFrom, $format='', $dateTo=-1 ) {
         // Defaults and assume if 0 is passed in that
@@ -259,7 +259,7 @@ class Date {
     * This full version include output of Weeks, Years and Months ago.
     * @param string $dateFrom
     * @param string $dateTo
-    * @return str
+    * @return string
     */
     public static function timeSinceFull( $dateFrom, $dateTo=-1 ) {
         // Defaults and assume if 0 is passed in that

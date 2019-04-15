@@ -60,7 +60,7 @@ class YouTubeGrabber extends URLGrabber implements IURLGrabber {
 
     /**
     * Return embed code
-    * @return str
+    * @return string
     */
     public function getEmbedCode( ) {
         preg_match( '/[\\?&]v=([^&#]*)/i', $this->url, $match );

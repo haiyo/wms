@@ -26,7 +26,7 @@ class CompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getPostData( );

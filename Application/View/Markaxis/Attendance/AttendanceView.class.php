@@ -37,7 +37,7 @@ class AttendanceView extends AdminView {
 
     /**
     * Render main navigation
-    * @return str
+    * @return string
     */
     public function renderMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/alumni/list',

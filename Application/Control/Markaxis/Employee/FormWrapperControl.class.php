@@ -26,7 +26,7 @@ class FormWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         $output = Control::getOutputArray( );
@@ -38,7 +38,7 @@ class FormWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -54,7 +54,7 @@ class FormWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $vars['bool'] = 1;

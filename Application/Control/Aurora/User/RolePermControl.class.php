@@ -52,7 +52,7 @@ class RolePermControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getPerms( ) {
         $post = Control::getRequest( )->request( POST );

@@ -26,7 +26,7 @@ class CityControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function cityList( ) {
         $post = Control::getRequest( )->request( POST );

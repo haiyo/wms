@@ -27,7 +27,7 @@ class LeaveApplyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function dashboard( ) {
         $output = Control::getOutputArray( );
@@ -40,7 +40,7 @@ class LeaveApplyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function apply( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
@@ -60,7 +60,7 @@ class LeaveApplyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getHistory( ) {
         $post = Control::getRequest( )->request( POST );
@@ -70,7 +70,7 @@ class LeaveApplyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getDateDiff( ) {
         $post = Control::getRequest( )->request( POST );

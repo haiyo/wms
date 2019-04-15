@@ -88,7 +88,7 @@ class AuroraView extends View {
 
     /**
     * Render header
-    * @return str
+    * @return string
     */
     public function renderHeader( ) {
         return $this->render( 'aurora/core/header.tpl', $this->renderHeaderFiles( ) );
@@ -97,7 +97,7 @@ class AuroraView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderNavBar( ) {
         $MenuModel = MenuModel::getInstance( );
@@ -112,7 +112,7 @@ class AuroraView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderSetupNavBar( ) {
         return $this->render('aurora/core/setupNavBar.tpl',
@@ -123,7 +123,7 @@ class AuroraView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderPageHeader( ) {
         $vars = array_merge( $this->PageRes->getContents(),
@@ -143,7 +143,7 @@ class AuroraView extends View {
 
     /**
     * Render footer
-    * @return str
+    * @return string
     */
     public function renderFooter( ) {
         $vars = array( 'TPLVAR_AURORA_VERSION' => AURORA_VERSION );

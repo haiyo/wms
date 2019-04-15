@@ -35,7 +35,7 @@ class Authorization {
 
     /**
     * Return the last requested operation
-    * @return str
+    * @return string
     */
     public function getLastOperation( ) {
         return 'Namespace: ' . $this->namespace . '; Operation: ' . $this->action . ';';

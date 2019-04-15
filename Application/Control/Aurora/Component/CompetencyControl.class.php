@@ -26,7 +26,7 @@ class CompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getCompetency( $args ) {
         if( isset( $args[1] ) ) {
@@ -39,7 +39,7 @@ class CompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( ) {
         //
@@ -48,7 +48,7 @@ class CompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         //
@@ -57,7 +57,7 @@ class CompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         //
@@ -66,7 +66,7 @@ class CompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getPostData( );

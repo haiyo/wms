@@ -152,7 +152,7 @@ class LeaveApplyModel extends \Model {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function calculateDateDiff( $data ) {
         if( isset( $data['ltID'] ) && isset( $data['startDate'] ) && isset( $data['endDate'] ) &&
@@ -238,7 +238,7 @@ class LeaveApplyModel extends \Model {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         return $this->info['laID'] = $this->LeaveApply->insert( 'leave_apply', $this->info );
@@ -247,7 +247,7 @@ class LeaveApplyModel extends \Model {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
         return Date::daysDiff( $startDate, $endDate, true );

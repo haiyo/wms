@@ -29,7 +29,7 @@ class ExpenseControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function overview( ) {
         $this->PayrollView->printAll( $this->PayrollView->renderOverview( ) );
@@ -38,7 +38,7 @@ class ExpenseControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function slips( ) {
         $this->PayrollView->printAll( $this->PayrollView->renderSlips( ) );
@@ -47,7 +47,7 @@ class ExpenseControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getProcessPass( ) {
         $vars = array( );
@@ -67,7 +67,7 @@ class ExpenseControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function process( $args ) {
         if( isset( $args[1] ) ) {
@@ -78,7 +78,7 @@ class ExpenseControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );

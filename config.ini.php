@@ -8,6 +8,10 @@
 
 //error_reporting(E_PARSE | E_NOTICE | E_DEPRECATED);
 
+if( PHP_VERSION < 7 ) {
+    die('Only PHP ver7 and above supported!');
+}
+
 define( 'DBTYPE',  'MySQLii'   );
 define( 'DBHOST',  '127.0.0.1' );
 define( 'DBUSER',  'root'      );

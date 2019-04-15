@@ -40,7 +40,7 @@ class EducationView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->EducationModel->getInfo( );
@@ -50,7 +50,7 @@ class EducationView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         $existInfo = $this->EducationModel->getByUserID( $userID, '*' );
@@ -61,7 +61,7 @@ class EducationView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $SelectListView = new SelectListView( );

@@ -26,7 +26,7 @@ class OfficeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $OfficeView = new OfficeView( );
@@ -36,7 +36,7 @@ class OfficeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getOfficeResults( ) {
         $post = Control::getRequest( )->request( POST );
@@ -49,7 +49,7 @@ class OfficeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );

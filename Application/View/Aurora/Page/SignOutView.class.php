@@ -32,7 +32,7 @@ class SignOutView {
 
     /**
     * Render main navigation
-    * @return str
+    * @return string
     */
     public function getMainMenu( ) {
         $vars = array( 'TPLVAR_URL' => 'admin/logout',

@@ -25,7 +25,7 @@ class MXString {
     * @param $string - Content
     * @param $start - str
     * @param $end - str
-    * @return str
+    * @return string
     */
     public static function extractTextStartingFrom( $string, $start, $end ) {
         $pos = stripos( $string, $start );
@@ -40,7 +40,7 @@ class MXString {
 
     /**
     * Crop filename
-    * @return str
+    * @return string
     */
     public static function cropFilename( $text, $length, $strTrail='...' ) {
         if( strlen( $text ) > $length ) {
@@ -53,7 +53,7 @@ class MXString {
 
     /**
     * Crop a word
-    * @return str
+    * @return string
     */
     public function cropWord( $text, $length, $strTrail='...' ) {
         if( strlen( $text ) > $length ) {

@@ -43,7 +43,7 @@ class FinanceView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->FinanceModel->getInfo( );
@@ -53,7 +53,7 @@ class FinanceView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $userID ) {
@@ -75,7 +75,7 @@ class FinanceView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $BankModel = BankModel::getInstance( );

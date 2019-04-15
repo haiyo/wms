@@ -25,7 +25,7 @@ class SelectGroupListView extends SelectListView {
 
     /**
      * Build Select List
-     * @return str
+     * @return string
      */
     public function build( $name, $arrayList, $selected='', $placeHolder='', $id=true ) {
         $list = '';

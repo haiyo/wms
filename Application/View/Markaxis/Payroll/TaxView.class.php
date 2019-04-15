@@ -42,7 +42,7 @@ class TaxView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( $output ) {
         $SelectListView = new SelectListView( );

@@ -40,7 +40,7 @@ class LoginView extends AdminView {
     
     /**
     * Render Login Page
-    * @return str
+    * @return string
     */
     public function renderLogin( ) {
         $websiteName = $this->HKEY_LOCAL['websiteName'];
@@ -55,7 +55,7 @@ class LoginView extends AdminView {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderNavBar( ) {
 

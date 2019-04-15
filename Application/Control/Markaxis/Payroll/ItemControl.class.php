@@ -29,7 +29,7 @@ class ItemControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->ItemView->renderSettings( ) ) );
@@ -38,7 +38,7 @@ class ItemControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getItemResults( ) {
         $post = Control::getRequest( )->request( POST );
@@ -48,35 +48,18 @@ class ItemControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function getEndDate( ) {
-        $post = Control::getRequest( )->request( POST );
-        $vars = array( );
-
-        $vars['data'] = $this->CalendarView->renderEndDate( $post );
-        echo json_encode( $vars );
-        exit;
+    public function getPayItem( $data ) {
+        if( isset( $data[1] ) ) {
+            Control::setOutputArray( $this->ItemModel->getBypiID( $data[1] ) );
+        }
     }
 
 
     /**
      * Render main navigation
-     * @return str
-     */
-    public function getPaymentRecur( ) {
-        $post = Control::getRequest( )->request( POST );
-        $vars = array( );
-
-        $vars['data'] = $this->CalendarView->renderPaymentRecur( $post );
-        echo json_encode( $vars );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
+     * @return string
      */
     public function savePayrun( ) {
         $post = Control::getRequest( )->request( POST );

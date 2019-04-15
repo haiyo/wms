@@ -26,7 +26,7 @@ class ONOFFRadioView extends AdminView {
 
     /**
     * Return ON/OFF Radio Buttons
-    * @return str
+    * @return string
     */
     public static function build( $name, $value ) {
         $RadioView = new RadioView( );

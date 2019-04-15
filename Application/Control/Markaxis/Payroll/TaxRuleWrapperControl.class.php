@@ -27,7 +27,7 @@ class TaxRuleWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( $data ) {
         $vars = array( );
@@ -50,7 +50,7 @@ class TaxRuleWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getAll( $data ) {
         $taxRules = Control::getOutputArray( );
@@ -70,7 +70,7 @@ class TaxRuleWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxRule( ) {
         $vars['data'] = Control::getPostData( );

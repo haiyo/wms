@@ -43,7 +43,7 @@ class OfficeView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),

@@ -50,7 +50,7 @@ class DashboardView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/dashboard',
@@ -69,7 +69,7 @@ class DashboardView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSearchbox( array $output ) {
         if( isset( $output['balance'] ) ) {
@@ -93,7 +93,7 @@ class DashboardView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderDashboard( $output ) {
         $userInfo = UserModel::getInstance( )->getInfo( );

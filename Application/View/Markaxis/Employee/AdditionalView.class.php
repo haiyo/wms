@@ -42,7 +42,7 @@ class AdditionalView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->AdditionalModel->getInfo( );
@@ -52,7 +52,7 @@ class AdditionalView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         $existInfo = $this->AdditionalModel->getByUserID( $userID, '*' );
@@ -67,7 +67,7 @@ class AdditionalView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $SelectListView = new SelectListView( );

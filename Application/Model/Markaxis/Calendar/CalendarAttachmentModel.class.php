@@ -51,7 +51,7 @@ class CalendarAttachmentModel extends \Model {
 
     /**
     * Retrieve attachment
-    * @return str
+    * @return string
     */
     public function getAttachment( $attID ) {
         $CalendarAttachment = new CalendarAttachment( );

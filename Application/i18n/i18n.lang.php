@@ -66,7 +66,7 @@ class i18n {
     
     /**
     * Get user lang preference
-    * @return str
+    * @return string
     */
     public function getUserLang( ) {
         return $this->userLang;

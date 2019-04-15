@@ -29,7 +29,7 @@ class HelpControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         return $this->HelpView->renderMenu( $css );
@@ -38,7 +38,7 @@ class HelpControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getGuideMenu( $css ) {
         return $this->HelpView->renderGuideMenu( $css );
@@ -47,7 +47,7 @@ class HelpControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getFAQMenu( $css ) {
         return $this->HelpView->renderFAQMenu( $css );
@@ -56,7 +56,7 @@ class HelpControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getContactMenu( $css ) {
         return $this->HelpView->renderContactMenu( $css );

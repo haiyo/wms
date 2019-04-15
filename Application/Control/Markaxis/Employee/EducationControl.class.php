@@ -27,7 +27,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( ) {
         $EmployeeView = new EmployeeView( );
@@ -37,7 +37,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         $EducationView = new EducationView( );
@@ -47,7 +47,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -59,7 +59,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $this->EducationModel->save( Control::getPostData( ) );
@@ -68,7 +68,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function deleteEducation( ) {
         $post = Control::getRequest( )->request( POST );
@@ -127,7 +127,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function updateCertificate( ) {
         $post = Control::getRequest( )->request( POST );
@@ -144,7 +144,7 @@ class EducationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function deleteCertificate( ) {
         $post = Control::getRequest( )->request( POST );

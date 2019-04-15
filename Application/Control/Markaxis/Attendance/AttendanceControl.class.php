@@ -26,7 +26,7 @@ class AttendanceControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         $AttendanceModel = AttendanceModel::getInstance( );

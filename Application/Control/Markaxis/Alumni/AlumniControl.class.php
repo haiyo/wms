@@ -26,7 +26,7 @@ class AlumniControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         $AlumniModel = AlumniModel::getInstance( );

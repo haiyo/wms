@@ -40,7 +40,7 @@ class LeaveApplyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderApplyForm( ) {
         $UserModel = UserModel::getInstance( );

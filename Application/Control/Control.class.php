@@ -57,7 +57,7 @@ class Control {
 
     /**
     * Return Output
-    * @return str
+    * @return string
     */
     public static function getOutput( ) {
         return self::$output;

@@ -46,7 +46,7 @@ class VimeoGrabber extends URLGrabber implements IURLGrabber {
 
     /**
     * Return embed code
-    * @return str
+    * @return string
     */
     public function getEmbedCode( ) {
         return '<iframe src="http://player.vimeo.com/video/16850588?autoplay=1" width="800" height="450" frameborder="0"></iframe>';

@@ -40,7 +40,7 @@ class MenuView extends AdminView {
 
     /**
      * Get Navigation Class
-     * @return str
+     * @return string
      */
     public function getNavClass( $folder, $namespace, $className ) {
         static $nav;
@@ -81,7 +81,7 @@ class MenuView extends AdminView {
 
     /**
      * Render account header
-     * @return str
+     * @return string
      */
     public function renderMenu( ) {
         $menuSet = $this->MenuModel->getMenu( );

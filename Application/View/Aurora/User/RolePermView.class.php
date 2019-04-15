@@ -40,7 +40,7 @@ class RolePermView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/rolePerm/list',
@@ -59,7 +59,7 @@ class RolePermView extends AdminView {
 
     /**
     * Render Role List
-    * @return str
+    * @return string
     */
     public function renderList( ) {
         $vars = array_merge( $this->L10n->getContents( ),
@@ -86,7 +86,7 @@ class RolePermView extends AdminView {
 
     /**
     * Render Role List
-    * @return str
+    * @return string
     */
     public function renderPermList( ) {
         $permList = $this->PermissionModel->getAll( );

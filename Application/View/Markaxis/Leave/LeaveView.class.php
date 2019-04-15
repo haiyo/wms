@@ -40,7 +40,7 @@ class LeaveView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderApplyForm( ) {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
@@ -66,7 +66,7 @@ class LeaveView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderBalance( ) {
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js',
@@ -87,7 +87,7 @@ class LeaveView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
@@ -102,7 +102,7 @@ class LeaveView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderTypeForm( $form, $ltID=0 ) {
         $this->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ),
@@ -128,7 +128,7 @@ class LeaveView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderDateDiff( $data ) {
         if( isset( $data['startDate'] ) && isset( $data['endDate'] ) && $data['startDate'] && $data['endDate'] ) {

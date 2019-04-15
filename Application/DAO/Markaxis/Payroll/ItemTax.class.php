@@ -27,7 +27,7 @@ class ItemTax extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByPiID( $piID ) {
+    public function getBypiID( $piID ) {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT * FROM payroll_item_tax pit

@@ -98,7 +98,7 @@
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                             '<i class="icon-menu9"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
-                            '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
+                            '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalPayItem">' +
                             '<i class="icon-user"></i> Edit Pay Item</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item">' +
@@ -144,6 +144,44 @@
         });
 
         $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
+
+        $("#modalPayItem").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var piID = $invoker.attr("data-id");
+
+            if( piID ) {
+                var data = {
+                    bundle: {
+                        trID: piID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#payItemTitle").val( obj.data.title );
+                            /*$("#ruleTitle").val( obj.data.title );
+                            $("#group").val( obj.data.tgID ).trigger("change");
+                            $("#country").val( obj.data.country ).trigger("change");*/
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/payroll/getPayItem/" + piID, data );
+            }
+            else {
+                /*$("#trID").val(0);
+                $("#ruleTitle").val("");
+                $("#group").val(0).trigger("change");
+                $("#country").val("").trigger("change");
+                $("#city").val("").trigger("change");
+                $("#state").val("").trigger("change");
+                $("#applyType").val("salaryDeduction").trigger("change");
+                $("#applyValueType").val("percentage").trigger("change");
+                $("#applyValue").val("");*/
+            }
+        });
     });
 </script>
 
@@ -187,7 +225,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Pay Item Title:</label>
-                                <input type="text" name="groupTitle" id="groupTitle" class="form-control" value=""
+                                <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
                                        placeholder="Enter a title for this pay item" />
                             </div>
                         </div>

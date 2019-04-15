@@ -25,7 +25,7 @@ class UserMultiListView extends MultiListView {
 
     /**
     * Build Multi List
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='' ) {
         $vars = array( 'TPLVAR_NAME'  => $name,

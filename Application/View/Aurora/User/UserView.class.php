@@ -48,7 +48,7 @@ class UserView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->UserModel->getInfo( );
@@ -58,7 +58,7 @@ class UserView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $this->info = $this->UserModel->getFieldByUserID( $userID, '*' ) ) {
@@ -70,7 +70,7 @@ class UserView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
@@ -179,7 +179,7 @@ class UserView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderLog( $userID ) {
         $vars = array( 'TPLVAR_USERID' => $userID );

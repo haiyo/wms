@@ -1,4 +1,4 @@
-<div id="taxRow_<?TPLVAR_TRID?>" class="header-elements-inline taxRow" data-parent="<?TPLVAR_GID?>">
+,<div id="taxRow_<?TPLVAR_TRID?>" class="header-elements-inline taxRow" data-parent="<?TPLVAR_GID?>">
     <div class="list-group-item" data-toggle="collapse">
         <span><?TPLVAR_RULE_TITLE?></span><br />
         <!-- BEGIN DYNAMIC BLOCK: criteria -->

@@ -48,7 +48,7 @@ class TeamMemberView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderList( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/employee/list',
@@ -63,7 +63,7 @@ class TeamMemberView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderView( ) {
         $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') );
@@ -74,7 +74,7 @@ class TeamMemberView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->EmployeeModel->getInfo( );
@@ -84,7 +84,7 @@ class TeamMemberView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $this->info = $this->EmployeeModel->getFieldByUserID( $userID, '*' ) ) {
@@ -95,7 +95,7 @@ class TeamMemberView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $DayIntListView = new DayIntListView( );
@@ -221,7 +221,7 @@ class TeamMemberView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderLog( $userID ) {
         $vars = array( 'TPLVAR_USERID' => $userID );

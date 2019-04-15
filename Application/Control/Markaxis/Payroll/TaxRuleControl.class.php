@@ -27,7 +27,7 @@ class TaxRuleControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( $data ) {
         if( isset( $data[1] ) ) {
@@ -38,7 +38,7 @@ class TaxRuleControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getAll( ) {
         Control::setOutputArray( $this->TaxRuleModel->getAll( ) );
@@ -47,7 +47,7 @@ class TaxRuleControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxRule( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );

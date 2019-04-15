@@ -44,7 +44,7 @@ class NotFoundView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderPage( ) {
         $this->setBreadcrumbs( array( 'link' => '', 'text' => $this->L10n->getContents('LANG_404_NOT_FOUND') ) );

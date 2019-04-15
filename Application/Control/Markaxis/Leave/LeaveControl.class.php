@@ -26,7 +26,7 @@ class LeaveControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function dashboard( ) {
         $LeaveView = new LeaveView( );
@@ -36,7 +36,7 @@ class LeaveControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function balance( ) {
         $output = Control::getOutputArray( );
@@ -48,7 +48,7 @@ class LeaveControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
@@ -60,7 +60,7 @@ class LeaveControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function addType( ) {
         $output = Control::getOutputArray( );
@@ -72,7 +72,7 @@ class LeaveControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function editType( $args ) {
         $output = Control::getOutputArray( );
@@ -85,7 +85,7 @@ class LeaveControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveType( ) {;
         $post = Control::getPostData( );

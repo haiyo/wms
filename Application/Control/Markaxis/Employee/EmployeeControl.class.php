@@ -29,7 +29,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
@@ -42,7 +42,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function list( ) {
         $this->EmployeeView->printAll( $this->EmployeeView->renderList( ) );
@@ -51,7 +51,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( ) {
         echo $this->EmployeeView->renderEdit( );
@@ -60,7 +60,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->EmployeeView->renderAdd( ) ) );
@@ -69,7 +69,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -79,7 +79,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getPostData( );
@@ -91,7 +91,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function log( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -102,7 +102,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function logResults( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -115,7 +115,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function results( ) {
         $post = Control::getRequest( )->request( POST );
@@ -127,7 +127,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function setResignStatus( ) {
         $post = Control::getRequest( )->request( POST );

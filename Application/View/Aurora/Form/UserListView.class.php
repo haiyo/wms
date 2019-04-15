@@ -25,7 +25,7 @@ class UserListView extends SelectListView {
 
     /**
     * Reurn Year List
-    * @return str
+    * @return string
     */
     public function getList( $userList ) {
         $User = new User( );

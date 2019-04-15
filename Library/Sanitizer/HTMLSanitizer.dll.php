@@ -57,7 +57,7 @@ class HTMLSanitizer {
     * Remove HTML tags, including invisible text such as style
     * script code, and embedded objects. Add line breaks around
     * block-level tags to prevent word joining after tag removal.
-    * @return str
+    * @return string
     */
     public static function sanitize( $text ) {
         $text = preg_replace(

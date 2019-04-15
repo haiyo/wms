@@ -27,7 +27,7 @@ class TaxGenderControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( ) {
         $output = Control::getOutputArray( );
@@ -40,7 +40,7 @@ class TaxGenderControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
@@ -50,7 +50,7 @@ class TaxGenderControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxRule( ) {
         $this->TaxGenderModel->saveTaxRule( Control::getPostData( ) );

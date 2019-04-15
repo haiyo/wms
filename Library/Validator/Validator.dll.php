@@ -53,7 +53,7 @@ class Validator {
 
     /**
     * htmlspecialchars + trim
-    * @return str
+    * @return string
     */
     public static function htmlTrim( $string ) {
         return htmlspecialchars( trim( $string ) );
@@ -62,7 +62,7 @@ class Validator {
 
     /**
     * strip_tags + trim
-    * @return str
+    * @return string
     */
     public static function stripTrim( $string ) {
         return strip_tags( trim( $string ) );
@@ -72,7 +72,7 @@ class Validator {
     /**
     * Works like PHP function strip_tags, but it only removes selected tags.
     * stripSelectedTags( '<b>Person:</b> <strong>Salavert</strong>', array( 'b', 'strong' ) );
-    * @return str
+    * @return string
     */
     public function stripSelectedTags( $text, $tags=array( ) ) {
         $args = func_get_args( );

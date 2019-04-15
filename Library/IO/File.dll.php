@@ -26,7 +26,7 @@ class File {
 
     /**
     * Create directory if not exist
-    * @return str
+    * @return string
     */
     public static function createDir( $dir ) {
         if( !is_dir( $dir ) ) {
@@ -39,7 +39,7 @@ class File {
 
     /**
     * Return file content
-    * @return str
+    * @return string
     */
     public static function read( $filePath ) {
         try {
@@ -192,7 +192,7 @@ class File {
     
     /**
     * Converts human readable file size (e.g. 10 MB, 200.20 GB) into bytes.
-    * @return str
+    * @return string
     
     public static function formatBytes( $bytes ) {
         if( $bytes < 1024 ) return $bytes.' B';
@@ -205,7 +205,7 @@ class File {
 
     /**
     * Returns file content type
-    * @return str
+    * @return string
     */
     public static function getType( $filename ) {
         if( function_exists( 'finfo_open' ) && function_exists( 'finfo_file' ) && function_exists( 'finfo_close' ) ) {

@@ -38,7 +38,7 @@ class ChildCareView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAddType( ) {
         $SelectListView = new SelectListView( );

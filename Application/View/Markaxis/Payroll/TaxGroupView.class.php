@@ -65,7 +65,7 @@ class TaxGroupView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderTaxGroup( $tgID ) {
         $elements = array( );
@@ -79,7 +79,7 @@ class TaxGroupView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $list = $this->TaxGroupModel->getAll( );

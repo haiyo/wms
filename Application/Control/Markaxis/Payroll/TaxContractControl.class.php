@@ -27,7 +27,7 @@ class TaxContractControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( ) {
         $taxRule = Control::getOutputArray( );
@@ -40,7 +40,7 @@ class TaxContractControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
@@ -50,7 +50,7 @@ class TaxContractControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxRule( ) {
         $this->TaxContractModel->saveTaxRule( Control::getPostData( ) );

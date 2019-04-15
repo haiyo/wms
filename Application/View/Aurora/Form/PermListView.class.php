@@ -25,7 +25,7 @@ class PermListView extends RadioView {
 
     /**
     * Build Radio Buttons
-    * @return str
+    * @return string
     */
     public function getList( $name, $selected='' ) {
         return $this->build( $name, PermHelper::getL10nList( ), $selected );

@@ -41,7 +41,7 @@ class Session extends \DAO {
 
     /**
     * Return Session Hash
-    * @return str
+    * @return string
     */
     public function getSessHash( ) {
         return $this->sessHash;

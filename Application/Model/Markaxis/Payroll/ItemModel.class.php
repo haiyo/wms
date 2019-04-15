@@ -48,6 +48,15 @@ class ItemModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBypiID( $piID ) {
+        return $this->Item->getBypiID( $piID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

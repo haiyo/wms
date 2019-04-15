@@ -26,7 +26,7 @@ class YesNoRadioView extends AdminView {
 
     /**
     * Return Yes/No Radio Buttons
-    * @return str
+    * @return string
     */
     public static function build( $name, $value ) {
         $RadioView = new RadioView( );

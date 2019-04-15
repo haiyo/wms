@@ -77,7 +77,7 @@ class AdminView extends View {
 
     /**
      * Render Display View
-     * @return str
+     * @return string
      */
     public function render( $file, $vars=array( ) ) {
         $global = array( 'TPLVAR_LANG' => $this->i18n->getUserLang( ),
@@ -89,7 +89,7 @@ class AdminView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderHeader( ) {
         return $this->render( 'aurora/core/header.tpl', $this->renderHeaderFiles( ) );
@@ -98,7 +98,7 @@ class AdminView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderNavBar( ) {
         $MenuModel = MenuModel::getInstance( );
@@ -116,7 +116,7 @@ class AdminView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderSetupNavBar( ) {
         return $this->render('aurora/core/setupNavBar.tpl',
@@ -127,7 +127,7 @@ class AdminView extends View {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderPageHeader( ) {
         $vars = array_merge( $this->PageRes->getContents( ),
@@ -150,7 +150,7 @@ class AdminView extends View {
 
     /**
      * Render footer
-     * @return str
+     * @return string
      */
     public function renderFooter( ) {
         $vars = array( 'TPLVAR_AURORA_VERSION' => AURORA_VERSION );

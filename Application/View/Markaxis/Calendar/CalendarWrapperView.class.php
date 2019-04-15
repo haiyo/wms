@@ -34,7 +34,7 @@ class CalendarWrapperView {
 
     /**
     * Render Event Form
-    * @return str
+    * @return string
     */
     public function renderWrapperForm( $calID, $tab, $data ) {
         $vars = array_merge( $this->EventRes->getContents( ),
@@ -59,7 +59,7 @@ class CalendarWrapperView {
 
     /**
     * Render Event Form
-    * @return str
+    * @return string
     */
     public function renderAgendaWrapper( $date, $outputArray ) {
         $CalendarModel = CalendarModel::getInstance( );

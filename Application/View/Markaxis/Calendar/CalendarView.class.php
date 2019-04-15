@@ -54,7 +54,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Tab
-    * @return str
+    * @return string
     */
     public function renderFormTab( ) {
         $html = '';
@@ -117,7 +117,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Event List
-    * @return str
+    * @return string
     */
     public function renderEventList( $info ) {
         $param['calID']     = $info[4];
@@ -258,7 +258,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Agenda
-    * @return str
+    * @return string
     */
     public function renderAgenda( ) {
         $eventInfo  = $this->CalendarModel->getInfo( );
@@ -315,7 +315,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Agenda Tab
-    * @return str
+    * @return string
     */
     public function renderAgendaTab( ) {
         $eventInfo = $this->CalendarModel->getInfo( );
@@ -330,7 +330,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Agenda Tab Data
-    * @return str
+    * @return string
     */
     public function renderAgendaTabData( ) {
         $eventInfo = $this->CalendarModel->getInfo( );
@@ -345,7 +345,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Event Form
-    * @return str
+    * @return string
     */
     public function renderEventForm( ) {
         $info = $this->CalendarModel->getInfo( );
@@ -444,7 +444,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render File List
-    * @return str
+    * @return string
     */
     public function getFileList( $list ) {
         $tpl = '';
@@ -468,7 +468,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Calendar Table
-    * @return str
+    * @return string
     */
     public function renderLabelForm( ) {
         $labels = $this->CalendarModel->getLabels( );
@@ -499,7 +499,7 @@ class CalendarView extends AdminView {
 
     /**
     * Render Calendar Table
-    * @return str
+    * @return string
     */
     public function renderEventDeleted( ) {
         $vars = array( 'LANG_MSG' => $this->EventRes->getContents('LANG_EVENT_NOT_FOUND_MSG') );

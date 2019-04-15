@@ -40,7 +40,7 @@ class ItemView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $SelectListView = new SelectListView( );
@@ -60,7 +60,7 @@ class ItemView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEndDate( $data ) {
         if( $DateTime = $this->CalendarModel->getEndDate( $data ) ) {
@@ -74,7 +74,7 @@ class ItemView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderPaymentRecur( $data ) {
         if( $range = $this->CalendarModel->getPaymentRecur( $data ) ) {

@@ -44,7 +44,7 @@ class CompanyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSetup( ) {
         $this->info = $this->CompanyModel->getInfo( );
@@ -54,7 +54,7 @@ class CompanyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
 
     public function renderSettings( ) {
         $this->info = $this->CompanyModel->getInfo( );
@@ -64,7 +64,7 @@ class CompanyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $this->info = $this->UserModel->getFieldByUserID( $userID, '*' ) ) {
@@ -76,7 +76,7 @@ class CompanyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( $form ) {
         $this->setBreadcrumbs( array( 'link' => '',
@@ -91,7 +91,7 @@ class CompanyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSetupForm( ) {
         /*

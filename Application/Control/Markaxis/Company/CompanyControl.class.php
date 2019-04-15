@@ -26,7 +26,7 @@ class CompanyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function setup( ) {
         $CompanyView = new CompanyView( );
@@ -37,7 +37,7 @@ class CompanyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
@@ -50,7 +50,7 @@ class CompanyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -62,7 +62,7 @@ class CompanyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );

@@ -26,7 +26,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( ) {
         $QuestionView = new QuestionView( );
@@ -36,7 +36,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         $QuestionView = new QuestionView( );
@@ -46,7 +46,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -58,7 +58,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $QuestionModel = QuestionModel::getInstance( );
