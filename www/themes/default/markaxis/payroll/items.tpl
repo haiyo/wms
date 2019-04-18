@@ -145,6 +145,20 @@
 
         $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
 
+        $(".payItemBtn").on("click", function ( ) {
+            var id = $(this).attr("id");
+
+            $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
+
+            if( id != "payItemNone") {
+                $("#" + id).addClass("btn-green");
+            }
+            else {
+                $("#" + id).addClass("btn-dark");
+            }
+            return false;
+        });
+
         $("#modalPayItem").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var piID = $invoker.attr("data-id");
@@ -161,7 +175,19 @@
                             return;
                         }
                         else {
+                            console.log(obj)
+                            $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
+
                             $("#payItemTitle").val( obj.data.title );
+                            if( obj.data.basic == 1 ) {
+                                $("#payItemBasic").addClass("btn-green");
+                            }
+                            else if( obj.data.deduction == 1 ) {
+                                $("#payItemDeduction").addClass("btn-green");
+                            }
+                            else {
+                                $("#payItemNone").addClass("btn-dark");
+                            }
                             /*$("#ruleTitle").val( obj.data.title );
                             $("#group").val( obj.data.tgID ).trigger("change");
                             $("#country").val( obj.data.country ).trigger("change");*/
@@ -235,11 +261,11 @@
                                 <label>This Pay Item Belongs To:</label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
-                                        <button class="btn btn-dark" type="button">None</button>
-                                        <button class="btn btn-light" type="button">Basic Salary</button>
+                                        <button id="payItemNone" class="btn btn-light payItemBtn" type="button">None</button>
+                                        <button id="payItemBasic" class="btn btn-light payItemBtn" type="button">Basic Salary</button>
                                     </span>
                                     <span class="input-group-append">
-                                        <button class="btn btn-light" type="button">Deduction</button>
+                                        <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button">Deduction</button>
                                     </span>
                                 </div>
                             </div>
