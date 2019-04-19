@@ -84,7 +84,7 @@ class LeaveTypeModel extends \Model {
             }
         }
         // If no tgID is pass in, delete any existing data
-        else if( $this->Tax->isFoundByUserID( $data['userID'] ) ) {
+        else {
             $this->LeaveType->delete('employee_leave_type', 'WHERE userID = "' . (int)$data['userID'] . '"');
         }
     }

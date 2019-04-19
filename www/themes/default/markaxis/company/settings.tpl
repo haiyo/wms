@@ -74,13 +74,11 @@
 </style>
 
 <ul class="nav nav-tabs nav-tabs-highlight payroll-nav justify-content-center">
-    <li class="nav-item"><a href="#addOffice" class="nav-link active" data-toggle="tab">Add Office</a></li>
-    <li class="nav-item"><a href="#addDepartment" class="nav-link" data-toggle="tab">Add Department</a></li>
-    <li class="nav-item"><a href="#addDesignation" class="nav-link" data-toggle="tab">Add Designation</a></li>
-    <li class="nav-item"><a href="#addContractType" class="nav-link" data-toggle="tab">Add Contract Type</a></li>
+    <li class="nav-item"><a href="#officeList" class="nav-link active" data-toggle="tab">Office</a></li>
+    <li class="nav-item"><a href="#departmentList" class="nav-link" data-toggle="tab">Department</a></li>
+    <li class="nav-item"><a href="#designationList" class="nav-link" data-toggle="tab">Designation</a></li>
+    <li class="nav-item"><a href="#contractTypeList" class="nav-link" data-toggle="tab">Contract Type</a></li>
 </ul>
-<div class="panel panel-flat payroll-employee">
-    <div class="tab-content">
-        <?TPL_FORM?>
-    </div>
+<div class="tab-content">
+    <?TPL_FORM?>
 </div>

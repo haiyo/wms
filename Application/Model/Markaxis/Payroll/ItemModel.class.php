@@ -1,5 +1,8 @@
 <?php
 namespace Markaxis\Payroll;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty;
+use \Library\Exception\ValidatorException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -66,7 +69,7 @@ class ItemModel extends \Model {
 
 
     /**
-     * Get File Information
+     * Get Table Results
      * @return mixed
      */
     public function getItemResults( $data ) {
@@ -88,47 +91,7 @@ class ItemModel extends \Model {
                     break;
             }
         }
-
         $results = $this->Item->getItemResults( $data['search']['value'], $order . $dir );
-        $sizeof  = sizeof( $results );
-
-        /*for( $i=0; $i<$sizeof; $i++ ) {
-            if( isset( $results[$i] ) ) {
-                switch( $results[$i]['payPeriod'] ) {
-                    case 'weekly' :
-                        // Setup canvas for NOW to next week
-                        $nextWeek = new \DateTime( );
-                        $nextWeek = $nextWeek->modify('+1 week');
-
-                        $WeekRecur = new WeekRecur( $currDate->format( 'Y-m-d' ), $nextWeek->format( 'Y-m-d' ) );
-
-                        $startEvent = new \DateTime( $results[$i]['startDate'] );
-                        $endEvent = new \DateTime( $results[$i]['startDate'] );
-                        // $endEvent->modify( '+1 week' );
-
-                        //$diff = $currDate->diff( $eventDate );
-
-                        $paymentDate = new \DateTime( $results[$i]['paymentDate'] );
-
-                        $WeekRecur->setEvent( new Event( array( 'start' => $startEvent->format( 'Y-m-d' ), 'end' => $endEvent->format( 'Y-m-d' ),
-                            'recurType' => 'week', 'endRecur' => 'never' ) ) );
-                        $collections = $WeekRecur->getEvents( );
-                        $collections = array_slice( $collections, -2, 2, true );
-                        $collections = array_values( $collections );
-
-                        if( isset( $collections[0] ) && isset( $collections[1] ) ) {
-                            $nextStart = new \DateTime( $collections[0]['start'] );
-                            $nextEnd = new \DateTime( $collections[1]['end'] );
-
-                            $results[$i]['nextPayPeriod'] = $nextStart->format( 'jS F Y' ) . ' &mdash; ' . $nextEnd->format( 'jS F Y' );
-                            $results[$i]['nextPayment'] = $nextEnd->format('jS F Y');
-                        }
-                        break;
-                }
-                $results[$i]['payPeriod'] = ucwords( $results[$i]['payPeriod'] );
-            }
-        }*/
-
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
@@ -136,6 +99,69 @@ class ItemModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
+    }
+
+
+    /**
+     * Set Pay Item Info
+     * @return bool
+     */
+    public function isValid( $data ) {
+        $Validator = new Validator( );
+
+        $this->info['piID'] = (int)$data['piID'];
+        $this->info['title'] = Validator::stripTrim( $data['payItemTitle'] );
+
+        $Validator->addModule( 'payItemTitle', new IsEmpty( $this->info['title'] ) );
+
+        try {
+            $Validator->validate( );
+        }
+        catch( ValidatorException $e ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
+            return false;
+        }
+
+        if( $data['payItemType'] == 'basic' ) {
+            $this->info['basic'] = 1;
+        }
+        else if( $data['payItemType'] == 'deduction' ) {
+            $this->info['deduction'] = 1;
+        }
+        return true;
+    }
+
+
+    /**
+     * Save Pay Item information
+     * @return int
+     */
+    public function save( ) {
+        if( !$this->info['piID'] ) {
+            unset( $this->info['piID'] );
+            $this->info['piID'] = $piID = $this->Item->insert( 'payroll_item', $this->info );
+        }
+        else {
+            $this->Item->update( 'payroll_item', $this->info, 'WHERE piID = "' . (int)$this->info['piID'] . '"' );
+        }
+        return $this->info['piID'];
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function delete( $data ) {
+        $deleted = 0;
+
+        if( is_array( $data ) ) {
+            foreach( $data as $piID ) {
+                $this->Item->delete('payroll_item', 'WHERE piID = "' . (int)$piID . '"');
+                $deleted++;
+            }
+        }
+        return $deleted;
     }
 }
 ?>

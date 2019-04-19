@@ -84,7 +84,7 @@ class TaxModel extends \Model {
             }
         }
         // If no tgID is pass in, delete any existing data
-        else if( $this->Tax->isFoundByUserID( $data['userID'] ) ) {
+        else {
             $this->Tax->delete('employee_tax', 'WHERE userID = "' . (int)$data['userID'] . '"');
         }
     }

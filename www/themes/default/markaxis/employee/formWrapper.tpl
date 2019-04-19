@@ -172,7 +172,7 @@
 
             swal({
                 title: "Delete " + school + " from Education?",
-                text: "This action cannot be undone.",
+                text: "This action cannot be undone once deleted.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -375,7 +375,7 @@
 
             swal({
                 title: "Delete " + company + " from Experience?",
-                text: "This action cannot be undone.",
+                text: "This action cannot be undone once deleted.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -743,7 +743,7 @@
                             $("#eduUploadCert_" + index).show( );
                             $("#eduDeleteCert_" + index).hide( );
                             $("#eduFileIcoWrapper_" + index).hide( );
-                            swal("Done!", fileName + " has been succesfully deleted!", "success");
+                            swal("Done!", fileName + " has been successfully deleted!", "success");
                             return;
                         }
                     }
@@ -877,7 +877,7 @@
                             $("#expUploadTest_" + index).show( );
                             $("#expDeleteTest_" + index).hide( );
                             $("#expFileIcoWrapper_" + index).hide( );
-                            swal("Done!", fileName + " has been succesfully deleted!", "success");
+                            swal("Done!", fileName + " has been successfully deleted!", "success");
                             return;
                         }
                     }
@@ -918,7 +918,7 @@
                         else {
                             $(".photo-wrap").remove( );
                             $(".defPhoto img").removeClass("hide");
-                            swal("Done!", $("#employeeName").text() + "'s photo has been succesfully deleted!", "success");
+                            swal("Done!", $("#employeeName").text() + "'s photo has been successfully deleted!", "success");
                             return;
                         }
                     }

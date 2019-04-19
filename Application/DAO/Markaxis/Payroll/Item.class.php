@@ -92,7 +92,7 @@ class Item extends \DAO {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'WHERE ( pi.title LIKE "%' . $q . '%"' : '';
+        $q = $q ? 'WHERE pi.title LIKE "%' . $q . '%"' : '';
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM payroll_item pi
                                   ' . $q . '

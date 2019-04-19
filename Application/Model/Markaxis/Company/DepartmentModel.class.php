@@ -4,25 +4,25 @@ namespace Markaxis\Company;
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
- * @version $Id: OfficeModel.class.php, v 2.0 Exp $
+ * @version $Id: DepartmentModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class OfficeModel extends \Model {
+class DepartmentModel extends \Model {
 
 
     // Properties
-    protected $Office;
+    protected $Department;
 
 
     /**
-    * OfficeModel Constructor
+    * DepartmentModel Constructor
     * @return void
     */
     function __construct( ) {
         parent::__construct( );
 
-        $this->Office = new Office( );
+        $this->Department = new Department( );
 	}
 
 
@@ -31,7 +31,7 @@ class OfficeModel extends \Model {
     * @return int
     */
     public function getList( ) {
-        return $this->Office->getList( );
+        return $this->Department->getList( );
     }
 
 
@@ -40,7 +40,7 @@ class OfficeModel extends \Model {
      * @return mixed
      */
     public function getResults( $post ) {
-        $this->Office->setLimit( $post['start'], $post['length'] );
+        $this->Department->setLimit( $post['start'], $post['length'] );
 
         $order = 'name';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
@@ -62,7 +62,7 @@ class OfficeModel extends \Model {
             }
         }
 
-        $results = $this->Office->getResults( $post['search']['value'], $order . $dir );
+        $results = $this->Department->getResults( $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );

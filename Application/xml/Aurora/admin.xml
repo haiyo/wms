@@ -46,6 +46,7 @@
         <observer controller="Aurora/Component/CityControl"></observer>
     </task>
     <task type="company">
+        <observer controller="Markaxis/Company/DepartmentControl"></observer>
         <observer controller="Markaxis/Company/OfficeControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
     </task>

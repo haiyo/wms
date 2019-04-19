@@ -149,6 +149,7 @@ var MarkaxisEmployee = (function( ) {
 
             $("#dobMonth").select2({minimumResultsForSearch: -1});
             $("#dobDay").select2({minimumResultsForSearch: -1});
+            $("#nationality").select2( );
             $("#country").select2( );
             $("#state").select2( );
             $("#city").select2( );
@@ -202,9 +203,6 @@ var MarkaxisEmployee = (function( ) {
                 }
             });
 
-            $(".childSelect").select2( );
-            $(".childSelect").select2("destroy");
-
             // Editing with existing children
             if( $("#children1").is(":checked") ) {
                 $("#haveChildren").removeClass("hide");
@@ -226,7 +224,8 @@ var MarkaxisEmployee = (function( ) {
             });
 
             if( $(".childRow").length > 0 ) {
-                that.addChildren();
+                $(".childSelect").select2( );
+                that.addChildren( );
             }
 
             $(document).on("click", ".addChildren", function ( ) {
@@ -261,6 +260,9 @@ var MarkaxisEmployee = (function( ) {
             var child = $("#childTemplate").html( );
             child = child.replace(/\{id\}/g, length );
             $("#childWrapper").append( '<div id="childRowWrapper_' + length + '">' + child + "</div>" );
+
+            $("#childRowWrapper_" + length).find(".select2").remove( );
+
             $("#childCountry_" + length).select2( );
             $("#childDobMonth_" + length).select2( );
             $("#childDobDay_" + length).select2( );

@@ -61,13 +61,35 @@ class ItemControl {
      * Render main navigation
      * @return string
      */
-    public function savePayrun( ) {
-        $post = Control::getRequest( )->request( POST );
-        $vars = array( );
-        $vars['bool'] = 0;
+    public function savePayItem( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        if( $vars['data'] = $this->CalendarModel->savePayrun( $post ) ) {
+        if( $this->ItemModel->isValid( $post ) ) {
+            $post['piID'] = $this->ItemModel->save( );
+            Control::setPostData( $post );
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->ItemModel->getErrMsg( );
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayItem( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $vars['count'] = $this->ItemModel->delete( $post ) ) {
             $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->ItemModel->getErrMsg( );
         }
         echo json_encode( $vars );
         exit;

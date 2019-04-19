@@ -50,5 +50,18 @@ class ItemTaxControl {
         echo json_encode( $vars );
         exit;
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayItem( ) {
+        $this->ItemTaxModel->save( Control::getPostData( ) );
+
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

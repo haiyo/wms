@@ -1469,7 +1469,7 @@
                                         $(".blankCanvasNotice").hide( );
 
                                         swal({
-                                            title: obj.data.title + " has been succesfully created!",
+                                            title: obj.data.title + " has been successfully created!",
                                             text: "What do you want to do next?",
                                             type: 'success',
                                             confirmButtonClass: 'btn btn-success',
@@ -1620,8 +1620,6 @@
                 ruleTitle: { required: true }
             },
             messages: {
-                //username: Aurora.i18n.LoginRes.LANG_ENTER_VALID_EMAIL,
-                //password: Aurora.i18n.LoginRes.LANG_ENTER_PASSWORD
                 ruleTitle: "Please enter a Rule Title."
             },
             highlight: function(element, errorClass) {
@@ -1685,7 +1683,7 @@
                                         }
 
                                         swal({
-                                            title: $("#ruleTitle").val( ) + " has been succesfully created!",
+                                            title: $("#ruleTitle").val( ) + " has been successfully created!",
                                             text: "What do you want to do next?",
                                             type: 'success',
                                             confirmButtonClass: 'btn btn-success',

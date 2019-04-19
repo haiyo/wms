@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function( ) {
-        $(".payCalTable").DataTable({
+        var officeTable = $(".officeTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
@@ -9,17 +9,13 @@
             ajax: {
                 url: Aurora.ROOT_URL + "admin/company/getOfficeResults",
                 type: "POST",
-                data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+                data: function ( d ) {
+                    d.ajaxCall = 1;
+                    d.csrfToken = Aurora.CSRF_TOKEN;
+                },
             },
             initComplete: function() {
-                Popups.init();
-                /*var api = this.api();
-                var that = this;
-                $('input').on('keyup change', function() {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });*/
+                //
             },
             autoWidth: false,
             mark: true,
@@ -27,14 +23,37 @@
                 targets: [0],
                 orderable: true,
                 width: '250px',
-                data: 'calName'
+                data: 'name'
             },{
                 targets: [1],
                 orderable: true,
-                width: '280px',
-                data: 'payPeriod'
+                width: '320px',
+                data: 'address'
+            },{
+                targets: [2],
+                orderable: true,
+                width: '220px',
+                data: 'country'
+            },{
+                targets: [3],
+                orderable: true,
+                width: '150px',
+                data: 'openTime',
+                className : "text-center",
             },{
                 targets: [4],
+                orderable: true,
+                width: '150px',
+                data: 'closeTime',
+                className : "text-center",
+            },{
+                targets: [5],
+                orderable: true,
+                width: '150px',
+                data: 'empCount',
+                className : "text-center",
+            },{
+                targets: [6],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -50,27 +69,20 @@
                         '<i class="icon-menu9"></i></a>' +
                         '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                         '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                        '<i class="icon-user"></i> View Employee Info</a>' +
-                        '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
-                        '<i class="icon-history"></i> View History Log</a>' +
+                        '<i class="icon-pencil5"></i> Edit Office</a>' +
                         '<div class="divider"></div>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-user-block"></i> ' + statusText + '</a>' +
                         '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-exit3"></i> Employee Resigned</a>' +
+                        '<i class="icon-bin"></i> Delete Office</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
             order: [],
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee',
+                searchPlaceholder: 'Search Office',
                 lengthMenu: '<span>Show:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
@@ -83,8 +95,10 @@
             }
         });
 
+        $(".office-list-action-btns").insertAfter("#officeList .dataTables_filter");
+
         // Alternative pagination
-        $('.datatable-pagination').DataTable({
+        $("#officeList .datatable-pagination").DataTable({
             pagingType: "simple",
             language: {
                 paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
@@ -92,60 +106,59 @@
         });
 
         // Datatable with saving state
-        $('.datatable-save-state').DataTable({
+        $("#officeList .datatable-save-state").DataTable({
             stateSave: true
         });
 
         // Scrollable datatable
-        $('.datatable-scroll-y').DataTable({
+        $("#officeList .datatable-scroll-y").DataTable({
             autoWidth: true,
             scrollY: 300
         });
 
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
-        var table = $('.datatable').DataTable();
 
-        $('.datatable tbody').on('mouseover', 'td', function() {
-            var colIdx = table.cell(this).index().column;
+        $("#officeList .datatable tbody").on("mouseover", "td", function() {
+            var colIdx = officeTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(table.cells().nodes()).removeClass('active');
-                $(table.column(colIdx).nodes()).addClass('active');
+                $(officeTable.cells().nodes()).removeClass("active");
+                $(officeTable.column(colIdx).nodes()).addClass("active");
             }
-        }).on('mouseleave', function() {
-            $(table.cells().nodes()).removeClass("active");
+        }).on("mouseleave", function() {
+            $(officeTable.cells().nodes()).removeClass("active");
         });
 
         // Enable Select2 select for the length option
-        $(".dataTables_length select").select2({
+        $("#officeList .dataTables_length select").select2({
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
     });
 </script>
 
-<div class="tab-pane fade show active" id="addOffice">
-    <div class="panel-heading">
-        <h5 class="panel-title">&nbsp;<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-        <div class="heading-elements">
-            <ul class="icons-list">
-                <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled"
-                       data-toggle="modal" data-target="#modalAddPayrun">
-                        <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_OFFICE?>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="tab-pane fade show active" id="officeList">
+    <div class="list-action-btns office-list-action-btns">
+        <ul class="icons-list">
+            <li>
+                <a type="button" class="btn bg-purple-400 btn-labeled"
+                   data-toggle="modal" data-target="#modalAddPayrun">
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_OFFICE?>
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <table class="table table-hover datatable payCalTable">
+    <table class="table table-hover datatable officeTable">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Company Name</th>
             <th>Address</th>
             <th>Country</th>
+            <th>Opening Hour</th>
+            <th>Closing Hour</th>
+            <th>Total Employee</th>
             <th>Actions</th>
         </tr>
         </thead>

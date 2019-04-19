@@ -201,9 +201,6 @@
                             '</div>';
                 }
             }],
-            select: {
-                'style': 'multi'
-            },
             order: [],
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {

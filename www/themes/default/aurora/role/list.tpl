@@ -156,7 +156,7 @@
                      }
                      else {
                          $("#roleRow" + roleID).fadeOut("slow");
-                         swal("Done!", roleTitle + " has been succesfully deleted!", "success");
+                         swal("Done!", roleTitle + " has been successfully deleted!", "success");
                          return;
                      }
                  }

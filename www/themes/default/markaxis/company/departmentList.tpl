@@ -1,25 +1,21 @@
 <script>
     $(document).ready(function( ) {
-        var payCalTable = $(".payCalTable").DataTable({
+        var departmentTable = $(".departmentTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'payCalTable-row' + aData['pcID']);
+                $(nRow).attr('id', 'row' + aData['userID']);
             },
             ajax: {
-                url: Aurora.ROOT_URL + "admin/payroll/getCalResults",
+                url: Aurora.ROOT_URL + "admin/company/getDepartmentResults",
                 type: "POST",
-                data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+                data: function ( d ) {
+                    d.ajaxCall = 1;
+                    d.csrfToken = Aurora.CSRF_TOKEN;
+                },
             },
             initComplete: function() {
-                Popups.init();
-                /*var api = this.api();
-                var that = this;
-                $('input').on('keyup change', function() {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });*/
+                //
             },
             autoWidth: false,
             mark: true,
@@ -27,65 +23,64 @@
                 targets: [0],
                 orderable: true,
                 width: '250px',
-                data: 'calName'
+                data: 'name'
             },{
                 targets: [1],
                 orderable: true,
-                width: '280px',
-                data: 'payPeriod'
+                width: '320px',
+                data: 'manager'
             },{
                 targets: [2],
                 orderable: true,
-                width: '260px',
-                data: 'nextPayPeriod'
+                width: '150px',
+                data: 'empCount'
             },{
                 targets: [3],
-                orderable: true,
-                width: '220px',
-                data: 'nextPayment'
-            },{
-                targets: [4],
                 orderable: false,
                 searchable : false,
                 width: '100px',
                 className : "text-center",
                 data: 'pcID',
                 render: function(data, type, full, meta) {
+                    var name   = full["name"];
+                    var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
+
                     return '<div class="list-icons">' +
                            '<div class="list-icons-item dropdown">' +
                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                            '<i class="icon-menu9"></i></a>' +
-                           '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
-                           '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalPayItem">' +
-                           '<i class="icon-pencil5"></i> Edit Pay Calendar</a>' +
+                           '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                           '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
+                           '<i class="icon-pencil5"></i> Edit Office</a>' +
                            '<div class="divider"></div>' +
-                           '<a class="dropdown-item payItemDelete" data-id="' + data + '">' +
-                           '<i class="icon-bin"></i> Delete Pay Calendar</a>' +
+                           '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
+                           '<i class="icon-bin"></i> Delete Office</a>' +
                            '</div>' +
                            '</div>' +
                            '</div>';
                 }
             }],
             order: [],
-            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
+            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Pay Calendar',
-                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
+                searchPlaceholder: 'Search Department',
+                lengthMenu: '<span>Show:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
                 Popups.init();
-                $(".payCalTable [type=checkbox]").uniform();
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
             }
         });
 
+        $(".department-list-action-btns").insertAfter("#departmentList .dataTables_filter");
+
         // Alternative pagination
-        $('.datatable-pagination').DataTable({
+        $('#departmentList .datatable-pagination').DataTable({
             pagingType: "simple",
             language: {
                 paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
@@ -93,12 +88,12 @@
         });
 
         // Datatable with saving state
-        $('.datatable-save-state').DataTable({
+        $('#departmentList .datatable-save-state').DataTable({
             stateSave: true
         });
 
         // Scrollable datatable
-        $('.datatable-scroll-y').DataTable({
+        $('#departmentList .datatable-scroll-y').DataTable({
             autoWidth: true,
             scrollY: 300
         });
@@ -106,132 +101,43 @@
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
 
-        $('.payCalTable tbody').on('mouseover', 'td', function() {
-            var colIdx = payCalTable.cell(this).index().column;
+        $("#departmentList .datatable tbody").on("mouseover", "td", function() {
+            var colIdx = departmentTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(payCalTable.cells().nodes()).removeClass('active');
-                $(payCalTable.column(colIdx).nodes()).addClass('active');
+                $(departmentTable.cells().nodes()).removeClass('active');
+                $(departmentTable.column(colIdx).nodes()).addClass('active');
             }
         }).on('mouseleave', function() {
-            $(payCalTable.cells().nodes()).removeClass("active");
+            $(departmentTable.cells().nodes()).removeClass("active");
         });
 
         // Enable Select2 select for the length option
-        $(".dataTables_length select").select2({
+        $("#departmentList .dataTables_length select").select2({
             minimumResultsForSearch: Infinity,
             width: "auto"
-        });
-
-        $(".calendars-list-action-btns").insertAfter("#calendars .dataTables_filter");
-
-        $("#payPeriod").select2({minimumResultsForSearch: Infinity});
-
-        $("#payPeriod option").filter(function() {
-            return !this.value || $.trim(this.value).length == 0 || $.trim(this.text).length == 0;
-        }).remove();
-
-        $("#payPeriod option[value='monthly']").attr( "selected", true );
-
-        $(".pickadate-start").pickadate({
-            showMonthsShort: true
-        });
-
-        $(".pickadate-start").change(function() {
-            var data = {
-                bundle: {
-                    payPeriod: $("#payPeriod").val(),
-                    startDate: $(this).val()
-                },
-                success: function (res) {
-                    var obj = $.parseJSON(res);
-                    if (obj.bool == 0) {
-                        //alert(obj.errMsg);
-                        return;
-                    }
-                    else {
-                        $(".startDateHelp").text( obj.data );
-                    }
-                }
-            };
-            Aurora.WebService.AJAX("admin/payroll/getEndDate", data);
-        });
-
-        $(".pickadate-firstPayment").pickadate({
-            showMonthsShort: true
-        });
-
-        $(".pickadate-firstPayment").change(function() {
-            var data = {
-                bundle: {
-                    payPeriod : $("#payPeriod").val( ),
-                    startDate: $(this).val( )
-                },
-                success: function( res ) {
-                    var obj = $.parseJSON(res);
-                    if (obj.bool == 0) {
-                        alert(obj.errMsg);
-                        return;
-                    }
-                    else {
-                        $(".firstPaymentHelp").text( obj.data );
-                    }
-                }
-            };
-            Aurora.WebService.AJAX( "admin/payroll/getPaymentRecur", data );
-        });
-
-        $("#savePayrun").validate({
-            rules: {
-                payrunName: { required: true },
-                payPeriod: { required: true },
-                startDate: { required: true },
-                firstPayment: { required: true }
-            },
-            messages: {
-                payrunName: "Please enter a Pay Run Name for this period.",
-                payPeriod: "Please select Pay Period.",
-                startDate: "Please select Start Date.",
-                firstPayment: "Please select First Payment Date."
-            },
-            submitHandler: function( ) {
-                var data = {
-                    bundle: {
-                        prID: $("#prID").val( ),
-                        payrunName: $("#payrunName").val( ),
-                        payPeriod: $("#payPeriod").val( ),
-                        startDate: $("#startDate").val( ),
-                        firstPayment: $("#firstPayment").val( )
-                    },
-                    success: function( res ) {
-                        $(".payrunTable").data.reload();
-                    }
-                };
-                Aurora.WebService.AJAX( "admin/payroll/savePayrun", data );
-            }
         });
     });
 </script>
 
-<div class="tab-pane fade show active" id="calendars">
-    <div class="list-action-btns calendars-list-action-btns">
+<div class="tab-pane fade" id="departmentList">
+    <div class="list-action-btns department-list-action-btns">
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalAddPayrun">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_PAY_CALENDAR?>
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_DEPARTMENT?>
                 </a>
             </li>
         </ul>
     </div>
 
-    <table class="table table-hover datatable payCalTable">
+    <table class="table table-hover datatable departmentTable">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Pay Period</th>
-            <th>Next Pay Period</th>
-            <th>Next Payment Date</th>
+            <th>Department Name</th>
+            <th>Manager</th>
+            <th>No. of Employee</th>
             <th>Actions</th>
         </tr>
         </thead>

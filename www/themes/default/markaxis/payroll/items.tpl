@@ -31,25 +31,26 @@
                 checkboxes: {
                     selectRow: true
                 },
-                width: '10px',
+                width: "10px",
                 orderable: false,
                 searchable : false,
-                data: 'piID',
-                render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                data: "piID",
+                render: function( data, type, full, meta ) {
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="piID[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
                 orderable: true,
-                width: '300px',
-                data: 'title'
+                width: "300px",
+                data: "title"
             }, {
                 targets: [2],
                 orderable: true,
-                width: '100px',
-                data: 'basic',
+                searchable: false,
+                width: "100px",
+                data: "basic",
                 className : "text-center",
-                render: function(data, type, full, meta) {
+                render: function( data, type, full, meta ) {
                     if( data == 0 ) {
                         return '<span id="basic' + full['piID'] + '" class="label label-pending">No</span>';
                     }
@@ -60,10 +61,11 @@
             }, {
                 targets: [3],
                 orderable: true,
-                width: '100px',
-                data: 'deduction',
+                searchable: false,
+                width: "100px",
+                data: "deduction",
                 className : "text-center",
-                render: function(data, type, full, meta) {
+                render: function( data, type, full, meta ) {
                     if( data == 0 ) {
                         return '<span id="deduction' + full['piID'] + '" class="label label-pending">No</span>';
                     }
@@ -74,8 +76,9 @@
             }, {
                 targets: [4],
                 orderable: true,
-                width: '200px',
-                data: 'taxGroups',
+                searchable: false,
+                width:"200px",
+                data:"taxGroups",
                 render: function( data, type, full, meta ) {
                     var groups = '<div class="tax-group-item">';
 
@@ -89,9 +92,9 @@
                 targets: [5],
                 orderable: false,
                 searchable: false,
-                width: '100px',
-                className: "text-center",
-                data: 'piID',
+                width:"100px",
+                className:"text-center",
+                data:"piID",
                 render: function( data, type, full, meta ) {
                     return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
@@ -99,10 +102,10 @@
                             '<i class="icon-menu9"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalPayItem">' +
-                            '<i class="icon-user"></i> Edit Pay Item</a>' +
+                            '<i class="icon-pencil5"></i> Edit Pay Item</a>' +
                             '<div class="divider"></div>' +
-                            '<a class="dropdown-item">' +
-                            '<i class="icon-exit3"></i> Delete Pay Item</a>' +
+                            '<a class="dropdown-item payItemDelete" data-id="' + data + '">' +
+                            '<i class="icon-bin"></i> Delete Pay Item</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -146,15 +149,94 @@
         $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
 
         $(".payItemBtn").on("click", function ( ) {
-            var id = $(this).attr("id");
+            selectPayItemType( $(this).val( ) );
+            return false;
+        });
 
-            $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
+        $(document).on( "click", ".payItemDelete", function ( ) {
+            var id = $(this).attr("data-id");
+            var title = $("#payItemTable-row" + id).find("td").eq(1).text( );
+            var piID = new Array( );
+            piID.push( id );
 
-            if( id != "payItemNone") {
-                $("#" + id).addClass("btn-green");
+            swal({
+                title: "Are you sure you want to delete " + title + "?",
+                text: "This action cannot be undone once deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        data: piID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            $(".payItemTable").DataTable().ajax.reload();
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/payroll/deletePayItem", data);
+            });
+            return false;
+        });
+
+        $("#payItemBulkDelete").on("click", function ( ) {
+            var piID = new Array( );
+            $("input[name='piID[]']:checked").each(function(i) {
+                piID.push( $(this).val( ) );
+            });
+
+            if( piID.length == 0 ) {
+                swal({
+                    title: "No Pay Item Selected",
+                    type: "info"
+                });
             }
             else {
-                $("#" + id).addClass("btn-dark");
+                swal({
+                    title: "Are you sure you want to delete the selected Pay Items?",
+                    text: "This action cannot be undone once deleted.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm Delete",
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function (isConfirm) {
+                    if (isConfirm === false) return;
+
+                    var data = {
+                        bundle: {
+                            data: piID
+                        },
+                        success: function (res) {
+                            var obj = $.parseJSON(res);
+                            if (obj.bool == 0) {
+                                swal("Error!", obj.errMsg, "error");
+                                return;
+                            }
+                            else {
+                                $(".payItemTable").DataTable().ajax.reload();
+                                swal("Done!", obj.count + " items has been successfully deleted!", "success");
+                                return;
+                            }
+                        }
+                    };
+                    Aurora.WebService.AJAX("admin/payroll/deletePayItem", data);
+                });
             }
             return false;
         });
@@ -175,37 +257,121 @@
                             return;
                         }
                         else {
-                            console.log(obj)
-                            $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
-
+                            $("#piID").val( obj.data.piID );
                             $("#payItemTitle").val( obj.data.title );
+
                             if( obj.data.basic == 1 ) {
-                                $("#payItemBasic").addClass("btn-green");
+                                selectPayItemType("basic");
                             }
                             else if( obj.data.deduction == 1 ) {
-                                $("#payItemDeduction").addClass("btn-green");
+                                selectPayItemType("deduction");
                             }
                             else {
-                                $("#payItemNone").addClass("btn-dark");
+                                selectPayItemType("none");
                             }
-                            /*$("#ruleTitle").val( obj.data.title );
-                            $("#group").val( obj.data.tgID ).trigger("change");
-                            $("#country").val( obj.data.country ).trigger("change");*/
+
+                            $("#itemTaxGroup").multiselect("deselectAll", false);
+
+                            if( obj.data.taxGroups.length > 0 ) {
+                                for( var i=0; i<obj.data.taxGroups.length; i++ ) {
+                                    $("#itemTaxGroup").multiselect("select", obj.data.taxGroups[i].tgID);
+                                }
+                            }
+                            $("#itemTaxGroup").multiselect("refresh");
                         }
                     }
                 }
                 Aurora.WebService.AJAX( "admin/payroll/getPayItem/" + piID, data );
             }
             else {
-                /*$("#trID").val(0);
-                $("#ruleTitle").val("");
-                $("#group").val(0).trigger("change");
-                $("#country").val("").trigger("change");
-                $("#city").val("").trigger("change");
-                $("#state").val("").trigger("change");
-                $("#applyType").val("salaryDeduction").trigger("change");
-                $("#applyValueType").val("percentage").trigger("change");
-                $("#applyValue").val("");*/
+                $("#payItemTitle").val("")
+            }
+        });
+
+        $("#modalPayItem").on("shown.bs.modal", function(e) {
+            $("#payItemTitle").focus( );
+        });
+
+        function selectPayItemType( type ) {
+            $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
+
+            if( type == "basic" ) {
+                $("#payItemBasic").addClass("btn-green");
+                $("#payItemType").val("basic");
+            }
+            else if( type == "deduction" ) {
+                $("#payItemDeduction").addClass("btn-green");
+                $("#payItemType").val("deduction");
+            }
+            else {
+                $("#payItemNone").addClass("btn-dark");
+                $("#payItemType").val("none");
+            }
+        }
+
+        $("#savePayItem").validate({
+            rules: {
+                payItemTitle: { required: true }
+            },
+            messages: {
+                payItemTitle: "Please enter a Pay Item Title."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").prepend(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#savePayItem")
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".payItemTable").DataTable().ajax.reload();
+
+                            swal({
+                                title: $("#payItemTitle").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Pay Item",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                if( isConfirm === false ) {
+                                    $("#modalPayItem").modal("hide");
+                                }
+                                else {
+                                    $("#payItemTitle").val("");
+                                    selectPayItemType( "none" );
+                                    $("#itemTaxGroup").multiselect("deselectAll", false);
+                                    $("#itemTaxGroup").multiselect("refresh");
+
+                                    setTimeout(function() {
+                                        $("#payItemTitle").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/payroll/savePayItem", data );
             }
         });
     });
@@ -218,7 +384,13 @@
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalPayItem">
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_PAY_ITEM?>
-                </a>
+                </a>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                    <li><a href="#" id="payItemBulkDelete"><i class="icon-bin"></i> Delete Selected Pay Items</a></li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -247,6 +419,7 @@
             <div class="modal-body overflow-y-visible">
                 <form id="savePayItem" name="savePayItem" method="post" action="">
                     <input type="hidden" id="piID" name="piID" value="0" />
+                    <input type="hidden" id="payItemType" name="payItemType" value="" />
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -261,11 +434,11 @@
                                 <label>This Pay Item Belongs To:</label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
-                                        <button id="payItemNone" class="btn btn-light payItemBtn" type="button">None</button>
-                                        <button id="payItemBasic" class="btn btn-light payItemBtn" type="button">Basic Salary</button>
+                                        <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
+                                        <button id="payItemBasic" class="btn btn-light payItemBtn" type="button" value="basic">Basic Salary</button>
                                     </span>
                                     <span class="input-group-append">
-                                        <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button">Deduction</button>
+                                        <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
                                     </span>
                                 </div>
                             </div>

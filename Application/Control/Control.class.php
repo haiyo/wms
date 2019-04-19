@@ -136,7 +136,7 @@ class Control {
 
     /**
      * Set Info
-     * @return void
+     * @return mixed
      */
     public static function getDecodedArray( $info ) {
         if( is_array( $info ) ) {
@@ -165,7 +165,7 @@ class Control {
 
     /**
     * Return Save State
-    * @return void
+    * @return mixed
     */
     public static function getSaveState( ) {
         return self::$saveState;

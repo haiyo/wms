@@ -181,7 +181,7 @@ class EmployeeModel extends \Model {
         $saveInfo = array( );
         $saveInfo['idnumber'] = Validator::stripTrim( $data['idnumber'] );
         $saveInfo['passNumber'] = Validator::stripTrim( $data['passNumber'] );
-        $saveInfo['salary'] = Validator::stripTrim( $data['salary'] );
+        $saveInfo['salary'] = str_replace( ',', '', Validator::stripTrim( $data['salary'] ) );
 
         if( isset( CurrencyHelper::getL10nList( )[$data['currency']] ) ) {
             $saveInfo['currency'] = $data['currency'];

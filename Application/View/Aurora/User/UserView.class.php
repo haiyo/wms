@@ -38,11 +38,6 @@ class UserView extends AdminView {
 
         // We'll be doing user setup so make sure we use a new model instead of instance.
         $this->UserModel = new UserModel( );
-
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                  'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js' ),
-                                  'pages' => 'wizard_stepy.js',
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 

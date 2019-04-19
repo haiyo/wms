@@ -216,7 +216,7 @@ class Scheduler {
 
 
     /**
-     * Push a succesfully executed job.
+     * Push a successfully executed job.
      *
      * @param  Job  $job
      * @return Job

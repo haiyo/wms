@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Employee\TaxModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -49,6 +50,35 @@ class ItemTaxModel extends \Model {
      */
     public function getBypiID( $piID ) {
         return $this->ItemTax->getBypiID( $piID );
+    }
+
+
+    /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function save( $data ) {
+        if( isset( $data['piID'] ) ) {
+            if( isset( $data['itemTaxGroup'] ) && is_array( $data['itemTaxGroup'] ) ) {
+                $TaxModel = TaxModel::getInstance( );
+
+                // Make sure all itemTaxGroup are valid
+                if( $TaxModel->existByTGIDs( $data['itemTaxGroup'] ) ) {
+                    $this->ItemTax->delete('payroll_item_tax', 'WHERE piID = "' . (int)$data['piID'] . '"');
+
+                    $saveInfo = array( );
+                    foreach( $data['itemTaxGroup'] as $tgID ) {
+                        $saveInfo['piID'] = (int)$data['piID'];
+                        $saveInfo['tgID'] = (int)$tgID;
+                        $this->ItemTax->insert( 'payroll_item_tax', $saveInfo );
+                    }
+                }
+            }
+            // If no itemTaxGroup is pass in, delete any existing data
+            else {
+                $this->ItemTax->delete('payroll_item_tax', 'WHERE piID = "' . (int)$data['piID'] . '"');
+            }
+        }
     }
 }
 ?>

@@ -240,10 +240,8 @@ class UserModel extends \Model {
     * @return int
     */
     public function save( ) {
-        $userID = $this->info['userID'];
-        unset( $this->info['userID'] );
-
-        if( $userID == 0 ) {
+        if( !$this->info['userID'] ) {
+            unset( $this->info['userID'] );
             $this->info['created'] = date( 'Y-m-d H:i:s' );
             $this->info['userID'] = $this->User->insert( 'user', $this->info );
 
@@ -252,8 +250,7 @@ class UserModel extends \Model {
         }
         else {
             $this->info['lastUpdate'] = date( 'Y-m-d H:i:s' );
-            $this->User->update( 'user', $this->info, 'WHERE userID="' . (int)$userID . '"' );
-            $this->info['userID'] = $userID;
+            $this->User->update( 'user', $this->info, 'WHERE userID = "' . (int)$this->info['userID'] . '"' );
 
             $this->info['updateCurrent'] = false;
             $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
@@ -272,7 +269,7 @@ class UserModel extends \Model {
     * @return int
     */
     public function delete( $userID ) {
-        return $this->User->delete( 'user', 'WHERE userID="' . (int)$userID . '"' );
+        return $this->User->delete( 'user', 'WHERE userID = "' . (int)$userID . '"' );
     }
 
 

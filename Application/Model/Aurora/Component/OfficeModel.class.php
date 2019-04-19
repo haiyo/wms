@@ -57,7 +57,7 @@ class OfficeModel extends \Model {
 
         if( sizeof( $list ) > 0 ) {
             foreach( $list as $key => $value ) {
-                $newList[$key] = $value['name'] . ' (' .  $countries[$value['cID']] . ')';
+                $newList[$key] = $value['name'] . ' (' .  $countries[$value['countryID']] . ')';
             }
         }
         return $newList;

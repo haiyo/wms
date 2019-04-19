@@ -252,12 +252,12 @@
                         if( status == 1 ) {
                             $("#menuSetStatus" + userID).html('<i class="icon-user-check"></i> Unsuspend Employee');
                             $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-danger"' + reason + '>Suspended</span>');
-                            swal("Done!", name + " has been succesfully suspended!", "success");
+                            swal("Done!", name + " has been successfully suspended!", "success");
                         }
                         else {
                             $("#menuSetStatus" + userID).html('<i class="icon-user-block"></i> Suspend Employee');
                             $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-success"' + reason + '>Active</span>');
-                            swal("Done!", name + " has been succesfully unsuspended!", "success");
+                            swal("Done!", name + " has been successfully unsuspended!", "success");
                         }
                         Popups.init();
                         return;
@@ -298,7 +298,7 @@
                     }
                     else {
                         $("#row" + userID).fadeOut("slow");
-                        swal("Done!", name + " has been succesfully set to Resigned!", "success");
+                        swal("Done!", name + " has been successfully set to Resigned!", "success");
                         return;
                     }
                 }

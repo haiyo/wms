@@ -4,18 +4,18 @@ namespace Markaxis\Company;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Office.class.php, v 2.0 Exp $
+ * @version $Id: Department.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Office extends \DAO {
+class Department extends \DAO {
 
 
     // Properties
 
 
     /**
-     * Office Constructor
+     * Department Constructor
      * @return void
      */
     function __construct( ) {
@@ -30,13 +30,13 @@ class Office extends \DAO {
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM office', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM department', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             $list = array( );
 
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['ctID']] = $row['type'];
+                $list[$row['dID']] = $row['name'];
             }
         }
         return $list;
@@ -54,14 +54,12 @@ class Office extends \DAO {
         $q = $q ? 'AND ( o.name LIKE "%' . $q . '%" OR o.address LIKE "%' . $q . '%" 
                        OR c.country LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS o.oID, o.name, o.address, c.name as country, e.empCount,
-                                          TIME_FORMAT( openTime, "%H:%i" ) AS openTime, 
-                                          TIME_FORMAT( closeTime, "%H:%i" ) AS closeTime
-                                   FROM office o
-                                   LEFT JOIN country c ON ( o.countryID = c.cID )
-                                   LEFT JOIN ( SELECT officeID, COUNT(eID) as empCount FROM employee e
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS d.dID, d.name, e.empCount
+                                   FROM department d
+                                   -- LEFT JOIN country c ON ( o.countryID = c.cID )
+                                   LEFT JOIN ( SELECT departmentID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
-                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY officeID ) e ON e.officeID = o.oID
+                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY departmentID ) e ON e.departmentID = o.oID
                                    WHERE 1 = 1 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
             __FILE__, __LINE__ );
