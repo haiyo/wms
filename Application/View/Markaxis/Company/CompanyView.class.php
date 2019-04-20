@@ -80,7 +80,7 @@ class CompanyView extends AdminView {
      */
     public function renderSettings( $form ) {
         $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-cog2',
+                                      'icon' => 'icon-cog3',
                                       'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
 
         $vars = array( 'TPL_FORM' => $form );

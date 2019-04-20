@@ -25,12 +25,12 @@
 
     <div class="row">
         <div class="col-md-6">
-            <label>Select Designation:</label>
+            <label>Assign Designation:</label>
             <?TPL_DESIGNATION_LIST?>
         </div>
 
         <div class="col-md-6">
-            <label>Select Supervisor (1st Approving, 2nd Approving, etc):</label>
+            <label>Assign Supervisor (1st Approving, 2nd Approving, etc):</label>
             <input type="text" name="supervisors" class="form-control tokenfield-typeahead supervisorList"
                    placeholder="Enter Supervisor's Name"
                    value="<?TPLVAR_SUPERVISORS?>"
@@ -41,7 +41,7 @@
     <div class="row">
 
         <div class="col-md-6">
-            <label>Select Role(s):</label>
+            <label>Assign Role(s):</label>
             <?TPL_ROLE_LIST?>
         </div>
 

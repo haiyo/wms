@@ -10,7 +10,10 @@
             ajax: {
                 url: Aurora.ROOT_URL + "admin/employee/results",
                 type: "POST",
-                data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+                data: function ( d ) {
+                    d.ajaxCall = 1;
+                    d.csrfToken = Aurora.CSRF_TOKEN;
+                },
             },
             initComplete: function() {
                 Popups.init();

@@ -1,21 +1,21 @@
 <?php
-namespace Markaxis\Company;
+namespace Markaxis\Employee;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Office.class.php, v 2.0 Exp $
+ * @version $Id: Contract.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Office extends \DAO {
+class Contract extends \DAO {
 
 
     // Properties
 
 
     /**
-     * Office Constructor
+     * Contract Constructor
      * @return void
      */
     function __construct( ) {
@@ -30,13 +30,13 @@ class Office extends \DAO {
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM office', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM contract', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             $list = array( );
 
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['ctID']] = $row['type'];
+                $list[$row['cID']] = $row['type'];
             }
         }
         return $list;
@@ -47,22 +47,18 @@ class Office extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $q='', $order='name ASC' ) {
+    public function getResults( $q='', $order='type ASC' ) {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( o.name LIKE "%' . $q . '%" OR o.address LIKE "%' . $q . '%" 
-                       OR c.country LIKE "%' . $q . '%" )' : '';
+        $q = $q ? 'AND ( c.type LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS o.oID, o.name, o.address, c.name as country, 
-                                          IFNULL( e.empCount, 0 ) AS empCount,
-                                          TIME_FORMAT( openTime, "%H:%i" ) AS openTime, 
-                                          TIME_FORMAT( closeTime, "%H:%i" ) AS closeTime
-                                   FROM office o
-                                   LEFT JOIN country c ON ( o.countryID = c.cID )
-                                   LEFT JOIN ( SELECT officeID, COUNT(eID) as empCount FROM employee e
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS c.cID, c.type, c.descript, IFNULL( e.empCount, 0 ) AS empCount
+                                   FROM contract c
+                                   -- LEFT JOIN country c ON ( o.countryID = c.cID )
+                                   LEFT JOIN ( SELECT contractID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
-                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY officeID ) e ON e.officeID = o.oID
+                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY contractID ) e ON e.contractID = c.cID
                                    WHERE 1 = 1 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );

@@ -146,6 +146,12 @@
             $(payItemTable.cells().nodes()).removeClass("active");
         });
 
+        // Enable Select2 select for the length option
+        $("#payItems .dataTables_length select").select2({
+            minimumResultsForSearch: Infinity,
+            width: "auto"
+        });
+
         $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
 
         $(".payItemBtn").on("click", function ( ) {

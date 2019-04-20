@@ -1,5 +1,7 @@
 <?php
 namespace Aurora\User;
+use \Aurora\Admin\AdminView;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

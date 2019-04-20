@@ -1,13 +1,13 @@
 <script>
     $(document).ready(function( ) {
-        var departmentTable = $(".departmentTable").DataTable({
+        var contractTable = $(".contractTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
                 $(nRow).attr('id', 'row' + aData['userID']);
             },
             ajax: {
-                url: Aurora.ROOT_URL + "admin/company/getDepartmentResults",
+                url: Aurora.ROOT_URL + "admin/employee/getContractResults",
                 type: "POST",
                 data: function ( d ) {
                     d.ajaxCall = 1;
@@ -22,17 +22,17 @@
             columnDefs: [{
                 targets: [0],
                 orderable: true,
-                width: '250px',
-                data: 'name'
+                width: '200px',
+                data: 'type'
             },{
                 targets: [1],
                 orderable: true,
-                width: '320px',
-                data: 'manager'
+                width: '350px',
+                data: 'descript'
             },{
                 targets: [2],
                 orderable: true,
-                width: '150px',
+                width: '100px',
                 data: 'empCount',
                 className : "text-center",
             },{
@@ -52,21 +52,21 @@
                            '<i class="icon-menu9"></i></a>' +
                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                            '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                           '<i class="icon-pencil5"></i> Edit Department</a>' +
+                           '<i class="icon-pencil5"></i> Edit Designation</a>' +
                            '<div class="divider"></div>' +
                            '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                           '<i class="icon-bin"></i> Delete Department</a>' +
+                           '<i class="icon-bin"></i> Delete Designation</a>' +
                            '</div>' +
                            '</div>' +
                            '</div>';
                 }
             }],
             order: [],
-            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Department',
-                lengthMenu: '<span>Show:</span> _MENU_',
+                searchPlaceholder: 'Search Designation',
+                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
@@ -78,10 +78,10 @@
             }
         });
 
-        $(".department-list-action-btns").insertAfter("#departmentList .dataTables_filter");
+        $(".contract-list-action-btns").insertAfter("#contractList .dataTables_filter");
 
         // Alternative pagination
-        $('#departmentList .datatable-pagination').DataTable({
+        $('#contractList .datatable-pagination').DataTable({
             pagingType: "simple",
             language: {
                 paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
@@ -89,12 +89,12 @@
         });
 
         // Datatable with saving state
-        $('#departmentList .datatable-save-state').DataTable({
+        $('#contractList .datatable-save-state').DataTable({
             stateSave: true
         });
 
         // Scrollable datatable
-        $('#departmentList .datatable-scroll-y').DataTable({
+        $('#contractList .datatable-scroll-y').DataTable({
             autoWidth: true,
             scrollY: 300
         });
@@ -102,42 +102,42 @@
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
 
-        $("#departmentList .datatable tbody").on("mouseover", "td", function() {
-            var colIdx = departmentTable.cell(this).index().column;
+        $("#contractList .datatable tbody").on("mouseover", "td", function() {
+            var colIdx = contractTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(departmentTable.cells().nodes()).removeClass('active');
-                $(departmentTable.column(colIdx).nodes()).addClass('active');
+                $(contractTable.cells().nodes()).removeClass('active');
+                $(contractTable.column(colIdx).nodes()).addClass('active');
             }
         }).on('mouseleave', function() {
-            $(departmentTable.cells().nodes()).removeClass("active");
+            $(contractTable.cells().nodes()).removeClass("active");
         });
 
         // Enable Select2 select for the length option
-        $("#departmentList .dataTables_length select").select2({
+        $("#contractList .dataTables_length select").select2({
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
     });
 </script>
 
-<div class="tab-pane fade" id="departmentList">
-    <div class="list-action-btns department-list-action-btns">
+<div class="tab-pane fade" id="contractList">
+    <div class="list-action-btns contract-list-action-btns">
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalAddPayrun">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_DEPARTMENT?>
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_CONTRACT_TYPE?>
                 </a>
             </li>
         </ul>
     </div>
 
-    <table class="table table-hover datatable departmentTable">
+    <table class="table table-hover datatable tableLayoutFixed contractTable">
         <thead>
         <tr>
-            <th>Department Name</th>
-            <th>Manager</th>
+            <th>Contract Type</th>
+            <th>Description</th>
             <th>No. of Employee</th>
             <th>Actions</th>
         </tr>

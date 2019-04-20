@@ -31,6 +31,18 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
+    public function settings( ) {
+        $output = Control::getOutputArray( );
+        $form = isset( $output['form'] ) ? $output['form'] : '';
+
+        $this->EmployeeView->printAll( $this->EmployeeView->renderSettings( $form ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
             $includeOwn = isset( $args[2] ) ? true : false;

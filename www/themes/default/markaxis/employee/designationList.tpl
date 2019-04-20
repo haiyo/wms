@@ -1,49 +1,67 @@
 <script>
     $(document).ready(function( ) {
-        var departmentTable = $(".departmentTable").DataTable({
+        var groupColumn = 1;
+        var designationTable = $(".designationTable").DataTable({
             "processing": true,
             "serverSide": true,
-            "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['userID']);
+            "fnCreatedRow": function(nRow, aData, iDataIndex) {
+                $(nRow).attr("id", 'row' + aData['dID']);
+                $(nRow).addClass("group-" + aData['parentID']);
             },
             ajax: {
-                url: Aurora.ROOT_URL + "admin/company/getDepartmentResults",
+                url: Aurora.ROOT_URL + "admin/employee/getDesignationResults",
                 type: "POST",
                 data: function ( d ) {
                     d.ajaxCall = 1;
                     d.csrfToken = Aurora.CSRF_TOKEN;
-                },
+                }
             },
-            initComplete: function() {
-                //
+            initComplete: function( settings, json){
+                console.log(json);
             },
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: [0],
-                orderable: true,
-                width: '250px',
-                data: 'name'
-            },{
-                targets: [1],
-                orderable: true,
-                width: '320px',
-                data: 'manager'
-            },{
-                targets: [2],
-                orderable: true,
-                width: '150px',
-                data: 'empCount',
-                className : "text-center",
-            },{
-                targets: [3],
+                targets:[0],
+                checkboxes: {
+                    selectRow: true
+                },
+                width: '10px',
                 orderable: false,
                 searchable : false,
-                width: '100px',
-                className : "text-center",
-                data: 'pcID',
+                data: 'dID',
+                render: function (data, type, full, meta) {
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                }
+            },{
+                targets:[1],
+                visible:false,
+                data:'parentTitle'
+            },{
+                targets:[2],
+                orderable:true,
+                width:'250px',
+                data:'title'
+            },{
+                targets:[3],
+                orderable:true,
+                width:'350px',
+                data:'descript'
+            },{
+                targets:[4],
+                orderable:true,
+                width:'150px',
+                data:'empCount',
+                className:"text-center",
+            },{
+                targets:[5],
+                orderable:false,
+                searchable:false,
+                width:'100px',
+                className:"text-center",
+                data:'pcID',
                 render: function(data, type, full, meta) {
-                    var name   = full["name"];
+                    var name = full["name"];
                     var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
 
                     return '<div class="list-icons">' +
@@ -52,36 +70,69 @@
                            '<i class="icon-menu9"></i></a>' +
                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                            '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                           '<i class="icon-pencil5"></i> Edit Department</a>' +
+                           '<i class="icon-pencil5"></i> Edit Designation</a>' +
                            '<div class="divider"></div>' +
                            '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                           '<i class="icon-bin"></i> Delete Department</a>' +
+                           '<i class="icon-bin"></i> Delete Designation</a>' +
                            '</div>' +
                            '</div>' +
                            '</div>';
                 }
             }],
-            order: [],
-            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-            language: {
-                search: '',
-                searchPlaceholder: 'Search Department',
-                lengthMenu: '<span>Show:</span> _MENU_',
-                paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+            select: {
+                "style": "multi"
             },
-            drawCallback: function () {
-                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                Popups.init();
+            order:[[groupColumn,"asc"]],
+            dom:'<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
+            language: {
+                search:'',
+                searchPlaceholder: 'Search Designation',
+                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
+                paginate:{'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+            },
+            drawCallback: function ( settings ) {
+                $(".designationTable [type=checkbox]").uniform();
+
+                var api = this.api();
+                var rows = api.rows({page:'current'}).nodes();
+                var last = null;
+
+                api.column(groupColumn, {page:'current'}).data().each( function ( group, i ) {
+                    if( group !== null && last !== group ) {
+                        var idTitle = group.split("-");
+
+                        $(rows).eq(i).before('<tr  data-id="' + idTitle[0] + '" class="group parentGroupLit details-control groupShow">' +
+                                                '<td class="text-center">' +
+                                                '<i class="icon-enlarge7" id="groupIco-' + idTitle[0] + '"></i></td>' +
+                                                '<td colspan="4">' + idTitle[1] + '</td></tr>');
+                        last = group;
+                    }
+                });
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
             }
         });
 
-        $(".department-list-action-btns").insertAfter("#departmentList .dataTables_filter");
+        $(".designation-list-action-btns").insertAfter("#designationList .dataTables_filter");
+
+        $("#designationList tbody").on("click", "tr.details-control", function( ) {
+            var id = $(this).attr("data-id");
+
+            if( !$(this).hasClass("groupShow") ) {
+                $(".group-" + id).removeClass("hide");
+                $(this).addClass("groupShow parentGroupLit");
+                $("#groupIco-" + id).removeClass("icon-shrink7").addClass("icon-enlarge7");
+            }
+            else {
+                $(".group-" + id).addClass("hide");
+                $(this).removeClass("groupShow parentGroupLit");
+                $("#groupIco-" + id).removeClass("").addClass("icon-shrink7");
+            }
+        });
 
         // Alternative pagination
-        $('#departmentList .datatable-pagination').DataTable({
+        $('#designationList .datatable-pagination').DataTable({
             pagingType: "simple",
             language: {
                 paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
@@ -89,12 +140,12 @@
         });
 
         // Datatable with saving state
-        $('#departmentList .datatable-save-state').DataTable({
+        $('#designationList .datatable-save-state').DataTable({
             stateSave: true
         });
 
         // Scrollable datatable
-        $('#departmentList .datatable-scroll-y').DataTable({
+        $('#designationList .datatable-scroll-y').DataTable({
             autoWidth: true,
             scrollY: 300
         });
@@ -102,42 +153,44 @@
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
 
-        $("#departmentList .datatable tbody").on("mouseover", "td", function() {
-            var colIdx = departmentTable.cell(this).index().column;
+        $("#designationList .datatable tbody").on("mouseover", "td", function() {
+            var colIdx = designationTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(departmentTable.cells().nodes()).removeClass('active');
-                $(departmentTable.column(colIdx).nodes()).addClass('active');
+                $(designationTable.cells().nodes()).removeClass('active');
+                $(designationTable.column(colIdx).nodes()).addClass('active');
             }
         }).on('mouseleave', function() {
-            $(departmentTable.cells().nodes()).removeClass("active");
+            $(designationTable.cells().nodes()).removeClass("active");
         });
 
         // Enable Select2 select for the length option
-        $("#departmentList .dataTables_length select").select2({
+        $("#designationList .dataTables_length select").select2({
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
     });
 </script>
 
-<div class="tab-pane fade" id="departmentList">
-    <div class="list-action-btns department-list-action-btns">
+<div class="tab-pane fade" id="designationList">
+    <div class="list-action-btns designation-list-action-btns">
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalAddPayrun">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_DEPARTMENT?>
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_DESIGNATION?>
                 </a>
             </li>
         </ul>
     </div>
 
-    <table class="table table-hover datatable departmentTable">
+    <table class="table table-hover datatable datatableGroup tableLayoutFixed designationTable">
         <thead>
         <tr>
-            <th>Department Name</th>
-            <th>Manager</th>
+            <th></th>
+            <th></th>
+            <th>Designation Group / Title</th>
+            <th>Description</th>
             <th>No. of Employee</th>
             <th>Actions</th>
         </tr>

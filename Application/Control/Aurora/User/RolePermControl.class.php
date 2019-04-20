@@ -40,14 +40,14 @@ class RolePermControl {
     /**
     * Generate Role List Form
     * @return void
-    */
+
     public function list( ) {
         $RolePermModel = RolePermModel::getInstance( );
         $PermissionModel = PermissionModel::getInstance( );
 
         $RolePermView = new RolePermView( $RolePermModel, $PermissionModel );
         $RolePermView->printAll( $RolePermView->renderList( ) );
-    }
+    }*/
 
 
     /**

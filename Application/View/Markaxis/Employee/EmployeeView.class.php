@@ -50,6 +50,20 @@ class EmployeeView extends AdminView {
      * Render main navigation
      * @return string
      */
+    public function renderSettings( $form ) {
+        $this->setBreadcrumbs( array( 'link' => '',
+                                      'icon' => 'icon-cog3',
+                                      'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
+
+        $vars = array( 'TPL_FORM' => $form );
+        return $this->render( 'markaxis/employee/settings.tpl', $vars );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function renderList( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/employee/list',
                                       'icon' => 'icon-users4',

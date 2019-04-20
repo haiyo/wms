@@ -58,7 +58,6 @@ class Designation extends \DAO {
         $sql = $this->DB->select( 'SELECT e.dID AS parentID, r.dID AS id, r.title, r.parent
                                    FROM designation r
                                    LEFT JOIN designation e ON r.parent = e.dID
-                                   WHERE r.active <> "0"
                                    ORDER BY COALESCE(parentID, r.dID), r.dID', __FILE__, __LINE__ );
 
         $list = array( );
@@ -76,7 +75,7 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getIDList( ) {
-        $sql = $this->DB->select( 'SELECT dID FROM designation WHERE active <> "0"', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT dID FROM designation', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
