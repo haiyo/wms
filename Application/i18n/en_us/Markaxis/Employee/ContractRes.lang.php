@@ -20,7 +20,7 @@ class ContractRes extends Resource {
      */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_ADD_NEW_CONTRACT_TYPE'] = 'Add New Contract Type';
+        $this->contents['LANG_CREATE_NEW_CONTRACT_TYPE'] = 'Create New Contract Type';
     }
 }
 ?>

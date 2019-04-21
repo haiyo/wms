@@ -145,9 +145,6 @@
     <task type="role">
         <observer controller="Aurora/User/RoleControl"></observer>
     </task>
-    <task type="rolePerm">
-        <observer controller="Aurora/User/RolePermControl"></observer>
-    </task>
     <task type="positionRoleList">
         <observer controller="Aurora/Employee/PositionRoleControl"></observer>
     </task>

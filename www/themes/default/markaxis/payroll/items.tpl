@@ -346,7 +346,11 @@
                             return;
                         }
                         else {
-                            $(".payItemTable").DataTable().ajax.reload();
+                            $(".payItemTable").DataTable().ajax.reload( );
+                            $("#payItemTitle").val("");
+                            selectPayItemType( "none" );
+                            $("#itemTaxGroup").multiselect("deselectAll", false);
+                            $("#itemTaxGroup").multiselect("refresh");
 
                             swal({
                                 title: $("#payItemTitle").val( ) + " has been successfully created!",
@@ -364,11 +368,6 @@
                                     $("#modalPayItem").modal("hide");
                                 }
                                 else {
-                                    $("#payItemTitle").val("");
-                                    selectPayItemType( "none" );
-                                    $("#itemTaxGroup").multiselect("deselectAll", false);
-                                    $("#itemTaxGroup").multiselect("refresh");
-
                                     setTimeout(function() {
                                         $("#payItemTitle").focus( );
                                     }, 500);
@@ -460,7 +459,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>

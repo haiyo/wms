@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
+use \Library\Runtime\Registry, \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -41,8 +41,13 @@ class DesignationView extends AdminView {
      * @return string
      */
     public function renderSettings( ) {
+        $designationGroupList = $this->DesignationModel->getGroupList( );
+
+        $SelectListView = new SelectListView( );
+        $groupList = $SelectListView->build( 'dID', $designationGroupList, '', 'Select Designation Group' );
+
         $vars = array_merge( $this->L10n->getContents( ),
-            array( ) );
+                array( 'TPL_DESIGNATION_GROUP_LIST' => $groupList ) );
 
         return $this->render( 'markaxis/employee/designationList.tpl', $vars );
     }

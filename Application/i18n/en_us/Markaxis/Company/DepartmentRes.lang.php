@@ -21,7 +21,7 @@ class DepartmentRes extends Resource {
     function __construct( ) {
         $this->contents = array( );
         $this->contents['LANG_DEPARTMENT'] = 'Department';
-        $this->contents['LANG_ADD_NEW_DEPARTMENT'] = 'Add New Department';
+        $this->contents['LANG_CREATE_NEW_DEPARTMENT'] = 'Create New Department';
     }
 }
 ?>

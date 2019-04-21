@@ -78,5 +78,37 @@ class RolePerm extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getResults( $q='', $order='r.title ASC' ) {
+        $list = array( );
+
+        $q = $q ? addslashes( $q ) : '';
+        $q = $q ? 'AND ( r.title LIKE "%' . $q . '%" )' : '';
+
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS r.roleID, r.title, r.descript, IFNULL( e.empCount, 0 ) AS empCount
+                                   FROM role r
+                                   LEFT JOIN ( SELECT ur.roleID AS roleID, COUNT(eID) as empCount FROM employee e
+                                               LEFT JOIN user u ON e.userID = u.userID
+                                               LEFT JOIN user_role ur ON ur.userID = u.userID
+                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY ur.roleID ) e ON e.roleID = r.roleID
+                                   WHERE 1 = 1 ' . $q . '
+                                   ORDER BY ' . $order . $this->limit,
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
+        $row = $this->DB->fetch( $sql );
+        $list['recordsTotal'] = $row['FOUND_ROWS()'];
+        return $list;
+    }
 }
 ?>

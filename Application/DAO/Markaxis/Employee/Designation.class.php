@@ -44,28 +44,61 @@ class Designation extends \DAO {
 
 
     /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getGroupList( ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT * FROM designation WHERE parent = 0
+                                   ORDER BY title
+                                  ', __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            $list = array( );
+
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['dID']] = $row['title'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $q='', $order='title ASC' ) {
+    public function getResults( $q='', $order='parentTitle ASC' ) {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
         $q = $q ? 'AND ( d.title LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS dd.dID AS parentID, CONCAT(dd.dID, "-", dd.title) AS parentTitle, 
-                                          d.dID AS dID, d.title, d.descript, d.parent, IFNULL( e.empCount, 0 ) AS empCount
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS IFNULL( dd.dID, 0 ) AS parentID, dd.title AS parentTitle,
+                                          CONCAT(dd.dID, "-", dd.title) AS idParentTitle, 
+                                          d.dID AS dID, d.title, d.descript, d.parent, IFNULL( e.empCount, 0 ) AS empCount,
+                                          ( SELECT COUNT(*) FROM designation WHERE parent = d.dID ) AS childCount
                                    FROM designation d
                                    LEFT JOIN designation dd ON d.parent = dd.dID
                                    LEFT JOIN ( SELECT designationID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
                                                WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY designationID ) e ON e.designationID = d.dID
                                    WHERE d.parent <> 0 ' . $q . '
-                                   ORDER BY d.parent, ' . $order . $this->limit,
+                                   ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                /*if( !$row['parentID'] && !$row['childCount'] ) {
+                    $row['parentID'] = $row['dID'];
+                    $row['parentTitle'] = $row['title'];
+                    $row['idParentTitle'] = $row['dID'] . '-' . $row['title'];
+                    $row['dID'] = 0;
+                    $row['title'] = '';
+                    $row['parent'] = $row['dID'];
+                    $row['empCount'] = 0;
+                }*/
                 $list[] = $row;
             }
         }

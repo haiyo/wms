@@ -122,7 +122,7 @@
         position: absolute;
         top:0px;
         z-index:100;
-        height:85px;
+        height:87px;
     }
 
     .scroller-right{

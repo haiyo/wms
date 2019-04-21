@@ -36,21 +36,21 @@
             },{
                 targets:[1],
                 visible:false,
-                data:'parentTitle'
+                data:'idParentTitle'
             },{
                 targets:[2],
                 orderable:true,
-                width:'250px',
+                width:'160px',
                 data:'title'
             },{
                 targets:[3],
                 orderable:true,
-                width:'350px',
+                width:'400px',
                 data:'descript'
             },{
                 targets:[4],
                 orderable:true,
-                width:'150px',
+                width:'100px',
                 data:'empCount',
                 className:"text-center",
             },{
@@ -69,10 +69,10 @@
                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                            '<i class="icon-menu9"></i></a>' +
                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                           '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
+                           '<a class="dropdown-item" data-backdrop="static" data-keyboard="false">' +
                            '<i class="icon-pencil5"></i> Edit Designation</a>' +
                            '<div class="divider"></div>' +
-                           '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
+                           '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '">' +
                            '<i class="icon-bin"></i> Delete Designation</a>' +
                            '</div>' +
                            '</div>' +
@@ -98,13 +98,30 @@
                 var last = null;
 
                 api.column(groupColumn, {page:'current'}).data().each( function ( group, i ) {
-                    if( group !== null && last !== group ) {
+                    if( last !== group ) {
                         var idTitle = group.split("-");
 
-                        $(rows).eq(i).before('<tr  data-id="' + idTitle[0] + '" class="group parentGroupLit details-control groupShow">' +
-                                                '<td class="text-center">' +
+                        var menu = '<div class="list-icons">' +
+                                   '<div class="list-icons-item dropdown">' +
+                                   '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                                   '<i class="icon-menu9"></i></a>' +
+                                   '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                                   '<a class="dropdown-item" data-toggle="modal" data-target="#modalPermission" data-backdrop="static" ' +
+                                   'data-keyboard="false">' +
+                                   '<i class="icon-pencil5"></i> Edit Group</a>' +
+                                   '<div class="divider"></div>' +
+                                   '<a class="dropdown-item" href="#">' +
+                                   '<i class="icon-bin"></i> Delete Group</a>' +
+                                   '</div>' +
+                                   '</div>' +
+                                   '</div>';
+
+                        $(rows).eq(i).before('<tr  data-id="' + idTitle[0] + '" class="group parentGroupLit groupShow">' +
+                                                '<td class="text-center details-control">' +
                                                 '<i class="icon-enlarge7" id="groupIco-' + idTitle[0] + '"></i></td>' +
-                                                '<td colspan="4">' + idTitle[1] + '</td></tr>');
+                                                '<td colspan="3" class="details-control">' + idTitle[1] + '</td>' +
+                                                '<td class="text-center">' + menu + '</td>' +
+                                              '</tr>');
                         last = group;
                     }
                 });
@@ -116,17 +133,17 @@
 
         $(".designation-list-action-btns").insertAfter("#designationList .dataTables_filter");
 
-        $("#designationList tbody").on("click", "tr.details-control", function( ) {
-            var id = $(this).attr("data-id");
+        $("#designationList tbody").on("click", "td.details-control", function( ) {
+            var id = $(this).parent( ).attr("data-id");
 
-            if( !$(this).hasClass("groupShow") ) {
+            if( !$(this).parent( ).hasClass("groupShow") ) {
                 $(".group-" + id).removeClass("hide");
-                $(this).addClass("groupShow parentGroupLit");
+                $(this).parent( ).addClass("groupShow parentGroupLit");
                 $("#groupIco-" + id).removeClass("icon-shrink7").addClass("icon-enlarge7");
             }
             else {
                 $(".group-" + id).addClass("hide");
-                $(this).removeClass("groupShow parentGroupLit");
+                $(this).parent( ).removeClass("groupShow parentGroupLit");
                 $("#groupIco-" + id).removeClass("").addClass("icon-shrink7");
             }
         });
@@ -169,6 +186,88 @@
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
+
+        $("#modalGroup").on("shown.bs.modal", function(e) {
+            $("#groupTitle").focus( );
+        });
+
+        $("#saveGroup").submit( function( ) {
+            designationSubmit( "saveGroup", "group", "Group" );
+            return false;
+        });
+
+        $("#saveDesignation").submit( function( ) {
+            designationSubmit( "saveDesignation", "designation", "Designation" );
+            return false;
+        });
+
+
+        function designationSubmit( form, element, name ) {
+            var group = form === "saveGroup" ? 1 : 0;
+
+            $("#" + form).validate({
+                rules: {
+                    element: { required: true }
+                },
+                messages: {
+                    element: "Please enter a " + name + " Name."
+                },
+                highlight: function(element, errorClass) {
+                    $(element).addClass("border-danger");
+                },
+                unhighlight: function(element, errorClass) {
+                    $(element).removeClass("border-danger");
+                    $(".modal-footer .error").remove();
+                },
+                // Different components require proper error label placement
+                errorPlacement: function(error, element) {
+                    if( $(".modal-footer .error").length == 0 )
+                        $(".modal-footer").prepend(error);
+                },
+                submitHandler: function( ) {
+                    var data = {
+                        bundle: {
+                            data: Aurora.WebService.serializePost("#" + form),
+                            group: group
+                        },
+                        success: function( res ) {
+                            var obj = $.parseJSON( res );
+                            if( obj.bool == 0 ) {
+                                swal("error", obj.errMsg);
+                                return;
+                            }
+                            else {
+                                $(".designationTable").DataTable().ajax.reload();
+                                $("#" + element + "Title").val("");
+
+                                swal({
+                                    title: $("#" + element + "Title").val( ) + " has been successfully created!",
+                                    text: "What do you want to do next?",
+                                    type: 'success',
+                                    confirmButtonClass: 'btn btn-success',
+                                    cancelButtonClass: 'btn btn-danger',
+                                    buttonsStyling: false,
+                                    showCancelButton: true,
+                                    confirmButtonText: "Create Another " + name,
+                                    cancelButtonText: "Close Window",
+                                    reverseButtons: true
+                                }, function( isConfirm ) {
+                                    if( isConfirm === false ) {
+                                        $("#modalGroup").modal("hide");
+                                    }
+                                    else {
+                                        setTimeout(function() {
+                                            $("#" + element + "Title").focus( );
+                                        }, 500);
+                                    }
+                                });
+                            }
+                        }
+                    };
+                    Aurora.WebService.AJAX( "admin/employee/saveDesignation", data );
+                }
+            });
+        }
     });
 </script>
 
@@ -177,9 +276,19 @@
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
-                   data-toggle="modal" data-target="#modalAddPayrun">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_DESIGNATION?>
-                </a>
+                   data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalGroup">
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_DESIGNATION_GROUP?>
+                </a>&nbsp;&nbsp;&nbsp;
+                <a type="button" class="btn bg-purple-400 btn-labeled"
+                   data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#modalDesignation">
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_DESIGNATION?>
+                </a>&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                    <li><a href="#" id="payItemBulkDelete"><i class="icon-bin"></i> Delete Selected Designations</a></li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -197,60 +306,74 @@
         </thead>
     </table>
 </div>
-<div id="modalAddPayrun" class="modal fade">
+<div id="modalGroup" class="modal fade">
     <div class="modal-dialog modal-med">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Pay Run</h6>
+                <h6 class="modal-title">Create New Designation Group</h6>
             </div>
 
             <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
-                    <input type="hidden" id="prID" name="prID" value="0" />
+                <form id="saveGroup" name="saveGroup" method="post" action="">
+                    <input type="hidden" id="groupID" name="groupID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>How often will you pay your employees?</label>
-                                <?TPL_PAY_PERIOD_LIST?>
+                                <label>Designation Group Title:</label>
+                                <input type="text" name="groupTitle" id="groupTitle" class="form-control" value=""
+                                       placeholder="Enter Group Title" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalDesignation" class="modal fade">
+    <div class="modal-dialog modal-med">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title">Create New Designation</h6>
+            </div>
+
+            <div class="modal-body overflow-y-visible">
+                <form id="saveDesignation" name="saveDesignation" method="post" action="">
+                    <input type="hidden" id="designationID" name="designationID" value="0" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Designation Title:</label>
+                                <input type="text" name="designationTitle" id="designationTitle" class="form-control" value=""
+                                       placeholder="Enter Designation Title" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Designation Description:</label>
+                                <textarea id="designationDescript" name="designationDescript" rows="5" cols="4"
+                                          placeholder="Enter Designation Description" class="form-control"></textarea>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Pay Run Name:</label>
-                                <input type="text" name="payrunName" id="payrunName" class="form-control" value=""
-                                       placeholder="For e.g: Monthly Full-time Employee, Weekly Part-time Employee" />
+                                <label>Designation Group:</label>
+                                <?TPL_DESIGNATION_GROUP_LIST?>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Start Date:</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                    <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
-                                </div>
-                                <span class="help-block startDateHelp"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>First Payment Date:</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                </span>
-                                <input type="text" class="form-control pickadate-firstPayment" id="firstPayment" name="firstPayment" placeholder="" />
-                            </div>
-                            <span class="help-block firstPaymentHelp"></span>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>

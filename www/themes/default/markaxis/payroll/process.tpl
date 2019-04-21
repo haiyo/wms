@@ -176,7 +176,7 @@
                     var name   = full["name"];
                     var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
 
-                    return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processForm/' + full['userID'] + '/" data-toggle="modal" data-target="#modalCalPayroll">Calculate Payroll</a>';
+                    return '<a data-id="' +  + full['userID'] + '" data-toggle="modal" data-target="#modalCalPayroll">Calculate Payroll</a>';
 
                     return '<div class="list-icons">' +
                                 '<div class="list-icons-item dropdown">' +
@@ -221,7 +221,7 @@
         $("#modalCalPayroll").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
-            $(this).find(".modal-body").load( $invoker.attr("href") + $("#processDate").val(), function() {
+            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processForm/' + $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
                 $(".check-input").uniform();
                 $(".itemType").select2({minimumResultsForSearch: -1});
             });

@@ -51,19 +51,19 @@ class DesignationControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+    public function saveDesignation( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
         if( $this->DesignationModel->isValid( $post ) ) {
-            $post['userID'] = $this->DesignationModel->save( );
-            Control::setPostData( $post );
+            $this->DesignationModel->save( );
+            $vars['bool'] = 1;
         }
         else {
             $vars['bool'] = 0;
             $vars['errMsg'] = $this->DesignationModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
         }
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

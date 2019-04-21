@@ -5,12 +5,16 @@
         <div class="heading-elements">
             <ul class="icons-list">
                 <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled" data-toggle="modal" data-target="#modalTaxGroup">
+                    <a type="button" class="btn bg-purple-400 btn-labeled"
+                       data-backdrop="static" data-keyboard="false"
+                       data-toggle="modal" data-target="#modalTaxGroup">
                         <b><i class="icon-folder-plus"></i></b> Create New Tax Group
                     </a>
                 </li>
                 <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled" data-toggle="modal" data-target="#modalTaxRule">
+                    <a type="button" class="btn bg-purple-400 btn-labeled" data-toggle="modal"
+                       data-backdrop="static" data-keyboard="false"
+                       data-target="#modalTaxRule">
                         <b><i class="icon-library2"></i></b> Create New Tax Rule
                     </a>
                 </li>
@@ -891,7 +895,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -1148,7 +1152,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -1421,8 +1425,6 @@
                 groupTitle: { required: true }
             },
             messages: {
-                //username: Aurora.i18n.LoginRes.LANG_ENTER_VALID_EMAIL,
-                //password: Aurora.i18n.LoginRes.LANG_ENTER_PASSWORD
                 groupTitle: "Please enter a Group Title."
             },
             submitHandler: function( ) {

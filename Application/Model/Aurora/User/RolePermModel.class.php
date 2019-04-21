@@ -62,6 +62,35 @@ class RolePermModel extends \Model {
 
 
     /**
+     * Get File Information
+     * @return mixed
+     */
+    public function getResults( $post ) {
+        $this->RolePerm->setLimit( $post['start'], $post['length'] );
+
+        $order = 'r.title';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        if( isset( $post['order'][0]['column'] ) ) {
+            switch( $post['order'][0]['column'] ) {
+                case 1:
+                    $order = 'r.title';
+                    break;
+            }
+        }
+        $results = $this->RolePerm->getResults( $post['search']['value'], $order . $dir );
+
+        $total = $results['recordsTotal'];
+        unset( $results['recordsTotal'] );
+
+        return array( 'draw' => (int)$post['draw'],
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
+    }
+
+
+    /**
     * Save Role Permissions
     * @return void
     */

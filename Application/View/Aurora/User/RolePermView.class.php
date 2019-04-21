@@ -63,9 +63,35 @@ class RolePermView extends AdminView {
     * Render Role List
     * @return string
     */
-    public function renderList( ) {
+    public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
                 array( ) );
+
+        /*$roleList = $this->RolePermModel->getAll( );
+        $sizeof   = sizeof( $roleList );
+
+        $vars['dynamic']['roleList'] = false;
+
+        if( $sizeof > 0 ) {
+            for( $i=0; $i<$sizeof; $i++ ) {
+                $vars['dynamic']['roleList'][] = array( 'TPLVAR_ROLE_ID'       => $roleList[$i]['roleID'],
+                                                        'TPLVAR_ROLE_TITLE'    => $roleList[$i]['title'],
+                                                        'TPLVAR_ROLE_DESCRIPT' => $roleList[$i]['descript'] );
+            }
+        }
+
+        $vars['TPL_PERM_LIST'] = $this->renderPermList( );
+        $this->setBreadcrumbs( array( 'link' => '', 'text' => $this->L10n->getContents('LANG_ROLES_PERMISSIONS') ) );*/
+        return $this->render( 'markaxis/employee/roleList.tpl', $vars );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderPerms( $roleID ) {
+        $userInfo = $this->PayrollModel->getCalculateUserInfo( $roleID );
 
         $roleList = $this->RolePermModel->getAll( );
         $sizeof   = sizeof( $roleList );
@@ -81,8 +107,7 @@ class RolePermView extends AdminView {
         }
 
         $vars['TPL_PERM_LIST'] = $this->renderPermList( );
-        $this->setBreadcrumbs( array( 'link' => '', 'text' => $this->L10n->getContents('LANG_ROLES_PERMISSIONS') ) );
-        return $this->render( 'aurora/role/list.tpl', $vars );
+        return $this->render( 'markaxis/employee/roleList.tpl', $vars );
     }
 
 
@@ -107,7 +132,8 @@ class RolePermView extends AdminView {
                 $list[$permList[$i]['parentID']] .= $this->render( 'aurora/role/permList.tpl', $vars );
             }
         }
-        return implode( '', array_values( $list ) );
+        $vars['TPL_PERM_LIST'] = implode( '', array_values( $list ) );
+        return $this->render( 'markaxis/employee/permList.tpl', $vars );
     }
 }
 ?>

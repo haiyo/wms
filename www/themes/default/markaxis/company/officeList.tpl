@@ -144,7 +144,7 @@
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalAddPayrun">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_OFFICE?>
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_OFFICE?>
                 </a>
             </li>
         </ul>
