@@ -191,83 +191,131 @@
             $("#groupTitle").focus( );
         });
 
-        $("#saveGroup").submit( function( ) {
-            designationSubmit( "saveGroup", "group", "Group" );
-            return false;
-        });
-
-        $("#saveDesignation").submit( function( ) {
-            designationSubmit( "saveDesignation", "designation", "Designation" );
-            return false;
-        });
-
-
-        function designationSubmit( form, element, name ) {
-            var group = form === "saveGroup" ? 1 : 0;
-
-            $("#" + form).validate({
-                rules: {
-                    element: { required: true }
-                },
-                messages: {
-                    element: "Please enter a " + name + " Name."
-                },
-                highlight: function(element, errorClass) {
-                    $(element).addClass("border-danger");
-                },
-                unhighlight: function(element, errorClass) {
-                    $(element).removeClass("border-danger");
-                    $(".modal-footer .error").remove();
-                },
-                // Different components require proper error label placement
-                errorPlacement: function(error, element) {
-                    if( $(".modal-footer .error").length == 0 )
-                        $(".modal-footer").prepend(error);
-                },
-                submitHandler: function( ) {
-                    var data = {
-                        bundle: {
-                            data: Aurora.WebService.serializePost("#" + form),
-                            group: group
-                        },
-                        success: function( res ) {
-                            var obj = $.parseJSON( res );
-                            if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
-                                return;
-                            }
-                            else {
-                                $(".designationTable").DataTable().ajax.reload();
-                                $("#" + element + "Title").val("");
-
-                                swal({
-                                    title: $("#" + element + "Title").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
-                                    type: 'success',
-                                    confirmButtonClass: 'btn btn-success',
-                                    cancelButtonClass: 'btn btn-danger',
-                                    buttonsStyling: false,
-                                    showCancelButton: true,
-                                    confirmButtonText: "Create Another " + name,
-                                    cancelButtonText: "Close Window",
-                                    reverseButtons: true
-                                }, function( isConfirm ) {
-                                    if( isConfirm === false ) {
-                                        $("#modalGroup").modal("hide");
-                                    }
-                                    else {
-                                        setTimeout(function() {
-                                            $("#" + element + "Title").focus( );
-                                        }, 500);
-                                    }
-                                });
-                            }
+        $("#saveGroup").validate({
+            rules: {
+                groupTitle: { required: true }
+            },
+            messages: {
+                groupTitle: "Please enter a Group Title."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").prepend(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveGroup"),
+                        group: true
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
                         }
-                    };
-                    Aurora.WebService.AJAX( "admin/employee/saveDesignation", data );
-                }
-            });
-        }
+                        else {
+                            $(".designationTable").DataTable().ajax.reload();
+                            $("#groupTitle").val("");
+
+                            swal({
+                                title: $("#groupTitle").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Group",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                if( isConfirm === false ) {
+                                    $("#modalGroup").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#groupTitle").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/employee/saveDesignation", data );
+            }
+        });
+
+        $("#saveDesignation").validate({
+            rules: {
+                designationTitle: { required: true }
+            },
+            messages: {
+                designationTitle: "Please enter a Designation Title."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").prepend(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveDesignation"),
+                        group: false
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".designationTable").DataTable().ajax.reload();
+                            $("#groupTitle").val("");
+
+                            swal({
+                                title: $("#designationTitle").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Designation",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                if( isConfirm === false ) {
+                                    $("#modalDesignation").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#designationTitle").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/employee/saveDesignation", data );
+            }
+        });
     });
 </script>
 
