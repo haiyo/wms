@@ -97,9 +97,7 @@ class DesignationModel extends \Model {
             $this->info['descript'] = Validator::stripTrim( $data['data']['designationDescript'] );
             $this->info['parent'] = (int)$data['data']['dID'];
         }
-
         $Validator->addModule( $moduleName, new IsEmpty( $this->info['title'] ) );
-
         try {
             $Validator->validate( );
         }
@@ -121,7 +119,8 @@ class DesignationModel extends \Model {
             $this->info['dID'] = $this->Designation->insert( 'designation', $this->info );
         }
         else {
-            $this->Designation->update( 'designation', $this->info, 'WHERE dID = "' . (int)$this->info['dID'] . '"' );
+            $this->Designation->update( 'designation', $this->info,
+                                        'WHERE dID = "' . (int)$this->info['dID'] . '"' );
         }
         return $this->info['dID'];
     }
@@ -134,9 +133,13 @@ class DesignationModel extends \Model {
     public function delete( $data ) {
         $deleted = 0;
 
-        if( is_array( $data ) ) {
-            foreach( $data as $dID ) {
+        if( is_array( $data['data'] ) ) {
+            foreach( $data['data'] as $dID ) {
                 $this->Designation->delete('designation', 'WHERE dID = "' . (int)$dID . '"');
+
+                if( $data['group'] ) {
+                    $this->Designation->delete('designation', 'WHERE parent = "' . (int)$dID . '"');
+                }
                 $deleted++;
             }
         }

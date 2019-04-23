@@ -40,14 +40,22 @@ class DesignationView extends AdminView {
      * Render main navigation
      * @return string
      */
-    public function renderSettings( ) {
+    public function renderGroupList( ) {
         $designationGroupList = $this->DesignationModel->getGroupList( );
 
         $SelectListView = new SelectListView( );
-        $groupList = $SelectListView->build( 'dID', $designationGroupList, '', 'Select Designation Group' );
+        return $SelectListView->build( 'dID', $designationGroupList, '',
+                                        'Select Designation Group' );
+    }
 
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_DESIGNATION_GROUP_LIST' => $groupList ) );
+                array( 'TPL_DESIGNATION_GROUP_LIST' => $this->renderGroupList( ) ) );
 
         return $this->render( 'markaxis/employee/designationList.tpl', $vars );
     }

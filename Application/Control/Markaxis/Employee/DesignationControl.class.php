@@ -14,6 +14,7 @@ class DesignationControl {
 
     // Properties
     private $DesignationModel;
+    private $DesignationView;
 
 
     /**
@@ -22,6 +23,7 @@ class DesignationControl {
      */
     function __construct( ) {
         $this->DesignationModel = DesignationModel::getInstance( );
+        $this->DesignationView = new DesignationView( );
     }
 
 
@@ -30,8 +32,7 @@ class DesignationControl {
      * @return string
      */
     public function settings( ) {
-        $DesignationView = new DesignationView( );
-        Control::setOutputArrayAppend( array( 'form' => $DesignationView->renderSettings( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->DesignationView->renderSettings( ) ) );
     }
 
 
@@ -41,7 +42,6 @@ class DesignationControl {
      */
     public function getDesignationResults( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->DesignationModel->getResults( $post ) );
         exit;
     }
@@ -57,6 +57,31 @@ class DesignationControl {
         if( $this->DesignationModel->isValid( $post ) ) {
             $this->DesignationModel->save( );
             $vars['bool'] = 1;
+            if( $post['group'] ) {
+                $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+            }
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->DesignationModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteDesignation( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+
+        if( $vars['count'] = $this->DesignationModel->delete( $post ) ) {
+            $vars['bool'] = 1;
+            if( $post['group'] ) {
+                $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+            }
         }
         else {
             $vars['bool'] = 0;

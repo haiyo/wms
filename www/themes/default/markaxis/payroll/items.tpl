@@ -36,7 +36,8 @@
                 searchable : false,
                 data: "piID",
                 render: function( data, type, full, meta ) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="piID[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="dt-checkboxes check-input" ' +
+                            'name="piID[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
@@ -159,7 +160,7 @@
             return false;
         });
 
-        $(document).on( "click", ".payItemDelete", function ( ) {
+        $(document).on("click", ".payItemDelete", function ( ) {
             var id = $(this).attr("data-id");
             var title = $("#payItemTable-row" + id).find("td").eq(1).text( );
             var piID = new Array( );
@@ -213,7 +214,7 @@
             }
             else {
                 swal({
-                    title: "Are you sure you want to delete the selected Pay Items?",
+                    title: "Are you sure you want to delete the selected pay Items?",
                     text: "This action cannot be undone once deleted.",
                     type: "warning",
                     showCancelButton: true,
