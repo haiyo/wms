@@ -31,7 +31,8 @@
                 searchable : false,
                 data: 'dID',
                 render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="dID[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="dID[]" ' +
+                           'value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets:[1],
@@ -63,9 +64,11 @@
                 render: function(data, type, full, meta) {
                     return '<div class="list-icons">' +
                            '<div class="list-icons-item dropdown">' +
-                           '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                           '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" ' +
+                           'aria-expanded="false">' +
                            '<i class="icon-menu9"></i></a>' +
-                           '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                           '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" ' +
+                           'x-placement="bottom-end">' +
                            '<a class="dropdown-item" data-backdrop="static" data-keyboard="false">' +
                            '<i class="icon-pencil5"></i> Edit Designation</a>' +
                            '<div class="divider"></div>' +
@@ -109,7 +112,7 @@
                                    'data-backdrop="static" data-keyboard="false" data-id="' + idTitle[0] + '">' +
                                    '<i class="icon-pencil5"></i> Edit Group</a>' +
                                    '<div class="divider"></div>' +
-                                   '<a class="dropdown-item group designationDelete" href="#" data-id="' + idTitle[0] + '">' +
+                                   '<a class="dropdown-item group designationDelete" data-id="' + idTitle[0] + '">' +
                                    '<i class="icon-bin"></i> Delete Group</a>' +
                                    '</div>' +
                                    '</div>' +
@@ -126,7 +129,7 @@
                 });
             },
             preDrawCallback: function() {
-                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+                $(this).find("tbody tr").slice(-3).find(".dropdown, .btn-group").removeClass("dropup");
             }
         });
 
@@ -241,6 +244,7 @@
                                 reverseButtons: true
                             }, function( isConfirm ) {
                                 if( isConfirm === false ) {
+                                    $("#groupTitle").val("");
                                     $("#modalGroup").modal("hide");
                                     $("#dID").select2("destroy").remove( );
                                     $("#groupUpdate").html( obj.groupListUpdate );
@@ -308,6 +312,9 @@
                             }, function( isConfirm ) {
                                 if( isConfirm === false ) {
                                     $("#modalDesignation").modal("hide");
+                                    $("#designationTitle").val("");
+                                    $("#designationDescript").val("");
+                                    $("#dID").val("").trigger("change");
                                 }
                                 else {
                                     setTimeout(function() {
@@ -424,6 +431,45 @@
             }
             return false;
         });
+
+        $("#orphanGroupDelete").on("click", function ( ) {
+            swal({
+                title: "Are you sure you want to delete all orphan groups?",
+                text: "All groups with empty designation will be deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function( isConfirm ) {
+                if( isConfirm === false ) return;
+
+                var data = {
+                    success: function(res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            if( obj.count > 0 ) {
+                                $("#dID").select2("destroy").remove( );
+                                $("#groupUpdate").html( obj.groupListUpdate );
+                                $("#dID").select2( );
+                                swal("Done!", obj.count + " orphan groups has been successfully deleted!", "success");
+                            }
+                            else {
+                                swal("Done!", "There are currently no orphan group.", "success");
+                            }
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/employee/deleteOrphanGroups", data);
+            });
+            return false;
+        });
     });
 </script>
 
@@ -443,8 +489,8 @@
                     <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="orphanGroupDelete"><i class="icon-bin"></i> Delete Orphan Groups</a></li>
-                    <li><a href="#" id="designationBulkDelete"><i class="icon-bin"></i> Delete Selected Designations</a></li>
+                    <li><a id="orphanGroupDelete"><i class="icon-bin"></i> Delete Orphan Groups</a></li>
+                    <li><a id="designationBulkDelete"><i class="icon-bin"></i> Delete Selected Designations</a></li>
                 </ul>
             </li>
         </ul>

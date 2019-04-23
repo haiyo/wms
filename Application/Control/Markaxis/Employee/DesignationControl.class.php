@@ -90,5 +90,18 @@ class DesignationControl {
         echo json_encode( $vars );
         exit;
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteOrphanGroups( ) {
+        $vars['bool'] = 1;
+        $vars['count'] = $this->DesignationModel->deleteOrphanGroups( );
+        $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

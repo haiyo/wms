@@ -48,6 +48,15 @@ class DesignationModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getEmptyGroupList( ) {
+        return $this->Designation->getEmptyGroupList( );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -144,6 +153,22 @@ class DesignationModel extends \Model {
             }
         }
         return $deleted;
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function deleteOrphanGroups( ) {
+        $emptyGroups = $this->getEmptyGroupList( );
+        $count = sizeof( $emptyGroups );
+
+        if( $count > 0 ) {
+            $this->Designation->delete('designation',
+                                      'WHERE dID IN (' . implode( ',', $emptyGroups ) . ')');
+        }
+        return $count;
     }
 }
 ?>

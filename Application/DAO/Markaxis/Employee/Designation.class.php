@@ -33,8 +33,6 @@ class Designation extends \DAO {
         $sql = $this->DB->select( 'SELECT * FROM designation', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['dID']] = $row['title'];
             }
@@ -51,14 +49,33 @@ class Designation extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT * FROM designation WHERE parent = 0
-                                   ORDER BY title
-                                  ', __FILE__, __LINE__ );
+                                   ORDER BY title',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['dID']] = $row['title'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getEmptyGroupList( ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT d.dID FROM designation d
+                                   LEFT JOIN designation dd ON d.dID = dd.parent
+                                   WHERE d.parent = 0 AND dd.dID IS NULL',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row['dID'];
             }
         }
         return $list;
@@ -83,22 +100,14 @@ class Designation extends \DAO {
                                    LEFT JOIN designation dd ON d.parent = dd.dID
                                    LEFT JOIN ( SELECT designationID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
-                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY designationID ) e ON e.designationID = d.dID
+                                               WHERE u.deleted <> "1" AND e.resigned <> "1" 
+                                               GROUP BY designationID ) e ON e.designationID = d.dID
                                    WHERE d.parent <> 0 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                /*if( !$row['parentID'] && !$row['childCount'] ) {
-                    $row['parentID'] = $row['dID'];
-                    $row['parentTitle'] = $row['title'];
-                    $row['idParentTitle'] = $row['dID'] . '-' . $row['title'];
-                    $row['dID'] = 0;
-                    $row['title'] = '';
-                    $row['parent'] = $row['dID'];
-                    $row['empCount'] = 0;
-                }*/
                 $list[] = $row;
             }
         }
