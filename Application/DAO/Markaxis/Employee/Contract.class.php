@@ -55,7 +55,6 @@ class Contract extends \DAO {
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS c.cID, c.type, c.descript, IFNULL( e.empCount, 0 ) AS empCount
                                    FROM contract c
-                                   -- LEFT JOIN country c ON ( o.countryID = c.cID )
                                    LEFT JOIN ( SELECT contractID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
                                                WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY contractID ) e ON e.contractID = c.cID
@@ -72,6 +71,22 @@ class Contract extends \DAO {
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBycID( $cID ) {
+        $sql = $this->DB->select( 'SELECT * FROM contract c
+                                   WHERE c.cID = "' . (int)$cID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 }
 ?>

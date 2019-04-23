@@ -51,19 +51,53 @@ class ContractControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function getContract( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->ContractModel->getBycID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveContract( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
         if( $this->ContractModel->isValid( $post ) ) {
-            $post['userID'] = $this->ContractModel->save( );
-            Control::setPostData( $post );
+            $this->ContractModel->save( );
+            $vars['bool'] = 1;
         }
         else {
             $vars['bool'] = 0;
             $vars['errMsg'] = $this->ContractModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
         }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteContract( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+
+        if( $vars['count'] = $this->ContractModel->delete( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->ContractModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

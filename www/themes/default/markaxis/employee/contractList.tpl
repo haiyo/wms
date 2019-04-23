@@ -4,7 +4,7 @@
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['userID']);
+                $(nRow).attr('id', 'contractTable-row' + aData['cID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/employee/getContractResults",
@@ -29,7 +29,7 @@
                 searchable : false,
                 data: 'cID',
                 render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="cID[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
@@ -53,20 +53,18 @@
                 searchable : false,
                 width: '100px',
                 className : "text-center",
-                data: 'pcID',
+                data: 'cID',
                 render: function(data, type, full, meta) {
-                    var name   = full["name"];
-                    var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
-
                     return '<div class="list-icons">' +
                            '<div class="list-icons-item dropdown">' +
                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                            '<i class="icon-menu9"></i></a>' +
                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                           '<a class="dropdown-item" data-backdrop="static" data-keyboard="false">' +
+                           '<a class="dropdown-item contractEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalContract" ' +
+                           'data-backdrop="static" data-keyboard="false">' +
                            '<i class="icon-pencil5"></i> Edit Contract Type</a>' +
                            '<div class="divider"></div>' +
-                           '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '">' +
+                           '<a class="dropdown-item contractDelete" data-id="' + data + '">' +
                            '<i class="icon-bin"></i> Delete Contract Type</a>' +
                            '</div>' +
                            '</div>' +
@@ -135,6 +133,191 @@
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
+
+        $("#modalContract").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var cID = $invoker.attr("data-id");
+
+            if( cID ) {
+                var data = {
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#contractID").val( obj.data.cID );
+                            $("#contractTitle").val( obj.data.type );
+                            $("#contractDescript").val( obj.data.descript );
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/employee/getContract/" + cID, data );
+            }
+            else {
+                $("#contractID").val(0);
+                $("#contractTitle").val("")
+                $("#contractDescript").val("")
+            }
+        });
+
+        $("#modalContract").on("shown.bs.modal", function(e) {
+            $("#contractTitle").focus( );
+        });
+
+        $("#saveContract").validate({
+            rules: {
+                contractTitle: { required: true }
+            },
+            messages: {
+                contractTitle: "Please enter a Contract Title."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").prepend(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveContract")
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".contractTable").DataTable().ajax.reload();
+
+                            swal({
+                                title: $("#contractTitle").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Contract",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                $("#contractID").val(0);
+                                $("#contractTitle").val("");
+                                $("#contractDescript").val("");
+
+                                if( isConfirm === false ) {
+                                    $("#modalContract").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#contractTitle").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/employee/saveContract", data );
+            }
+        });
+
+        $(document).on("click", ".contractDelete", function ( ) {
+            var id = $(this).attr("data-id");
+            var title = $("#contractTable-row" + id).find("td").eq(1).text( );
+            var cID = new Array( );
+            cID.push( id );
+
+            swal({
+                title: "Are you sure you want to delete " + title + "?",
+                text: "This action cannot be undone once deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function( isConfirm ) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        data: cID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            $(".contractTable").DataTable().ajax.reload();
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/employee/deleteContract", data);
+            });
+            return false;
+        });
+
+        $("#contractBulkDelete").on("click", function ( ) {
+            var cID = new Array( );
+            $("input[name='cID[]']:checked").each(function(i) {
+                cID.push( $(this).val( ) );
+            });
+
+            if( cID.length == 0 ) {
+                swal({
+                    title: "No Contract Selected",
+                    type: "info"
+                });
+            }
+            else {
+                swal({
+                    title: "Are you sure you want to delete the selected contract?",
+                    text: "This action cannot be undone once deleted.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Confirm Delete",
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function( isConfirm ) {
+                    if( isConfirm === false ) return;
+
+                    var data = {
+                        bundle: {
+                            data: cID
+                        },
+                        success: function(res) {
+                            var obj = $.parseJSON(res);
+                            if (obj.bool == 0) {
+                                swal("Error!", obj.errMsg, "error");
+                                return;
+                            }
+                            else {
+                                $(".contractTable").DataTable( ).ajax.reload( );
+                                swal("Done!", obj.count + " items has been successfully deleted!", "success");
+                                return;
+                            }
+                        }
+                    };
+                    Aurora.WebService.AJAX("admin/employee/deleteContract", data);
+                });
+            }
+            return false;
+        });
     });
 </script>
 
@@ -150,7 +333,7 @@
                     <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="payItemBulkDelete"><i class="icon-bin"></i> Delete Selected Contracts</a></li>
+                    <li><a href="#" id="contractBulkDelete"><i class="icon-bin"></i> Delete Selected Contracts</a></li>
                 </ul>
             </li>
         </ul>
@@ -177,13 +360,13 @@
             </div>
 
             <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
-                    <input type="hidden" id="cID" name="cID" value="0" />
+                <form id="saveContract" name="saveContract" method="post" action="">
+                    <input type="hidden" id="contractID" name="contractID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Contract Title:</label>
-                                <input type="text" name="type" id="type" class="form-control" value=""
+                                <input type="text" name="contractTitle" id="contractTitle" class="form-control" value=""
                                        placeholder="Enter Contract Title" />
                             </div>
                         </div>
@@ -191,7 +374,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Contract Description:</label>
-                                <textarea id="descript" name="descript" rows="5" cols="4"
+                                <textarea id="contractDescript" name="contractDescript" rows="5" cols="4"
                                           placeholder="Enter Contract Description" class="form-control"></textarea>
                             </div>
                         </div>

@@ -1,5 +1,8 @@
 <?php
 namespace Markaxis\Employee;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty;
+use \Library\Exception\ValidatorException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -61,6 +64,71 @@ class ContractModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBycID( $cID ) {
+        return $this->Contract->getBycID( $cID );
+    }
+
+
+    /**
+     * Set Pay Item Info
+     * @return bool
+     */
+    public function isValid( $data ) {
+        $Validator = new Validator( );
+
+        $this->info['cID'] = (int)$data['contractID'];
+        $this->info['type'] = Validator::stripTrim( $data['contractTitle'] );
+        $this->info['descript'] = Validator::stripTrim( $data['contractDescript'] );
+
+        $Validator->addModule( 'contractTitle', new IsEmpty( $this->info['type'] ) );
+        try {
+            $Validator->validate( );
+        }
+        catch( ValidatorException $e ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Save Pay Item information
+     * @return int
+     */
+    public function save( ) {
+        if( !$this->info['cID'] ) {
+            unset( $this->info['cID'] );
+            $this->info['cID'] = $this->Contract->insert( 'contract', $this->info );
+        }
+        else {
+            $this->Contract->update( 'contract', $this->info, 'WHERE cID = "' . (int)$this->info['cID'] . '"' );
+        }
+        return $this->info['cID'];
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function delete( $data ) {
+        $deleted = 0;
+
+        if( is_array( $data['data'] ) ) {
+            foreach( $data['data'] as $cID ) {
+                $this->Contract->delete('contract', 'WHERE cID = "' . (int)$cID . '"');
+                $deleted++;
+            }
+        }
+        return $deleted;
     }
 }
 ?>

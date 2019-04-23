@@ -16,8 +16,7 @@
                     d.csrfToken = Aurora.CSRF_TOKEN;
                 }
             },
-            initComplete: function( settings, json){
-                console.log(json);
+            initComplete: function( settings, json) {
             },
             autoWidth: false,
             mark: true,
@@ -69,7 +68,8 @@
                            '<i class="icon-menu9"></i></a>' +
                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" ' +
                            'x-placement="bottom-end">' +
-                           '<a class="dropdown-item" data-backdrop="static" data-keyboard="false">' +
+                           '<a class="dropdown-item designationEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalDesignation" ' +
+                           'data-backdrop="static" data-keyboard="false">' +
                            '<i class="icon-pencil5"></i> Edit Designation</a>' +
                            '<div class="divider"></div>' +
                            '<a class="dropdown-item designationDelete" data-id="' + data + '">' +
@@ -108,7 +108,7 @@
                                    '<i class="icon-menu9"></i></a>' +
                                    '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" ' +
                                    'x-placement="bottom-end">' +
-                                   '<a class="dropdown-item" data-toggle="modal" data-target="#modalPermission" ' +
+                                   '<a class="dropdown-item group designationEdit" data-toggle="modal" data-target="#modalGroup" ' +
                                    'data-backdrop="static" data-keyboard="false" data-id="' + idTitle[0] + '">' +
                                    '<i class="icon-pencil5"></i> Edit Group</a>' +
                                    '<div class="divider"></div>' +
@@ -118,7 +118,8 @@
                                    '</div>' +
                                    '</div>';
 
-                        $(rows).eq(i).before('<tr  data-id="' + idTitle[0] + '" class="group parentGroupLit groupShow">' +
+                        $(rows).eq(i).before('<tr id="designationTable-row' + idTitle[0] + '" data-id="' + idTitle[0] + '" ' +
+                                                'class="group parentGroupLit groupShow">' +
                                                 '<td class="text-center details-control">' +
                                                 '<i class="icon-enlarge7" id="groupIco-' + idTitle[0] + '"></i></td>' +
                                                 '<td colspan="3" class="details-control">' + idTitle[1] + '</td>' +
@@ -197,6 +198,62 @@
             $("#designationTitle").focus( );
         });
 
+        $("#modalGroup").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var dID = $invoker.attr("data-id");
+
+            if( dID ) {
+                var data = {
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#groupID").val( obj.data.dID );
+                            $("#groupTitle").val( obj.data.title );
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/employee/getDesignation/" + dID, data );
+            }
+            else {
+                $("#groupID").val(0);
+                $("#groupTitle").val("");
+            }
+        });
+
+        $("#modalDesignation").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var dID = $invoker.attr("data-id");
+
+            if( dID ) {
+                var data = {
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#designationID").val( obj.data.dID );
+                            $("#designationTitle").val( obj.data.title );
+                            $("#designationDescript").val( obj.data.descript );
+                            $("#dID").val( obj.data.parent ).trigger("change");
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/employee/getDesignation/" + dID, data );
+            }
+            else {
+                $("#designationID").val(0);
+                $("#designationTitle").val("");
+                $("#designationDescript").val("");
+                $("#dID").val("").trigger("change");
+            }
+        });
+
         $("#saveGroup").validate({
             rules: {
                 groupTitle: { required: true }
@@ -243,16 +300,19 @@
                                 cancelButtonText: "Close Window",
                                 reverseButtons: true
                             }, function( isConfirm ) {
+                                $("#groupID").val(0);
+                                $("#groupTitle").val("");
+
+                                // Update designation selectlist
+                                $("#dID").select2("destroy").remove( );
+                                $("#groupUpdate").html( obj.groupListUpdate );
+                                $("#dID").select2( );
+
                                 if( isConfirm === false ) {
-                                    $("#groupTitle").val("");
                                     $("#modalGroup").modal("hide");
-                                    $("#dID").select2("destroy").remove( );
-                                    $("#groupUpdate").html( obj.groupListUpdate );
-                                    $("#dID").select2( );
                                 }
                                 else {
                                     setTimeout(function() {
-                                        $("#groupTitle").val("");
                                         $("#groupTitle").focus( );
                                     }, 500);
                                 }
@@ -310,17 +370,16 @@
                                 cancelButtonText: "Close Window",
                                 reverseButtons: true
                             }, function( isConfirm ) {
+                                $("#designationID").val(0);
+                                $("#designationTitle").val("");
+                                $("#designationDescript").val("");
+                                $("#dID").val("").trigger("change");
+
                                 if( isConfirm === false ) {
                                     $("#modalDesignation").modal("hide");
-                                    $("#designationTitle").val("");
-                                    $("#designationDescript").val("");
-                                    $("#dID").val("").trigger("change");
                                 }
                                 else {
                                     setTimeout(function() {
-                                        $("#designationTitle").val("");
-                                        $("#designationDescript").val("");
-                                        $("#dID").val("").trigger("change");
                                         $("#designationTitle").focus( );
                                     }, 500);
                                 }

@@ -102,7 +102,8 @@
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                             '<i class="icon-menu9"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
-                            '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalPayItem">' +
+                            '<a class="dropdown-item" data-id="' + data + '" data-backdrop="static" data-keyboard="false" ' +
+                            'data-toggle="modal" data-target="#modalPayItem">' +
                             '<i class="icon-pencil5"></i> Edit Pay Item</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item payItemDelete" data-id="' + data + '">' +
@@ -254,9 +255,6 @@
 
             if( piID ) {
                 var data = {
-                    bundle: {
-                        trID: piID
-                    },
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if (obj.bool == 0) {

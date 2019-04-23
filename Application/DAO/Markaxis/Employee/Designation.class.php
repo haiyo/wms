@@ -116,5 +116,21 @@ class Designation extends \DAO {
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBydID( $dID ) {
+        $sql = $this->DB->select( 'SELECT * FROM designation d
+                                   WHERE d.dID = "' . (int)$dID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
 }
 ?>

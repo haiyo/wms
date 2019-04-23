@@ -51,6 +51,21 @@ class DesignationControl {
      * Render main navigation
      * @return string
      */
+    public function getDesignation( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->DesignationModel->getBydID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveDesignation( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 

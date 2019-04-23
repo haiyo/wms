@@ -86,6 +86,15 @@ class DesignationModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBydID( $dID ) {
+        return $this->Designation->getBydID( $dID );
+    }
+
+
+    /**
      * Set Pay Item Info
      * @return bool
      */
