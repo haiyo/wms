@@ -53,10 +53,10 @@
                 className : "text-center",
                 render: function( data, type, full, meta ) {
                     if( data == 0 ) {
-                        return '<span id="basic' + full['piID'] + '" class="label label-pending">No</span>';
+                        return '<span class="label label-pending">No</span>';
                     }
                     else {
-                        return '<span id="basic' + full['piID'] + '" class="label label-success">Yes</span>';
+                        return '<span class="label label-success">Yes</span>';
                     }
                 }
             }, {

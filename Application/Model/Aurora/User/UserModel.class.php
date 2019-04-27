@@ -269,7 +269,9 @@ class UserModel extends \Model {
     * @return int
     */
     public function delete( $userID ) {
-        return $this->User->delete( 'user', 'WHERE userID = "' . (int)$userID . '"' );
+        $info = array( );
+        $info['deleted'] = 1;
+        $this->User->update( 'user', $info, 'WHERE userID = "' . (int)$userID . '"' );
     }
 
 

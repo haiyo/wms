@@ -24,13 +24,28 @@ class Designation extends \DAO {
 
 
     /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBydID( $dID ) {
+        $sql = $this->DB->select( 'SELECT * FROM designation d WHERE deleted <> 0 AND d.dID = "' . (int)$dID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM designation', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM designation WHERE deleted <> 0', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -48,7 +63,7 @@ class Designation extends \DAO {
     public function getGroupList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM designation WHERE parent = 0
+        $sql = $this->DB->select( 'SELECT * FROM designation WHERE parent = 0 AND deleted <> 0
                                    ORDER BY title',
                                    __FILE__, __LINE__ );
 
@@ -102,7 +117,7 @@ class Designation extends \DAO {
                                                LEFT JOIN user u ON e.userID = u.userID
                                                WHERE u.deleted <> "1" AND e.resigned <> "1" 
                                                GROUP BY designationID ) e ON e.designationID = d.dID
-                                   WHERE d.parent <> 0 ' . $q . '
+                                   WHERE d.parent <> 0 AND d.deleted <> 0 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
@@ -115,22 +130,6 @@ class Designation extends \DAO {
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
-    }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
-    public function getBydID( $dID ) {
-        $sql = $this->DB->select( 'SELECT * FROM designation d
-                                   WHERE d.dID = "' . (int)$dID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
     }
 }
 ?>

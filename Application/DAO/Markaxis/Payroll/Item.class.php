@@ -73,8 +73,8 @@ class Item extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getBasicID( ) {
-        $sql = $this->DB->select( 'SELECT piID FROM payroll_item WHERE basic = "1"',
+    public function getBasic( ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item WHERE basic = "1"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

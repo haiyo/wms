@@ -61,6 +61,18 @@ class ItemControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            $prevMonth = isset( $args[3] ) ? $args[3] : '';
+            Control::setOutputArray( array( 'payrollItems' => $this->ItemModel->getProcessItem( $args[1], $prevMonth ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayItem( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 

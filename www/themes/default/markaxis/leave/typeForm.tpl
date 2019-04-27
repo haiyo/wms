@@ -50,39 +50,29 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group">
-                <label><?LANG_UNUSED_LIST?>:</label>
-                <?TPL_UNUSED_LIST?>
-            </div>
+            <label><?LANG_UNUSED_LIST?>:</label>
+            <?TPL_UNUSED_LIST?>
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
-                <label><?LANG_CARRY_OVER_LIMIT?>:</label>
-                <input type="text" name="cPeriodValue" id="cPeriodValue" class="form-control" value="<?TPLVAR_CPERIOD?>"
-                       placeholder="3" disabled="disabled" />
-            </div>
+            <label><?LANG_CARRY_OVER_LIMIT?>:</label>
+            <input type="text" name="cPeriodValue" id="cPeriodValue" class="form-control" value="<?TPLVAR_CPERIOD?>"
+                   placeholder="3" disabled="disabled" />
         </div>
         <div class="col-md-2">
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <?TPL_CPERIOD_LIST?>
-            </div>
+            <label>&nbsp;</label>
+            <?TPL_CPERIOD_LIST?>
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
-                <label><?LANG_TO_BE_USED_WITHIN?>:</label>
-                <input type="text" name="usedValue" id="usedValue" class="form-control" value="<?TPLVAR_UPERIOD?>"
-                       placeholder="12" disabled="disabled" />
-            </div>
+            <label><?LANG_TO_BE_USED_WITHIN?>:</label>
+            <input type="text" name="usedValue" id="usedValue" class="form-control" value="<?TPLVAR_UPERIOD?>"
+                   placeholder="12" disabled="disabled" />
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <?TPL_USED_PERIOD_LIST?>
-            </div>
+            <label>&nbsp;</label>
+            <?TPL_USED_PERIOD_LIST?>
         </div>
     </div>
 

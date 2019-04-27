@@ -80,7 +80,7 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function processForm( $args ) {
+    public function processPayroll( $args ) {
         if( isset( $args[1] ) && isset( $args[2] ) ) {
             echo $this->PayrollView->renderProcessForm( $args[1], $args[2] );
             exit;

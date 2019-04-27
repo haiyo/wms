@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
+use \Markaxis\Employee\EmployeeModel;
+use \Aurora\Component\OfficeModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Library\Validator\Validator;
 
 /**
@@ -58,6 +59,20 @@ class TaxRuleModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $userID, $processDate ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, salary' );
+
+        if( $empInfo['officeID'] && $empInfo['salary'] ) {
+            return $this->TaxRule->getAll( $empInfo['officeID'] );
+        }
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -69,9 +84,9 @@ class TaxRuleModel extends \Model {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_RULE_TITLE') );
             return false;
         }
-        $CountryModel = CountryModel::getInstance( );
-        if( $CountryModel->isFound( $data['country'] ) ) {
-            $this->info['country'] = (int)$data['country'];
+        $OfficeModel = OfficeModel::getInstance( );
+        if( $OfficeModel->isFound( $data['office'] ) ) {
+            $this->info['officeID'] = (int)$data['office'];
         }
         $StateModel = StateModel::getInstance( );
         if( isset( $data['state'] ) && $StateModel->isFound( $data['state'] ) ) {

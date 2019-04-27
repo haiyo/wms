@@ -203,7 +203,10 @@ class PayrollView extends AdminView {
 
             if( $userInfo['salary'] ) {
                 $grossAmount = $userInfo['salary'];
-                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), $ItemModel->getBasicID( ), 'Select Payroll Item' );
+
+                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), $ItemModel->getBasic( )['piID'],
+                                                    'Select Payroll Item' );
+
                 $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $userInfo['salary'] ),
                                                     'TPL_PAYROLL_ITEM_LIST' => $itemType );
             }

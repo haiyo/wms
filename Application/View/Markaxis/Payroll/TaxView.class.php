@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
-use \Aurora\Component\CountryModel, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
+use \Aurora\Component\OfficeModel, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
 use \Library\Helper\Aurora\GenderHelper;
 use \Library\Runtime\Registry;
 
@@ -47,13 +47,13 @@ class TaxView extends AdminView {
     public function renderSettings( $output ) {
         $SelectListView = new SelectListView( );
 
-        $CountryModel = CountryModel::getInstance( );
-        $countryList  = $SelectListView->build( 'country', $CountryModel->getList( ),
-                            $this->Registry->get(HKEY_LOCAL, 'companyCountry'), 'Select  Country' );
+        $OfficeModel = OfficeModel::getInstance( );
+        $officeList  = $SelectListView->build( 'office', $OfficeModel->getList( ),
+                                                '', 'Select Office' );
 
         $ItemModel = ItemModel::getInstance( );
         $payrollItemList = $SelectListView->build( 'payrollItem_{id}',
-                            $ItemModel->getList( ), '', 'Select Payroll Item' );
+                                                    $ItemModel->getList( ), '', 'Select Payroll Item' );
 
         $ContractModel = ContractModel::getInstance( );
         $contractList = $SelectListView->build( 'contract_{id}',
@@ -69,7 +69,7 @@ class TaxView extends AdminView {
         $genderRadio  = $RadioView->build( 'gender{template}',  GenderHelper::getL10nList( ), '', 'gender' );
 
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_COUNTRY_LIST' => $countryList,
+                array( 'TPL_OFFICE_LIST' => $officeList,
                        'TPL_PAYROLL_ITEM_LIST' => $payrollItemList,
                        'TPL_CONTRACT_LIST' => $contractList,
                        'TPL_DESIGNATION_LIST' => $designationList,

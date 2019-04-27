@@ -39,16 +39,21 @@ class TaxRule extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getAll( ) {
+    public function getAll( $officeID=false ) {
         $list = array( );
 
+        $where = $officeID ? 'WHERE o.oID = "' . (int)$officeID . '"' : '';
+
         $sql = $this->DB->select( 'SELECT * FROM tax_rule tr 
-                                   LEFT JOIN country c ON ( c.cID = tr.country )',
+                                   LEFT JOIN office o ON ( o.oID = tr.officeID )
+                                   LEFT JOIN country c ON ( c.cID = o.countryID ) ' .
+                                   $where,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
+                $row['applyValue'] = (float)$row['applyValue'];
+                $list[$row['trID']] = $row;
             }
         }
         return $list;
@@ -61,11 +66,15 @@ class TaxRule extends \DAO {
      */
     public function getBytrID( $trID ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
-                                   LEFT JOIN country c ON ( c.cID = tr.country )
-                                   WHERE trID = "' . (int)$trID . '"', __FILE__, __LINE__ );
+                                   LEFT JOIN office o ON ( o.oID = tr.officeID )
+                                   LEFT JOIN country c ON ( c.cID = o.countryID )
+                                   WHERE trID = "' . (int)$trID . '"',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            $row = $this->DB->fetch( $sql );
+            $row['applyValue'] = (float)$row['applyValue'];
+            return $row;
         }
         return false;
     }

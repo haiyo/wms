@@ -13,6 +13,8 @@ class TypeControl {
 
 
     // Properties
+    private $TypeModel;
+    private $TypeView;
 
 
     /**
@@ -20,7 +22,8 @@ class TypeControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->TypeModel = TypeModel::getInstance( );
+        $this->TypeView = new TypeView( );
     }
 
 
@@ -31,8 +34,18 @@ class TypeControl {
     public function settings( ) {
         $output = Control::getOutputArray( );
 
-        $TypeView  = new TypeView( );
-        Control::setOutputArrayAppend( array( 'form' => $TypeView->renderSettings( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->TypeView->renderSettings( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getLeaveTypeResults( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->TypeModel->getResults( $post ) );
+        exit;
     }
 
 
@@ -43,8 +56,7 @@ class TypeControl {
     public function addType( ) {
         $output = Control::getOutputArray( );
 
-        $TypeView  = new TypeView( );
-        Control::setOutputArrayAppend( array( 'form' => $TypeView->renderAddType( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->TypeView->renderAddType( ) ) );
     }
 
 
@@ -55,8 +67,7 @@ class TypeControl {
     public function editType( $args ) {
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        $TypeView  = new TypeView( );
-        Control::setOutputArrayAppend( array( 'form' => $TypeView->renderEditType( $ltID ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->TypeView->renderEditType( $ltID ) ) );
     }
 
 
@@ -67,15 +78,13 @@ class TypeControl {
     public function saveType( ) {;
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        $TypeModel = TypeModel::getInstance( );
-
-        if( $post['ltID'] = $TypeModel->save( $post ) ) {
+        if( $post['ltID'] = $this->TypeModel->save( $post ) ) {
             $post['bool'] = 1;
             Control::setPostData( $post );
         }
         else {
             $vars['bool'] = 0;
-            $vars['errMsg'] = $TypeModel->getErrMsg( );
+            $vars['errMsg'] = $this->TypeModel->getErrMsg( );
             echo json_encode( $vars );
             exit;
         }

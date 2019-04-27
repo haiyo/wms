@@ -57,7 +57,6 @@ class TaxComputingView extends AdminView {
                     $workforce[] = $computing;
                 }
             }
-
             if( sizeof( $age ) == 1 ) {
                 $txt = 'Employee age ';
 
@@ -72,7 +71,6 @@ class TaxComputingView extends AdminView {
                 }
                 array_push($criteriaSet, $txt );
             }
-
             if( sizeof( $age ) == 2 ) {
                 if( $age[0]['value'] < $age[1]['value'] ) {
                     $txt  = 'Employee age from ';
@@ -80,7 +78,6 @@ class TaxComputingView extends AdminView {
                     array_push($criteriaSet, $txt );
                 }
             }
-
             if( sizeof( $salary ) == 1 ) {
                 $txt = 'Employee salary ';
 
@@ -95,7 +92,6 @@ class TaxComputingView extends AdminView {
                 }
                 array_push($criteriaSet, $txt );
             }
-
             if( sizeof( $salary ) == 2 ) {
                 if( $salary[0]['value'] < $salary[1]['value'] ) {
                     $txt  = 'Employee salary from ';

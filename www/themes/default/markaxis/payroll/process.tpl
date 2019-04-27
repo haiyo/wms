@@ -221,7 +221,7 @@
         $("#modalCalPayroll").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
-            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processForm/' + $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
+            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
                 $(".check-input").uniform();
                 $(".itemType").select2({minimumResultsForSearch: -1});
             });
@@ -436,6 +436,12 @@
 
             <div class="modal-body overflow-y-visible">
 
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button id="createTeam" type="submit" class="btn btn-primary">Save Payroll</button>
+                </div>
             </div>
         </div>
     </div>

@@ -80,8 +80,6 @@
     <li class="nav-item"><a href="#taxes" class="nav-link" data-toggle="tab">Taxes</a></li>
     <li class="nav-item"><a href="#payslips" class="nav-link" data-toggle="tab">Payslips</a></li>
 </ul>
-<div class="panel panel-flat payroll-employee">
-    <div class="tab-content">
-        <?TPL_FORM?>
-    </div>
+<div class="tab-content">
+    <?TPL_FORM?>
 </div>

@@ -46,7 +46,9 @@ class TaxComputing extends \DAO {
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $row = $this->DB->fetch( $sql );
+            $row = $this->DB->fetch( $sql );
+            $row['value'] = (float)$row['value'];
+            return $row;
         }
         return false;
     }
@@ -59,7 +61,28 @@ class TaxComputing extends \DAO {
     public function getBytrID( $trID ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID = "' . (int)$trID . '"', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID = "' . (int)$trID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $row['value'] = (float)$row['value'];
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBytrIDs( $trIDs ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID IN (' . addslashes( $trIDs ) . ')',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

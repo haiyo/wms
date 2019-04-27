@@ -96,6 +96,9 @@ class LeaveView extends AdminView {
                                       'icon' => 'icon-cog2',
                                       'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
 
+        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
+                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+
         return $this->render( 'markaxis/leave/settings.tpl', $vars );
     }
 

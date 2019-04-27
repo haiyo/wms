@@ -59,6 +59,16 @@ class TaxComputingControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        $taxRules = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxComputingModel->processPayroll( $args[1], $args[2], $taxRules ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
         $this->TaxComputingModel->saveTaxRule( $post );

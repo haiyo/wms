@@ -60,7 +60,7 @@
         </div>
     </div>
     <!-- END DYNAMIC BLOCK: item -->
-    <div class="row">
+    <div class="row payrollProcessSummary">
         <div class="col-md-4">&nbsp;</div>
         <div class="col-md-4">&nbsp;</div>
 
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row payrollProcessSummary">
         <div class="col-md-4">&nbsp;</div>
 
         <div class="col-md-4 text-light">
@@ -97,7 +97,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row payrollProcessSummary">
         <div class="col-md-4">&nbsp;</div>
 
         <div class="col-md-4 text-light">
@@ -119,7 +119,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row payrollProcessSummary">
         <div class="col-md-4">
             <div class="prePopulateTxt">
                 <div class="row">
@@ -153,7 +153,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row payrollProcessSummary">
         <div class="col-md-4">&nbsp;</div>
 
         <div class="col-md-4 text-light">
@@ -173,10 +173,5 @@
                 SGD$5,798
             </div>
         </div>
-    </div>
-
-    <div class="modal-footer">
-        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-        <button id="createTeam" type="submit" class="btn btn-primary">Save Payroll</button>
     </div>
 </form>

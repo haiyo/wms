@@ -90,6 +90,50 @@ class TypeModel extends \Model {
      * Get File Information
      * @return mixed
      */
+    public function getResults( $post ) {
+        $this->Type->setLimit( $post['start'], $post['length'] );
+
+        $order = 'lt.name';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        if( isset( $post['order'][0]['column'] ) ) {
+            switch( $post['order'][0]['column'] ) {
+                case 1:
+                    $order = 'lt.name';
+                    break;
+                case 2:
+                    $order = 'lt.code';
+                    break;
+                case 3:
+                    $order = 'lt.paidLeave';
+                    break;
+                case 4:
+                    $order = 'lt.allowHalfDay';
+                    break;
+                case 5:
+                    $order = 'lt.applied';
+                    break;
+                case 6:
+                    $order = 'lt.proRated';
+                    break;
+            }
+        }
+        $results = $this->Type->getResults( $post['search']['value'], $order . $dir );
+
+        $total = $results['recordsTotal'];
+        unset( $results['recordsTotal'] );
+
+        return array( 'draw' => (int)$post['draw'],
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
+    }
+
+
+    /**
+     * Get File Information
+     * @return mixed
+     */
     public function save( $data ) {
         $this->info = array( );
         $this->info['name'] = Validator::stripTrim( $data['leaveTypeName'] );

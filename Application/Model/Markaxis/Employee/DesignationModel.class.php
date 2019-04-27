@@ -153,10 +153,13 @@ class DesignationModel extends \Model {
 
         if( is_array( $data['data'] ) ) {
             foreach( $data['data'] as $dID ) {
-                $this->Designation->delete('designation', 'WHERE dID = "' . (int)$dID . '"');
-
                 if( $data['group'] ) {
                     $this->Designation->delete('designation', 'WHERE parent = "' . (int)$dID . '"');
+                }
+                else {
+                    $info = array( );
+                    $info['deleted'] = 1;
+                    $this->Designation->update( 'designation', $info, 'WHERE dID = "' . (int)$dID . '"' );
                 }
                 $deleted++;
             }

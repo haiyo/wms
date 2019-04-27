@@ -102,6 +102,8 @@
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
     </task>
     <task type="payroll">
+        <observer controller="Markaxis/Payroll/ItemControl"></observer>
+        <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
         <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
@@ -110,8 +112,6 @@
         <observer controller="Markaxis/Payroll/TaxDesignationControl"></observer>
         <observer controller="Markaxis/Payroll/TaxGenderControl"></observer>
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
         <observer controller="Markaxis/Payroll/TaxControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>

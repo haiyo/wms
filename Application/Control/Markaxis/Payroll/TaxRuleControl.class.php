@@ -49,6 +49,17 @@ class TaxRuleControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            Control::setOutputArray( $this->TaxRuleModel->processPayroll( $args[1], $args[2] ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
         $vars = array( );

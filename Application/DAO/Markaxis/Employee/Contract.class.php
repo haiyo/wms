@@ -58,7 +58,7 @@ class Contract extends \DAO {
                                    LEFT JOIN ( SELECT contractID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
                                                WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY contractID ) e ON e.contractID = c.cID
-                                   WHERE 1 = 1 ' . $q . '
+                                   WHERE c.deleted <> 0 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 

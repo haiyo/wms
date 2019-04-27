@@ -42,7 +42,7 @@ class Notification extends \DAO {
      */
     public function getByUserID( $userID ) {
         $list = array( );
-        $sql = $this->DB->select( 'SELECT *, nu.created AS nuCreated FROM notification_user nu
+        /*$sql = $this->DB->select( 'SELECT *, nu.created AS nuCreated FROM notification_user nu
                                           LEFT JOIN notification n ON(n.nID = nu.nID)
                                           LEFT JOIN user u ON(u.userID = nu.userID)
                                           LEFT OUTER JOIN user_avatar ua ON(ua.userID = nu.userID)
@@ -54,7 +54,7 @@ class Notification extends \DAO {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
             }
-        }
+        }*/
         return $list;
     }
 }

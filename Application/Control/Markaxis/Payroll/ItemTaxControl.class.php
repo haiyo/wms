@@ -56,6 +56,16 @@ class ItemTaxControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        $payrollItems = Control::getOutputArray( );
+        Control::setOutputArray( $this->ItemTaxModel->processPayroll( $args[1], $args[2], $taxRules ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayItem( ) {
         $this->ItemTaxModel->save( Control::getPostData( ) );
 

@@ -63,8 +63,22 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getBasicID( ) {
-        return $this->Item->getBasicID( );
+    public function getBasic( ) {
+        return $this->Item->getBasic( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getProcessItem( $userID, $loadPrevMonth ) {
+        if( $loadPrevMonth ) {
+            //
+        }
+        else {
+            return $this->Item->getBasic( );
+        }
     }
 
 
@@ -157,7 +171,9 @@ class ItemModel extends \Model {
 
         if( is_array( $data ) ) {
             foreach( $data as $piID ) {
-                $this->Item->delete('payroll_item', 'WHERE piID = "' . (int)$piID . '"');
+                $info = array( );
+                $info['deleted'] = 1;
+                $this->Item->update( 'payroll_item', $info, 'WHERE piID = "' . (int)$piID . '"' );
                 $deleted++;
             }
         }

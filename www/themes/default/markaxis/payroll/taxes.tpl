@@ -905,15 +905,15 @@
 </div>
 
 <div id="modalTaxRule" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
+            <form id="saveTaxRule" name="saveTaxRule" method="post" action="">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h6 class="modal-title">Create New Tax Rule</h6>
             </div>
 
             <div class="modal-body">
-                <form id="saveTaxRule" name="saveTaxRule" method="post" action="">
                     <input type="hidden" id="trID" name="trID" value="0" />
                     <div class="row">
                         <div class="col-md-6">
@@ -935,8 +935,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select Country: <span class="text-danger-400">*</span></label>
-                                <?TPL_COUNTRY_LIST?>
+                                <label>Apply This Tax Rule To Which Office: <span class="text-danger-400">*</span></label>
+                                <?TPL_OFFICE_LIST?>
                             </div>
                         </div>
 
@@ -1000,8 +1000,9 @@
                                             class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                         <option value="lt">Less Than</option>
                                         <option value="gt">Greater Than</option>
-                                        <option value="lte">Less Than Equal</option>
-                                        <option value="gte">Greater Than Equal</option>
+                                        <option value="lte">Less Than Or Equal</option>
+                                        <option value="ltec">Less Than Or Equal And Capped At</option>
+                                        <option value="gte">Greater Than Or Equal</option>
                                         <option value="eq">Equal</option>
                                     </select>
                                 </div>
@@ -1150,13 +1151,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
             </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -1216,7 +1218,7 @@
             return $result;
         }
 
-        $("#country").select2({allowClear: true});
+        $("#office").select2({minimumResultsForSearch:Infinity, allowClear:true});
         $("#state").select2( );
         $("#city").select2( );
         $("#applyType").select2({minimumResultsForSearch: Infinity});
@@ -1516,9 +1518,9 @@
                     bundle: {
                         trID: trID
                     },
-                    success: function (res) {
+                    success: function(res) {
                         var obj = $.parseJSON(res);
-                        if (obj.bool == 0) {
+                        if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
@@ -1526,7 +1528,7 @@
                             $("#trID").val( obj.data.trID );
                             $("#ruleTitle").val( obj.data.title );
                             $("#group").val( obj.data.tgID ).trigger("change");
-                            $("#country").val( obj.data.country ).trigger("change");
+                            $("#office").val( obj.data.officeID ).trigger("change");
                             $("#city").val( obj.data.city ).trigger("change");
                             $("#state").val( obj.data.state ).trigger("change");
                             $("#applyType").val( obj.data.applyType ).trigger("change");
@@ -1549,7 +1551,7 @@
                                 }
                             }
 
-                            if( obj.data.competency.length > 0 ) {
+                            if( obj.data.competency && obj.data.competency.length > 0 ) {
                                 if( criteria > 0 ) {
                                     addCriteria( );
                                 }
@@ -1563,7 +1565,7 @@
                                 criteria++;
                             }
 
-                            if( obj.data.contract ) {
+                            if( obj.data.contract && obj.data.contract.length > 0 ) {
                                 for( var i=0; i<obj.data.contract.length; i++ ) {
                                     if( criteria > 0 ) {
                                         addCriteria( );
@@ -1575,7 +1577,7 @@
                                 }
                             }
 
-                            if( obj.data.designation ) {
+                            if( obj.data.designation && obj.data.designation.length > 0 ) {
                                 for( var i=0; i<obj.data.designation.length; i++ ) {
                                     if( criteria > 0 ) {
                                         addCriteria( );
@@ -1587,7 +1589,7 @@
                                 }
                             }
 
-                            if( obj.data.gender.length > 0 ) {
+                            if( obj.data.gender && obj.data.gender.length > 0 ) {
                                 if( criteria > 0 ) {
                                     addCriteria( );
                                 }
@@ -1608,7 +1610,7 @@
                 $("#trID").val(0);
                 $("#ruleTitle").val("");
                 $("#group").val(0).trigger("change");
-                $("#country").val("").trigger("change");
+                $("#office").val("").trigger("change");
                 $("#city").val("").trigger("change");
                 $("#state").val("").trigger("change");
                 $("#applyType").val("salaryDeduction").trigger("change");

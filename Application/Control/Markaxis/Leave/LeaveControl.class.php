@@ -13,6 +13,7 @@ class LeaveControl {
 
 
     // Properties
+    private $LeaveView;
 
 
     /**
@@ -20,7 +21,7 @@ class LeaveControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->LeaveView = new LeaveView( );
     }
 
 
@@ -29,8 +30,7 @@ class LeaveControl {
      * @return string
      */
     public function dashboard( ) {
-        $LeaveView = new LeaveView( );
-        Control::setOutputArrayAppend( $LeaveView->renderApplyForm( ) );
+        Control::setOutputArrayAppend( $this->LeaveView->renderApplyForm( ) );
     }
 
 
@@ -41,8 +41,7 @@ class LeaveControl {
     public function balance( ) {
         $output = Control::getOutputArray( );
 
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderBalance( ) );
+        $this->LeaveView->printAll( $this->LeaveView->renderBalance( ) );
     }
 
 
@@ -53,8 +52,7 @@ class LeaveControl {
     public function settings( ) {
         $output = Control::getOutputArray( );
 
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderSettings( $output['form'] ) );
+        $this->LeaveView->printAll( $this->LeaveView->renderSettings( $output['form'] ) );
     }
 
 
@@ -65,8 +63,7 @@ class LeaveControl {
     public function addType( ) {
         $output = Control::getOutputArray( );
 
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderTypeForm( $output['form'] ) );
+        $this->LeaveView->printAll( $this->LeaveView->renderTypeForm( $output['form'] ) );
     }
 
 
@@ -78,8 +75,7 @@ class LeaveControl {
         $output = Control::getOutputArray( );
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderTypeForm( $output['form'], $ltID ) );
+        $this->LeaveView->printAll( $this->LeaveView->renderTypeForm( $output['form'], $ltID ) );
     }
 
 

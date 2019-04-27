@@ -41,7 +41,6 @@ class TaxRuleWrapperView extends AdminView {
      * @return mixed
      */
     public function renderTaxRule( $taxRule ) {
-
         if( isset( $taxRule['trID'] ) ) {
             if( $taxRule['applyValueType'] == 'percentage' ) {
                 $applyAs = (float)$taxRule['applyValue'] . '% ';

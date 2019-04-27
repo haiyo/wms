@@ -124,7 +124,9 @@ class ContractModel extends \Model {
 
         if( is_array( $data['data'] ) ) {
             foreach( $data['data'] as $cID ) {
-                $this->Contract->delete('contract', 'WHERE cID = "' . (int)$cID . '"');
+                $info = array( );
+                $info['deleted'] = 1;
+                $this->Contract->update( 'contract', $info, 'WHERE cID = "' . (int)$cID . '"' );
                 $deleted++;
             }
         }
