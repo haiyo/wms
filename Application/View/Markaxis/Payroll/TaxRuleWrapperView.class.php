@@ -49,15 +49,17 @@ class TaxRuleWrapperView extends AdminView {
                 $applyAs = $taxRule['currencyCode'] . $taxRule['currencySymbol'] . (float)$taxRule['applyValue'] . ' ';
             }
 
-            if( $taxRule['applyType'] == 'salaryDeduction' ) {
+            $badge = '';
+
+            if( $taxRule['applyType'] == 'deduction' ) {
                 $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_EMPLOYEE_SALARY');
                 $badge = 'success';
             }
-            else if( $taxRule['applyType'] == 'employerContribution' ) {
+            else if( $taxRule['applyType'] == 'contribution' ) {
                 $applyAs .= $this->L10n->getContents('LANG_EMPLOYER_CONTRIBUTION');
                 $badge = 'warning';
             }
-            else if( $taxRule['applyType'] == 'employerLevy' ) {
+            else if( $taxRule['applyType'] == 'levy' ) {
                 $applyAs .= $this->L10n->getContents('LANG_EMPLOYER_LEVY');
                 $badge = 'warning';
             }

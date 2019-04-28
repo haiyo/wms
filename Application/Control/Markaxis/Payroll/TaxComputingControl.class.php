@@ -60,8 +60,8 @@ class TaxComputingControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxComputingModel->processPayroll( $args[1], $args[2], $taxRules ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxComputingModel->processPayroll( $args[1], $data ) );
     }
 
 

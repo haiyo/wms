@@ -62,12 +62,15 @@ class TaxRuleModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $processDate ) {
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, salary' );
+    public function getProcessTaxRules( $userID, $data ) {
+        if( isset( $data['itemTaxes'] ) ) {
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID' );
 
-        if( $empInfo['officeID'] && $empInfo['salary'] ) {
-            return $this->TaxRule->getAll( $empInfo['officeID'] );
+            if( $empInfo['officeID'] ) {
+                $tgIDs = implode(', ', array_column( $data['itemTaxes'], 'tgID' ) );
+                return $this->TaxRule->getByGroupsOfficeID( $tgIDs, $empInfo['officeID'] );
+            }
         }
     }
 
@@ -97,8 +100,8 @@ class TaxRuleModel extends \Model {
             $this->info['city'] = (int)$data['city'];
         }
 
-        if( $data['applyType'] == 'salaryDeduction' || $data['applyType'] == 'employerContribution' ||
-            $data['applyType'] == 'employerLevy' ) {
+        if( $data['applyType'] == 'deduction' || $data['applyType'] == 'contribution' ||
+            $data['applyType'] == 'levy' ) {
             $this->info['applyType'] = $data['applyType'];
         }
 

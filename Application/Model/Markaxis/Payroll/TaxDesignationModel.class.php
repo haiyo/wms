@@ -65,7 +65,7 @@ class TaxDesignationModel extends \Model {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['designation'] = $cInfo;
+                    $taxRules[$key]['designationID'] = $cInfo;
                 }
             }
             return $taxRules;
@@ -107,7 +107,7 @@ class TaxDesignationModel extends \Model {
                             $DesignationModel = DesignationModel::getInstance();
 
                             if( $DesignationModel->isFound($data['designation_' . $id] ) ) {
-                                $cInfo['designation'] = (int)$data['designation_' . $id];
+                                $cInfo['designationID'] = (int)$data['designation_' . $id];
 
                                 if( $data['designationID_' . $id] ) {
                                     if( $ctInfo = $this->getByID($cInfo['trID'], $data['designationID_' . $id] ) ) {

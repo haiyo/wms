@@ -54,8 +54,6 @@ class TaxGroupView extends AdminView {
                                'TPLVAR_DESCRIPTION' => $value['description'],
                                'TPL_GROUP_CHILD' => $children );
 
-                $vars['TPLVAR_EXPAND_ICON'] = $children ? '' : 'none';
-
                 $html .= $this->render( 'markaxis/payroll/group.tpl', $vars );
             }
         }

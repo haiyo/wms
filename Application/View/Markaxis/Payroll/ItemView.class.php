@@ -56,32 +56,5 @@ class ItemView extends AdminView {
 
         return $this->render( 'markaxis/payroll/items.tpl', $vars );
     }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function renderEndDate( $data ) {
-        if( $DateTime = $this->CalendarModel->getEndDate( $data ) ) {
-            $str = $this->L10n->getContents( 'LANG_STARTDATE_HELP' );
-            $str = str_replace( '{endDate}', $DateTime->format('jS M Y'), $str );
-            $str = str_replace( '{payPeriod}', $data['payPeriod'], $str );
-            return $str;
-        }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function renderPaymentRecur( $data ) {
-        if( $range = $this->CalendarModel->getPaymentRecur( $data ) ) {
-            $str = $this->L10n->getContents( 'LANG_FIRST_PAYMENT_HELP' );
-            $str = str_replace( '{dates}', implode( ', ', $range ), $str );
-            return $str;
-        }
-    }
 }
 ?>

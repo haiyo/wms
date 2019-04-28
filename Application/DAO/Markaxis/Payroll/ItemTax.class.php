@@ -42,5 +42,24 @@ class ItemTax extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBypiIDs( $piIDs ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item_tax WHERE piID IN (' . addslashes( $piIDs ) . ')',
+            __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

@@ -78,5 +78,30 @@ class TaxRule extends \DAO {
         }
         return false;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getByGroupsOfficeID( $tgIDs, $officeID ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT tr.trID, tg.title, tr.applyType, tr.applyValueType, tr.applyValue
+                                   FROM tax_rule tr
+                                   LEFT JOIN tax_group tg ON ( tg.tgID = tr.tgID )
+                                   LEFT JOIN office o ON ( o.oID = tr.officeID )
+                                   WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ') AND 
+                                         tr.officeID = "' . (int)$officeID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $row['applyValue'] = (float)$row['applyValue'];
+                $list[$row['trID']] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

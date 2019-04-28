@@ -97,44 +97,103 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $processDate, $taxRules ) {
-        if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
-            $trIDs = implode(', ', array_column( $taxRules, 'trID' ) );
+    public function processPayroll( $userID, $data ) {
+        if( isset( $data['items'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
 
             if( sizeof( $compInfo ) > 0 ) {
                 $UserModel = UserModel::getInstance( );
                 $userInfo = $UserModel->getFieldByUserID( $userID, 'birthday' );
+                $age = $salary = 0;
 
                 foreach( $compInfo as $row ) {
                     switch( $row['criteria'] ) {
                         case 'age' :
-                            $age = Date::getAge( $userInfo['birthday'] );
-
+                            if( !$age ) {
+                                // If invalid age, break altogether.
+                                if( !$age = Date::getAge( $userInfo['birthday'] ) ) {
+                                    break;
+                                }
+                            }
                             if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
-                                unset( $taxRules[$row['trID']] );
+                                unset( $data['taxRules'][$row['trID']] );
                                 break;
                             }
-
-                            // ltec
                             break;
 
                         case 'salary' :
-                            $EmployeeModel = EmployeeModel::getInstance( );
-                            $empInfo = $EmployeeModel->getInfo( );
-
-                            if( isset( $empInfo['salary'] ) && $empInfo['salary'] > 0 ) {
-
-                                if( !$this->isEquality( $row['computing'], $empInfo['salary'], $row['value'] ) ) {
-                                    unset( $taxRules[$row['trID']] );
-                                    break;
+                            if( !$salary ) {
+                                foreach( $data['items'] as $key => $items ) {
+                                    if( isset( $items['basic'] ) && $items['basic'] == 1 &&
+                                        isset( $items['amount'] ) && $items['amount'] ) {
+                                        $salary = $items['amount'];
+                                    }
                                 }
+                                if( !$salary ) break;
+                            }
+                            if( !$this->isEquality( $row['computing'], $salary, $row['value'] ) ) {
+                                unset( $data['taxRules'][$row['trID']] );
+                                break;
+                            }
+                            if( $row['computing'] == 'ltec' ) {
+                                // Set the cap amount for later deduction.
+                                $data['taxRules'][$row['trID']]['capped'] = $row['value'];
                             }
                             break;
                     }
 
                 }
-                //var_dump($taxRules);
+                // Parse all passes to items
+                if( sizeof( $data['taxRules'] ) > 0 ) {
+
+                    // Get deduction piID
+                    foreach( $data['list'] as $key => $array ) {
+                        if( isset( $array['deduction'] ) && $array['deduction'] == 1 ) {
+                            $deductpiID =  $array['id'];
+                        }
+                    }
+                    if( $deductpiID ) {
+                        $EmployeeModel = EmployeeModel::getInstance( );
+                        $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'currency' );
+                        $currency = $empInfo['currency'] ? $empInfo['currency'] : '';
+
+                        foreach( $data['taxRules'] as $key => $rules ) {
+                            if( isset( $rules['applyType'] ) ) {
+                                if( $rules['applyType'] == 'deduction' && isset( $rules['applyValue'] ) &&
+                                    isset( $rules['applyValueType'] ) ) {
+
+                                    if( $rules['applyValueType'] == 'percentage' && $rules['applyValue'] ) {
+                                        if( isset( $rules['capped'] ) ) {
+                                            $amount = $rules['capped']*$rules['applyValue']/100;
+                                            $remark = ' (Capped at ' . $currency . number_format($rules['capped'] ) . ')';
+                                        }
+                                        else {
+                                            $amount = $salary * $rules['applyValue'] / 100;
+                                            $remark = '';
+                                        }
+                                        $data['items'][] = array( 'piID' => $deductpiID,
+                                                                  'title' => $rules['title'] . $remark,
+                                                                  'amount' => $amount );
+                                    }
+                                }
+
+                                if( $rules['applyType'] == 'contribution' && isset( $rules['applyValue'] ) &&
+                                    isset( $rules['applyValueType'] ) ) {
+                                    if( isset( $rules['capped'] ) ) {
+                                        $amount = $rules['capped']*$rules['applyValue']/100;
+                                    }
+                                    else {
+                                        $amount = $salary * $rules['applyValue'] / 100;
+                                    }
+                                    $data['info'][] = array( 'title' => $rules['title'],
+                                                             'amount' => $amount );
+                                }
+                            }
+                        }
+                    }
+                }
+                return $data;
             }
         }
     }

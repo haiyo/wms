@@ -1,23 +1,23 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\CompetencyModel;
+use \Aurora\Component\RaceModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: TaxCompetencyModel.class.php, v 2.0 Exp $
+ * @version $Id: TaxRaceModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxCompetencyModel extends \Model {
+class TaxRaceModel extends \Model {
 
 
     // Properties
-    protected $TaxCompetency;
+    protected $TaxRace;
 
 
     /**
-     * TaxCompetencyModel Constructor
+     * TaxRaceModel Constructor
      * @return void
      */
     function __construct( ) {
@@ -25,7 +25,7 @@ class TaxCompetencyModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $this->TaxCompetency = new TaxCompetency( );
+        $this->TaxRace = new TaxRace( );
     }
 
 
@@ -33,8 +33,17 @@ class TaxCompetencyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $trID, $cID ) {
-        return $this->TaxCompetency->isFound( $trID, $cID );
+    public function isFound( $trID, $tcID ) {
+        return $this->TaxRace->isFound( $trID, $tcID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByID( $trID, $tcID ) {
+        return $this->TaxRace->getByID( $trID, $tcID );
     }
 
 
@@ -43,7 +52,7 @@ class TaxCompetencyModel extends \Model {
      * @return int
      */
     public function getBytrID( $trID ) {
-        return $this->TaxCompetency->getBytrID( $trID );
+        return $this->TaxRace->getBytrID( $trID );
     }
 
 
@@ -55,21 +64,10 @@ class TaxCompetencyModel extends \Model {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['competency'] = $cInfo;
+                    $taxRules[$key]['contract'] = $cInfo;
                 }
             }
             return $taxRules;
-        }
-    }
-
-
-    /**
-     * Get File Information
-     * @return mixed
-     */
-    public function getTaxRule( $taxRule ) {
-        if( isset( $taxRule['trID'] ) ) {
-            return $this->getBytrID( $taxRule['trID'] );
         }
     }
 
@@ -90,15 +88,10 @@ class TaxCompetencyModel extends \Model {
         };
         $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $sizeof = sizeof( $criteria );
-        $competencies = array( 0 );
+        $validID = array( 0 );
 
-        $cInfo = array();
+        $cInfo = array( );
         $cInfo['trID'] = (int)$data['trID'];
-
-        if( isset( $data['competency'] ) && strlen( trim( $data['competency'] ) ) > 0 ) {
-            $CompetencyModel = CompetencyModel::getInstance();
-            $competencies = $CompetencyModel->save( $data['competency'] );
-        }
 
         if( $sizeof > 0 ) {
             foreach( $criteria as $key => $value ) {
@@ -107,14 +100,23 @@ class TaxCompetencyModel extends \Model {
                 if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
                     $id = $match[1];
 
-                    switch ($data['criteria_' . $id]) {
-                        case 'competency' :
-                            if( is_array( $competencies ) ) {
-                                foreach( $competencies as $cID ) {
-                                    if( $cID && !$this->isFound($data['trID'], $cID ) ) {
-                                        $cInfo['competency'] = (int)$cID;
-                                        $this->TaxCompetency->insert('tax_competency', $cInfo);
+                    switch( $data['criteria_' . $id] ) {
+                        case 'race' :
+                            $RaceModel = RaceModel::getInstance( );
+
+                            // Check if base table exist or not first.
+                            if( $RaceModel->isFound( $data['contract_' . $id] ) ) {
+                                $cInfo['contract'] = $data['contract_' . $id];
+
+                                if( $data['contractID_' . $id] ) {
+                                    if( $ctInfo = $this->getByID( $cInfo['trID'], $data['contractID_' . $id] ) ) {
+                                        $this->TaxRace->update('tax_contract', $cInfo,
+                                            'WHERE tcID = "' . (int)$data['contractID_' . $id] . '"' );
+
+                                        array_push($validID, $data['contractID_' . $id] );
                                     }
+                                } else {
+                                    array_push($validID, $this->TaxRace->insert('tax_race', $cInfo ) );
                                 }
                             }
                             break;
@@ -122,10 +124,9 @@ class TaxCompetencyModel extends \Model {
                 }
             }
         }
-        $competency = implode(',', $competencies);
-        $this->TaxCompetency->delete('tax_competency',
-                                     'WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                            competency NOT IN(' . addslashes($competency) . ')');
+        $race = implode( ',', $validID );
+        $this->TaxRace->delete( 'tax_race','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
+                                                               traID NOT IN(' . addslashes( $race ) . ')' );
     }
 }
 ?>

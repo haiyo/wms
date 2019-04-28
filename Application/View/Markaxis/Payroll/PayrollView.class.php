@@ -164,7 +164,7 @@ class PayrollView extends AdminView {
      * Render main navigation
      * @return string
      */
-    public function renderProcessForm( $userID, $processDate ) {
+    public function renderProcessForm( $userID, $processDate, $data ) {
         $userInfo = $this->PayrollModel->getCalculateUserInfo( $userID );
 
         if( $userInfo ) {
@@ -201,18 +201,25 @@ class PayrollView extends AdminView {
             $grossAmount = 0;
             $vars['dynamic']['item'] = false;
 
-            if( $userInfo['salary'] ) {
-                $grossAmount = $userInfo['salary'];
+            if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
+                $itemList = $ItemModel->getList( );
 
-                $itemType = $SelectListView->build( 'itemType', $ItemModel->getList( ), $ItemModel->getBasic( )['piID'],
-                                                    'Select Payroll Item' );
+                foreach( $data['items'] as $items ) {
+                    $isBasic = false;
 
-                $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $userInfo['salary'] ),
-                                                    'TPL_PAYROLL_ITEM_LIST' => $itemType );
+                    if( isset( $items['basic'] ) && $items['basic'] == 1 && $items['amount'] ) {
+                        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $items['amount'] );
+                        $isBasic = true;
+                    }
+
+                    $itemType = $SelectListView->build( 'itemType', $itemList, $items['piID'],
+                                                        'Select Payroll Item' );
+
+                    $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
+                                                        'TPL_PAYROLL_ITEM_LIST' => $itemType,
+                                                        'TPLVAR_REMARK' => $isBasic ? '' : $items['title'] );
+                }
             }
-
-            $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $grossAmount );
-
             return $this->render( 'markaxis/payroll/processForm.tpl', $vars );
         }
     }

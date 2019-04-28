@@ -271,7 +271,7 @@
             // Different components require proper error label placement
             errorPlacement: function(error, element) {
                 if( $(".modal-footer .error").length == 0 )
-                    $(".modal-footer").prepend(error);
+                    $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
                 var data = {
@@ -341,7 +341,7 @@
             // Different components require proper error label placement
             errorPlacement: function(error, element) {
                 if( $(".modal-footer .error").length == 0 )
-                    $(".modal-footer").prepend(error);
+                    $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
                 var data = {
@@ -576,8 +576,8 @@
                 <h6 class="modal-title">Create New Designation Group</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="saveGroup" name="saveGroup" method="post" action="">
+            <form id="saveGroup" name="saveGroup" method="post" action="">
+                <div class="modal-body overflow-y-visible">
                     <input type="hidden" id="groupID" name="groupID" value="0" />
                     <div class="col-md-12">
                         <div class="form-group">
@@ -585,16 +585,21 @@
                             <input type="text" name="groupTitle" id="groupTitle" class="form-control" value=""
                                    placeholder="Enter Group Title" />
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                         <label><strong>Note:</strong> Newly created group will not appear in the table list until
                             a designation has been assigned to it.</label>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -606,8 +611,8 @@
                 <h6 class="modal-title">Create New Designation</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="saveDesignation" name="saveDesignation" method="post" action="">
+            <form id="saveDesignation" name="saveDesignation" method="post" action="">
+                <div class="modal-body overflow-y-visible">
                     <input type="hidden" id="designationID" name="designationID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
@@ -632,13 +637,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

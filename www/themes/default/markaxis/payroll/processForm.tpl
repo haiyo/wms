@@ -27,9 +27,8 @@
 
     <div class="row font-weight-semibold" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;margin-bottom:0;">
         <div class="col-md-4">Item Type:</div>
-        <div class="col-md-2 amount">Amount:</div>
+        <div class="col-md-3 amount">Amount:</div>
         <div class="col-md-4 remark">Remark</div>
-        <div class="col-lg-1 sm-check text-center">Taxable</div>
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
@@ -40,16 +39,12 @@
                 <?TPL_PAYROLL_ITEM_LIST?>
             </div>
 
-            <div class="col-md-2 amount">
+            <div class="col-md-3 amount">
                 <input type="text" name="amount" id="amount" class="form-control" value="<?TPLVAR_AMOUNT?>" placeholder="" />
             </div>
 
             <div class="col-md-4 remark">
-                <input type="text" name="remark" class="form-control" placeholder="" autocomplete="off" data-fouc />
-            </div>
-
-            <div class="col-lg-1 sm-check text-center">
-                <div class="mt-5"><input type="checkbox" class="check-input" checked data-fouc></div>
+                <input type="text" name="remark" class="form-control" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">
@@ -58,19 +53,15 @@
                 </div>
             </div>
         </div>
+        <!-- END DYNAMIC BLOCK: item -->
     </div>
-    <!-- END DYNAMIC BLOCK: item -->
+
     <div class="row payrollProcessSummary">
         <div class="col-md-4">&nbsp;</div>
         <div class="col-md-4">&nbsp;</div>
 
         <div class="col-md-4">
-            <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
-                <strong>Total Gross Salary:</strong>
-            </div>
-            <div class="col-md-4 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_GROSS_AMOUNT?>
-            </div>
+            &nbsp;
         </div>
     </div>
 
@@ -86,14 +77,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
-                <strong>Employee CPF:</strong>
-            </div>
-            <div class="col-md-4 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
-                -SGD$2,200
-            </div>
-        </div>
+        <div class="col-md-4">&nbsp;</div>
 
     </div>
 
@@ -111,10 +95,10 @@
 
         <div class="col-md-4">
             <div class="col-md-8 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
-                <strong>SHG Donation (CDAC):</strong>
+                <strong>Total Gross Salary:</strong>
             </div>
             <div class="col-md-4 text-right" style="border-bottom:1px solid #ccc;padding:5px;">
-                -SGD$2.00
+                <?TPLVAR_CURRENCY?><?TPLVAR_GROSS_AMOUNT?>
             </div>
         </div>
     </div>

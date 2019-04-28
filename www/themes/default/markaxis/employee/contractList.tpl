@@ -183,7 +183,7 @@
             // Different components require proper error label placement
             errorPlacement: function(error, element) {
                 if( $(".modal-footer .error").length == 0 )
-                    $(".modal-footer").prepend(error);
+                    $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
                 var data = {
@@ -359,8 +359,8 @@
                 <h6 class="modal-title">Create New Contract Type</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="saveContract" name="saveContract" method="post" action="">
+            <form id="saveContract" name="saveContract" method="post" action="">
+                <div class="modal-body overflow-y-visible">
                     <input type="hidden" id="contractID" name="contractID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
@@ -379,13 +379,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

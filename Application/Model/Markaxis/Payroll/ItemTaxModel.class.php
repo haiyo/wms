@@ -31,6 +31,30 @@ class ItemTaxModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBypiID( $piID ) {
+        return $this->ItemTax->getBypiID( $piID );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getProcessItemTaxes( $data ) {
+        if( sizeof( $data['items'] ) > 0 ) {
+            $piIDs = implode(', ', array_column( $data['items'], 'piID' ) );
+
+            if( $piIDs ) {
+                return $this->ItemTax->getBypiIDs( $piIDs );
+            }
+        }
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -41,15 +65,6 @@ class ItemTaxModel extends \Model {
             }
         }
         return $list;
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function getBypiID( $piID ) {
-        return $this->ItemTax->getBypiID( $piID );
     }
 
 

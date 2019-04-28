@@ -144,8 +144,8 @@
                 $(payItemTable.cells().nodes()).removeClass('active');
                 $(payItemTable.column(colIdx).nodes()).addClass('active');
             }
-        }).on('mouseleave', function() {
-            $(payItemTable.cells().nodes()).removeClass("active");
+        }).on('mouseleave', function( ) {
+            $(payItemTable.cells( ).nodes( )).removeClass("active");
         });
 
         // Enable Select2 select for the length option
@@ -176,8 +176,8 @@
                 confirmButtonText: "Confirm Delete",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
-            }, function (isConfirm) {
-                if (isConfirm === false) return;
+            }, function( isConfirm ) {
+                if( isConfirm === false ) return;
 
                 var data = {
                     bundle: {
@@ -185,7 +185,7 @@
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if (obj.bool == 0) {
+                        if( obj.bool == 0 ) {
                             swal("Error!", obj.errMsg, "error");
                             return;
                         }
@@ -232,7 +232,7 @@
                         },
                         success: function (res) {
                             var obj = $.parseJSON(res);
-                            if (obj.bool == 0) {
+                            if( obj.bool == 0 ) {
                                 swal("Error!", obj.errMsg, "error");
                                 return;
                             }
@@ -331,7 +331,7 @@
             // Different components require proper error label placement
             errorPlacement: function(error, element) {
                 if( $(".modal-footer .error").length == 0 )
-                    $(".modal-footer").prepend(error);
+                    $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
                 var data = {
@@ -420,49 +420,50 @@
                 <h6 class="modal-title"><?LANG_CREATE_NEW_PAY_ITEM?></h6>
             </div>
 
+            <form id="savePayItem" name="savePayItem" method="post" action="">
             <div class="modal-body overflow-y-visible">
-                <form id="savePayItem" name="savePayItem" method="post" action="">
-                    <input type="hidden" id="piID" name="piID" value="0" />
-                    <input type="hidden" id="payItemType" name="payItemType" value="" />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Pay Item Title:</label>
-                                <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
-                                       placeholder="Enter a title for this pay item" />
-                            </div>
+                <input type="hidden" id="piID" name="piID" value="0" />
+                <input type="hidden" id="payItemType" name="payItemType" value="" />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Pay Item Title:</label>
+                            <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
+                                   placeholder="Enter a title for this pay item" />
                         </div>
+                    </div>
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>This Pay Item Belongs To:</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
-                                        <button id="payItemBasic" class="btn btn-light payItemBtn" type="button" value="basic">Basic Salary</button>
-                                    </span>
-                                    <span class="input-group-append">
-                                        <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Select Tax Group(s):</label>
-                                <?TPL_TAX_GROUP_LIST?>
-                                </select>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>This Pay Item Belongs To:</label>
+                            <div class="input-group">
+                                <span class="input-group-prepend">
+                                    <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
+                                    <button id="payItemBasic" class="btn btn-light payItemBtn" type="button" value="basic">Basic Salary</button>
+                                </span>
+                                <span class="input-group-append">
+                                    <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Select Tax Group(s):</label>
+                            <?TPL_TAX_GROUP_LIST?>
+                            </select>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>

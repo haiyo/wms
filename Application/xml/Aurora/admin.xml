@@ -110,6 +110,7 @@
         <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
         <observer controller="Markaxis/Payroll/TaxContractControl"></observer>
         <observer controller="Markaxis/Payroll/TaxDesignationControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
         <observer controller="Markaxis/Payroll/TaxGenderControl"></observer>
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>

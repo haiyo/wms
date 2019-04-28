@@ -2,6 +2,7 @@
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
 use \Aurora\Component\OfficeModel, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
+use \Aurora\Component\RaceModel;
 use \Library\Helper\Aurora\GenderHelper;
 use \Library\Runtime\Registry;
 
@@ -65,6 +66,11 @@ class TaxView extends AdminView {
         $designationList = $SelectGroupListView->build( 'designation_{id}',
                                 $DesignationModel->getList( ), '', 'Select Designation' );
 
+        $RaceModel = RaceModel::getInstance( );
+        $SelectListView->includeBlank( false );
+        $SelectListView->isMultiple( true );
+        $raceList = $SelectListView->build( 'race{template}',  $RaceModel->getList( ), '', 'Select Race' );
+
         $RadioView = new RadioView( );
         $genderRadio  = $RadioView->build( 'gender{template}',  GenderHelper::getL10nList( ), '', 'gender' );
 
@@ -73,6 +79,7 @@ class TaxView extends AdminView {
                        'TPL_PAYROLL_ITEM_LIST' => $payrollItemList,
                        'TPL_CONTRACT_LIST' => $contractList,
                        'TPL_DESIGNATION_LIST' => $designationList,
+                       'TPL_RACE_LIST' => $raceList,
                        'TPL_GENDER_RADIO' => $genderRadio ) );
 
         $vars['dynamic']['noGroup'] = false;

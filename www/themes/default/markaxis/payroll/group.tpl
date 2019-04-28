@@ -1,7 +1,7 @@
 <div id="group_<?TPLVAR_GID?>">
     <div class="header-elements-inline">
         <a href="#item-<?TPLVAR_GID?>" class="list-group-item" data-toggle="collapse">
-            <i class="glyphicon glyphicon-chevron-down" id="expandIcon_<?TPLVAR_GID?>" style="display:<?TPLVAR_EXPAND_ICON?>"></i>
+            <i class="glyphicon glyphicon-chevron-down" id="expandIcon_<?TPLVAR_GID?>"></i>
             <span id="groupTitle_<?TPLVAR_GID?>" class="title"><?TPLVAR_GROUP_TITLE?></span>
             <div id="groupDescription_<?TPLVAR_GID?>" class="description text-muted"><?TPLVAR_DESCRIPTION?></div>
         </a>

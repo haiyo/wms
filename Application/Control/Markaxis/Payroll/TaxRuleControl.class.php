@@ -50,9 +50,8 @@ class TaxRuleControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        if( isset( $args[1] ) && isset( $args[2] ) ) {
-            Control::setOutputArray( $this->TaxRuleModel->processPayroll( $args[1], $args[2] ) );
-        }
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'taxRules' => $this->TaxRuleModel->getProcessTaxRules( $args[1], $data ) ) );
     }
 
 

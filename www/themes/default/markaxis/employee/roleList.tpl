@@ -191,8 +191,8 @@
                 <h6 class="modal-title">Create New Role</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
+            <form id="savePayrun" name="savePayrun" method="post" action="">
+                <div class="modal-body overflow-y-visible">
                     <input type="hidden" id="rID" name="rID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
@@ -210,13 +210,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

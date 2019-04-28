@@ -64,7 +64,7 @@ class TaxContractModel extends \Model {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['contract'] = $cInfo;
+                    $taxRules[$key]['contractID'] = $cInfo;
                 }
             }
             return $taxRules;
@@ -107,7 +107,7 @@ class TaxContractModel extends \Model {
 
                             // Check if base table exist or not first.
                             if( $ContractModel->isFound( $data['contract_' . $id] ) ) {
-                                $cInfo['contract'] = $data['contract_' . $id];
+                                $cInfo['contractID'] = $data['contract_' . $id];
 
                                 if( $data['contractID_' . $id] ) {
                                     if( $ctInfo = $this->getByID( $cInfo['trID'], $data['contractID_' . $id] ) ) {

@@ -239,63 +239,64 @@
     </table>
 </div>
 <div id="modalAddPayrun" class="modal fade">
-    <div class="modal-dialog modal-med">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h6 class="modal-title">Create New Pay Run</h6>
             </div>
 
+            <form id="savePayrun" name="savePayrun" method="post" action="">
             <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
-                    <input type="hidden" id="prID" name="prID" value="0" />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>How often will you pay your employees?</label>
-                                <?TPL_PAY_PERIOD_LIST?>
-                            </div>
+                <input type="hidden" id="prID" name="prID" value="0" />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>How often will you pay your employees?</label>
+                            <?TPL_PAY_PERIOD_LIST?>
                         </div>
+                    </div>
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Pay Run Name:</label>
-                                <input type="text" name="payrunName" id="payrunName" class="form-control" value=""
-                                       placeholder="For e.g: Monthly Full-time Employee, Weekly Part-time Employee" />
-                            </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Pay Run Name:</label>
+                            <input type="text" name="payrunName" id="payrunName" class="form-control" value=""
+                                   placeholder="For e.g: Monthly Full-time Employee, Weekly Part-time Employee" />
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Start Date:</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                    <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
-                                </div>
-                                <span class="help-block startDateHelp"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>First Payment Date:</label>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Start Date:</label>
                             <div class="input-group">
                                 <span class="input-group-prepend">
                                     <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                 </span>
-                                <input type="text" class="form-control pickadate-firstPayment" id="firstPayment" name="firstPayment" placeholder="" />
+                                <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
                             </div>
-                            <span class="help-block firstPaymentHelp"></span>
+                            <span class="help-block startDateHelp"></span>
                         </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    <div class="col-md-6">
+                        <label>First Payment Date:</label>
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                            </span>
+                            <input type="text" class="form-control pickadate-firstPayment" id="firstPayment" name="firstPayment" placeholder="" />
+                        </div>
+                        <span class="help-block firstPaymentHelp"></span>
                     </div>
-                </form>
+                </div>
             </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -57,8 +57,8 @@ class ItemTaxControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        $payrollItems = Control::getOutputArray( );
-        Control::setOutputArray( $this->ItemTaxModel->processPayroll( $args[1], $args[2], $taxRules ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'itemTaxes' => $this->ItemTaxModel->getProcessItemTaxes( $data ) ) );
     }
 
 

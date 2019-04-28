@@ -51,6 +51,15 @@ class ItemModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getProcessList( ) {
+        return $this->Item->getProcessList( );
+    }
+
+
+    /**
      * Return total count of records
      * @return int
      */
@@ -63,8 +72,8 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getBasic( ) {
-        return $this->Item->getBasic( );
+    public function getBasic( $userID=false ) {
+        return $this->Item->getBasic( $userID );
     }
 
 
@@ -72,13 +81,15 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getProcessItem( $userID, $loadPrevMonth ) {
+    public function getProcessItems( $userID, $loadPrevMonth ) {
+        $vars = array( );
+        $vars['list'] = $this->getProcessList( );
+        $vars['items'][] = $this->Item->getBasic( $userID );
+
         if( $loadPrevMonth ) {
             //
         }
-        else {
-            return $this->Item->getBasic( );
-        }
+        return $vars;
     }
 
 
