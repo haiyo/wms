@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView, \Library\Helper\Aurora\GenderHelper;
+use \Aurora\Component\RaceModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -91,6 +92,14 @@ class TaxRuleWrapperView extends AdminView {
             if( isset( $taxRule['designation'] ) ) {
                 foreach( $taxRule['designation'] as $designation ) {
                     $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $designation['title'] );
+                }
+            }
+            if( isset( $taxRule['race'] ) ) {
+                $RaceModel = RaceModel::getInstance( );
+                $raceList = $RaceModel->getList( );
+
+                foreach( $taxRule['race'] as $race ) {
+                    $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $raceList[$race['raceID']] );
                 }
             }
             if( isset( $taxRule['gender'] ) ) {

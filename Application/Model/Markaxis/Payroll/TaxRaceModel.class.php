@@ -64,7 +64,7 @@ class TaxRaceModel extends \Model {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['contract'] = $cInfo;
+                    $taxRules[$key]['race'] = $cInfo;
                 }
             }
             return $taxRules;
@@ -77,56 +77,67 @@ class TaxRaceModel extends \Model {
      * @return mixed
      */
     public function saveTaxRule( $data ) {
-        $preg = '/^criteria_(\d)+/';
+        if( isset( $data['race'] ) && is_array( $data['race'] ) && sizeof( $data['race'] > 0 ) ) {
+            // Make sure all sent in raceID are valid.
+            $RaceModel = RaceModel::getInstance( );
+            $raceList = $RaceModel->getList( );
 
-        $callback = function( $val ) use( $preg ) {
-            if( preg_match( $preg, $val, $match ) ) {
-                return true;
-            } else {
-                return false;
+            foreach( $data['race'] as $raceID ) {
+                if( !isset( $raceList[$raceID] ) ) {
+                    return false;
+                }
             }
-        };
-        $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
-        $sizeof = sizeof( $criteria );
-        $validID = array( 0 );
+            $preg = '/^criteria_(\d)+/';
 
-        $cInfo = array( );
-        $cInfo['trID'] = (int)$data['trID'];
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
 
-        if( $sizeof > 0 ) {
-            foreach( $criteria as $key => $value ) {
-                preg_match( $preg, $key, $match );
+            $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
+            $sizeof = sizeof( $criteria );
+            $validID = array( 0 );
 
-                if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
-                    $id = $match[1];
+            $cInfo = array( );
+            $cInfo['trID'] = (int)$data['trID'];
 
-                    switch( $data['criteria_' . $id] ) {
-                        case 'race' :
-                            $RaceModel = RaceModel::getInstance( );
+            if( $sizeof > 0 ) {
+                foreach( $criteria as $key => $value ) {
+                    preg_match( $preg, $key, $match );
 
-                            // Check if base table exist or not first.
-                            if( $RaceModel->isFound( $data['contract_' . $id] ) ) {
-                                $cInfo['contract'] = $data['contract_' . $id];
+                    if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                        $id = $match[1];
 
-                                if( $data['contractID_' . $id] ) {
-                                    if( $ctInfo = $this->getByID( $cInfo['trID'], $data['contractID_' . $id] ) ) {
-                                        $this->TaxRace->update('tax_contract', $cInfo,
-                                            'WHERE tcID = "' . (int)$data['contractID_' . $id] . '"' );
+                        if( $data['criteria_' . $id] == 'race' ) {
+                            if( $rInfo = $this->getBytrID( $cInfo['trID'] ) ) {
+                                $existingRaceIDs = array_column( $rInfo, 'raceID' );
 
-                                        array_push($validID, $data['contractID_' . $id] );
+                                foreach( $data['race'] as $raceID ) {
+                                    if( !in_array( $raceID, $existingRaceIDs ) ) {
+                                        $cInfo['raceID'] = $raceID;
+                                        $this->TaxRace->insert('tax_race', $cInfo );
                                     }
-                                } else {
+                                    array_push($validID, $raceID );
+                                }
+                            }
+                            else {
+                                foreach( $data['race'] as $raceID ) {
+                                    $cInfo['raceID'] = (int)$raceID;
                                     array_push($validID, $this->TaxRace->insert('tax_race', $cInfo ) );
                                 }
                             }
                             break;
+                        }
                     }
                 }
             }
+            $race = implode( ',', $validID );
+            $this->TaxRace->delete( 'tax_race','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
+                                                                   raceID NOT IN(' . addslashes( $race ) . ')' );
         }
-        $race = implode( ',', $validID );
-        $this->TaxRace->delete( 'tax_race','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                                               traID NOT IN(' . addslashes( $race ) . ')' );
     }
 }
 ?>

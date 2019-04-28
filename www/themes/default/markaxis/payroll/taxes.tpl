@@ -1640,8 +1640,10 @@
                                     addCriteria( );
                                 }
                                 $("#criteria_" + criteria).val("race").trigger("change");
-                                $("input[name=race][value=" + obj.data.gender[0]["race"] + "]").prop('checked', true);
-                                $.uniform.update("input[name=race]");
+
+                                for( var i=0; i<obj.data.race.length; i++ ) {
+                                    $("#race").multiselect( "select", obj.data.race[i]["raceID"] );
+                                }
                             }
 
                             if( obj.data.gender && obj.data.gender.length > 0 ) {
