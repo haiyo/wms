@@ -49,7 +49,7 @@ class TaxContractModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getBytrID( $trID ) {
         return $this->TaxContract->getBytrID( $trID );
@@ -64,7 +64,7 @@ class TaxContractModel extends \Model {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['contractID'] = $cInfo;
+                    $taxRules[$key]['contract'] = $cInfo;
                 }
             }
             return $taxRules;
@@ -77,57 +77,69 @@ class TaxContractModel extends \Model {
      * @return mixed
      */
     public function saveTaxRule( $data ) {
-        $preg = '/^criteria_(\d)+/';
-
-        $callback = function( $val ) use( $preg ) {
-            if( preg_match( $preg, $val, $match ) ) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
-        $sizeof = sizeof( $criteria );
-        $validID = array( 0 );
-
         $cInfo = array( );
+        $validID = array( 0 );
         $cInfo['trID'] = (int)$data['trID'];
 
-        if( $sizeof > 0 ) {
-            foreach( $criteria as $key => $value ) {
-                preg_match( $preg, $key, $match );
+        if( isset( $data['contract'] ) && is_array( $data['contract'] ) ) {
+            // Make sure all sent in contractID are valid.
+            $contractCount = sizeof( $data['contract'] );
+            $contractList = implode( ',', $data['contract'] );
 
-                if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
-                    $id = $match[1];
+            $ContractModel = ContractModel::getInstance( );
+            $dbCount = $ContractModel->getListCount( $contractList );
 
-                    switch( $data['criteria_' . $id] ) {
-                        case 'contract' :
-                            $ContractModel = ContractModel::getInstance( );
+            if( $contractCount != $dbCount ) {
+                return false;
+            }
+            $preg = '/^criteria_(\d)+/';
 
-                            // Check if base table exist or not first.
-                            if( $ContractModel->isFound( $data['contract_' . $id] ) ) {
-                                $cInfo['contractID'] = $data['contract_' . $id];
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+            $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
+            $sizeof = sizeof( $criteria );
 
-                                if( $data['contractID_' . $id] ) {
-                                    if( $ctInfo = $this->getByID( $cInfo['trID'], $data['contractID_' . $id] ) ) {
-                                        $this->TaxContract->update('tax_contract', $cInfo,
-                                            'WHERE tcID = "' . (int)$data['contractID_' . $id] . '"' );
+            if( $sizeof > 0 ) {
+                foreach( $criteria as $key => $value ) {
+                    preg_match( $preg, $key, $match );
 
-                                        array_push($validID, $data['contractID_' . $id] );
+                    if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                        $id = $match[1];
+
+                        if( $data['criteria_' . $id] == 'contract' ) {
+                            if( $existing = $this->getBytrID( $cInfo['trID'] ) ) {
+                                $existingIDs = array_column( $existing, 'contractID' );
+
+                                foreach( $data['contract'] as $contractID ) {
+                                    if( !in_array( $contractID, $existingIDs ) ) {
+                                        $cInfo['contractID'] = $contractID;
+                                        $this->TaxContract->insert('tax_contract', $cInfo );
                                     }
-                                } else {
-                                    array_push($validID, $this->TaxContract->insert('tax_contract', $cInfo ) );
+                                    array_push($validID, $contractID );
+                                }
+                            }
+                            else {
+                                foreach( $data['contract'] as $contractID ) {
+                                    $cInfo['contractID'] = (int)$contractID;
+                                    $this->TaxContract->insert('tax_contract', $cInfo );
+                                    array_push($validID, $cInfo['contractID'] );
                                 }
                             }
                             break;
+                        }
                     }
                 }
             }
         }
         $contract = implode( ',', $validID );
-        $this->TaxContract->delete( 'tax_contract','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                                        tcID NOT IN(' . addslashes( $contract ) . ')' );
+        $this->TaxContract->delete( 'tax_contract',
+                                    'WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
+                                                 contractID NOT IN(' . addslashes( $contract ) . ')' );
     }
 }
 ?>

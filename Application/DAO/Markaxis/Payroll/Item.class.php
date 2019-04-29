@@ -60,7 +60,7 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getProcessList( ) {
-        $sql = $this->DB->select( 'SELECT piID AS id, title, basic, deduction FROM payroll_item
+        $sql = $this->DB->select( 'SELECT piID, title, basic, deduction FROM payroll_item
                                    WHERE deleted <> "1"
                                    ORDER BY title', __FILE__, __LINE__ );
 
@@ -94,24 +94,27 @@ class Item extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getBasic( $userID=false ) {
+    public function getBasicDeduction( $userID=false ) {
         $column = $salary = '';
 
         if( $userID ) {
             $column = ', e.salary AS amount ';
             $salary = $userID ? 'LEFT JOIN employee e ON ( e.userID = "' . (int)$userID . '" )' : '';
         }
-
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic ' . $column . '  
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic, pi.deduction ' . $column . '  
                                    FROM payroll_item pi 
                                    ' . $salary . '
-                                   WHERE pi.basic = "1"  AND pi.deleted <> "1"',
+                                   WHERE ( pi.basic = "1" OR pi.deduction = "1" ) AND 
+                                         pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
         }
-        return false;
+        return $list;
     }
 
 

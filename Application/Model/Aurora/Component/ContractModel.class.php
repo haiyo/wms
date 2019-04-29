@@ -70,5 +70,14 @@ class ContractModel extends \Model {
     public function getIDList( ) {
         return $this->Contract->getIDList( );
     }
+
+
+    /**
+     * Return user data by userID
+     * @return int
+     */
+    public function getListCount( $list ) {
+        return $this->Contract->getListCount( $list );
+    }
 }
 ?>

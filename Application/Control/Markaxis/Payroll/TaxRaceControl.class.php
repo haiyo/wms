@@ -52,6 +52,16 @@ class TaxRaceControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxRaceModel->processPayroll( $args[1], $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $this->TaxRaceModel->saveTaxRule( Control::getPostData( ) );
     }

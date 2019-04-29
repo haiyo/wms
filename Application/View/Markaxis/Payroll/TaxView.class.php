@@ -56,19 +56,22 @@ class TaxView extends AdminView {
         $payrollItemList = $SelectListView->build( 'payrollItem_{id}',
                                                     $ItemModel->getList( ), '', 'Select Payroll Item' );
 
+        $SelectListView->includeBlank( false );
+        $SelectListView->isMultiple( true );
+
         $ContractModel = ContractModel::getInstance( );
-        $contractList = $SelectListView->build( 'contract_{id}',
+        $contractList = $SelectListView->build( 'contract{template}',
                             $ContractModel->getList( ), '', 'Select Contract Type' );
 
         $DesignationModel = DesignationModel::getInstance( );
 
         $SelectGroupListView = new SelectGroupListView( );
-        $designationList = $SelectGroupListView->build( 'designation_{id}',
+        $SelectGroupListView->includeBlank( false );
+        $SelectGroupListView->isMultiple( true );
+        $designationList = $SelectGroupListView->build( 'designation{template}',
                                 $DesignationModel->getList( ), '', 'Select Designation' );
 
         $RaceModel = RaceModel::getInstance( );
-        $SelectListView->includeBlank( false );
-        $SelectListView->isMultiple( true );
         $raceList = $SelectListView->build( 'race{template}',  $RaceModel->getList( ), '', 'Select Race' );
 
         $RadioView = new RadioView( );

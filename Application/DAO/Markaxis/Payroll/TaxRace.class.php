@@ -74,5 +74,24 @@ class TaxRace extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBytrIDs( $trIDs ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT * FROM tax_race WHERE trID IN (' . addslashes( $trIDs ) . ')',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

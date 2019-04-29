@@ -1322,21 +1322,31 @@
         }
 
         function addContract( element ) {
+            if( $("#contract").length > 0 ) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append( '<label id="ruleTitle-error" class="error">You already have one Contract rule.</label>' );
+                return false;
+            }
             var id = element.attr("data-id");
             var html = $("#contractTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#contract_" + id).select2( );
+            $("#contract").multiselect( );
         }
 
         function addDesignation( element ) {
+            if( $("#designation").length > 0 ) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append( '<label id="ruleTitle-error" class="error">You already have one Designation rule.</label>' );
+                return false;
+            }
             var id = element.attr("data-id");
             var html = $("#designationTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#designation_" + id).select2( );
+            $("#designation").multiselect( );
         }
 
         function addRace( element ) {
@@ -1345,7 +1355,6 @@
                     $(".modal-footer").append( '<label id="ruleTitle-error" class="error">You already have one Race rule.</label>' );
                 return false;
             }
-
             var id = element.attr("data-id");
             var html = $("#raceTemplate").html( );
             html = html.replace(/\{id\}/g, id );
@@ -1360,7 +1369,6 @@
                     $(".modal-footer").prepend( '<label id="ruleTitle-error" class="error">You already have one Gender rule.</label>' );
                 return false;
             }
-
             var id = element.attr("data-id");
             var html = $("#genderTemplate").html( );
             html = html.replace(/\{id\}/g, id );
@@ -1375,7 +1383,6 @@
                     $(".modal-footer").prepend( '<label id="ruleTitle-error" class="error">You already have one Competency rule.</label>' );
                 return false;
             }
-
             var id = element.attr("data-id");
             var html = $("#competencyTemplate").html( );
             html = html.replace(/\{id\}/g, id );
@@ -1548,6 +1555,9 @@
             }
         });
 
+        $("#modalTaxRule").on("shown.bs.modal", function(e) {
+            $("#ruleTitle").focus( );
+        });
 
         $("#modalTaxRule").on("show.bs.modal", function(e) {
             if( $("#gender1").length > 0 ) {
@@ -1617,8 +1627,10 @@
                                         addCriteria( );
                                     }
                                     $("#criteria_" + criteria).val("contract").trigger("change");
-                                    $("#contractID_" + criteria).val( obj.data.contract[i]["tcID"] );
-                                    $("#contract_" + criteria).val( obj.data.contract[i]["contract"] ).trigger('change');
+
+                                    for( var i=0; i<obj.data.contract.length; i++ ) {
+                                        $("#contract").multiselect( "select", obj.data.contract[i]["contractID"] );
+                                    }
                                     criteria++;
                                 }
                             }
@@ -1629,8 +1641,10 @@
                                         addCriteria( );
                                     }
                                     $("#criteria_" + criteria).val("designation").trigger("change");
-                                    $("#designationID_" + criteria).val( obj.data.designation[i]["tdID"] );
-                                    $("#designation_" + criteria).val( obj.data.designation[i]["designation"] ).trigger('change');
+
+                                    for( var i=0; i<obj.data.designation.length; i++ ) {
+                                        $("#designation").multiselect( "select", obj.data.designation[i]["designationID"] );
+                                    }
                                     criteria++;
                                 }
                             }
@@ -1644,6 +1658,7 @@
                                 for( var i=0; i<obj.data.race.length; i++ ) {
                                     $("#race").multiselect( "select", obj.data.race[i]["raceID"] );
                                 }
+                                criteria++;
                             }
 
                             if( obj.data.gender && obj.data.gender.length > 0 ) {
@@ -1653,6 +1668,7 @@
                                 $("#criteria_" + criteria).val("gender").trigger("change");
                                 $("input[name=gender][value=" + obj.data.gender[0]["gender"] + "]").prop('checked', true);
                                 $.uniform.update("input[name=gender]");
+                                criteria++;
                             }
 
                             if( criteria > 0 ) {
@@ -1731,6 +1747,13 @@
                                         }
                                         if( $("#trID").val( ) > 0 ) {
                                             $("#taxRow_" + $("#trID").val( )).replaceWith( obj2.html );
+
+                                            if( obj.data.group == 0 ) {
+                                                $("#taxRow_" + $("#trID").val( )).appendTo( $(".list-group-root") );
+                                            }
+                                            else {
+                                                $("#taxRow_" + $("#trID").val( )).appendTo( $("#item-" + obj.data.group) );
+                                            }
                                         }
                                         else {
                                             if( obj.data.group == 0 ) {
@@ -1759,7 +1782,16 @@
                                                 $("#modalTaxRule").modal('hide');
                                             }
                                             else {
-                                                $("#ruleTitle").focus( );
+                                                $("#ruleTitle").val("");
+                                                $("#group").val(0).trigger("change");
+                                                $("#office").val("").trigger("change");
+                                                $("#applyType").val("deduction").trigger("change");
+                                                $("#applyValueType").val("percentage").trigger("change");
+                                                $("#applyValue").val("");
+
+                                                setTimeout(function() {
+                                                    $("#ruleTitle").focus( );
+                                                }, 500);
                                             }
                                         });
                                     }

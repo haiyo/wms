@@ -207,6 +207,10 @@ class PayrollView extends AdminView {
                 foreach( $data['items'] as $items ) {
                     $isBasic = false;
 
+                    if( isset( $items['deduction'] ) && $items['deduction'] == 1 ) {
+                        continue;
+                    }
+
                     if( isset( $items['basic'] ) && $items['basic'] == 1 && $items['amount'] ) {
                         $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $items['amount'] );
                         $isBasic = true;

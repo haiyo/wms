@@ -60,5 +60,14 @@ class DesignationModel extends \Model {
     public function getIDList( ) {
         return $this->info = $this->Designation->getIDList( );
     }
+
+
+    /**
+     * Return user data by userID
+     * @return int
+     */
+    public function getListCount( $list ) {
+        return $this->Designation->getListCount( $list );
+    }
 }
 ?>

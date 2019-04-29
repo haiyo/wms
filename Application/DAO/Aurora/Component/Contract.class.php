@@ -99,5 +99,18 @@ class Contract extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return int
+     */
+    public function getListCount( $list ) {
+        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM contract 
+                                   WHERE cID IN (' . addslashes( $list ) . ')',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
 }
 ?>

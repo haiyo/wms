@@ -84,7 +84,7 @@ class ItemModel extends \Model {
     public function getProcessItems( $userID, $loadPrevMonth ) {
         $vars = array( );
         $vars['list'] = $this->getProcessList( );
-        $vars['items'][] = $this->Item->getBasic( $userID );
+        $vars['items'] = $this->Item->getBasicDeduction( $userID );
 
         if( $loadPrevMonth ) {
             //

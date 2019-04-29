@@ -51,8 +51,9 @@ class ItemTax extends \DAO {
     public function getBypiIDs( $piIDs ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM payroll_item_tax WHERE piID IN (' . addslashes( $piIDs ) . ')',
-            __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item_tax 
+                                   WHERE piID IN (' . addslashes( $piIDs ) . ')',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

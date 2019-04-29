@@ -66,15 +66,24 @@ class TaxComputingView extends AdminView {
                 if( $age[0]['computing'] == 'lt' ) {
                     $txt .= 'less than ' . (float)$age[0]['value'];
                 }
+                if( $age[0]['computing'] == 'lte' ) {
+                    $txt .= (float)$age[0]['value'] . ' and below';
+                }
                 if( $age[0]['computing'] == 'eq' ) {
                     $txt .=  (float)$age[0]['value'];
                 }
                 array_push($criteriaSet, $txt );
             }
+            // 2 Age Criteria
             if( sizeof( $age ) == 2 ) {
                 if( $age[0]['value'] < $age[1]['value'] ) {
                     $txt  = 'Employee age from ';
                     $txt .= (float)$age[0]['value'] . ' to ' . (float)$age[1]['value'];
+                    array_push($criteriaSet, $txt );
+                }
+                if( $age[0]['value'] > $age[1]['value'] ) {
+                    $txt  = 'Employee age more than ';
+                    $txt .= (float)$age[1]['value'] . ' to ' . (float)$age[0]['value'];
                     array_push($criteriaSet, $txt );
                 }
             }
@@ -87,15 +96,24 @@ class TaxComputingView extends AdminView {
                 if( $salary[0]['computing'] == 'lt' ) {
                     $txt .= 'less than ' . $currency . (float)$salary[0]['value'];
                 }
+                if( $salary[0]['computing'] == 'lte' ) {
+                    $txt .= $currency . (float)$salary[0]['value'] . ' and below';
+                }
                 if( $salary[0]['computing'] == 'eq' ) {
                     $txt .= $currency . (float)$salary[0]['value'];
                 }
                 array_push($criteriaSet, $txt );
             }
+            // 2 Salary Criteria
             if( sizeof( $salary ) == 2 ) {
                 if( $salary[0]['value'] < $salary[1]['value'] ) {
                     $txt  = 'Employee salary from ';
                     $txt .= $currency . (float)$salary[0]['value'] . ' to ' . $currency . (float)$salary[1]['value'];
+                    array_push($criteriaSet, $txt );
+                }
+                if( $salary[0]['value'] > $salary[1]['value'] ) {
+                    $txt  = 'Employee salary more than ';
+                    $txt .= $currency . (float)$salary[1]['value'] . ' to ' . $currency . (float)$salary[0]['value'];
                     array_push($criteriaSet, $txt );
                 }
             }

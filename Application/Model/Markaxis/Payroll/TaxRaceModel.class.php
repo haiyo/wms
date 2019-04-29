@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\RaceModel;
+use Aurora\User\UserModel, \Aurora\Component\RaceModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -73,19 +73,56 @@ class TaxRaceModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $userID, $data ) {
+        if( isset( $data['items'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+            $raceInfo = $this->TaxRace->getBytrIDs( $trIDs );
+
+            if( sizeof( $raceInfo ) > 0 ) {
+                $UserModel = UserModel::getInstance( );
+                $userInfo = $UserModel->getFieldByUserID( $userID, 'raceID' );
+
+                if( $userInfo['raceID'] ) {
+                    foreach( $raceInfo as $row ) {
+                        if( $row['raceID'] != $userInfo['raceID'] ) {
+                            unset( $data['items'][$row['trID']] );
+                            unset( $data['taxRules'][$row['trID']] );
+                            break;
+                        }
+                    }
+                    /* Parse all passes to items
+                    if( sizeof( $data['taxRules'] ) > 0 ) {
+                        var_dump($data);
+                    }*/
+                    return $data;
+                }
+            }
+        }
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
     public function saveTaxRule( $data ) {
-        if( isset( $data['race'] ) && is_array( $data['race'] ) && sizeof( $data['race'] > 0 ) ) {
-            // Make sure all sent in raceID are valid.
-            $RaceModel = RaceModel::getInstance( );
-            $raceList = $RaceModel->getList( );
+        $cInfo = array( );
+        $validID = array( 0 );
+        $cInfo['trID'] = (int)$data['trID'];
 
-            foreach( $data['race'] as $raceID ) {
-                if( !isset( $raceList[$raceID] ) ) {
-                    return false;
-                }
+        if( isset( $data['race'] ) && is_array( $data['race'] ) ) {
+            // Make sure all sent in raceID are valid.
+            $raceCount = sizeof( $data['race'] );
+            $raceList = implode( ',', $data['race'] );
+
+            $RaceModel = RaceModel::getInstance( );
+            $dbCount = $RaceModel->getListCount( $raceList );
+
+            if( $raceCount != $dbCount ) {
+                return false;
             }
             $preg = '/^criteria_(\d)+/';
 
@@ -99,10 +136,6 @@ class TaxRaceModel extends \Model {
 
             $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
             $sizeof = sizeof( $criteria );
-            $validID = array( 0 );
-
-            $cInfo = array( );
-            $cInfo['trID'] = (int)$data['trID'];
 
             if( $sizeof > 0 ) {
                 foreach( $criteria as $key => $value ) {
@@ -112,11 +145,11 @@ class TaxRaceModel extends \Model {
                         $id = $match[1];
 
                         if( $data['criteria_' . $id] == 'race' ) {
-                            if( $rInfo = $this->getBytrID( $cInfo['trID'] ) ) {
-                                $existingRaceIDs = array_column( $rInfo, 'raceID' );
+                            if( $existing = $this->getBytrID( $cInfo['trID'] ) ) {
+                                $existingIDs = array_column( $existing, 'raceID' );
 
                                 foreach( $data['race'] as $raceID ) {
-                                    if( !in_array( $raceID, $existingRaceIDs ) ) {
+                                    if( !in_array( $raceID, $existingIDs ) ) {
                                         $cInfo['raceID'] = $raceID;
                                         $this->TaxRace->insert('tax_race', $cInfo );
                                     }
@@ -126,7 +159,8 @@ class TaxRaceModel extends \Model {
                             else {
                                 foreach( $data['race'] as $raceID ) {
                                     $cInfo['raceID'] = (int)$raceID;
-                                    array_push($validID, $this->TaxRace->insert('tax_race', $cInfo ) );
+                                    $this->TaxRace->insert('tax_race', $cInfo );
+                                    array_push($validID, $cInfo['raceID'] );
                                 }
                             }
                             break;
@@ -134,10 +168,10 @@ class TaxRaceModel extends \Model {
                     }
                 }
             }
-            $race = implode( ',', $validID );
-            $this->TaxRace->delete( 'tax_race','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                                                   raceID NOT IN(' . addslashes( $race ) . ')' );
         }
+        $race = implode( ',', $validID );
+        $this->TaxRace->delete( 'tax_race','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
+                                                             raceID NOT IN(' . addslashes( $race ) . ')' );
     }
 }
 ?>
