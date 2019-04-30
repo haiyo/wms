@@ -77,6 +77,7 @@
     <li class="nav-item"><a href="#rolePermList" class="nav-link active" data-toggle="tab">Roles & Permissions</a></li>
     <li class="nav-item"><a href="#designationList" class="nav-link" data-toggle="tab">Designation</a></li>
     <li class="nav-item"><a href="#contractList" class="nav-link" data-toggle="tab">Contract Type</a></li>
+    <li class="nav-item"><a href="#competencyList" class="nav-link" data-toggle="tab">Competency</a></li>
 </ul>
 <div class="tab-content">
     <?TPL_FORM?>

@@ -162,7 +162,7 @@ var MarkaxisEmployee = (function( ) {
             $("#startDay").select2( );
             $("#endMonth").select2( );
             $("#endDay").select2( );
-            $("#passType").select2( );
+            $("#passType").select2({allowClear:true});
             $("#passExpiryMonth").select2( );
             $("#passExpiryDay").select2( );
             $("#eduCountry").select2( );

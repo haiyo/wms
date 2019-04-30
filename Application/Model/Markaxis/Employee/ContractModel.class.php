@@ -39,19 +39,28 @@ class ContractModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBycID( $cID ) {
+        return $this->Contract->getBycID( $cID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
     public function getResults( $post ) {
         $this->Contract->setLimit( $post['start'], $post['length'] );
 
-        $order = 'type';
+        $order = 'c.type';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
 
         if( isset( $post['order'][0]['column'] ) ) {
             switch( $post['order'][0]['column'] ) {
                 case 1:
-                    $order = 'type';
+                    $order = 'c.type';
                     break;
             }
         }
@@ -64,15 +73,6 @@ class ContractModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function getBycID( $cID ) {
-        return $this->Contract->getBycID( $cID );
     }
 
 

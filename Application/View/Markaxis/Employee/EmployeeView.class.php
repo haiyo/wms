@@ -79,6 +79,23 @@ class EmployeeView extends AdminView {
      * Render main navigation
      * @return string
      */
+    public function renderCountList( $list ) {
+        if( is_array( $list ) ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $list as $key => $value ) {
+                $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $value['fname'],
+                                                    'TPLVAR_LNAME' => $value['lname'] );
+            }
+            return $this->render( 'markaxis/employee/countList.tpl', $vars );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function renderView( ) {
         $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') );
 

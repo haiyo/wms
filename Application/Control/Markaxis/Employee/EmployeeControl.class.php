@@ -56,6 +56,20 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
+    public function getCountList( $data ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['list'] ) ) {
+            echo $this->EmployeeView->renderCountList( $output['list'] );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function list( ) {
         $this->EmployeeView->printAll( $this->EmployeeView->renderList( ) );
     }

@@ -118,7 +118,7 @@ class TaxGroupModel extends \Model {
      */
     public function saveTaxGroup( $data ) {
         $this->info['title'] = Validator::stripTrim( $data['groupTitle'] );
-        $this->info['description'] = Validator::stripTrim( $data['groupDescription'] );
+        $this->info['descript'] = Validator::stripTrim( $data['groupDescription'] );
         $this->info['parent'] = (int)$data['parent'];
 
         if( $this->info['parent'] && !$this->isFound( $this->info['parent'] ) ) {

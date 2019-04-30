@@ -143,7 +143,7 @@
                 <label>Add Employee Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
                                                      data-original-title="<?LANG_COMPETENCY_INFO?>"></i>
                     <span class="text-muted">(Type and press Enter to add new competency)</span></label>
-                <input type="text" name="competency" class="form-control tokenfield-typeahead"
+                <input type="text" name="competency" id="competency" class="form-control tokenfield-typeahead"
                        placeholder="Enter skillsets or knowledge"
                        value="<?TPLVAR_COMPETENCY?>"
                        autocomplete="off" data-fouc />

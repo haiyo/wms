@@ -99,7 +99,7 @@ class TaxRuleWrapperView extends AdminView {
                 $raceList = $RaceModel->getList( );
 
                 foreach( $taxRule['race'] as $race ) {
-                    $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $raceList[$race['raceID']] );
+                    $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $race );
                 }
             }
             if( isset( $taxRule['gender'] ) ) {

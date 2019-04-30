@@ -111,8 +111,8 @@ abstract class DataStoreHelper {
     public function compose( $sql ) {
     	$sqlarr = array( );
         foreach( $sql as $sqlKey => $sqlVal ) {
-            array_push( $sqlarr, addslashes( $sqlKey ) . ' = "' .
-                                 addslashes( $sqlVal ) . '"' );
+            $sqlVal = $sqlVal === NULL ? 'NULL' : '"' . addslashes( $sqlVal ) . '"';
+            array_push( $sqlarr, addslashes( $sqlKey ) . ' = ' . $sqlVal );
     	}
     	$sql = implode( ', ', $sqlarr );
     	return $sql;

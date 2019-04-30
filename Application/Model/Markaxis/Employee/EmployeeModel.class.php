@@ -29,7 +29,7 @@ class EmployeeModel extends \Model {
 
         $this->info['userID'] = $this->info['salary'] = 0;
         $this->info['idnumber'] = $this->info['currency'] =
-        $this->info['passNumber'] = $this->info['confirmDate'] =
+        $this->info['passTypeID'] = $this->info['passNumber'] = $this->info['confirmDate'] =
         $this->info['startDate'] = $this->info['endDate'] = $this->info['passExpiryDate'] = '';
 
         $this->Employee = new Employee( );
@@ -228,6 +228,8 @@ class EmployeeModel extends \Model {
                 $saveInfo['paymentMethodID'] = (int)$data['paymentMethod'];
             }
         }
+
+        $saveInfo['passTypeID'] = NULL;
 
         if( isset( $data['passType'] ) ) {
             $PassTypeModel = PassTypeModel::getInstance( );

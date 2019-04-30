@@ -90,7 +90,6 @@ class TaxRaceModel extends \Model {
                         if( $row['raceID'] != $userInfo['raceID'] ) {
                             unset( $data['items'][$row['trID']] );
                             unset( $data['taxRules'][$row['trID']] );
-                            break;
                         }
                     }
                     /* Parse all passes to items

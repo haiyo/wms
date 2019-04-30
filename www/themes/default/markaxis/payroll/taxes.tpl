@@ -1452,7 +1452,7 @@
                         else {
                             $("#tgID").val( obj.data.tgID );
                             $("#groupTitle").val( obj.data.title );
-                            $("#groupDescription").val( obj.data.description );
+                            $("#groupDescription").val( obj.data.descript );
                             $("#parent").val( obj.data.parent ).trigger("change");
                         }
                     }
@@ -1496,7 +1496,7 @@
 
                             if( tgID != 0 ) {
                                 $("#groupTitle_" + tgID).html( obj.data.title );
-                                $("#groupDescription_" + tgID).html( obj.data.description );
+                                $("#groupDescription_" + tgID).html( obj.data.descript );
                                 $("#group_" + tgID).appendTo( $("#item-" + obj.data.parent) );
                                 swal("Done!", obj.data.title + " has been successfully updated!", "success");
                             }
@@ -1782,13 +1782,6 @@
                                                 $("#modalTaxRule").modal('hide');
                                             }
                                             else {
-                                                $("#ruleTitle").val("");
-                                                $("#group").val(0).trigger("change");
-                                                $("#office").val("").trigger("change");
-                                                $("#applyType").val("deduction").trigger("change");
-                                                $("#applyValueType").val("percentage").trigger("change");
-                                                $("#applyValue").val("");
-
                                                 setTimeout(function() {
                                                     $("#ruleTitle").focus( );
                                                 }, 500);

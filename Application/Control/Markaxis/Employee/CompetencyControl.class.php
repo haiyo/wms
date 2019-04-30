@@ -13,6 +13,8 @@ class CompetencyControl {
 
 
     // Properties
+    private $CompetencyModel;
+    private $CompetencyView;
 
 
     /**
@@ -20,7 +22,8 @@ class CompetencyControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->CompetencyModel = CompetencyModel::getInstance( );
+        $this->CompetencyView = new CompetencyView( );
     }
 
 
@@ -28,11 +31,85 @@ class CompetencyControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
-        $post = Control::getPostData( );
+    public function settings( ) {
+        Control::setOutputArrayAppend( array( 'form' => $this->CompetencyView->renderSettings( ) ) );
+    }
 
-        $CompetencyModel = CompetencyModel::getInstance( );
-        $CompetencyModel->save( $post );
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getCompetencyResults( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        echo json_encode( $this->CompetencyModel->getResults( $post ) );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getCompetency( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->CompetencyModel->getBycID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getCountList( $data ) {
+        if( isset( $data[1] ) && $data[1] == 'competency' && isset( $data[2] ) ) {
+            Control::setOutputArrayAppend( array( 'list' => $this->CompetencyModel->getCountList( $data[2] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveCompetency( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $this->CompetencyModel->isValid( $post ) ) {
+            $this->CompetencyModel->saveCompetency( );
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteCompetency( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+
+        if( $vars['count'] = $this->CompetencyModel->delete( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

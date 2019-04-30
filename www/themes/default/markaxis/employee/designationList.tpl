@@ -140,12 +140,12 @@
             var id = $(this).parent( ).attr("data-id");
 
             if( !$(this).parent( ).hasClass("groupShow") ) {
-                $(".group-" + id).removeClass("hide");
+                $(".designationRow-" + id).removeClass("hide");
                 $(this).parent( ).addClass("groupShow parentGroupLit");
                 $("#groupIco-" + id).removeClass("icon-shrink7").addClass("icon-enlarge7");
             }
             else {
-                $(".group-" + id).addClass("hide");
+                $(".designationRow-" + id).addClass("hide");
                 $(this).parent( ).removeClass("groupShow parentGroupLit");
                 $("#groupIco-" + id).removeClass("").addClass("icon-shrink7");
             }
@@ -174,14 +174,16 @@
         var lastIdx = null;
 
         $("#designationList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof designationTable.cell(this).index() == "undefined" ) return;
+
             var colIdx = designationTable.cell(this).index().column;
 
-            if (colIdx !== lastIdx) {
-                $(designationTable.cells().nodes()).removeClass('active');
-                $(designationTable.column(colIdx).nodes()).addClass('active');
+            if( colIdx !== lastIdx ) {
+                $(designationTable.cells( ).nodes( )).removeClass('active');
+                $(designationTable.column(colIdx).nodes( )).addClass('active');
             }
-        }).on('mouseleave', function() {
-            $(designationTable.cells().nodes()).removeClass("active");
+        }).on('mouseleave', function( ) {
+            $(designationTable.cells( ).nodes( )).removeClass("active");
         });
 
         // Enable Select2 select for the length option
@@ -457,7 +459,7 @@
             }
             else {
                 swal({
-                    title: "Are you sure you want to delete the selected designation?",
+                    title: "Are you sure you want to delete the selected designations?",
                     text: "This action cannot be undone once deleted.",
                     type: "warning",
                     showCancelButton: true,

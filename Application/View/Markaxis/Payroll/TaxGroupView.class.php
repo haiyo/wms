@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView;
+use \Library\Util\MXString;
 use \Library\Runtime\Registry;
 
 /**
@@ -45,13 +46,15 @@ class TaxGroupView extends AdminView {
     public function buildGroupTree( array $elements, $parentID=0 ) {
         $html = '';
 
+        $MXString = new MXString( );
+
         foreach( $elements as $value ) {
             if( $value['parent'] == $parentID ) {
                 $children = $this->buildGroupTree( $elements, $value['tgID'] );
 
                 $vars = array( 'TPLVAR_GID' => $value['tgID'],
                                'TPLVAR_GROUP_TITLE' => $value['title'],
-                               'TPLVAR_DESCRIPTION' => $value['description'],
+                               'TPLVAR_DESCRIPTION' => $MXString->makeLink( $value['descript'] ),
                                'TPL_GROUP_CHILD' => $children );
 
                 $html .= $this->render( 'markaxis/payroll/group.tpl', $vars );

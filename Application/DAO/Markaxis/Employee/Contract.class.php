@@ -30,7 +30,7 @@ class Contract extends \DAO {
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM contract', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM contract WHERE deleted <> "1"', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             $list = array( );
@@ -40,6 +40,23 @@ class Contract extends \DAO {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBycID( $cID ) {
+        $sql = $this->DB->select( 'SELECT * FROM contract c
+                                   WHERE c.cID = "' . (int)$cID . '" AND
+                                         deleted <> "1"',
+            __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -58,7 +75,7 @@ class Contract extends \DAO {
                                    LEFT JOIN ( SELECT contractID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
                                                WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY contractID ) e ON e.contractID = c.cID
-                                   WHERE c.deleted <> 0 ' . $q . '
+                                   WHERE c.deleted <> "1" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
@@ -71,22 +88,6 @@ class Contract extends \DAO {
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
-    }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
-    public function getBycID( $cID ) {
-        $sql = $this->DB->select( 'SELECT * FROM contract c
-                                   WHERE c.cID = "' . (int)$cID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
     }
 }
 ?>

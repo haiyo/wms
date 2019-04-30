@@ -14,6 +14,7 @@ class TaxRaceControl {
 
     // Properties
     protected $TaxRaceModel;
+    protected $TaxRaceView;
 
 
     /**
@@ -22,18 +23,25 @@ class TaxRaceControl {
      */
     function __construct( ) {
         $this->TaxRaceModel = TaxRaceModel::getInstance( );
+        $this->TaxRaceView = new TaxRaceView( );
     }
+
 
 
     /**
      * Render main navigation
      * @return string
      */
-    public function getTaxRule( ) {
+    public function getTaxRule( $data ) {
         $taxRule = Control::getOutputArray( );
 
         if( isset( $taxRule['trID'] ) ) {
-            Control::setOutputArray( array( 'race' => $this->TaxRaceModel->getBytrID( $taxRule['trID'] ) ) );
+            if( isset( $data[2] ) && $data[2] == 'html' ) {
+                Control::setOutputArray( array( 'race' => $this->TaxRaceView->renderTaxRule( $taxRule ) ) );
+            }
+            else {
+                Control::setOutputArray( array( 'race' => $this->TaxRaceModel->getBytrID( $taxRule['trID'] ) ) );
+            }
         }
     }
 
@@ -44,7 +52,7 @@ class TaxRaceControl {
      */
     public function getAll( ) {
         $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxRaceModel->getAll( $taxRules ) );
+        Control::setOutputArray( $this->TaxRaceView->renderAll( $taxRules ) );
     }
 
 
