@@ -39,6 +39,8 @@ var MarkaxisManager = (function( ) {
         initEvents: function( ) {
             var that = this;
 
+            var cache = [];
+
             // Use Bloodhound engine
             var engine = new Bloodhound({
                 remote: {
@@ -48,8 +50,8 @@ var MarkaxisManager = (function( ) {
                         var tokens = that.managerElement.tokenfield("getTokens");
 
                         return $.map( response, function( d ) {
-                            if( engine.valueCache.indexOf(d.name) === -1) {
-                                engine.valueCache.push(d.name);
+                            if( cache.indexOf(d.name) === -1) {
+                                cache.push( d.name );
                             }
                             var exists = false;
                             for( var i=0; i<tokens.length; i++ ) {
@@ -76,14 +78,13 @@ var MarkaxisManager = (function( ) {
             });
 
             // Initialize engine
-            engine.valueCache = [];
             engine.initialize();
 
             // Initialize tokenfield
             that.managerElement.tokenfield({
                 delimiter: ';',
                 typeahead: [null, {
-                    displayKey: 'value',
+                    displayKey: 'label',
                     highlight: true,
                     source: engine.ttAdapter(),
                     templates: {
@@ -100,14 +101,14 @@ var MarkaxisManager = (function( ) {
             });
 
             that.managerElement.on("tokenfield:createtoken", function(e) {
+                var available_tokens = engine.index.datums
                 var exists = false;
-                $.each( engine.valueCache, function(index, value) {
-                    if( e.attrs.value === value ) {
+                $.each(available_tokens, function(index, token) {
+                    if (token.value === event.attrs.value)
                         exists = true;
-                    }
                 });
                 if( !exists ) {
-                    e.preventDefault( );
+                    return false;
                 }
             });
         },
@@ -137,6 +138,7 @@ var MarkaxisManager = (function( ) {
 
         clearManagerToken: function( ) {
             this.managerElement.tokenfield('setTokens', []);
+            $(".token-input").val("");
         }
     }
     return MarkaxisManager;

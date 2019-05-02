@@ -57,26 +57,16 @@ class DepartmentModel extends \Model {
     public function getResults( $post ) {
         $this->Department->setLimit( $post['start'], $post['length'] );
 
-        $order = 'name';
+        $order = 'd.name';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
 
         if( isset( $post['order'][0]['column'] ) ) {
             switch( $post['order'][0]['column'] ) {
                 case 1:
-                    $order = 'name';
-                    break;
-                case 2:
-                    $order = 'address';
-                    break;
-                case 3:
-                    $order = 'country';
-                    break;
-                case 4:
-                    $order = 'staff';
+                    $order = 'd.name';
                     break;
             }
         }
-
         $results = $this->Department->getResults( $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
@@ -153,7 +143,7 @@ class DepartmentModel extends \Model {
     public function delete( $dID ) {
         $A_DepartmentModel = A_DepartmentModel::getInstance( );
 
-        if( $A_DepartmentModel->isFound( $dID ) ) {
+        if( $A_DepartmentModel->isFoundByID( $dID ) ) {
             $info = array( );
             $info['deleted'] = 1;
             $this->Department->update( 'department', $info, 'WHERE dID = "' . (int)$dID . '"' );

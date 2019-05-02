@@ -3,8 +3,8 @@
         var departmentTable = $(".departmentTable").DataTable({
             "processing": true,
             "serverSide": true,
-            "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['dID']);
+            "fnCreatedRow": function(nRow, aData, iDataIndex) {
+                $(nRow).attr('id', 'departmentTable-row' + aData['dID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/company/getDepartmentResults",
@@ -209,13 +209,12 @@
                     },
                     success: function( res ) {
                         var obj = $.parseJSON( res );
-                        console.log(obj)
                         if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
                         else {
-                            $(".officeTable").DataTable().ajax.reload();
+                            $(".departmentTable").DataTable().ajax.reload();
 
                             swal({
                                 title: $("#departmentName").val( ) + " has been successfully created!",
@@ -231,7 +230,7 @@
                             }, function( isConfirm ) {
                                 $("#departmentID").val(0);
                                 $("#departmentName").val("");
-                                //$("#officeAddress").val("");
+                                markaxisManager.clearManagerToken( );
 
                                 if( isConfirm === false ) {
                                     $("#modalDepartment").modal("hide");
@@ -247,6 +246,44 @@
                 };
                 Aurora.WebService.AJAX( "admin/company/saveDepartment", data );
             }
+        });
+
+        $(document).on("click", ".departmentDelete", function ( ) {
+            var dID = $(this).attr("data-id");
+            var title = $("#departName" + dID).text( );
+
+            swal({
+                title: "Are you sure you want to delete " + title + "?",
+                text: "This action cannot be undone once deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function( isConfirm ) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        data: dID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            $(".departmentTable").DataTable( ).ajax.reload( );
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/company/deleteDepartment", data);
+            });
+            return false;
         });
     });
 </script>

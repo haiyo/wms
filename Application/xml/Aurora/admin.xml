@@ -48,6 +48,7 @@
     <task type="company">
         <observer controller="Markaxis/Company/DepartmentControl"></observer>
         <observer controller="Markaxis/Company/DepartmentManagerControl"></observer>
+        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Company/OfficeControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
     </task>

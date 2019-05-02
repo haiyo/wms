@@ -84,9 +84,10 @@ class ManagerModel extends \Model {
 
                 foreach( $managers as $userID ) {
                     if( !$UserModel->isFound( $userID ) ) {
+                        $this->errMsg = 'Invalid User!';
                         return false;
                     }
-                    $this->validManagerID[] = $userID;
+                    $this->validManagerID[] = (int)$userID;
                 }
                 // userID is conditionally set so as we can reuse this method for
                 // other classes. It's only applicable for saving employee data.

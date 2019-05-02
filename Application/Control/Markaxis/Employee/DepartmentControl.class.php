@@ -32,5 +32,18 @@ class DepartmentControl {
     public function save( ) {
         $this->DepartmentModel->save( Control::getPostData( ) );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveDepartment( ) {
+        $post = Control::getPostData( );
+        $this->DepartmentModel->saveDepartment( $post );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

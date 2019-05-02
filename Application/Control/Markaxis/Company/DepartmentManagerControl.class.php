@@ -64,9 +64,12 @@ class DepartmentManagerControl {
         if( $this->DepartmentManagerModel->isValid( $post ) ) {
             $this->DepartmentManagerModel->save( );
         }
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->DepartmentManagerModel->getErrMsg( );
+            echo json_encode( $vars );
+            exit;
+        }
     }
 
 

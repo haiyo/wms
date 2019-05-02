@@ -5,7 +5,7 @@ use \Aurora\Form\DayIntListView, \Aurora\Form\SelectListView;
 use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\SalaryTypeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel;
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
-use \Aurora\Component\DepartmentModel as DepartmentModel;
+use \Aurora\Component\DepartmentModel as A_DepartmentModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -214,10 +214,13 @@ class EmployeeView extends AdminView {
         $CompetencyModel = CompetencyModel::getInstance( );
         $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );
 
+        $A_DepartmentModel = A_DepartmentModel::getInstance( );
         $DepartmentModel = DepartmentModel::getInstance( );
-        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
+
         $SelectListView->setClass( '' );
-        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Select Department(s)' );
+        $departments = isset( $this->info['userID'] ) ? $DepartmentModel->getListByUserID( $this->info['userID'] ) : '';
+        $departments = isset( $departments['dID'] ) ? explode(',', $departments['dID'] ) : '';
+        $departmentList = $SelectListView->build( 'department',  $A_DepartmentModel->getList( ), $departments,'Select Department(s)' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],

@@ -90,9 +90,9 @@ class DepartmentControl {
      * @return string
      */
     public function deleteDepartment( ) {
-        $oID = Control::getRequest( )->request( POST, 'data' );
+        $dID = Control::getRequest( )->request( POST, 'data' );
 
-        $this->DepartmentModel->delete( $oID );
+        $this->DepartmentModel->delete( $dID );
         $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;

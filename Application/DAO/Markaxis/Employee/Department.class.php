@@ -43,7 +43,7 @@ class Department extends \DAO {
     public function isFoundByUserID( $userID, $dID ) {
         $sql = $this->DB->select( 'SELECT COUNT(edID) FROM employee_department 
                                    WHERE userID = "' . (int)$userID . '" AND
-                                         dID = "' . (int)$dID . '"',
+                                         departmentID = "' . (int)$dID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -54,31 +54,19 @@ class Department extends \DAO {
      * Retrieve all user roles
      * @return mixed
      */
-    public function getByID( $dID ) {
-        $sql = $this->DB->select( 'SELECT * FROM department WHERE dID = "' . (int)$dID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
-    }
-
-
-    /**
-     * Retrieve all user roles
-     * @return mixed
-     */
     public function getByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT d.dID, d.name FROM employee_department ed
-                                   LEFT JOIN department d on ed.dID = d.dID
+                                   LEFT JOIN department d ON ( d.dID = ed.departmentID )
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
         }
-        return false;
+        return $list;
     }
 
 
@@ -96,6 +84,22 @@ class Department extends \DAO {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Retrieve a user list normally use for building select list
+     * @return mixed
+     */
+    public function getListByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT GROUP_CONCAT(DISTINCT departmentID) AS dID FROM employee_department
+                                   WHERE userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 }
 ?>

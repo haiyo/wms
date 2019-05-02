@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Aurora\Component\DepartmentModel AS A_DepartmentModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -31,8 +32,8 @@ class DepartmentModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFoundByUserID( $userID ) {
-        return $this->Department->isFoundByUserID( $userID );
+    public function isFoundByUserID( $userID, $dID ) {
+        return $this->Department->isFoundByUserID( $userID, $dID );
     }
 
 
@@ -40,8 +41,8 @@ class DepartmentModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getByUserID( $userID, $column ) {
-        return $this->Department->getByUserID( $userID, $column );
+    public function getByUserID( $userID ) {
+        return $this->Department->getByUserID( $userID );
     }
 
 
@@ -55,36 +56,61 @@ class DepartmentModel extends \Model {
 
 
     /**
-     * Return total count of records
-     * @return int
-
-    public function existByLTIDs( $ltIDs ) {
-        return (int)$this->LeaveType->existByLTIDs( $ltIDs );
-    } */
-
-
-    /**
-     * Return a list of all users
-     * @return mixed
+     * Save Employee Competencies
+     * @return void
      */
     public function save( $data ) {
         if( isset( $data['department'] ) && is_array( $data['department'] ) ) {
-            // Make sure all department IDs are valid
-            if( $this->existByLTIDs( $data['ltID'] ) ) {
-                $this->LeaveType->delete('employee_department', 'WHERE userID = "' . (int)$data['userID'] . '"');
+            $A_DepartmentModel = A_DepartmentModel::getInstance( );
+            $validdID = array( );
 
-                $saveInfo = array( );
-                $saveInfo['userID'] = (int)$data['userID'];
+            foreach( $data['department'] as $dID ) {
+                if( $A_DepartmentModel->isFoundByID( $dID ) ) {
+                    if( !$this->isFoundByUserID( $data['userID'], $dID ) ) {
+                        $info = array( );
+                        $info['userID'] = (int)$data['userID'];
+                        $info['departmentID'] = (int)$dID;
+                        $this->Department->insert( 'employee_department', $info );
+                    }
+                }
+                array_push( $validdID, $dID );
+            }
+            $department = implode( ',', $validdID );
 
-                foreach( $data['ltID'] as $value ) {
-                    $saveInfo['ltID'] = (int)$value;
-                    $this->LeaveType->insert( 'employee_department', $saveInfo );
+            if( $department )
+                $this->Department->delete( 'employee_department', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
+                                            departmentID NOT IN(' . addslashes( $department ) . ')' );
+        }
+    }
+
+
+    /**
+     * Set Pay Item Info
+     * @return bool
+     */
+    public function saveDepartment( $data ) {
+        if( isset( $data['dID'] ) ) {
+            $ManagerModel = ManagerModel::getInstance( );
+            $managers = $ManagerModel->getValidManagerID( );
+            $success = array( );
+
+            if( is_array( $managers ) ) {
+                foreach( $managers as $managerID ) {
+                    if( !$this->isFoundByUserID( $managerID, $data['dID'] ) ) {
+                        // Add manager who are not already in this department
+                        $info = array( );
+                        $info['userID'] = (int)$managerID;
+                        $info['departmentID'] = (int)$data['dID'];
+                        $this->Department->insert( 'employee_department', $info );
+                    }
+                    array_push( $success, $managerID );
                 }
             }
-        }
-        // If no tgID is pass in, delete any existing data
-        else {
-            $this->LeaveType->delete('employee_department', 'WHERE userID = "' . (int)$data['userID'] . '"');
+            if( sizeof( $success ) > 0 ) {
+                $this->Department->delete('employee_department',
+                                          'WHERE departmentID = "' . (int)$data['dID'] . '" AND 
+                                                  userID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
+            }
         }
     }
 }

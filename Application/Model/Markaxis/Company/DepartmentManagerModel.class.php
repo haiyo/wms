@@ -67,10 +67,14 @@ class DepartmentManagerModel extends \Model {
     public function isValid( $data ) {
         if( isset( $data['dID'] ) && isset( $data['managers'] ) ) {
             $ManagerModel = ManagerModel::getInstance( );
+
             if( $ManagerModel->isValid( $data ) ) {
                 $this->info['dID'] = $data['dID'];
                 $this->validManagerID = $ManagerModel->getValidManagerID( );
                 return true;
+            }
+            else {
+                $this->errMsg = $ManagerModel->getErrMsg( );
             }
         }
         return false;
@@ -82,7 +86,7 @@ class DepartmentManagerModel extends \Model {
      * @return mixed
      */
     public function save( ) {
-        if( sizeof( $this->validManagerID ) > 0 && isset( $this->info['dID'] ) ) {
+            if( sizeof( $this->validManagerID ) > 0 && isset( $this->info['dID'] ) ) {
             $success = array( );
 
             // Get all managers by department ID
