@@ -85,7 +85,6 @@ class TaxGroupModel extends \Model {
         foreach( $elements as $element ) {
             if( $element['parent'] == $parentID ) {
                 $element['level'] = $level+1;
-
                 $branch[] = $element;
 
                 if( $element['tgID'] == 0 ) continue;

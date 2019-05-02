@@ -24,35 +24,23 @@ class DepartmentManager extends \DAO {
 
 
     /**
-     * Retrieve all user by name and role
+     * Retrieve all user roles
      * @return mixed
      */
-    public function getResults( $q='', $order='name ASC' ) {
-        $list = array( );
-
-        $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( o.name LIKE "%' . $q . '%" OR o.address LIKE "%' . $q . '%" 
-                       OR c.country LIKE "%' . $q . '%" )' : '';
-
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS d.dID, d.name, IFNULL( e.empCount, 0 ) AS empCount
-                                   FROM department d
-                                   -- LEFT JOIN country c ON ( o.countryID = c.cID )
-                                   LEFT JOIN ( SELECT departmentID, COUNT(eID) as empCount FROM employee e
-                                               LEFT JOIN user u ON e.userID = u.userID
-                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY departmentID ) e ON e.departmentID = d.dID
-                                   WHERE 1 = 1 ' . $q . '
-                                   ORDER BY ' . $order . $this->limit,
+    public function getBydID( $dID ) {
+        $sql = $this->DB->select( 'SELECT dm.userID AS managerID, CONCAT(u.fname, " ", u.lname ) AS name 
+                                   FROM department_manager dm
+                                   LEFT JOIN user u ON ( u.userID = dm.userID )
+                                   WHERE departmentID = "' . (int)$dID . '"',
                                    __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $row['manager'] = 1;
-                $list[] = $row;
+                $list[$row['managerID']] = $row;
             }
         }
-        $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
-        $row = $this->DB->fetch( $sql );
-        $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
     }
 

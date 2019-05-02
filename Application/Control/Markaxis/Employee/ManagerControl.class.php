@@ -13,6 +13,7 @@ class ManagerControl {
 
 
     // Properties
+    private $ManagerModel;
 
 
     /**
@@ -20,7 +21,7 @@ class ManagerControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->ManagerModel = ManagerModel::getInstance( );
     }
 
 
@@ -28,26 +29,12 @@ class ManagerControl {
      * Render main navigation
      * @return string
      */
-    public function view( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function add( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function edit( $args ) {
-        //
+    public function getManagerToken( ) {
+        $vars = array( );
+        $vars['data'] = $this->ManagerModel->getManagerToken( );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 
 
@@ -59,7 +46,9 @@ class ManagerControl {
         $post = Control::getPostData( );
 
         $ManagerModel = ManagerModel::getInstance( );
-        $ManagerModel->save( $post );
+        if( $ManagerModel->isValid( $post ) ) {
+            $ManagerModel->save( );
+        }
     }
 }
 ?>

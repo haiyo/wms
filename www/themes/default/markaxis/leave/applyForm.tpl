@@ -79,10 +79,9 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Approving Manager(s):</label>
-                                <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
+                                <input type="text" id="managerList" name="managers" class="form-control tokenfield-typeahead managerList"
                                        placeholder="Enter Manager's Name"
                                        value="" autocomplete="off" data-fouc />
-                                <input type="hidden" id="managerIDs" name="managerIDs" value="" />
                             </div>
                         </div>
                     </div>

@@ -146,28 +146,24 @@ class EmployeeView extends AdminView {
             $confirmMonth = $confirmDate[1];
             $confirmYear  = $confirmDate[0];
         }
-
         if( $this->info['startDate'] ) {
             $startDate = explode( '-', $this->info['startDate'] );
             $startDay   = $startDate[2];
             $startMonth = $startDate[1];
             $startYear  = $startDate[0];
         }
-
         if( $this->info['endDate'] ) {
             $endDate = explode( '-', $this->info['endDate'] );
             $endDay   = $endDate[2];
             $endMonth = $endDate[1];
             $endYear  = $endDate[0];
         }
-
         if( $this->info['passExpiryDate'] ) {
             $passExpiry = explode( '-', $this->info['passExpiryDate'] );
             $passExpiryDay = $passExpiry[2];
             $passExpiryMonth = $passExpiry[1];
             $passExpiryYear  = $passExpiry[0];
         }
-
         $DesignationModel = DesignationModel::getInstance( );
         $SelectGroupListView = new SelectGroupListView( );
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
@@ -203,23 +199,25 @@ class EmployeeView extends AdminView {
         $passTypeID = isset( $this->info['passTypeID'] ) ? $this->info['passTypeID'] : '';
         $passTypeList = $SelectGroupListView->build( 'passType',  $PassTypeModel->getList( ), $passTypeID, 'Select Pass Type' );
 
-        $DepartmentModel = DepartmentModel::getInstance( );
-        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
-        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Select Department' );
-
         // === MULTI LIST LEVEL BELOW ===
+        $SelectListView->isMultiple(true );
+        $SelectListView->includeBlank(false);
 
         $UserRoleModel = UserRoleModel::getInstance( );
         $RoleModel = RoleModel::getInstance( );
-        $SelectListView->isMultiple( true );
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
-        $roleList = $SelectListView->build( 'role',  $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
+        $roleList = $SelectListView->build( 'role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
         $ManagerModel = ManagerModel::getInstance( );
-        $managers = $this->info['userID'] ? $ManagerModel->getNameByUserID( $this->info['userID'] ) : '';
+        $managers = $this->info['userID'] ? $ManagerModel->getManagerToken( $this->info['userID'] ) : '';
 
         $CompetencyModel = CompetencyModel::getInstance( );
         $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );
+
+        $DepartmentModel = DepartmentModel::getInstance( );
+        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
+        $SelectListView->setClass( '' );
+        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Select Department(s)' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],

@@ -31,8 +31,11 @@ class ItemTaxControl {
      */
     public function getItemResults( ) {
         $data = Control::getOutputArray( );
-        echo json_encode( $this->ItemTaxModel->getItemResults( $data['list'] ) );
-        exit;
+
+        if( isset( $data['list'] ) ) {
+            echo json_encode( $this->ItemTaxModel->getItemResults( $data['list'] ) );
+            exit;
+        }
     }
 
 

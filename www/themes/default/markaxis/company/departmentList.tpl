@@ -31,7 +31,15 @@
                 targets: [1],
                 orderable: true,
                 width: '320px',
-                data: 'manager'
+                data: 'managers',
+                render: function( data, type, full, meta ) {
+                    var groups = '<div class="group-item">';
+
+                    for( var obj in data ) {
+                        groups += '<span class="badge badge-primary badge-criteria">' + data[obj].name + '</span> ';
+                    }
+                    return groups + '</div>';
+                }
             },{
                 targets: [2],
                 orderable: true,
@@ -52,24 +60,22 @@
                 searchable : false,
                 width: '100px',
                 className : "text-center",
-                data: 'pcID',
+                data: 'dID',
                 render: function(data, type, full, meta) {
-                    var name   = full["name"];
-                    var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
-
                     return '<div class="list-icons">' +
-                           '<div class="list-icons-item dropdown">' +
-                           '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                           '<i class="icon-menu9"></i></a>' +
-                           '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                           '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                           '<i class="icon-pencil5"></i> Edit Department</a>' +
-                           '<div class="divider"></div>' +
-                           '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                           '<i class="icon-bin"></i> Delete Department</a>' +
-                           '</div>' +
-                           '</div>' +
-                           '</div>';
+                            '<div class="list-icons-item dropdown">' +
+                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                            '<i class="icon-menu9"></i></a>' +
+                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                            '<a class="dropdown-item departmentEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalDepartment" ' +
+                            'data-backdrop="static" data-keyboard="false">' +
+                            '<i class="icon-pencil5"></i> Edit Department</a>' +
+                            '<div class="divider"></div>' +
+                            '<a class="dropdown-item departmentDelete" data-id="' + data + '">' +
+                            '<i class="icon-bin"></i> Delete Department</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
                 }
             }],
             order: [],
@@ -130,6 +136,37 @@
             width: "auto"
         });
 
+        var markaxisManager = new MarkaxisManager( true );
+
+        $("#modalDepartment").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var dID = $invoker.attr("data-id");
+            markaxisManager.clearManagerToken( );
+
+            if( dID ) {
+                var data = {
+                    success: function(res) {
+                        var obj = $.parseJSON(res);
+
+                        if( obj.bool == 0 ) {
+                            swal( "error", obj.errMsg );
+                            return;
+                        }
+                        else {
+                            $("#departmentID").val( obj.data.dID );
+                            $("#departmentName").val( obj.data.name );
+                            markaxisManager.getManagerToken("admin/company/getManagerToken/" + obj.data.dID);
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/company/getDepartment/" + dID, data );
+            }
+            else {
+                $("#departmentID").val(0);
+                $("#departmentName").val("");
+            }
+        });
+
         $("#modalDepartment").on("shown.bs.modal", function(e) {
             $("#departmentName").focus( );
         });
@@ -145,84 +182,6 @@
                 });
             }
         });
-
-        // Use Bloodhound engine
-        var engine = new Bloodhound({
-            remote: {
-                url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY/includeOwn',
-                wildcard: '%QUERY',
-                filter: function( response ) {
-                    var tokens = $(".managerList").tokenfield("getTokens");
-
-                    return $.map( response, function( d ) {
-                        if( engine.valueCache.indexOf(d.name) === -1) {
-                            engine.valueCache.push(d.name);
-                        }
-                        var exists = false;
-                        for( var i=0; i<tokens.length; i++ ) {
-                            if( d.name === tokens[i].label ) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        if( !exists ) {
-                            return {
-                                id: d.userID,
-                                value: d.name,
-                                image: d.image,
-                                designation: d.designation
-                            }
-                        }
-                    });
-                }
-            },
-            datumTokenizer: function(d) {
-                return Bloodhound.tokenizers.whitespace(d.value);
-            },
-            queryTokenizer: Bloodhound.tokenizers.whitespace
-        });
-
-        // Initialize engine
-        engine.valueCache = [];
-        engine.initialize();
-
-        // Initialize tokenfield
-        $(".managerList").tokenfield({
-            delimiter: ';',
-            typeahead: [{
-                minLength:1,
-                highlight:true,
-                hint:false
-            }, {
-                displayKey: 'value',
-                source: engine.ttAdapter(),
-                templates: {
-                    suggestion: Handlebars.compile([
-                        '<div class="col-md-12">',
-                        '<div class="col-md-2"><img src="{{image}}" width="40" height="40" ',
-                        'style="padding:0;" class="rounded-circle" /></div>',
-                        '<div class="col-md-10"><span class="typeahead-name">{{value}}</span>',
-                        '<div class="typeahead-designation">{{designation}}</div></div>',
-                        '</div>'
-                    ].join(''))
-                }
-            }]
-        });
-
-        $(".managerList").on("tokenfield:createtoken", function( event ) {
-            var exists = false;
-            $.each( engine.valueCache, function(index, value) {
-                if( event.attrs.value === value ) {
-                    exists = true;
-                    $("#managerIDs").val( event.attrs.id + "," + $("#managerIDs").val() );
-                }
-            });
-            if( !exists ) {
-                event.preventDefault( );
-            }
-        }).on('tokenfield:createdtoken', function(e) {
-            $(e.relatedTarget).attr( "data-id", e.attrs.id );
-        });;
 
         $("#saveDepartment").validate({
             rules: {
@@ -341,14 +300,13 @@
                                 <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
                                        placeholder="Enter Manager's Name" value=""
                                        autocomplete="off" data-fouc />
-                                <input type="hidden" id="managerIDs" name="managerIDs" value="" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
                     </div>
                 </div>

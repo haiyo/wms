@@ -154,7 +154,6 @@ var MarkaxisEmployee = (function( ) {
             $("#state").select2( );
             $("#city").select2( );
             $("#designation").select2( );
-            $("#department").select2( );
             $("#currency").select2( );
             $("#confirmMonth").select2( );
             $("#confirmDay").select2( );
@@ -177,9 +176,10 @@ var MarkaxisEmployee = (function( ) {
             $(".salaryTypeList").select2({minimumResultsForSearch: -1});
             $(".paymentMethodList").select2({minimumResultsForSearch: -1});
 
-            $("#pcID").select2();
+            $("#pcID").select2( );
             $("#tgID").multiselect({includeSelectAllOption: true});
             $("#ltID").multiselect({includeSelectAllOption: true});
+            $("#department").multiselect({includeSelectAllOption: true});
 
             $(".styled").uniform({
                 radioClass: 'choice'

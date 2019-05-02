@@ -31,7 +31,32 @@ class DepartmentControl {
      */
     public function settings( ) {
         $DepartmentView = new DepartmentView( );
-        Control::setOutputArrayAppend( array( 'form' => $DepartmentView->renderSettings( ) ) );
+        Control::setOutputArrayAppend( $DepartmentView->renderSettings( ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getDepartment( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->DepartmentModel->getBydID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getDepartmentResults( ) {
+        $post = Control::getRequest( )->request( POST );
+        Control::setOutputArray( array( 'list' => $this->DepartmentModel->getResults( $post ) ) );
     }
 
 
@@ -43,18 +68,6 @@ class DepartmentControl {
         if( isset( $data[1] ) && $data[1] == 'department' && isset( $data[2] ) ) {
             Control::setOutputArrayAppend( array( 'list' => $this->DepartmentModel->getCountList( $data[2] ) ) );
         }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getDepartmentResults( ) {
-        $post = Control::getRequest( )->request( POST );
-
-        echo json_encode( $this->DepartmentModel->getResults( $post ) );
-        exit;
     }
 
 

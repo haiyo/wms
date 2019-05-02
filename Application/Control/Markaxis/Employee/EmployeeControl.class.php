@@ -109,7 +109,6 @@ class EmployeeControl {
      */
     public function save( ) {
         $post = Control::getPostData( );
-
         $post['eID'] = $this->EmployeeModel->save( $post );
         Control::setPostData( $post );
     }

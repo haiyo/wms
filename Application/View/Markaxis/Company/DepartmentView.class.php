@@ -38,13 +38,14 @@ class DepartmentView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
             array( ) );
 
-        return $this->render( 'markaxis/company/departmentList.tpl', $vars );
+        return array( 'js' => array( 'markaxis' => array( 'manager.js' ) ),
+                      'content' => $this->render( 'markaxis/company/departmentList.tpl', $vars ) );
     }
 }
 ?>

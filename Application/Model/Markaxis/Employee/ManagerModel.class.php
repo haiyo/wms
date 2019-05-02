@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserModel;
-use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -14,7 +13,8 @@ class ManagerModel extends \Model {
 
 
     // Properties
-    protected $Manager;
+    private $Manager;
+    private $validManagerID;
 
 
     /**
@@ -27,6 +27,7 @@ class ManagerModel extends \Model {
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
         $this->Manager = new Manager( );
+        $this->validManagerID = array( );
     }
 
 
@@ -40,7 +41,16 @@ class ManagerModel extends \Model {
 
 
     /**
-     * Return a list of all users
+     * Return all manager(s) by current userID
+     * @return mixed
+     */
+    public function getValidManagerID( ) {
+        return $this->validManagerID;
+    }
+
+
+    /**
+     * Return all manager(s) by current userID
      * @return mixed
      */
     public function getByUserID( $userID ) {
@@ -52,8 +62,41 @@ class ManagerModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getNameByUserID( $userID ) {
-        return $this->Manager->getNameByUserID( $userID );
+    public function getManagerToken( $userID=false ) {
+        if( !$userID ) {
+            $userInfo = UserModel::getInstance( )->getInfo( );
+            $userID = $userInfo['userID'];
+        }
+        return $this->Manager->getManagerToken( $userID );
+    }
+
+
+    /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function isValid( $data ) {
+        if( isset( $data['managers'] ) ) {
+            $managers = explode( ';', $data['managers'] );
+
+            if( sizeof( $managers ) > 0 ) {
+                $UserModel = new UserModel( );
+
+                foreach( $managers as $userID ) {
+                    if( !$UserModel->isFound( $userID ) ) {
+                        return false;
+                    }
+                    $this->validManagerID[] = $userID;
+                }
+                // userID is conditionally set so as we can reuse this method for
+                // other classes. It's only applicable for saving employee data.
+                if( isset( $data['userID'] ) ) {
+                    $this->info['userID'] = $data['userID'];
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -61,34 +104,26 @@ class ManagerModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function save( $data ) {
+    public function save( ) {
         // Make sure userID has "passed" from UserModel before proceed
-        if( isset( $data['managers'] ) && isset( $data['userID'] ) && $data['userID'] ) {
-            $managers = explode( ';', $data['managers'] );
+        if( sizeof( $this->validManagerID ) > 0 && isset( $this->info['userID'] ) ) {
+            $success = array( );
 
-            if( sizeof( $managers ) > 0 ) {
-                $UserModel = new UserModel( );
-                $success = array( );
+            // Get all managers by current userID
+            $existing = $this->getByUserID( $this->info['userID'] );
 
-                $existing = $this->getByUserID( $data['userID'] );
-
-                foreach( $managers as $value ) {
-                    $value = Validator::stripTrim( $value );
-
-                    if( $value && $userInfo = $UserModel->getFieldByName( $value, 'userID' ) ) {
-                        if( !isset( $existing[$userInfo['userID']] ) ) {
-                            $info = array( );
-                            $info['userID'] = (int)$data['userID'];
-                            $info['managerID'] = (int)$userInfo['userID'];
-                            $this->Manager->insert( 'employee_manager', $info );
-                        }
-                        array_push( $success, $userInfo['userID'] );
-                    }
+            foreach( $this->validManagerID as $managerID ) {
+                if( !isset( $existing[$managerID] ) ) {
+                    $info = array( );
+                    $info['userID'] = (int)$this->info['userID'];
+                    $info['managerID'] = (int)$managerID;
+                    $this->Manager->insert( 'employee_manager', $info );
                 }
-                if( sizeof( $success ) > 0 ) {
-                    $this->Manager->delete('employee_manager', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
+                array_push( $success, $managerID );
+            }
+            if( sizeof( $success ) > 0 ) {
+                $this->Manager->delete('employee_manager', 'WHERE userID = "' . (int)$this->info['userID'] . '" AND 
                                              managerID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
-                }
             }
         }
     }

@@ -33,6 +33,8 @@ var MarkaxisApplyLeave = (function( ) {
         initEvents: function( ) {
             var that = this;
 
+            markaxisManager = new MarkaxisManager( false );
+
             $("#ltID").select2({minimumResultsForSearch: -1});
             //$("#applyFor").select2({minimumResultsForSearch: -1});
 
@@ -54,116 +56,37 @@ var MarkaxisApplyLeave = (function( ) {
             $("#startTime").pickatime({interval:60, min: [9,0], max: [18,0]});
             $("#endTime").pickatime({interval:60, min: [9,0], max: [18,0]});
 
-            // Use Bloodhound engine
-            var engine = new Bloodhound({
-                remote: {
-                    url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
-                    wildcard: '%QUERY',
-                    filter: function( response ) {
-                        var tokens = $(".managerList").tokenfield("getTokens");
-
-                        return $.map( response, function( d ) {
-                            if( engine.valueCache.indexOf(d.name) === -1) {
-                                engine.valueCache.push(d.name);
-                            }
-                            var exists = false;
-                            for( var i=0; i<tokens.length; i++ ) {
-                                if( d.name === tokens[i].label ) {
-                                    exists = true;
-                                    break;
-                                }
-                            }
-                            if( !exists )
-                                return {
-                                    id: d.userID,
-                                    value: d.name,
-                                    image: d.image,
-                                    designation: d.designation
-                                }
-                        });
-                    }
-                },
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.value);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace
-            });
-
-            // Initialize engine
-            engine.valueCache = [];
-            engine.initialize();
-
-            // Initialize tokenfield
-            $(".managerList").tokenfield({
-                delimiter: ';',
-                typeahead: [null, {
-                    displayKey: 'value',
-                    highlight: true,
-                    source: engine.ttAdapter(),
-                    templates: {
-                        suggestion: Handlebars.compile([
-                            '<div class="col-md-12">',
-                            '<div class="col-md-3"><img src="{{image}}" width="40" height="40" ',
-                            'style="padding:0;" class="rounded-circle" /></div>',
-                            '<div class="col-md-9"><span class="typeahead-name">{{value}}</span>',
-                            '<div class="typeahead-designation">{{designation}}</div></div>',
-                            '</div>'
-                        ].join(''))
-                    }
-                }]
-            });
-
-            $(".managerList").on("tokenfield:createtoken", function(e) {
-                var exists = false;
-                $.each( engine.valueCache, function(index, value) {
-                    if( e.attrs.value === value ) {
-                        exists = true;
-                        $("#managerIDs").val( e.attrs.id + "," + $("#managerIDs").val( ) );
-                    }
-                });
-                if( !exists ) {
-                    e.preventDefault( );
-                }
-            }).on('tokenfield:createdtoken', function(e) {
-                $(e.relatedTarget).attr( "data-id", e.attrs.id );
-            });
-
-            $(".managerList").on('tokenfield:removedtoken', function(e) {
-                console.log(e.relatedTarget)
-            });
-
-            $("#startDate").change(function() {
+            $("#startDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
 
-            $("#endDate").change(function() {
+            $("#endDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
 
-            $("#startTime").change(function() {
+            $("#startTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
 
-            $("#endTime").change(function() {
+            $("#endTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
 
             $("#saveApplyLeave").on("click", function ( ) {
-                that.saveApplyLeave();
+                that.saveApplyLeave( );
                 return false;
             });
 
-            $("#modalApplyLeave").on("show.bs.modal", function(e) {
-                console.log("sdf")
-                $('.managerList').tokenfield('createToken', 'Violet');
+            $("#modalApplyLeave").on("shown.bs.modal", function(e) {
+                markaxisManager.getManagerToken("admin/employee/getManagerToken" );
             });
         },
 

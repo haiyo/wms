@@ -201,12 +201,12 @@ class EmployeeModel extends \Model {
             }
         }
 
-        if( isset( $data['department'] ) ) {
+        /*if( isset( $data['department'] ) ) {
             $DepartmentModel = DepartmentModel::getInstance( );
             if( $DepartmentModel->isFound( $data['department'] ) ) {
                 $saveInfo['departmentID'] = (int)$data['department'];
             }
-        }
+        }*/
 
         if( isset( $data['designation'] ) ) {
             $DesignationModel = DesignationModel::getInstance( );

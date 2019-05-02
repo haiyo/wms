@@ -46,7 +46,6 @@ class Department extends \DAO {
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $row['manager'] = 1;
                 $list[] = $row;
             }
         }

@@ -31,7 +31,7 @@ class OfficeControl {
      */
     public function settings( ) {
         $OfficeView = new OfficeView( );
-        Control::setOutputArrayAppend( array( 'form' => $OfficeView->renderSettings( ) ) );
+        Control::setOutputArrayAppend( $OfficeView->renderSettings( ) );
     }
 
 
@@ -41,7 +41,6 @@ class OfficeControl {
      */
     public function getOfficeResults( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->OfficeModel->getResults( $post ) );
         exit;
     }

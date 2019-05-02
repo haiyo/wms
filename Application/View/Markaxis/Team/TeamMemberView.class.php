@@ -176,7 +176,7 @@ class TeamMemberView extends AdminView {
         $roleList = $SelectListView->build( 'role',  $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
         $ManagerModel = ManagerModel::getInstance( );
-        $managers = $this->info['userID'] ? $ManagerModel->getNameByUserID( $this->info['userID'] ) : '';
+        $managers = $this->info['userID'] ? $ManagerModel->getManagerToken( $this->info['userID'] ) : '';
 
         $ComponentDepartmentModel = A_DepartmentModel::getInstance( );
 

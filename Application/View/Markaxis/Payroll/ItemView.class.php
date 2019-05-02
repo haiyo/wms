@@ -54,7 +54,7 @@ class ItemView extends AdminView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_TAX_GROUP_LIST' => $taxGroupList ) );
 
-        return $this->render( 'markaxis/payroll/items.tpl', $vars );
+        return $this->render( 'markaxis/payroll/itemList.tpl', $vars );
     }
 }
 ?>

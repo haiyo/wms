@@ -41,6 +41,16 @@ class DepartmentModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBydID( $dID ) {
+        $A_DepartmentModel = A_DepartmentModel::getInstance( );
+        return $A_DepartmentModel->getByID( $dID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */

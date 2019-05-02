@@ -46,20 +46,18 @@ class LeaveApplyView extends AdminView {
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
+        $LeaveModel = LeaveModel::getInstance( );
+
         $SelectListView = new SelectListView( );
-        $leaveTypeList = $SelectListView->build( 'ltID', $this->LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
+        $leaveTypeList = $SelectListView->build( 'ltID', $LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        $ManagerModel = ManagerModel::getInstance( );
-        $managers = $ManagerModel->getNameByUserID( $userInfo['userID'] );
-
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
-                       'TPL_APPLY_FOR_LIST' => $applyForList,
-                       'TPLVAR_MANAGERS' => $managers['name'] ) );
+                       'TPL_APPLY_FOR_LIST' => $applyForList ) );
 
-        return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
+        return array( 'js' => array( 'markaxis' => array( 'manager.js', 'applyLeave.js' ) ),
                       'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
     }
 }

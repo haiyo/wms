@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Markaxis\Employee\ManagerModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -12,7 +13,8 @@ class DepartmentManagerModel extends \Model {
 
 
     // Properties
-    protected $DepartmentManager;
+    private $DepartmentManager;
+    private $validManagerID;
 
 
     /**
@@ -27,41 +29,34 @@ class DepartmentManagerModel extends \Model {
 
 
     /**
+     * Return all manager(s) by current userID
+     * @return mixed
+     */
+    public function getBydID( $dID ) {
+        return $this->DepartmentManager->getBydID( $dID );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getManagerToken( $dID ) {
+        return $this->getBydID( $dID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
-    public function getResults( $post ) {
-        $this->Department->setLimit( $post['start'], $post['length'] );
-
-        $order = 'name';
-        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
-
-        if( isset( $post['order'][0]['column'] ) ) {
-            switch( $post['order'][0]['column'] ) {
-                case 1:
-                    $order = 'name';
-                    break;
-                case 2:
-                    $order = 'address';
-                    break;
-                case 3:
-                    $order = 'country';
-                    break;
-                case 4:
-                    $order = 'staff';
-                    break;
+    public function getDepartmentResults( $list ) {
+        if( isset( $list['data'] ) ) {
+            foreach( $list['data'] as $key => $value ) {
+                $list['data'][$key]['managers'] = $this->DepartmentManager->getBydID( $value['dID'] );
             }
         }
-
-        $results = $this->Department->getResults( $post['search']['value'], $order . $dir );
-
-        $total = $results['recordsTotal'];
-        unset( $results['recordsTotal'] );
-
-        return array( 'draw' => (int)$post['draw'],
-                      'recordsFiltered' => $total,
-                      'recordsTotal' => $total,
-                      'data' => $results );
+        return $list;
     }
 
 
@@ -70,27 +65,44 @@ class DepartmentManagerModel extends \Model {
      * @return bool
      */
     public function isValid( $data ) {
-        if( isset( $data['dID'] ) && $data['dID'] ) {
-            $this->info['dID'] = (int)$data['dID'];
-            return true;
+        if( isset( $data['dID'] ) && isset( $data['managers'] ) ) {
+            $ManagerModel = ManagerModel::getInstance( );
+            if( $ManagerModel->isValid( $data ) ) {
+                $this->info['dID'] = $data['dID'];
+                $this->validManagerID = $ManagerModel->getValidManagerID( );
+                return true;
+            }
         }
         return false;
     }
 
 
     /**
-     * Save Pay Item information
-     * @return int
+     * Return user data by userID
+     * @return mixed
      */
     public function save( ) {
-        if( !$this->info['dID'] ) {
-            unset( $this->info['dID'] );
-            $this->info['dID'] = $this->DepartmentManager->insert( 'department_manager', $this->info );
+        if( sizeof( $this->validManagerID ) > 0 && isset( $this->info['dID'] ) ) {
+            $success = array( );
+
+            // Get all managers by department ID
+            $existing = $this->getBydID( $this->info['dID'] );
+
+            foreach( $this->validManagerID as $managerID ) {
+                if( !isset( $existing[$managerID] ) ) {
+                    $info = array( );
+                    $info['departmentID'] = (int)$this->info['dID'];
+                    $info['userID'] = (int)$managerID;
+                    $this->DepartmentManager->insert( 'department_manager', $info );
+                }
+                array_push( $success, $managerID );
+            }
+            if( sizeof( $success ) > 0 ) {
+                $this->DepartmentManager->delete('department_manager',
+                                                'WHERE departmentID = "' . (int)$this->info['dID'] . '" AND 
+                                                  userID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
+            }
         }
-        else {
-            $this->DepartmentManager->update( 'department_manager', $this->info, 'WHERE dID = "' . (int)$this->info['dID'] . '"' );
-        }
-        return $this->info['dID'];
     }
 
 

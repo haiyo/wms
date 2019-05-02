@@ -41,7 +41,7 @@ class LeaveView extends AdminView {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function renderApplyForm( ) {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
@@ -52,7 +52,7 @@ class LeaveView extends AdminView {
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
         $ManagerModel = ManagerModel::getInstance( );
-        $managers = $ManagerModel->getNameByUserID( $userInfo['userID'] );
+        $managers = $ManagerModel->getManagerToken( $userInfo['userID'] );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
@@ -61,7 +61,7 @@ class LeaveView extends AdminView {
 
         return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
                       'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
-    }
+    } */
 
 
     /**

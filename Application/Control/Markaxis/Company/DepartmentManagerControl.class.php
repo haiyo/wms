@@ -29,17 +29,42 @@ class DepartmentManagerControl {
      * Render main navigation
      * @return string
      */
+    public function getManagerToken( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->DepartmentManagerModel->getManagerToken( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getDepartmentResults( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['list']) ) {
+            echo json_encode( $this->DepartmentManagerModel->getDepartmentResults( $data['list'] ) );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveDepartment( ) {
         $post = Control::getPostData( );
 
         if( $this->DepartmentManagerModel->isValid( $post ) ) {
-            $post['dID'] = $this->DepartmentManagerModel->save( );
-            $vars['bool'] = 1;
+            $this->DepartmentManagerModel->save( );
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->DepartmentManagerModel->getErrMsg( );
-        }
+        $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;
     }

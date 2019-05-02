@@ -135,7 +135,6 @@ class Item extends \DAO {
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $row['tax'] = 1;
                 $list[] = $row;
             }
         }

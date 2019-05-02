@@ -41,9 +41,7 @@ class CompanyControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-        $form = isset( $output['form'] ) ? $output['form'] : '';
-
-        $this->CompanyView->printAll( $this->CompanyView->renderSettings( $form ) );
+        $this->CompanyView->printAll( $this->CompanyView->renderSettings( $output ) );
     }
 
 

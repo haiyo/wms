@@ -39,7 +39,7 @@ class OfficeView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderSettings( ) {
         $SelectListView = new SelectListView( );
@@ -54,7 +54,7 @@ class OfficeView extends AdminView {
                 array( 'TPL_COUNTRY_LIST' => $countryList,
                        'TPL_OFFICE_TYPE_LIST' => $officeTypeList ) );
 
-        return $this->render( 'markaxis/company/officeList.tpl', $vars );
+        return array( 'content' => $this->render( 'markaxis/company/officeList.tpl', $vars ) );
     }
 }
 ?>

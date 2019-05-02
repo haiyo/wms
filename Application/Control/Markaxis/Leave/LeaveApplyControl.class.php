@@ -14,6 +14,7 @@ class LeaveApplyControl {
 
     // Properties
     private $LeaveApplyModel;
+    private $LeaveApplyView;
 
 
     /**
@@ -22,6 +23,7 @@ class LeaveApplyControl {
      */
     function __construct( ) {
         $this->LeaveApplyModel = new LeaveApplyModel( );
+        $this->LeaveApplyView = new LeaveApplyView( );
     }
 
 
@@ -35,6 +37,7 @@ class LeaveApplyControl {
         if( isset( $output['balance'] ) ) {
             Control::setOutputArray( array( 'balance' => $this->LeaveApplyModel->calculateBalance( $output['balance'] ) ) );
         }
+        Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
     }
 
 

@@ -30,7 +30,7 @@ class LeaveControl {
      * @return string
      */
     public function dashboard( ) {
-        Control::setOutputArrayAppend( $this->LeaveView->renderApplyForm( ) );
+        //Control::setOutputArrayAppend( $this->LeaveView->renderApplyForm( ) );
     }
 
 

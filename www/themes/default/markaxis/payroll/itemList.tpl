@@ -81,14 +81,13 @@
                 width:"200px",
                 data:"taxGroups",
                 render: function( data, type, full, meta ) {
-                    var groups = '<div class="tax-group-item">';
+                    var groups = '<div class="group-item">';
 
                     for( var i=0; i<data.length; i++ ) {
                         groups += '<span class="badge badge-primary badge-criteria">' + data[i].title + '</span> ';
                     }
                     return groups + '</div>';
                 }
-
             }, {
                 targets: [5],
                 orderable: false,

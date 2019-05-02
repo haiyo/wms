@@ -13,6 +13,7 @@ class DepartmentControl {
 
 
     // Properties
+    private $DepartmentModel;
 
 
     /**
@@ -20,7 +21,7 @@ class DepartmentControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->DepartmentModel = DepartmentModel::getInstance( );
     }
 
 
@@ -28,38 +29,8 @@ class DepartmentControl {
      * Render main navigation
      * @return string
      */
-    public function view( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function add( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function edit( $args ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-
     public function save( ) {
-        $post = Control::getPostData( );
-
-        $DepartmentModel = DepartmentModel::getInstance( );
-        $DepartmentModel->save( $post );
-    } */
+        $this->DepartmentModel->save( Control::getPostData( ) );
+    }
 }
 ?>
