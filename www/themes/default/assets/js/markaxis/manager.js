@@ -51,7 +51,7 @@ var MarkaxisManager = (function( ) {
 
                         return $.map( response, function( d ) {
                             if( cache.indexOf(d.name) === -1) {
-                                cache.push( d.name );
+                                cache.push(d.name);
                             }
                             var exists = false;
                             for( var i=0; i<tokens.length; i++ ) {
@@ -101,13 +101,14 @@ var MarkaxisManager = (function( ) {
             });
 
             that.managerElement.on("tokenfield:createtoken", function(e) {
-                var available_tokens = engine.index.datums
                 var exists = false;
-                $.each(available_tokens, function(index, token) {
-                    if (token.value === event.attrs.value)
+                $.each( cache, function(index, value) {
+                    if( e.attrs.value === value ) {
                         exists = true;
+                    }
                 });
                 if( !exists ) {
+                    e.preventDefault( );
                     return false;
                 }
             });
