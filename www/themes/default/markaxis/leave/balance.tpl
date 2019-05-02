@@ -311,26 +311,26 @@
                 orderable: false,
                 searchable : false,
                 width: '180px',
-                data: 'supervisors',
+                data: 'managers',
                 render: function(data, type, full, meta) {
                     //var name   = full["name"];
                     //var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
                     var length = data.length;
-                    var supervisors = "";
+                    var managers = "";
 
                     for( var i=0; i<length; i++ ) {
                         if( data[i]["approved"] == 0 ) {
-                            supervisors += '<i class="icon-watch2 text-grey-300 mr-3"></i>';
+                            managers += '<i class="icon-watch2 text-grey-300 mr-3"></i>';
                         }
                         else if( data[i]["approved"] == 1 ) {
-                            supervisors += '<i class="icon-checkmark4 text-green-800 mr-3"></i>';
+                            managers += '<i class="icon-checkmark4 text-green-800 mr-3"></i>';
                         }
                         else if( data[i]["approved"] == "-1" ) {
-                            supervisors += '<i class="icon-cross2 text-warning-800 mr-3"></i>';
+                            managers += '<i class="icon-cross2 text-warning-800 mr-3"></i>';
                         }
-                        supervisors += data[i]["name"] + "<br />";
+                        managers += data[i]["name"] + "<br />";
                     }
-                    return supervisors;
+                    return managers;
                 }
             },{
                 targets: [7],

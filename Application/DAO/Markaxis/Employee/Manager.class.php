@@ -4,18 +4,18 @@ namespace Markaxis\Employee;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Supervisor.class.php, v 2.0 Exp $
+ * @version $Id: Manager.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Supervisor extends \DAO {
+class Manager extends \DAO {
 
 
     // Properties
 
 
     /**
-     * Supervisor Constructor
+     * Manager Constructor
      * @return void
      */
     function __construct() {
@@ -27,11 +27,11 @@ class Supervisor extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFoundByUserID( $userID, $supUserID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(svID) FROM employee_supervisor 
+    public function isFoundByUserID( $userID, $managerID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(svID) FROM employee_manager 
                                    WHERE userID = "' . (int)$userID . '" AND
-                                         supUserID = "' . (int)$supUserID . '"',
-            __FILE__, __LINE__ );
+                                         managerID = "' . (int)$managerID . '"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -44,13 +44,13 @@ class Supervisor extends \DAO {
     public function getByUserID( $userID ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT supUserID FROM employee_supervisor 
+        $sql = $this->DB->select( 'SELECT managerID FROM employee_manager 
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['supUserID']] = $row['supUserID'];
+                $list[$row['managerID']] = $row['managerID'];
             }
         }
         return $list;
@@ -63,10 +63,10 @@ class Supervisor extends \DAO {
      */
     public function getNameByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT GROUP_CONCAT( CONCAT(fname," ",lname) SEPARATOR ";") AS name 
-                                   FROM employee_supervisor es
-                                   LEFT JOIN user u ON (u.userID = es.supUserID)
+                                   FROM employee_manager es
+                                   LEFT JOIN user u ON (u.userID = es.managerID)
                                    WHERE es.userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

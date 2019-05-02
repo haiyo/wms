@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Util\Date, \Library\Validator\Validator;
-use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
 
 /**

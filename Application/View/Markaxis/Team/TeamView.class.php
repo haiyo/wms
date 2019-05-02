@@ -175,8 +175,8 @@ class TeamView extends AdminView {
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
         $roleList = $SelectListView->build( 'role',  $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
-        $SupervisorModel = SupervisorModel::getInstance( );
-        $supervisors = $this->info['userID'] ? $SupervisorModel->getNameByUserID( $this->info['userID'] ) : '';
+        $ManagerModel = ManagerModel::getInstance( );
+        $managers = $this->info['userID'] ? $ManagerModel->getNameByUserID( $this->info['userID'] ) : '';
 
         $ComponentDepartmentModel = A_DepartmentModel::getInstance( );
 
@@ -196,7 +196,7 @@ class TeamView extends AdminView {
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
                        'TPLVAR_SALARY' => $this->info['salary'],
                        'TPLVAR_PASS_NUMBER' => $this->info['passNumber'],
-                       'TPLVAR_SUPERVISORS' => isset( $supervisors['name'] ) ? $supervisors['name'] : '',
+                       'TPLVAR_MANAGERS' => isset( $managers['name'] ) ? $managers['name'] : '',
                        'TPLVAR_COMPETENCY' => $competencyList['competency'],
                        'TPL_OFFICE_LIST' => $officeList,
                        'TPL_DEPARTMENT_LIST' => $departmentList,

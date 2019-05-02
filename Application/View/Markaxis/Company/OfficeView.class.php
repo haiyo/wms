@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
 use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
 
 /**
@@ -32,12 +33,7 @@ class OfficeView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/OfficeRes');
 
-        $this->OfficeModel = CompanyModel::getInstance( );
-
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                  'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js' ),
-                                  'pages' => 'wizard_stepy.js',
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+        $this->OfficeModel = OfficeModel::getInstance( );
     }
 
 
@@ -46,8 +42,17 @@ class OfficeView extends AdminView {
      * @return string
      */
     public function renderSettings( ) {
+        $SelectListView = new SelectListView( );
+        $CountryModel = CountryModel::getInstance( );
+        $countries = $CountryModel->getList( );
+        $countryList = $SelectListView->build( 'officeCountry', $countries, '', 'Select Country' );
+
+        $OfficeTypeModel = OfficeTypeModel::getInstance( );
+        $officeTypeList = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
+
         $vars = array_merge( $this->L10n->getContents( ),
-                array( ) );
+                array( 'TPL_COUNTRY_LIST' => $countryList,
+                       'TPL_OFFICE_TYPE_LIST' => $officeTypeList ) );
 
         return $this->render( 'markaxis/company/officeList.tpl', $vars );
     }

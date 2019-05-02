@@ -30,8 +30,8 @@ class OfficeModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $eoID ) {
-        return $this->Office->isFound( $eoID );
+    public function isFound( $oID ) {
+        return $this->Office->isFound( $oID );
     }
 
 
@@ -39,8 +39,8 @@ class OfficeModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getByOID( $oID ) {
-        return $this->Office->getByOID( $oID );
+    public function getByoID( $oID ) {
+        return $this->Office->getByoID( $oID );
     }
 
 

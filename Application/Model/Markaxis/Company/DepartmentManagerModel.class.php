@@ -1,43 +1,29 @@
 <?php
 namespace Markaxis\Company;
-use \Aurora\User\UserImageModel, \Aurora\Component\DepartmentModel AS A_DepartmentModel;
-use \Library\Validator\Validator;
-use \Library\Validator\ValidatorModule\IsEmpty;
-use \Library\Exception\ValidatorException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
- * @version $Id: DepartmentModel.class.php, v 2.0 Exp $
+ * @version $Id: DepartmentManagerModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class DepartmentModel extends \Model {
+class DepartmentManagerModel extends \Model {
 
 
     // Properties
-    protected $Department;
+    protected $DepartmentManager;
 
 
     /**
-    * DepartmentModel Constructor
+    * DepartmentManagerModel Constructor
     * @return void
     */
     function __construct( ) {
         parent::__construct( );
 
-        $this->Department = new Department( );
+        $this->DepartmentManager = new DepartmentManager( );
 	}
-
-
-    /**
-    * Return total count of records
-    * @return int
-    */
-    public function getList( ) {
-        $A_DepartmentModel = A_DepartmentModel::getInstance( );
-        return $A_DepartmentModel->getList( );
-    }
 
 
     /**
@@ -80,43 +66,15 @@ class DepartmentModel extends \Model {
 
 
     /**
-     * Return total count of records
-     * @return int
-     */
-    public function getCountList( $dID ) {
-        $list = $this->Department->getCountList( $dID );
-
-        if( sizeof( $list ) > 0 ) {
-            $UserImageModel = UserImageModel::getInstance( );
-
-            foreach( $list as $key => $value ) {
-                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'], 'up.hashDir, up.hashName');
-            }
-        }
-        return $list;
-    }
-
-
-    /**
      * Set Pay Item Info
      * @return bool
      */
     public function isValid( $data ) {
-        $Validator = new Validator( );
-
-        $this->info['dID'] = (int)$data['departmentID'];
-        $this->info['name'] = Validator::stripTrim( $data['departmentName'] );
-
-        $Validator->addModule( 'departmentName', new IsEmpty( $this->info['name'] ) );
-
-        try {
-            $Validator->validate( );
+        if( isset( $data['dID'] ) && $data['dID'] ) {
+            $this->info['dID'] = (int)$data['dID'];
+            return true;
         }
-        catch( ValidatorException $e ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
-            return false;
-        }
-        return true;
+        return false;
     }
 
 
@@ -127,10 +85,10 @@ class DepartmentModel extends \Model {
     public function save( ) {
         if( !$this->info['dID'] ) {
             unset( $this->info['dID'] );
-            $this->info['dID'] = $this->Department->insert( 'department', $this->info );
+            $this->info['dID'] = $this->DepartmentManager->insert( 'department_manager', $this->info );
         }
         else {
-            $this->Department->update( 'department', $this->info, 'WHERE dID = "' . (int)$this->info['dID'] . '"' );
+            $this->DepartmentManager->update( 'department_manager', $this->info, 'WHERE dID = "' . (int)$this->info['dID'] . '"' );
         }
         return $this->info['dID'];
     }
@@ -139,7 +97,7 @@ class DepartmentModel extends \Model {
     /**
      * Delete Pay Item
      * @return int
-     */
+
     public function delete( $dID ) {
         $A_DepartmentModel = A_DepartmentModel::getInstance( );
 
@@ -148,6 +106,6 @@ class DepartmentModel extends \Model {
             $info['deleted'] = 1;
             $this->Department->update( 'department', $info, 'WHERE dID = "' . (int)$dID . '"' );
         }
-    }
+    } */
 }
 ?>

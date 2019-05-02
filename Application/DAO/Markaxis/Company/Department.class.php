@@ -24,26 +24,6 @@ class Department extends \DAO {
 
 
     /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
-    public function getList( ) {
-        $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM department', __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['dID']] = $row['name'];
-            }
-        }
-        return $list;
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -73,6 +53,33 @@ class Department extends \DAO {
         $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
+        return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getCountList( $dID ) {
+        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, n.nationality, e.idnumber,
+                                          dpt.name AS department, dsg.title AS designation
+                                   FROM user u
+                                   LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                   LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
+                                   LEFT JOIN designation dsg ON ( e.designationID = dsg.dID )
+                                   WHERE u.deleted <> "1" AND e.resigned <> "1" AND dpt.deleted <> "1" AND 
+                                         e.departmentID = "' . (int)$dID . '"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
         return $list;
     }
 }

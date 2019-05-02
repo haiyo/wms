@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Aurora\User\UserImageModel, Aurora\Component\DesignationModel AS A_DesignationModel;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -27,6 +28,16 @@ class DesignationModel extends \Model {
 
         $this->Designation = new Designation( );
 	}
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBydID( $dID ) {
+        $A_DesignationModel = A_DesignationModel::getInstance( );
+        return $A_DesignationModel->getByID( $dID );
+    }
 
 
     /**
@@ -89,8 +100,17 @@ class DesignationModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getBydID( $dID ) {
-        return $this->Designation->getBydID( $dID );
+    public function getCountList( $cID ) {
+        $list = $this->Designation->getCountList( $cID );
+
+        if( sizeof( $list ) > 0 ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $list as $key => $value ) {
+                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'], 'up.hashDir, up.hashName');
+            }
+        }
+        return $list;
     }
 
 

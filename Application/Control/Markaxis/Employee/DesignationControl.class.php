@@ -40,6 +40,17 @@ class DesignationControl {
      * Render main navigation
      * @return string
      */
+    public function getCountList( $data ) {
+        if( isset( $data[1] ) && $data[1] == 'designation' && isset( $data[2] ) ) {
+            Control::setOutputArrayAppend( array( 'list' => $this->DesignationModel->getCountList( $data[2] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getDesignationResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->DesignationModel->getResults( $post ) );

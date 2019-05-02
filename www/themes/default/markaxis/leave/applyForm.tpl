@@ -6,8 +6,8 @@
                 <h6 class="modal-title">Apply Leave</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="applyLeaveForm" name="applyLeaveForm" method="post" action="">
+            <form id="applyLeaveForm" name="applyLeaveForm" method="post" action="">
+                <div class="modal-body overflow-y-visible">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -78,22 +78,22 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Approving Supervisor(s):</label>
-                                <input type="text" name="supervisors" class="form-control tokenfield-typeahead supervisorList"
-                                       placeholder="Enter Supervisor's Name"
-                                       value="<?TPLVAR_SUPERVISORS?>"
-                                       autocomplete="off" data-fouc />
-                                <input type="hidden" id="supUserIDs" name="supUserIDs" value="" />
+                                <label>Approving Manager(s):</label>
+                                <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
+                                       placeholder="Enter Manager's Name"
+                                       value="" autocomplete="off" data-fouc />
+                                <input type="hidden" id="managerIDs" name="managerIDs" value="" />
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

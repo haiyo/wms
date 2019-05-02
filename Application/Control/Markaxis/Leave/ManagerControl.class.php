@@ -5,23 +5,23 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: SupervisorControl.class.php, v 2.0 Exp $
+ * @version $Id: ManagerControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class SupervisorControl {
+class ManagerControl {
 
 
     // Properties
-    private $SupervisorModel;
+    private $ManagerModel;
 
 
     /**
-     * SupervisorControl Constructor
+     * ManagerControl Constructor
      * @return void
      */
     function __construct( ) {
-        $this->SupervisorModel = new SupervisorModel( );
+        $this->ManagerModel = ManagerModel::getInstance( );
     }
 
 
@@ -31,7 +31,7 @@ class SupervisorControl {
      */
     public function getHistory( ) {
         $data = Control::getOutputArray( );
-        echo json_encode( $this->SupervisorModel->getHistory( $data['list'] ) );
+        echo json_encode( $this->ManagerModel->getHistory( $data['list'] ) );
         exit;
     }
 
@@ -44,7 +44,7 @@ class SupervisorControl {
         $post = Control::getPostData( );
 
         if( $post['laID'] ) {
-            $post['hasSup'] = $this->SupervisorModel->save( $post );
+            $post['hasSup'] = $this->ManagerModel->save( $post );
 
             $vars['bool'] = 1;
             $vars['data'] = $post;

@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Aurora\User\UserImageModel, Aurora\Component\CompetencyModel AS A_CompetencyModel;
 use \Library\Util\MXString;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
@@ -27,6 +28,15 @@ class CompetencyModel extends \Model {
         parent::__construct( );
 
         $this->Competency = new Competency( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundBycID( $cID ) {
+        return $this->Competency->isFoundBycID( $cID );
     }
 
 
@@ -62,7 +72,16 @@ class CompetencyModel extends \Model {
      * @return int
      */
     public function getCountList( $cID ) {
-        return $this->Competency->getCountList( $cID );
+        $list = $this->Competency->getCountList( $cID );
+
+        if( sizeof( $list ) > 0 ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $list as $key => $value ) {
+                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'], 'up.hashDir, up.hashName');
+            }
+        }
+        return $list;
     }
 
 
@@ -149,16 +168,22 @@ class CompetencyModel extends \Model {
     public function save( $data ) {
         // Array with cID passthru from Component\CompetencyModel
         if( isset( $data['competency'] ) && is_array( $data['competency'] ) ) {
+            $A_CompetencyModel = A_CompetencyModel::getInstance( );
+            $validcID = array( );
+
             foreach( $data['competency'] as $cID ) {
-                if( !$this->isFoundByUserID( $data['userID'], $cID ) ) {
-                    $info = array( );
-                    $info['userID'] = (int)$data['userID'];
-                    $info['eID'] = (int)$data['eID'];
-                    $info['cID'] = (int)$cID;
-                    $this->Competency->insert( 'employee_competency', $info );
+                if( $A_CompetencyModel->isFoundBycID( $cID ) ) {
+                    if( !$this->isFoundByUserID( $data['userID'], $cID ) ) {
+                        $info = array( );
+                        $info['userID'] = (int)$data['userID'];
+                        $info['eID'] = (int)$data['eID'];
+                        $info['cID'] = (int)$cID;
+                        $this->Competency->insert( 'employee_competency', $info );
+                    }
                 }
+                array_push( $validcID, $cID );
             }
-            $competency = implode( ',', $data['competency'] );
+            $competency = implode( ',', $validcID );
 
             if( $competency )
                 $this->Competency->delete( 'employee_competency', 'WHERE userID = "' . (int)$data['userID'] . '" AND 

@@ -4,7 +4,7 @@
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['userID']);
+                $(nRow).attr('id', 'officeTable-row' + aData['oID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/company/getOfficeResults",
@@ -58,24 +58,22 @@
                 searchable : false,
                 width: '100px',
                 className : "text-center",
-                data: 'pcID',
+                data: 'oID',
                 render: function(data, type, full, meta) {
-                    var name   = full["name"];
-                    var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
-
                     return '<div class="list-icons">' +
-                        '<div class="list-icons-item dropdown">' +
-                        '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
-                        '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                        '<i class="icon-pencil5"></i> Edit Office</a>' +
-                        '<div class="divider"></div>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-bin"></i> Delete Office</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
+                            '<div class="list-icons-item dropdown">' +
+                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                            '<i class="icon-menu9"></i></a>' +
+                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                            '<a class="dropdown-item officeEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalOffice" ' +
+                            'data-backdrop="static" data-keyboard="false">' +
+                            '<i class="icon-pencil5"></i> Edit Office</a>' +
+                            '<div class="divider"></div>' +
+                            '<a class="dropdown-item officeDelete" data-id="' + data + '">' +
+                            '<i class="icon-bin"></i> Delete Office</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
                 }
             }],
             order: [],
@@ -135,6 +133,157 @@
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
+
+        $("#modalOffice").on("shown.bs.modal", function(e) {
+            $("#officeName").focus( );
+        });
+
+        $("#modalOffice").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var oID = $invoker.attr("data-id");
+
+            if( oID ) {
+                var data = {
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#officeID").val( obj.data.oID );
+                            $("#officeName").val( obj.data.name );
+                            $("#officeAddress").val( obj.data.address );
+                            $("#officeCountry").val( obj.data.countryID ).trigger("change");
+                            $("#officeType").val( obj.data.officeTypeID ).trigger("change");
+                            $("#openTime").val( obj.data.openTime ).trigger("change");
+                            $("#closeTime").val( obj.data.closeTime ).trigger("change");
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/company/getOffice/" + oID, data );
+            }
+            else {
+                $("#officeID").val(0);
+                $("#officeName").val("");
+                $("#officeAddress").val("");
+                $("#officeCountry").val("").trigger("change");
+                $("#officeType").val("").trigger("change");
+                $("#openTime").val("").trigger("change");
+                $("#closeTime").val("").trigger("change");
+            }
+        });
+
+        $("#officeType").select2({minimumResultsForSearch: -1});
+        $("#openTime").pickatime({interval:60, min: [9,0], max: [18,0]});
+        $("#closeTime").pickatime({interval:60, min: [9,0], max: [18,0]});
+
+        $("#saveOffice").validate({
+            rules: {
+                officeName: { required: true }
+            },
+            messages: {
+                officeName: "Please enter a Office Name."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveOffice")
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".officeTable").DataTable().ajax.reload();
+
+                            swal({
+                                title: $("#officeName").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Office",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                $("#officeID").val(0);
+                                $("#officeName").val("");
+                                $("#officeAddress").val("");
+                                $("#officeCountry").val("").trigger("change");
+                                $("#officeType").val("").trigger("change");
+                                $("#openTime").val("").trigger("change");
+                                $("#closeTime").val("").trigger("change");
+
+                                if( isConfirm === false ) {
+                                    $("#modalOffice").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#officeName").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/company/saveOffice", data );
+            }
+        });
+
+        $(document).on("click", ".officeDelete", function ( ) {
+            var oID = $(this).attr("data-id");
+            var title = $("#officeTable-row" + oID).find("td").eq(1).text( );
+
+            swal({
+                title: "Are you sure you want to delete " + title + "?",
+                text: "This action cannot be undone once deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function( isConfirm ) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        data: oID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            $(".officeTable").DataTable().ajax.reload();
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/company/deleteOffice", data);
+            });
+            return false;
+        });
     });
 </script>
 
@@ -143,7 +292,8 @@
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
-                   data-toggle="modal" data-target="#modalAddPayrun">
+                   data-backdrop="static" data-keyboard="false"
+                   data-toggle="modal" data-target="#modalOffice">
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_OFFICE?>
                 </a>
             </li>
@@ -153,7 +303,7 @@
     <table class="table table-hover datatable officeTable">
         <thead>
         <tr>
-            <th>Company Name</th>
+            <th>Office Name</th>
             <th>Address</th>
             <th>Country</th>
             <th>Opening Hour</th>
@@ -164,64 +314,78 @@
         </thead>
     </table>
 </div>
-<div id="modalAddPayrun" class="modal fade">
-    <div class="modal-dialog modal-med">
+
+<div id="modalOffice" class="modal fade">
+    <div class="modal-dialog modal-med2">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Pay Run</h6>
+                <h6 class="modal-title">Create New Office</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
-                    <input type="hidden" id="prID" name="prID" value="0" />
+            <form id="saveOffice" name="saveOffice" method="post" action="">
+                <input type="hidden" id="officeID" name="officeID" value="0" />
+                <div class="modal-body overflow-y-visible">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>How often will you pay your employees?</label>
-                                <?TPL_PAY_PERIOD_LIST?>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Pay Run Name:</label>
-                                <input type="text" name="payrunName" id="payrunName" class="form-control" value=""
-                                       placeholder="For e.g: Monthly Full-time Employee, Weekly Part-time Employee" />
+                                <label>Office Name:</label>
+                                <input type="text" name="officeName" id="officeName" class="form-control" value=""
+                                       placeholder="Enter Office Name" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Start Date:</label>
+                                <label>Office Address:</label>
+                                <input type="text" name="officeAddress" id="officeAddress" class="form-control" value=""
+                                       placeholder="Enter Office Address" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Office Country:</label>
+                                <?TPL_COUNTRY_LIST?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Office Type:</label>
+                                <?TPL_OFFICE_TYPE_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Opening Hour:</label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
-                                    <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
+                                    <input type="text" class="form-control" id="openTime" name="openTime" placeholder="" />
                                 </div>
-                                <span class="help-block startDateHelp"></span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label>First Payment Date:</label>
+                            <label>Closing Hour:</label>
                             <div class="input-group">
                                 <span class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                </span>
-                                <input type="text" class="form-control pickadate-firstPayment" id="firstPayment" name="firstPayment" placeholder="" />
+                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                    </span>
+                                <input type="text" class="form-control" id="closeTime" name="closeTime" placeholder="" />
                             </div>
-                            <span class="help-block firstPaymentHelp"></span>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

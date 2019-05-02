@@ -63,7 +63,7 @@ class Office extends \DAO {
                                    LEFT JOIN ( SELECT officeID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
                                                WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY officeID ) e ON e.officeID = o.oID
-                                   WHERE 1 = 1 ' . $q . '
+                                   WHERE o.deleted <> "1" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 

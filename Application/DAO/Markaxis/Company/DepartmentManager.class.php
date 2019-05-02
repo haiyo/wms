@@ -1,21 +1,21 @@
 <?php
-namespace Markaxis\Employee;
+namespace Markaxis\Company;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Contract.class.php, v 2.0 Exp $
+ * @version $Id: DepartmentManager.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Contract extends \DAO {
+class DepartmentManager extends \DAO {
 
 
     // Properties
 
 
     /**
-     * Contract Constructor
+     * DepartmentManager Constructor
      * @return void
      */
     function __construct( ) {
@@ -24,46 +24,29 @@ class Contract extends \DAO {
 
 
     /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
-    public function getList( ) {
-        $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM contract WHERE deleted <> "1"', __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['cID']] = $row['type'];
-            }
-        }
-        return $list;
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $q='', $order='type ASC' ) {
+    public function getResults( $q='', $order='name ASC' ) {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( c.type LIKE "%' . $q . '%" )' : '';
+        $q = $q ? 'AND ( o.name LIKE "%' . $q . '%" OR o.address LIKE "%' . $q . '%" 
+                       OR c.country LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS c.cID, c.type, c.descript, IFNULL( e.empCount, 0 ) AS empCount
-                                   FROM contract c
-                                   LEFT JOIN ( SELECT contractID, COUNT(eID) as empCount FROM employee e
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS d.dID, d.name, IFNULL( e.empCount, 0 ) AS empCount
+                                   FROM department d
+                                   -- LEFT JOIN country c ON ( o.countryID = c.cID )
+                                   LEFT JOIN ( SELECT departmentID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
-                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY contractID ) e ON e.contractID = c.cID
-                                   WHERE c.deleted <> "1" ' . $q . '
+                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY departmentID ) e ON e.departmentID = d.dID
+                                   WHERE 1 = 1 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['manager'] = 1;
                 $list[] = $row;
             }
         }
@@ -78,7 +61,7 @@ class Contract extends \DAO {
      * Return total count of records
      * @return mixed
      */
-    public function getCountList( $cID ) {
+    public function getCountList( $dID ) {
         $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, n.nationality, e.idnumber,
                                           dpt.name AS department, dsg.title AS designation
                                    FROM user u
@@ -86,9 +69,8 @@ class Contract extends \DAO {
                                    LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
                                    LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
                                    LEFT JOIN designation dsg ON ( e.designationID = dsg.dID )
-                                   LEFT JOIN contract cont ON ( e.contractID = cont.cID )
-                                   WHERE u.deleted <> "1" AND e.resigned <> "1" AND cont.deleted <> "1" AND 
-                                         e.contractID = "' . (int)$cID . '"',
+                                   WHERE u.deleted <> "1" AND e.resigned <> "1" AND dpt.deleted <> "1" AND 
+                                         e.departmentID = "' . (int)$dID . '"',
                                    __FILE__, __LINE__ );
 
         $list = array( );

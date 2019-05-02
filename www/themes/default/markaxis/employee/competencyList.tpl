@@ -35,7 +35,10 @@
                 targets: [1],
                 orderable: true,
                 width: '160px',
-                data: 'competency'
+                data: 'competency',
+                render: function (data, type, full, meta) {
+                    return '<span id="competency' + full['cID'] + '">' + data + '</span>';
+                }
             },{
                 targets: [2],
                 orderable: true,
@@ -47,9 +50,9 @@
                 width: '100px',
                 data: 'empCount',
                 className : "text-center",
-                render: function (data, type, full, meta) {
+                render: function( data, type, full, meta ) {
                     if( data > 0 ) {
-                        return '<a data-id="' + full['cID'] + '" data-toggle="modal" data-target="#modalEmployee">' + data + '</a>';
+                        return '<a data-role="competency" data-id="' + full['cID'] + '" data-toggle="modal" data-target="#modalEmployee">' + data + '</a>';
                     }
                     else {
                         return data;
@@ -177,9 +180,13 @@
         $("#modalEmployee").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
-            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/employee/getCountList/competency/' + $invoker.attr("data-id"), function() {
-                //
-            });
+            if( $invoker.attr("data-role") == "competency" ) {
+                var cID = $invoker.attr("data-id");
+
+                $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/employee/getCountList/competency/' + cID, function() {
+                    $(".modal-title").text( $("#competency" + cID).text( ) );
+                });
+            }
         });
 
         $("#saveCompetency").validate({
@@ -403,25 +410,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-<div id="modalEmployee" class="modal fade">
-    <div class="modal-dialog modal-med">
-        <div class="modal-content">
-            <div class="modal-header bg-info">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title"><?LANG_CREATE_NEW_COMPETENCY?></h6>
-            </div>
-
-            <div class="modal-body overflow-y-visible">
-
-            </div>
-            <div class="modal-footer">
-                <div class="modal-footer-btn">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

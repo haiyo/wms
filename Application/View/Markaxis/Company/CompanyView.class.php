@@ -36,7 +36,9 @@ class CompanyView extends AdminView {
         $this->CompanyModel = CompanyModel::getInstance( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                  'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js' ),
+                                  'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
+                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
+
                                   'pages' => 'wizard_stepy.js',
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
@@ -55,11 +57,16 @@ class CompanyView extends AdminView {
     /**
      * Render main navigation
      * @return string
+     */
+    public function renderSettings( $form ) {
+        $this->setBreadcrumbs( array( 'link' => '',
+            'icon' => 'icon-cog3',
+            'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
 
-    public function renderSettings( ) {
-        $this->info = $this->CompanyModel->getInfo( );
-        return $this->renderSettingsForm( );
-    } */
+        $vars = array( 'TPL_FORM' => $form );
+
+        return $this->render( 'markaxis/company/settings.tpl', $vars );
+    }
 
 
     /**
@@ -71,21 +78,6 @@ class CompanyView extends AdminView {
             return $this->renderForm( );
         }
         //throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function renderSettings( $form ) {
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-cog3',
-                                      'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
-
-        $vars = array( 'TPL_FORM' => $form );
-
-        return $this->render( 'markaxis/company/settings.tpl', $vars );
     }
 
 

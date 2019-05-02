@@ -76,7 +76,6 @@ class LeaveApplyModel extends \Model {
                     break;
             }
         }
-
         $results = array( );
         if( $sql = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir ) ) {
             while( $row = $this->LeaveApply->fetch( $sql ) ) {

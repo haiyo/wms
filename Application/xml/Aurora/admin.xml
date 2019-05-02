@@ -47,6 +47,7 @@
     </task>
     <task type="company">
         <observer controller="Markaxis/Company/DepartmentControl"></observer>
+        <observer controller="Markaxis/Company/DepartmentManagerControl"></observer>
         <observer controller="Markaxis/Company/OfficeControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
     </task>
@@ -92,7 +93,7 @@
         <observer controller="Aurora/Component/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
         <observer controller="Markaxis/Employee/DepartmentControl"></observer>
-        <observer controller="Markaxis/Employee/SupervisorControl"></observer>
+        <observer controller="Markaxis/Employee/ManagerControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/FinanceControl"></observer>
         <observer controller="Markaxis/Employee/EducationControl"></observer>
@@ -120,7 +121,7 @@
     </task>
     <task type="leave">
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Leave/SupervisorControl"></observer>
+        <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/TypeControl"></observer>
         <observer controller="Markaxis/Leave/GenderControl"></observer>
         <observer controller="Markaxis/Leave/OfficeControl"></observer>

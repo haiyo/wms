@@ -28,8 +28,9 @@ class Designation extends \DAO {
      * @return int
      */
     public function isFound( $dID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM designation WHERE dID = "' . (int)$dID . '"',
-                                    __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM designation 
+                                   WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -40,8 +41,8 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getByID( $dID ) {
-        $sql = $this->DB->select( 'SELECT * FROM designation WHERE dID = "' . (int)$dID . '"',
-                                    __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM designation WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

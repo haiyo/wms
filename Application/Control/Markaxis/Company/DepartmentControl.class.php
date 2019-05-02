@@ -39,6 +39,17 @@ class DepartmentControl {
      * Render main navigation
      * @return string
      */
+    public function getCountList( $data ) {
+        if( isset( $data[1] ) && $data[1] == 'department' && isset( $data[2] ) ) {
+            Control::setOutputArrayAppend( array( 'list' => $this->DepartmentModel->getCountList( $data[2] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getDepartmentResults( ) {
         $post = Control::getRequest( )->request( POST );
 
@@ -51,19 +62,27 @@ class DepartmentControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveDepartment( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
         if( $this->DepartmentModel->isValid( $post ) ) {
-            $post['userID'] = $UserModel->save( );
+            $post['dID'] = $this->DepartmentModel->save( );
             Control::setPostData( $post );
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->DepartmentModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
-        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteDepartment( ) {
+        $oID = Control::getRequest( )->request( POST, 'data' );
+
+        $this->DepartmentModel->delete( $oID );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

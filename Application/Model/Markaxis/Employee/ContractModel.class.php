@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Aurora\User\UserImageModel, Aurora\Component\ContractModel AS A_ContractModel;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -43,7 +44,8 @@ class ContractModel extends \Model {
      * @return int
      */
     public function getBycID( $cID ) {
-        return $this->Contract->getBycID( $cID );
+        $A_ContractModel = A_ContractModel::getInstance( );
+        return $A_ContractModel->getByID( $cID );
     }
 
 
@@ -77,6 +79,24 @@ class ContractModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountList( $cID ) {
+        $list = $this->Contract->getCountList( $cID );
+
+        if( sizeof( $list ) > 0 ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $list as $key => $value ) {
+                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'], 'up.hashDir, up.hashName');
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Set Pay Item Info
      * @return bool
      */
@@ -88,6 +108,7 @@ class ContractModel extends \Model {
         $this->info['descript'] = Validator::stripTrim( $data['contractDescript'] );
 
         $Validator->addModule( 'contractTitle', new IsEmpty( $this->info['type'] ) );
+
         try {
             $Validator->validate( );
         }

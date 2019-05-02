@@ -39,8 +39,10 @@ class Office extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByOID( $oID ) {
-        $sql = $this->DB->select( 'SELECT * FROM office WHERE oID = "' . (int)$oID . '"',
+    public function getByoID( $oID ) {
+        $sql = $this->DB->select( 'SELECT * FROM office o
+                                   LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID ) 
+                                   WHERE oID = "' . (int)$oID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

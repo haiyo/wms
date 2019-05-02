@@ -28,7 +28,8 @@ class Contract extends \DAO {
      * @return int
      */
     public function isFound( $cID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM contract WHERE cID = "' . (int)$cID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM contract 
+                                   WHERE cID = "' . (int)$cID . '" AND deleted <> "1"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -40,7 +41,7 @@ class Contract extends \DAO {
      * @return mixed
      */
     public function getByID( $cID ) {
-        $sql = $this->DB->select( 'SELECT * FROM contract WHERE cID = "' . (int)$cID . '"',
+        $sql = $this->DB->select( 'SELECT * FROM contract WHERE cID = "' . (int)$cID . '" AND deleted <> "1"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -55,7 +56,7 @@ class Contract extends \DAO {
      * @return mixed
      */
     public function getAll( ) {
-        $sql = $this->DB->select( 'SELECT * FROM contract', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM contract WHERE deleted <> "1"', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -72,7 +73,7 @@ class Contract extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM contract', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM contract WHERE deleted <> "1"', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -89,7 +90,7 @@ class Contract extends \DAO {
      * @return mixed
      */
     public function getIDList( ) {
-        $sql = $this->DB->select( 'SELECT cID FROM contract', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT cID FROM contract WHERE deleted <> "1"', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -107,7 +108,7 @@ class Contract extends \DAO {
      */
     public function getListCount( $list ) {
         $sql = $this->DB->select( 'SELECT COUNT(cID) FROM contract 
-                                   WHERE cID IN (' . addslashes( $list ) . ')',
+                                   WHERE cID IN (' . addslashes( $list ) . ') AND deleted <> "1"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );

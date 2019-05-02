@@ -31,8 +31,8 @@ class CompetencyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $ecID ) {
-        return $this->Competency->isFound( $ecID );
+    public function isFound( $cID ) {
+        return $this->Competency->isFound( $cID );
     }
 
 

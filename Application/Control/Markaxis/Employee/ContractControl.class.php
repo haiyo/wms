@@ -39,6 +39,17 @@ class ContractControl {
      * Render main navigation
      * @return string
      */
+    public function getCountList( $data ) {
+        if( isset( $data[1] ) && $data[1] == 'contract' && isset( $data[2] ) ) {
+            Control::setOutputArrayAppend( array( 'list' => $this->ContractModel->getCountList( $data[2] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getContractResults( ) {
         $post = Control::getRequest( )->request( POST );
 

@@ -28,7 +28,7 @@ class Competency extends \DAO {
      * @return int
      */
     public function isFound( $cID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM competency WHERE ecID = "' . (int)$cID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM competency WHERE cID = "' . (int)$cID . '"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );

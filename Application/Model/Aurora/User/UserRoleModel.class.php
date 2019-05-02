@@ -30,6 +30,33 @@ class UserRoleModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByUserID( $userID, $roleID ) {
+        return $this->UserRole->isFoundByUserID( $userID, $roleID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountList( $roleID ) {
+        $list = $this->UserRole->getCountList( $roleID );
+
+        if( sizeof( $list ) > 0 ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $list as $key => $value ) {
+                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'], 'up.hashDir, up.hashName');
+            }
+        }
+        return $list;
+    }
+
+
+    /**
     * Return a list of all users
     * @return mixed
     */
@@ -83,21 +110,29 @@ class UserRoleModel extends \Model {
     public function save( $data ) {
         $Role = new Role( );
 
-        if( isset( $data['role'] ) && is_array( $data['role'] ) &&
-            isset( $data['userID'] ) && $data['userID'] ) {
+        if( isset( $data['role'] ) && is_array( $data['role'] ) && isset( $data['userID'] ) && $data['userID'] ) {
+            $validRoleID = array( );
 
             foreach( $data['role'] as $value ) {
                 if( $Role->isFound( $value ) ) {
-                    $info = array( );
-                    $info['userID'] = (int)$data['userID'];
-                    $info['roleID'] = (int)$value;
-                    $this->UserRole->insert( 'user_role', $info );
+                    if( !$this->isFoundByUserID( $data['userID'], $value ) ) {
+                        $info = array( );
+                        $info['userID'] = (int)$data['userID'];
+                        $info['roleID'] = (int)$value;
+                        $this->UserRole->insert( 'user_role', $info );
+                    }
+                    array_push( $validRoleID, $value );
                 }
             }
-            $this->UserRole->delete( 'user_role', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
-                                            roleID NOT IN(' . addslashes( implode( ',', $data['role'] ) ) . ')' );
+            $role = implode( ',', $validRoleID );
+
+            if( $role ) {
+                $this->UserRole->delete( 'user_role', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
+                                                roleID NOT IN(' . addslashes( $role ) . ')' );
+            }
         }
     }
+
 
 
     /**

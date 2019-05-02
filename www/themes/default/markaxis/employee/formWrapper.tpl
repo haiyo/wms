@@ -449,10 +449,10 @@
                 url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY/includeOwn',
                 wildcard: '%QUERY',
                 filter: function( response ) {
-                    var tokens = $(".supervisorList").tokenfield("getTokens");
+                    var tokens = $("#managers").tokenfield("getTokens");
 
                     return $.map( response, function( d ) {
-                        if  ( engine1.valueCache.indexOf(d.name) === -1) {
+                        if( engine1.valueCache.indexOf(d.name) === -1) {
                             engine1.valueCache.push(d.name);
                         }
                         var exists = false;
@@ -484,7 +484,7 @@
         engine1.initialize();
 
         // Initialize tokenfield
-        $(".supervisorList").tokenfield({
+        $("#managers").tokenfield({
             delimiter: ';',
             typeahead: [{
                 minLength:1,
@@ -506,17 +506,17 @@
             }]
         });
 
-            $(".supervisorList").on("tokenfield:createtoken", function( event ) {
-                var exists = false;
-                $.each( engine1.valueCache, function(index, value) {
-                    if( event.attrs.value === value ) {
-                        exists = true;
-                    }
-                });
-                if( !exists ) {
-                    event.preventDefault( );
+        $("#managers").on("tokenfield:createtoken", function( event ) {
+            var exists = false;
+            $.each( engine1.valueCache, function(index, value) {
+                if( event.attrs.value === value ) {
+                    exists = true;
                 }
             });
+            if( !exists ) {
+                event.preventDefault( );
+            }
+        });
 
 
         //======== Supervisors =====
@@ -527,7 +527,7 @@
                 url: Aurora.ROOT_URL + 'admin/competency/getCompetency/%QUERY',
                 wildcard: '%QUERY',
                 filter: function (response) {
-                    var tokens = $(".tokenfield-typeahead").tokenfield("getTokens");
+                    var tokens = $("#competency").tokenfield("getTokens");
 
                     return $.map( response, function( d ) {
                         var exists = false;
@@ -552,7 +552,7 @@
         engine.initialize();
 
         // Initialize tokenfield
-        $(".tokenfield-typeahead").tokenfield({
+        $("#competency").tokenfield({
             delimiter: ';',
             typeahead: [{
                 minLength:1,

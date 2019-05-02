@@ -18,9 +18,8 @@
         </div>
     </div>
     <div class="dashboard-btn-block">
-        <a type="button" class="btn bg-purple-400 btn-labeled btn-lg btn-block" href="<?TPLVAR_ROOT_URL?>admin/employee/add"
+        <a type="button" class="btn bg-purple-400 btn-labeled btn-lg btn-block"
            data-toggle="modal" data-target="#modalApplyLeave">
-            <b><i class="icon-file-plus2"></i></b> Apply Leave Now
-        </a>
+            <b><i class="icon-file-plus2"></i></b> Apply Leave Now</a>
     </div>
 </div>

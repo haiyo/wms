@@ -31,7 +31,7 @@ class Competency extends \DAO {
         $sql = $this->DB->select( 'SELECT COUNT(cID) FROM employee_competency 
                                    WHERE userID = "' . (int)$userID . '" AND
                                          cID = "' . (int)$cID . '"',
-                                    __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -78,9 +78,14 @@ class Competency extends \DAO {
      * @return mixed
      */
     public function getCountList( $cID ) {
-        $sql = $this->DB->select( 'SELECT * FROM user u
+        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, n.nationality, e.idnumber,
+                                          dpt.name AS department, dsg.title AS designation
+                                   FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    LEFT JOIN employee_competency ec ON ( ec.userID = u.userID )
+                                   LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                   LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
+                                   LEFT JOIN designation dsg ON ( e.designationID = dsg.dID )
                                    WHERE u.deleted <> "1" AND e.resigned <> "1" AND ec.cID = "' . (int)$cID . '"',
                                    __FILE__, __LINE__ );
 

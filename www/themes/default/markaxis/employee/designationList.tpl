@@ -30,8 +30,7 @@
                 searchable : false,
                 data: 'dID',
                 render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="dID[]" ' +
-                           'value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="dID[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets:[1],
@@ -41,7 +40,10 @@
                 targets:[2],
                 orderable:true,
                 width:'160px',
-                data:'title'
+                data:'title',
+                render: function( data, type, full, meta ) {
+                    return '<span id="designationTitle' + full['dID'] + '">' + data + '</span>';
+                }
             },{
                 targets:[3],
                 orderable:true,
@@ -53,6 +55,14 @@
                 width:'100px',
                 data:'empCount',
                 className:"text-center",
+                render: function( data, type, full, meta ) {
+                    if( data > 0 ) {
+                        return '<a data-role="designation" data-id="' + full['dID'] + '" data-toggle="modal" data-target="#modalEmployee">' + data + '</a>';
+                    }
+                    else {
+                        return data;
+                    }
+                }
             },{
                 targets:[5],
                 orderable:false,
@@ -60,7 +70,7 @@
                 width:'100px',
                 className:"text-center",
                 data:'dID',
-                render: function(data, type, full, meta) {
+                render: function( data, type, full, meta ) {
                     return '<div class="list-icons">' +
                            '<div class="list-icons-item dropdown">' +
                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" ' +
@@ -253,6 +263,18 @@
                 $("#designationTitle").val("");
                 $("#designationDescript").val("");
                 $("#dID").val("").trigger("change");
+            }
+        });
+
+        $("#modalEmployee").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+
+            if( $invoker.attr("data-role") == "designation" ) {
+                var dID = $invoker.attr("data-id");
+
+                $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/employee/getCountList/designation/' + dID, function() {
+                    $(".modal-title").text( $("#designationTitle" + dID).text( ) );
+                });
             }
         });
 

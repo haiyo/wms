@@ -43,12 +43,14 @@ var MarkaxisApplyLeave = (function( ) {
                 disable:datesToDisable,
                 format:"dd mmm yyyy"
             });
+
             $(".pickadate-end").pickadate({
                 showMonthsShort: true,
                 ///disable:datesToDisable,
                 format:"dd mmm yyyy"
             });
-            $('.form-check-input-styled').uniform();
+
+            $(".form-check-input-styled").uniform( );
             $("#startTime").pickatime({interval:60, min: [9,0], max: [18,0]});
             $("#endTime").pickatime({interval:60, min: [9,0], max: [18,0]});
 
@@ -58,10 +60,10 @@ var MarkaxisApplyLeave = (function( ) {
                     url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
                     wildcard: '%QUERY',
                     filter: function( response ) {
-                        var tokens = $(".supervisorList").tokenfield("getTokens");
+                        var tokens = $(".managerList").tokenfield("getTokens");
 
                         return $.map( response, function( d ) {
-                            if  ( engine.valueCache.indexOf(d.name) === -1) {
+                            if( engine.valueCache.indexOf(d.name) === -1) {
                                 engine.valueCache.push(d.name);
                             }
                             var exists = false;
@@ -72,7 +74,12 @@ var MarkaxisApplyLeave = (function( ) {
                                 }
                             }
                             if( !exists )
-                                return { value: d.name, id: d.userID }
+                                return {
+                                    id: d.userID,
+                                    value: d.name,
+                                    image: d.image,
+                                    designation: d.designation
+                                }
                         });
                     }
                 },
@@ -87,26 +94,42 @@ var MarkaxisApplyLeave = (function( ) {
             engine.initialize();
 
             // Initialize tokenfield
-            $(".supervisorList").tokenfield({
+            $(".managerList").tokenfield({
                 delimiter: ';',
                 typeahead: [null, {
                     displayKey: 'value',
                     highlight: true,
-                    source: engine.ttAdapter()
+                    source: engine.ttAdapter(),
+                    templates: {
+                        suggestion: Handlebars.compile([
+                            '<div class="col-md-12">',
+                            '<div class="col-md-3"><img src="{{image}}" width="40" height="40" ',
+                            'style="padding:0;" class="rounded-circle" /></div>',
+                            '<div class="col-md-9"><span class="typeahead-name">{{value}}</span>',
+                            '<div class="typeahead-designation">{{designation}}</div></div>',
+                            '</div>'
+                        ].join(''))
+                    }
                 }]
             });
 
-            $(".supervisorList").on("tokenfield:createtoken", function( event ) {
+            $(".managerList").on("tokenfield:createtoken", function(e) {
                 var exists = false;
                 $.each( engine.valueCache, function(index, value) {
-                    if( event.attrs.value === value ) {
+                    if( e.attrs.value === value ) {
                         exists = true;
-                        $("#supUserIDs").val( event.attrs.id + "," + $("#supUserIDs").val() );
+                        $("#managerIDs").val( e.attrs.id + "," + $("#managerIDs").val( ) );
                     }
                 });
                 if( !exists ) {
-                    event.preventDefault( );
+                    e.preventDefault( );
                 }
+            }).on('tokenfield:createdtoken', function(e) {
+                $(e.relatedTarget).attr( "data-id", e.attrs.id );
+            });
+
+            $(".managerList").on('tokenfield:removedtoken', function(e) {
+                console.log(e.relatedTarget)
             });
 
             $("#startDate").change(function() {
@@ -136,6 +159,11 @@ var MarkaxisApplyLeave = (function( ) {
             $("#saveApplyLeave").on("click", function ( ) {
                 that.saveApplyLeave();
                 return false;
+            });
+
+            $("#modalApplyLeave").on("show.bs.modal", function(e) {
+                console.log("sdf")
+                $('.managerList').tokenfield('createToken', 'Violet');
             });
         },
 
@@ -191,9 +219,8 @@ var MarkaxisApplyLeave = (function( ) {
                         return;
                     }
                     else {
-                        var ltID = $("#ltID").val();
-                        console.log(ltID)
-                        var count = parseInt( $("#ltID" + ltID).text() );
+                        var ltID = $("#ltID").val( );
+                        var count = parseInt( $("#ltID" + ltID).text( ) );
                         $("#ltID" + ltID).text( count-obj.data.days );
 
                         if( obj.data.hasSup ) {

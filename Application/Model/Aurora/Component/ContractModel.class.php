@@ -31,8 +31,8 @@ class ContractModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $ecID ) {
-        return $this->Contract->isFound( $ecID );
+    public function isFound( $cID ) {
+        return $this->Contract->isFound( $cID );
     }
 
 

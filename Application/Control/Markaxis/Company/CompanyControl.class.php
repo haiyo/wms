@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Markaxis\Employee\EmployeeView;
 use \Control;
 
 /**
@@ -13,6 +14,7 @@ class CompanyControl {
 
 
     // Properties
+    private $CompanyView;
 
 
     /**
@@ -20,7 +22,7 @@ class CompanyControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->CompanyView = new CompanyView( );
     }
 
 
@@ -29,9 +31,7 @@ class CompanyControl {
      * @return string
      */
     public function setup( ) {
-        $CompanyView = new CompanyView( );
-        //Control::setOutputArrayAppend( array( 'form' => $CompanyView->renderSetup( ) ) );
-        $CompanyView->printAll( $CompanyView->renderSetup( ), true );
+        $this->CompanyView->printAll( $this->CompanyView->renderSetup( ), true );
     }
 
 
@@ -43,8 +43,22 @@ class CompanyControl {
         $output = Control::getOutputArray( );
         $form = isset( $output['form'] ) ? $output['form'] : '';
 
-        $CompanyView = new CompanyView( );
-        $CompanyView->printAll( $CompanyView->renderSettings( $form ) );
+        $this->CompanyView->printAll( $this->CompanyView->renderSettings( $form ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getCountList( $data ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['list'] ) ) {
+            $EmployeeView = new EmployeeView( );
+            echo $EmployeeView->renderCountList( $output['list'] );
+            exit;
+        }
     }
 
 

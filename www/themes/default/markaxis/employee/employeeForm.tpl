@@ -30,11 +30,10 @@
         </div>
 
         <div class="col-md-6">
-            <label>Assign Supervisor (1st Approving, 2nd Approving, etc):</label>
-            <input type="text" name="supervisors" class="form-control tokenfield-typeahead supervisorList"
-                   placeholder="Enter Supervisor's Name"
-                   value="<?TPLVAR_SUPERVISORS?>"
-                   autocomplete="off" data-fouc />
+            <label>Assign Manager(s) (1st Approving, 2nd Approving, etc):</label>
+            <input type="text" name="managers" id="managers" class="form-control tokenfield-typeahead managersList"
+                   placeholder="Enter Manager's Name"
+                   value="<?TPLVAR_MANAGERS?>" autocomplete="off" data-fouc />
         </div>
     </div>
 
@@ -139,7 +138,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 competency-tt-menu">
                 <label>Add Employee Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
                                                      data-original-title="<?LANG_COMPETENCY_INFO?>"></i>
                     <span class="text-muted">(Type and press Enter to add new competency)</span></label>

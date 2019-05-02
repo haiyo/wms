@@ -4,22 +4,34 @@ namespace Markaxis\Company;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: CompanyType.class.php, v 2.0 Exp $
+ * @version $Id: OfficeType.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CompanyType extends \DAO {
+class OfficeType extends \DAO {
 
 
     // Properties
 
 
     /**
-     * CompanyType Constructor
+     * OfficeType Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $otID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(otID) FROM office_type WHERE otID = "' . (int)$otID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
     }
 
 
@@ -30,13 +42,11 @@ class CompanyType extends \DAO {
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM company_type', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM office_type', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['ctID']] = $row['type'];
+                $list[$row['otID']] = $row['type'];
             }
         }
         return $list;

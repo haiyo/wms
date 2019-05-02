@@ -2,7 +2,7 @@
 namespace Markaxis\Leave;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
 use \Library\Helper\Markaxis\ApplyForHelper;
-use \Markaxis\Employee\SupervisorModel;
+use \Markaxis\Employee\ManagerModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -51,13 +51,13 @@ class LeaveApplyView extends AdminView {
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        $SupervisorModel = SupervisorModel::getInstance( );
-        $supervisors = $SupervisorModel->getNameByUserID( $userInfo['userID'] );
+        $ManagerModel = ManagerModel::getInstance( );
+        $managers = $ManagerModel->getNameByUserID( $userInfo['userID'] );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
                        'TPL_APPLY_FOR_LIST' => $applyForList,
-                       'TPLVAR_SUPERVISORS' => $supervisors['name'] ) );
+                       'TPLVAR_MANAGERS' => $managers['name'] ) );
 
         return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
                       'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );

@@ -38,6 +38,14 @@
                 width: '100px',
                 data: 'empCount',
                 className : "text-center",
+                render: function (data, type, full, meta) {
+                    if( data > 0 ) {
+                        return '<a data-role="role" data-id="' + full['roleID'] + '" data-toggle="modal" data-target="#modalEmployee">' + data + '</a>';
+                    }
+                    else {
+                        return data;
+                    }
+                }
             },{
                 targets: [3],
                 orderable: false,
@@ -132,6 +140,18 @@
                 $(".switch").bootstrapSwitch('state', false);
                 getPerms( $invoker.attr("data-id") );
             });
+        });
+
+        $("#modalEmployee").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+
+            if( $invoker.attr("data-role") == "role" ) {
+                var rID = $invoker.attr("data-id");
+
+                $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/employee/getCountList/role/' + rID, function( ) {
+                    $(".modal-title").text( $("#roleTitle" + rID).text( ) );
+                });
+            }
         });
 
         function getPerms( roleID ) {

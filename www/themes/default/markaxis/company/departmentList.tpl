@@ -4,7 +4,7 @@
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['userID']);
+                $(nRow).attr('id', 'row' + aData['dID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/company/getDepartmentResults",
@@ -23,7 +23,10 @@
                 targets: [0],
                 orderable: true,
                 width: '250px',
-                data: 'name'
+                data: 'name',
+                render: function( data, type, full, meta ) {
+                    return '<span id="departName' + full['dID'] + '">' + data + '</span>';
+                }
             },{
                 targets: [1],
                 orderable: true,
@@ -35,6 +38,14 @@
                 width: '150px',
                 data: 'empCount',
                 className : "text-center",
+                render: function( data, type, full, meta ) {
+                    if( data > 0 ) {
+                        return '<a data-role="department" data-id="' + full['dID'] + '" data-toggle="modal" data-target="#modalEmployee">' + data + '</a>';
+                    }
+                    else {
+                        return data;
+                    }
+                }
             },{
                 targets: [3],
                 orderable: false,
@@ -118,6 +129,166 @@
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
+
+        $("#modalDepartment").on("shown.bs.modal", function(e) {
+            $("#departmentName").focus( );
+        });
+
+        $("#modalEmployee").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+
+            if( $invoker.attr("data-role") == "department" ) {
+                var dID = $invoker.attr("data-id");
+
+                $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/company/getCountList/department/' + dID, function() {
+                    $(".modal-title").text( $("#departName" + dID).text( ) );
+                });
+            }
+        });
+
+        // Use Bloodhound engine
+        var engine = new Bloodhound({
+            remote: {
+                url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY/includeOwn',
+                wildcard: '%QUERY',
+                filter: function( response ) {
+                    var tokens = $(".managerList").tokenfield("getTokens");
+
+                    return $.map( response, function( d ) {
+                        if( engine.valueCache.indexOf(d.name) === -1) {
+                            engine.valueCache.push(d.name);
+                        }
+                        var exists = false;
+                        for( var i=0; i<tokens.length; i++ ) {
+                            if( d.name === tokens[i].label ) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if( !exists ) {
+                            return {
+                                id: d.userID,
+                                value: d.name,
+                                image: d.image,
+                                designation: d.designation
+                            }
+                        }
+                    });
+                }
+            },
+            datumTokenizer: function(d) {
+                return Bloodhound.tokenizers.whitespace(d.value);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
+
+        // Initialize engine
+        engine.valueCache = [];
+        engine.initialize();
+
+        // Initialize tokenfield
+        $(".managerList").tokenfield({
+            delimiter: ';',
+            typeahead: [{
+                minLength:1,
+                highlight:true,
+                hint:false
+            }, {
+                displayKey: 'value',
+                source: engine.ttAdapter(),
+                templates: {
+                    suggestion: Handlebars.compile([
+                        '<div class="col-md-12">',
+                        '<div class="col-md-2"><img src="{{image}}" width="40" height="40" ',
+                        'style="padding:0;" class="rounded-circle" /></div>',
+                        '<div class="col-md-10"><span class="typeahead-name">{{value}}</span>',
+                        '<div class="typeahead-designation">{{designation}}</div></div>',
+                        '</div>'
+                    ].join(''))
+                }
+            }]
+        });
+
+        $(".managerList").on("tokenfield:createtoken", function( event ) {
+            var exists = false;
+            $.each( engine.valueCache, function(index, value) {
+                if( event.attrs.value === value ) {
+                    exists = true;
+                    $("#managerIDs").val( event.attrs.id + "," + $("#managerIDs").val() );
+                }
+            });
+            if( !exists ) {
+                event.preventDefault( );
+            }
+        }).on('tokenfield:createdtoken', function(e) {
+            $(e.relatedTarget).attr( "data-id", e.attrs.id );
+        });;
+
+        $("#saveDepartment").validate({
+            rules: {
+                departmentName: { required: true }
+            },
+            messages: {
+                departmentName: "Please enter a Department Name."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveDepartment")
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        console.log(obj)
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".officeTable").DataTable().ajax.reload();
+
+                            swal({
+                                title: $("#departmentName").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Office",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                $("#departmentID").val(0);
+                                $("#departmentName").val("");
+                                //$("#officeAddress").val("");
+
+                                if( isConfirm === false ) {
+                                    $("#modalDepartment").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#departmentName").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/company/saveDepartment", data );
+            }
+        });
     });
 </script>
 
@@ -126,7 +297,7 @@
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
-                   data-toggle="modal" data-target="#modalAddPayrun">
+                   data-toggle="modal" data-target="#modalDepartment">
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_DEPARTMENT?>
                 </a>
             </li>
@@ -144,64 +315,44 @@
         </thead>
     </table>
 </div>
-<div id="modalAddPayrun" class="modal fade">
-    <div class="modal-dialog modal-med">
+<div id="modalDepartment" class="modal fade">
+    <div class="modal-dialog modal-med2">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Pay Run</h6>
+                <h6 class="modal-title">Create New Department</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
-                    <input type="hidden" id="prID" name="prID" value="0" />
+            <form id="saveDepartment" name="saveDepartment" method="post" action="">
+                <input type="hidden" id="departmentID" name="departmentID" value="0" />
+                <div class="modal-body overflow-y-visible">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>How often will you pay your employees?</label>
-                                <?TPL_PAY_PERIOD_LIST?>
+                                <label>Department Name:</label>
+                                <input type="text" name="departmentName" id="departmentName" class="form-control" value=""
+                                       placeholder="Enter Department Name" />
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Pay Run Name:</label>
-                                <input type="text" name="payrunName" id="payrunName" class="form-control" value=""
-                                       placeholder="For e.g: Monthly Full-time Employee, Weekly Part-time Employee" />
+                                <label>Department Manager(s):</label>
+                                <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
+                                       placeholder="Enter Manager's Name" value=""
+                                       autocomplete="off" data-fouc />
+                                <input type="hidden" id="managerIDs" name="managerIDs" value="" />
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Start Date:</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                    <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
-                                </div>
-                                <span class="help-block startDateHelp"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label>First Payment Date:</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                </span>
-                                <input type="text" class="form-control pickadate-firstPayment" id="firstPayment" name="firstPayment" placeholder="" />
-                            </div>
-                            <span class="help-block firstPaymentHelp"></span>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

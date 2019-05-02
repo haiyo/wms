@@ -24,6 +24,66 @@ class UserRole extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByUserID( $userID, $roleID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(*) FROM user_role 
+                                   WHERE userID = "' . (int)$userID . '" AND
+                                         roleID = "' . (int)$roleID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getCountList( $roleID ) {
+        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, n.nationality, e.idnumber,
+                                          dpt.name AS department, dsg.title AS designation
+                                   FROM user u
+                                   LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN user_role ur ON ( ur.userID = u.userID )
+                                   LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                   LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
+                                   LEFT JOIN designation dsg ON ( e.designationID = dsg.dID )
+                                   WHERE u.deleted <> "1" AND e.resigned <> "1" AND ur.roleID = "' . (int)$roleID . '"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByUserID( $userID ) {
+        $list = array( );
+        $sql = $this->DB->select( 'SELECT * FROM user_role 
+                                   WHERE userID = "' . (int)$userID . '"',
+            __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row['roleID'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
     * Retrieve all user in the $userIDs range
     * @return mixed
     */
@@ -167,25 +227,6 @@ class UserRole extends \DAO {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
        	    }
-        }
-        return $list;
-    }
-
-
-    /**
-    * Retrieve all user roles
-    * @return mixed
-    */
-    public function getByUserID( $userID ) {
-        $list = array( );
-        $sql = $this->DB->select( 'SELECT * FROM user_role 
-                                   WHERE userID = "' . (int)$userID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row['roleID'];
-            }
         }
         return $list;
     }
