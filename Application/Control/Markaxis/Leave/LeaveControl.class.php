@@ -40,7 +40,6 @@ class LeaveControl {
      */
     public function balance( ) {
         $output = Control::getOutputArray( );
-
         $this->LeaveView->printAll( $this->LeaveView->renderBalance( ) );
     }
 
@@ -51,7 +50,6 @@ class LeaveControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-
         $this->LeaveView->printAll( $this->LeaveView->renderSettings( $output['form'] ) );
     }
 
@@ -62,7 +60,6 @@ class LeaveControl {
      */
     public function addType( ) {
         $output = Control::getOutputArray( );
-
         $this->LeaveView->printAll( $this->LeaveView->renderTypeForm( $output['form'] ) );
     }
 

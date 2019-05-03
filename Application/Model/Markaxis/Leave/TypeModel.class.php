@@ -121,11 +121,22 @@ class TypeModel extends \Model {
                     $order = 'lt.applied';
                     break;
                 case 6:
-                    $order = 'lt.proRated';
+                    $order = 'lt.unused';
                     break;
             }
         }
         $results = $this->Type->getResults( $post['search']['value'], $order . $dir );
+
+        if( sizeof( $results ) ) {
+            foreach( $results as $key => $row ) {
+                if( isset( $row['applied'] ) ) {
+                    $results[$key]['applied'] = AppliedHelper::getL10nList( )[$row['applied']];
+                }
+                if( isset( $row['unused'] ) ) {
+                    $results[$key]['unused'] = UnusedLeaveHelper::getL10nList( )[$row['unused']];
+                }
+            }
+        }
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );

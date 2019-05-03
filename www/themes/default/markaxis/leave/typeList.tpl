@@ -104,10 +104,10 @@
                         '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                         '<i class="icon-menu9"></i></a>' +
                         '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                        '<a class="dropdown-item">' +
+                        '<a href="<?TPLVAR_ROOT_URL?>admin/leave/editType/' + data + '" class="dropdown-item editLeaveType">' +
                         '<i class="icon-pencil5"></i> Edit Leave Type</a>' +
                         '<div class="divider"></div>' +
-                        '<a class="dropdown-item leaveTypeDelete" data-id="' + data + '">' +
+                        '<a class="dropdown-item deleteLeaveType" data-id="' + data + '">' +
                         '<i class="icon-bin"></i> Delete Leave Type</a>' +
                         '</div>' +
                         '</div>' +
