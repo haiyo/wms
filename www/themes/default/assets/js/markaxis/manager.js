@@ -51,7 +51,7 @@ var MarkaxisManager = (function( ) {
 
                         return $.map( response, function( d ) {
                             if( cache.indexOf(d.name) === -1) {
-                                cache.push(d.name);
+                                cache.push( d.userID );
                             }
                             var exists = false;
                             for( var i=0; i<tokens.length; i++ ) {

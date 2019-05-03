@@ -65,7 +65,6 @@ class EmployeeModel extends \Model {
             $userInfo = UserModel::getInstance( )->getInfo( );
             $exclude = $userInfo['userID'];
         }
-
         $row = $this->Employee->getList( $q, $exclude );
 
         if( sizeof( $row ) > 0 ) {
@@ -200,13 +199,6 @@ class EmployeeModel extends \Model {
                 $saveInfo['officeID'] = (int)$data['office'];
             }
         }
-
-        /*if( isset( $data['department'] ) ) {
-            $DepartmentModel = DepartmentModel::getInstance( );
-            if( $DepartmentModel->isFound( $data['department'] ) ) {
-                $saveInfo['departmentID'] = (int)$data['department'];
-            }
-        }*/
 
         if( isset( $data['designation'] ) ) {
             $DesignationModel = DesignationModel::getInstance( );

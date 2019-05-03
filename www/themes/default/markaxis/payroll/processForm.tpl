@@ -1,27 +1,25 @@
-<form id="processForm" name="createTeamForm" method="post" action="">
+<form id="processForm" name="processForm" method="post" action="">
 
     <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;padding-bottom:11px;">
         <div class="col-md-1" style="width: 10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
         <div class="col-md-3" style="width:29%;border-right: 1px solid #ccc;">
-            <h5><strong>Employee:</strong> <?TPLVAR_FNAME?> <?TPLVAR_LNAME?> (Age: <?TPLVAR_AGE?>)</h5>
-            <div class="text-light"><strong>Designation:</strong> <?TPLVAR_DESIGNATION?></div>
-            <div class="text-light"><strong>Department:</strong> <?TPLVAR_DEPARTMENT?></div>
-            <div class="text-light"><strong>Contract Type:</strong> <?TPLVAR_CONTRACT_TYPE?></div>
-            <div class="text-light"><strong>Work Pass:</strong> <?TPLVAR_WORK_PASS?></div>
+            <?TPL_COL_1?>
         </div>
         <div class="col-md-3" style="width:33%;padding-left:24px;border-right: 1px solid #ccc;">
-            <h5><strong>Employee ID:</strong> <?TPLVAR_IDNUMBER?></h5>
+            <?TPL_COL_2?>
+            <!--<h5><strong>Employee ID:</strong> <?TPLVAR_IDNUMBER?></h5>
             <div class="text-light"><strong>Employment Start Date:</strong> <?TPLVAR_START_DATE?> (<?TPLVAR_DURATION_YEAR?>yr <?TPLVAR_DURATION_MONTH?>mth)</div>
             <div class="text-light"><strong>Employment End Date:</strong> <?TPLVAR_END_DATE?></div>
-            <div class="text-light"><strong>Employment Confirm Date:</strong> <?TPLVAR_CONFIRM_DATE?></div>
-            <div class="text-light" style="overflow: hidden; text-overflow: ellipsis;"><strong>Total Work Days For This Month:</strong> 21 days</div>
+            <div class="text-light"><strong>Employment Confirmation Date:</strong> <?TPLVAR_CONFIRM_DATE?></div>
+            <div class="text-light" style="overflow: hidden; text-overflow: ellipsis;"><strong>Total Work Days For This Month:</strong> 21 days</div>-->
         </div>
         <div class="col-md-4" style="width:28%;padding-left:24px;">
-            <h5><strong>Payment Method:</strong> <?TPLVAR_PAYMENT_METHOD?></h5>
+            <?TPL_COL_3?>
+            <!--<h5><strong>Leave Balance</strong></h5>
             <div class="text-light"><strong>Bank:</strong> <?TPLVAR_BANK_NAME?></div>
             <div class="text-light"><strong>Bank No.:</strong> <?TPLVAR_BANK_NUMBER?></div>
             <div class="text-light"><strong>Bank / Branch Code:</strong> <?TPLVAR_BANK_CODE?> / <?TPLVAR_BRANCH_CODE?></div>
-            <div class="text-light"><strong>Bank Swift Code:</strong> <?TPLVAR_BANK_SWIFT_CODE?></div>
+            <div class="text-light"><strong>Bank Swift Code:</strong> <?TPLVAR_BANK_SWIFT_CODE?></div>-->
         </div>
     </div>
 

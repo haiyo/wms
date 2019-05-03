@@ -170,9 +170,9 @@ class PayrollView extends AdminView {
         if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
 
-            $duration = \DateTime::createFromFormat('jS M Y', $userInfo['startDate'])->diff( new \DateTime('now') );
-
-            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
+            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ) )
+            ;
+            /*$vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
                            'TPLVAR_FNAME' => $userInfo['fname'],
                            'TPLVAR_LNAME' => $userInfo['lname'],
                            'TPLVAR_AGE' => $userInfo['birthday'] ? Date::getAge( $userInfo['birthday'] ) : ' -- ',
@@ -192,7 +192,7 @@ class PayrollView extends AdminView {
                            'TPLVAR_BANK_NUMBER' => $userInfo['number'] ? $userInfo['number'] : ' -- ',
                            'TPLVAR_BANK_CODE' => $userInfo['code'] ? $userInfo['code'] : ' -- ',
                            'TPLVAR_BRANCH_CODE' => $userInfo['branchCode'] ? $userInfo['branchCode'] : ' -- ',
-                           'TPLVAR_BANK_SWIFT_CODE' => $userInfo['swiftCode'] ? $userInfo['swiftCode'] : ' -- ' );
+                           'TPLVAR_BANK_SWIFT_CODE' => $userInfo['swiftCode'] ? $userInfo['swiftCode'] : ' -- ' );*/
 
             $ItemModel = ItemModel::getInstance( );
             $SelectListView = new SelectListView( );
@@ -210,12 +210,10 @@ class PayrollView extends AdminView {
                     if( isset( $items['deduction'] ) && $items['deduction'] == 1 ) {
                         continue;
                     }
-
                     if( isset( $items['basic'] ) && $items['basic'] == 1 && $items['amount'] ) {
                         $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $items['amount'] );
                         $isBasic = true;
                     }
-
                     $itemType = $SelectListView->build( 'itemType', $itemList, $items['piID'],
                                                         'Select Payroll Item' );
 
@@ -224,6 +222,10 @@ class PayrollView extends AdminView {
                                                         'TPLVAR_REMARK' => $isBasic ? '' : $items['title'] );
                 }
             }
+
+            if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
+            if( isset( $data['col_2'] ) ) $vars['TPL_COL_2'] = $data['col_2'];
+            if( isset( $data['col_3'] ) ) $vars['TPL_COL_3'] = $data['col_3'];
             return $this->render( 'markaxis/payroll/processForm.tpl', $vars );
         }
     }

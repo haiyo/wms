@@ -49,8 +49,8 @@ class LeaveBalance extends \DAO {
 
         $sql = $this->DB->select( 'SELECT lt.name, lb.balance FROM employee_leave_bal lb
                                    JOIN leave_type lt ON ( lt.ltID = lb.ltID )
-                                   WHERE lb.userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+                                   WHERE lb.userID = "' . (int)$userID . '"' . $this->limit,
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -71,7 +71,7 @@ class LeaveBalance extends \DAO {
         $sql = $this->DB->select( 'SELECT lt.ltID, lt.name FROM employee_leave_bal elb
                                    LEFT JOIN leave_type lt ON ( lt.ltID = elb.ltID )
                                    WHERE elb.userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

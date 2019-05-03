@@ -30,6 +30,18 @@ class LeaveBalanceModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getByUserID( $userID, $limit=false ) {
+        if( $limit ) {
+            $this->LeaveBalance->setLimit( 0, $limit );
+        }
+        return $this->LeaveBalance->getByUserID( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getByltIDUserID( $ltID, $userID ) {
         return $this->LeaveBalance->getByltIDUserID( $ltID, $userID );
     }

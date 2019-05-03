@@ -73,13 +73,15 @@ class Payroll extends \DAO {
                                           LEFT JOIN employee emp ON ( u.userID = emp.userID )
                                           LEFT JOIN employee_bank emp_bk ON ( u.userID = emp_bk.userID )
                                           LEFT JOIN bank bk ON ( emp_bk.bkID = bk.bkID )
-                                          LEFT JOIN department dpt ON ( emp.departmentID = dpt.dID )
+                                          LEFT JOIN employee_department emp_dept ON ( u.userID = emp_dept.userID )
+                                          LEFT JOIN department dpt ON ( dpt.dID = emp_dept.departmentID )
                                           LEFT JOIN designation dsg ON ( emp.designationID = dsg.dID )
                                           LEFT JOIN contract cont ON ( emp.contractID = cont.cID )
                                           LEFT JOIN payment_method pm ON ( emp.paymentMethodID = pm.pmID )
                                           LEFT JOIN pass_type pt ON ( emp.passTypeID = pt.ptID )
-                                   WHERE u.userID = "' . (int)$userID . '"',
-                                    __FILE__, __LINE__ );
+                                   WHERE u.userID = "' . (int)$userID . '"
+                                   GROUP BY u.userID',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

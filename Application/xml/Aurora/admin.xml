@@ -118,6 +118,8 @@
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
         <observer controller="Markaxis/Payroll/TaxControl"></observer>
+        <observer controller="Markaxis/Payroll/EmployeeControl"></observer>
+        <observer controller="Markaxis/Payroll/LeaveControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="leave">
