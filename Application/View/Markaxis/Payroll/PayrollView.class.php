@@ -2,7 +2,7 @@
 namespace Markaxis\Payroll;
 use \Aurora\User\UserImageModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\OfficeModel;
-use \Library\Runtime\Registry, \Library\Util\Date;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -38,7 +38,8 @@ class PayrollView extends AdminView {
         $this->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
                                   'plugins/moment' => 'moment.min.js',
                                   'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
+                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                            'input/typeahead.bundle.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
@@ -144,9 +145,8 @@ class PayrollView extends AdminView {
     public function renderProcess( $processDate ) {
         $OfficeModel = OfficeModel::getInstance( );
         $SelectListView = new SelectListView( );
-        $officeList = $SelectListView->build( 'office',
-                        $OfficeModel->getList( ), '',
-                        '-- Filter by Office / Location --' );
+        $officeList = $SelectListView->build( 'office', $OfficeModel->getList( ), '',
+                                              '-- Filter by Office / Location --' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                              array( 'TPLVAR_PROCESS_DATE' => $processDate,

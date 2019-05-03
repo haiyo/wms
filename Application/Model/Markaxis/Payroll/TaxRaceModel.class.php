@@ -85,20 +85,15 @@ class TaxRaceModel extends \Model {
                 $UserModel = UserModel::getInstance( );
                 $userInfo = $UserModel->getFieldByUserID( $userID, 'raceID' );
 
-                if( $userInfo['raceID'] ) {
-                    foreach( $raceInfo as $row ) {
-                        if( $row['raceID'] != $userInfo['raceID'] ) {
-                            unset( $data['items'][$row['trID']] );
-                            unset( $data['taxRules'][$row['trID']] );
-                        }
+                foreach( $raceInfo as $row ) {
+                    // Whether or not user has race set, we need to unset taxes if not found.
+                    if( !$userInfo['raceID'] || $row['raceID'] != $userInfo['raceID'] ) {
+                        unset( $data['items'][$row['trID']] );
+                        unset( $data['taxRules'][$row['trID']] );
                     }
-                    /* Parse all passes to items
-                    if( sizeof( $data['taxRules'] ) > 0 ) {
-                        var_dump($data);
-                    }*/
-                    return $data;
                 }
             }
+            return $data;
         }
     }
 

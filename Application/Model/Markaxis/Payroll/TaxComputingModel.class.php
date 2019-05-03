@@ -111,9 +111,9 @@ class TaxComputingModel extends \Model {
                 foreach( $compInfo as $row ) {
                     switch( $row['criteria'] ) {
                         case 'age' :
-                            if( !$age ) {
+                            if(  !$age ) {
                                 // If invalid age, break altogether.
-                                if( !$age = Date::getAge( $userInfo['birthday'] ) ) {
+                                if( $userInfo['birthday'] && !$age = Date::getAge( $userInfo['birthday'] ) ) {
                                     break;
                                 }
                             }
