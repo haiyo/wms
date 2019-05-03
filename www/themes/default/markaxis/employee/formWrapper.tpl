@@ -442,7 +442,7 @@
         $(".form-check-input-styled").uniform();
 
         //======== Supervisors =====
-
+/*
         // Use Bloodhound engine
         var engine1 = new Bloodhound({
             remote: {
@@ -516,7 +516,7 @@
             if( !exists ) {
                 event.preventDefault( );
             }
-        });
+        });*/
 
 
         //======== Supervisors =====

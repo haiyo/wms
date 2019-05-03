@@ -62,14 +62,5 @@ class OfficeModel extends \Model {
         }
         return $newList;
     }
-
-
-    /**
-     * Return user data by userID
-     * @return mixed
-     */
-    public function getIDList( ) {
-        return $this->Office->getIDList( );
-    }
 }
 ?>

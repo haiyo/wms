@@ -30,8 +30,8 @@
         </div>
 
         <div class="col-md-6">
-            <label>Assign Manager(s) (1st Approving, 2nd Approving, etc):</label>
-            <input type="text" name="managers" id="managers" class="form-control tokenfield-typeahead managersList"
+            <label>Assign Manager(s):</label>
+            <input type="text" name="managers" id="managers" class="form-control tokenfield-typeahead managerList"
                    placeholder="Enter Manager's Name"
                    value="<?TPLVAR_MANAGERS?>" autocomplete="off" data-fouc />
         </div>

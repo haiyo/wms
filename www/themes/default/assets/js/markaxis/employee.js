@@ -12,6 +12,7 @@ var MarkaxisEmployee = (function( ) {
      * @return void
      */
     MarkaxisEmployee = function( ) {
+        this.markaxisManager = new MarkaxisManager( true );
         this.uploadCrop = false;
         this.init( );
     };
@@ -181,6 +182,10 @@ var MarkaxisEmployee = (function( ) {
             $("#ltID").multiselect({includeSelectAllOption: true});
             $("#department").multiselect({includeSelectAllOption: true});
 
+            $("#department").on("change", function( ) {
+                that.updateManager( );
+            });
+
             $(".styled").uniform({
                 radioClass: 'choice'
             });
@@ -299,7 +304,6 @@ var MarkaxisEmployee = (function( ) {
             $("#loginPassword").val( pass );
         },
 
-
         readFile: function( input ) {
             var that = this;
 
@@ -323,6 +327,16 @@ var MarkaxisEmployee = (function( ) {
             }
         },
 
+        updateManager: function( ) {
+            this.markaxisManager.clearManagerToken( );
+            var departments = $("#department").val( );
+
+            if( departments.length > 0 ) {
+                for( var dID in departments ) {
+                    this.markaxisManager.getManagerToken("admin/company/getManagerToken/" + departments[dID]);
+                }
+            }
+        },
 
         /**
          * Save Employee Data

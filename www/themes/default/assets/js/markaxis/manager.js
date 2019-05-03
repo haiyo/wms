@@ -12,11 +12,8 @@ var MarkaxisManager = (function( ) {
      */
     MarkaxisManager = function( includeOwn ) {
         this.managerElement = $(".managerList");
-
-        if( includeOwn ) {
-            this.includeOwn = "/includeOwn";
-        }
-
+        this.includeOwn = includeOwn === undefined ? "" : "/includeOwn";
+        this.cache = [];
         this.init( );
     };
 
@@ -39,27 +36,18 @@ var MarkaxisManager = (function( ) {
         initEvents: function( ) {
             var that = this;
 
-            var cache = [];
-
             // Use Bloodhound engine
             var engine = new Bloodhound({
                 remote: {
                     url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY' + that.includeOwn,
                     wildcard: '%QUERY',
                     filter: function( response ) {
-                        var tokens = that.managerElement.tokenfield("getTokens");
-
                         return $.map( response, function( d ) {
-                            if( cache.indexOf(d.name) === -1) {
-                                cache.push( d.userID );
+                            if( that.cache.indexOf( d.name ) === -1) {
+                                that.cache.push( d.userID );
                             }
-                            var exists = false;
-                            for( var i=0; i<tokens.length; i++ ) {
-                                if( d.name === tokens[i].label ) {
-                                    exists = true;
-                                    break;
-                                }
-                            }
+                            var exists = that.isDuplicate( d.userID ) ? true : false;
+
                             if( !exists )
                                 return {
                                     id: d.userID,
@@ -102,7 +90,8 @@ var MarkaxisManager = (function( ) {
 
             that.managerElement.on("tokenfield:createtoken", function(e) {
                 var exists = false;
-                $.each( cache, function(index, value) {
+                $.each( that.cache, function(index, value) {
+                    //console.log( e.attrs.value + " === " + value )
                     if( e.attrs.value === value ) {
                         exists = true;
                     }
@@ -112,6 +101,17 @@ var MarkaxisManager = (function( ) {
                     return false;
                 }
             });
+        },
+
+        isDuplicate: function( id ) {
+            var tokens = this.managerElement.tokenfield("getTokens");
+
+            for( var i=0; i<tokens.length; i++ ) {
+                if( id === tokens[i].id ) {
+                    return true;
+                }
+            }
+            return false;
         },
 
         getManagerToken: function( url ) {
@@ -130,7 +130,12 @@ var MarkaxisManager = (function( ) {
                                       value: obj.data[i]["managerID"],
                                       label: obj.data[i]["name"] };
 
-                        that.managerElement.tokenfield('createToken', token);
+                        var exists = that.isDuplicate( token.id ) ? true : false;
+
+                        if( !exists ) {
+                            that.cache.push( token.id );
+                            that.managerElement.tokenfield("createToken", token);
+                        }
                     }
                 }
             };
@@ -139,6 +144,7 @@ var MarkaxisManager = (function( ) {
 
         clearManagerToken: function( ) {
             this.managerElement.tokenfield('setTokens', []);
+            this.cache = [];
             $(".token-input").val("");
         }
     }
