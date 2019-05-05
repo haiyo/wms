@@ -120,6 +120,7 @@
         var lastIdx = null;
 
         $("#departmentList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof departmentTable.cell(this).index() == "undefined" ) return;
             var colIdx = departmentTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

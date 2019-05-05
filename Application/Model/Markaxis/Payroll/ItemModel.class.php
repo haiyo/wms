@@ -114,6 +114,9 @@ class ItemModel extends \Model {
                 case 3:
                     $order = 'pi.deduction';
                     break;
+                case 4:
+                    $order = 'pi.claim';
+                    break;
             }
         }
         $results = $this->Item->getItemResults( $data['search']['value'], $order . $dir );
@@ -152,6 +155,9 @@ class ItemModel extends \Model {
         }
         else if( $data['payItemType'] == 'deduction' ) {
             $this->info['deduction'] = 1;
+        }
+        else if( $data['payItemType'] == 'claim' ) {
+            $this->info['claim'] = 1;
         }
         return true;
     }

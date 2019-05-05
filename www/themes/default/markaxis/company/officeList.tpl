@@ -118,6 +118,7 @@
         var lastIdx = null;
 
         $("#officeList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof officeTable.cell(this).index() == "undefined" ) return;
             var colIdx = officeTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

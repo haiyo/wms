@@ -31,58 +31,19 @@ class ExpenseControl {
      * Render main navigation
      * @return string
      */
-    public function overview( ) {
-        $this->PayrollView->printAll( $this->PayrollView->renderOverview( ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function slips( ) {
-        $this->PayrollView->printAll( $this->PayrollView->renderSlips( ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getProcessPass( ) {
-        $vars = array( );
-        $post = Control::getRequest( )->request( POST );
-
-        if( $this->PayrollModel->allowProcessPass( $post ) ) {
-            $vars['bool'] = 1;
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->PayrollModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function process( $args ) {
-        if( isset( $args[1] ) ) {
-            $this->PayrollView->printAll( $this->PayrollView->renderProcess( $args[1] ) );
-        }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function settings( ) {
-        $output = Control::getOutputArray( );
-        $this->PayrollView->printAll( $this->PayrollView->renderSettings( $output['form'] ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->ExpenseView->renderSettings( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getResults( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->ExpenseModel->getResults( $post ) );
+        exit;
     }
 }
 ?>

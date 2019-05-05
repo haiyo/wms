@@ -1,5 +1,5 @@
 <?php
-namespace Markaxis\Leave;
+namespace Markaxis\Expense;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -27,13 +27,13 @@ class Manager extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getBylaID( $laID ) {
+    public function getByecmID( $ecmID ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT las.managerID, las.approved, CONCAT( u.fname, \' \', u.lname ) AS name
-                                   FROM leave_apply_manager las
-                                   LEFT JOIN user u ON ( u.userID = las.managerID )
-                                   WHERE las.laID = "' . (int)$laID . '"',
+        $sql = $this->DB->select( 'SELECT ecm.managerID, ecm.approved, CONCAT( u.fname, \' \', u.lname ) AS name
+                                   FROM expense_claim_manager ecm
+                                   LEFT JOIN user u ON ( u.userID = ecm.managerID )
+                                   WHERE ecm.laID = "' . (int)$ecmID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

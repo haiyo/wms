@@ -168,9 +168,12 @@ class AdminView extends View {
                        'TPL_PAGE_HEADER' => !$setup ? $this->renderPageHeader( ) : '',
                        'TPL_CONTENT' => $template );
 
+        $content = $this->render( 'aurora/page/left.tpl', $vars );
+
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
         header('Expires: 0');
-        echo $this->render( 'aurora/page/left.tpl', $vars );
+        header('Content-length: ' . strlen( $content ) );
+        echo $content;
     }
 }
 ?>

@@ -129,6 +129,7 @@
         var lastIdx = null;
 
         $("#contractList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof contractTable.cell(this).index() == "undefined" ) return;
             var colIdx = contractTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

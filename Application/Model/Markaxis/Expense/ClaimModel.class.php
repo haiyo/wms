@@ -1,23 +1,24 @@
 <?php
 namespace Markaxis\Expense;
+use \Aurora\User\UserModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: ExpenseModel.class.php, v 2.0 Exp $
+ * @version $Id: ClaimModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ExpenseModel extends \Model {
+class ClaimModel extends \Model {
 
 
     // Properties
-    protected $Expense;
+    protected $Claim;
 
 
 
     /**
-     * ExpenseModel Constructor
+     * ClaimModel Constructor
      * @return void
      */
     function __construct( ) {
@@ -25,16 +26,7 @@ class ExpenseModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $this->Expense = new Expense( );
-    }
-
-
-    /**
-     * Return user data by userID
-     * @return mixed
-     */
-    public function getList( ) {
-        return $this->Expense->getList( );
+        $this->Claim = new Claim( );
     }
 
 
@@ -43,7 +35,8 @@ class ExpenseModel extends \Model {
      * @return mixed
      */
     public function getResults( $post ) {
-        $this->Expense->setLimit( $post['start'], $post['length'] );
+        $userInfo = UserModel::getInstance( )->getInfo( );
+        $this->Claim->setLimit( $post['start'], $post['length'] );
 
         $order = 'ei.title';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
@@ -54,11 +47,14 @@ class ExpenseModel extends \Model {
                     $order = 'ei.title';
                     break;
                 case 2:
-                    $order = 'ei.amount';
+                    $order = 'ec.descript';
+                    break;
+                case 3:
+                    $order = 'ec.amount';
                     break;
             }
         }
-        $results = $this->Expense->getResults( $post['search']['value'], $order . $dir );
+        $results = $this->Claim->getResults( $userInfo['userID'], $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );

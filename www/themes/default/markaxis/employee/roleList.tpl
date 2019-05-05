@@ -116,6 +116,7 @@
         var lastIdx = null;
 
         $("#rolePermList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof rolePermTable.cell(this).index() == "undefined" ) return;
             var colIdx = rolePermTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

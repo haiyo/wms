@@ -39,7 +39,6 @@ class SelectGroupListView extends SelectListView {
                     $list .= $this->render( 'aurora/form/optGroupList.tpl', $vars );
                     $vars = array( );
                 }
-
                 $vars['TPLVAR_LABEL'] = $arrayList[$i]['title'];
                 $parent[$arrayList[$i]['id']] = true;
             }
@@ -62,7 +61,10 @@ class SelectGroupListView extends SelectListView {
             }
         }
 
-        $vars = array( 'TPLVAR_NAME' => $name, 'TPLVAR_PLACEHOLDER' => $placeHolder );
+        $vars = array( 'TPLVAR_NAME' => $name,
+                       'TPLVAR_PLACEHOLDER' => $placeHolder,
+                       'TPLVAR_CLASS' => $this->class );
+
         $vars['dynamic']['multiple'] = false;
         $vars['dynamic']['blank'] = false;
         $vars['dynamic']['id'] = false;
@@ -70,20 +72,16 @@ class SelectGroupListView extends SelectListView {
         if( $id ) {
             $vars['dynamic']['id'][] = array( 'TPLVAR_ID' => $name );
         }
-
         if( $this->multiple ) {
             $vars['TPLVAR_NAME'] = $vars['TPLVAR_NAME'] . '[]';
             $vars['dynamic']['multiple'][] = array( 'TPLVAR_MULTIPLE' => $this->multiple );
         }
-
         if( $this->includeBlank ) {
             $vars['dynamic']['blank'] = true;
         }
-
         if( !$isParsed ) {
             $vars['dynamic']['option'] = false;
         }
-
         $vars['TPL_GROUP_LIST'] = $list;
         return $this->render( 'aurora/form/groupList.tpl', $vars );
 

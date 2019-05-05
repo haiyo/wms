@@ -221,9 +221,9 @@
         $("#modalCalPayroll").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
-            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
-                $(".check-input").uniform();
-                $(".itemType").select2({minimumResultsForSearch: -1});
+            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                                              $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
+                $(".itemType").select2( );
             });
         });
 
@@ -278,6 +278,7 @@
         var table = $('.datatable').DataTable();
 
         $('.datatable tbody').on('mouseover', 'td', function() {
+            if( typeof table.cell(this).index() == "undefined" ) return;
             var colIdx = table.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

@@ -21,6 +21,8 @@ class ExpenseRes extends Resource {
     function __construct( ) {
         $this->contents = array( );
         $this->contents['LANG_EXPENSES_CLAIM'] = 'Expenses Claim';
+        $this->contents['LANG_SUBMIT_NEW_CLAIM'] = 'Submit New Claim';
+        $this->contents['LANG_CREATE_NEW_EXPENSE_TYPE'] = 'Create New Expense Type';
     }
 }
 ?>

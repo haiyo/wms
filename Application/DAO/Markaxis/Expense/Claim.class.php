@@ -4,18 +4,18 @@ namespace Markaxis\Expense;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Expense.class.php, v 2.0 Exp $
+ * @version $Id: Claim.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Expense extends \DAO {
+class Claim extends \DAO {
 
 
     // Properties
 
 
     /**
-     * Expense Constructor
+     * Claim Constructor
      * @return void
      */
     function __construct( ) {
@@ -27,8 +27,8 @@ class Expense extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $eiID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(prID) FROM expense_item WHERE eiID = "' . (int)$eiID . '"',
+    public function isFound( $prID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(prID) FROM payroll WHERE prID = "' . (int)$prID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -36,36 +36,18 @@ class Expense extends \DAO {
 
 
     /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
-    public function getList( ) {
-        $sql = $this->DB->select( 'SELECT eiID AS id, title FROM expense_item
-                                   WHERE deleted <> "1"
-                                   ORDER BY title', __FILE__, __LINE__ );
-
-        $list = array( );
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['id']] = $row['title'];
-            }
-        }
-        return $list;
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $q='', $order='ei.type ASC' ) {
+    public function getResults( $userID, $q='', $order='ei.title ASC' ) {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( ei.title LIKE "%' . $q . '%" OR ei.max_amount LIKE "%' . $q . '%" )' : '';
+        $q = $q ? 'AND ( ei.title LIKE "%' . $q . '%" OR ec.descript LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM expense_item ei
-                                   WHERE 1 = 1' . $q . '
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM expense_claim ec
+                                   LEFT JOIN expense_item ei ON ( ei.eiID = ec.etID )
+                                   WHERE ec.userID = "' . (int)$userID . '" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 

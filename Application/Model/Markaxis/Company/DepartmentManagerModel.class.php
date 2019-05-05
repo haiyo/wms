@@ -86,7 +86,7 @@ class DepartmentManagerModel extends \Model {
      * @return mixed
      */
     public function save( ) {
-            if( sizeof( $this->validManagerID ) > 0 && isset( $this->info['dID'] ) ) {
+        if( sizeof( $this->validManagerID ) > 0 && isset( $this->info['dID'] ) ) {
             $success = array( );
 
             // Get all managers by department ID
@@ -106,6 +106,9 @@ class DepartmentManagerModel extends \Model {
                                                 'WHERE departmentID = "' . (int)$this->info['dID'] . '" AND 
                                                   userID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
             }
+        }
+        else {
+            $this->DepartmentManager->delete('department_manager','WHERE departmentID = "' . (int)$this->info['dID'] . '"' );
         }
     }
 

@@ -7,11 +7,11 @@ use \Library\Runtime\Registry;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
- * @version $Id: ExpenseView.class.php, v 2.0 Exp $
+ * @version $Id: ClaimView.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ExpenseView extends AdminView {
+class ClaimView extends AdminView {
 
 
     // Properties
@@ -19,11 +19,11 @@ class ExpenseView extends AdminView {
     protected $i18n;
     protected $L10n;
     protected $View;
-    protected $ExpenseModel;
+    protected $ClaimModel;
 
 
     /**
-    * ExpenseView Constructor
+    * ClaimView Constructor
     * @return void
     */
     function __construct( ) {
@@ -33,7 +33,7 @@ class ExpenseView extends AdminView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
-        $this->ExpenseModel = ExpenseModel::getInstance( );
+        $this->ClaimModel = ClaimModel::getInstance( );
 
         $this->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
                                   'plugins/moment' => 'moment.min.js',
@@ -49,27 +49,19 @@ class ExpenseView extends AdminView {
      * Render main navigation
      * @return string
      */
-    public function renderSettings( ) {
-        $SelectListView = new SelectListView( );
-        $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), '', 'Currency' );
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList ) );
-
-        return $this->render( 'markaxis/expense/expenseList.tpl', $vars );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function renderClaimList( ) {
-        $vars = array( );
-
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-coins',
                                       'text' => $this->L10n->getContents('LANG_EXPENSES_CLAIM') ) );
 
-        $vars = array_merge( $this->L10n->getContents( ), $vars );
+        $ExpenseModel = ExpenseModel::getInstance( );
+
+        $SelectListView = new SelectListView( );
+        $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), '', 'Currency' );
+        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', 'Select Expense Type' );
+
+        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList,
+                                                                 'TPLVAR_EXPENSE_LIST' => $expenseList ) );
 
         return $this->render( 'markaxis/expense/claimList.tpl', $vars );
     }

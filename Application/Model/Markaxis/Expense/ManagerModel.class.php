@@ -1,5 +1,5 @@
 <?php
-namespace Markaxis\Leave;
+namespace Markaxis\Expense;
 use \Aurora\User\UserModel;
 use \Library\Validator\Validator;
 
@@ -61,10 +61,10 @@ class ManagerModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function getHistory( $list ) {
+    public function getResults( $list ) {
         if( isset( $list['data'] ) ) {
             foreach( $list['data'] as $key => $value ) {
-                $list['data'][$key]['managers'] = $this->Manager->getBylaID( $value['laID'] );
+                $list['data'][$key]['managers'] = $this->Manager->getByecmID( $value['ecmID'] );
             }
         }
         return $list;
@@ -92,7 +92,7 @@ class ManagerModel extends \Model {
                         $info = array( );
                         $info['laID'] = (int)$data['laID'];
                         $info['managerID'] = (int)$userInfo['userID'];
-                        $this->Manager->insert( 'leave_apply_manager', $info );
+                        $this->Manager->insert( 'expense_claim_manager', $info );
                         $hasSup = true;
                     }
                 }

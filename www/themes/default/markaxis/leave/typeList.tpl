@@ -161,6 +161,7 @@
         var lastIdx = null;
 
         $("#leaveTypeList .datatable tbody").on("mouseover", "td", function () {
+            if( typeof leaveTypeTable.cell(this).index() == "undefined" ) return;
             var colIdx = leaveTypeTable.cell(this).index().column;
 
             if( colIdx !== lastIdx ) {

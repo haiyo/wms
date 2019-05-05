@@ -1,14 +1,14 @@
 
 <script>
     $(document).ready(function( ) {
-        var payItemTable = $(".payItemTable").DataTable({
+        var claimTable = $(".claimTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                $(nRow).attr('id', 'payItemTable-row' + aData['piID']);
+                $(nRow).attr('id', 'claimTable-row' + aData['ecID']);
             },
             ajax: {
-                url: Aurora.ROOT_URL + "admin/payroll/getItemResults",
+                url: Aurora.ROOT_URL + "admin/expense/getClaimResults",
                 type: "POST",
                 data: function(d) {
                     d.ajaxCall = 1;
@@ -27,74 +27,44 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: "10px",
-                orderable: false,
-                searchable : false,
-                data: "piID",
-                render: function( data, type, full, meta ) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" ' +
-                            'name="piID[]" value="' + $('<div/>').text(data).html() + '">';
-                }
+                targets: [0],
+                orderable: true,
+                searchable: false,
+                width: "200px",
+                data: "title",
             },{
                 targets: [1],
                 orderable: true,
+                searchable: false,
                 width: "200px",
-                data: "title"
-            }, {
+                data: "descript"
+            },{
                 targets: [2],
                 orderable: true,
                 searchable: false,
                 width: "100px",
-                data: "basic",
-                className : "text-center",
-                render: function( data, type, full, meta ) {
-                    if( data == 0 ) {
-                        return '<span class="label label-pending">No</span>';
-                    }
-                    else {
-                        return '<span class="label label-success">Yes</span>';
-                    }
-                }
-            }, {
+                data: "amount"
+            },{
                 targets: [3],
                 orderable: true,
                 searchable: false,
                 width: "100px",
-                data: "deduction",
-                className : "text-center",
-                render: function( data, type, full, meta ) {
-                    if( data == 0 ) {
-                        return '<span id="deduction' + full['piID'] + '" class="label label-pending">No</span>';
-                    }
-                    else {
-                        return '<span id="deduction' + full['piID'] + '" class="label label-success">Yes</span>';
-                    }
-                }
-            }, {
+                data: "attachment",
+                className : "text-center"
+            },{
                 targets: [4],
                 orderable: true,
                 searchable: false,
-                width:"200px",
-                data:"taxGroups",
-                render: function( data, type, full, meta ) {
-                    var groups = '<div class="group-item">';
-
-                    for( var i=0; i<data.length; i++ ) {
-                        groups += '<span class="badge badge-primary badge-criteria">' + data[i].title + '</span> ';
-                    }
-                    return groups + '</div>';
-                }
-            }, {
+                width: "80px",
+                data: "status",
+                className : "text-center"
+            },{
                 targets: [5],
                 orderable: false,
                 searchable: false,
                 width:"100px",
                 className:"text-center",
-                data:"piID",
+                data:"ecID",
                 render: function( data, type, full, meta ) {
                     return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
@@ -103,10 +73,10 @@
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-backdrop="static" data-keyboard="false" ' +
                             'data-toggle="modal" data-target="#modalPayItem">' +
-                            '<i class="icon-pencil5"></i> Edit Pay Item</a>' +
+                            '<i class="icon-pencil5"></i> Edit Claim</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item payItemDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Pay Item</a>' +
+                            '<i class="icon-bin"></i> Delete Claim</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -119,7 +89,7 @@
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Pay Item',
+                searchPlaceholder: 'Search Claim',
                 lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
             },
@@ -132,32 +102,31 @@
             }
         });
 
-        $(".payItems-list-action-btns").insertAfter("#payItems .dataTables_filter");
+        $(".claim-list-action-btns").insertAfter("#claim .dataTables_filter");
 
         var lastIdx = null;
 
-        $('.payItemTable tbody').on('mouseover', 'td', function() {
-            var colIdx = payItemTable.cell(this).index().column;
+        $('.claimTable tbody').on('mouseover', 'td', function() {
+            if( typeof claimTable.cell(this).index() == "undefined" ) return;
+            var colIdx = claimTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(payItemTable.cells().nodes()).removeClass('active');
-                $(payItemTable.column(colIdx).nodes()).addClass('active');
+                $(claimTable.cells().nodes()).removeClass('active');
+                $(claimTable.column(colIdx).nodes()).addClass('active');
             }
         }).on('mouseleave', function( ) {
-            $(payItemTable.cells( ).nodes( )).removeClass("active");
+            $(claimTable.cells( ).nodes( )).removeClass("active");
         });
 
         // Enable Select2 select for the length option
-        $("#payItems .dataTables_length select").select2({
+        $("#claim .dataTables_length select").select2({
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
 
-        $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
-
-        $(".payItemBtn").on("click", function ( ) {
-            selectPayItemType( $(this).val( ) );
-            return false;
+        $("#modalClaim").on("show.bs.modal", function(e) {
+            $("#currency").select2( );
+            $("#expense").select2( );
         });
 
         $(document).on("click", ".payItemDelete", function ( ) {
@@ -270,6 +239,9 @@
                             else if( obj.data.deduction == 1 ) {
                                 selectPayItemType("deduction");
                             }
+                            else if( obj.data.claim == 1 ) {
+                                selectPayItemType("claim");
+                            }
                             else {
                                 selectPayItemType("none");
                             }
@@ -306,6 +278,10 @@
             else if( type == "deduction" ) {
                 $("#payItemDeduction").addClass("btn-green");
                 $("#payItemType").val("deduction");
+            }
+            else if( type == "claim" ) {
+                $("#payItemClaim").addClass("btn-green");
+                $("#payItemType").val("claim");
             }
             else {
                 $("#payItemNone").addClass("btn-dark");
@@ -380,80 +356,96 @@
     });
 </script>
 
-<div class="tab-pane fade" id="payItems">
-    <div class="list-action-btns payItems-list-action-btns">
+<div class="tab-pane fade" id="claim">
+    <div class="list-action-btns claim-list-action-btns">
         <ul class="icons-list">
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
-                   data-toggle="modal" data-target="#modalPayItem">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_PAY_ITEM?>
-                </a>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="payItemBulkDelete"><i class="icon-bin"></i> Delete Selected Pay Items</a></li>
-                </ul>
+                   data-toggle="modal" data-target="#modalClaim">
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_SUBMIT_NEW_CLAIM?>
+                </a>
             </li>
         </ul>
     </div>
 
-    <table class="table table-hover datatable tableLayoutFixed payItemTable">
+    <table class="table table-hover datatable tableLayoutFixed claimTable">
         <thead>
         <tr>
-            <th></th>
-            <th>Pay Item Title</th>
-            <th>Basic Salary</th>
-            <th>Deduction</th>
-            <th>Tax Groups</th>
+            <th>Item Type</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Attachment</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
     </table>
 </div>
-<div id="modalPayItem" class="modal fade">
+<div id="modalClaim" class="modal fade">
     <div class="modal-dialog modal-med">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title"><?LANG_CREATE_NEW_PAY_ITEM?></h6>
+                <h6 class="modal-title"><?LANG_SUBMIT_NEW_CLAIM?></h6>
             </div>
 
             <form id="savePayItem" name="savePayItem" method="post" action="">
             <div class="modal-body overflow-y-visible">
-                <input type="hidden" id="piID" name="piID" value="0" />
-                <input type="hidden" id="payItemType" name="payItemType" value="" />
+                <input type="hidden" id="ecID" name="ecID" value="0" />
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Pay Item Title:</label>
-                            <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
-                                   placeholder="Enter a title for this pay item" />
+                            <label>Select Expense Type:</label>
+                            <?TPLVAR_EXPENSE_LIST?>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <input type="text" name="expenseDescript" id="expenseDescript" class="form-control" value=""
+                                   placeholder="Enter description for this expenses" />
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 pb-10">
                         <div class="form-group">
-                            <label>This Pay Item Belongs To:</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
-                                    <button id="payItemBasic" class="btn btn-light payItemBtn" type="button" value="basic">Basic Salary</button>
-                                </span>
-                                <span class="input-group-append">
-                                    <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
-                                </span>
+                            <label>Amount To Claim:</label>
+                            <div class="form-group">
+                                <div class="col-md-4 pl-0 pb-10">
+                                    <?TPL_CURRENCY_LIST?>
+                                </div>
+                                <div class="col-md-8 p-0">
+                                    <input type="text" name="expenseAmount" id="expenseAmount" class="form-control" value=""
+                                           placeholder="Enter an amount (For eg: 2.50)" />
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Select Tax Group(s):</label>
-                            <?TPL_TAX_GROUP_LIST?>
-                            </select>
+                    <div class="col-md-12 pb-10">
+                        <label class="display-block">Upload Attachment:</label>
+                        <div class="input-group">
+                            <input type="text" id="eduCertificate" name="eduCertificate" class="form-control" readonly="readonly" />
+                            <input type="hidden" id="eduUID" name="eduUID" class="form-control" />
+                            <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
+                            <input type="hidden" id="eduIndex" name="eduIndex" value="" />
+                            <span class="input-group-append">
+                                <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
+                                    Upload &nbsp;<i class="icon-file-plus"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Approving Manager(s):</label>
+                            <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
+                                   placeholder="Enter Manager's Name"
+                                   value="" autocomplete="off" data-fouc />
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">

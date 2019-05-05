@@ -185,7 +185,6 @@
 
         $("#designationList .datatable tbody").on("mouseover", "td", function() {
             if( typeof designationTable.cell(this).index() == "undefined" ) return;
-
             var colIdx = designationTable.cell(this).index().column;
 
             if( colIdx !== lastIdx ) {

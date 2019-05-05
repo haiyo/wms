@@ -1,7 +1,9 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Expense\ExpenseModel;
 use \Aurora\User\UserImageModel;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\OfficeModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
+use \Aurora\Form\SelectGroupListView, \Aurora\Component\OfficeModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -84,6 +86,8 @@ class PayrollView extends AdminView {
                 $statusTab = 'pending-tab active';
                 $status = $this->L10n->getContents( 'LANG_PENDING' );
             }
+            $vars['dynamic']['tab-pane-process'] = false;
+
             $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
                                                'TPLVAR_MONTH' => $datetime->format('M'),
                                                'TPLVAR_YEAR' => $datetime->format('Y'),
@@ -170,8 +174,8 @@ class PayrollView extends AdminView {
         if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
 
-            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ) )
-            ;
+            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ) );
+
             /*$vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
                            'TPLVAR_FNAME' => $userInfo['fname'],
                            'TPLVAR_LNAME' => $userInfo['lname'],
@@ -195,6 +199,8 @@ class PayrollView extends AdminView {
                            'TPLVAR_BANK_SWIFT_CODE' => $userInfo['swiftCode'] ? $userInfo['swiftCode'] : ' -- ' );*/
 
             $ItemModel = ItemModel::getInstance( );
+            $ExpenseModel = ExpenseModel::getInstance( );
+
             $SelectListView = new SelectListView( );
             $SelectListView->setClass('itemType');
 
@@ -202,7 +208,23 @@ class PayrollView extends AdminView {
             $vars['dynamic']['item'] = false;
 
             if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
+                $fullList = array( );
                 $itemList = $ItemModel->getList( );
+                $expenseList = $ExpenseModel->getList( );
+
+                $fullList[] = array( 'id' => 1, 'title' => 'Pay Items', 'parent' => 0 );
+                foreach( $itemList as $key => $value ) {
+                    $fullList[] = array( 'id' => 'p-' . $key, 'title' => $value, 'parent' => 1 );
+                }
+
+                $fullList[] = array( 'id' => 2, 'title' => 'Expenses', 'parent' => 0 );
+                foreach( $expenseList as $key => $value ) {
+                    $fullList[] = array( 'id' => 'e-' . $key, 'title' => $value, 'parent' => '2' );
+                }
+
+                $SelectGroupListView = new SelectGroupListView( );
+                $SelectGroupListView->includeBlank(false );
+                $SelectGroupListView->setClass("itemType");
 
                 foreach( $data['items'] as $items ) {
                     $isBasic = false;
@@ -214,8 +236,7 @@ class PayrollView extends AdminView {
                         $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $items['amount'] );
                         $isBasic = true;
                     }
-                    $itemType = $SelectListView->build( 'itemType', $itemList, $items['piID'],
-                                                        'Select Payroll Item' );
+                    $itemType = $SelectGroupListView->build( 'itemType', $fullList, 'p-' . $items['piID'], 'Select Payroll Item' );
 
                     $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,

@@ -129,6 +129,7 @@
         var lastIdx = null;
 
         $("#competencyList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof competencyTable.cell(this).index() == "undefined" ) return;
             var colIdx = competencyTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

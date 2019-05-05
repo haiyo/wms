@@ -79,23 +79,23 @@ class ManagerModel extends \Model {
         if( isset( $data['managers'] ) ) {
             $managers = explode( ';', $data['managers'] );
 
-            if( sizeof( $managers ) > 0 ) {
-                $UserModel = new UserModel( );
+            $UserModel = new UserModel( );
 
-                foreach( $managers as $userID ) {
+            foreach( $managers as $userID ) {
+                if( $userID ) {
                     if( !$UserModel->isFound( $userID ) ) {
                         $this->errMsg = 'Invalid User!';
                         return false;
                     }
                     $this->validManagerID[] = (int)$userID;
                 }
-                // userID is conditionally set so as we can reuse this method for
-                // other classes. It's only applicable for saving employee data.
-                if( isset( $data['userID'] ) ) {
-                    $this->info['userID'] = $data['userID'];
-                }
-                return true;
             }
+            // userID is conditionally set so as we can reuse this method for
+            // other classes. It's only applicable for saving employee data.
+            if( isset( $data['userID'] ) ) {
+                $this->info['userID'] = $data['userID'];
+            }
+            return true;
         }
         return false;
     }
@@ -124,8 +124,11 @@ class ManagerModel extends \Model {
             }
             if( sizeof( $success ) > 0 ) {
                 $this->Manager->delete('employee_manager', 'WHERE userID = "' . (int)$this->info['userID'] . '" AND 
-                                             managerID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
+                                              managerID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
             }
+        }
+        else {
+            $this->Manager->delete('employee_manager', 'WHERE userID = "' . (int)$this->info['userID'] . '"' );
         }
     }
 }

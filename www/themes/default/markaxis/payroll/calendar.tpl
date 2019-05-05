@@ -108,6 +108,7 @@
         var lastIdx = null;
 
         $('.payCalTable tbody').on('mouseover', 'td', function() {
+            if( typeof payCalTable.cell(this).index() == "undefined" ) return;
             var colIdx = payCalTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

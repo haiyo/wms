@@ -94,7 +94,7 @@ class DepartmentModel extends \Model {
             $managers = $ManagerModel->getValidManagerID( );
             $success = array( );
 
-            if( is_array( $managers ) ) {
+            if( sizeof( $managers ) > 0 ) {
                 foreach( $managers as $managerID ) {
                     if( !$this->isFoundByUserID( $managerID, $data['dID'] ) ) {
                         // Add manager who are not already in this department
@@ -105,11 +105,6 @@ class DepartmentModel extends \Model {
                     }
                     array_push( $success, $managerID );
                 }
-            }
-            if( sizeof( $success ) > 0 ) {
-                $this->Department->delete('employee_department',
-                                          'WHERE departmentID = "' . (int)$data['dID'] . '" AND 
-                                                  userID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
             }
         }
     }

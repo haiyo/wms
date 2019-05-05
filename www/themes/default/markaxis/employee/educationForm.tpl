@@ -72,10 +72,10 @@
                     <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
                     <input type="hidden" id="eduIndex" name="eduIndex" value="" />
                     <span class="input-group-append">
-                            <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
-                                Upload &nbsp;<i class="icon-file-plus"></i>
-                            </button>
-                        </span>
+                        <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
+                            Upload &nbsp;<i class="icon-file-plus"></i>
+                        </button>
+                    </span>
                 </div>
             </div>
         </div>

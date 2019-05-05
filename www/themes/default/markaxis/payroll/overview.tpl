@@ -208,7 +208,7 @@
         <ul class="nav nav-pills">
             <!-- BEGIN DYNAMIC BLOCK: tab -->
             <li>
-                <a class="tab <?TPLVAR_STATUS_TAB?>" href="#<?TPLVAR_MONTH?>" data-id="<?TPLVAR_MONTH?>" data-toggle="tab">
+                <a class="tab <?TPLVAR_STATUS_TAB?> <?TPLVAR_MONTH?>" href="#<?TPLVAR_MONTH?>Month" data-id="<?TPLVAR_MONTH?>" data-toggle="tab">
                     <h4><?TPLVAR_MONTH?></h4>
                     <div><?TPLVAR_YEAR?></div>
                     <div class="status"><?TPLVAR_STATUS?></div>
@@ -219,8 +219,8 @@
     </div>
 
     <div class="tab-content clearfix">
-
-        <div class="tab-pane complete-tab" id="marMonth" data-id="complete">
+        <!-- BEGIN DYNAMIC BLOCK: tab-pane -->
+        <div class="tab-pane complete-tab" id="<?TPLVAR_MONTH?>Month" data-id="complete">
             <div class="content">
                 <div class="row">
                     <div class="col-lg-3">
@@ -253,12 +253,13 @@
             <div class="row" style="margin-top:10px">
                 <div class="card-body">
                     <div class="chart-container">
-                        <div class="chart has-fixed-height" id="marMonthChart"></div>
+                        <div class="chart has-fixed-height" id="<?TPLVAR_MONTH?>Chart"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- BEGIN DYNAMIC BLOCK: tab-pane -->
+        <!-- END DYNAMIC BLOCK: tab-pane -->
+        <!-- BEGIN DYNAMIC BLOCK: tab-pane-process -->
         <div class="tab-pane <?TPLVAR_STATUS_TAB?>" id="<?TPLVAR_MONTH?>" data-id="<?TPLVAR_DATA_ID?>">
             <div class="content">
                 <div class="no-data">
@@ -268,7 +269,7 @@
                 </div>
             </div>
         </div>
-        <!-- END DYNAMIC BLOCK: tab-pane -->
+        <!-- END DYNAMIC BLOCK: tab-pane-process -->
     </div>
 </div>
 <div id="modalEnterPassword" class="modal fade">
@@ -345,7 +346,10 @@
         });
     });
 
-    initEChart( 'augMonthChart' );
+    //initEChart( 'MayChart' );
+    setTimeout(function( ) {
+        $(".may").trigger( "click" );
+    }, 1500);
 
     function initEChart( chart ) {
 

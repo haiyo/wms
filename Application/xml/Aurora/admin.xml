@@ -104,9 +104,15 @@
         <observer controller="Markaxis/Employee/TimesheetControl"></observer>
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
     </task>
+    <task type="expense">
+        <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Expense/ManagerControl"></observer>
+        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
+    </task>
     <task type="payroll">
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
         <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
+        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
         <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
