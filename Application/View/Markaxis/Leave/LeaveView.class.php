@@ -52,7 +52,7 @@ class LeaveView extends AdminView {
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
         $ManagerModel = ManagerModel::getInstance( );
-        $managers = $ManagerModel->getManagerToken( $userInfo['userID'] );
+        $managers = $ManagerModel->getSuggestToken( $userInfo['userID'] );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,

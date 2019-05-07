@@ -33,7 +33,7 @@ var MarkaxisApplyLeave = (function( ) {
         initEvents: function( ) {
             var that = this;
 
-            markaxisManager = new MarkaxisManager( false );
+            markaxisUSuggest = new MarkaxisUSuggest( false );
 
             $("#ltID").select2({minimumResultsForSearch: -1});
             //$("#applyFor").select2({minimumResultsForSearch: -1});
@@ -61,32 +61,28 @@ var MarkaxisApplyLeave = (function( ) {
                     that.getDaysDiff( );
                 }
             });
-
             $("#endDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
             $("#startTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
             $("#endTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
             $("#saveApplyLeave").on("click", function ( ) {
                 that.saveApplyLeave( );
                 return false;
             });
 
             $("#modalApplyLeave").on("shown.bs.modal", function(e) {
-                markaxisManager.getManagerToken("admin/employee/getManagerToken" );
+                MarkaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
             });
         },
 
@@ -152,7 +148,6 @@ var MarkaxisApplyLeave = (function( ) {
                         else {
                             text = "";
                         }
-
                         swal({
                             title: "Leave Applied Successfully",
                             text: text,

@@ -68,32 +68,28 @@ class PayrollView extends AdminView {
             $index = $datetime->format('n');
 
             $dataID = 'upcoming';
+            $pane = 'tab-pane-process';
             $statusTab = 'upcoming-tab';
             $status = $this->L10n->getContents( 'LANG_NO_DATA' );
 
-            if( isset( $processed[$index] ) ) {
-                $statusTab = 'upcoming-tab';
-                $status = $this->L10n->getContents( 'LANG_UPCOMING' );
-
-                if( $processed[$index]['completed'] ) {
-                    $dataID = 'complete';
-                    $statusTab = 'complete-tab';
-                    $status = $this->L10n->getContents( 'LANG_COMPLETED' );
-                }
+            if( isset( $processed[$index]['completed'] ) && $processed[$index]['completed'] ) {
+                $dataID = 'complete';
+                $statusTab = 'complete-tab';
+                $pane = 'tab-pane';
+                $status = $this->L10n->getContents( 'LANG_COMPLETED' );
             }
             else if( $index == date('n') ) {
                 $dataID = 'pending';
-                $statusTab = 'pending-tab active';
+                $statusTab = 'pending-tab active show';
                 $status = $this->L10n->getContents( 'LANG_PENDING' );
             }
-            $vars['dynamic']['tab-pane-process'] = false;
 
             $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
                                                'TPLVAR_MONTH' => $datetime->format('M'),
                                                'TPLVAR_YEAR' => $datetime->format('Y'),
                                                'TPLVAR_STATUS' => $status );
 
-            $vars['dynamic']['tab-pane'][] = array( 'TPLVAR_DATA_ID' => $dataID,
+            $vars['dynamic'][$pane][] = array( 'TPLVAR_DATA_ID' => $dataID,
                                                     'TPLVAR_STATUS_TAB' => $statusTab,
                                                     'TPLVAR_LONG_MONTH' => $datetime->format('F'),
                                                     'TPLVAR_MONTH' => $datetime->format('M'),

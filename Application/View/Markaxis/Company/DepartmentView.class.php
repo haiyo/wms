@@ -44,7 +44,7 @@ class DepartmentView extends AdminView {
         $vars = array_merge( $this->L10n->getContents( ),
             array( ) );
 
-        return array( 'js' => array( 'markaxis' => array( 'manager.js' ) ),
+        return array( 'js' => array( 'markaxis' => array( 'uSuggest.js' ) ),
                       'content' => $this->render( 'markaxis/company/departmentList.tpl', $vars ) );
     }
 }

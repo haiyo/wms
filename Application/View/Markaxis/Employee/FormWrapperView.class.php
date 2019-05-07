@@ -44,7 +44,7 @@ class FormWrapperView extends AdminView {
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
-                                  'markaxis' => array( 'employee.js', 'manager.js' ) ) );
+                                  'markaxis' => array( 'employee.js', 'uSuggest.js' ) ) );
     }
 
 

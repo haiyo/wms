@@ -29,9 +29,9 @@ class ManagerControl {
      * Render main navigation
      * @return string
      */
-    public function getManagerToken( ) {
+    public function getSuggestToken( ) {
         $vars = array( );
-        $vars['data'] = $this->ManagerModel->getManagerToken( );
+        $vars['data'] = $this->ManagerModel->getSuggestToken( );
         $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;

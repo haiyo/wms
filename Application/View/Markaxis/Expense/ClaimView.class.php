@@ -47,7 +47,7 @@ class ClaimView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderClaimList( ) {
         $this->setBreadcrumbs( array( 'link' => '',
@@ -62,6 +62,10 @@ class ClaimView extends AdminView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList,
                                                                  'TPLVAR_EXPENSE_LIST' => $expenseList ) );
+
+        $this->setJScript( array( 'markaxis' => array( 'usuggest.js' ),
+                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                            'input/typeahead.bundle.min.js', 'input/handlebars.js' ) ) );
 
         return $this->render( 'markaxis/expense/claimList.tpl', $vars );
     }

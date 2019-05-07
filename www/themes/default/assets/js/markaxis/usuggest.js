@@ -1,24 +1,24 @@
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, July 9th, 2012
- * @version $Id: manager.js, v 2.0 Exp $
+ * @version $Id: uSuggest.js, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
-var MarkaxisManager = (function( ) {
+var MarkaxisUSuggest = (function( ) {
 
     /**
-     * MarkaxisManager Constructor
+     * MarkaxisUSuggest Constructor
      * @return void
      */
-    MarkaxisManager = function( includeOwn ) {
-        this.managerElement = $(".managerList");
+    MarkaxisUSuggest = function( includeOwn ) {
+        this.suggestElement = $(".suggestList");
         this.includeOwn = includeOwn === undefined ? "" : "/includeOwn";
         this.cache = [];
         this.init( );
     };
 
-    MarkaxisManager.prototype = {
-        constructor: MarkaxisManager,
+    MarkaxisUSuggest.prototype = {
+        constructor: MarkaxisUSuggest,
 
         /**
          * Initialize first onload setup
@@ -48,7 +48,7 @@ var MarkaxisManager = (function( ) {
                             }
                             var exists = that.isDuplicate( d.userID ) ? true : false;
 
-                            if( !exists )
+                            if( !exists ) {
                                 return {
                                     id: d.userID,
                                     value: d.userID,
@@ -56,6 +56,7 @@ var MarkaxisManager = (function( ) {
                                     image: d.image,
                                     designation: d.designation
                                 }
+                            }
                         });
                     }
                 },
@@ -69,7 +70,7 @@ var MarkaxisManager = (function( ) {
             engine.initialize();
 
             // Initialize tokenfield
-            that.managerElement.tokenfield({
+            that.suggestElement.tokenfield({
                 delimiter: ';',
                 typeahead: [null, {
                     displayKey: 'label',
@@ -88,10 +89,9 @@ var MarkaxisManager = (function( ) {
                 }]
             });
 
-            that.managerElement.on("tokenfield:createtoken", function(e) {
+            that.suggestElement.on("tokenfield:createtoken", function(e) {
                 var exists = false;
                 $.each( that.cache, function(index, value) {
-                    //console.log( e.attrs.value + " === " + value )
                     if( e.attrs.value === value ) {
                         exists = true;
                     }
@@ -104,7 +104,7 @@ var MarkaxisManager = (function( ) {
         },
 
         isDuplicate: function( id ) {
-            var tokens = this.managerElement.tokenfield("getTokens");
+            var tokens = this.suggestElement.tokenfield("getTokens");
 
             for( var i=0; i<tokens.length; i++ ) {
                 if( id === tokens[i].id ) {
@@ -114,7 +114,7 @@ var MarkaxisManager = (function( ) {
             return false;
         },
 
-        getManagerToken: function( url ) {
+        getSuggestToken: function( url ) {
             var that = this;
 
             var data = {
@@ -134,7 +134,7 @@ var MarkaxisManager = (function( ) {
 
                         if( !exists ) {
                             that.cache.push( token.id );
-                            that.managerElement.tokenfield("createToken", token);
+                            that.suggestElement.tokenfield("createToken", token);
                         }
                     }
                 }
@@ -142,11 +142,11 @@ var MarkaxisManager = (function( ) {
             Aurora.WebService.AJAX( url, data );
         },
 
-        clearManagerToken: function( ) {
-            this.managerElement.tokenfield('setTokens', []);
+        clearToken: function( ) {
+            this.suggestElement.tokenfield('setTokens', []);
             this.cache = [];
             $(".token-input").val("");
         }
     }
-    return MarkaxisManager;
+    return MarkaxisUSuggest;
 })();

@@ -137,12 +137,12 @@
             width: "auto"
         });
 
-        var markaxisManager = new MarkaxisManager( true );
+        var markaxisUSuggest = new MarkaxisUSuggest( true );
 
         $("#modalDepartment").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var dID = $invoker.attr("data-id");
-            markaxisManager.clearManagerToken( );
+            markaxisUSuggest.clearToken( );
 
             if( dID ) {
                 var data = {
@@ -156,7 +156,7 @@
                         else {
                             $("#departmentID").val( obj.data.dID );
                             $("#departmentName").val( obj.data.name );
-                            markaxisManager.getManagerToken("admin/company/getManagerToken/" + obj.data.dID);
+                            markaxisUSuggest.getSuggestToken("admin/company/getSuggestToken/" + obj.data.dID);
                         }
                     }
                 }
@@ -231,7 +231,7 @@
                             }, function( isConfirm ) {
                                 $("#departmentID").val(0);
                                 $("#departmentName").val("");
-                                markaxisManager.clearManagerToken( );
+                                markaxisUSuggest.clearToken( );
 
                                 if( isConfirm === false ) {
                                     $("#modalDepartment").modal("hide");
@@ -335,7 +335,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Department Manager(s):</label>
-                                <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
+                                <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
                                        placeholder="Enter Manager's Name" value=""
                                        autocomplete="off" data-fouc />
                             </div>

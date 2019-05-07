@@ -52,8 +52,8 @@ class ManagerModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getManagerToken( $userID ) {
-        return $this->Manager->getManagerToken( $userID );
+    public function getSuggestToken( $userID ) {
+        return $this->Manager->getSuggestToken( $userID );
     }
 
 

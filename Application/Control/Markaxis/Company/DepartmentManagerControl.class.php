@@ -29,10 +29,10 @@ class DepartmentManagerControl {
      * Render main navigation
      * @return string
      */
-    public function getManagerToken( $data ) {
+    public function getSuggestToken( $data ) {
         if( isset( $data[1] ) ) {
             $vars = array( );
-            $vars['data'] = $this->DepartmentManagerModel->getManagerToken( $data[1] );
+            $vars['data'] = $this->DepartmentManagerModel->getSuggestToken( $data[1] );
             $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;

@@ -61,7 +61,7 @@ class Manager extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function getManagerToken( $userID ) {
+    public function getSuggestToken( $userID ) {
         $sql = $this->DB->select( 'SELECT managerID, CONCAT(fname," ",lname) AS name 
                                    FROM employee_manager es
                                    LEFT JOIN user u ON (u.userID = es.managerID)

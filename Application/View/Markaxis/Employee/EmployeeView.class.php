@@ -209,7 +209,7 @@ class EmployeeView extends AdminView {
         $roleList = $SelectListView->build( 'role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
         $ManagerModel = ManagerModel::getInstance( );
-        $managers = $this->info['userID'] ? $ManagerModel->getManagerToken( $this->info['userID'] ) : '';
+        $managers = $this->info['userID'] ? $ManagerModel->getSuggestToken( $this->info['userID'] ) : '';
 
         $CompetencyModel = CompetencyModel::getInstance( );
         $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );

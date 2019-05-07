@@ -46,9 +46,12 @@ class CalendarView extends AdminView {
         $this->userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
-                                  'plugins/fullcalendar' => array( 'fullcalendar.js', 'gcal.js', 'locale-all.js') ) );
+                                  'plugins/fullcalendar' => array( 'core/main.js',
+                                                                   'daygrid/main.js',
+                                                                   'timegrid/main.js',
+                                                                   'interaction/main.js' ) ) );
 
-        $this->setStyle( array( 'fullcalendar' => array( 'fullcalendar' ) ) );
+        $this->setStyle( array( 'fullcalendar' => array( 'core/main', 'daygrid/main', 'timegrid/main' ) ) );
 	}
 
 

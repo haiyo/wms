@@ -12,7 +12,7 @@ var MarkaxisEmployee = (function( ) {
      * @return void
      */
     MarkaxisEmployee = function( ) {
-        this.markaxisManager = new MarkaxisManager( true );
+        this.markaxisUSuggest = new MarkaxisUSuggest( true );
         this.uploadCrop = false;
         this.init( );
     };
@@ -328,12 +328,12 @@ var MarkaxisEmployee = (function( ) {
         },
 
         updateManager: function( ) {
-            this.markaxisManager.clearManagerToken( );
+            this.markaxisUSuggest.clearToken( );
             var departments = $("#department").val( );
 
             if( departments.length > 0 ) {
                 for( var dID in departments ) {
-                    this.markaxisManager.getManagerToken("admin/company/getManagerToken/" + departments[dID]);
+                    this.markaxisUSuggest.getSuggestToken("admin/company/getSuggestToken/" + departments[dID]);
                 }
             }
         },

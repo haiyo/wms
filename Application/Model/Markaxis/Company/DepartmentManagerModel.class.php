@@ -41,7 +41,7 @@ class DepartmentManagerModel extends \Model {
      * Render main navigation
      * @return string
      */
-    public function getManagerToken( $dID ) {
+    public function getSuggestToken( $dID ) {
         return $this->getBydID( $dID );
     }
 

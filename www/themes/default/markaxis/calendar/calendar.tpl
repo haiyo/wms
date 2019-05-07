@@ -1,73 +1,68 @@
 
 <script>
-    $(function() {
-        $('#calendar').fullCalendar({
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+            defaultView: 'dayGridMonth',
+            defaultDate: '2019-05-07',
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,basicWeek,basicDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            defaultDate: '2018-03-12',
-            navLinks: true, // can click day/week names to navigate views
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
             events: [
                 {
                     title: 'All Day Event',
-                    start: '2018-03-01'
+                    start: '2019-05-01'
                 },
                 {
                     title: 'Long Event',
-                    start: '2018-03-07',
-                    end: '2018-03-10'
+                    start: '2019-05-07',
+                    end: '2019-05-10'
                 },
                 {
-                    id: 999,
+                    groupId: '999',
                     title: 'Repeating Event',
-                    start: '2018-03-09T16:00:00'
+                    start: '2019-05-09T16:00:00'
                 },
                 {
-                    id: 999,
+                    groupId: '999',
                     title: 'Repeating Event',
-                    start: '2018-03-16T16:00:00'
+                    start: '2019-05-16T16:00:00'
                 },
                 {
                     title: 'Conference',
-                    start: '2018-03-11',
-                    end: '2018-03-13'
+                    start: '2019-05-11',
+                    end: '2019-05-13'
                 },
                 {
                     title: 'Meeting',
-                    start: '2018-03-12T10:30:00',
-                    end: '2018-03-12T12:30:00'
+                    start: '2019-05-12T10:30:00',
+                    end: '2019-05-12T12:30:00'
                 },
                 {
                     title: 'Lunch',
-                    start: '2018-03-12T12:00:00'
+                    start: '2019-05-12T12:00:00'
                 },
                 {
                     title: 'Meeting',
-                    start: '2018-03-12T14:30:00'
-                },
-                {
-                    title: 'Happy Hour',
-                    start: '2018-03-12T17:30:00'
-                },
-                {
-                    title: 'Dinner',
-                    start: '2018-03-12T20:00:00'
+                    start: '2019-05-12T14:30:00'
                 },
                 {
                     title: 'Birthday Party',
-                    start: '2018-03-13T07:00:00'
+                    start: '2019-05-13T07:00:00'
                 },
                 {
                     title: 'Click for Google',
                     url: 'http://google.com/',
-                    start: '2018-03-28'
+                    start: '2019-05-28'
                 }
             ]
         });
+
+        calendar.render();
     });
 </script>
 <style>
@@ -239,7 +234,7 @@
 </style>
 <script>
     $(document).ready(function( ) {
-        $('.form-control-datepicker').datepicker();
+        //$('.form-control-datepicker').datepicker();
     });
 </script>
 <div class="d-md-flex">

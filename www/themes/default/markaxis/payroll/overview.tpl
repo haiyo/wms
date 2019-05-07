@@ -220,7 +220,7 @@
 
     <div class="tab-content clearfix">
         <!-- BEGIN DYNAMIC BLOCK: tab-pane -->
-        <div class="tab-pane complete-tab" id="<?TPLVAR_MONTH?>Month" data-id="complete">
+        <div class="tab-pane <?TPLVAR_STATUS_TAB?>" id="<?TPLVAR_MONTH?>Month" data-id="<?TPLVAR_DATA_ID?>">
             <div class="content">
                 <div class="row">
                     <div class="col-lg-3">
@@ -260,7 +260,7 @@
         </div>
         <!-- END DYNAMIC BLOCK: tab-pane -->
         <!-- BEGIN DYNAMIC BLOCK: tab-pane-process -->
-        <div class="tab-pane <?TPLVAR_STATUS_TAB?>" id="<?TPLVAR_MONTH?>" data-id="<?TPLVAR_DATA_ID?>">
+        <div class="tab-pane <?TPLVAR_STATUS_TAB?>" id="<?TPLVAR_MONTH?>Month" data-id="<?TPLVAR_DATA_ID?>">
             <div class="content">
                 <div class="no-data">
                     <div class="row"><h2><?TPLVAR_LONG_MONTH?> <?TPLVAR_YEAR?> <?LANG_NOT_PROCESS_YET?></h2></div>
@@ -346,13 +346,12 @@
         });
     });
 
-    //initEChart( 'MayChart' );
+    /*initEChart( 'MayChart' );
     setTimeout(function( ) {
         $(".may").trigger( "click" );
-    }, 1500);
+    }, 1500);*/
 
     function initEChart( chart ) {
-
         var chart = document.getElementById( chart );
         var columns_basic = echarts.init( chart );
 

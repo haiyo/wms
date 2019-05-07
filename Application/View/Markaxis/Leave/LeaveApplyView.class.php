@@ -40,7 +40,7 @@ class LeaveApplyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderApplyForm( ) {
         $UserModel = UserModel::getInstance( );
@@ -57,7 +57,7 @@ class LeaveApplyView extends AdminView {
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
                        'TPL_APPLY_FOR_LIST' => $applyForList ) );
 
-        return array( 'js' => array( 'markaxis' => array( 'manager.js', 'applyLeave.js' ) ),
+        return array( 'js' => array( 'markaxis' => array( 'usuggest.js', 'applyLeave.js' ) ),
                       'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
     }
 }

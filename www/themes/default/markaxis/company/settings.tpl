@@ -76,6 +76,7 @@
 <ul class="nav nav-tabs nav-tabs-highlight payroll-nav justify-content-center">
     <li class="nav-item"><a href="#officeList" class="nav-link active" data-toggle="tab">Office</a></li>
     <li class="nav-item"><a href="#departmentList" class="nav-link" data-toggle="tab">Department</a></li>
+    <li class="nav-item"><a href="#policyList" class="nav-link" data-toggle="tab">Company Policy</a></li>
 </ul>
 <div class="tab-content">
     <?TPL_FORM?>

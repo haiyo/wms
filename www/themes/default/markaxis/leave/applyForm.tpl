@@ -79,8 +79,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Approving Manager(s):</label>
-                                <input type="text" name="managers" class="form-control tokenfield-typeahead managerList"
-                                       placeholder="Enter Manager's Name"
+                                <input type="text" name="teamMember" class="form-control tokenfield-typeahead suggestList"
+                                       placeholder="Enter Team Member's Name"
                                        value="" autocomplete="off" data-fouc />
                             </div>
                         </div>
