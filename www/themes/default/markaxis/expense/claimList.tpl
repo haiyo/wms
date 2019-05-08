@@ -390,70 +390,70 @@
             </div>
 
             <form id="savePayItem" name="savePayItem" method="post" action="">
-            <div class="modal-body overflow-y-visible">
-                <input type="hidden" id="ecID" name="ecID" value="0" />
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Select Expense Type:</label>
-                            <?TPLVAR_EXPENSE_LIST?>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Description:</label>
-                            <input type="text" name="expenseDescript" id="expenseDescript" class="form-control" value=""
-                                   placeholder="Enter description for this expenses" />
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 pb-10">
-                        <div class="form-group">
-                            <label>Amount To Claim:</label>
+                <div class="modal-body overflow-y-visible">
+                    <input type="hidden" id="ecID" name="ecID" value="0" />
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <div class="col-md-4 pl-0 pb-10">
-                                    <?TPL_CURRENCY_LIST?>
-                                </div>
-                                <div class="col-md-8 p-0">
-                                    <input type="text" name="expenseAmount" id="expenseAmount" class="form-control" value=""
-                                           placeholder="Enter an amount (For eg: 2.50)" />
+                                <label>Select Expense Type:</label>
+                                <?TPLVAR_EXPENSE_LIST?>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Description:</label>
+                                <input type="text" name="expenseDescript" id="expenseDescript" class="form-control" value=""
+                                       placeholder="Enter description for this expenses" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 pb-10">
+                            <div class="form-group">
+                                <label>Amount To Claim:</label>
+                                <div class="form-group">
+                                    <div class="col-md-4 pl-0 pb-10">
+                                        <?TPL_CURRENCY_LIST?>
+                                    </div>
+                                    <div class="col-md-8 p-0">
+                                        <input type="text" name="expenseAmount" id="expenseAmount" class="form-control" value=""
+                                               placeholder="Enter an amount (For eg: 2.50)" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-12 pb-10">
-                        <label class="display-block">Upload Attachment:</label>
-                        <div class="input-group">
-                            <input type="text" id="eduCertificate" name="eduCertificate" class="form-control" readonly="readonly" />
-                            <input type="hidden" id="eduUID" name="eduUID" class="form-control" />
-                            <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
-                            <input type="hidden" id="eduIndex" name="eduIndex" value="" />
-                            <span class="input-group-append">
-                                <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
-                                    Upload &nbsp;<i class="icon-file-plus"></i>
-                                </button>
-                            </span>
+                        <div class="col-md-12 pb-10">
+                            <label class="display-block">Upload Attachment:</label>
+                            <div class="input-group">
+                                <input type="text" id="eduCertificate" name="eduCertificate" class="form-control" readonly="readonly" />
+                                <input type="hidden" id="eduUID" name="eduUID" class="form-control" />
+                                <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
+                                <input type="hidden" id="eduIndex" name="eduIndex" value="" />
+                                <span class="input-group-append">
+                                    <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
+                                        Upload &nbsp;<i class="icon-file-plus"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Approving Manager(s):</label>
-                            <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
-                                   placeholder="Enter Manager's Name"
-                                   value="" autocomplete="off" data-fouc />
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Approving Manager(s):</label>
+                                <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
+                                       placeholder="Enter Manager's Name"
+                                       value="" autocomplete="off" data-fouc />
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>

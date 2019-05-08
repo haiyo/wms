@@ -24,8 +24,6 @@ class EducationModel extends \Model {
      */
     function __construct( ) {
         parent::__construct( );
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-
         $this->Education = new Education( );
 
         $this->info['school'] = $this->info['country'] =  $this->info['level'] =

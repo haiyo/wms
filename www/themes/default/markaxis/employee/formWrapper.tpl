@@ -638,9 +638,11 @@
             previewZoomButtonIcons: previewZoomButtonIcons,
             allowedFileExtensions: ['pdf', 'doc', 'docx'],
             previewSettings: previewSettings
+        }).on('fileuploaderror', function(event, data, msg) {
+            console.log('File uploaded', data.previewId, data.index, data.fileId, msg);
         }).on('filebatchuploadsuccess', function(event, data) {
+            console.log(data)
             uploadedFile = data.response;
-            $("#saveEduUpload").show( );
         });
 
         $("#eduSaveUploaded").on("click", function( ) {
@@ -678,7 +680,6 @@
                                 uploadedFile = false;
                                 $(".fileinput-remove").click( );
                                 $("#uploadEduModal").modal("hide");
-                                $("#saveEduUpload").hide( );
                             }
                         };
                         Aurora.WebService.AJAX( "admin/employee/updateCertificate", data );
@@ -693,7 +694,6 @@
                     uploadedFile = false;
                     $(".fileinput-remove").click( );
                     $("#uploadEduModal").modal("hide");
-                    $("#saveEduUpload").hide( );
                 }
             }
         });

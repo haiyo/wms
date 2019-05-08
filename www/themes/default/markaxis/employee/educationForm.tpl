@@ -80,23 +80,24 @@
             </div>
         </div>
 
-        <div id="uploadEduModal" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg">
+
+
+        <div id="uploadEduModal" class="modal fade">
+            <div class="modal-dialog modal-med">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <h6 class="modal-title">Upload Certificate</h6>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
+                    <div class="modal-header bg-info">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><?LANG_SUBMIT_NEW_CLAIM?></h6>
                     </div>
 
-                    <div class="modal-body">
+                    <div class="modal-body overflow-y-visible">
                         <div class="col-lg-12">
                             <input type="file" class="eduFileInput" multiple="multiple" data-fouc />
                             <span class="help-block">Accepted formats: pdf, doc. Max file size <?TPLVAR_MAX_ALLOWED?></span>
                         </div>
                     </div>
-
                     <div class="modal-footer">
-                        <div id="saveEduUpload" class="col-lg-12" style="margin-top: 30px;display:none;">
+                        <div class="modal-footer-btn">
                             <input type="hidden" id="eduIDModal" name="eduIDModal" value="" />
                             <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                             <button type="button" class="btn bg-primary" id="eduSaveUploaded">Save changes</button>

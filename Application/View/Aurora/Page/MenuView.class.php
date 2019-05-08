@@ -63,10 +63,8 @@ class MenuView extends AdminView {
 
         if( is_array( $menuSet ) ) {
             foreach( $menuSet as $value ) {
-                if( $value['perm'] ) {
-                    if( !$this->Authorization->isAdmin( ) && !$this->Authorization->hasAnyRole( $value['perm'] ) ) {
-                        continue;
-                    }
+                if( !$this->Authorization->hasPermission( $value['namespace'], $value['perm'] ) ) {
+                    continue;
                 }
                 $L10n = $this->i18n->loadLanguage( $value['langFile'] );
 
@@ -91,10 +89,8 @@ class MenuView extends AdminView {
         foreach( $menuSet as $value ) {
             $secondMenu = '';
 
-            if( $value['perm'] ) {
-                if ( !$this->Authorization->isAdmin( ) && !$this->Authorization->hasAnyRole($value['perm'] ) ) {
-                    continue;
-                }
+            if ( !$this->Authorization->hasPermission( $value['namespace'], $value['perm'] ) ) {
+                continue;
             }
             if( $value['parent'] == 0 ) {
                 if( isset( $value['child'] ) ) {

@@ -119,7 +119,6 @@ class EducationControl {
                 $vars['errMsg'] = $this->EducationModel->getErrMsg( );
             }
         }
-
         echo json_encode( $vars );
         exit;
     }

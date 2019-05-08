@@ -1,6 +1,6 @@
 
 <form id="permForm" name="permForm" method="post" action="">
-    <table class="table table-wrap">
+    <table class="table table-wrap permTable">
         <thead>
         <tr>
             <th class="col-lg-3">Type</th>

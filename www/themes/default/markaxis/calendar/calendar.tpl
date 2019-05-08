@@ -1,4 +1,19 @@
-
+<style>
+    hr.fc-divider {
+        position: absolute;
+        z-index: 99;
+    }
+    .fc-day-grid-container.fc-scroller, .fc-time-grid-container {
+        height: auto!important;
+        overflow:visible!important;
+    }
+    .fc-time-grid {
+        margin-top: 4px;
+    }
+    .fc-button {
+        border-left: 1px solid;
+    }
+</style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -6,6 +21,9 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
             defaultView: 'dayGridMonth',
+            editable: true,
+            eventLimit: true,
+            eventTimeFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true },
             defaultDate: '2019-05-07',
             header: {
                 left: 'prev,next today',
@@ -319,14 +337,6 @@
     </div>
 
 
-    <div class="panel panel-flat" style="width:100%;border-bottom:0px;">
-        <div class="panel-heading" style="padding-top:0px;">
-            <!--<h5 class="panel-title">Employee List<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>-->
-        </div>
-
-        <div id="calendar"></div>
-
-
-    </div>
+    <div id="calendar"></div>
 
 </div>

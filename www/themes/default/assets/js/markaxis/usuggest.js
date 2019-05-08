@@ -79,9 +79,9 @@ var MarkaxisUSuggest = (function( ) {
                     templates: {
                         suggestion: Handlebars.compile([
                             '<div class="col-md-12">',
-                            '<div class="col-md-3"><img src="{{image}}" width="40" height="40" ',
+                            '<div class="col-md-2"><img src="{{image}}" width="40" height="40" ',
                             'style="padding:0;" class="rounded-circle" /></div>',
-                            '<div class="col-md-9"><span class="typeahead-name">{{label}}</span>',
+                            '<div class="col-md-10"><span class="typeahead-name">{{label}}</span>',
                             '<div class="typeahead-designation">{{designation}}</div></div>',
                             '</div>'
                         ].join(''))
