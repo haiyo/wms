@@ -122,10 +122,11 @@ class RolePermView extends AdminView {
 
         for( $i=0; $i<$sizeof; $i++ ) {
             $vars = array( 'TPLVAR_PERM_ID'       => $permList[$i]['permID'],
+                           'TPLVAR_PARENT_ID'     => $permList[$i]['parentID'],
                            'TPLVAR_PERM_TITLE'    => $permList[$i]['title'],
                            'TPLVAR_PERM_DESCRIPT' => $permList[$i]['descript'] );
 
-            if( !$permList[$i]['parentID'] ) {
+            if( $permList[$i]['parentID'] == 0 ) {
                 $list[$permList[$i]['permID']] = $this->render( 'aurora/role/permGroup.tpl', $vars );
             }
             else {

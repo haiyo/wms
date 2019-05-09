@@ -20,7 +20,7 @@ class EmployeeRes extends Resource {
      */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_STAFF_DIRECTORY'] = 'Staff Directory';
+        $this->contents['LANG_EMPLOYEE_DIRECTORY'] = 'Employee Directory';
         $this->contents['LANG_ADD_NEW_EMPLOYEE'] = 'Add New Employee';
         $this->contents['LANG_EDIT_EMPLOYEE_INFO'] = 'Edit Employee Info';
         $this->contents['LANG_EMPLOYEE_TIMESHEET'] = 'Employee Timesheet';

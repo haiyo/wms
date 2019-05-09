@@ -1,4 +1,6 @@
 
-<tr style="background-color:#f6f1fe; font-weight:bold;">
-    <td colspan="3"><?TPLVAR_PERM_TITLE?></td>
+<tr data-id="<?TPLVAR_PERM_ID?>" class="permGroup">
+    <td colspan="3">
+        <i class="icon-shrink7 mr-10" id="groupIco-<?TPLVAR_PERM_ID?>"></i> <?TPLVAR_PERM_TITLE?>
+    </td>
 </tr>

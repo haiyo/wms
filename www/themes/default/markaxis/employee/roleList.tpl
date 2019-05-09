@@ -133,6 +133,21 @@
             width: "auto"
         });
 
+        $(document).on("click", ".permGroup", function( ) {
+            var id = $(this).attr("data-id");
+
+            if( !$(this).hasClass("groupShow") ) {
+                $(".permRow-" + id).removeClass("hide");
+                $(this).addClass("groupShow parentGroupLit");
+                $("#groupIco-" + id).removeClass("icon-shrink7").addClass("icon-enlarge7");
+            }
+            else {
+                $(".permRow-" + id).addClass("hide");
+                $(this).removeClass("groupShow parentGroupLit");
+                $("#groupIco-" + id).removeClass("").addClass("icon-shrink7");
+            }
+        });
+
         $("#modalPermission").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
@@ -170,10 +185,6 @@
                     $.each(perms, function(index, value) {
                         $("#perm_" + value['permID']).bootstrapSwitch('state', true);
                     });
-
-                    if( roleID == 1 ) {
-                        $(".switch").bootstrapSwitch('disabled',true);
-                    }
                 }
             };
             Aurora.WebService.AJAX( "admin/rolePerm/getPerms", data );
@@ -242,6 +253,7 @@
         </div>
     </div>
 </div>
+
 <div id="modalPermission" class="modal fade">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -250,9 +262,8 @@
                 <h6 class="modal-title">Define Permissions (<strong id="defineTitle"></strong>)</h6>
             </div>
 
-            <div class="modal-body modal-perm">
+            <div class="modal-body modal-perm"></div>
 
-            </div>
             <div class="modal-footer modal-perm-footer">
                 <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                 <button id="createTeam" type="submit" class="btn btn-primary">Save Permissions</button>

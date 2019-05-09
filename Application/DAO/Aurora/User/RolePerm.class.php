@@ -47,7 +47,7 @@ class RolePerm extends \DAO {
                                    GROUP_CONCAT(p.permID) AS permIDs FROM role r
                                    LEFT JOIN role_perm rp ON(rp.roleID = r.roleID)
                                    LEFT JOIN permission p ON(rp.permID = p.permID)
-                                   GROUP BY r.roleID',
+                                   GROUP BY r.roleID ORDER BY p.sorting',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
