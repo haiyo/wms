@@ -35,8 +35,6 @@ class RolePermView extends AdminView {
 
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/RolePermRes');
-
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ) ) );
 	}
 
 
@@ -105,7 +103,6 @@ class RolePermView extends AdminView {
                                                         'TPLVAR_ROLE_DESCRIPT' => $roleList[$i]['descript'] );
             }
         }
-
         $vars['TPL_PERM_LIST'] = $this->renderPermList( );
         return $this->render( 'markaxis/employee/roleList.tpl', $vars );
     }

@@ -42,6 +42,7 @@ class EmployeeView extends AdminView {
         $this->EmployeeModel = new EmployeeModel( );
 
         $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
+                                  'plugins/scrollto' => 'jquery.scrollTo.min.js',
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
@@ -67,9 +68,9 @@ class EmployeeView extends AdminView {
     public function renderList( ) {
         $this->setBreadcrumbs( array( 'link' => 'admin/employee/list',
                                       'icon' => 'icon-users4',
-                                      'text' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') ) );
+                                      'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') ) );
+        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
         return $this->render( 'markaxis/employee/list.tpl', $vars );
     }
@@ -102,7 +103,7 @@ class EmployeeView extends AdminView {
      * @return string
      */
     public function renderView( ) {
-        $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') );
+        $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') );
 
         return $this->render( 'markaxis/employee/view.tpl', $vars );
     }

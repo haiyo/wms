@@ -138,12 +138,15 @@
 
             if( !$(this).hasClass("groupShow") ) {
                 $(".permRow-" + id).removeClass("hide");
-                $(this).addClass("groupShow parentGroupLit");
+                $(this).addClass("groupShow");
+                $(this).children( ).addClass("parentGroupLit");
                 $("#groupIco-" + id).removeClass("icon-shrink7").addClass("icon-enlarge7");
+                $(".permTable tbody").scrollTo( $(".permGroup-" + id), 500 );
             }
             else {
                 $(".permRow-" + id).addClass("hide");
-                $(this).removeClass("groupShow parentGroupLit");
+                $(this).removeClass("groupShow");
+                $(this).children( ).removeClass("parentGroupLit");
                 $("#groupIco-" + id).removeClass("").addClass("icon-shrink7");
             }
         });
@@ -168,6 +171,11 @@
                     $(".modal-title").text( $("#roleTitle" + rID).text( ) );
                 });
             }
+        });
+
+        $("#savePerm").on("click", function ( ) {
+            console.log(Aurora.WebService.serializePost("#permForm"));
+            return false;
         });
 
         function getPerms( roleID ) {
@@ -261,13 +269,14 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h6 class="modal-title">Define Permissions (<strong id="defineTitle"></strong>)</h6>
             </div>
+            <form id="permForm" name="permForm" method="post" action="">
+                <div class="modal-body modal-perm"></div>
 
-            <div class="modal-body modal-perm"></div>
-
-            <div class="modal-footer modal-perm-footer">
-                <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                <button id="createTeam" type="submit" class="btn btn-primary">Save Permissions</button>
-            </div>
+                <div class="modal-footer modal-perm-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button id="savePerm" type="submit" class="btn btn-primary">Save Permissions</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
