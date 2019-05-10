@@ -82,9 +82,10 @@ class Competency extends \DAO {
                                           dpt.name AS department, dsg.title AS designation
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN employee_department e_dpt ON ( e_dpt.userID = u.userID )
+                                   LEFT JOIN department dpt ON ( e_dpt.departmentID = dpt.dID )
                                    LEFT JOIN employee_competency ec ON ( ec.userID = u.userID )
                                    LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
-                                   LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
                                    LEFT JOIN designation dsg ON ( e.designationID = dsg.dID )
                                    WHERE u.deleted <> "1" AND e.resigned <> "1" AND ec.cID = "' . (int)$cID . '"',
                                    __FILE__, __LINE__ );
