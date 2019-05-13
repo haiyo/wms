@@ -44,9 +44,9 @@ class RolePerm extends \DAO {
     public function getAll( ) {
         $list = array( );
         $sql = $this->DB->select( 'SELECT r.roleID, r.title, r.descript, 
-                                   GROUP_CONCAT(p.permID) AS permIDs FROM role r
+                                   GROUP_CONCAT(p.pID) AS permIDs FROM role r
                                    LEFT JOIN role_perm rp ON(rp.roleID = r.roleID)
-                                   LEFT JOIN permission p ON(rp.permID = p.permID)
+                                   LEFT JOIN permission p ON(rp.permID = p.pID)
                                    GROUP BY r.roleID ORDER BY p.sorting',
                                    __FILE__, __LINE__ );
 
@@ -67,7 +67,7 @@ class RolePerm extends \DAO {
         $list = array( );
         $sql = $this->DB->select( 'SELECT * FROM role r
                                    INNER JOIN role_perm rp ON(rp.roleID = r.roleID)
-                                   INNER JOIN permission p ON(rp.permID = p.permID)
+                                   INNER JOIN permission p ON(rp.permID = p.pID)
                                    WHERE r.roleID = "' . (int)$roleID . '"',
                                    __FILE__, __LINE__ );
 

@@ -30,9 +30,9 @@ class Permission extends \DAO {
     */
     public function getAll( ) {
         $list = array( );
-        $sql = $this->DB->select( 'SELECT IFNULL( e.permID, 0 ) AS parentID, r.permID AS permID, r.title, r.descript
+        $sql = $this->DB->select( 'SELECT IFNULL( e.pID, 0 ) AS parentID, r.pID AS permID, r.title, r.descript
                                    FROM permission r
-                                   LEFT JOIN permission e ON r.parent = e.permID
+                                   LEFT JOIN permission e ON r.parent = e.pID
                                    ORDER BY parentID, r.sorting, COALESCE(parentID)',
                                    __FILE__, __LINE__ );
 

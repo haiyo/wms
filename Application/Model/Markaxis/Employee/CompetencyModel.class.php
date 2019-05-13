@@ -108,7 +108,7 @@ class CompetencyModel extends \Model {
 
         foreach( $results as $key => $row ) {
             if( isset( $results[$key]['descript'] ) && $results[$key]['descript'] ) {
-                $results[$key]['descript'] = nl2br( $MXString->makeLink( $row['descript'] ) );
+                $results[$key]['descript'] = nl2br( $MXString->makeLink( $row['descript'], 200 ) );
             }
         }
 

@@ -72,6 +72,12 @@ class EmployeeView extends AdminView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
+        $vars['dynamic']['addEmployeeBtn'][] = false;
+        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
+        if( $Authorization->hasPermission( 'Markaxis', 'add_modify_employee' ) ) {
+            $vars['dynamic']['addEmployeeBtn'][] = true;
+        }
+
         return $this->render( 'markaxis/employee/list.tpl', $vars );
     }
 

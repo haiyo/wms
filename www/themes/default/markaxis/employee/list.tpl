@@ -297,8 +297,10 @@
 <div class="list-action-btns">
     <ul class="icons-list">
         <li>
+            <!-- BEGIN DYNAMIC BLOCK: addEmployeeBtn -->
             <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
                 <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;
+            <!-- END DYNAMIC BLOCK: addEmployeeBtn -->
             <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
             </button>

@@ -11,6 +11,9 @@ namespace Library\Util;
 class MXString {
 
 
+    private $maxLengthURL;
+
+
     /**
     * String Constructor
     * @return void
@@ -120,7 +123,8 @@ class MXString {
     * Scan through the whole text and create links
     * return str
     */
-    public function makeLink( $text ) {
+    public function makeLink( $text, $length=60 ) {
+        $this->maxLengthURL = (int)$length;
         $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
         return preg_replace_callback( $pattern, array( $this, 'makeLinkCallback' ), $text );
     }
@@ -131,13 +135,12 @@ class MXString {
     * return str
     */
     public function makeLinkCallback( $matches ) {
-        $maxUrlLength = 60;
         $maxDepthIfOverLength = 2;
         $ellipsis = '&hellip;';
         $urlFull  = $matches[0];
         $urlShort = '';
 
-        if( strlen( $urlFull ) > $maxUrlLength ) {
+        if( strlen( $urlFull ) > $this->maxLengthURL ) {
             $parts = parse_url( $urlFull );
 
             if( isset( $parts['scheme'] ) && isset( $parts['host'] ) ) {
@@ -158,14 +161,12 @@ class MXString {
             if( isset( $parts['fragment'] ) ) {
                 $urlString[] = '#' . $parts['fragment'];
             }
-
-            $sizeof = sizeof( $urlString );
             for( $i=0; $i<$urlString; $i++ ) {
                 $curr = $urlString[$i];
-                if( $i >= $maxDepthIfOverLength || strlen( $urlShort) + strlen( $curr ) > $maxUrlLength ) {
-                    if( $i == 0 && strlen( $urlShort ) < $maxUrlLength ) {
+                if( $i >= $maxDepthIfOverLength || strlen( $urlShort) + strlen( $curr ) > $this->maxLengthURL ) {
+                    if( $i == 0 && strlen( $urlShort ) < $this->maxLengthURL ) {
                         // Always show a portion of first directory
-                        $urlShort .= substr( $curr, 0, $maxUrlLength - strlen( $urlShort ) );
+                        $urlShort .= substr( $curr, 0, $this->maxLengthURL - strlen( $urlShort ) );
                     }
                     $urlShort .= $ellipsis;
                     break;

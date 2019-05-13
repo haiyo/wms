@@ -79,7 +79,7 @@ class LeaveView extends AdminView {
 
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'mi-schedule',
-                                      'text' => $this->L10n->getContents('LANG_BALANCE_STATUS') ) );
+                                      'text' => $this->L10n->getContents('LANG_LEAVE_BALANCE_STATUS') ) );
 
         return $this->render( 'markaxis/leave/balance.tpl', $vars );
     }

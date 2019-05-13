@@ -27,27 +27,24 @@ class Menu extends \DAO {
     * @return mixed
     */
     public function getMenu( ) {
-        $menu = array( );
-        $sql = $this->DB->select( 'SELECT * FROM menu WHERE parent = "0" AND active = "1"
-                                   ORDER BY sorting ASC',
+        $sql = $this->DB->select( 'SELECT m.mID AS parentID, child.mID AS id, child.*, 
+                                          GROUP_CONCAT( IFNULL( CONCAT( p.namespace, ".", p.action ) , "" ) ) AS perms
+                                   FROM menu child
+                                   LEFT JOIN menu m ON ( child.parent = m.mID )
+                                   LEFT JOIN menu_perm mp ON ( mp.mID = child.mID )
+                                   LEFT JOIN permission p ON ( p.pID = mp.pID )
+                                   GROUP BY child.mID
+                                   ORDER BY COALESCE(child.parent, child.mID), child.sorting',
                                    __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $sql2 = $this->DB->select( 'SELECT * FROM menu WHERE parent = "' . (int)$row['id'] . '"
-                                                                      AND active = "1"
-                                            ORDER BY sorting ASC',
-                                            __FILE__, __LINE__ );
-
-                if( $this->DB->numrows( $sql2 ) > 0 ) {
-                    while( $sub = $this->DB->fetch( $sql2 ) ) {
-                        $row['child'][] = $sub;
-                    }
-                }
-                $menu[] = $row;
+                $list[] = $row;
             }
         }
-        return $menu;
+        return $list;
     }
 }
 ?>

@@ -120,10 +120,6 @@ class Authorization {
         $this->namespace = $namespace;
         $this->action = $action;
 
-        // If not define, just return true and abort checking.
-        if( !$namespace && !$action ) {
-            return true;
-        }
         if( $namespace && $action ) {
             if( isset( $this->rpInfo[$namespace] ) &&
                 in_array( $action, $this->rpInfo[$namespace] ) ) {

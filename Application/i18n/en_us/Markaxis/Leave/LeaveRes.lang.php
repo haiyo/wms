@@ -23,7 +23,7 @@ class LeaveRes extends Resource {
 
         $this->contents = array( );
         $this->contents['LANG_LEAVE_EVENTS'] = 'Leave &amp; Events';
-        $this->contents['LANG_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
+        $this->contents['LANG_LEAVE_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
         $this->contents['LANG_LEAVE_BALANCE'] = 'Leave Balance';
         $this->contents['LANG_LEAVE_SETTINGS'] = 'Leave Settings';
         $this->contents['LANG_CREATE_NEW_LEAVE_TYPE'] = 'Create New Leave Type';
