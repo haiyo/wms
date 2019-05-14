@@ -17,7 +17,10 @@ $(document).ready( function( ) {
     Aurora.Init = {
 
         start : function( ) {
-            this.multiList( );
+            console.log($(".nav-tabs").length)
+            if( $(".nav-tabs").length > 0 ) {
+                $(".nav-tabs li:first-child a").click( );
+            }
 
             $(document).on("change", "#country", function(e) {
                 if( $("#state").length > 0 ) {
@@ -69,24 +72,6 @@ $(document).ready( function( ) {
                 }
             });
         },
-
-
-        /**
-        * Initialize our own multilist replacement
-        */
-        multiList : function( ) {
-            // make sure labels are drawn in the correct state
-            /*$(".multiLabel").each( function( ) {
-                if( $(this).find(":checkbox").prop("checked"))
-                $(this).addClass("listSelected");
-            });
-
-            // toggle label css when checkbox is clicked
-            $(".multiCheckbox").live("click", function( ) {
-                var checked = $(this).prop("checked");
-                $(this).closest(".multiLabel").toggleClass("listSelected", checked);
-            });*/
-        }
     },
 
 

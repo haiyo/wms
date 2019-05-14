@@ -51,13 +51,16 @@ class DesignationView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_DESIGNATION_GROUP_LIST' => $this->renderGroupList( ) ) );
+            array( 'TPLVAR_HREF' => 'designationList',
+                   'LANG_TEXT' => $this->L10n->getContents( 'LANG_DESIGNATION' ),
+                   'TPL_DESIGNATION_GROUP_LIST' => $this->renderGroupList( ) ) );
 
-        return $this->render( 'markaxis/employee/designationList.tpl', $vars );
+        return array( 'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->render( 'markaxis/employee/designationList.tpl', $vars ) );
     }
 }
 ?>

@@ -3,8 +3,8 @@
         var rolePermTable = $(".rolePermTable").DataTable({
             "processing": true,
             "serverSide": true,
-            "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['roleID']);
+            "fnCreatedRow": function(nRow, aData, iDataIndex) {
+                $(nRow).attr('id', 'roleTable-row' + aData['roleID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/employee/getRolePermResults",
@@ -65,7 +65,7 @@
                            'data-keyboard="false" data-target="#modalPermission">' +
                            '<i class="icon-lock2"></i> Define Permissions</a>' +
                            '<div class="divider"></div>' +
-                           '<a class="dropdown-item" id="">' +
+                           '<a class="dropdown-item roleDelete" data-id="' + data + '">' +
                            '<i class="icon-bin"></i> Delete Role</a>' +
                            '</div>' +
                            '</div>' +
@@ -151,6 +151,38 @@
             }
         });
 
+        $("#modalRole").on("shown.bs.modal", function(e) {
+            $("#roleTitle").focus( );
+        });
+
+        $("#modalRole").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var roleID = $invoker.attr("data-id");
+
+            if( roleID ) {
+                var data = {
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#roleID").val( obj.data.roleID );
+                            $("#roleTitle").val( obj.data.title );
+                            $("#roleDescript").val( obj.data.descript );
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/role/getRole/" + roleID, data );
+            }
+            else {
+                $("#roleID").val(0);
+                $("#roleTitle").val("");
+                $("#roleDescript").val("");
+            }
+        });
+
         $("#modalPermission").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
@@ -174,7 +206,26 @@
         });
 
         $("#savePerm").on("click", function ( ) {
-            console.log(Aurora.WebService.serializePost("#permForm"));
+            var checked = []
+            $(".switch:checked").each(function( ) {
+                checked.push(parseInt($(this).val()));
+            });
+
+            var data = {
+                bundle: {
+                    "roleID": $("#roleID").val( ),
+                    "perms": checked
+                },
+                success: function( res ) {
+                    var obj = $.parseJSON( res );
+
+                    if( obj.bool == 0 && obj.errMsg ) {
+                        return;
+                    }
+                    swal("Done!", "Permissions saved!", "success");
+                }
+            };
+            Aurora.WebService.AJAX( "admin/rolePerm/savePerms", data );
             return false;
         });
 
@@ -188,6 +239,7 @@
 
                     var perms = $.parseJSON( res );
 
+                    $("#roleID").val( roleID );
                     $(".switch").bootstrapSwitch('disabled',false);
                     $(".switch").bootstrapSwitch('state', false);
                     $.each(perms, function(index, value) {
@@ -197,10 +249,113 @@
             };
             Aurora.WebService.AJAX( "admin/rolePerm/getPerms", data );
         }
+
+        $("#saveRole").validate({
+            rules: {
+                roleTitle: { required: true }
+            },
+            messages: {
+                roleTitle: "Please enter a Role Title."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveRole")
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".rolePermTable").DataTable().ajax.reload();
+
+                            swal({
+                                title: $("#roleTitle").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Role",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                $("#roleID").val(0);
+                                $("#roleTitle").val("");
+                                $("#roleDescript").val("");
+
+                                if( isConfirm === false ) {
+                                    $("#modalRole").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#roleTitle").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/role/saveRole", data );
+            }
+        });
+
+        $(document).on("click", ".roleDelete", function ( ) {
+            var roleID = $(this).attr("data-id");
+            var title = $("#roleTitle" + roleID).text( );
+
+            swal({
+                title: "Are you sure you want to delete " + title + "?",
+                text: "This action cannot be undone once deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function( isConfirm ) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        data: roleID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            $(".rolePermTable").DataTable().ajax.reload();
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/role/deleteRole", data);
+            });
+            return false;
+        });
     });
 </script>
 
-<div class="tab-pane fade show active" id="rolePermList">
+<div class="tab-pane fade show" id="rolePermList">
     <div class="list-action-btns rolePerm-list-action-btns">
         <ul class="icons-list">
             <li>
@@ -231,21 +386,21 @@
                 <h6 class="modal-title">Create New Role</h6>
             </div>
 
-            <form id="savePayrun" name="savePayrun" method="post" action="">
+            <form id="saveRole" name="saveRole" method="post" action="">
                 <div class="modal-body overflow-y-visible">
-                    <input type="hidden" id="rID" name="rID" value="0" />
+                    <input type="hidden" id="roleID" name="roleID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Role Name:</label>
-                                <input type="text" name="name" id="name" class="form-control" value="" placeholder="Enter Role Name" />
+                                <label>Role Title:</label>
+                                <input type="text" name="roleTitle" id="roleTitle" class="form-control" value="" placeholder="Enter Role Title" />
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Role Description:</label>
-                                <textarea id="description" name="description" rows="5" cols="4"
+                                <textarea id="roleDescript" name="roleDescript" rows="5" cols="4"
                                           placeholder="Enter Role Description" class="form-control"></textarea>
                             </div>
                         </div>
@@ -270,6 +425,7 @@
                 <h6 class="modal-title">Define Permissions (<strong id="defineTitle"></strong>)</h6>
             </div>
             <form id="permForm" name="permForm" method="post" action="">
+                <input type="hidden" id="roleID" value="" />
                 <div class="modal-body modal-perm"></div>
 
                 <div class="modal-footer modal-perm-footer">

@@ -20,6 +20,7 @@ class OfficeRes extends Resource {
      */
     function __construct( ) {
         $this->contents = array( );
+        $this->contents['LANG_OFFICE'] = 'Office';
         $this->contents['LANG_CREATE_NEW_OFFICE'] = 'Create New office';
     }
 }

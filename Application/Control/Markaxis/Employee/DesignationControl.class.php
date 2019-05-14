@@ -32,7 +32,9 @@ class DesignationControl {
      * @return string
      */
     public function settings( ) {
-        Control::setOutputArrayAppend( array( 'form' => $this->DesignationView->renderSettings( ) ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_designation' ) ) {
+            Control::setOutputArrayAppend( $this->DesignationView->renderSettings( ) );
+        }
     }
 
 

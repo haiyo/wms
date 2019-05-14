@@ -14,6 +14,7 @@ class OfficeControl {
 
     // Properties
     private $OfficeModel;
+    private $OfficeView;
 
 
     /**
@@ -22,6 +23,7 @@ class OfficeControl {
      */
     function __construct( ) {
         $this->OfficeModel = OfficeModel::getInstance( );
+        $this->OfficeView = new OfficeView( );
     }
 
 
@@ -30,8 +32,9 @@ class OfficeControl {
      * @return string
      */
     public function settings( ) {
-        $OfficeView = new OfficeView( );
-        Control::setOutputArrayAppend( $OfficeView->renderSettings( ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_office' ) ) {
+            Control::setOutputArrayAppend( $this->OfficeView->renderSettings( ) );
+        }
     }
 
 

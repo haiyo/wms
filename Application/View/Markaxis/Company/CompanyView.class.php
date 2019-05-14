@@ -59,18 +59,16 @@ class CompanyView extends AdminView {
      * Render main navigation
      * @return string
      */
-    public function renderSettings( $output ) {
+    public function renderSettings( $data ) {
         $this->setBreadcrumbs( array( 'link' => '',
                                       'icon' => 'icon-cog3',
                                       'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
-
         $vars = array( );
+        $vars['TPL_TAB'] = $data['tab'];
+        $vars['TPL_FORM'] = $data['form'];
 
-        if( isset( $output['content'] ) ) {
-            $vars['TPL_FORM'] = $output['content'];
-        }
         if( isset( $output['js'] ) ) {
-            $this->setJScript( $output['js'] );
+            $this->setJScript( $data['js'] );
         }
         return $this->render( 'markaxis/company/settings.tpl', $vars );
     }

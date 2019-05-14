@@ -28,7 +28,7 @@ class CompetencyView extends AdminView {
     function __construct( ) {
         parent::__construct( );
 
-        $this->Registry = Registry::getInstance();
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/CompetencyRes');
 
@@ -38,13 +38,15 @@ class CompetencyView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-                array( ) );
+                array( 'TPLVAR_HREF' => 'competencyList',
+                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_COMPETENCY' ) ) );
 
-        return $this->render( 'markaxis/employee/competencyList.tpl', $vars );
+        return array( 'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->render( 'markaxis/employee/competencyList.tpl', $vars ) );
     }
 }
 ?>

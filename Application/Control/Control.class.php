@@ -1,7 +1,7 @@
 <?php
-
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
+use \Library\Exception\RegistryException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -15,6 +15,7 @@ class Control {
 
     // Properties
     protected $Registry;
+
     protected static $HttpRequest;
     protected static $HttpResponse;
 
@@ -35,6 +36,21 @@ class Control {
         self::$outputArray = array( );
         self::$saveState   = array( );
 	}
+
+
+    /**
+     * Return HttpRequest
+     * @return mixed
+     */
+    public static function hasPermission( $namespace, $action ) {
+        $Registry = Registry::getInstance( );
+        $Authorization = $Registry->get( HKEY_CLASS, 'Authorization' );
+
+        if( $Authorization->hasPermission( $namespace, $action ) ) {
+            return true;
+        }
+        return false;
+    }
 
 
     /**

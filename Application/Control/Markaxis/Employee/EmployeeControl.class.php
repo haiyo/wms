@@ -33,9 +33,7 @@ class EmployeeControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-        $form = isset( $output['form'] ) ? $output['form'] : '';
-
-        $this->EmployeeView->printAll( $this->EmployeeView->renderSettings( $form ) );
+        $this->EmployeeView->printAll( $this->EmployeeView->renderSettings( $output ) );
     }
 
 

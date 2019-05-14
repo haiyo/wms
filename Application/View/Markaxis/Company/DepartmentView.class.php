@@ -42,10 +42,12 @@ class DepartmentView extends AdminView {
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-            array( ) );
+            array( 'TPLVAR_HREF' => 'departmentList',
+                   'LANG_TEXT' => $this->L10n->getContents( 'LANG_DEPARTMENT' ) ) );
 
         return array( 'js' => array( 'markaxis' => array( 'uSuggest.js' ) ),
-                      'content' => $this->render( 'markaxis/company/departmentList.tpl', $vars ) );
+                      'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->render( 'markaxis/company/departmentList.tpl', $vars ) );
     }
 }
 ?>

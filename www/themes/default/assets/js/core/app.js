@@ -51,7 +51,9 @@ $(function() {
 
     // Add control button toggler to page and panel headers if have heading elements
     $('.panel-footer').has('> .heading-elements:not(.not-collapsible)').prepend('<a class="heading-elements-toggle"><i class="icon-more"></i></a>');
-    $('.page-title, .panel-title').parent().has('> .heading-elements:not(.not-collapsible)').children('.page-title, .panel-title').append('<a class="heading-elements-toggle"><i class="icon-more"></i></a>');
+    $('.page-title, .panel-title').parent().has('> .heading-elements:not(.not-collapsible)')
+                                  .children('.page-title, .panel-title')
+                                  .append('<a class="heading-elements-toggle"><i class="icon-more"></i></a>');
 
 
     // Toggle visible state of heading elements
@@ -77,15 +79,6 @@ $(function() {
     });
 
 
-
-
-    // ========================================
-    //
-    // Navbar
-    //
-    // ========================================
-
-
     // Navbar navigation
     // -------------------------
 
@@ -104,15 +97,6 @@ $(function() {
     $('.dropdown-content a[data-toggle="tab"]').on('click', function (e) {
         $(this).tab('show');
     });
-
-
-
-
-    // ========================================
-    //
-    // Element controls
-    //
-    // ========================================
 
 
     // Reload elements
@@ -196,11 +180,6 @@ $(function() {
         }, 2000);
     });
 
-
-
-    // Collapse elements
-    // -------------------------
-
     //
     // Sidebar categories
     //
@@ -281,15 +260,6 @@ $(function() {
     });
 
 
-
-
-    // ========================================
-    //
-    // Main navigation
-    //
-    // ========================================
-
-
     // Main navigation
     // -------------------------
 
@@ -303,7 +273,9 @@ $(function() {
     $('.navigation').find('li').has('ul').children('a').addClass('has-ul');
 
     // Add active state to all dropdown parent levels
-    $('.dropdown-menu:not(.dropdown-content), .dropdown-menu:not(.dropdown-content) .dropdown-submenu').has('li.active').addClass('active').parents('.navbar-nav .dropdown:not(.language-switch), .navbar-nav .dropup:not(.language-switch)').addClass('active');
+    $('.dropdown-menu:not(.dropdown-content), .dropdown-menu:not(.dropdown-content) .dropdown-submenu')
+                        .has('li.active').addClass('active')
+                        .parents('.navbar-nav .dropdown:not(.language-switch), .navbar-nav .dropup:not(.language-switch)').addClass('active');
 
 
 
@@ -316,8 +288,6 @@ $(function() {
         container: 'body'
     });
 
-
-
     // Collapsible functionality
     // -------------------------
 
@@ -326,11 +296,14 @@ $(function() {
         e.preventDefault();
 
         // Collapsible
-        $(this).parent('li').not('.disabled').not($('.sidebar-xs').not('.sidebar-xs-indicator').find('.navigation-main').children('li')).toggleClass('active').children('ul').slideToggle(250);
+        $(this).parent('li').not('.disabled').not($('.sidebar-xs').not('.sidebar-xs-indicator')
+            .find('.navigation-main').children('li')).toggleClass('active').children('ul').slideToggle(250);
 
         // Accordion
         if ($('.navigation-main').hasClass('navigation-accordion')) {
-            $(this).parent('li').not('.disabled').not($('.sidebar-xs').not('.sidebar-xs-indicator').find('.navigation-main').children('li')).siblings(':has(.has-ul)').removeClass('active').children('ul').slideUp(250);
+            $(this).parent('li').not('.disabled').not($('.sidebar-xs').not('.sidebar-xs-indicator')
+                .find('.navigation-main').children('li')).siblings(':has(.has-ul)')
+                .removeClass('active').children('ul').slideUp(250);
         }
     });
 
@@ -347,15 +320,6 @@ $(function() {
             $(this).parent('li').not('.disabled').siblings(':has(.has-ul)').removeClass('active').children('ul').slideUp(200);
         }
     });
-
-
-
-
-    // ========================================
-    //
-    // Sidebars
-    //
-    // ========================================
 
 
     // Mini sidebar
@@ -413,12 +377,6 @@ $(function() {
 
         $('body').toggleClass('sidebar-all-hidden');
     });
-
-
-
-    //
-    // Opposite sidebar
-    //
 
     // Collapse main sidebar if opposite sidebar is visible
     $(document).on('click', '.sidebar-opposite-toggle', function (e) {
@@ -635,8 +593,6 @@ $(function() {
         $(this).find('.dropdown-menu').fadeOut(250);
     });
 
-
-
     // Mobile sidebar setup
     // -------------------------
 
@@ -693,24 +649,9 @@ $(function() {
         }, 100);
     }).resize();
 
-
-
-
-    // ========================================
-    //
-    // Other code
-    //
-    // ========================================
-
-
-    // Plugins
-    // -------------------------
-
     // Popover
     $('[data-popup="popover"]').popover();
 
-
     // Tooltip
     $('[data-popup="tooltip"]').tooltip();
-
 });

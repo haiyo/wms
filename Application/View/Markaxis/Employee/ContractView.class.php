@@ -38,13 +38,15 @@ class ContractView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-            array( ) );
+            array( 'TPLVAR_HREF' => 'contractList',
+                   'LANG_TEXT' => $this->L10n->getContents( 'LANG_CONTRACT_TYPE' ) ) );
 
-        return $this->render( 'markaxis/employee/contractList.tpl', $vars );
+        return array( 'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->render( 'markaxis/employee/contractList.tpl', $vars ) );
     }
 }
 ?>

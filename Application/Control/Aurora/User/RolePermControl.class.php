@@ -31,7 +31,7 @@ class RolePermControl {
 
     /**
      * DashboardControl Main
-     * @return void
+     * @return string
      */
     public function getMenu( $css ) {
         return $this->RolePermView->renderMenu( $css );
@@ -43,13 +43,9 @@ class RolePermControl {
     * @return void
     */
     public function settings( ) {
-        /*$RolePermModel = RolePermModel::getInstance( );
-        $PermissionModel = PermissionModel::getInstance( );
-
-        $RolePermView = new RolePermView( $RolePermModel, $PermissionModel );
-        $RolePermView->printAll( $RolePermView->renderList( ) );*/
-
-        Control::setOutputArrayAppend( array( 'form' => $this->RolePermView->renderSettings( ) ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_role' ) ) {
+            Control::setOutputArrayAppend( $this->RolePermView->renderSettings( ) );
+        }
     }
 
 
@@ -95,8 +91,10 @@ class RolePermControl {
     */
     public function savePerms( ) {
         $post = Control::getRequest( )->request( POST );
-
         $this->RolePermModel->savePerms( $post );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 
 

@@ -14,6 +14,7 @@ class DepartmentControl {
 
     // Properties
     private $DepartmentModel;
+    private $DepartmentView;
 
 
     /**
@@ -22,6 +23,7 @@ class DepartmentControl {
      */
     function __construct( ) {
         $this->DepartmentModel = DepartmentModel::getInstance( );
+        $this->DepartmentView = new DepartmentView( );
     }
 
 
@@ -30,8 +32,9 @@ class DepartmentControl {
      * @return string
      */
     public function settings( ) {
-        $DepartmentView = new DepartmentView( );
-        Control::setOutputArrayAppend( $DepartmentView->renderSettings( ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            Control::setOutputArrayAppend( $this->DepartmentView->renderSettings( ) );
+        }
     }
 
 

@@ -101,14 +101,19 @@ class MenuView extends AdminView {
                 continue;
             }
             $actions = explode( ',', $value['perms'] );
+            $sizeof  = sizeof( $actions );
+            $count   = 0;
 
             foreach( $actions as $namespace_action ) {
                 $perm = explode( '.', $namespace_action );
 
-                if( !$this->Authorization->hasPermission( $perm[0], $perm[1] ) ) {
-                    continue 2;
+                if( $this->Authorization->hasPermission( $perm[0], $perm[1] ) ) {
+                    $count = 1;
+                    break;
                 }
             }
+
+            if( !$count ) continue;
 
             $L10n = $this->i18n->loadLanguage( $value['langFile'] );
 

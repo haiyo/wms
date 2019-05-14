@@ -20,6 +20,7 @@ class CompetencyRes extends Resource {
      */
     function __construct( ) {
         $this->contents = array( );
+        $this->contents['LANG_COMPETENCY'] = 'Competency';
         $this->contents['LANG_CREATE_NEW_COMPETENCY'] = 'Create New Competency';
     }
 }

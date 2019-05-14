@@ -9,11 +9,12 @@ use \Control;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ContractControl {
+class ContractControl extends Control {
 
 
     // Properties
     private $ContractModel;
+    private $ContractView;
 
 
     /**
@@ -22,6 +23,7 @@ class ContractControl {
      */
     function __construct( ) {
         $this->ContractModel = ContractModel::getInstance( );
+        $this->ContractView = new ContractView( );
     }
 
 
@@ -30,8 +32,9 @@ class ContractControl {
      * @return string
      */
     public function settings( ) {
-        $ContractView = new ContractView( );
-        Control::setOutputArrayAppend( array( 'form' => $ContractView->renderSettings( ) ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_contract' ) ) {
+            Control::setOutputArrayAppend( $this->ContractView->renderSettings( ) );
+        }
     }
 
 

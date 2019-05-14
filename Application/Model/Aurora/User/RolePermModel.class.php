@@ -95,22 +95,27 @@ class RolePermModel extends \Model {
     * @return void
     */
     public function savePerms( $data ) {
-        if( $data['roleID'] > 1 ) {
-            if( isset( $data['perms'] ) && is_array( $data['perms'] ) &&
-                isset( $data['roleID'] ) && $data['roleID'] > 1 ) {
+        $RoleModel = new RoleModel( );
 
-                $RoleModel = new RoleModel( );
+        if( isset( $data['roleID'] ) && $RoleModel->isFound( $data['roleID'] ) ) {
+            if( isset( $data['perms'] ) && is_array( $data['perms'] ) ) {
+                $validpID  = array( );
 
                 foreach( $data['perms'] as $permID ) {
-                    if( $RoleModel->isFound( $data['roleID'] ) && !$this->isFound( $data['roleID'], $permID ) ) {
+                    if( !$this->isFound( $data['roleID'], $permID ) ) {
                         $permSet = array( );
                         $permSet['roleID'] = (int)$data['roleID'];
                         $permSet['permID'] = (int)$permID;
                         $this->RolePerm->insert( 'role_perm', $permSet );
                     }
+                    array_push( $validpID, $permID );
                 }
-                $this->RolePerm->delete( 'role_perm', 'WHERE roleID = "' . (int)$data['roleID'] . '" AND 
-                                    permID NOT IN(' . addslashes( implode( ',', $data['department'] ) ) . ')' );
+                $permIDs = implode( ',', $validpID );
+                $this->RolePerm->delete('role_perm','WHERE roleID = "' . (int)$data['roleID'] . '" AND 
+                                                           permID NOT IN(' . addslashes( $permIDs ) . ')' );
+            }
+            else {
+                $this->RolePerm->delete('role_perm','WHERE roleID = "' . (int)$data['roleID'] . '"' );
             }
         }
     }

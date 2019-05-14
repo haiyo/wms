@@ -51,10 +51,13 @@ class OfficeView extends AdminView {
         $officeTypeList = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
 
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_COUNTRY_LIST' => $countryList,
+                array( 'TPLVAR_HREF' => 'officeList',
+                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_OFFICE' ),
+                       'TPL_COUNTRY_LIST' => $countryList,
                        'TPL_OFFICE_TYPE_LIST' => $officeTypeList ) );
 
-        return array( 'content' => $this->render( 'markaxis/company/officeList.tpl', $vars ) );
+        return array( 'tab'  => $this->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->render( 'markaxis/company/officeList.tpl', $vars ) );
     }
 }
 ?>

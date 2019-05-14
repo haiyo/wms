@@ -32,7 +32,7 @@ class SiteCheckFilter implements IFilter {
     * @return void
     */
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
-        $Registry = Registry::getInstance();
+        $Registry = Registry::getInstance( );
 
         try {
             $Authorization = $Registry->get( HKEY_CLASS, 'Authorization' );

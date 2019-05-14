@@ -32,7 +32,9 @@ class CompetencyControl {
      * @return string
      */
     public function settings( ) {
-        Control::setOutputArrayAppend( array( 'form' => $this->CompetencyView->renderSettings( ) ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_competency' ) ) {
+            Control::setOutputArrayAppend( $this->CompetencyView->renderSettings( ) );
+        }
     }
 
 
