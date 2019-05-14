@@ -81,18 +81,20 @@ class CompetencyControl {
      * @return string
      */
     public function saveCompetency( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_competency' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        if( $this->CompetencyModel->isValid( $post ) ) {
-            $this->CompetencyModel->saveCompetency( );
-            $vars['bool'] = 1;
+            if( $this->CompetencyModel->isValid( $post ) ) {
+                $this->CompetencyModel->saveCompetency( );
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 
 
@@ -101,17 +103,19 @@ class CompetencyControl {
      * @return string
      */
     public function deleteCompetency( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_competency' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        if( $vars['count'] = $this->CompetencyModel->delete( $post ) ) {
-            $vars['bool'] = 1;
+            if( $vars['count'] = $this->CompetencyModel->delete( $post ) ) {
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 }
 ?>

@@ -81,18 +81,20 @@ class ContractControl extends Control {
      * @return string
      */
     public function saveContract( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_contract' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        if( $this->ContractModel->isValid( $post ) ) {
-            $this->ContractModel->save( );
-            $vars['bool'] = 1;
+            if( $this->ContractModel->isValid( $post ) ) {
+                $this->ContractModel->save( );
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->ContractModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->ContractModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 
 
@@ -101,17 +103,19 @@ class ContractControl extends Control {
      * @return string
      */
     public function deleteContract( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_contract' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        if( $vars['count'] = $this->ContractModel->delete( $post ) ) {
-            $vars['bool'] = 1;
+            if( $vars['count'] = $this->ContractModel->delete( $post ) ) {
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->ContractModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->ContractModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 }
 ?>

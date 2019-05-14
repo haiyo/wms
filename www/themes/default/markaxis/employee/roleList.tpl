@@ -429,7 +429,7 @@
                 <div class="modal-body modal-perm"></div>
 
                 <div class="modal-footer modal-perm-footer">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                     <button id="savePerm" type="submit" class="btn btn-primary">Save Permissions</button>
                 </div>
             </form>

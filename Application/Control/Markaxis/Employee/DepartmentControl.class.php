@@ -30,7 +30,9 @@ class DepartmentControl {
      * @return string
      */
     public function save( ) {
-        $this->DepartmentModel->save( Control::getPostData( ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $this->DepartmentModel->save( Control::getPostData( ) );
+        }
     }
 
 
@@ -39,11 +41,13 @@ class DepartmentControl {
      * @return string
      */
     public function saveDepartment( ) {
-        $post = Control::getPostData( );
-        $this->DepartmentModel->saveDepartment( $post );
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $post = Control::getPostData( );
+            $this->DepartmentModel->saveDepartment( $post );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

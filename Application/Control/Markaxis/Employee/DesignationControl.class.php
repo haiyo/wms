@@ -80,21 +80,23 @@ class DesignationControl {
      * @return string
      */
     public function saveDesignation( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_designation' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        if( $this->DesignationModel->isValid( $post ) ) {
-            $this->DesignationModel->save( );
-            $vars['bool'] = 1;
-            if( $post['group'] ) {
-                $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+            if( $this->DesignationModel->isValid( $post ) ) {
+                $this->DesignationModel->save( );
+                $vars['bool'] = 1;
+                if( $post['group'] ) {
+                    $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+                }
             }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->DesignationModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->DesignationModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 
 
@@ -103,20 +105,22 @@ class DesignationControl {
      * @return string
      */
     public function deleteDesignation( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_designation' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        if( $vars['count'] = $this->DesignationModel->delete( $post ) ) {
-            $vars['bool'] = 1;
-            if( $post['group'] ) {
-                $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+            if( $vars['count'] = $this->DesignationModel->delete( $post ) ) {
+                $vars['bool'] = 1;
+                if( $post['group'] ) {
+                    $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+                }
             }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->DesignationModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->DesignationModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 
 
@@ -125,11 +129,13 @@ class DesignationControl {
      * @return string
      */
     public function deleteOrphanGroups( ) {
-        $vars['bool'] = 1;
-        $vars['count'] = $this->DesignationModel->deleteOrphanGroups( );
-        $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
-        echo json_encode( $vars );
-        exit;
+        if( Control::hasPermission( 'Markaxis', 'add_modify_designation' ) ) {
+            $vars['bool'] = 1;
+            $vars['count'] = $this->DesignationModel->deleteOrphanGroups( );
+            $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

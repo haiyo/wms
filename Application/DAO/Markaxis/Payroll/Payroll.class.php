@@ -80,7 +80,7 @@ class Payroll extends \DAO {
                                           LEFT JOIN payment_method pm ON ( emp.paymentMethodID = pm.pmID )
                                           LEFT JOIN pass_type pt ON ( emp.passTypeID = pt.ptID )
                                    WHERE u.userID = "' . (int)$userID . '"
-                                   GROUP BY u.userID',
+                                   GROUP BY u.userID, emp.idnumber',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
