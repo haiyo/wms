@@ -176,7 +176,7 @@
                     var name   = full["name"];
                     var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
 
-                    return '<a data-id="' +  + full['userID'] + '" data-toggle="modal" data-target="#modalCalPayroll">Calculate Payroll</a>';
+                    return '<a data-id="' +  + full['userID'] + '" data-toggle="modal" data-target="#modalCalPayroll">Process</a>';
 
                     return '<div class="list-icons">' +
                                 '<div class="list-icons-item dropdown">' +
@@ -432,7 +432,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Calculate Payroll</h6>
+                <h6 class="modal-title">Process Payroll</h6>
             </div>
 
             <div class="modal-body overflow-y-visible">
@@ -470,243 +470,11 @@
                 <th>Name</th>
                 <th>Designation</th>
                 <th>Contract Type</th>
-                <th>Status</th>
+                <th>Employment Status</th>
                 <th>Actions</th>
             </tr>
             </thead>
         </table>
-    </fieldset>
-
-    <fieldset>
-        <legend class="text-semibold">Select Pay Items</legend>
-
-        <ul class="nav nav-tabs nav-tabs-highlight employee-nav justify-content-center">
-            <li class="nav-item"><a href="#monthly" class="nav-link active" data-toggle="tab">Monthly Payment / Deduction</a></li>
-            <li class="nav-item"><a href="#adhoc" class="nav-link" data-toggle="tab">Ad Hoc Payment / Deduction</a></li>
-            <li class="nav-item"><a href="#hourly" class="nav-link" data-toggle="tab">Hourly / Daily Attendance</a></li>
-        </ul>
-
-        <div class="tab-content payItems" style="padding-top:20px;">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Employee ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Remark</th>
-                    <th>Status</th>
-                    <th>Status</th>
-                    <th>Status</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-            </table>
-
-            <div class="row">
-                <div class="col-lg-1">
-                    <div class="font-weight-semibold">Employee ID</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="font-weight-semibold">Employee Name</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="font-weight-semibold">Type</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="font-weight-semibold">Amount</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="font-weight-semibold">Remark</div>
-                </div>
-
-                <div class="col-lg-1 text-center">
-                    <div class="font-weight-semibold">CPF</div>
-                </div>
-
-                <div class="col-lg-1 text-center">
-                    <div class="font-weight-semibold">Tax</div>
-                </div>
-
-                <div class="col-lg-1 text-center">
-                    <div class="font-weight-semibold">SDL</div>
-                </div>
-
-                <div class="col-lg-1 text-center">
-                    <div class="font-weight-semibold">SHG</div>
-                </div>
-
-                <div class="col-lg-1">
-                    <div class="font-weight-semibold">Total</div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-lg-1 text-height">
-                    <div>000001</div>
-                </div>
-
-                <div class="col-lg-2 text-height">
-                    <div>Andy Lam</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><select class="form-control select"><option>Basic Pay</option></select></div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><input type="text" value="SGD$3,000" class="form-control" /></div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><input type="text" value="" class="form-control" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height">
-                    <div class="font-weight-semibold">SGD$3,000</div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-1 text-height">
-                    <div>000001</div>
-                </div>
-
-                <div class="col-lg-2 text-height">
-                    <div>Audry Kist</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><select class="form-control select"><option>Basic Pay</option></select></div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><input type="text" value="SGD$3,000" class="form-control" /></div>
-                </div>
-
-                <div class="col-lg-1 text-center text-height">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-center text-height">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-center text-height">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-center text-height">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height">
-                    <div class="font-weight-semibold">SGD$3,000</div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-1 text-height">
-                    <div>000001</div>
-                </div>
-
-                <div class="col-lg-2 text-height">
-                    <div>Charmine Grey</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><select class="form-control select"><option>Basic Pay</option></select></div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><input type="text" value="SGD$3,000" class="form-control" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height">
-                    <div class="font-weight-semibold">SGD$3,000</div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-1 text-height">
-                    <div>000001</div>
-                </div>
-
-                <div class="col-lg-2 text-height">
-                    <div>Cherry Toh</div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><select class="form-control select"><option>Basic Pay</option></select></div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div><input type="text" value="SGD$3,000" class="form-control" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height text-center">
-                    <div><input type="checkbox" checked="checked" /></div>
-                </div>
-
-                <div class="col-lg-1 text-height">
-                    <div class="font-weight-semibold">SGD$3,000</div>
-                </div>
-            </div>
-        </div>
-
     </fieldset>
 
     <fieldset>

@@ -127,8 +127,8 @@
                 $(departmentTable.cells().nodes()).removeClass('active');
                 $(departmentTable.column(colIdx).nodes()).addClass('active');
             }
-        }).on('mouseleave', function() {
-            $(departmentTable.cells().nodes()).removeClass("active");
+        }).on('mouseleave', function( ) {
+            $(departmentTable.cells( ).nodes( )).removeClass("active");
         });
 
         // Enable Select2 select for the length option

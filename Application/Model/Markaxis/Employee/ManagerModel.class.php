@@ -21,8 +21,8 @@ class ManagerModel extends \Model {
      * ManagerModel Constructor
      * @return void
      */
-    function __construct() {
-        parent::__construct();
+    function __construct( ) {
+        parent::__construct( );
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 

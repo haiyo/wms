@@ -44,7 +44,7 @@ class LoginView extends AdminView {
     */
     public function renderLogin( ) {
         $websiteName = $this->HKEY_LOCAL['websiteName'];
-        $title = $this->L10n->strReplace( 'WEBSITE_NAME', $websiteName, 'LANG_LOGIN_TITLE');
+        $title = $this->L10n->strReplace( 'WEBSITE_NAME', $websiteName, 'LANG_LOGIN_TITLE' );
 
         $this->setTitle( $title );
         $vars = array_merge( $this->L10n->getContents( ) );
@@ -58,7 +58,6 @@ class LoginView extends AdminView {
      * @return string
      */
     public function renderNavBar( ) {
-
         return $this->render( 'aurora/login/navBar.tpl', array( ) );
     }
 

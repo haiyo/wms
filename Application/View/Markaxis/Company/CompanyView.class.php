@@ -67,7 +67,7 @@ class CompanyView extends AdminView {
         $vars['TPL_TAB'] = $data['tab'];
         $vars['TPL_FORM'] = $data['form'];
 
-        if( isset( $output['js'] ) ) {
+        if( isset( $data['js'] ) ) {
             $this->setJScript( $data['js'] );
         }
         return $this->render( 'markaxis/company/settings.tpl', $vars );

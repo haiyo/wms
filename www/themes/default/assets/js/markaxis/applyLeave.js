@@ -33,8 +33,6 @@ var MarkaxisApplyLeave = (function( ) {
         initEvents: function( ) {
             var that = this;
 
-            markaxisUSuggest = new MarkaxisUSuggest( false );
-
             $("#ltID").select2({minimumResultsForSearch: -1});
             //$("#applyFor").select2({minimumResultsForSearch: -1});
 
@@ -82,7 +80,8 @@ var MarkaxisApplyLeave = (function( ) {
             });
 
             $("#modalApplyLeave").on("shown.bs.modal", function(e) {
-                MarkaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
+                markaxisUSuggest = new MarkaxisUSuggest( false );
+                markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
             });
         },
 

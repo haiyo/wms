@@ -17,7 +17,6 @@ $(document).ready( function( ) {
     Aurora.Init = {
 
         start : function( ) {
-            console.log($(".nav-tabs").length)
             if( $(".nav-tabs").length > 0 ) {
                 $(".nav-tabs li:first-child a").click( );
             }

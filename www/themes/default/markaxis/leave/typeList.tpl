@@ -34,7 +34,7 @@
             },{
                 targets: [1],
                 orderable: true,
-                width: '300px',
+                width: '250px',
                 data: 'name',
                 render: function( data, type, full, meta ) {
                     return data + " (" + full['code'] + ")";
@@ -56,7 +56,7 @@
             },{
                 targets: [3],
                 orderable: true,
-                width: '100px',
+                width: '120px',
                 data: 'allowHalfDay',
                 className : "text-center",
                 render: function( data, type, full, meta ) {

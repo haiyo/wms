@@ -167,7 +167,7 @@ class LeaveApplyModel extends \Model {
                 // Get office time shift
                 $OfficeModel = OfficeModel::getInstance( );
 
-                if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['oID'] ) ) {
+                if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
                     $startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
                     $endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
                     $hoursDiff = $startTime->diff( $endTime )->h;

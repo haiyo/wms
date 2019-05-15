@@ -1,7 +1,7 @@
 <style>
     @media (min-width: 576px) {
         .loginForm, .forgotForm {
-            width:370px;
+            width:420px;
         }
         .login-content {
             margin-top: 100px;

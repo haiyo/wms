@@ -47,7 +47,7 @@
             },{
                 targets: [2],
                 orderable: true,
-                width: '280px',
+                width: '270px',
                 data: 'name'
             },{
                 targets: [3],
@@ -58,7 +58,7 @@
                 targets: [4],
                 searchable : false,
                 data: 'status',
-                width: '130px',
+                width: '190px',
                 className : "text-center",
                 render: function(data, type, full, meta) {
                     var reason = full['suspendReason'] ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
@@ -329,7 +329,7 @@
     <tr>
         <th>Name</th>
         <th>Designation</th>
-        <th>Status</th>
+        <th>Employment Status</th>
         <th>E-mail</th>
         <th>Mobile</th>
         <th>Actions</th>
