@@ -56,22 +56,5 @@ class ExpenseView extends AdminView {
 
         return $this->render( 'markaxis/expense/expenseList.tpl', $vars );
     }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function renderClaimList( ) {
-        $vars = array( );
-
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-coins',
-                                      'text' => $this->L10n->getContents('LANG_EXPENSES_CLAIM') ) );
-
-        $vars = array_merge( $this->L10n->getContents( ), $vars );
-
-        return $this->render( 'markaxis/expense/claimList.tpl', $vars );
-    }
 }
 ?>

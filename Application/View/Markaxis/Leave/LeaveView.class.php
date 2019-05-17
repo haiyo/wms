@@ -131,7 +131,7 @@ class LeaveView extends AdminView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
     public function renderDateDiff( $data ) {
         if( isset( $data['startDate'] ) && isset( $data['endDate'] ) && $data['startDate'] && $data['endDate'] ) {

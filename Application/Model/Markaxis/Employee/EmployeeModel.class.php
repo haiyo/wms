@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
-use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DepartmentModel, \Aurora\Component\DesignationModel;
+use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;

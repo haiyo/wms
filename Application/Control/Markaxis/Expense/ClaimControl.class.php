@@ -45,5 +45,39 @@ class ClaimControl {
         echo json_encode( $this->ClaimModel->getResults( $post ) );
         exit;
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveClaim( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $this->ClaimModel->isValid( $post ) ) {
+            $this->ClaimModel->save( );
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->ClaimModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function cancelClaim( ) {
+        $ecID = Control::getRequest( )->request( POST, 'data' );
+
+        $this->ClaimModel->delete( $ecID );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

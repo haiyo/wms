@@ -264,44 +264,42 @@
             }
         });
 
-        $("#modalPayItem").on("shown.bs.modal", function(e) {
-            $("#payItemTitle").focus( );
+        $("#expense").select2().change(function() {
+            $(this).valid( );
+            $(this).removeAttr("aria-required");
+        });
+        $("#currency").select2().change(function() {
+            $(this).valid( );
+            $(this).removeAttr("aria-required");
         });
 
-        function selectPayItemType( type ) {
-            $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
-
-            if( type == "basic" ) {
-                $("#payItemBasic").addClass("btn-green");
-                $("#payItemType").val("basic");
-            }
-            else if( type == "deduction" ) {
-                $("#payItemDeduction").addClass("btn-green");
-                $("#payItemType").val("deduction");
-            }
-            else if( type == "claim" ) {
-                $("#payItemClaim").addClass("btn-green");
-                $("#payItemType").val("claim");
-            }
-            else {
-                $("#payItemNone").addClass("btn-dark");
-                $("#payItemType").val("none");
-            }
-        }
-
-        $("#savePayItem").validate({
+        $("#saveClaim").validate({
+            ignore: "",
             rules: {
-                payItemTitle: { required: true }
+                expense: { required: true },
+                currency: { required: true },
+                claimAmount: { required: true }
             },
             messages: {
-                payItemTitle: "Please enter a Pay Item Title."
+                expense: "Please provide all required fields."
             },
-            highlight: function(element, errorClass) {
-                $(element).addClass("border-danger");
+            highlight: function(element, errorClass, validClass) {
+                var elem = $(element);
+                if( elem.hasClass("select2-hidden-accessible") ) {
+                    $("#select2-" + elem.attr("id") + "-container").parent( ).addClass("border-danger");
+                }
+                else {
+                    elem.addClass("border-danger");
+                }
             },
-            unhighlight: function(element, errorClass) {
-                $(element).removeClass("border-danger");
-                $(".modal-footer .error").remove();
+            unhighlight: function(element, errorClass, validClass) {
+                var elem = $(element);
+                if( elem.hasClass("select2-hidden-accessible") ) {
+                    $("#select2-" + elem.attr("id") + "-container").parent( ).removeClass("border-danger");
+                }
+                else {
+                    elem.removeClass("border-danger");
+                }
             },
             // Different components require proper error label placement
             errorPlacement: function(error, element) {
@@ -309,9 +307,11 @@
                     $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
+                $("#expense-error").remove( );
+
                 var data = {
                     bundle: {
-                        data: Aurora.WebService.serializePost("#savePayItem")
+                        data: Aurora.WebService.serializePost("#saveClaim")
                     },
                     success: function( res ) {
                         var obj = $.parseJSON( res );
@@ -320,37 +320,30 @@
                             return;
                         }
                         else {
-                            $(".payItemTable").DataTable().ajax.reload( );
-                            $("#payItemTitle").val("");
-                            selectPayItemType( "none" );
-                            $("#itemTaxGroup").multiselect("deselectAll", false);
-                            $("#itemTaxGroup").multiselect("refresh");
+                            $(".claimTable").DataTable().ajax.reload( );
+
+                            $("#expense").val("").trigger("change");
 
                             swal({
-                                title: $("#payItemTitle").val( ) + " has been successfully created!",
+                                title: "Claim has been successfully created!",
                                 text: "What do you want to do next?",
                                 type: 'success',
                                 confirmButtonClass: 'btn btn-success',
                                 cancelButtonClass: 'btn btn-danger',
                                 buttonsStyling: false,
                                 showCancelButton: true,
-                                confirmButtonText: "Create Another Pay Item",
+                                confirmButtonText: "Create Another Claim",
                                 cancelButtonText: "Close Window",
                                 reverseButtons: true
                             }, function( isConfirm ) {
                                 if( isConfirm === false ) {
-                                    $("#modalPayItem").modal("hide");
-                                }
-                                else {
-                                    setTimeout(function() {
-                                        $("#payItemTitle").focus( );
-                                    }, 500);
+                                    $("#modalClaim").modal("hide");
                                 }
                             });
                         }
                     }
                 };
-                Aurora.WebService.AJAX( "admin/payroll/savePayItem", data );
+                Aurora.WebService.AJAX( "admin/payroll/saveClaim", data );
             }
         });
     });
@@ -362,7 +355,7 @@
             <li>
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalClaim">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_SUBMIT_NEW_CLAIM?>
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_CLAIM?>
                 </a>
             </li>
         </ul>
@@ -386,49 +379,48 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title"><?LANG_SUBMIT_NEW_CLAIM?></h6>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_CLAIM?></h6>
             </div>
 
-            <form id="savePayItem" name="savePayItem" method="post" action="">
+            <form id="saveClaim" name="saveClaim" method="post" action="">
                 <div class="modal-body overflow-y-visible">
                     <input type="hidden" id="ecID" name="ecID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Select Expense Type:</label>
+                                <label>Select Expense Type: <span class="requiredField">*</span></label>
                                 <?TPLVAR_EXPENSE_LIST?>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Description:</label>
-                                <input type="text" name="expenseDescript" id="expenseDescript" class="form-control" value=""
-                                       placeholder="Enter description for this expenses" />
+                                <input type="text" name="claimDescript" id="claimDescript" class="form-control" value=""
+                                       placeholder="Enter description for this claim" />
                             </div>
                         </div>
 
                         <div class="col-md-12 pb-10">
                             <div class="form-group">
-                                <label>Amount To Claim:</label>
+                                <label>Amount To Claim: <span class="requiredField">*</span></label>
                                 <div class="form-group">
                                     <div class="col-md-4 pl-0 pb-10">
                                         <?TPL_CURRENCY_LIST?>
                                     </div>
                                     <div class="col-md-8 p-0">
-                                        <input type="text" name="expenseAmount" id="expenseAmount" class="form-control" value=""
-                                               placeholder="Enter an amount (For eg: 2.50)" />
+                                        <input type="text" name="claimAmount" id="claimAmount" class="form-control" value=""
+                                               placeholder="Enter claim amount (For eg: 2.50)" />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-12 pb-10">
-                            <label class="display-block">Upload Attachment:</label>
+                            <label class="display-block">Upload Receipt or Any Supporting Document: (Image or PDF Accepted)</label>
                             <div class="input-group">
-                                <input type="text" id="eduCertificate" name="eduCertificate" class="form-control" readonly="readonly" />
-                                <input type="hidden" id="eduUID" name="eduUID" class="form-control" />
-                                <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
-                                <input type="hidden" id="eduIndex" name="eduIndex" value="" />
+                                <input type="text" id="claimAttachment" name="claimAttachment" class="form-control" readonly="readonly" />
+                                <input type="hidden" id="claimUID" name="claimUID" class="form-control" />
+                                <input type="hidden" id="claimHashName" name="claimHashName" class="form-control" />
                                 <span class="input-group-append">
                                     <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
                                         Upload &nbsp;<i class="icon-file-plus"></i>

@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Expense;
 use \Aurora\User\UserModel;
+use \Library\Helper\Aurora\CurrencyHelper;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -55,7 +57,6 @@ class ClaimModel extends \Model {
             }
         }
         $results = $this->Claim->getResults( $userInfo['userID'], $post['search']['value'], $order . $dir );
-
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
@@ -63,6 +64,71 @@ class ClaimModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
+    }
+
+
+    /**
+     * Set Pay Item Info
+     * @return bool
+     */
+    public function isValid( $data ) {
+        $this->info['ecID'] = (int)$data['ecID'];
+        $this->info['descript'] = Validator::stripTrim( $data['claimDescript'] );
+
+        $ExpenseModel = ExpenseModel::getInstance( );
+        if( isset( $ExpenseModel->getList( )[$data['expense']] ) ) {
+            $this->info['etID'] = (int)$data['expense'];
+        }
+        else {
+            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CLAIM_TYPE') );
+            return false;
+        }
+
+        if( isset( CurrencyHelper::getL10nList( )[$data['currency']] ) ) {
+            $saveInfo['currency'] = $data['currency'];
+        }
+        else {
+            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CURRENCY') );
+            return false;
+        }
+
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $this->info['userID'] = $userInfo['userID'];
+
+        return true;
+    }
+
+
+    /**
+     * Save Pay Item information
+     * @return int
+     */
+    public function save( ) {
+        if( !$this->info['ecID'] ) {
+            unset( $this->info['ecID'] );
+            $this->info['ecID'] = $this->Claim->insert( 'expense_claim', $this->info );
+        }
+        else {
+            $this->Claim->update( 'expense_claim', $this->info,
+                                  'WHERE ecID = "' . (int)$this->info['ecID'] . '"' );
+        }
+        return $this->info['ecID'];
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function delete( $oID ) {
+        $A_OfficeModel = A_OfficeModel::getInstance( );
+
+        if( $A_OfficeModel->isFound( $oID ) ) {
+            $info = array( );
+            $info['deleted'] = 1;
+            $this->Office->update( 'office', $info, 'WHERE oID = "' . (int)$oID . '"' );
+        }
     }
 }
 ?>
