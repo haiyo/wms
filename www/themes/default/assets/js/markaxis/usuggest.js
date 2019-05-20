@@ -12,7 +12,7 @@ var MarkaxisUSuggest = (function( ) {
      */
     MarkaxisUSuggest = function( includeOwn ) {
         this.suggestElement = $(".suggestList");
-        this.includeOwn = includeOwn === undefined ? "" : "/includeOwn";
+        this.includeOwn = includeOwn ? "/includeOwn" : "";
         this.cache = [];
         this.init( );
     };
@@ -89,18 +89,27 @@ var MarkaxisUSuggest = (function( ) {
                 }]
             });
 
+            /*
             that.suggestElement.on("tokenfield:createtoken", function(e) {
                 var exists = false;
+
                 $.each( that.cache, function(index, value) {
                     if( e.attrs.value === value ) {
+                        console.log(value)
                         exists = true;
                     }
                 });
                 if( !exists ) {
-                    e.preventDefault( );
-                    return false;
+                    console.log("sda")
+                    //e.preventDefault( );
+                    //return false;
                 }
-            });
+            });*/
+        },
+
+        getCount: function( ) {
+            var tokens = this.suggestElement.tokenfield("getTokens");
+            return tokens.length;
         },
 
         isDuplicate: function( id ) {
@@ -114,6 +123,21 @@ var MarkaxisUSuggest = (function( ) {
             return false;
         },
 
+        setSuggestToken: function( data ) {
+            for( var i in data ) {
+                var token = { id: data[i]["managerID"],
+                              value: data[i]["managerID"],
+                              label: data[i]["name"] };
+
+                var exists = this.isDuplicate( token.id ) ? true : false;
+
+                if( !exists ) {
+                    this.cache.push( token.id );
+                    this.suggestElement.tokenfield("createToken", token);
+                }
+            }
+        },
+
         getSuggestToken: function( url ) {
             var that = this;
 
@@ -125,18 +149,7 @@ var MarkaxisUSuggest = (function( ) {
                         swal("Error!", obj.errMsg, "error");
                         return;
                     }
-                    for( var i in obj.data ) {
-                        var token = { id: obj.data[i]["managerID"],
-                                      value: obj.data[i]["managerID"],
-                                      label: obj.data[i]["name"] };
-
-                        var exists = that.isDuplicate( token.id ) ? true : false;
-
-                        if( !exists ) {
-                            that.cache.push( token.id );
-                            that.suggestElement.tokenfield("createToken", token);
-                        }
-                    }
+                    that.setSuggestToken( obj.data );
                 }
             };
             Aurora.WebService.AJAX( url, data );

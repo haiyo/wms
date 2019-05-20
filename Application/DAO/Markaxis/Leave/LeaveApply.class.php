@@ -68,7 +68,7 @@ class LeaveApply extends \DAO {
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, 
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate,  
-                                          la.days, la.approved, la.created, lt.name, lt.code
+                                          la.days, la.status, la.created, lt.name, lt.code
                                    FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
                                    WHERE 1 = 1 ' . $q . '
@@ -76,11 +76,6 @@ class LeaveApply extends \DAO {
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $sql;
-        }
-        return false;
-
-        /*if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
             }
@@ -88,7 +83,7 @@ class LeaveApply extends \DAO {
         $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
-        return $list;*/
+        return $list;
     }
 }
 ?>

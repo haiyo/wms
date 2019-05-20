@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Expense;
-use \Aurora\User\UserModel;
-use \Library\Helper\Aurora\CurrencyHelper;
+use \Aurora\User\UserModel, \Aurora\Component\CurrencyModel, \Aurora\Component\UploadModel;
+use \Library\IO\File, \Library\Util\Uploader;
 use \Library\Validator\Validator;
 
 /**
@@ -26,9 +26,27 @@ class ClaimModel extends \Model {
     function __construct( ) {
         parent::__construct( );
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-        $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
+        $this->L10n = $i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
         $this->Claim = new Claim( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $ecID ) {
+        return $this->Claim->isFound( $ecID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByecID( $ecID ) {
+        return $this->Claim->getByecID( $ecID );
     }
 
 
@@ -37,7 +55,6 @@ class ClaimModel extends \Model {
      * @return mixed
      */
     public function getResults( $post ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
         $this->Claim->setLimit( $post['start'], $post['length'] );
 
         $order = 'ei.title';
@@ -56,6 +73,7 @@ class ClaimModel extends \Model {
                     break;
             }
         }
+        $userInfo = UserModel::getInstance( )->getInfo( );
         $results = $this->Claim->getResults( $userInfo['userID'], $post['search']['value'], $order . $dir );
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
@@ -74,6 +92,7 @@ class ClaimModel extends \Model {
     public function isValid( $data ) {
         $this->info['ecID'] = (int)$data['ecID'];
         $this->info['descript'] = Validator::stripTrim( $data['claimDescript'] );
+        $this->info['amount'] = Validator::stripTrim( $data['claimAmount'] );
 
         $ExpenseModel = ExpenseModel::getInstance( );
         if( isset( $ExpenseModel->getList( )[$data['expense']] ) ) {
@@ -84,17 +103,34 @@ class ClaimModel extends \Model {
             return false;
         }
 
-        if( isset( CurrencyHelper::getL10nList( )[$data['currency']] ) ) {
-            $saveInfo['currency'] = $data['currency'];
+        $CurrencyModel = CurrencyModel::getInstance( );
+        $currList = $CurrencyModel->getList( );
+
+        if( isset( $currList[$data['currency']] ) ) {
+            $this->info['currencyID'] = $data['currency'];
         }
         else {
             $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CURRENCY') );
             return false;
         }
 
+        $ecaUID = Validator::stripTrim( $data['ecaUID'] );
+        $hashName = Validator::stripTrim( $data['ecaHashName'] );
+
+        if( $ecaUID && $hashName ) {
+            $UploadModel = new UploadModel( );
+            if( $UploadModel->isFound( $ecaUID, $hashName ) ) {
+                $this->info['uID'] = $ecaUID;
+            }
+        }
+        else {
+            unset( $this->info['uID'] );
+        }
+
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $this->info['userID'] = $userInfo['userID'];
+        $this->info['created'] = date( 'Y-m-d H:i:s' );
 
         return true;
     }
@@ -121,14 +157,78 @@ class ClaimModel extends \Model {
      * Delete Pay Item
      * @return int
      */
-    public function delete( $oID ) {
-        $A_OfficeModel = A_OfficeModel::getInstance( );
-
-        if( $A_OfficeModel->isFound( $oID ) ) {
-            $info = array( );
-            $info['deleted'] = 1;
-            $this->Office->update( 'office', $info, 'WHERE oID = "' . (int)$oID . '"' );
+    public function cancel( $ecID ) {
+        if( $this->isFound( $ecID ) ) {
+            $this->Claim->update( 'expense_claim', array( 'cancelled' => 1 ),
+                                 'WHERE ecID = "' . (int)$ecID . '"' );
         }
+    }
+
+
+    /**
+     * Upload file
+     * @return bool
+     */
+    public function uploadSuccess( $file ) {
+        $Uploader = new Uploader( );
+
+        if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
+            $this->fileInfo = $Uploader->getFileInfo( );
+
+            $UploadModel = new UploadModel( );
+            $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
+
+            if( $this->fileInfo['error'] ) {
+                $this->setErrMsg( $this->fileInfo['error'] );
+                return false;
+            }
+
+            if( $this->fileInfo['success'] == 2 && $this->fileInfo['isImage'] ) {
+                $this->processResize( );
+            }
+            return true;
+        }
+        $this->setErrMsg( $Uploader->getFileInfo( )['error'] );
+        return false;
+    }
+
+
+    /**
+     * Upload file
+     * @return bool
+     */
+    public function updateCertificate( $data ) {
+        if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
+            $UploadModel = new UploadModel( );
+
+            if( $UploadModel->isFound( $data['uID'], $data['hashName'] ) ) {
+                if( $eduInfo = $this->getByEduID( $data['eduID'], '*' ) ) {
+                    //check if $eduInfo['userID'] == USER || is admin
+
+                    $info = array( );
+                    $info['uID'] = (int)$data['uID'];
+                    $this->Education->update( 'employee_education', $info, 'WHERE eduID = "' . (int)$data['eduID'] . '"' );
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * Upload file
+     * @return bool
+     */
+    public function deleteCertificate( $data ) {
+        if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
+            if( $this->isFoundByUID( $data['eduID'], $data['uID'] ) ) {
+                $UploadModel = new UploadModel( );
+                return $UploadModel->deleteFile( $data['uID'], $data['hashName'] );
+            }
+        }
+        $this->setErrMsg( 'File not found!' );
+        return false;
     }
 }
 ?>

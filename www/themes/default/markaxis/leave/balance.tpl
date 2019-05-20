@@ -264,50 +264,49 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: '10px',
-                orderable: false,
-                searchable : false,
-                className: "text-center",
-                data: 'laID',
-                render: function(data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
                 width: '230px',
                 render: function(data, type, full, meta) {
                     return full["name"] + ' (' + full["code"] + ")";
                 }
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
                 width: '230px',
                 render: function (data, type, full, meta) {
                     return full["startDate"] + '&nbsp; &mdash; &nbsp;' + full["endDate"];
                 }
             },{
-                targets: [3],
+                targets: [2],
                 orderable: true,
                 width: '80px',
                 className: "text-center",
                 data: 'days'
             },{
-                targets: [4],
+                targets: [3],
                 orderable: true,
                 width: '260px',
                 data: 'reason'
             },{
-                targets: [5],
+                targets: [4],
                 orderable: true,
                 width: '120px',
-                data: 'approved'
+                data: 'status',
+                className : "text-center",
+                render: function( data, type, full, meta ) {
+                    if( data == 0 ) {
+                        return '<span id="status' + full['piID'] + '" class="label label-pending">Pending Approval</span>';
+                    }
+                    else if( data == 1 ) {
+                        return '<span id="status' + full['piID'] + '" class="label label-success">Approved</span>';
+                    }
+                    else {
+                        return '<span id="status' + full['piID'] + '" class="label label-success">Unapproved</span>';
+                    }
+                }
             },{
-                targets: [6],
+                targets: [5],
                 orderable: false,
                 searchable : false,
                 width: '180px',
@@ -333,7 +332,7 @@
                     return managers;
                 }
             },{
-                targets: [7],
+                targets: [6],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -366,9 +365,6 @@
                         '</div>';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
             order: [],
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             language: {
@@ -684,7 +680,6 @@
 <table class="table table-bordered leaveHistoryTable">
     <thead>
     <tr>
-        <th></th>
         <th>Leave Type (Code)</th>
         <th>Period</th>
         <th>Days</th>

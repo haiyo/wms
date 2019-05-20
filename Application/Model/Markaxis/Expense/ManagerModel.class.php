@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Expense;
-use \Aurora\User\UserModel;
-use \Library\Validator\Validator;
+use \Markaxis\Employee\EmployeeModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -34,8 +33,8 @@ class ManagerModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFoundByUserID( $userID, $seID ) {
-        return $this->Manager->isFoundByUserID( $userID, $seID );
+    public function isFound( $ecID, $userID ) {
+        return $this->Manager->isFound( $ecID, $userID );
     }
 
 
@@ -43,8 +42,8 @@ class ManagerModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getByUserID( $userID ) {
-        return $this->Manager->getByUserID( $userID );
+    public function getByecID( $ecID ) {
+        return $this->Manager->getByecID( $ecID );
     }
 
 
@@ -64,7 +63,7 @@ class ManagerModel extends \Model {
     public function getResults( $list ) {
         if( isset( $list['data'] ) ) {
             foreach( $list['data'] as $key => $value ) {
-                $list['data'][$key]['managers'] = $this->Manager->getByecmID( $value['ecmID'] );
+                $list['data'][$key]['managers'] = $this->Manager->getByecID( $value['ecID'] );
             }
         }
         return $list;
@@ -76,29 +75,35 @@ class ManagerModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        $hasSup = false;
-
         // Make sure userID has "passed" from UserModel before proceed
-        if( isset( $data['managers'] ) && isset( $data['laID'] ) && $data['laID'] ) {
+        if( isset( $data['managers'] ) && isset( $data['ecID'] ) && $data['ecID'] ) {
+            $success = array( );
             $managers = explode( ';', $data['managers'] );
 
             if( sizeof( $managers ) > 0 ) {
-                $UserModel = new UserModel( );
+                $EmployeeModel = new EmployeeModel( );
 
-                foreach( $managers as $value ) {
-                    $value = Validator::stripTrim( $value );
+                foreach( $managers as $managerID ) {
+                    $value = (int)$managerID;
 
-                    if( $value && $userInfo = $UserModel->getFieldByName( $value, 'userID' ) ) {
+                    if( $value && $EmployeeModel->isFoundByUserID( $managerID ) &&
+                        !$this->isFound( $data['ecID'], $managerID ) ) {
                         $info = array( );
-                        $info['laID'] = (int)$data['laID'];
-                        $info['managerID'] = (int)$userInfo['userID'];
+                        $info['ecID'] = (int)$data['ecID'];
+                        $info['managerID'] = $managerID;
                         $this->Manager->insert( 'expense_claim_manager', $info );
-                        $hasSup = true;
                     }
+                    array_push( $success, $managerID );
+                }
+                if( sizeof( $success ) > 0 ) {
+                    $this->Manager->delete('expense_claim_manager', 'WHERE ecID = "' . (int)$data['ecID'] . '" AND 
+                                              managerID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
                 }
             }
         }
-        return $hasSup;
+        else {
+            $this->Manager->delete('expense_claim_manager', 'WHERE ecID = "' . (int)$data['ecID'] . '"' );
+        }
     }
 }
 ?>

@@ -51,8 +51,8 @@ var MarkaxisApplyLeave = (function( ) {
             });
 
             $(".form-check-input-styled").uniform( );
-            $("#startTime").pickatime({interval:60, min: [9,0], max: [18,0]});
-            $("#endTime").pickatime({interval:60, min: [9,0], max: [18,0]});
+            $("#startTime").pickatime({interval:5});
+            $("#endTime").pickatime({interval:5});
 
             $("#startDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {

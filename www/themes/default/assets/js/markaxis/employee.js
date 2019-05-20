@@ -182,8 +182,12 @@ var MarkaxisEmployee = (function( ) {
             $("#ltID").multiselect({includeSelectAllOption: true});
             $("#department").multiselect({includeSelectAllOption: true});
 
+            if( $("#userID").val( ) != 0 ) {
+                this.getUserManager( );
+            }
+
             $("#department").on("change", function( ) {
-                that.updateManager( );
+                that.suggestDeptManager( );
             });
 
             $(".styled").uniform({
@@ -322,19 +326,25 @@ var MarkaxisEmployee = (function( ) {
                 reader.readAsDataURL(input.files[0]);
             }
             else {
-                swal("Sorry - you're browser doesn't support the FileReader API");
+                swal("Sorry - your browser doesn't support the FileReader API");
             }
         },
 
-        updateManager: function( ) {
-            this.markaxisUSuggest.clearToken( );
-            var departments = $("#department").val( );
+        suggestDeptManager: function( ) {
+            if( this.markaxisUSuggest.getCount( ) == 0 ) {
+                //this.markaxisUSuggest.clearToken( );
+                var departments = $("#department").val( );
 
-            if( departments.length > 0 ) {
-                for( var dID in departments ) {
-                    this.markaxisUSuggest.getSuggestToken("admin/company/getSuggestToken/" + departments[dID]);
+                if( departments.length > 0 ) {
+                    for( var dID in departments ) {
+                        this.markaxisUSuggest.getSuggestToken("admin/company/getSuggestToken/" + departments[dID]);
+                    }
                 }
             }
+        },
+
+        getUserManager: function( ) {
+            this.markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken/" + $("#userID").val( ));
         },
 
         /**

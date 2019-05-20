@@ -63,7 +63,7 @@
                 <span class="help-block">Accepted formats: pdf, doc. Max file size 2Mb</span>-->
 
                 <div class="input-group">
-                    <input type="text" id="expTestimonial" name="expTestimonial" class="form-control" readonly="readonly" />
+                    <input type="text" id="expTestimonial" name="expTestimonial" class="form-control upload-control" readonly="readonly" />
                     <input type="hidden" id="expUID" name="expUID" class="form-control" />
                     <input type="hidden" id="expHashName" name="expHashName" class="form-control" />
                     <input type="hidden" id="expIndex" name="expIndex" value="" />

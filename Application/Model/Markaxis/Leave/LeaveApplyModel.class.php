@@ -76,25 +76,7 @@ class LeaveApplyModel extends \Model {
                     break;
             }
         }
-        $results = array( );
-        if( $sql = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir ) ) {
-            while( $row = $this->LeaveApply->fetch( $sql ) ) {
-                if( $row['approved'] == 0 ) {
-                    $row['approved'] = $this->L10n->getContents('LANG_PENDING');
-                }
-                else if( $row['approved'] == 1 ) {
-                    $row['approved'] = $this->L10n->getContents('LANG_APPROVED');
-                }
-                else if( $row['approved'] == '-1' ) {
-                    $row['approved'] = $this->L10n->getContents('LANG_UNAPPROVED');
-                }
-                $results[] = $row;
-            }
-
-            $sql = $this->LeaveApply->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
-            $row = $this->LeaveApply->fetch( $sql );
-            $results['recordsTotal'] = $row['FOUND_ROWS()'];
-        }
+        $results = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
@@ -168,17 +150,23 @@ class LeaveApplyModel extends \Model {
                 $OfficeModel = OfficeModel::getInstance( );
 
                 if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                    $startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
-                    $endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
-                    $hoursDiff = $startTime->diff( $endTime )->h;
+                    //$startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
+                    //$endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
+                    //$hoursDiff = $startTime->diff( $endTime )->h;
                     //$hoursDiff -= $officeInfo['breakHours'];
+
+                    $openTime  = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
+                    $closeTime = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
+                    $hoursDiff = $openTime->diff( $closeTime )->h;
+echo $hoursDiff; exit;
+
 
                     if( !$typeInfo['allowHalfDay'] && $hoursDiff < $officeInfo['workingHours'] ) {
                         $startTime = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
                         $endTime   = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
 
                         $errMsg = $this->L10n->strReplace( 'startTime', $startTime->format('h:i A'), 'LANG_HALF_DAY_NOT_ALLOWED');
-                        $errMsg = $this->L10n->strReplace( 'endTime', $endTime->format('h:i A'), $errMsg);
+                        $errMsg = $this->L10n->strReplace( 'endTime', $endTime->format('h:i A'), $errMsg );
                         $this->setErrMsg( $errMsg );
                         return false;
                     }
@@ -198,11 +186,11 @@ class LeaveApplyModel extends \Model {
                     // create an iterateable period of date (P1D equates to 1 day)
                     $period = new \DatePeriod($startDate, new \DateInterval('P1D'), $endDate);
 
-                    foreach($period as $dt) {
+                    foreach( $period as $dt ) {
                         $curr = $dt->format('D');
 
                         // substract if Saturday or Sunday
-                        if ($curr == 'Sat' || $curr == 'Sun') {
+                        if( $curr == 'Sat' || $curr == 'Sun' ) {
                             $daysDiff--;
                         }
                         /*else if( in_array( $dt->format('Y-m-d'), $holidays ) ) {

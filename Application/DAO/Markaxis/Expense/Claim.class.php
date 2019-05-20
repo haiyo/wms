@@ -27,11 +27,29 @@ class Claim extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $prID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(prID) FROM payroll WHERE prID = "' . (int)$prID . '"',
+    public function isFound( $ecID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(ecID) FROM expense_claim WHERE ecID = "' . (int)$ecID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getByecID( $ecID ) {
+        $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
+                                   FROM expense_claim ec
+                                   LEFT JOIN upload u ON ( u.uID = ec.uID )
+                                   WHERE ec.ecID = "' . (int)$ecID . '" AND ec.cancelled <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -45,10 +63,16 @@ class Claim extends \DAO {
         $q = $q ? addslashes( $q ) : '';
         $q = $q ? 'AND ( ei.title LIKE "%' . $q . '%" OR ec.descript LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM expense_claim ec
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS ec.ecID AS ecID, ec.userID AS userID, 
+                                          ec.descript, ec.amount, ec.uID, ec.status, ec.cancelled,
+                                          DATE_FORMAT(ec.created, "%D %b %Y") AS created,
+                                          u.name AS uploadName, u.hashName, c.code, c.symbol, ei.title
+                                   FROM expense_claim ec
                                    LEFT JOIN expense_item ei ON ( ei.eiID = ec.etID )
+                                   LEFT JOIN currency c ON ( c.cID = ec.currencyID )
+                                   LEFT JOIN upload u ON ( u.uID = ec.uID )
                                    WHERE ec.userID = "' . (int)$userID . '" ' . $q . '
-                                   ORDER BY ' . $order . $this->limit,
+                                   ORDER BY ec.created DESC, ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

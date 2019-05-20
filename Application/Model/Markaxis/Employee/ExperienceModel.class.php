@@ -15,6 +15,7 @@ class ExperienceModel extends \Model {
 
 
     // Properties
+    const USER_EXP_DIR = USER_DIR . 'exp/';
     protected $Experience;
 
 
@@ -163,9 +164,9 @@ class ExperienceModel extends \Model {
         $this->fileInfo['hashDir'] = MD5( date('Y-m-d') );
         $this->fileInfo['dir'] = $this->fileInfo['hashDir'] . '/';
 
-        File::createDir( USER_EXP_DIR . $this->fileInfo['dir'] );
+        File::createDir( self::USER_EXP_DIR . $this->fileInfo['dir'] );
 
-        $Uploader = new Uploader( array( 'uploadDir' => USER_EXP_DIR . $this->fileInfo['dir'] ) );
+        $Uploader = new Uploader( array( 'uploadDir' => self::USER_EXP_DIR . $this->fileInfo['dir'] ) );
 
         if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
             $this->fileInfo = array_merge( $this->fileInfo, $Uploader->getFileInfo( ) );

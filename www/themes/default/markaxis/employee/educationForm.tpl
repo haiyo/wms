@@ -57,7 +57,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-md-6">
                 <label>Specialization:</label>
@@ -67,7 +66,7 @@
             <div class="col-md-6">
                 <label class="display-block">Certificate:</label>
                 <div class="input-group">
-                    <input type="text" id="eduCertificate" name="eduCertificate" class="form-control" readonly="readonly" />
+                    <input type="text" id="eduCertificate" name="eduCertificate" class="form-control upload-control" readonly="readonly" />
                     <input type="hidden" id="eduUID" name="eduUID" class="form-control" />
                     <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
                     <input type="hidden" id="eduIndex" name="eduIndex" value="" />
@@ -80,14 +79,12 @@
             </div>
         </div>
 
-
-
         <div id="uploadEduModal" class="modal fade">
             <div class="modal-dialog modal-med">
                 <div class="modal-content">
                     <div class="modal-header bg-info">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h6 class="modal-title"><?LANG_SUBMIT_NEW_CLAIM?></h6>
+                        <h6 class="modal-title">Upload Certificate</h6>
                     </div>
 
                     <div class="modal-body overflow-y-visible">

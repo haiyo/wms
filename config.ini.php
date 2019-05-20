@@ -33,8 +33,6 @@ define( 'UPLOAD_DIR', ROOT . 'www/mars/' );
 
 define( 'USER_DIR', UPLOAD_DIR . 'user/' );
 define( 'USER_PHOTO_DIR', USER_DIR . 'photo/' );
-define( 'USER_EDU_DIR', USER_DIR . 'edu/' );
-define( 'USER_EXP_DIR', USER_DIR . 'exp/' );
 
 define( 'LOGO_DIR', UPLOAD_DIR . 'logo/' );
 define( 'BACKUP_DIR', UPLOAD_DIR . 'backup/' );

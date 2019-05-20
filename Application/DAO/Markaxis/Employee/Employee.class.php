@@ -28,7 +28,10 @@ class Employee extends \DAO {
      * @return int
      */
     public function isFound( $eID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee WHERE eID = "' . (int)$eID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e
+                                   LEFT JOIN user u ON ( u.userID = e.userID )
+                                   WHERE eID = "' . (int)$eID . '" AND 
+                                         u.deleted <> "1" AND e.resigned <> "1"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -40,7 +43,10 @@ class Employee extends \DAO {
      * @return int
      */
     public function isFoundByUserID( $userID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee WHERE userID = "' . (int)$userID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e
+                                   LEFT JOIN user u ON ( u.userID = e.userID )
+                                   WHERE u.userID = "' . (int)$userID . '" AND
+                                         u.deleted <> "1" AND e.resigned <> "1"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -84,7 +90,7 @@ class Employee extends \DAO {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1" AND e.resigned <> "1"',
-            __FILE__, __LINE__ );
+                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

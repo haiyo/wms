@@ -176,8 +176,8 @@
         });
 
         $("#officeType").select2({minimumResultsForSearch: -1});
-        $("#openTime").pickatime({interval:60, min: [9,0], max: [18,0]});
-        $("#closeTime").pickatime({interval:60, min: [9,0], max: [18,0]});
+        $("#openTime").pickatime( );
+        $("#closeTime").pickatime( );
 
         $("#saveOffice").validate({
             rules: {

@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\User\UserModel;
+use \Markaxis\Employee\EmployeeModel;
 use \Library\Validator\Validator;
 
 /**
@@ -83,15 +83,15 @@ class ManagerModel extends \Model {
             $managers = explode( ';', $data['managers'] );
 
             if( sizeof( $managers ) > 0 ) {
-                $UserModel = new UserModel( );
+                $EmployeeModel = new EmployeeModel( );
 
                 foreach( $managers as $value ) {
-                    $value = Validator::stripTrim( $value );
+                    $value = (int)$value;
 
-                    if( $value && $userInfo = $UserModel->getFieldByName( $value, 'userID' ) ) {
+                    if( $value && $EmployeeModel->isFoundByUserID( $value ) ) {
                         $info = array( );
                         $info['laID'] = (int)$data['laID'];
-                        $info['managerID'] = (int)$userInfo['userID'];
+                        $info['managerID'] = $value;
                         $this->Manager->insert( 'leave_apply_manager', $info );
                         $hasSup = true;
                     }

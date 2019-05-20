@@ -1,6 +1,6 @@
 <?php
 namespace Library\IO;
-use \Library\Exception\FileNotFoundException;
+use \Library\Exception\Exceptions, \Library\Exception\FileNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -29,10 +29,20 @@ class File {
     * @return string
     */
     public static function createDir( $dir ) {
-        if( !is_dir( $dir ) ) {
-            $old_umask = umask(0);
-            @mkdir( $dir );
-            umask( $old_umask );
+        try {
+            if( !is_dir( $dir ) ) {
+                $old_umask = umask(0);
+                @mkdir( $dir );
+                umask( $old_umask );
+
+                if( !is_dir( $dir ) ) {
+                    throw new Exceptions( 'Unable to create directory:' . $dir );
+                }
+            }
+        }
+        catch( Exceptions $e ) {
+            $e->record( );
+            return false;
         }
     }
 
@@ -92,7 +102,7 @@ class File {
     * @empty - Removes the given directory totally, but you can specify to just
     *          "empty" it instead by setting TRUE. In this case it deletes 
     *          everything inside the given directory and keeps the directory itself.
-	* @return void
+	* @return bool
     */
     public static function removeDir( $directory, $empty=false ) {
         // if the path has a slash at the end, remove it

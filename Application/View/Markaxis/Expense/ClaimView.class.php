@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Library\Helper\Aurora\CurrencyHelper;
+use \Aurora\Component\CurrencyModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -35,12 +35,12 @@ class ClaimView extends AdminView {
 
         $this->ClaimModel = ClaimModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
-                                  'plugins/moment' => 'moment.min.js',
+        $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
                                   'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
+                                  'plugins/forms' => array( 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
+                                  'plugins/uploaders' => array( 'fileinput.min.js' ),
                                   'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
     }
 
@@ -55,9 +55,10 @@ class ClaimView extends AdminView {
                                       'text' => $this->L10n->getContents('LANG_EXPENSES_CLAIM') ) );
 
         $ExpenseModel = ExpenseModel::getInstance( );
+        $CurrencyModel = CurrencyModel::getInstance( );
 
         $SelectListView = new SelectListView( );
-        $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), '', 'Currency' );
+        $currencyList = $SelectListView->build( 'currency', $CurrencyModel->getList( ), '', 'Currency' );
         $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', 'Select Expense Type' );
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList,
