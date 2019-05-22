@@ -263,17 +263,21 @@
         <?TPL_CONTENT?>
 
         <div class="bg-transparent header-elements-inline">
-            <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Pending Activities</span>
+            <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Pending Your Action</span>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="no-notification text-center">
-                    <i class="icon-pulse2 mr-3 icon-3x"></i>
-                    <span>You have no activities at the moment...</span>
+        <div id="noPendingAction">
+            <div class="card">
+                <div class="card-body">
+                    <div class="no-notification text-center">
+                        <i class="icon-pulse2 mr-3 icon-3x"></i>
+                        <span>You have no activities at the moment...</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+
 
         <div class="bg-transparent header-elements-inline">
             <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">What's Happening at Markaxis?</span>

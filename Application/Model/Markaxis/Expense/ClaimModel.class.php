@@ -51,6 +51,15 @@ class ClaimModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getPendingAction( $userID ) {
+        return $this->Claim->getPendingAction( $userID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */

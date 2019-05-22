@@ -64,20 +64,28 @@
         <?TPL_MENU?>
 
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown language-switch">
+            <!--<li class="dropdown language-switch">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <img src="assets/images/flags/gb.png" class="position-left" alt="">
                     English
                     <span class="caret"></span>
                 </a>
 
-                <!--<ul class="dropdown-menu">
+                <ul class="dropdown-menu">
                     <li><a class="deutsch"><img src="assets/images/flags/de.png" alt=""> Deutsch</a></li>
                     <li><a class="ukrainian"><img src="assets/images/flags/ua.png" alt=""> Українська</a></li>
                     <li><a class="english"><img src="assets/images/flags/gb.png" alt=""> English</a></li>
                     <li><a class="espana"><img src="assets/images/flags/es.png" alt=""> España</a></li>
                     <li><a class="russian"><img src="assets/images/flags/ru.png" alt=""> Русский</a></li>
-                </ul>-->
+                </ul>
+            </li>-->
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-bell2"></i>
+                    <span class="badge bg-warning-400">2</span>
+                </a>
+                <?TPL_NOTIFICATION_LIST?>
             </li>
 
             <li class="dropdown">

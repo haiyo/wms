@@ -68,7 +68,7 @@ class Claim extends \DAO {
                                           DATE_FORMAT(ec.created, "%D %b %Y") AS created,
                                           u.name AS uploadName, u.hashName, c.code, c.symbol, ei.title
                                    FROM expense_claim ec
-                                   LEFT JOIN expense_item ei ON ( ei.eiID = ec.etID )
+                                   LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
                                    LEFT JOIN currency c ON ( c.cID = ec.currencyID )
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
                                    WHERE ec.userID = "' . (int)$userID . '" ' . $q . '
@@ -83,6 +83,33 @@ class Claim extends \DAO {
         $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getPendingAction( $userID ) {
+        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.fname, u.lname, up.name AS uploadName, up.hashName
+                                   FROM expense_claim ec
+                                   LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
+                                   LEFT JOIN expense_claim_manager ecm ON ( ecm.ecID = ec.ecID )
+                                   LEFT JOIN upload up ON ( up.uID = ec.uID )
+                                   LEFT JOIN user u ON ( u.userID = ec.userID )
+                                   WHERE ecm.managerID = "' . (int)$userID . '" AND 
+                                         ecm.approved = "0" AND
+                                         ec.cancelled <> "1"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
         return $list;
     }
 }

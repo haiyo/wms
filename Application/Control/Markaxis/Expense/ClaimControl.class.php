@@ -40,6 +40,15 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function getPendingAction( ) {
+        Control::setOutputArray( array( 'pending' => $this->ClaimView->renderPendingAction( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getClaim( $data ) {
         if( isset( $data[1] ) ) {
             Control::setOutputArray( array( 'data' => $this->ClaimModel->getByecID( $data[1] ) ) );

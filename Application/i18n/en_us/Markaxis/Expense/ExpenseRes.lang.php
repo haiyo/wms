@@ -25,6 +25,7 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_CREATE_NEW_EXPENSE_TYPE'] = 'Create New Expense Type';
         $this->contents['LANG_INVALID_CLAIM_TYPE'] = 'Invalid Claim Type';
         $this->contents['LANG_INVALID_CURRENCY'] = 'Invalid Currency';
+        $this->contents['LANG_ROW_GROUP'] = 'Claim Request';
     }
 }
 ?>

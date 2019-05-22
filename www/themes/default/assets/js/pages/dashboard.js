@@ -62,4 +62,15 @@ $(function() {
     $("#modalChat").on("shown.bs.modal", function(e) {
         $("body").removeClass("modal-open");
     });
+
+    var data = {
+        success: function(res) {
+            var obj = $.parseJSON(res);
+
+            if( obj.bool == 1 ) {
+                $("#noPendingAction").html( obj.data );
+            }
+        }
+    }
+    Aurora.WebService.AJAX( "admin/dashboard/getPendingAction", data );
 });

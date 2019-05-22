@@ -224,6 +224,7 @@ class Date {
         // Defaults and assume if 0 is passed in that
         // its an error rather than the epoch
         if( $dateTo == -1 ) { $dateTo = time( ); }
+        $dateFrom = strtotime( $dateFrom );
 
         // Calculate the difference in seconds betweeen
         // the two timestamps

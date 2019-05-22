@@ -120,5 +120,15 @@ class DashboardView extends AdminView {
 
         return $this->render( 'aurora/page/dashboard.tpl', $vars );
     }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderPendingAction( $data ) {
+        $vars['TPL_ROW'] = $data;
+        return $this->render( 'aurora/page/tableRequest.tpl', $vars );
+    }
 }
 ?>

@@ -2,7 +2,7 @@
 namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Component\CurrencyModel;
-use \Library\Runtime\Registry;
+use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -69,6 +69,34 @@ class ClaimView extends AdminView {
                                                             'input/typeahead.bundle.min.js', 'input/handlebars.js' ) ) );
 
         return $this->render( 'markaxis/expense/claimList.tpl', $vars );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderPendingAction( ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        $pendingAction = $this->ClaimModel->getPendingAction( $userInfo['userID'] );
+
+        if( $pendingAction ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $pendingAction as $row ) {
+                $created = Date::timeSince( $row['created'] );
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $row['fname'],
+                                                    'TPLVAR_LNAME' => $row['lname'],
+                                                    'TPLVAR_TIME_AGO' => $created,
+                                                    'TPLVAR_TITLE' => $row['itemTitle'],
+                                                    'TPLVAR_DESCRIPTION' => $row['descript'] );
+
+                return $this->render( 'aurora/page/tableRowRequest.tpl', $vars );
+            }
+        }
     }
 }
 ?>

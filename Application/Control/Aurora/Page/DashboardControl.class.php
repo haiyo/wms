@@ -13,6 +13,7 @@ class DashboardControl {
 
 
     // Properties
+    private $DashboardView;
 
 
     /**
@@ -20,7 +21,7 @@ class DashboardControl {
     * @return void
     */
     function __construct( ) {
-        //
+        $this->DashboardView = new DashboardView( );
     }
 
 
@@ -40,9 +41,23 @@ class DashboardControl {
      */
     public function dashboard( ) {
         $output = Control::getOutputArray( );
+        $this->DashboardView->printAll( $this->DashboardView->renderDashboard( $output ) );
+    }
 
-        $DashboardView = new DashboardView( );
-        $DashboardView->printAll( $DashboardView->renderDashboard( $output ) );
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getPendingAction( ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['pending'] ) ) {
+            $vars['bool'] = 1;
+            $vars['data'] = $this->DashboardView->renderPendingAction( $output['pending'] );
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

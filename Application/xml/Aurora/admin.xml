@@ -7,6 +7,7 @@
         <observer controller="Aurora/Page/PageWrapperControl"></observer>
     </task>
     <task type="dashboard">
+        <observer controller="Markaxis/Expense/ClaimControl"></observer>
         <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
