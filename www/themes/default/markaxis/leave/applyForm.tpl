@@ -37,6 +37,7 @@
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
                                     <input type="text" class="form-control" id="startTime" name="startTime" placeholder="" />
+                                    <input type="hidden" id="openTime" value="<?TPLVAR_OPEN_TIME?>" />
                                 </div>
                             </div>
                         </div>
@@ -53,6 +54,7 @@
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
                                 <input type="text" class="form-control" id="endTime" name="endTime" placeholder="" />
+                                <input type="hidden" id="closeTime" value="<?TPLVAR_CLOSE_TIME?>" />
                             </div>
                         </div>
 

@@ -61,6 +61,28 @@ class LeaveType extends \DAO {
      * @return mixed
      */
     public function getListByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT lt.ltID, lt.name FROM leave_type lt
+                                   LEFT JOIN employee_leave_type elt ON ( elt.ltID = lt.ltID )
+                                   WHERE userID = "' . (int)$userID . '"
+                                   ORDER BY lt.name',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['ltID']] = $row['name'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user list normally use for building select list
+     * @return mixed
+     */
+    public function getltIDByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT GROUP_CONCAT(DISTINCT ltID) AS ltID FROM employee_leave_type
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );

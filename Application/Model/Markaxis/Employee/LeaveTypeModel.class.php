@@ -59,6 +59,15 @@ class LeaveTypeModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getltIDByUserID( $userID ) {
+        return $this->info = $this->LeaveType->getltIDByUserID( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function existByLTIDs( $ltIDs ) {
         return (int)$this->LeaveType->existByLTIDs( $ltIDs );
     }

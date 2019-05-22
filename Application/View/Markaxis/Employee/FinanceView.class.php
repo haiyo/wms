@@ -67,7 +67,7 @@ class FinanceView extends AdminView {
             $TaxModel->getListByUserID( $userID );
 
             $LeaveTypeModel = LeaveTypeModel::getInstance( );
-            $LeaveTypeModel->getListByUserID( $userID );
+            $LeaveTypeModel->getltIDByUserID( $userID );
         }
         return $this->renderForm( );
     }

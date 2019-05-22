@@ -2,6 +2,7 @@
 namespace Markaxis\Company;
 use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
 use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
+use \Library\Helper\Aurora\DayHelper;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -48,13 +49,17 @@ class OfficeView extends AdminView {
         $countryList = $SelectListView->build( 'officeCountry', $countries, '', 'Select Country' );
 
         $OfficeTypeModel = OfficeTypeModel::getInstance( );
-        $officeTypeList = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
+        $officeTypeList  = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
+        $workDayFromList = $SelectListView->build( 'workDayFrom', DayHelper::getL10nList( ), '', 'Select Work Day From' );
+        $workDayToList   = $SelectListView->build( 'workDayTo', DayHelper::getL10nList( ), '', 'Select Work Day To' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_HREF' => 'officeList',
                        'LANG_TEXT' => $this->L10n->getContents( 'LANG_OFFICE' ),
                        'TPL_COUNTRY_LIST' => $countryList,
-                       'TPL_OFFICE_TYPE_LIST' => $officeTypeList ) );
+                       'TPL_OFFICE_TYPE_LIST' => $officeTypeList,
+                       'TPL_WORK_DAY_FROM' => $workDayFromList,
+                       'TPL_WORK_DAY_TO' => $workDayToList ) );
 
         return array( 'tab'  => $this->render( 'aurora/core/tab.tpl', $vars ),
                       'form' => $this->render( 'markaxis/company/officeList.tpl', $vars ) );

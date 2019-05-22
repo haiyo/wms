@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\LeaveBalanceModel, \Markaxis\Employee\EmployeeModel;
+use \Library\Helper\Aurora\DayHelper;
 use \Library\Util\Date;
 use \DateTime;
 
@@ -150,18 +151,15 @@ class LeaveApplyModel extends \Model {
                 $OfficeModel = OfficeModel::getInstance( );
 
                 if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                    //$startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
-                    //$endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
-                    //$hoursDiff = $startTime->diff( $endTime )->h;
-                    //$hoursDiff -= $officeInfo['breakHours'];
+                    $startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
+                    $endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
+                    $hoursDiff = $startTime->diff( $endTime )->h;
 
                     $openTime  = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
                     $closeTime = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
-                    $hoursDiff = $openTime->diff( $closeTime )->h;
-echo $hoursDiff; exit;
+                    $workingHours = $openTime->diff( $closeTime )->h;
 
-
-                    if( !$typeInfo['allowHalfDay'] && $hoursDiff < $officeInfo['workingHours'] ) {
+                    if( !$typeInfo['allowHalfDay'] && $hoursDiff < $workingHours ) {
                         $startTime = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
                         $endTime   = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
 
@@ -171,12 +169,12 @@ echo $hoursDiff; exit;
                         return false;
                     }
 
-                    if( $hoursDiff == ($officeInfo['workingHours']+$officeInfo['breakHours']) ) {
+                    if( $hoursDiff == $workingHours ) {
                         $decimal = 1;
                     }
                     else {
                         // Note: 9am to 5pm && 9am to 6pm (above) equates to an hour because deduction of lunchtime!
-                        $decimal = $hoursDiff/$officeInfo['workingHours'];
+                        $decimal = $hoursDiff/$workingHours;
                     }
 
                     $startDate = DateTime::createFromFormat('d M Y h:i A', $data['startDate'] . ' ' . $data['startTime'] );
@@ -184,13 +182,29 @@ echo $hoursDiff; exit;
                     $daysDiff = $startDate->diff( $endDate )->d;
 
                     // create an iterateable period of date (P1D equates to 1 day)
-                    $period = new \DatePeriod($startDate, new \DateInterval('P1D'), $endDate);
+                    $period = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
+                    $workDays = array( );
+                    $dayList = DayHelper::getList( );
+                    $started = false;
+
+                    foreach( $dayList as $day ) {
+                        if( $day == $officeInfo['workDayFrom'] ) {
+                            $workDays[$day] = $started = true;
+                        }
+                        if( $day == $officeInfo['workDayTo'] ) {
+                            $workDays[$day] = true;
+                            $started = false;
+                        }
+                        if( $started ) {
+                            $workDays[$day] = true;
+                        }
+                    }
 
                     foreach( $period as $dt ) {
-                        $curr = $dt->format('D');
+                        $curr = strtolower( $dt->format('D') );
 
-                        // substract if Saturday or Sunday
-                        if( $curr == 'Sat' || $curr == 'Sun' ) {
+                        // substract non working days
+                        if( !isset( $workDays[$curr] ) ) {
                             $daysDiff--;
                         }
                         /*else if( in_array( $dt->format('Y-m-d'), $holidays ) ) {
@@ -203,7 +217,7 @@ echo $hoursDiff; exit;
 
                     $hours = $days = '';
 
-                    if( $hoursDiff == $officeInfo['workingHours']+$officeInfo['breakHours'] ) {
+                    if( $hoursDiff == $workingHours ) {
                         $daysDiff += 1;
                     }
                     else if( $hoursDiff ) {

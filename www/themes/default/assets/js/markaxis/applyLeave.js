@@ -51,8 +51,25 @@ var MarkaxisApplyLeave = (function( ) {
             });
 
             $(".form-check-input-styled").uniform( );
-            $("#startTime").pickatime({interval:5});
-            $("#endTime").pickatime({interval:5});
+
+            var pickatimeSetting = {interval:5};
+            var openTime = $("#openTime").val( );
+            var closeTime = $("#closeTime").val( );
+
+            if( openTime && closeTime ) {
+                openTime  = openTime.split(":");
+                closeTime = closeTime.split(":");
+                pickatimeSetting["min"] = [openTime[0], openTime[1]];
+                pickatimeSetting["max"] = [closeTime[0], closeTime[1]];
+            }
+
+            var startTime = $("#startTime").pickatime(pickatimeSetting).pickatime('picker');
+            var endTime = $("#endTime").pickatime({min:[9,0],max:[18,0],interval:5}).pickatime('picker');
+
+            if( openTime && closeTime ) {
+                startTime.set('select', [openTime[0],openTime[1]]);
+                endTime.set('select', [closeTime[0], closeTime[1]]);
+            }
 
             $("#startDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {

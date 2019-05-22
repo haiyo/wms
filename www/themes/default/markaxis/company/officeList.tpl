@@ -38,22 +38,27 @@
                 targets: [3],
                 orderable: true,
                 width: '150px',
-                data: 'openTime',
-                className : "text-center",
+                data: 'workDays'
             },{
                 targets: [4],
                 orderable: true,
                 width: '150px',
-                data: 'closeTime',
+                data: 'openTime',
                 className : "text-center",
             },{
                 targets: [5],
                 orderable: true,
                 width: '150px',
-                data: 'empCount',
+                data: 'closeTime',
                 className : "text-center",
             },{
                 targets: [6],
+                orderable: true,
+                width: '150px',
+                data: 'empCount',
+                className : "text-center",
+            },{
+                targets: [7],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -139,6 +144,14 @@
             $("#officeName").focus( );
         });
 
+        $("#officeType").select2({minimumResultsForSearch: -1});
+        $("#workDayFrom").select2({minimumResultsForSearch: -1});
+        $("#workDayTo").select2({minimumResultsForSearch: -1});
+
+        var pickatimeSetting = {interval:5};
+        var openTime = $("#openTime").pickatime(pickatimeSetting).pickatime('picker');
+        var closeTime = $("#closeTime").pickatime(pickatimeSetting).pickatime('picker');
+
         $("#modalOffice").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var oID = $invoker.attr("data-id");
@@ -157,8 +170,17 @@
                             $("#officeAddress").val( obj.data.address );
                             $("#officeCountry").val( obj.data.countryID ).trigger("change");
                             $("#officeType").val( obj.data.officeTypeID ).trigger("change");
-                            $("#openTime").val( obj.data.openTime ).trigger("change");
-                            $("#closeTime").val( obj.data.closeTime ).trigger("change");
+                            $("#workDayFrom").val( obj.data.workDayFrom ).trigger("change");
+                            $("#workDayTo").val( obj.data.workDayTo ).trigger("change");
+
+                            if( obj.data.openTime ) {
+                                openTimeSplit = obj.data.openTime.split(":");
+                                openTime.set('select', [openTimeSplit[0],openTimeSplit[1]]);
+                            }
+                            if( obj.data.closeTime ) {
+                                closeTimeSplit = obj.data.closeTime.split(":");
+                                closeTime.set('select', [closeTimeSplit[0],closeTimeSplit[1]]);
+                            }
                         }
                     }
                 }
@@ -170,14 +192,12 @@
                 $("#officeAddress").val("");
                 $("#officeCountry").val("").trigger("change");
                 $("#officeType").val("").trigger("change");
+                $("#workDayFrom").val("").trigger("change");
+                $("#workDayTo").val("").trigger("change");
                 $("#openTime").val("").trigger("change");
                 $("#closeTime").val("").trigger("change");
             }
         });
-
-        $("#officeType").select2({minimumResultsForSearch: -1});
-        $("#openTime").pickatime( );
-        $("#closeTime").pickatime( );
 
         $("#saveOffice").validate({
             rules: {
@@ -229,6 +249,8 @@
                                 $("#officeAddress").val("");
                                 $("#officeCountry").val("").trigger("change");
                                 $("#officeType").val("").trigger("change");
+                                $("#workDayFrom").val("").trigger("change");
+                                $("#workDayTo").val("").trigger("change");
                                 $("#openTime").val("").trigger("change");
                                 $("#closeTime").val("").trigger("change");
 
@@ -307,6 +329,7 @@
             <th>Office Name</th>
             <th>Address</th>
             <th>Country</th>
+            <th>Work Days</th>
             <th>Opening Hour</th>
             <th>Closing Hour</th>
             <th>Total Employee</th>
@@ -354,6 +377,20 @@
                             <div class="form-group">
                                 <label>Office Type:</label>
                                 <?TPL_OFFICE_TYPE_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Working Day From:</label>
+                                <?TPL_WORK_DAY_FROM?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Working Day To:</label>
+                                <?TPL_WORK_DAY_TO?>
                             </div>
                         </div>
 

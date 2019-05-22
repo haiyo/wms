@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Library\Helper\Aurora\DayHelper;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -55,9 +56,9 @@ class Office extends \DAO {
                        OR c.country LIKE "%' . $q . '%" )' : '';
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS o.oID, o.name, o.address, c.name as country, 
-                                          IFNULL( e.empCount, 0 ) AS empCount,
-                                          TIME_FORMAT( openTime, "%H:%i" ) AS openTime, 
-                                          TIME_FORMAT( closeTime, "%H:%i" ) AS closeTime
+                                          IFNULL( e.empCount, 0 ) AS empCount, o.workDayFrom, o.workDayTo,
+                                          TIME_FORMAT( openTime, "%l:%i %p" ) AS openTime, 
+                                          TIME_FORMAT( closeTime, "%l:%i %p" ) AS closeTime
                                    FROM office o
                                    LEFT JOIN country c ON ( o.countryID = c.cID )
                                    LEFT JOIN ( SELECT officeID, COUNT(eID) as empCount FROM employee e
@@ -69,6 +70,12 @@ class Office extends \DAO {
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['workDays'] = '';
+
+                if( $row['workDayFrom'] && $row['workDayTo'] ) {
+                    $row['workDays'] = DayHelper::getL10nList( )[$row['workDayFrom']] . ' - ' .
+                                       DayHelper::getL10nList( )[$row['workDayTo']];
+                }
                 $list[] = $row;
             }
         }

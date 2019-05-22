@@ -65,11 +65,13 @@ $(function() {
 
     var data = {
         success: function(res) {
-            var obj = $.parseJSON(res);
+            if( res ) {
+                var obj = $.parseJSON(res);
 
-            if( obj.bool == 1 ) {
-                $("#noPendingAction").hide( );
-                $("#pendingAction").html( obj.data );
+                if( obj.bool == 1 ) {
+                    $("#noPendingAction").hide( );
+                    $("#pendingAction").html( obj.data );
+                }
             }
         }
     }

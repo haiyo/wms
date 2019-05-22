@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Company;
 use \Aurora\Component\OfficeModel AS A_OfficeModel;
-use \Aurora\Component\CountryModel;
+use \Aurora\Component\CountryModel, \Library\Helper\Aurora\DayHelper;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -124,6 +124,16 @@ class OfficeModel extends \Model {
 
         try {
             $Validator->validate( );
+
+            $DayHelper = DayHelper::getL10nList( );
+
+            if( isset( $DayHelper[$data['workDayFrom']] ) ) {
+                $this->info['workDayFrom'] = $data['workDayFrom'];
+            }
+
+            if( isset( $DayHelper[$data['workDayTo']] ) ) {
+                $this->info['workDayTo'] = $data['workDayTo'];
+            }
 
             $this->info['openTime'] = DateTime::createFromFormat('h:i A', $data['openTime'] )->format('H:i');
             $this->info['closeTime'] = DateTime::createFromFormat('h:i A', $data['closeTime'] )->format('H:i');
