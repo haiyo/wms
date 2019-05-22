@@ -86,7 +86,7 @@
                             return '<span id="status' + full['piID'] + '" class="label label-success">Approved</span>';
                         }
                         else {
-                            return '<span id="status' + full['piID'] + '" class="label label-danger">Unapproved</span>';
+                            return '<span id="status' + full['piID'] + '" class="label label-danger">Disapproved</span>';
                         }
                     }
                 }

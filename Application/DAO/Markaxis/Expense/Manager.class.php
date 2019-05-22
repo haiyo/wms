@@ -38,6 +38,20 @@ class Manager extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountPending( $ecID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(ecID) FROM expense_claim_manager 
+                                   WHERE ecID = "' . (int)$ecID . '" AND
+                                         approved = "0"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

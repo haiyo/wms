@@ -135,7 +135,12 @@ class Control {
             $outputArray = self::$outputArray;
             foreach( $outputArray as $key => $value ) {
                 if( isset( $array[$key] ) && $value ) {
-                    self::$outputArray[$key] = $value . $array[$key];
+                    if( !is_array( $value )) {
+                        self::$outputArray[$key] = $value . $array[$key];
+                    }
+                    else {
+                        self::$outputArray[$key] = array_merge_recursive( $value, $array[$key] );
+                    }
                     unset( $array[$key] );
                 }
             }

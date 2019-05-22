@@ -56,6 +56,24 @@ class ManagerControl {
      * Render main navigation
      * @return string
      */
+    public function setClaimAction( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+
+        if( $this->ManagerModel->setClaimAction( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveClaim( ) {
         $post = Control::getPostData( );
 

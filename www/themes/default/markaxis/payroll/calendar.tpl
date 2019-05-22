@@ -240,7 +240,7 @@
     </table>
 </div>
 <div id="modalAddPayrun" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-med2">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>

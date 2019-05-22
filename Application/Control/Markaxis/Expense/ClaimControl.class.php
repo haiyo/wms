@@ -31,6 +31,15 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function dashboard( ) {
+        Control::setOutputArrayAppend( array( 'js' => array( 'markaxis' => array( 'claim.js' ) ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function claim( ) {
         $this->ClaimView->printAll( $this->ClaimView->renderClaimList( ) );
     }

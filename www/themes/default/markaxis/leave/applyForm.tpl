@@ -16,13 +16,6 @@
                             </div>
                         </div>
 
-                        <!--<div class="col-md-6">
-                            <div class="form-group">
-                                <label>Leave For:</label>
-                                <?TPL_APPLY_FOR_LIST?>
-                            </div>
-                        </div>-->
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Reason:</label>

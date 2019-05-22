@@ -111,7 +111,7 @@ class DashboardView extends AdminView {
         if( isset( $output['content'] ) ) {
             $vars['TPL_CONTENT'] = $output['content'];
         }
-        if( isset( $output['js'] ) ) {
+        if( isset( $output['js'] ) ) {;
             $this->setJScript( $output['js'] );
         }
         $this->setBreadcrumbs( array( 'link' => '',

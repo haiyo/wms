@@ -1,4 +1,4 @@
-<table class="table table-normal text-nowrap tableRequest">
+<table id="tableRequest" class="table table-normal text-nowrap">
     <tbody>
     <?TPL_ROW?>
     </tbody>

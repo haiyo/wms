@@ -91,6 +91,8 @@ class ClaimView extends AdminView {
                 $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $row['fname'],
                                                     'TPLVAR_LNAME' => $row['lname'],
                                                     'TPLVAR_TIME_AGO' => $created,
+                                                    'TPLVAR_ID' => $row['ecID'],
+                                                    'TPLVAR_CLASS' => 'claimAction',
                                                     'TPLVAR_TITLE' => $row['itemTitle'],
                                                     'TPLVAR_DESCRIPTION' => $row['descript'] );
 

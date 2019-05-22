@@ -71,6 +71,44 @@ class ManagerModel extends \Model {
 
 
     /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getCountPending( $ecID ) {
+        return $this->Manager->getCountPending( $ecID );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return bool
+     */
+    public function setClaimAction( $data ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        if( isset( $data['ecID'] ) && $this->isFound( $data['ecID'], $userInfo['userID'] ) ) {
+            $info = array( );
+            $info['approved'] = $data['approved'];
+            $this->Manager->update( 'expense_claim_manager', $info, 'WHERE managerID="' . (int)$userInfo['userID'] . '"' );
+
+            // Immediate disapprove if one manager disapproved
+            $ClaimModel = ClaimModel::getInstance( );
+
+            if( $data['approved'] == '-1' ) {
+                $ClaimModel->setStatus( $data['ecID'], '-1' );
+            }
+            // Check if needed more approval
+            else if( !$this->getCountPending( $data['ecID'] ) ) {
+                $ClaimModel->setStatus( $data['ecID'], 1 );
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

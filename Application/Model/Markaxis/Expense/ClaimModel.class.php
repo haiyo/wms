@@ -95,6 +95,16 @@ class ClaimModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function setStatus( $ecID, $status ) {
+        $this->Claim->update('expense_claim', array( 'status' => $status ),
+                             'WHERE ecID = "' . (int)$ecID . '"' );
+    }
+
+
+    /**
      * Set Pay Item Info
      * @return bool
      */
@@ -155,8 +165,8 @@ class ClaimModel extends \Model {
             $this->info['ecID'] = $this->Claim->insert( 'expense_claim', $this->info );
         }
         else {
-            $this->Claim->update( 'expense_claim', $this->info,
-                                  'WHERE ecID = "' . (int)$this->info['ecID'] . '"' );
+            $this->Claim->update('expense_claim', $this->info,
+                                 'WHERE ecID = "' . (int)$this->info['ecID'] . '"' );
         }
         return $this->info['ecID'];
     }

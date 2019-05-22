@@ -68,7 +68,8 @@ $(function() {
             var obj = $.parseJSON(res);
 
             if( obj.bool == 1 ) {
-                $("#noPendingAction").html( obj.data );
+                $("#noPendingAction").hide( );
+                $("#pendingAction").html( obj.data );
             }
         }
     }
