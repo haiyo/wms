@@ -2,7 +2,7 @@
 namespace Markaxis\Leave;
 use \Markaxis\Company\OfficeModel, \Markaxis\Employee\EmployeeModel, \Markaxis\Employee\LeaveTypeModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
-use \Library\Helper\Markaxis\ApplyForHelper;
+use \Library\Helper\Markaxis\ApplyForHelper, \Library\Util\Date;
 use \Library\Runtime\Registry;
 
 /**
@@ -68,6 +68,43 @@ class LeaveApplyView extends AdminView {
         }
         return array( 'js' => array( 'markaxis' => array( 'usuggest.js', 'applyLeave.js' ) ),
                       'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderPendingAction( ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        $pendingAction = $this->LeaveApplyModel->getPendingAction( $userInfo['userID'] );
+
+        if( $pendingAction ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $pendingAction as $row ) {
+                $created = Date::timeSince( $row['created'] );
+
+                $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
+                $pdVars['TPLVAR_REASON'] = $row['reason'];
+                $pdVars['TPLVAR_START_DATE'] = $row['startDate'];
+                $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
+                $pdVars['TPLVAR_DAYS'] = $row['days'];
+                $reason = $this->render( 'markaxis/leave/pending_description.tpl', $pdVars );
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $row['fname'],
+                                                    'TPLVAR_LNAME' => $row['lname'],
+                                                    'TPLVAR_TIME_AGO' => $created,
+                                                    'TPLVAR_ID' => $row['laID'],
+                                                    'TPLVAR_CLASS' => 'leaveAction',
+                                                    'TPLVAR_TITLE' => $row['name'] . ' (' . $row['code'] . ')',
+                                                    'TPLVAR_DESCRIPTION' => $reason );
+
+                return $this->render( 'aurora/page/tableRowRequest.tpl', $vars );
+            }
+        }
     }
 }
 ?>

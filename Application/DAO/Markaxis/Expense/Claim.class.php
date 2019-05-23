@@ -92,7 +92,8 @@ class Claim extends \DAO {
      * @return mixed
      */
     public function getPendingAction( $userID ) {
-        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.fname, u.lname, up.name AS uploadName, up.hashName
+        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.fname, u.lname, 
+                                          up.name AS uploadName, up.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
                                    LEFT JOIN expense_claim_manager ecm ON ( ecm.ecID = ec.ecID )

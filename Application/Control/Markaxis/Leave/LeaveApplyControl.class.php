@@ -89,5 +89,14 @@ class LeaveApplyControl {
         echo json_encode( $vars );
         exit;
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getPendingAction( ) {
+        Control::setOutputArray( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
+    }
 }
 ?>

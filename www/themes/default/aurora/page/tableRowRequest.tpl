@@ -1,5 +1,5 @@
 <tr id="group-<?TPLVAR_ID?>" class="active">
-    <td colspan="3"><?LANG_ROW_GROUP?></td>
+    <td colspan="3"><?LANG_PENDING_ROW_GROUP?></td>
 </tr>
 <!-- BEGIN DYNAMIC BLOCK: list -->
 <tr id="list-<?TPLVAR_ID?>" class="pendingList">

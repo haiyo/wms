@@ -52,6 +52,15 @@ class LeaveApplyModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getPendingAction( $userID ) {
+        return $this->LeaveApply->getPendingAction( $userID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
