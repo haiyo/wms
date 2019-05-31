@@ -99,6 +99,25 @@ class LeaveApplyModel extends \Model {
 
 
     /**
+     * Render main navigation
+     * @return int
+     */
+    public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
+        return Date::daysDiff( $startDate, $endDate, true );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function setStatus( $laID, $status ) {
+        $this->LeaveApply->update('leave_apply', array( 'status' => $status ),
+                                  'WHERE laID = "' . (int)$laID . '"' );
+    }
+
+
+    /**
      * Set User Property Info
      * @return bool
      */
@@ -251,16 +270,7 @@ class LeaveApplyModel extends \Model {
      * @return string
      */
     public function save( ) {
-        return $this->info['laID'] = $this->LeaveApply->insert( 'leave_apply', $this->info );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
-        return Date::daysDiff( $startDate, $endDate, true );
+        return $this->info['laID'] = $this->LeaveApply->insert('leave_apply', $this->info );
     }
 }
 ?>

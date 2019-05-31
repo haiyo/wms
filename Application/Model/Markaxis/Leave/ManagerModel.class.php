@@ -34,8 +34,8 @@ class ManagerModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFoundByUserID( $userID, $seID ) {
-        return $this->Manager->isFoundByUserID( $userID, $seID );
+    public function isFound( $laID, $userID ) {
+        return $this->Manager->isFound( $laID, $userID );
     }
 
 
@@ -68,6 +68,44 @@ class ManagerModel extends \Model {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getCountPending( $laID ) {
+        return $this->Manager->getCountPending( $laID );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return bool
+     */
+    public function setLeaveAction( $data ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        if( isset( $data['laID'] ) && $this->isFound( $data['laID'], $userInfo['userID'] ) ) {
+            $info = array( );
+            $info['approved'] = $data['approved'];
+            $this->Manager->update( 'leave_apply_manager', $info, 'WHERE managerID="' . (int)$userInfo['userID'] . '"' );
+
+            // Immediate disapprove if one manager disapproved
+            $LeaveApplyModel = LeaveApplyModel::getInstance( );
+
+            if( $data['approved'] == '-1' ) {
+                $LeaveApplyModel->setStatus( $data['laID'], '-1' );
+            }
+            // Check if needed more approval
+            else if( !$this->getCountPending( $data['laID'] ) ) {
+                $LeaveApplyModel->setStatus( $data['laID'], 1 );
+            }
+            return true;
+        }
+        return false;
     }
 
 

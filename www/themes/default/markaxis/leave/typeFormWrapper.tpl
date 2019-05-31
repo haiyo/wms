@@ -183,10 +183,7 @@
 
 <div class="d-md-flex">
     <div class="sidebar sidebar-light sidebar-component sidebar-component-left sidebar-expand-md">
-
-        <!-- Sidebar content -->
         <div class="sidebar-content">
-            <!-- Latest updates -->
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
                     <span class="text-uppercase font-size-sm font-weight-semibold">Annual Leave</span>
@@ -232,11 +229,7 @@
                     </ul>
                 </div>
             </div>
-            <!-- /latest updates -->
-
         </div>
-        <!-- /sidebar content -->
-
     </div>
 
 

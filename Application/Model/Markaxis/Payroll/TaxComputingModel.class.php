@@ -179,9 +179,9 @@ class TaxComputingModel extends \Model {
                                             $remark = '';
                                         }
                                         $data['items'][$rules['trID']] = array( 'piID' => $deductpiID,
-                                                                  'trID' => $rules['trID'],
-                                                                  'title' => $rules['title'] . $remark,
-                                                                  'amount' => $amount );
+                                                                                'trID' => $rules['trID'],
+                                                                                'title' => $rules['title'] . $remark,
+                                                                                'amount' => $amount );
                                     }
                                 }
                                 if( $rules['applyType'] == 'contribution' && isset( $rules['applyValue'] ) &&

@@ -57,7 +57,7 @@ class TeamMemberModel extends \Model {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $row as $key => $value ) {
-                $image = $UserImageModel->getByUserID( $row[$key]['userID'], 'up.hashDir, up.hashName');
+                $image = $UserImageModel->getByUserID( $row[$key]['userID'] );
 
                 if( $image ) {
                     $image = ROOT_URL . 'www/mars/user/photo/' . $image['hashDir'] . '/' . $image['hashName'];

@@ -71,7 +71,7 @@ class EmployeeModel extends \Model {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $row as $key => $value ) {
-                $row[$key]['image'] = $UserImageModel->getByUserID( $row[$key]['userID'], 'up.hashDir, up.hashName');
+                $row[$key]['image'] = $UserImageModel->getByUserID( $row[$key]['userID'] );
             }
         }
         return $row;

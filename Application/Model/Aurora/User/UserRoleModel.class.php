@@ -49,7 +49,7 @@ class UserRoleModel extends \Model {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $list as $key => $value ) {
-                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'], 'up.hashDir, up.hashName');
+                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'] );
             }
         }
         return $list;

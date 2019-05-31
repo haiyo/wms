@@ -43,7 +43,7 @@ class ClaimModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getByecID( $ecID ) {
         return $this->Claim->getByecID( $ecID );
@@ -52,7 +52,16 @@ class ClaimModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
+     */
+    public function getByuserID( $userID ) {
+        return $this->Claim->getByuserID( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
      */
     public function getPendingAction( $userID ) {
         return $this->Claim->getPendingAction( $userID );
@@ -115,7 +124,7 @@ class ClaimModel extends \Model {
 
         $ExpenseModel = ExpenseModel::getInstance( );
         if( isset( $ExpenseModel->getList( )[$data['expense']] ) ) {
-            $this->info['etID'] = (int)$data['expense'];
+            $this->info['eiID'] = (int)$data['expense'];
         }
         else {
             $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CLAIM_TYPE') );
@@ -248,6 +257,24 @@ class ClaimModel extends \Model {
         }
         $this->setErrMsg( 'File not found!' );
         return false;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $userID, $data ) {
+        $claimInfo = $this->getByuserID( $userID );
+
+        if( sizeof( $claimInfo ) > 0 ) {
+            foreach( $claimInfo as $value ) {
+                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
+                                                        'title' => $value['descript'],
+                                                        'amount' => $value['amount'] );
+            }
+        }
+        return $data;
     }
 }
 ?>

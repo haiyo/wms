@@ -56,6 +56,9 @@ var MarkaxisClaim = (function( ) {
                                 $("#tableRequest").remove( );
                                 $("#noPendingAction").show( );
                             }
+                            else if( $(".claimAction").length == 0 ) {
+                                $("#group-claim").remove( );
+                            }
                             return;
                         });
                     }
@@ -87,7 +90,7 @@ var MarkaxisClaim = (function( ) {
                         $("#ltID" + ltID).text( count-obj.data.days );
 
                         if( obj.data.hasSup ) {
-                            text = "Your leave application is not confirm yet and is subject to Supervisor(s) approval.";
+                            text = "Your leave application is not confirm yet and is subject to Manager(s) approval.";
                         }
                         else {
                             text = "";

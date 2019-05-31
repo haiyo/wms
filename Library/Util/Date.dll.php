@@ -102,7 +102,7 @@ class Date {
 
     /**
     * Return the number of days from a date range
-    * @return array
+    * @return int
     */
     public static function daysDiff( \DateTime $startDate, \DateTime $endDate, $weekdays=false ) {
         $endDate->modify('+1 day');

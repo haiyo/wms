@@ -24,6 +24,34 @@ class Manager extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $laID, $managerID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(laID) FROM leave_apply_manager 
+                                   WHERE laID = "' . (int)$laID . '" AND
+                                         managerID = "' . (int)$managerID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountPending( $laID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(laID) FROM leave_apply_manager 
+                                   WHERE laID = "' . (int)$laID . '" AND
+                                         approved = "0"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

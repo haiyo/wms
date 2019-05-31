@@ -43,8 +43,8 @@ class UserImageModel extends \Model {
     * Return user data by userID
     * @return mixed
     */
-    public function getByUserID( $userID, $column ) {
-        if( $imgInfo = $this->UserImage->getByUserID( $userID, $column ) ) {
+    public function getByUserID( $userID ) {
+        if( $imgInfo = $this->UserImage->getByUserID( $userID ) ) {
             $image = ROOT_URL . 'www/mars/user/photo/' . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
         }
         else {

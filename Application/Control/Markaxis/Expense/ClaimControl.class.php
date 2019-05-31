@@ -50,7 +50,7 @@ class ClaimControl {
      * @return string
      */
     public function getPendingAction( ) {
-        Control::setOutputArray( array( 'pending' => $this->ClaimView->renderPendingAction( ) ) );
+        Control::setOutputArrayAppend( array( 'pending' => $this->ClaimView->renderPendingAction( ) ) );
     }
 
 
@@ -144,6 +144,16 @@ class ClaimControl {
         }
         echo json_encode( $vars );
         exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( $args ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->ClaimModel->processPayroll( $args[1], $data ) );
     }
 }
 ?>

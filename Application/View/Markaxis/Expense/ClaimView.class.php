@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Aurora\Component\CurrencyModel;
+use \Aurora\Component\CurrencyModel, \Aurora\User\UserImageModel;
 use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
@@ -88,13 +88,25 @@ class ClaimView extends AdminView {
             foreach( $pendingAction as $row ) {
                 $created = Date::timeSince( $row['created'] );
 
-                $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $row['fname'],
+                $attachment = '';
+                if( $row['uID'] ) {
+                    $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/' . $row['uID'] .
+                                    '/' . $row['hashName'] . '">' . $row['uploadName'] . '</a>';
+                }
+
+                $UserImageModel = UserImageModel::getInstance( );
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getByUserID( $userInfo['userID'] ),
+                                                    'TPLVAR_FNAME' => $row['fname'],
                                                     'TPLVAR_LNAME' => $row['lname'],
                                                     'TPLVAR_TIME_AGO' => $created,
                                                     'TPLVAR_ID' => $row['ecID'],
+                                                    'TPLVAR_GROUP_NAME' => 'claim',
                                                     'TPLVAR_CLASS' => 'claimAction',
                                                     'TPLVAR_TITLE' => $row['itemTitle'],
-                                                    'TPLVAR_DESCRIPTION' => $row['descript'] );
+                                                    'TPLVAR_DESCRIPTION' => $row['descript'],
+                                                    'TPLVAR_VALUE' => $row['code'] . $row['symbol'] . $row['amount'],
+                                                    'TPLVAR_ATTACHMENT' => $attachment );
 
                 return $this->render( 'aurora/page/tableRowRequest.tpl', $vars );
             }

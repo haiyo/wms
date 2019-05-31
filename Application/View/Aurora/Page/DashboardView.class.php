@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\User\UserModel, \Aurora\Admin\AdminView;
+use \Aurora\User\UserModel, \Aurora\Admin\AdminView, \Aurora\User\UserImageModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -96,8 +96,10 @@ class DashboardView extends AdminView {
      */
     public function renderDashboard( $output ) {
         $userInfo = UserModel::getInstance( )->getInfo( );
+        $UserImageModel = UserImageModel::getInstance( );
 
-        $vars = array( 'TPLVAR_FNAME' => $userInfo['fname'],
+        $vars = array( 'TPLVAR_PHOTO' => $UserImageModel->getByUserID( $userInfo['userID'] ),
+                       'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'] );
 
         $vars['TPL_SIDEBAR_SEARCH_BOX'] = $this->renderSearchbox( $output );

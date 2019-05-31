@@ -100,6 +100,39 @@ var MarkaxisApplyLeave = (function( ) {
                 markaxisUSuggest = new MarkaxisUSuggest( false );
                 markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
             });
+
+            $(document).on("click", ".leaveAction", function ( ) {
+                that.setLeaveAction( $(this).attr("data-id"), $(this).hasClass("approve") ? 1 : "-1" );
+                return false;
+            });
+        },
+
+        setLeaveAction: function( laID, approved ) {
+            var data = {
+                bundle: {
+                    laID: laID,
+                    approved: approved
+                },
+                success: function( res   ) {
+                    var obj = $.parseJSON( res );
+
+                    if( obj.bool == 1 ) {
+                        $("#list-" + laID).fadeOut("slow", function( ) {
+                            $(this).remove( );
+
+                            if( $(".pendingList").length == 0 ) {
+                                $("#tableRequest").remove( );
+                                $("#noPendingAction").show( );
+                            }
+                            else if( $(".leaveAction").length == 0 ) {
+                                $("#group-leave").remove( );
+                            }
+                            return;
+                        });
+                    }
+                }
+            };
+            Aurora.WebService.AJAX( "admin/leave/setLeaveAction", data );
         },
 
         getDaysDiff: function( ) {
@@ -159,7 +192,7 @@ var MarkaxisApplyLeave = (function( ) {
                         $("#ltID" + ltID).text( count-obj.data.days );
 
                         if( obj.data.hasSup ) {
-                            text = "Your leave application is not confirm yet and is subject to Supervisor(s) approval.";
+                            text = "Your leave application is not confirm yet and is subject to Manager(s) approval.";
                         }
                         else {
                             text = "";

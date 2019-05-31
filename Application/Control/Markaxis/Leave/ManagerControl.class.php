@@ -40,6 +40,24 @@ class ManagerControl {
      * Render main navigation
      * @return string
      */
+    public function setLeaveAction( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+
+        if( $this->ManagerModel->setLeaveAction( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function apply( ) {
         $post = Control::getPostData( );
 

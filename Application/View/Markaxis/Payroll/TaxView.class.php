@@ -53,8 +53,8 @@ class TaxView extends AdminView {
                                                 '', 'Select Office' );
 
         $ItemModel = ItemModel::getInstance( );
-        $payrollItemList = $SelectListView->build( 'payrollItem_{id}',
-                                                    $ItemModel->getList( ), '', 'Select Payroll Item' );
+        $payItemList = $SelectListView->build('payItem_{id}',
+                                               $ItemModel->getList( ), '', 'Select Pay Item' );
 
         $SelectListView->includeBlank( false );
         $SelectListView->isMultiple( true );
@@ -79,7 +79,7 @@ class TaxView extends AdminView {
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_OFFICE_LIST' => $officeList,
-                       'TPL_PAYROLL_ITEM_LIST' => $payrollItemList,
+                       'TPL_PAY_ITEM_LIST' => $payItemList,
                        'TPL_CONTRACT_LIST' => $contractList,
                        'TPL_DESIGNATION_LIST' => $designationList,
                        'TPL_RACE_LIST' => $raceList,

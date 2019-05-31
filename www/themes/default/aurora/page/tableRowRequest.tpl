@@ -1,12 +1,12 @@
-<tr id="group-<?TPLVAR_ID?>" class="active">
-    <td colspan="3"><?LANG_PENDING_ROW_GROUP?></td>
+<tr id="group-<?TPLVAR_GROUP_NAME?>" class="active">
+    <td colspan="4"><?LANG_PENDING_ROW_GROUP?></td>
 </tr>
 <!-- BEGIN DYNAMIC BLOCK: list -->
 <tr id="list-<?TPLVAR_ID?>" class="pendingList">
     <td style="width:25%">
         <div class="col-md-12">
             <div class="col-md-3 pl-0 pr-0" style="width:40px">
-                <img src="http://localhost/wms/www/mars/user/photo/860ef6cb5f062bbea780dfbc99e4f316//3bf8e741d8688c5573d2854efaf9f62a.png" width="40"
+                <img src="<?TPLVAR_PHOTO?>" width="40"
                      height="40" style="padding:0;" class="rounded-circle">
             </div>
             <div class="col-md-9 pr-0">
@@ -16,10 +16,12 @@
         </div>
     </td>
     <td>
-        <a href="#" class="text-default display-inline-block">
-            <span class="text-semibold"><?TPLVAR_TITLE?></span>
-            <span class="display-block text-muted"><?TPLVAR_DESCRIPTION?></span>
-        </a>
+        <span class="text-semibold"><?TPLVAR_TITLE?></span>
+        <span class="display-block text-muted"><?TPLVAR_DESCRIPTION?></span>
+    </td>
+    <td style="width:15%">
+        <span class="text-semibold"><?TPLVAR_VALUE?></span>
+        <div class="display-block text-muted text-ellipsis"><?TPLVAR_ATTACHMENT?></div>
     </td>
     <td class="text-center" style="width:80px">
         <ul class="icons-list">

@@ -96,7 +96,7 @@ class LeaveApplyControl {
      * @return string
      */
     public function getPendingAction( ) {
-        Control::setOutputArray( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
+        Control::setOutputArrayAppend( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
     }
 }
 ?>

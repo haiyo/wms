@@ -56,12 +56,13 @@
                 targets: [3],
                 orderable: true,
                 searchable: false,
-                width: "100px",
+                width: "110px",
                 data: "uploadName",
                 className : "text-center",
                 render: function( data, type, full, meta ) {
                     if( data ) {
-                        return '<a target="_blank" href="' + Aurora.ROOT_URL + 'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">' + data + '</a>';
+                        return '<div class="text-ellipsis"><a target="_blank" href="' + Aurora.ROOT_URL +
+                               'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">' + data + '</a></div>';
                     }
                     else {
                         return '';
@@ -130,7 +131,7 @@
                 className:"text-center",
                 data:"ecID",
                 render: function( data, type, full, meta ) {
-                    if( full['cancelled'] == 0 ) {
+                    if( full['cancelled'] == 0 && full['status'] != 1 ) {
                         return '<div class="list-icons">' +
                                 '<div class="list-icons-item dropdown">' +
                                 '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
@@ -242,7 +243,7 @@
                         }
                         else {
                             $("#ecID").val( obj.data.ecID )
-                            $("#expense").val( obj.data.etID ).trigger("change");
+                            $("#expense").val( obj.data.eiID ).trigger("change");
                             $("#claimDescript").val( obj.data.descript );
                             $("#currency").val( obj.data.currencyID ).trigger("change");
                             $("#claimAmount").val( obj.data.amount );

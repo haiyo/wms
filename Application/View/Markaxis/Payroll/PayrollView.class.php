@@ -170,7 +170,7 @@ class PayrollView extends AdminView {
         if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
 
-            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ) );
+            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID ) );
 
             /*$vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
                            'TPLVAR_FNAME' => $userInfo['fname'],
@@ -232,7 +232,13 @@ class PayrollView extends AdminView {
                         $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $items['amount'] );
                         $isBasic = true;
                     }
-                    $itemType = $SelectGroupListView->build( 'itemType', $fullList, 'p-' . $items['piID'], 'Select Payroll Item' );
+                    if( isset( $items['piID'] ) ) {
+                        $selected = 'p-' . $items['piID'];
+                    }
+                    else {
+                        $selected = 'e-' . $items['eiID'];
+                    }
+                    $itemType = $SelectGroupListView->build( 'itemType', $fullList, $selected, 'Select Payroll Item' );
 
                     $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,

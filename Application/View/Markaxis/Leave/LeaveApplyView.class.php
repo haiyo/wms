@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Company\OfficeModel, \Markaxis\Employee\EmployeeModel, \Markaxis\Employee\LeaveTypeModel;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel, \Aurora\User\UserImageModel;
 use \Library\Helper\Markaxis\ApplyForHelper, \Library\Util\Date;
 use \Library\Runtime\Registry;
 
@@ -88,19 +88,30 @@ class LeaveApplyView extends AdminView {
                 $created = Date::timeSince( $row['created'] );
 
                 $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
-                $pdVars['TPLVAR_REASON'] = $row['reason'];
+
+                if( $row['reason'] ) {
+                    $pdVars['dynamic']['reason'][] = $row['reason'];
+                }
+                else {
+                    $pdVars['dynamic']['reason'] = false;
+                }
                 $pdVars['TPLVAR_START_DATE'] = $row['startDate'];
                 $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
-                $pdVars['TPLVAR_DAYS'] = $row['days'];
                 $reason = $this->render( 'markaxis/leave/pending_description.tpl', $pdVars );
 
-                $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $row['fname'],
+                $UserImageModel = UserImageModel::getInstance( );
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getByUserID( $userInfo['userID'] ),
+                                                    'TPLVAR_FNAME' => $row['fname'],
                                                     'TPLVAR_LNAME' => $row['lname'],
                                                     'TPLVAR_TIME_AGO' => $created,
                                                     'TPLVAR_ID' => $row['laID'],
+                                                    'TPLVAR_GROUP_NAME' => 'leave',
                                                     'TPLVAR_CLASS' => 'leaveAction',
                                                     'TPLVAR_TITLE' => $row['name'] . ' (' . $row['code'] . ')',
-                                                    'TPLVAR_DESCRIPTION' => $reason );
+                                                    'TPLVAR_DESCRIPTION' => $reason,
+                                                    'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
+                                                    'TPLVAR_ATTACHMENT' => '' );
 
                 return $this->render( 'aurora/page/tableRowRequest.tpl', $vars );
             }

@@ -54,6 +54,30 @@ class Claim extends \DAO {
 
 
     /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getByuserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
+                                   FROM expense_claim ec
+                                   LEFT JOIN upload u ON ( u.uID = ec.uID )
+                                   WHERE ec.userID = "' . (int)$userID . '" AND 
+                                         ec.status = "1" AND
+                                         ec.cancelled <> "1"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -93,10 +117,11 @@ class Claim extends \DAO {
      */
     public function getPendingAction( $userID ) {
         $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.fname, u.lname, 
-                                          up.name AS uploadName, up.hashName
+                                          up.name AS uploadName, up.hashName, c.code, c.symbol
                                    FROM expense_claim ec
                                    LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
                                    LEFT JOIN expense_claim_manager ecm ON ( ecm.ecID = ec.ecID )
+                                   LEFT JOIN currency c ON ( c.cID = ec.currencyID )
                                    LEFT JOIN upload up ON ( up.uID = ec.uID )
                                    LEFT JOIN user u ON ( u.userID = ec.userID )
                                    WHERE ecm.managerID = "' . (int)$userID . '" AND 

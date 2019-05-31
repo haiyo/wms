@@ -8,8 +8,8 @@
             <!-- Sidebar search -->
             <div class="card">
                 <div class="header-inline">
-                    <div class="avatar"><img src="http://localhost/wms/themes/default/assets/images/face11.jpg" alt=""></div>
-                    <div class="bg-transparent dashboard-side-header">
+                    <div class="avatar"><img src="<?TPLVAR_PHOTO?>" width="95" height="95" /></div>
+                    <div class="bg-transparent dashboard-side-header text-ellipsis dashboard-side-ellipsis">
                         <div class="dashboard-side-role"><h2><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h2></div>
                         <div class="dashboard-side-role">HR Administrator</div>
                     </div>
@@ -990,8 +990,8 @@
                     <h6 class="modal-title">Create New Team</h6>
                 </div>
 
-                <div class="modal-body overflow-y-visible">
-                    <form id="createTeamForm" name="createTeamForm" method="post" action="">
+                <form id="createTeamForm" name="createTeamForm" method="post" action="">
+                    <div class="modal-body overflow-y-visible">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -1018,13 +1018,14 @@
 
                             </div>
                         </div>
-
-                        <div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="modal-footer-btn">
                             <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                             <button id="createTeam" type="submit" class="btn btn-primary">Create Team</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

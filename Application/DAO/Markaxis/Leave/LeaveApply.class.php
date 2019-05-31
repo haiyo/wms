@@ -65,7 +65,7 @@ class LeaveApply extends \DAO {
         }*/
         $q = '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, 
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, la.cancelled,
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate,
                                           la.days, la.status, la.created, lt.name, lt.code

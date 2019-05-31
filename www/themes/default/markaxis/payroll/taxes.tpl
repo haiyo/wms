@@ -973,7 +973,7 @@
                                     <option value=""></option>
                                     <optgroup label="Computing Variables">
                                         <option value="age">Age</option>
-                                        <option value="payrollItem">Payroll Item</option>
+                                        <option value="payItem">Pay Item</option>
                                         <option value="salary">Basic Salary</option>
                                         <option value="workforce">Total Workforce</option>
                                     </optgroup>
@@ -1033,12 +1033,30 @@
                         </div>
                     </div>
 
-                    <div id="payrollItemTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8">
+                    <div id="payItemTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-3">
                             <input type="hidden" id="tpiID_{id}" name="tpiID_{id}" value="" />
                             <div class="form-group">
-                                <label>Select Payroll Item:</label>
-                                <?TPL_PAYROLL_ITEM_LIST?>
+                                <label>Select Pay Item:</label>
+                                <?TPL_PAY_ITEM_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Amount Type:</label>
+                                <select name="valueType_{id}" id="valueType_{id}" data-placeholder="" placeholder=""
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="percentage">Percentage</option>
+                                    <option value="fixed" selected>Fixed / Integer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="col_{id}" class="col-md-2">
+                            <div class="form-group">
+                                <label>Value:</label>
+                                <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
                             </div>
                         </div>
 
@@ -1251,8 +1269,8 @@
             if( $(this).val( ) == "age" ) {
                 addComputing( $(this) );
             }
-            if( $(this).val( ) == "payrollItem" ) {
-                addPayrollItem( $(this) );
+            if( $(this).val( ) == "payItem" ) {
+                addPayItem( $(this) );
             }
             if( $(this).val( ) == "salary" ) {
                 addComputing( $(this) );
@@ -1304,12 +1322,12 @@
             return false;
         });
 
-        function addPayrollItem( element ) {
+        function addPayItem( element ) {
             var id = element.attr("data-id");
-            var html = $("#payrollItemTemplate").html( );
+            var html = $("#payItemTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#payrollItem_" + id).select2({minimumResultsForSearch:Infinity});
+            $("#payItem_" + id).select2({minimumResultsForSearch:Infinity});
         }
 
         function addComputing( element ) {
