@@ -43,7 +43,7 @@ class UserImageControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        Control::setOutputArrayAppend( array( 'photo' => $this->UserImageModel->getByUserID( $userID, '*' ) ) );
+        Control::setOutputArrayAppend( array( 'photo' => $this->UserImageModel->getImgLinkByUserID( $userID, '*' ) ) );
     }
 
 

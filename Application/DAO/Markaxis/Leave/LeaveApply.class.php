@@ -92,7 +92,7 @@ class LeaveApply extends \DAO {
      * @return mixed
      */
     public function getPendingAction( $userID ) {
-        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.fname, u.lname, la.reason,
+        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.userID, u.fname, u.lname, la.reason,
                                           la.laID, la.days, la.created,
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate

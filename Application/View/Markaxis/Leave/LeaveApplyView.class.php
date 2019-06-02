@@ -90,7 +90,7 @@ class LeaveApplyView extends AdminView {
                 $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
 
                 if( $row['reason'] ) {
-                    $pdVars['dynamic']['reason'][] = $row['reason'];
+                    $pdVars['dynamic']['reason'][] = array( 'TPLVAR_REASON' => $row['reason'] );
                 }
                 else {
                     $pdVars['dynamic']['reason'] = false;
@@ -101,7 +101,7 @@ class LeaveApplyView extends AdminView {
 
                 $UserImageModel = UserImageModel::getInstance( );
 
-                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getByUserID( $userInfo['userID'] ),
+                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $row['userID'] ),
                                                     'TPLVAR_FNAME' => $row['fname'],
                                                     'TPLVAR_LNAME' => $row['lname'],
                                                     'TPLVAR_TIME_AGO' => $created,

@@ -40,7 +40,7 @@ class UserImage extends \DAO {
     * @return mixed
     */
     public function getByUserID( $userID ) {
-        $sql = $this->DB->select( 'SELECT hashDir, hashName FROM user_image ui
+        $sql = $this->DB->select( 'SELECT * FROM user_image ui
                                    LEFT JOIN upload up ON (ui.uID = up.uID)
                                    WHERE ui.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );

@@ -89,7 +89,7 @@ class ContractModel extends \Model {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $list as $key => $value ) {
-                $list[$key]['image'] = $UserImageModel->getByUserID( $list[$key]['userID'] );
+                $list[$key]['image'] = $UserImageModel->getImgLinkByUserID( $list[$key]['userID'] );
             }
         }
         return $list;

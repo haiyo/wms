@@ -57,14 +57,7 @@ class TeamMemberModel extends \Model {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $row as $key => $value ) {
-                $image = $UserImageModel->getByUserID( $row[$key]['userID'] );
-
-                if( $image ) {
-                    $image = ROOT_URL . 'www/mars/user/photo/' . $image['hashDir'] . '/' . $image['hashName'];
-                }
-                else {
-                    $image = ROOT_URL . 'www/themes/default/assets/images/silhouette.png';
-                }
+                $image = $UserImageModel->getImgLinkByUserID( $row[$key]['userID'] );
                 $row[$key]['image'] = $image;
             }
         }

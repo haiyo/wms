@@ -71,7 +71,7 @@ class EmployeeModel extends \Model {
             $UserImageModel = UserImageModel::getInstance( );
 
             foreach( $row as $key => $value ) {
-                $row[$key]['image'] = $UserImageModel->getByUserID( $row[$key]['userID'] );
+                $row[$key]['image'] = $UserImageModel->getImgLinkByUserID( $row[$key]['userID'] );
             }
         }
         return $row;

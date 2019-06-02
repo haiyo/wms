@@ -98,7 +98,7 @@ class DashboardView extends AdminView {
         $userInfo = UserModel::getInstance( )->getInfo( );
         $UserImageModel = UserImageModel::getInstance( );
 
-        $vars = array( 'TPLVAR_PHOTO' => $UserImageModel->getByUserID( $userInfo['userID'] ),
+        $vars = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'] );
 
