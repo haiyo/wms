@@ -57,7 +57,7 @@ class Claim extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByuserID( $userID ) {
+    public function getByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )

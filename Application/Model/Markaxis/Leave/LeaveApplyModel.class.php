@@ -34,20 +34,11 @@ class LeaveApplyModel extends \Model {
 
 
     /**
-     * Set User Property Info
-     * @return bool
+     * Return total count of records
+     * @return mixed
      */
-    public function calculateBalance( array $balance ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-        $applied = $this->LeaveApply->getSidebarByUserID( $userInfo['userID'] );
-
-        foreach( $balance as $key => $value ) {
-            if( isset( $applied[$value['ltID']] ) && isset( $balance[$key]['balance'] ) ) {
-                $balance[$key]['balance'] -= $applied[$value['ltID']];
-            }
-        }
-        return $balance;
+    public function getByUserID( $userID ) {
+        return $this->Claim->getByUserID( $userID );
     }
 
 
@@ -114,6 +105,42 @@ class LeaveApplyModel extends \Model {
     public function setStatus( $laID, $status ) {
         $this->LeaveApply->update('leave_apply', array( 'status' => $status ),
                                   'WHERE laID = "' . (int)$laID . '"' );
+    }
+
+
+    /**
+     * Set User Property Info
+     * @return mixed
+     */
+    public function calculateBalance( array $balance ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $applied = $this->LeaveApply->getSidebarByUserID( $userInfo['userID'] );
+
+        foreach( $balance as $key => $value ) {
+            if( isset( $applied[$value['ltID']] ) && isset( $balance[$key]['balance'] ) ) {
+                $balance[$key]['balance'] -= $applied[$value['ltID']];
+            }
+        }
+        return $balance;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $userID, $data ) {
+        /*$applyInfo = $this->getByuserID( $userID );
+
+        if( sizeof( $applyInfo ) > 0 ) {
+            foreach( $applyInfo as $value ) {
+                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
+                                                        'title' => $value['descript'],
+                                                        'amount' => $value['amount'] );
+            }
+        }
+        return $data;*/
     }
 
 

@@ -20,7 +20,7 @@
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
-    <div id="itemWrapper" style="min-height:211px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
+    <div id="itemWrapper" style="min-height:311px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
         <!-- BEGIN DYNAMIC BLOCK: item -->
         <div class="row" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
             <div class="col-md-4">

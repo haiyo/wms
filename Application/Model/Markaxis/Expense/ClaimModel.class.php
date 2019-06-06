@@ -54,8 +54,8 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getByuserID( $userID ) {
-        return $this->Claim->getByuserID( $userID );
+    public function getByUserID( $userID ) {
+        return $this->Claim->getByUserID( $userID );
     }
 
 
@@ -110,6 +110,24 @@ class ClaimModel extends \Model {
     public function setStatus( $ecID, $status ) {
         $this->Claim->update('expense_claim', array( 'status' => $status ),
                              'WHERE ecID = "' . (int)$ecID . '"' );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $userID, $data ) {
+        $claimInfo = $this->getByUserID( $userID );
+
+        if( sizeof( $claimInfo ) > 0 ) {
+            foreach( $claimInfo as $value ) {
+                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
+                    'title' => $value['descript'],
+                    'amount' => $value['amount'] );
+            }
+        }
+        return $data;
     }
 
 
@@ -257,24 +275,6 @@ class ClaimModel extends \Model {
         }
         $this->setErrMsg( 'File not found!' );
         return false;
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function processPayroll( $userID, $data ) {
-        $claimInfo = $this->getByuserID( $userID );
-
-        if( sizeof( $claimInfo ) > 0 ) {
-            foreach( $claimInfo as $value ) {
-                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
-                                                        'title' => $value['descript'],
-                                                        'amount' => $value['amount'] );
-            }
-        }
-        return $data;
     }
 }
 ?>

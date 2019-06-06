@@ -79,6 +79,16 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->ClaimModel->processPayroll( $args[1], $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveClaim( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
@@ -144,16 +154,6 @@ class ClaimControl {
         }
         echo json_encode( $vars );
         exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function processPayroll( $args ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->ClaimModel->processPayroll( $args[1], $data ) );
     }
 }
 ?>

@@ -31,6 +31,45 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
+    public function getHistory( ) {
+        $post = Control::getRequest( )->request( POST );
+        Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getDateDiff( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( $diff = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
+            $vars['bool'] = 1;
+            $vars['text'] = $diff['text'];
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getPendingAction( ) {
+        Control::setOutputArrayAppend( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function dashboard( ) {
         $output = Control::getOutputArray( );
 
@@ -65,38 +104,9 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
-    public function getHistory( ) {
-        $post = Control::getRequest( )->request( POST );
-        Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getDateDiff( ) {
-        $post = Control::getRequest( )->request( POST );
-
-        if( $diff = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
-            $vars['bool'] = 1;
-            $vars['text'] = $diff['text'];
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getPendingAction( ) {
-        Control::setOutputArrayAppend( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
+    public function processPayroll( $args ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $data ) );
     }
 }
 ?>

@@ -1328,6 +1328,7 @@
             html = html.replace(/\{id\}/g, id );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
             $("#payItem_" + id).select2({minimumResultsForSearch:Infinity});
+            $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
         }
 
         function addComputing( element ) {
