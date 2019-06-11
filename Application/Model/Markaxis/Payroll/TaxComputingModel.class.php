@@ -143,7 +143,6 @@ class TaxComputingModel extends \Model {
                             }
                             break;
                     }
-
                 }
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {

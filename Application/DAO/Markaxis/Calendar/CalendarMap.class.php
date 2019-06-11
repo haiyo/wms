@@ -15,15 +15,6 @@ class CalendarMap extends \DAO {
 
 
     /**
-    * CalendarMap Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
     * Retrieve map by eventID
     * @return mixed
     */

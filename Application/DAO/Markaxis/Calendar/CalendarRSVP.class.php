@@ -15,15 +15,6 @@ class CalendarRSVP extends \DAO {
 
 
     /**
-    * CalendarRSVP Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
     * Retrieve all rsvp
     * @return mixed
     */

@@ -27,60 +27,62 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: "10px",
-                orderable: false,
-                searchable : false,
-                data: "piID",
-                render: function( data, type, full, meta ) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" ' +
-                            'name="piID[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
                 width: "200px",
                 data: "title"
-            }, {
-                targets: [2],
+            },{
+                targets: [1],
                 orderable: true,
                 searchable: false,
                 width: "100px",
                 data: "basic",
                 className : "text-center",
-                render: function( data, type, full, meta ) {
-                    if( data == 0 ) {
+                render: function( data ) {
+                    if( data === 0 ) {
                         return '<span class="label label-pending">No</span>';
                     }
                     else {
                         return '<span class="label label-success">Yes</span>';
                     }
                 }
-            }, {
-                targets: [3],
+            },{
+                targets: [2],
                 orderable: true,
                 searchable: false,
                 width: "100px",
                 data: "deduction",
                 className : "text-center",
-                render: function( data, type, full, meta ) {
-                    if( data == 0 ) {
+                render: function( data, type, full ) {
+                    if( data === 0 ) {
                         return '<span id="deduction' + full['piID'] + '" class="label label-pending">No</span>';
                     }
                     else {
                         return '<span id="deduction' + full['piID'] + '" class="label label-success">Yes</span>';
                     }
                 }
-            }, {
+            },{
+                targets: [3],
+                orderable: true,
+                searchable: false,
+                width: "100px",
+                data: "additional",
+                className : "text-center",
+                render: function( data, type, full ) {
+                    if( data === 0 ) {
+                        return '<span id="additional' + full['piID'] + '" class="label label-pending">No</span>';
+                    }
+                    else {
+                        return '<span id="additional' + full['piID'] + '" class="label label-success">Yes</span>';
+                    }
+                }
+            },{
                 targets: [4],
                 orderable: true,
                 searchable: false,
                 width:"200px",
                 data:"taxGroups",
-                render: function( data, type, full, meta ) {
+                render: function( data ) {
                     var groups = '<div class="group-item">';
 
                     for( var i=0; i<data.length; i++ ) {
@@ -95,7 +97,7 @@
                 width:"100px",
                 className:"text-center",
                 data:"piID",
-                render: function( data, type, full, meta ) {
+                render: function( data ) {
                     return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
@@ -163,7 +165,7 @@
         $(document).on("click", ".payItemDelete", function ( ) {
             var id = $(this).attr("data-id");
             var title = $("#payItemTable-row" + id).find("td").eq(1).text( );
-            var piID = new Array( );
+            var piID = [];
             piID.push( id );
 
             swal({
@@ -184,14 +186,12 @@
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if( obj.bool == 0 ) {
+                        if( obj.bool === 0 ) {
                             swal("Error!", obj.errMsg, "error");
-                            return;
                         }
                         else {
                             $(".payItemTable").DataTable().ajax.reload();
                             swal("Done!", title + " has been successfully deleted!", "success");
-                            return;
                         }
                     }
                 };
@@ -201,12 +201,12 @@
         });
 
         $("#payItemBulkDelete").on("click", function ( ) {
-            var piID = new Array( );
+            var piID = [];
             $("input[name='piID[]']:checked").each(function(i) {
                 piID.push( $(this).val( ) );
             });
 
-            if( piID.length == 0 ) {
+            if( piID.length === 0 ) {
                 swal({
                     title: "No Pay Item Selected",
                     type: "info"
@@ -231,14 +231,12 @@
                         },
                         success: function (res) {
                             var obj = $.parseJSON(res);
-                            if( obj.bool == 0 ) {
+                            if( obj.bool === 0 ) {
                                 swal("Error!", obj.errMsg, "error");
-                                return;
                             }
                             else {
                                 $(".payItemTable").DataTable().ajax.reload();
                                 swal("Done!", obj.count + " items has been successfully deleted!", "success");
-                                return;
                             }
                         }
                     };
@@ -248,7 +246,9 @@
             return false;
         });
 
-        $("#modalPayItem").on("show.bs.modal", function(e) {
+        var modalPayItem = $("#modalPayItem");
+
+        modalPayItem.on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var piID = $invoker.attr("data-id");
 
@@ -256,7 +256,7 @@
                 var data = {
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if( obj.bool == 0 ) {
+                        if( obj.bool === 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
@@ -264,10 +264,10 @@
                             $("#piID").val( obj.data.piID );
                             $("#payItemTitle").val( obj.data.title );
 
-                            if( obj.data.basic == 1 ) {
+                            if( obj.data.basic === 1 ) {
                                 selectPayItemType("basic");
                             }
-                            else if( obj.data.deduction == 1 ) {
+                            else if( obj.data.deduction === 1 ) {
                                 selectPayItemType("deduction");
                             }
                             else {
@@ -292,20 +292,24 @@
             }
         });
 
-        $("#modalPayItem").on("shown.bs.modal", function(e) {
+        modalPayItem.on("shown.bs.modal", function(e) {
             $("#payItemTitle").focus( );
         });
 
         function selectPayItemType( type ) {
             $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
 
-            if( type == "basic" ) {
+            if( type === "basic" ) {
                 $("#payItemBasic").addClass("btn-green");
                 $("#payItemType").val("basic");
             }
-            else if( type == "deduction" ) {
+            else if( type === "deduction" ) {
                 $("#payItemDeduction").addClass("btn-green");
                 $("#payItemType").val("deduction");
+            }
+            else if( type === "additional" ) {
+                $("#payItemAdditional").addClass("btn-green");
+                $("#payItemType").val("additional");
             }
             else {
                 $("#payItemNone").addClass("btn-dark");
@@ -339,9 +343,8 @@
                     },
                     success: function( res ) {
                         var obj = $.parseJSON( res );
-                        if( obj.bool == 0 ) {
+                        if( obj.bool === 0 ) {
                             swal("error", obj.errMsg);
-                            return;
                         }
                         else {
                             $(".payItemTable").DataTable().ajax.reload( );
@@ -387,13 +390,7 @@
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalPayItem">
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_PAY_ITEM?>
-                </a>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="payItemBulkDelete"><i class="icon-bin"></i> Delete Selected Pay Items</a></li>
-                </ul>
+                </a>
             </li>
         </ul>
     </div>
@@ -401,10 +398,10 @@
     <table class="table table-hover datatable tableLayoutFixed payItemTable">
         <thead>
         <tr>
-            <th></th>
             <th>Pay Item Title</th>
             <th>Basic Salary</th>
             <th>Deduction</th>
+            <th>Additional Wage</th>
             <th>Tax Groups</th>
             <th>Actions</th>
         </tr>
@@ -439,9 +436,10 @@
                                 <span class="input-group-prepend">
                                     <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
                                     <button id="payItemBasic" class="btn btn-light payItemBtn" type="button" value="basic">Basic Salary</button>
+                                    <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
                                 </span>
                                 <span class="input-group-append">
-                                    <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
+                                    <button id="payItemAdditional" class="btn btn-light payItemBtn" type="button" value="additional">Additional Wage</button>
                                 </span>
                             </div>
                         </div>

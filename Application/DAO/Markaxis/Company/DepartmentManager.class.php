@@ -15,15 +15,6 @@ class DepartmentManager extends \DAO {
 
 
     /**
-     * DepartmentManager Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Retrieve all user roles
      * @return mixed
      */

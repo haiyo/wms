@@ -4,7 +4,7 @@
         var expenseTable = $(".expenseTable").DataTable({
             "processing": true,
             "serverSide": true,
-            "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+            "fnCreatedRow": function( nRow, aData ) {
                 $(nRow).attr('id', 'expenseTable-row' + aData['eiID']);
             },
             ajax: {
@@ -27,38 +27,25 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: "10px",
-                orderable: false,
-                searchable : false,
-                data: "eiID",
-                render: function( data, type, full, meta ) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" ' +
-                        'name="eiID[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
                 searchable: false,
                 width: "450px",
                 data: "title",
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
                 searchable: false,
                 width: "100px",
                 data: "max_amount"
             },{
-                targets: [3],
+                targets: [2],
                 orderable: false,
                 searchable: false,
                 width:"100px",
                 className:"text-center",
                 data:"eiID",
-                render: function( data, type, full, meta ) {
+                render: function( data ) {
                     return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
@@ -84,7 +71,7 @@
                 search: '',
                 searchPlaceholder: 'Search Expense Type',
                 lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                paginate: { "first" : 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -119,14 +106,14 @@
 
         $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
 
-        $("#modalExpense").on("show.bs.modal", function(e) {
+        $("#modalExpense").on("show.bs.modal", function( ) {
             $("#currency").select2( );
         });
 
         $(document).on("click", ".payItemDelete", function ( ) {
             var id = $(this).attr("data-id");
             var title = $("#payItemTable-row" + id).find("td").eq(1).text( );
-            var piID = new Array( );
+            var piID = [];
             piID.push( id );
 
             swal({
@@ -147,14 +134,12 @@
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if( obj.bool == 0 ) {
+                        if( obj.bool === 0 ) {
                             swal("Error!", obj.errMsg, "error");
-                            return;
                         }
                         else {
                             $(".payItemTable").DataTable().ajax.reload();
                             swal("Done!", title + " has been successfully deleted!", "success");
-                            return;
                         }
                     }
                 };
@@ -164,12 +149,12 @@
         });
 
         $("#payItemBulkDelete").on("click", function ( ) {
-            var piID = new Array( );
-            $("input[name='piID[]']:checked").each(function(i) {
+            var piID = [];
+            $("input[name='piID[]']:checked").each(function( ) {
                 piID.push( $(this).val( ) );
             });
 
-            if( piID.length == 0 ) {
+            if( piID.length === 0 ) {
                 swal({
                     title: "No Pay Item Selected",
                     type: "info"
@@ -194,14 +179,12 @@
                         },
                         success: function (res) {
                             var obj = $.parseJSON(res);
-                            if( obj.bool == 0 ) {
+                            if( obj.bool === 0 ) {
                                 swal("Error!", obj.errMsg, "error");
-                                return;
                             }
                             else {
                                 $(".payItemTable").DataTable().ajax.reload();
                                 swal("Done!", obj.count + " items has been successfully deleted!", "success");
-                                return;
                             }
                         }
                     };
@@ -211,7 +194,9 @@
             return false;
         });
 
-        $("#modalPayItem").on("show.bs.modal", function(e) {
+        var modalPayItem = $("#modalPayItem");
+
+        modalPayItem.on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var piID = $invoker.attr("data-id");
 
@@ -219,7 +204,7 @@
                 var data = {
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if( obj.bool == 0 ) {
+                        if( obj.bool === 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
@@ -227,13 +212,13 @@
                             $("#piID").val( obj.data.piID );
                             $("#payItemTitle").val( obj.data.title );
 
-                            if( obj.data.basic == 1 ) {
+                            if( obj.data.basic === 1 ) {
                                 selectPayItemType("basic");
                             }
-                            else if( obj.data.deduction == 1 ) {
+                            else if( obj.data.deduction === 1 ) {
                                 selectPayItemType("deduction");
                             }
-                            else if( obj.data.expense == 1 ) {
+                            else if( obj.data.expense === 1 ) {
                                 selectPayItemType("expense");
                             }
                             else {
@@ -258,22 +243,22 @@
             }
         });
 
-        $("#modalPayItem").on("shown.bs.modal", function(e) {
+        modalPayItem.on("shown.bs.modal", function(e) {
             $("#payItemTitle").focus( );
         });
 
         function selectPayItemType( type ) {
             $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
 
-            if( type == "basic" ) {
+            if( type === "basic" ) {
                 $("#payItemBasic").addClass("btn-green");
                 $("#payItemType").val("basic");
             }
-            else if( type == "deduction" ) {
+            else if( type === "deduction" ) {
                 $("#payItemDeduction").addClass("btn-green");
                 $("#payItemType").val("deduction");
             }
-            else if( type == "expense" ) {
+            else if( type === "expense" ) {
                 $("#payItemClaim").addClass("btn-green");
                 $("#payItemType").val("expense");
             }
@@ -290,16 +275,16 @@
             messages: {
                 payItemTitle: "Please enter a Pay Item Title."
             },
-            highlight: function(element, errorClass) {
+            highlight: function(element) {
                 $(element).addClass("border-danger");
             },
-            unhighlight: function(element, errorClass) {
+            unhighlight: function(element) {
                 $(element).removeClass("border-danger");
                 $(".modal-footer .error").remove();
             },
             // Different components require proper error label placement
-            errorPlacement: function(error, element) {
-                if( $(".modal-footer .error").length == 0 )
+            errorPlacement: function(error) {
+                if( $(".modal-footer .error").length === 0 )
                     $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
@@ -309,7 +294,7 @@
                     },
                     success: function( res ) {
                         var obj = $.parseJSON( res );
-                        if( obj.bool == 0 ) {
+                        if( obj.bool === 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
@@ -357,13 +342,7 @@
                 <a type="button" class="btn bg-purple-400 btn-labeled"
                    data-toggle="modal" data-target="#modalExpense" data-backdrop="static" data-keyboard="false">
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_EXPENSE_TYPE?>
-                </a>&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="payItemBulkDelete"><i class="icon-bin"></i> Delete Selected Expenses</a></li>
-                </ul>
+                </a>
             </li>
         </ul>
     </div>
@@ -371,7 +350,6 @@
     <table class="table table-hover datatable tableLayoutFixed expenseTable">
         <thead>
         <tr>
-            <th></th>
             <th>Expense Item Title</th>
             <th>Max Amount</th>
             <th>Actions</th>

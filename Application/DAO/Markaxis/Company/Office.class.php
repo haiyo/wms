@@ -16,15 +16,6 @@ class Office extends \DAO {
 
 
     /**
-     * Office Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Retrieve a user column by userID
      * @return mixed
      */

@@ -24,8 +24,7 @@ class RoleModel extends \Model {
      */
     function __construct( ) {
         parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-
+        $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->Role = new Role( );
     }
 

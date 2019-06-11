@@ -57,11 +57,6 @@ class TaxFileModel extends \Model {
     public function getResults( $data ) {
         $this->TaxFile->setLimit( $data['start'], $data['length'] );
 
-        return array( 'draw' => 1,
-                    'recordsFiltered' => 0,
-                    'recordsTotal' => 0,
-                    'data' => array( ) );
-
         $order = 'pi.title';
         $dir   = isset( $data['order'][0]['dir'] ) && $data['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
 
@@ -76,7 +71,7 @@ class TaxFileModel extends \Model {
                 case 3:
                     $order = 'pi.deduction';
                     break;
-                case 4:
+                default:
                     $order = 'pi.claim';
                     break;
             }
@@ -132,7 +127,7 @@ class TaxFileModel extends \Model {
     public function save( ) {
         if( !$this->info['piID'] ) {
             unset( $this->info['piID'] );
-            $this->info['piID'] = $piID = $this->Item->insert( 'payroll_item', $this->info );
+            $this->info['piID'] = $this->Item->insert( 'payroll_item', $this->info );
         }
         else {
             $this->Item->update( 'payroll_item', $this->info, 'WHERE piID = "' . (int)$this->info['piID'] . '"' );

@@ -11,14 +11,5 @@ class AuditLog extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * AuditLog Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

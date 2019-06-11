@@ -431,25 +431,6 @@ $(document).ready( function( ) {
 
 
     /**
-    * Aurora.Worker Namespace
-    */
-    Aurora.Worker = {
-
-        thread : [],
-
-        /**
-        * Sounds like fun! Not sure what to do yet though, let's wait for browser to mature! :D
-        */
-        init : function( threadID, serviceUrl ) {
-            var worker = new Worker( serviceUrl );
-                worker.onmessage = function( e ) {
-                alert(e.data)
-            };
-        }
-    }
-
-
-    /**
     * Aurora.UI Namespace
     */
     Aurora.UI = {

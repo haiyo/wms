@@ -188,11 +188,14 @@ class MXString {
     * Scan through the whole text and highlight word(s)
     * return str
     */
-    public static function highlight( $string, $words_to_highlight, $delimiter=' ', $case=0, $left_string='<strong>', $right_string='</strong>' ) {
-        $list_of_words = eregi_replace( "[^-a-zA-Z0-9&']", " ", $words_to_highlight );
-        $list_array    = explode( ' ', $list_of_words );
+    public static function highlight( $string, $words_to_highlight, $delimiter=' ', $case=0,
+                                      $left_string='<strong>', $right_string='</strong>' ) {
 
-        for( $i=0; $i<sizeof($list_array); $i++ ) {
+        $list_of_words = preg_replace("[^-a-zA-Z0-9&']", ' ', $words_to_highlight );
+        $list_array    = explode( ' ', $list_of_words );
+        $sizeof = sizeof( $list_array );
+
+        for( $i=0; $i<$sizeof; $i++ ) {
         	if( strlen( $list_array[$i] ) == 1 ) {
         		$list_array[$i] = '';
         	}
@@ -207,7 +210,7 @@ class MXString {
             }
 
             $string = str_replace( $final, array_keys( $final ),$string );
-            $list_of_words_cp = eregi_replace( ' +', '|', $list_of_words_cp );
+            $list_of_words_cp = preg_replace( ' +', '|', $list_of_words_cp );
 
             if( $list_of_words_cp{0} == '|' ) {
             	$list_of_words_cp{0} = '';
@@ -220,12 +223,12 @@ class MXString {
             $list_of_words_cp = '(' . trim( $list_of_words_cp ) . ')';
 
             if( $case == 0 ) {
-            	$string = eregi_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
+            	$string = preg_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
                 $string = str_replace( array_keys( $final ), $final, $string );
                 return stripslashes( $string );
             }
             else {
-            	$string = ereg_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
+            	$string = preg_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
                 $string = str_replace( array_keys( $final ), $final,$string );
                 return stripslashes( $string );
             }

@@ -12,14 +12,5 @@ class Interview extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Interview Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

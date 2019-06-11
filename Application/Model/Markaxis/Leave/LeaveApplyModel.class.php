@@ -181,9 +181,9 @@ class LeaveApplyModel extends \Model {
                     $this->info['created'] = date( 'Y-m-d H:i:s' );
                     return true;
                 }
-                return false;
             }
         }
+        return false;
     }
 
 

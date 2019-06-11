@@ -15,15 +15,6 @@ class IP extends \DAO {
 
 
     /**
-     * Bank Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Performs IP2C mapping IP to Country code and name
      * @return mixed
      */

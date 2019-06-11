@@ -15,15 +15,6 @@ class LeaveBalance extends \DAO {
 
 
     /**
-     * LeaveBalance Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */

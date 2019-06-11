@@ -11,14 +11,5 @@ class Questions extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Questions Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

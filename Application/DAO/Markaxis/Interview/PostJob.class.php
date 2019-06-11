@@ -12,14 +12,5 @@ class PostJob extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * PostJob Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

@@ -13,15 +13,6 @@ class CalendarAttachment extends \DAO {
 
     // Properties
 
-    
-    /**
-    * CalendarAttachment Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
 
     /**
     * Return total count by Event

@@ -12,15 +12,6 @@ class UserRole extends \DAO {
 
 
     // Properties
-    
-
-    /**
-    * UserRole Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
 
 
     /**

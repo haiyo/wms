@@ -16,15 +16,6 @@ class ForgotPasswordControl {
 
 
     /**
-    * ForgotPasswordControl Constructor
-    * @return void
-    */
-    function __construct( ) {
-        //
-    }
-
-
-    /**
      * Display login
      * @return void
      */
@@ -32,12 +23,10 @@ class ForgotPasswordControl {
         $ForgotPasswordModel = ForgotPasswordModel::getInstance( );
 
         if( isset( $data[0] ) && isset( $data[1] ) ) {
-            if( $data[0] == 'token' ) {
-                if( $info = $ForgotPasswordModel->isValidToken( $data[1] ) ) {
-                    $ForgotPasswordView = ForgotPasswordView::getInstance( );
-                    $ForgotPasswordView->printAll( $ForgotPasswordView->renderChangePassword( $data[1] ) );
-                    exit;
-                }
+            if( $data[0] == 'token' && $ForgotPasswordModel->isValidToken( $data[1] ) ) {
+                $ForgotPasswordView = ForgotPasswordView::getInstance( );
+                $ForgotPasswordView->printAll( $ForgotPasswordView->renderChangePassword( $data[1] ) );
+                exit;
             }
         }
         else {

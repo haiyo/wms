@@ -21,7 +21,6 @@ class UserSettingModel extends \Model {
     */
     function __construct( ) {
         parent::__construct( );
-
         $this->UserSetting = new UserSetting( );
     }
 

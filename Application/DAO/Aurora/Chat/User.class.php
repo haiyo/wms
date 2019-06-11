@@ -15,15 +15,6 @@ class User extends \DAO {
 
 
     /**
-     * User Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return chat user ID
      * @return int
      */

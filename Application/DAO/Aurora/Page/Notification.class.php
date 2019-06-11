@@ -10,16 +10,8 @@ namespace Aurora\Page;
 
 class Notification extends \DAO {
 
-    // Properties
-    
 
-    /**
-    * Notification Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
+    // Properties
 
 
     /**

@@ -15,15 +15,6 @@ class PermissionModel extends \Model {
 
 
     /**
-    * PermissionModel Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-	}
-
-
-    /**
     * Return all permissions
     * @return mixed
     */

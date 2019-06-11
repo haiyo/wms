@@ -13,15 +13,6 @@ class Children extends \DAO {
 
     // Properties
 
-    
-    /**
-    * Children Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
 
     /**
     * Retrieve all user

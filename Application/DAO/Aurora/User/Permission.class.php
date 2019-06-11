@@ -12,16 +12,6 @@ class Permission extends \DAO {
 
 
     // Properties
-    protected $DB;
-
-    
-    /**
-    * Permission Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
 
 
     /**

@@ -115,6 +115,9 @@ class ItemModel extends \Model {
                     $order = 'pi.deduction';
                     break;
                 case 4:
+                    $order = 'pi.additional';
+                    break;
+                default:
                     $order = 'pi.claim';
                     break;
             }
@@ -155,6 +158,9 @@ class ItemModel extends \Model {
         }
         else if( $data['payItemType'] == 'deduction' ) {
             $this->info['deduction'] = 1;
+        }
+        else if( $data['payItemType'] == 'additional' ) {
+            $this->info['additional'] = 1;
         }
         else if( $data['payItemType'] == 'claim' ) {
             $this->info['claim'] = 1;

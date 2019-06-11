@@ -32,7 +32,7 @@ var Popups = function () {
             title: 'I am a tooltip',
             trigger: 'click'
         }).on('show.bs.tooltip', function() {
-            alert('Show event fired.');
+            //
         });
 
         // onShown event
@@ -40,7 +40,7 @@ var Popups = function () {
             title: 'I am a tooltip',
             trigger: 'click'
         }).on('shown.bs.tooltip', function() {
-            alert('Shown event fired.');
+            //
         });
 
         // onHide event
@@ -48,7 +48,7 @@ var Popups = function () {
             title: 'I am a tooltip',
             trigger: 'click'
         }).on('hide.bs.tooltip', function() {
-            alert('Hide event fired.');
+            //
         });
 
         // onHidden event
@@ -56,7 +56,7 @@ var Popups = function () {
             title: 'I am a tooltip',
             trigger: 'click'
         }).on('hidden.bs.tooltip', function() {
-            alert('Hidden event fired.');
+            //
         });
     };
 
@@ -116,7 +116,7 @@ var Popups = function () {
             content: 'And here\'s some amazing content. It\'s very engaging. Right?',
             trigger: 'click'
         }).on('show.bs.popover', function() {
-            alert('Show event fired.');
+            //
         });
 
         // onShown event
@@ -125,7 +125,7 @@ var Popups = function () {
             content: 'And here\'s some amazing content. It\'s very engaging. Right?',
             trigger: 'click'
         }).on('shown.bs.popover', function() {
-            alert('Shown event fired.');
+            //
         });
 
         // onHide event
@@ -135,7 +135,7 @@ var Popups = function () {
             placement: 'top',
             trigger: 'click'
         }).on('hide.bs.popover', function() {
-            alert('Hide event fired.');
+            //
         });
 
         // onHidden event
@@ -144,7 +144,7 @@ var Popups = function () {
             content: 'And here\'s some amazing content. It\'s very engaging. Right?',
             trigger: 'click'
         }).on('hidden.bs.popover', function() {
-            alert('Hidden event fired.');
+            //
         });
     };
 

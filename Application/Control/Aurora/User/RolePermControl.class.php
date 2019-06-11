@@ -55,7 +55,6 @@ class RolePermControl {
      */
     public function getRolePermResults( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->RolePermModel->getResults( $post ) );
         exit;
     }
@@ -67,7 +66,6 @@ class RolePermControl {
      */
     public function getPerms( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->RolePermModel->getByRoleID( $post['roleID'] ) );
         exit;
     }
@@ -128,10 +126,8 @@ class RolePermControl {
         $vars = array( );
         $vars['bool'] = 0;
         $post = Control::getRequest( )->request( POST, 'roleID' );
-
-        $RolePermModel = RolePermModel::getInstance( );
         
-        if( $RolePermModel->delete( $post ) ) {
+        if( $this->RolePermModel->delete( $post ) ) {
             $vars['bool'] = 1;
         }
         echo json_encode( $vars );

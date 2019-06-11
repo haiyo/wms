@@ -15,15 +15,6 @@ class Country extends \DAO {
 
 
     /**
-     * Country Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */

@@ -12,14 +12,5 @@ class Alumni extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Alumni Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

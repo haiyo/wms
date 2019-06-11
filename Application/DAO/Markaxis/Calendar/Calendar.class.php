@@ -12,15 +12,6 @@ class Calendar extends \DAO {
 
 
     // Properties
-    
-
-    /**
-    * Calendar Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct();
-    }
 
 
     /**
@@ -177,14 +168,6 @@ class Calendar extends \DAO {
     * @return mixed
     */
     public function getEventByID( $eventID, $userID=0 ) {
-        /*$user = $userID ? ' AND e.userID = "' . (int)$userID . '"' : '';
-        $sql = $this->DB->select( 'SELECT e.*, re.recurID, re.recurType, re.repeatTimes, re.endRecur,
-                                          re.occurrences, re.untilDate
-                                   FROM markaxis_event e
-                                   LEFT OUTER JOIN markaxis_event_recur re ON(e.eventID = re.eventID)
-                                   WHERE e.eventID = "' . (int)$eventID . '"' . $user,
-                                   __FILE__, __LINE__ );*/
-
         $sql = $this->DB->select( 'SELECT e.*, e.title AS eTitle, e.address AS eAddress,
                                           e.label AS className,
                                           re.recurID, re.recurType, re.repeatTimes,

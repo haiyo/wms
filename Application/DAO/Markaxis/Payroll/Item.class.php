@@ -15,15 +15,6 @@ class Item extends \DAO {
 
 
     /**
-     * Item Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -60,7 +51,8 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getProcessList( ) {
-        $sql = $this->DB->select( 'SELECT piID, title, basic, deduction FROM payroll_item
+        $sql = $this->DB->select( 'SELECT piID, title, basic, deduction, additional
+                                   FROM payroll_item
                                    WHERE deleted <> "1"
                                    ORDER BY title', __FILE__, __LINE__ );
 

@@ -27,11 +27,10 @@ class DashboardControl {
 
     /**
     * DashboardControl Main
-    * @return void
+    * @return mixed
     */
     public function getMenu( $css ) {
-        $DashboardView = new DashboardView( );
-        return $DashboardView->renderMenu( $css );
+        return $this->DashboardView->renderMenu( $css );
     }
 
 

@@ -15,15 +15,6 @@ class Type extends \DAO {
 
 
     /**
-     * Type Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -64,7 +55,7 @@ class Type extends \DAO {
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $row = $this->DB->fetch( $sql );
+            return $this->DB->fetch( $sql );
         }
         return false;
     }

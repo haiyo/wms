@@ -15,15 +15,6 @@ class LeaveApply extends \DAO {
 
 
     /**
-     * LeaveApply Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Retrieve a user column by userID
      * @return mixed
      */
@@ -54,15 +45,6 @@ class LeaveApply extends \DAO {
     public function getHistory( $q='', $order='name ASC' ) {
         $list = array( );
 
-        /*if( $q == 'active' ) {
-            $q = 'AND u.suspended = "0"';
-        }
-        else {
-            $q = $q ? addslashes( $q ) : '';
-            $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
-                       OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
-                       OR c.type LIKE "%' . $q . '%" )' : '';
-        }*/
         $q = '';
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, la.cancelled,

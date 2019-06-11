@@ -10,16 +10,8 @@ namespace Aurora\Page;
 
 class Page extends \DAO {
 
-    // Properties
-    
 
-    /**
-    * Page Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
+    // Properties
     
     
     /**

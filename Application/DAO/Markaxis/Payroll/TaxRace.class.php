@@ -15,15 +15,6 @@ class TaxRace extends \DAO {
 
 
     /**
-     * TaxRace Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
