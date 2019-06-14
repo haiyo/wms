@@ -60,13 +60,15 @@ class ItemControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function processPayroll( $args ) {
+        // $args[1] = userID $args[2] = dateProcess
         if( isset( $args[1] ) && isset( $args[2] ) ) {
+            // Check UserModel
             $prevMonth = isset( $args[3] ) ? $args[3] : '';
             Control::setOutputArray( $this->ItemModel->getProcessItems( $args[1], $prevMonth ) );
         }
-    }
+    } */
 
 
     /**

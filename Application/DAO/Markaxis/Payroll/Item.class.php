@@ -85,7 +85,7 @@ class Item extends \DAO {
     /**
      * Retrieve a user column by userID
      * @return mixed
-     */
+
     public function getBasicDeduction( $userID=false ) {
         $column = $salary = '';
 
@@ -107,7 +107,7 @@ class Item extends \DAO {
             }
         }
         return $list;
-    }
+    } */
 
 
     /**

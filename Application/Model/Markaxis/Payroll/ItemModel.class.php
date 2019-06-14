@@ -80,17 +80,17 @@ class ItemModel extends \Model {
     /**
      * Return user data by userID
      * @return mixed
-     */
+
     public function getProcessItems( $userID, $loadPrevMonth ) {
         $vars = array( );
-        $vars['list'] = $this->getProcessList( );
+        //$vars['list'] = $this->getProcessList( );
         $vars['items'] = $this->Item->getBasicDeduction( $userID );
 
         if( $loadPrevMonth ) {
             //
         }
         return $vars;
-    }
+    } */
 
 
     /**

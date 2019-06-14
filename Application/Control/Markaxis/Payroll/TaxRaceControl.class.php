@@ -59,11 +59,11 @@ class TaxRaceControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function processPayroll( $args ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxRaceModel->processPayroll( $args[1], $data ) );
-    }
+    } */
 
 
     /**

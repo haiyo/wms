@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Employee\EmployeeModel;
 use \Control;
 
 /**
@@ -32,7 +33,12 @@ class EmployeeControl {
     public function processPayroll( $args ) {
         // Get userID
         if( isset( $args[1] ) ) {
-            Control::setOutputArray( $this->EmployeeView->renderProcessForm( $args[1] ) );
+            $EmployeeModel = EmployeeModel::getInstance( );
+
+            if( $empInfo = $EmployeeModel->getFieldByUserID( $args[1], 'salary' ) ) {
+                Control::setOutputArray( array( 'salary' => $empInfo['salary'] ) );
+                Control::setOutputArray( $this->EmployeeView->renderProcessForm( $args[1] ) );
+            }
         }
     }
 }

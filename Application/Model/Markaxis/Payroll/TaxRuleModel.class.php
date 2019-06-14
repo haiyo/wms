@@ -62,7 +62,7 @@ class TaxRuleModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getProcessTaxRules( $userID, $data ) {
+    public function getProcessTaxRules( $userID, $data ) {var_dump($data); exit;
         if( isset( $data['itemTaxes'] ) ) {
             $EmployeeModel = EmployeeModel::getInstance( );
             $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID' );
