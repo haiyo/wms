@@ -1464,7 +1464,7 @@
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if (obj.bool == 0) {
+                        if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }

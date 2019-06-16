@@ -229,7 +229,7 @@
                 var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
                 var icon = iconWrapper.find(".icon")
 
-                icon.attr( "class", "icon-plus-circle2" );
+                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
                 icon.parent().attr( "class", "addItem" );
             });
         });
@@ -331,18 +331,22 @@
         });
 
         function addItem( ) {
+            var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+            var icon = iconWrapper.find(".icon")
+
+            icon.removeClass("icon-plus-circle2").addClass("icon-minus-circle2");
+            icon.parent().attr( "class", "removeItem" );
+
             var length = $(".itemRow").length;
             var item = $("#itemTemplate").html( );
             item = item.replace(/\{id\}/g, length );
             $("#itemWrapper").append( item );
 
             $("#itemRowWrapper_" + length).find(".select2").remove( );
-
             $("#itemType_" + length).select2( );
 
-            //var id = $("#itemRow").length-2;
-            $("#plus_" + length).attr( "class", "icon-minus-circle2" );
-            $("#plus_" + length).parent().attr( "class", "removeChildren" );
+            var itemWrapper = $("#itemWrapper");
+            itemWrapper.animate({ scrollTop: itemWrapper.prop("scrollHeight") - itemWrapper.height() }, 300);
         }
     });
 </script>
