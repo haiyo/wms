@@ -224,6 +224,13 @@
             $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
                                               $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
                 $(".itemType").select2( );
+                $("#itemRowWrapper_0").find(".iconWrapper").remove( );
+
+                var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+                var icon = iconWrapper.find(".icon")
+
+                icon.attr( "class", "icon-plus-circle2" );
+                icon.parent().attr( "class", "addItem" );
             });
         });
 
@@ -306,6 +313,37 @@
         $(".officeFilter").insertAfter(".dataTables_filter");
         $("#office").select2( );
         $(".select").select2({minimumResultsForSearch: -1});
+
+        $(document).on("click", ".addItem", function ( ) {
+            addItem( );
+            return false;
+        });
+
+        $(document).on("click", ".removeItem", function ( ) {
+            var id = $(this).attr("href");
+            $("#childRowWrapper_" + id).addClass("childRow").html("").hide();
+
+            if( $("#childWrapper .childRow").length == 0 ) {
+                $("#children2").click( );
+                $.uniform.update( );
+            }
+            return false;
+        });
+
+        function addItem( ) {
+            var length = $(".itemRow").length;
+            var item = $("#itemTemplate").html( );
+            item = item.replace(/\{id\}/g, length );
+            $("#itemWrapper").append( item );
+
+            $("#itemRowWrapper_" + length).find(".select2").remove( );
+
+            $("#itemType_" + length).select2( );
+
+            //var id = $("#itemRow").length-2;
+            $("#plus_" + length).attr( "class", "icon-minus-circle2" );
+            $("#plus_" + length).parent().attr( "class", "removeChildren" );
+        }
     });
 </script>
 <style>

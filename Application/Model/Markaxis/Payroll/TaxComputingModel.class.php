@@ -98,14 +98,12 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $data ) {
-        if( isset( $data['items'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+    public function processPayroll( $data ) {
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
 
             if( sizeof( $compInfo ) > 0 ) {
-                $UserModel = UserModel::getInstance( );
-                $userInfo = $UserModel->getFieldByUserID( $userID, 'birthday' );
                 $age = $salary = 0;
 
                 foreach( $compInfo as $row ) {
@@ -113,7 +111,7 @@ class TaxComputingModel extends \Model {
                         case 'age' :
                             if(  !$age ) {
                                 // If invalid age, break altogether.
-                                if( $userInfo['birthday'] && !$age = Date::getAge( $userInfo['birthday'] ) ) {
+                                if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
                                     break;
                                 }
                             }
@@ -124,16 +122,10 @@ class TaxComputingModel extends \Model {
                             break;
 
                         case 'salary' :
-                            if( !$salary ) {
-                                foreach( $data['items'] as $key => $items ) {
-                                    if( isset( $items['basic'] ) && $items['basic'] == 1 &&
-                                        isset( $items['amount'] ) && $items['amount'] ) {
-                                        $salary = $items['amount'];
-                                    }
-                                }
-                                if( !$salary ) break;
+                            if( !$data['empInfo']['salary'] ) {
+                                break;
                             }
-                            if( !$this->isEquality( $row['computing'], $salary, $row['value'] ) ) {
+                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
                                 unset( $data['taxRules'][$row['trID']] );
                                 break;
                             }
@@ -144,20 +136,15 @@ class TaxComputingModel extends \Model {
                             break;
                     }
                 }
+
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {
-                    // Get deduction piID
-                    foreach( $data['list'] as $key => $array ) {
-                        if( isset( $array['deduction'] ) && $array['deduction'] == 1 ) {
-                            $deductpiID =  $array['piID'];
-                        }
-                    }
-                    if( $deductpiID ) {
+                    if( isset( $data['deduction'] ) ) {
                         $EmployeeModel = EmployeeModel::getInstance( );
-                        $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'currency' );
+                        $empInfo = $EmployeeModel->getFieldByUserID( $data['empInfo']['userID'], 'currency' );
                         $currency = $empInfo['currency'] ? $empInfo['currency'] : '';
 
-                        foreach( $data['taxRules'] as $key => $rules ) {
+                        foreach( $data['taxRules'] as $rules ) {
                             if( isset( $rules['applyType'] ) ) {
                                 if( $rules['applyType'] == 'deduction' && isset( $rules['applyValue'] ) &&
                                     isset( $rules['applyValueType'] ) ) {
@@ -177,10 +164,10 @@ class TaxComputingModel extends \Model {
                                             $amount = $rules['applyValue'];
                                             $remark = '';
                                         }
-                                        $data['items'][$rules['trID']] = array( 'piID' => $deductpiID,
-                                                                                'trID' => $rules['trID'],
-                                                                                'title' => $rules['title'] . $remark,
-                                                                                'amount' => $amount );
+                                        $data['items'][] = array( 'piID' => $data['deduction']['piID'],
+                                                                  'trID' => $rules['trID'],
+                                                                  'title' => $rules['title'] . $remark,
+                                                                  'amount' => $amount );
                                     }
                                 }
                                 if( $rules['applyType'] == 'contribution' && isset( $rules['applyValue'] ) &&
@@ -189,7 +176,7 @@ class TaxComputingModel extends \Model {
                                         $amount = $rules['capped'] * $rules['applyValue'] / 100;
                                     }
                                     else {
-                                        $amount = $salary * $rules['applyValue'] / 100;
+                                        $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
                                     }
                                     $data['info'][] = array( 'title' => $rules['title'],
                                                              'amount' => $amount );

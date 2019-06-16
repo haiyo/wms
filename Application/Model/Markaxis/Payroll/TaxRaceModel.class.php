@@ -76,20 +76,19 @@ class TaxRaceModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $data ) {
+    public function processPayroll( $data ) {
         if( isset( $data['items'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $raceInfo = $this->TaxRace->getBytrIDs( $trIDs );
 
             if( sizeof( $raceInfo ) > 0 ) {
-                $UserModel = UserModel::getInstance( );
-                $userInfo = $UserModel->getFieldByUserID( $userID, 'raceID' );
-
                 foreach( $raceInfo as $row ) {
                     // Whether or not user has race set, we need to unset taxes if not found.
-                    if( !$userInfo['raceID'] || $row['raceID'] != $userInfo['raceID'] ) {
-                        unset( $data['items'][$row['trID']] );
-                        unset( $data['taxRules'][$row['trID']] );
+                    if( !$data['empInfo']['raceID'] || $row['raceID'] != $data['empInfo']['raceID'] ) {
+                        $key = array_search( $row['trID'], array_column( $data['items'], 'trID' ) );
+                        unset( $data['items'][$key] );
+                        $data['items'] = array_values( $data['items'] );
+                        //unset( $data['taxRules'][$row['trID']] );
                     }
                 }
             }

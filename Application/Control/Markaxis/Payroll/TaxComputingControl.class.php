@@ -59,9 +59,9 @@ class TaxComputingControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args ) {
+    public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxComputingModel->processPayroll( $args[1], $data ) );
+        Control::setOutputArray( $this->TaxComputingModel->processPayroll( $data ) );
     }
 
 

@@ -72,25 +72,18 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getBasic( $userID=false ) {
-        return $this->Item->getBasic( $userID );
+    public function getBasic( ) {
+        return $this->Item->getBasic( );
     }
 
 
     /**
      * Return user data by userID
      * @return mixed
-
-    public function getProcessItems( $userID, $loadPrevMonth ) {
-        $vars = array( );
-        //$vars['list'] = $this->getProcessList( );
-        $vars['items'] = $this->Item->getBasicDeduction( $userID );
-
-        if( $loadPrevMonth ) {
-            //
-        }
-        return $vars;
-    } */
+     */
+    public function getDeduction( ) {
+        return $this->Item->getDeduction( );
+    }
 
 
     /**

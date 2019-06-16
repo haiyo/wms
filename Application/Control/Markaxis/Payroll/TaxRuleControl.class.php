@@ -49,9 +49,9 @@ class TaxRuleControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args ) {
+    public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'taxRules' => $this->TaxRuleModel->getProcessTaxRules( $args[1], $data ) ) );
+        Control::setOutputArray( array( 'taxRules' => $this->TaxRuleModel->getProcessTaxRules( $data ) ) );
     }
 
 

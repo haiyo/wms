@@ -47,6 +47,22 @@ class Item extends \DAO {
 
 
     /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBypiID( $piID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item
+                                   WHERE piID = "' . (int)$piID . '" AND deleted <> "1"',
+            __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */
@@ -67,12 +83,13 @@ class Item extends \DAO {
 
 
     /**
-     * Retrieve all user by name and role
+     * Retrieve a user column by userID
      * @return mixed
      */
-    public function getBypiID( $piID ) {
-        $sql = $this->DB->select( 'SELECT * FROM payroll_item
-                                   WHERE piID = "' . (int)$piID . '" AND deleted <> "1"',
+    public function getBasic( ) {
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic FROM payroll_item pi 
+                                   WHERE pi.basic = "1" AND 
+                                         pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -85,29 +102,18 @@ class Item extends \DAO {
     /**
      * Retrieve a user column by userID
      * @return mixed
-
-    public function getBasicDeduction( $userID=false ) {
-        $column = $salary = '';
-
-        if( $userID ) {
-            $column = ', e.salary AS amount ';
-            $salary = $userID ? 'LEFT JOIN employee e ON ( e.userID = "' . (int)$userID . '" )' : '';
-        }
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic, pi.deduction ' . $column . '  
-                                   FROM payroll_item pi 
-                                   ' . $salary . '
-                                   WHERE ( pi.basic = "1" OR pi.deduction = "1" ) AND 
+     */
+    public function getDeduction( ) {
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.deduction FROM payroll_item pi 
+                                   WHERE pi.deduction = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
-        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
-            }
+            return $this->DB->fetch( $sql );
         }
-        return $list;
-    } */
+        return false;
+    }
 
 
     /**

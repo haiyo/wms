@@ -29,9 +29,9 @@ class TaxControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args ) {
+    public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'taxGroups' => $this->TaxModel->getByUserID( $args[1], '*' ) ) );
+        Control::setOutputArray( array( 'taxGroups' => $this->TaxModel->getByUserID( $data['empInfo']['userID'], '*' ) ) );
     }
 }
 ?>

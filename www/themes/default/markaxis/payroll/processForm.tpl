@@ -20,28 +20,50 @@
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
-    <div id="itemWrapper" style="min-height:311px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
+    <div id="itemWrapper" style="min-height:270px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
         <!-- BEGIN DYNAMIC BLOCK: item -->
-        <div class="row" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
+        <div id="itemRowWrapper_<?TPLVAR_ID?>" class="row itemRow" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
             <div class="col-md-4">
                 <?TPL_PAYROLL_ITEM_LIST?>
             </div>
 
             <div class="col-md-3 amount">
-                <input type="text" name="amount" id="amount" class="form-control" value="<?TPLVAR_AMOUNT?>" placeholder="" />
+                <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control" value="<?TPLVAR_AMOUNT?>" placeholder="" />
             </div>
 
             <div class="col-md-4 remark">
-                <input type="text" name="remark" class="form-control" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                <input type="text" name="remark_<?TPLVAR_ID?>" class="form-control" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">
-                <div class="mt-5">
-                    <a href="0" class="addChildren"><i id="plus_0" class="icon-plus-circle2"></i></a>
+                <div class="mt-5 iconWrapper">
+                    <a href="#" class="removeItem"><i id="plus_<?TPLVAR_ID?>" class="icon icon-minus-circle2"></i></a>
                 </div>
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: item -->
+    </div>
+
+    <div id="itemTemplate" class="hide">
+        <div id="itemRowWrapper_{id}" class="row itemRow" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
+            <div class="col-md-4">
+                <?TPL_PAYROLL_ITEM_LIST?>
+            </div>
+
+            <div class="col-md-3 amount">
+                <input type="text" name="amount_{id}" id="amount_{id}" class="form-control" value="" placeholder="" />
+            </div>
+
+            <div class="col-md-4 remark">
+                <input type="text" name="remark_{id}" class="form-control" value="" placeholder="" autocomplete="off" data-fouc />
+            </div>
+
+            <div class="col-lg-1 sm-addrm text-center">
+                <div class="mt-5 iconWrapper">
+                    <a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row payrollProcessSummary">
@@ -65,7 +87,14 @@
             </div>
         </div>
 
-        <div class="col-md-4">&nbsp;</div>
+        <div class="col-md-4" style="border-bottom:1px solid #ccc;">
+            <div class="col-md-8 text-right" style="padding:5px;">
+                <strong>Total Gross Salary:</strong>
+            </div>
+            <div class="col-md-4 text-right" style="padding:5px;">
+                <?TPLVAR_CURRENCY?><?TPLVAR_GROSS_AMOUNT?>
+            </div>
+        </div>
 
     </div>
 
@@ -83,10 +112,10 @@
 
         <div class="col-md-4" style="border-bottom:1px solid #ccc;">
             <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Total Gross Salary:</strong>
+                <strong>Total Claim:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_GROSS_AMOUNT?>
+                <?TPLVAR_CURRENCY?><?TPLVAR_CLAIM_AMOUNT?>
             </div>
         </div>
     </div>
@@ -117,10 +146,10 @@
 
         <div class="col-md-4" style="border-bottom:1px solid #ccc;">
             <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Total Deduction:</strong>
+                <strong>Total Tax / Deduction:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
-                -SGD$2,202
+                -<?TPLVAR_CURRENCY?><?TPLVAR_DEDUCTION_AMOUNT?>
             </div>
         </div>
     </div>
@@ -142,7 +171,7 @@
                 <strong>Total Net Payable:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
-                SGD$5,798
+                <?TPLVAR_CURRENCY?><?TPLVAR_NET_AMOUNT?>
             </div>
         </div>
     </div>

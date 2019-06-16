@@ -112,6 +112,8 @@
     </task>
     <task type="payroll">
         <observer controller="Markaxis/Payroll/EmployeeControl"></observer>
+        <observer controller="Markaxis/Employee/TaxControl"></observer>
+
         <observer controller="Markaxis/Payroll/TaxFileControl"></observer>
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
         <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>

@@ -86,7 +86,7 @@ class ClaimModel extends \Model {
                 case 2:
                     $order = 'ec.descript';
                     break;
-                case 3:
+                default:
                     $order = 'ec.amount';
                     break;
             }
@@ -117,14 +117,14 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $data ) {
-        $claimInfo = $this->getByUserID( $userID );
+    public function processPayroll( $data ) {
+        $claimInfo = $this->getByUserID( $data['empInfo']['userID'] );
 
         if( sizeof( $claimInfo ) > 0 ) {
             foreach( $claimInfo as $value ) {
-                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
-                    'title' => $value['descript'],
-                    'amount' => $value['amount'] );
+                $data['claims'][] = array( 'eiID' => $value['eiID'],
+                                           'title' => $value['descript'],
+                                           'amount' => $value['amount'] );
             }
         }
         return $data;
@@ -247,15 +247,14 @@ class ClaimModel extends \Model {
         if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
             $UploadModel = new UploadModel( );
 
-            if( $UploadModel->isFound( $data['uID'], $data['hashName'] ) ) {
-                if( $eduInfo = $this->getByEduID( $data['eduID'], '*' ) ) {
-                    //check if $eduInfo['userID'] == USER || is admin
+            if( $UploadModel->isFound( $data['uID'], $data['hashName'] ) &&
+                $this->getByEduID( $data['eduID'], '*' ) ) {
+                //check if $eduInfo['userID'] == USER || is admin
 
-                    $info = array( );
-                    $info['uID'] = (int)$data['uID'];
-                    $this->Education->update( 'employee_education', $info, 'WHERE eduID = "' . (int)$data['eduID'] . '"' );
-                    return true;
-                }
+                $info = array( );
+                $info['uID'] = (int)$data['uID'];
+                $this->Education->update( 'employee_education', $info, 'WHERE eduID = "' . (int)$data['eduID'] . '"' );
+                return true;
             }
         }
         return false;

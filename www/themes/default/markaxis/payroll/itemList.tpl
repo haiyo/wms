@@ -39,7 +39,7 @@
                 data: "basic",
                 className : "text-center",
                 render: function( data ) {
-                    if( data === 0 ) {
+                    if( data === '0' ) {
                         return '<span class="label label-pending">No</span>';
                     }
                     else {
@@ -54,7 +54,7 @@
                 data: "deduction",
                 className : "text-center",
                 render: function( data, type, full ) {
-                    if( data === 0 ) {
+                    if( data === '0' ) {
                         return '<span id="deduction' + full['piID'] + '" class="label label-pending">No</span>';
                     }
                     else {
@@ -69,7 +69,7 @@
                 data: "additional",
                 className : "text-center",
                 render: function( data, type, full ) {
-                    if( data === 0 ) {
+                    if( data === '0' ) {
                         return '<span id="additional' + full['piID'] + '" class="label label-pending">No</span>';
                     }
                     else {

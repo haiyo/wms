@@ -62,15 +62,10 @@ class TaxRuleModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getProcessTaxRules( $userID, $data ) {var_dump($data); exit;
-        if( isset( $data['itemTaxes'] ) ) {
-            $EmployeeModel = EmployeeModel::getInstance( );
-            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID' );
-
-            if( $empInfo['officeID'] ) {
-                $tgIDs = implode(', ', array_column( $data['itemTaxes'], 'tgID' ) );
-                return $this->TaxRule->getByGroupsOfficeID( $tgIDs, $empInfo['officeID'] );
-            }
+    public function getProcessTaxRules( $data ) {
+        if( $data['empInfo']['officeID'] ) {
+            $tgIDs = implode(', ', array_column( $data['taxGroups'], 'tgID' ) );
+            return $this->TaxRule->getByGroupsOfficeID( $tgIDs, $data['empInfo']['officeID'] );
         }
     }
 

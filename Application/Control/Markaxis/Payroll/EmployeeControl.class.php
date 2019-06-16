@@ -2,6 +2,8 @@
 namespace Markaxis\Payroll;
 use \Markaxis\Employee\EmployeeModel;
 use \Control;
+use \Library\Http\HttpResponse;
+use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -31,14 +33,20 @@ class EmployeeControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        // Get userID
-        if( isset( $args[1] ) ) {
+        try {
             $EmployeeModel = EmployeeModel::getInstance( );
 
-            if( $empInfo = $EmployeeModel->getFieldByUserID( $args[1], 'salary' ) ) {
-                Control::setOutputArray( array( 'salary' => $empInfo['salary'] ) );
+            if( isset( $args[1] ) && $empInfo = $EmployeeModel->getFieldByUserID( $args[1], '*' ) ) {
+                Control::setOutputArray( array( 'empInfo' => $empInfo ) );
                 Control::setOutputArray( $this->EmployeeView->renderProcessForm( $args[1] ) );
             }
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+            }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
         }
     }
 }

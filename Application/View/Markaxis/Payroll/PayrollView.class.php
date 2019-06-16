@@ -200,7 +200,6 @@ class PayrollView extends AdminView {
             $SelectListView = new SelectListView( );
             $SelectListView->setClass('itemType');
 
-            $grossAmount = 0;
             $vars['dynamic']['item'] = false;
 
             if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
@@ -222,28 +221,66 @@ class PayrollView extends AdminView {
                 $SelectGroupListView->includeBlank(false );
                 $SelectGroupListView->setClass("itemType");
 
-                foreach( $data['items'] as $items ) {
-                    $isBasic = false;
+                $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
+                $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = $id = 0;
 
-                    if( isset( $items['deduction'] ) && $items['deduction'] == 1 ) {
-                        continue;
-                    }
-                    if( isset( $items['basic'] ) && $items['basic'] == 1 && $items['amount'] ) {
-                        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $items['amount'] );
-                        $isBasic = true;
-                    }
-                    if( isset( $items['piID'] ) ) {
-                        $selected = 'p-' . $items['piID'];
-                    }
-                    else {
-                        $selected = 'e-' . $items['eiID'];
-                    }
-                    $itemType = $SelectGroupListView->build( 'itemType', $fullList, $selected, 'Select Payroll Item' );
+                if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
+                    $selected = 'p-' . $data['basic']['piID'];
+                    $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
-                    $vars['dynamic']['item'][] = array( 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
+                    $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $data['empInfo']['salary'] );
+                    $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
+
+                    $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                        'TPLVAR_AMOUNT' => $vars['TPLVAR_GROSS_AMOUNT'],
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                        'TPLVAR_REMARK' => $isBasic ? '' : $items['title'] );
+                                                        'TPLVAR_REMARK' => '',
+                                                        'TPL_ICON' => '' );
                 }
+
+                if( isset( $data['items'] ) ) {
+                    foreach( $data['items'] as $items ) {
+                        if( isset( $items['piID'] ) ) {
+                            $selected = 'p-' . $items['piID'];
+
+                            if( isset( $data['deduction'] ) ) {
+                                $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$items['amount'];
+                                $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
+                            }
+                        }
+                        $id++;
+                        $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
+
+                        $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                            'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
+                                                            'TPL_PAYROLL_ITEM_LIST' => $itemType,
+                                                            'TPLVAR_REMARK' => $items['title'] );
+                    }
+                }
+
+                if( isset( $data['claims'] ) ) {
+                    foreach( $data['claims'] as $claims ) {
+                        if( isset( $claims['eiID'] ) ) {
+                            $selected = 'e-' . $claims['eiID'];
+
+                            $vars['TPLVAR_CLAIM_AMOUNT'] += (float)$claims['amount'];
+                            $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
+
+                            $id++;
+                            $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
+
+                            $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                                'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $claims['amount'] ),
+                                                                'TPL_PAYROLL_ITEM_LIST' => $itemType,
+                                                                'TPLVAR_REMARK' => $claims['title'] );
+                        }
+                    }
+                }
+                $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
+                $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'] );
+                $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'] );
+                $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'] );
             }
 
             if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
@@ -264,7 +301,7 @@ class PayrollView extends AdminView {
         $vars['dynamic']['monthly'] = false;
 
         if( isset( $data['ids'] ) && $info = $this->PayrollModel->getAllByID( $data['ids'] ) ) {
-            foreach( $info as $key => $value ) {
+            foreach( $info as $value ) {
                 if( isset( $value['name'] ) ) {
                     $vars['dynamic']['monthly'][] = array( 'TPLVAR_IDNUMBER' => $value['idnumber'],
                                                            'TPLVAR_NAME' => $value['name'],
