@@ -1045,10 +1045,11 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Amount Type:</label>
-                                <select name="valueType_{id}" id="valueType_{id}" data-placeholder="" placeholder=""
-                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                <select name="valueType_{id}" id="valueType_{id}" data-id="{id}" data-placeholder="" placeholder=""
+                                        class="form-control amtType select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                     <option value="percentage">Percentage</option>
                                     <option value="fixed" selected>Fixed / Integer</option>
+                                    <option value="formula">Custom Formula</option>
                                 </select>
                             </div>
                         </div>
@@ -1162,7 +1163,8 @@
                             <label>Apply above criteria as:</label>
                             <select name="applyType" id="applyType" data-placeholder="" placeholder=""
                                     class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
-                                <option value="deduction" selected>Deduction From Employee Salary</option>
+                                <option value="deductionSa" selected>Deduction From Employee Salary</option>
+                                <option value="deductionAW">Deduction From Employee Additional Wage</option>
                                 <option value="contribution">Employer Contribution</option>
                                 <option value="levy">Employer Levy</option>
                             </select>
@@ -1257,6 +1259,17 @@
         $("#city").select2( );
         $("#applyType").select2({minimumResultsForSearch: Infinity});
         $("#applyValueType").select2({minimumResultsForSearch: Infinity});
+
+        $(document).on("change", ".amtType", function(e) {
+            var id = $(this).attr("data-id");
+
+            if( $(this).val( ) == "formula" ) {
+                $("#value_" + id).attr("type", "text");
+            }
+            else {
+                $("#value_" + id).attr("type", "number");
+            }
+        });
 
         $(document).on("change", ".criteria", function(e) {
             $(".modal-footer .error").remove( );

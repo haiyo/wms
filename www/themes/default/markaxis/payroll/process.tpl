@@ -288,12 +288,12 @@
             if( typeof table.cell(this).index() == "undefined" ) return;
             var colIdx = table.cell(this).index().column;
 
-            if (colIdx !== lastIdx) {
-                $(table.cells().nodes()).removeClass('active');
-                $(table.column(colIdx).nodes()).addClass('active');
+            if( colIdx !== lastIdx ) {
+                $(table.cells( ).nodes( )).removeClass('active');
+                $(table.column(colIdx).nodes( )).addClass('active');
             }
         }).on('mouseleave', function() {
-            $(table.cells().nodes()).removeClass("active");
+            $(table.cells( ).nodes( )).removeClass("active");
         });
 
         // Enable Select2 select for the length option

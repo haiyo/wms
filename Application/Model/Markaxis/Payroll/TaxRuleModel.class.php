@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Employee\EmployeeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Library\Validator\Validator;
 
