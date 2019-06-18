@@ -1,8 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
-use Aurora\User\UserModel;
 use \Markaxis\Employee\EmployeeModel;
-use \Library\Util\Date \Library\Util\Formula;
+use \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -134,9 +133,6 @@ class TaxComputingModel extends \Model {
                                 $data['taxRules'][$row['trID']]['capped'] = $row['value'];
                             }
                             break;
-
-                        case 'payItem' :
-                            break;
                     }
                 }
 
@@ -149,7 +145,7 @@ class TaxComputingModel extends \Model {
 
                         foreach( $data['taxRules'] as $rules ) {
                             if( isset( $rules['applyType'] ) ) {
-                                if( $rules['applyType'] == 'deductionSa' && isset( $rules['applyValue'] ) &&
+                                if( $rules['applyType'] == 'deductionSA' && isset( $rules['applyValue'] ) &&
                                     isset( $rules['applyValueType'] ) ) {
 
                                     if( $rules['applyValue'] ) {

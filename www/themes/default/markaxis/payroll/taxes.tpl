@@ -1163,7 +1163,7 @@
                             <label>Apply above criteria as:</label>
                             <select name="applyType" id="applyType" data-placeholder="" placeholder=""
                                     class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
-                                <option value="deductionSa" selected>Deduction From Employee Salary</option>
+                                <option value="deductionSA" selected>Deduction From Employee Salary</option>
                                 <option value="deductionAW">Deduction From Employee Additional Wage</option>
                                 <option value="contribution">Employer Contribution</option>
                                 <option value="levy">Employer Levy</option>

@@ -52,9 +52,13 @@ class TaxRuleWrapperView extends AdminView {
 
             $badge = '';
 
-            if( $taxRule['applyType'] == 'deduction' ) {
+            if( $taxRule['applyType'] == 'deductionSA' ) {
                 $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_EMPLOYEE_SALARY');
                 $badge = 'success';
+            }
+            else if( $taxRule['applyType'] == 'deductionAW' ) {
+                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_EMPLOYEE_SALARY');
+                $badge = 'warning';
             }
             else if( $taxRule['applyType'] == 'contribution' ) {
                 $applyAs .= $this->L10n->getContents('LANG_EMPLOYER_CONTRIBUTION');
@@ -95,8 +99,8 @@ class TaxRuleWrapperView extends AdminView {
                 }
             }
             if( isset( $taxRule['race'] ) ) {
-                $RaceModel = RaceModel::getInstance( );
-                $raceList = $RaceModel->getList( );
+                //$RaceModel = RaceModel::getInstance( );
+                //$raceList = $RaceModel->getList( );
 
                 foreach( $taxRule['race'] as $race ) {
                     $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $race );

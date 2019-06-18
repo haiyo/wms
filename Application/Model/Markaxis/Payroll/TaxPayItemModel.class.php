@@ -1,8 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
-use Aurora\User\UserModel;
 use \Markaxis\Employee\EmployeeModel;
-use \Library\Util\Date \Library\Util\Formula;
+use \Library\Util\Formula;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -101,26 +100,13 @@ class TaxPayItemModel extends \Model {
     public function processPayroll( $data ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
-            $compInfo = $this->TaxPayItem->getBytrIDs( $trIDs );
+            $itemInfo = $this->TaxPayItem->getBytrIDs( $trIDs );
 
-            if( sizeof( $compInfo ) > 0 ) {
-                $age = $salary = 0;
+            if( sizeof( $itemInfo ) > 0 ) {
+                $Formula = new Formula( );
 
-                foreach( $compInfo as $row ) {
-                    switch( $row['criteria'] ) {
-                        case 'age' :
-                            if(  !$age ) {
-                                // If invalid age, break altogether.
-                                if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
-                                    break;
-                                }
-                            }
-                            if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                break;
-                            }
-                            break;
-
+                foreach( $itemInfo as $row ) {
+                    switch( $row['piID'] ) {
                         case 'salary' :
                             if( !$data['empInfo']['salary'] ) {
                                 break;
@@ -135,13 +121,16 @@ class TaxPayItemModel extends \Model {
                             }
                             break;
 
-                        case 'payItem' :
+                        case '32' :
+                            if( $row['valueType'] == 'formula' ) {
+                                //
+                            }
                             break;
                     }
                 }
 
                 // Parse all passes to items
-                if( sizeof( $data['taxRules'] ) > 0 ) {
+                /*if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {
                         $EmployeeModel = EmployeeModel::getInstance( );
                         $empInfo = $EmployeeModel->getFieldByUserID( $data['empInfo']['userID'], 'currency' );
@@ -149,7 +138,7 @@ class TaxPayItemModel extends \Model {
 
                         foreach( $data['taxRules'] as $rules ) {
                             if( isset( $rules['applyType'] ) ) {
-                                if( $rules['applyType'] == 'deductionSa' && isset( $rules['applyValue'] ) &&
+                                if( $rules['applyType'] == 'deductionSA' && isset( $rules['applyValue'] ) &&
                                     isset( $rules['applyValueType'] ) ) {
 
                                     if( $rules['applyValue'] ) {
@@ -188,7 +177,7 @@ class TaxPayItemModel extends \Model {
                             }
                         }
                     }
-                }
+                }*/
                 return $data;
             }
         }
@@ -235,8 +224,6 @@ class TaxPayItemModel extends \Model {
                                 }
 
                                 if( isset( $itemList[$data['payItem_' . $id]] ) ) {
-                                    //??$computing = $data['computing_' . $id];
-
                                     if( $data['valueType_' . $id] == 'fixed' || $data['valueType_' . $id] == 'percentage' ) {
                                         $valueType = $data['valueType_' . $id];
                                         $value = (float)$data['value_' . $id];
@@ -247,25 +234,33 @@ class TaxPayItemModel extends \Model {
                                         $value = $data['value_' . $id]; // Store formula "as is";
                                     }
 
-                                    $cInfo['criteria'] = $data['criteria_' . $id];
-                                    $cInfo['computing'] = $computing;
+                                    $cInfo['piID'] = $data['payItem_' . $id];
                                     $cInfo['valueType'] = $valueType;
-                                    $cInfo['formula'] = $value;
+                                    $cInfo['value'] = $value;
 
-                                    if( $data['tcID_' . $id] ) {
-                                        if( $this->isFound( $cInfo['trID'], $data['tcID_' . $id] ) ) {
+                                    if( $data['tpiID_' . $id] ) {
+                                        if( $this->isFound( $cInfo['trID'], $data['tpiID_' . $id] ) ) {
                                             $this->TaxPayItem->update( 'tax_pay_item', $cInfo,
-                                                                       'WHERE tcID = "' . (int)$data['tcID_' . $id] . '"' );
+                                                                       'WHERE tpiID = "' . (int)$data['tpiID_' . $id] . '"' );
 
-                                            array_push($validID, $data['tcID_' . $id]);
+                                            array_push($validID, $data['tpiID_' . $id]);
                                         }
                                     } else {
-                                        array_push($validID, $this->TaxPayItem->insert('tax_pay_item', $cInfo));
+                                        array_push($validID, $this->TaxPayItem->insert('tax_pay_item', $cInfo ) );
                                     }
                                 }
                             }
                             break;
                         /*
+                         CREATE TABLE `tax_pay_item` (
+ `tpiID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `trID` int(10) unsigned NOT NULL,
+ `piID` int(10) unsigned NOT NULL,
+ `valueType` varchar(32) NOT NULL,
+ `value` varchar(255) NOT NULL,
+ PRIMARY KEY (`tpiID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+
                                 6000x17-{salary}x{durationMonth}
 
                                 employee start date
@@ -294,8 +289,8 @@ class TaxPayItemModel extends \Model {
                 }
             }
         }
-        $computing = implode( ',', $validID );
+        $taxPayItem = implode( ',', $validID );
         $this->TaxPayItem->delete( 'tax_pay_item','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                                         tcID NOT IN(' . addslashes( $computing ) . ')' );
+                                                         tpiID NOT IN(' . addslashes( $taxPayItem ) . ')' );
     }
 }
