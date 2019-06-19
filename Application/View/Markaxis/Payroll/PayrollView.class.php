@@ -232,8 +232,8 @@ class PayrollView extends AdminView {
                     $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
 
                     $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
-                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                        'TPLVAR_AMOUNT' => $vars['TPLVAR_GROSS_AMOUNT'],
+                                                        'TPLVAR_CURRENCY' => $userInfo['currency'],
+                                                        'TPLVAR_AMOUNT' => $userInfo['currency'] . $vars['TPLVAR_GROSS_AMOUNT'],
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                         'TPLVAR_REMARK' => '',
                                                         'TPL_ICON' => '' );

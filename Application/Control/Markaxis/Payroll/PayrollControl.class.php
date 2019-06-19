@@ -66,9 +66,9 @@ class PayrollControl {
 
 
     /**
-     * Render main navigation
-     * @return string
-     */
+ * Render main navigation
+ * @return string
+ */
     public function process( $args ) {
         if( isset( $args[1] ) ) {
             $this->PayrollView->printAll( $this->PayrollView->renderProcess( $args[1] ) );
@@ -83,10 +83,30 @@ class PayrollControl {
     public function processPayroll( $args ) {
         if( isset( $args[1] ) && isset( $args[2] ) ) {
             $data = Control::getOutputArray( );
-
             echo $this->PayrollView->renderProcessForm( $args[1], $args[2], $data );
             exit;
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        $data = Control::getOutputArray( );
+        $vars = array( );
+
+        if( $vars['data'] = $this->PayrollModel->reprocessPayroll( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->PayrollModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
     }
 
 

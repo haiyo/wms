@@ -117,6 +117,26 @@ class Item extends \DAO {
 
 
     /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getAdditional( ) {
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.additional FROM payroll_item pi 
+                                   WHERE pi.additional = "1" AND 
+                                         pi.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

@@ -87,6 +87,15 @@ class ItemModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getAdditional( ) {
+        return $this->Item->getAdditional( );
+    }
+
+
+    /**
      * Get Table Results
      * @return mixed
      */

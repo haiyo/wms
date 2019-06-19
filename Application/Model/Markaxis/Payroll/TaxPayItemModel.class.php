@@ -185,6 +185,17 @@ class TaxPayItemModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function reprocessPayroll( $data, $post ) {
+        var_dump($data);
+        var_dump($post);
+        exit;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -252,14 +263,7 @@ class TaxPayItemModel extends \Model {
                             }
                             break;
                         /*
-                         CREATE TABLE `tax_pay_item` (
- `tpiID` int(10) unsigned NOT NULL AUTO_INCREMENT,
- `trID` int(10) unsigned NOT NULL,
- `piID` int(10) unsigned NOT NULL,
- `valueType` varchar(32) NOT NULL,
- `value` varchar(255) NOT NULL,
- PRIMARY KEY (`tpiID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+
 
                                 6000x17-{salary}x{durationMonth}
 

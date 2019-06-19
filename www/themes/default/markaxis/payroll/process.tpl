@@ -330,6 +330,25 @@
             return false;
         });
 
+        $(document).on("blur", ".amountInput", function(e) {
+            var data = {
+                bundle: {
+                    data: Aurora.WebService.serializePost("#processForm")
+                },
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+                    if( obj.bool == 0 ) {
+                        swal("error", obj.errMsg);
+                        return;
+                    }
+                    else {
+                        console.log(obj)
+                    }
+                }
+            }
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/", data );
+        });
+
         function addItem( ) {
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
             var icon = iconWrapper.find(".icon")

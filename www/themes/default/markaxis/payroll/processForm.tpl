@@ -1,5 +1,4 @@
 <form id="processForm" name="processForm" method="post" action="">
-
     <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;padding-bottom:11px;">
         <div class="col-md-1" style="width: 10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
         <div class="col-md-4" style="width:29%;border-right: 1px solid #ccc;">
@@ -28,11 +27,11 @@
             </div>
 
             <div class="col-md-3 amount">
-                <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control" value="<?TPLVAR_AMOUNT?>" placeholder="" />
+                <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control amountInput" value="<?TPLVAR_AMOUNT?>" placeholder="" />
             </div>
 
             <div class="col-md-4 remark">
-                <input type="text" name="remark_<?TPLVAR_ID?>" class="form-control" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                <input type="text" name="remark_<?TPLVAR_ID?>" class="form-control remark" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">
@@ -42,28 +41,6 @@
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: item -->
-    </div>
-
-    <div id="itemTemplate" class="hide">
-        <div id="itemRowWrapper_{id}" class="row itemRow" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
-            <div class="col-md-4">
-                <?TPL_PAYROLL_ITEM_LIST?>
-            </div>
-
-            <div class="col-md-3 amount">
-                <input type="text" name="amount_{id}" id="amount_{id}" class="form-control" value="" placeholder="" />
-            </div>
-
-            <div class="col-md-4 remark">
-                <input type="text" name="remark_{id}" class="form-control" value="" placeholder="" autocomplete="off" data-fouc />
-            </div>
-
-            <div class="col-lg-1 sm-addrm text-center">
-                <div class="mt-5 iconWrapper">
-                    <a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="row payrollProcessSummary">
@@ -176,3 +153,24 @@
         </div>
     </div>
 </form>
+<div id="itemTemplate" class="hide">
+    <div id="itemRowWrapper_{id}" class="row itemRow" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
+        <div class="col-md-4">
+            <?TPL_PAYROLL_ITEM_LIST?>
+        </div>
+
+        <div class="col-md-3 amount">
+            <input type="text" name="amount_{id}" id="amount_{id}" class="form-control amountInput" value="" placeholder="" />
+        </div>
+
+        <div class="col-md-4 remark">
+            <input type="text" name="remark_{id}" class="form-control remark" value="" placeholder="" autocomplete="off" data-fouc />
+        </div>
+
+        <div class="col-lg-1 sm-addrm text-center">
+            <div class="mt-5 iconWrapper">
+                <a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

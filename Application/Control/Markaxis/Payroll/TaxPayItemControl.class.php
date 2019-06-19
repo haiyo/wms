@@ -69,6 +69,17 @@ class TaxPayItemControl {
      * Render main navigation
      * @return string
      */
+    public function reprocessPayroll( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxPayItemModel->reprocessPayroll( $data, $post ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
         $this->TaxPayItemModel->saveTaxRule( $post );
