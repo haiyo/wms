@@ -60,6 +60,24 @@ class TaxComputingControl {
      * @return string
      */
     public function processPayroll( ) {
+        $this->process( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->process( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function process( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxComputingModel->processPayroll( $data ) );
     }

@@ -70,7 +70,7 @@ class EmployeeView extends AdminView {
             if( $empInfo['startDate'] ) {
                 $duration = ' (';
                 $dateDiff = \DateTime::createFromFormat('jS M Y',
-                            $empInfo['startDate'])->diff( new \DateTime('now') );
+                            $empInfo['startDate'] )->diff( new \DateTime('now') );
 
                 if( $dateDiff->y ) {
                     $duration .= $dateDiff->y . $this->L10n->getContents('LANG_DIFF_YEAR') . ' ';

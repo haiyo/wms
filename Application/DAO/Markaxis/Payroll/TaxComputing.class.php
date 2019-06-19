@@ -50,11 +50,10 @@ class TaxComputing extends \DAO {
      * @return mixed
      */
     public function getBytrID( $trID ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID = "' . (int)$trID . '"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $row['value'] = (float)$row['value'];

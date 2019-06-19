@@ -112,7 +112,6 @@
                 data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
             },
             initComplete: function() {
-                Popups.init();
                 /*var api = this.api();
                 var that = this;
                 $('input').on('keyup change', function() {
@@ -211,7 +210,6 @@
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                Popups.init();
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
@@ -222,7 +220,7 @@
             var $invoker = $(e.relatedTarget);
 
             $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
-                                              $invoker.attr("data-id") + "/" + $("#processDate").val(), function() {
+                                              $invoker.attr("data-id") + "/" + $("#processDate").val( ), function() {
                 $(".itemType").select2( );
                 $("#itemRowWrapper_0").find(".iconWrapper").remove( );
 
@@ -346,7 +344,7 @@
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/", data );
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
         });
 
         function addItem( ) {

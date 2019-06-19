@@ -15,31 +15,15 @@ class TaxPayItem extends \DAO {
 
 
     /**
-     * Return total count of records
-     * @return int
-     */
-    public function isFound( $trID, $tcID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(tcID) FROM tax_computing
-                                   WHERE trID = "' . (int)$trID . '" AND
-                                         tcID = "' . (int)$tcID . '"',
-                                    __FILE__, __LINE__ );
-
-        return $this->DB->resultData( $sql );
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByID( $tcID ) {
-        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE tcID = "' . (int)$tcID . '"',
+    public function getBypiID( $piID ) {
+        $sql = $this->DB->select( 'SELECT * FROM tax_pay_item WHERE piID = "' . (int)$piID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            $row = $this->DB->fetch( $sql );
-            $row['value'] = (float)$row['value'];
-            return $row;
+            return $this->DB->fetch( $sql );
         }
         return false;
     }
@@ -50,30 +34,10 @@ class TaxPayItem extends \DAO {
      * @return mixed
      */
     public function getBytrID( $trID ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT * FROM tax_pay_item WHERE trID = "' . (int)$trID . '"',
                                    __FILE__, __LINE__ );
 
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
-            }
-        }
-        return $list;
-    }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
-    public function getBytrIDs( $trIDs ) {
         $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM tax_pay_item WHERE trID IN (' . addslashes( $trIDs ) . ')',
-                                   __FILE__, __LINE__ );
-
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;

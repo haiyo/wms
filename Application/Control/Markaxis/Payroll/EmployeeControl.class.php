@@ -33,6 +33,24 @@ class EmployeeControl {
      * @return string
      */
     public function processPayroll( $args ) {
+        $this->process( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( $args ) {
+        $this->process( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function process( $args ) {
         try {
             $EmployeeModel = EmployeeModel::getInstance( );
 

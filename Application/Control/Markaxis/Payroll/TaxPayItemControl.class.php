@@ -36,10 +36,10 @@ class TaxPayItemControl {
 
         if( isset( $taxRule['trID'] ) ) {
             if( isset( $data[2] ) && $data[2] == 'html' ) {
-                Control::setOutputArray( array( 'computing' => $this->TaxPayItemView->renderTaxRule( $taxRule ) ) );
+                Control::setOutputArray( array( 'payItem' => $this->TaxPayItemView->renderTaxRule( $taxRule ) ) );
             }
             else {
-                Control::setOutputArray( array( 'computing' => $this->TaxPayItemModel->getBytrID( $taxRule['trID'] ) ) );
+                Control::setOutputArray( array( 'payItem' => $this->TaxPayItemModel->getBytrID( $taxRule['trID'] ) ) );
             }
         }
     }
@@ -58,11 +58,11 @@ class TaxPayItemControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxPayItemModel->processPayroll( $data ) );
-    }
+    } */
 
 
     /**

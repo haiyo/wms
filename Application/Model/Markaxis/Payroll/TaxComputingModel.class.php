@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Employee\EmployeeModel;
 use \Library\Util\Date;
 
 /**
@@ -139,10 +138,6 @@ class TaxComputingModel extends \Model {
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {
-                        $EmployeeModel = EmployeeModel::getInstance( );
-                        $empInfo = $EmployeeModel->getFieldByUserID( $data['empInfo']['userID'], 'currency' );
-                        $currency = $empInfo['currency'] ? $empInfo['currency'] : '';
-
                         foreach( $data['taxRules'] as $rules ) {
                             if( isset( $rules['applyType'] ) ) {
                                 if( $rules['applyType'] == 'deductionSA' && isset( $rules['applyValue'] ) &&
@@ -152,7 +147,7 @@ class TaxComputingModel extends \Model {
                                         if( $rules['applyValueType'] == 'percentage' ) {
                                             if( isset( $rules['capped'] ) ) {
                                                 $amount = $rules['capped'] * $rules['applyValue'] / 100;
-                                                $remark = ' (Capped at ' . $currency . number_format( $rules['capped'] ) . ')';
+                                                $remark = ' (Capped at ' . $data['empInfo']['currency'] . number_format( $rules['capped'] ) . ')';
                                             }
                                             else {
                                                 $amount = $salary * $rules['applyValue'] / 100;

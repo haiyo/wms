@@ -30,6 +30,24 @@ class TaxControl {
      * @return string
      */
     public function processPayroll( ) {
+        $this->process( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->process( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function process( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( array( 'taxGroups' => $this->TaxModel->getByUserID( $data['empInfo']['userID'], '*' ) ) );
     }

@@ -1639,6 +1639,19 @@
                                 }
                             }
 
+                            if( obj.data.payItem ) {
+                                for( var i=0; i<obj.data.payItem.length; i++ ) {
+                                    if( criteria > 0 ) {
+                                        addCriteria( );
+                                    }
+                                    $("#criteria_" + criteria).val( "payItem" ).trigger("change");
+                                    $("#payItem_" + criteria).val( obj.data.payItem[i]["piID"] ).trigger("change");
+                                    $("#valueType_" + criteria).val( obj.data.payItem[i]["valueType"] ).trigger("change");
+                                    $("#value_" + criteria).val( obj.data.payItem[i]["value"] );
+                                    criteria++;
+                                }
+                            }
+
                             if( obj.data.competency && obj.data.competency.length > 0 ) {
                                 if( criteria > 0 ) {
                                     addCriteria( );

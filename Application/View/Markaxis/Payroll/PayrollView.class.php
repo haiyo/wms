@@ -170,7 +170,8 @@ class PayrollView extends AdminView {
         if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
 
-            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ) );
+            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
+                           'TPLVAR_USERID' => $userID );
 
             /*$vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
                            'TPLVAR_FNAME' => $userInfo['fname'],

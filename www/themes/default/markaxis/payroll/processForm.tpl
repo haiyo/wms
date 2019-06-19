@@ -1,4 +1,5 @@
 <form id="processForm" name="processForm" method="post" action="">
+    <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
     <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;padding-bottom:11px;">
         <div class="col-md-1" style="width: 10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
         <div class="col-md-4" style="width:29%;border-right: 1px solid #ccc;">

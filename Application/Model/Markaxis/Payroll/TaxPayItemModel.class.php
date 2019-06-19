@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Employee\EmployeeModel;
 use \Library\Util\Formula;
 
 /**
@@ -34,17 +33,8 @@ class TaxPayItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $trID, $tcID ) {
-        return $this->TaxPayItem->isFound( $trID, $tcID );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function getByID( $tcID ) {
-        return $this->TaxPayItem->getByID( $tcID );
+    public function getBypiID( $piID ) {
+        return $this->TaxPayItem->getBypiID( $piID );
     }
 
 
@@ -60,43 +50,7 @@ class TaxPayItemModel extends \Model {
     /**
      * Return total count of records
      * @return int
-     */
-    public function getAll( $taxRules ) {
-        if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
-            foreach( $taxRules as $key => $taxRule ) {
-                if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['computing'] = $cInfo;
-                }
-            }
-            return $taxRules;
-        }
-    }
 
-
-    /**
-     * Test against computing criteria.
-     * @return bool
-     */
-    public function isEquality( $computing, $compare, $against ) {
-        if( $computing == 'lt' || $computing == 'lte' ) {
-            if( $compare > $against ) {
-                return false;
-            }
-        }
-        if( $computing == 'gt' && $compare <= $against ) {
-            return false;
-        }
-        if( $computing == 'gte' && $compare < $against ) {
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
     public function processPayroll( $data ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
@@ -107,20 +61,6 @@ class TaxPayItemModel extends \Model {
 
                 foreach( $itemInfo as $row ) {
                     switch( $row['piID'] ) {
-                        case 'salary' :
-                            if( !$data['empInfo']['salary'] ) {
-                                break;
-                            }
-                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                break;
-                            }
-                            if( $row['computing'] == 'ltec' ) {
-                                // Set the cap amount for later deduction.
-                                $data['taxRules'][$row['trID']]['capped'] = $row['value'];
-                            }
-                            break;
-
                         case '32' :
                             if( $row['valueType'] == 'formula' ) {
                                 //
@@ -130,7 +70,7 @@ class TaxPayItemModel extends \Model {
                 }
 
                 // Parse all passes to items
-                /*if( sizeof( $data['taxRules'] ) > 0 ) {
+                if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {
                         $EmployeeModel = EmployeeModel::getInstance( );
                         $empInfo = $EmployeeModel->getFieldByUserID( $data['empInfo']['userID'], 'currency' );
@@ -177,11 +117,11 @@ class TaxPayItemModel extends \Model {
                             }
                         }
                     }
-                }*/
+                }
                 return $data;
             }
         }
-    }
+    } */
 
 
     /**
@@ -189,8 +129,145 @@ class TaxPayItemModel extends \Model {
      * @return int
      */
     public function reprocessPayroll( $data, $post ) {
-        var_dump($data);
-        var_dump($post);
+        //var_dump($data);
+        //var_dump($post);
+
+        /*
+        array(3) {
+          ["basic"]=>
+          array(3) {
+            ["piID"]=> string(1) "3"
+            ["title"]=> string(12) "Basic Salary"
+            ["basic"]=> string(1) "1"
+          }
+          ["deduction"]=>
+          array(3) {
+            ["piID"]=> string(1) "5"
+            ["title"]=> string(9) "Deduction"
+            ["deduction"]=> string(1) "1"
+          }
+          ["additional"]=>
+          array(1) {
+            [32]=>
+            array(3) {
+              ["piID"]=> string(2) "32"
+              ["title"]=> string(12) "Annual Bonus"
+              ["additional"]=> string(1) "1"
+            }
+          }
+        }
+        array(15) {
+          ["remark_5"]=> string(0) ""
+          ["amount_5"]=> string(5) "30000"
+          ["itemType_5"]=> string(4) "p-32"
+
+          ["remark_3"]=> string(6) "asdasd"
+          ["amount_3"]=> string(7) "SGD$423"
+          ["itemType_3"]=> string(3) "e-2"
+
+          ["remark_2"]=> string(45) "Chinese Development Assistance Council (CDAC)"
+          ["amount_2"]=> string(5) "SGD$3"
+          ["itemType_2"]=> string(3) "p-5" //deduction
+
+          ["remark_1"]=> string(34) "Employee CPF (Capped at SGD$6,000)"
+          ["amount_1"]=> string(9) "SGD$1,200"
+          ["itemType_1"]=> string(3) "p-5" //deduction
+
+          ["remark_0"]=> string(0) ""
+          ["amount_0"]=> string(10) "SGD$10,000"
+          ["itemType_0"]=> string(3) "p-3"
+        }
+         * */
+
+        $sizeof = sizeof( $post );
+        $loop = $sizeof > 2 ? $sizeof/2 : 0;
+
+        if( $loop && isset( $data['empInfo']['salary'] ) && $data['empInfo']['salary'] &&
+            isset( $data['empInfo']['startDate'] ) && $data['empInfo']['startDate'] ) {
+
+            $totalAW = array( );
+
+            for( $i=0; $i<$loop; $i++ ) {
+                if( isset( $post['itemType_' . $i] ) ) {
+                    $itemType = str_replace('p-', '', $post['itemType_' . $i] );
+
+                    if( isset( $data['additional'][$itemType] ) ) {
+                        if( isset( $totalAW[$itemType] ) ) {
+                            $totalAW[$itemType]['amount'] += $post['amount_' . $i];
+                        }
+                        else {
+                            $totalAW[$itemType]['amount'] = $post['amount_' . $i];
+                        }
+                    }
+                }
+            }
+
+            if( sizeof( $totalAW ) > 0 ) {
+                // Do all assignment before loop
+                $monthDiff = 0;
+                $currYear = date( 'Y' );
+                $dateDiff = \DateTime::createFromFormat('Y-m-d',
+                                $data['empInfo']['startDate'] )->diff( new \DateTime('now') );
+
+                foreach( $totalAW as $piID => $value ) {
+                    $itemInfo = $this->getBypiID( $piID );
+
+                    if( sizeof( $itemInfo ) > 0 && $itemInfo['valueType'] == 'formula' && $itemInfo['value'] ) {
+                        if( $dateDiff->y < $currYear ) {
+                            $monthDiff = 12;
+                        }
+                        else if( $dateDiff->y == $currYear ) {
+                            $begin = new \DateTime($dateDiff->d . '-' . $dateDiff->m . '-' . $currYear );
+                            $end = new \DateTime( );
+                            $end = $end->modify( '+1 month' );
+
+                            $interval = \DateInterval::createFromDateString('1 month');
+
+                            $period = new \DatePeriod( $begin, $interval, $end );
+                            foreach( $period as $dt ) {
+                                $monthDiff++;
+                            }
+                        }
+
+                        if( isset( $data['taxRules'][$itemInfo['trID']]['capped'] ) ) {
+                            if( $data['empInfo']['salary'] > $data['taxRules'][$itemInfo['trID']]['capped'] ) {
+                                $data['empInfo']['salary'] = $data['taxRules'][$itemInfo['trID']]['capped'];
+                            }
+                        }
+
+                        $formula = str_replace( '{salary}', $data['empInfo']['salary'], $itemInfo['value'] );
+                        $formula = str_replace( '{durationMonth}', $monthDiff, $formula );
+
+                        $Formula = new Formula( );
+                        echo $formula . '<br>';
+                        var_dump( $Formula->calculate( $formula ) );
+                        exit;
+                        /*employee start date
+
+                                get employee year
+                                    - if year < currYear {
+                                        12 months
+                                    }
+                                    else if year == currYear {
+                                        $begin = ddmmCurrYear
+                                        $end = new DateTime( )
+                                        $end = $end->modify( '+1 month' );
+
+                                        $interval = DateInterval::createFromDateString('1 month');
+
+                                        $period = new DatePeriod($begin, $interval, $end);
+                                        $counter = 0;
+                                        foreach($period as $dt) {
+                                            $counter++;
+                                        }
+
+                                        return $counter;
+                                    }
+                                 * */
+                    }
+                }
+            }
+        }
         exit;
     }
 
@@ -262,33 +339,6 @@ class TaxPayItemModel extends \Model {
                                 }
                             }
                             break;
-                        /*
-
-
-                                6000x17-{salary}x{durationMonth}
-
-                                employee start date
-
-                                get employee year
-                                    - if year < currYear {
-                                        12 months
-                                    }
-                                    else if year == currYear {
-                                        $begin = ddmmCurrYear
-                                        $end = new DateTime( )
-                                        $end = $end->modify( '+1 month' );
-
-                                        $interval = DateInterval::createFromDateString('1 month');
-
-                                        $period = new DatePeriod($begin, $interval, $end);
-                                        $counter = 0;
-                                        foreach($period as $dt) {
-                                            $counter++;
-                                        }
-
-                                        return $counter;
-                                    }
-                                 * */
                     }
                 }
             }

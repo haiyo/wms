@@ -62,9 +62,7 @@ class ItemControl {
      * @return string
      */
     public function processPayroll( ) {
-        Control::setOutputArray( array( 'basic' => $this->ItemModel->getBasic( ) ) );
-        Control::setOutputArray( array( 'deduction' => $this->ItemModel->getDeduction( ) ) );
-        Control::setOutputArray( array( 'additional' => $this->ItemModel->getAdditional( ) ) );
+        $this->process( );
     }
 
 
@@ -73,6 +71,15 @@ class ItemControl {
      * @return string
      */
     public function reprocessPayroll( ) {
+        $this->process( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function process( ) {
         Control::setOutputArray( array( 'basic' => $this->ItemModel->getBasic( ) ) );
         Control::setOutputArray( array( 'deduction' => $this->ItemModel->getDeduction( ) ) );
         Control::setOutputArray( array( 'additional' => $this->ItemModel->getAdditional( ) ) );

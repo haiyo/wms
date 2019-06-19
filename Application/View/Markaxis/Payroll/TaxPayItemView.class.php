@@ -41,12 +41,12 @@ class TaxPayItemView extends AdminView {
      * @return mixed
      */
     public function renderTaxRule( $taxRule ) {
-        if( isset( $taxRule['trID'] ) && $computingInfo = $this->TaxPayItemModel->getBytrID( $taxRule['trID'] ) ) {
+        /*if( isset( $taxRule['trID'] ) && $itemInfo = $this->TaxPayItemModel->getBytrID( $taxRule['trID'] ) ) {
 
             $criteriaSet = $age = $salary = $workforce = array( );
             $currency = $taxRule['currencyCode'] . $taxRule['currencySymbol'];
 
-            foreach( $computingInfo as $computing ) {
+            foreach( $itemInfo as $item ) {
                 if( $computing['criteria'] == 'age' ) {
                     $age[] = $computing;
                 }
@@ -118,7 +118,7 @@ class TaxPayItemView extends AdminView {
                 }
             }
             return $criteriaSet;
-        }
+        }*/
     }
 
 
@@ -127,10 +127,12 @@ class TaxPayItemView extends AdminView {
      * @return mixed
      */
     public function renderAll( $taxRules ) {
-        foreach( $taxRules as $key => $taxRule ) {
-            $taxRules[$key]['computing'] = $this->renderTaxRule( $taxRule );
+        /*foreach( $taxRules as $key => $taxRule ) {
+            if( isset( $taxRule['trID'] ) && $itemInfo = $this->TaxPayItemModel->getBytrID( $taxRule['trID'] ) ) {
+                $taxRules[$key]['payItem'] = $itemInfo;
+            }
         }
-        return $taxRules;
+        return $taxRules;*/
     }
 }
 ?>
