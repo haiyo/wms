@@ -52,12 +52,12 @@ class TaxRuleWrapperView extends AdminView {
 
             $badge = '';
 
-            if( $taxRule['applyType'] == 'deductionSA' ) {
-                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_EMPLOYEE_SALARY');
+            if( $taxRule['applyType'] == 'deductionOR' ) {
+                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_ORDINARY_WAGE');
                 $badge = 'success';
             }
             else if( $taxRule['applyType'] == 'deductionAW' ) {
-                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_EMPLOYEE_SALARY');
+                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_ADDITIONAL_WAGE');
                 $badge = 'warning';
             }
             else if( $taxRule['applyType'] == 'contribution' ) {

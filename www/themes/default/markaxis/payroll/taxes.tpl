@@ -974,7 +974,7 @@
                                     <optgroup label="Computing Variables">
                                         <option value="age">Age</option>
                                         <option value="payItem">Pay Item</option>
-                                        <option value="salary">Basic Salary</option>
+                                        <option value="ordinary">Ordinary Wage</option>
                                         <option value="workforce">Total Workforce</option>
                                     </optgroup>
 
@@ -1163,8 +1163,8 @@
                             <label>Apply above criteria as:</label>
                             <select name="applyType" id="applyType" data-placeholder="" placeholder=""
                                     class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
-                                <option value="deductionSA" selected>Deduction From Employee Salary</option>
-                                <option value="deductionAW">Deduction From Employee Additional Wage</option>
+                                <option value="deductionOR" selected>Deduction From Ordinary Wage</option>
+                                <option value="deductionAW">Deduction From Additional Wage</option>
                                 <option value="contribution">Employer Contribution</option>
                                 <option value="levy">Employer Levy</option>
                             </select>
@@ -1285,7 +1285,7 @@
             if( $(this).val( ) == "payItem" ) {
                 addPayItem( $(this) );
             }
-            if( $(this).val( ) == "salary" ) {
+            if( $(this).val( ) == "ordinary" ) {
                 addComputing( $(this) );
             }
             if( $(this).val( ) == "workforce" ) {

@@ -72,8 +72,8 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getBasic( ) {
-        return $this->Item->getBasic( );
+    public function getOrdinary( ) {
+        return $this->Item->getOrdinary( );
     }
 
 
@@ -155,8 +155,8 @@ class ItemModel extends \Model {
             return false;
         }
 
-        if( $data['payItemType'] == 'basic' ) {
-            $this->info['basic'] = 1;
+        if( $data['payItemType'] == 'ordinary' ) {
+            $this->info['ordinary'] = 1;
         }
         else if( $data['payItemType'] == 'deduction' ) {
             $this->info['deduction'] = 1;

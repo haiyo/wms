@@ -43,15 +43,15 @@ class TaxComputingView extends AdminView {
     public function renderTaxRule( $taxRule ) {
         if( isset( $taxRule['trID'] ) && $computingInfo = $this->TaxComputingModel->getBytrID( $taxRule['trID'] ) ) {
 
-            $criteriaSet = $age = $salary = $workforce = array( );
+            $criteriaSet = $age = $ordinary = $workforce = array( );
             $currency = $taxRule['currencyCode'] . $taxRule['currencySymbol'];
 
             foreach( $computingInfo as $computing ) {
                 if( $computing['criteria'] == 'age' ) {
                     $age[] = $computing;
                 }
-                if( $computing['criteria'] == 'salary' ) {
-                    $salary[] = $computing;
+                if( $computing['criteria'] == 'ordinary' ) {
+                    $ordinary[] = $computing;
                 }
                 if( $computing['criteria'] == 'workforce' ) {
                     $workforce[] = $computing;
@@ -87,33 +87,33 @@ class TaxComputingView extends AdminView {
                     array_push($criteriaSet, $txt );
                 }
             }
-            if( sizeof( $salary ) == 1 ) {
-                $txt = 'Employee salary ';
+            if( sizeof( $ordinary ) == 1 ) {
+                $txt = 'Ordinary wage ';
 
-                if( $salary[0]['computing'] == 'gt' ) {
-                    $txt .= 'more than ' . $currency . (float)$salary[0]['value'];
+                if( $ordinary[0]['computing'] == 'gt' ) {
+                    $txt .= 'more than ' . $currency . (float)$ordinary[0]['value'];
                 }
-                if( $salary[0]['computing'] == 'lt' ) {
-                    $txt .= 'less than ' . $currency . (float)$salary[0]['value'];
+                if( $ordinary[0]['computing'] == 'lt' ) {
+                    $txt .= 'less than ' . $currency . (float)$ordinary[0]['value'];
                 }
-                if( $salary[0]['computing'] == 'lte' ) {
-                    $txt .= $currency . (float)$salary[0]['value'] . ' and below';
+                if( $ordinary[0]['computing'] == 'lte' ) {
+                    $txt .= $currency . (float)$ordinary[0]['value'] . ' and below';
                 }
-                if( $salary[0]['computing'] == 'eq' ) {
-                    $txt .= $currency . (float)$salary[0]['value'];
+                if( $ordinary[0]['computing'] == 'eq' ) {
+                    $txt .= $currency . (float)$ordinary[0]['value'];
                 }
                 array_push($criteriaSet, $txt );
             }
             // 2 Salary Criteria
-            if( sizeof( $salary ) == 2 ) {
-                if( $salary[0]['value'] < $salary[1]['value'] ) {
-                    $txt  = 'Employee salary from ';
-                    $txt .= $currency . (float)$salary[0]['value'] . ' to ' . $currency . (float)$salary[1]['value'];
+            if( sizeof( $ordinary ) == 2 ) {
+                if( $ordinary[0]['value'] < $ordinary[1]['value'] ) {
+                    $txt  = 'Ordinary wage from ';
+                    $txt .= $currency . (float)$ordinary[0]['value'] . ' to ' . $currency . (float)$ordinary[1]['value'];
                     array_push($criteriaSet, $txt );
                 }
-                if( $salary[0]['value'] > $salary[1]['value'] ) {
-                    $txt  = 'Employee salary more than ';
-                    $txt .= $currency . (float)$salary[1]['value'] . ' to ' . $currency . (float)$salary[0]['value'];
+                if( $ordinary[0]['value'] > $ordinary[1]['value'] ) {
+                    $txt  = 'Ordinary wage more than ';
+                    $txt .= $currency . (float)$ordinary[1]['value'] . ' to ' . $currency . (float)$ordinary[0]['value'];
                     array_push($criteriaSet, $txt );
                 }
             }

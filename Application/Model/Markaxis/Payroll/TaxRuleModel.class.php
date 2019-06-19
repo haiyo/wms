@@ -94,7 +94,7 @@ class TaxRuleModel extends \Model {
             $this->info['city'] = (int)$data['city'];
         }
 
-        if( $data['applyType'] == 'deductionSA' || $data['applyType'] == 'deductionAW' ||
+        if( $data['applyType'] == 'deductionOR' || $data['applyType'] == 'deductionAW' ||
             $data['applyType'] == 'contribution' || $data['applyType'] == 'levy' ) {
             $this->info['applyType'] = $data['applyType'];
         }

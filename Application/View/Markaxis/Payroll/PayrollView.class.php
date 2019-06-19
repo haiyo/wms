@@ -225,7 +225,7 @@ class PayrollView extends AdminView {
                 $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
                 $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = $id = 0;
 
-                if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
+                if( isset( $data['$ordinary'] ) && $data['empInfo']['salary'] ) {
                     $selected = 'p-' . $data['basic']['piID'];
                     $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 

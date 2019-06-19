@@ -78,7 +78,7 @@ class TaxPayItemModel extends \Model {
 
                         foreach( $data['taxRules'] as $rules ) {
                             if( isset( $rules['applyType'] ) ) {
-                                if( $rules['applyType'] == 'deductionSA' && isset( $rules['applyValue'] ) &&
+                                if( $rules['applyType'] == 'deductionOR' && isset( $rules['applyValue'] ) &&
                                     isset( $rules['applyValueType'] ) ) {
 
                                     if( $rules['applyValue'] ) {
@@ -242,28 +242,6 @@ class TaxPayItemModel extends \Model {
                         echo $formula . '<br>';
                         var_dump( $Formula->calculate( $formula ) );
                         exit;
-                        /*employee start date
-
-                                get employee year
-                                    - if year < currYear {
-                                        12 months
-                                    }
-                                    else if year == currYear {
-                                        $begin = ddmmCurrYear
-                                        $end = new DateTime( )
-                                        $end = $end->modify( '+1 month' );
-
-                                        $interval = DateInterval::createFromDateString('1 month');
-
-                                        $period = new DatePeriod($begin, $interval, $end);
-                                        $counter = 0;
-                                        foreach($period as $dt) {
-                                            $counter++;
-                                        }
-
-                                        return $counter;
-                                    }
-                                 * */
                     }
                 }
             }

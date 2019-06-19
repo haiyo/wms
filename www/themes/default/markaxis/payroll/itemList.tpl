@@ -36,7 +36,7 @@
                 orderable: true,
                 searchable: false,
                 width: "100px",
-                data: "basic",
+                data: "ordinary",
                 className : "text-center",
                 render: function( data ) {
                     if( data === '0' ) {
@@ -264,8 +264,8 @@
                             $("#piID").val( obj.data.piID );
                             $("#payItemTitle").val( obj.data.title );
 
-                            if( obj.data.basic === 1 ) {
-                                selectPayItemType("basic");
+                            if( obj.data.ordinary === 1 ) {
+                                selectPayItemType("ordinary");
                             }
                             else if( obj.data.deduction === 1 ) {
                                 selectPayItemType("deduction");
@@ -299,9 +299,9 @@
         function selectPayItemType( type ) {
             $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
 
-            if( type === "basic" ) {
-                $("#payItemBasic").addClass("btn-green");
-                $("#payItemType").val("basic");
+            if( type === "ordinary" ) {
+                $("#payItemOrdinary").addClass("btn-green");
+                $("#payItemType").val("ordinary");
             }
             else if( type === "deduction" ) {
                 $("#payItemDeduction").addClass("btn-green");
@@ -399,7 +399,7 @@
         <thead>
         <tr>
             <th>Pay Item Title</th>
-            <th>Basic Salary</th>
+            <th>Ordinary Wage</th>
             <th>Deduction</th>
             <th>Additional Wage</th>
             <th>Tax Groups</th>
@@ -435,7 +435,7 @@
                             <div class="input-group">
                                 <span class="input-group-prepend">
                                     <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
-                                    <button id="payItemBasic" class="btn btn-light payItemBtn" type="button" value="basic">Basic Salary</button>
+                                    <button id="payItemOrdinary" class="btn btn-light payItemBtn" type="button" value="ordinary">Ordinary Wage</button>
                                     <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
                                 </span>
                                 <span class="input-group-append">

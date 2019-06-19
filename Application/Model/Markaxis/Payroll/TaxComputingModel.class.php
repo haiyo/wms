@@ -102,7 +102,7 @@ class TaxComputingModel extends \Model {
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
 
             if( sizeof( $compInfo ) > 0 ) {
-                $age = $salary = 0;
+                $age = $ordinary = 0;
 
                 foreach( $compInfo as $row ) {
                     switch( $row['criteria'] ) {
@@ -119,7 +119,7 @@ class TaxComputingModel extends \Model {
                             }
                             break;
 
-                        case 'salary' :
+                        case 'ordinary' :
                             if( !$data['empInfo']['salary'] ) {
                                 break;
                             }
@@ -134,13 +134,13 @@ class TaxComputingModel extends \Model {
                             break;
                     }
                 }
-
+var_dump($data);
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {
                         foreach( $data['taxRules'] as $rules ) {
                             if( isset( $rules['applyType'] ) ) {
-                                if( $rules['applyType'] == 'deductionSA' && isset( $rules['applyValue'] ) &&
+                                if( $rules['applyType'] == 'deductionOR' && isset( $rules['applyValue'] ) &&
                                     isset( $rules['applyValueType'] ) ) {
 
                                     if( $rules['applyValue'] ) {
@@ -150,7 +150,7 @@ class TaxComputingModel extends \Model {
                                                 $remark = ' (Capped at ' . $data['empInfo']['currency'] . number_format( $rules['capped'] ) . ')';
                                             }
                                             else {
-                                                $amount = $salary * $rules['applyValue'] / 100;
+                                                $amount = $ordinary * $rules['applyValue'] / 100;
                                                 $remark = '';
                                             }
                                         }

@@ -33,24 +33,6 @@ class EmployeeControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        $this->process( $args );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function reprocessPayroll( $args ) {
-        $this->process( $args );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function process( $args ) {
         try {
             $EmployeeModel = EmployeeModel::getInstance( );
 
@@ -66,6 +48,15 @@ class EmployeeControl {
             $e->record( );
             HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( $args ) {
+        $this->processPayroll( $args );
     }
 }
 ?>

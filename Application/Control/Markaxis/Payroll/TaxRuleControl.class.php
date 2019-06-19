@@ -60,8 +60,7 @@ class TaxRuleControl {
      * @return string
      */
     public function reprocessPayroll( ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'taxRules' => $this->TaxRuleModel->getProcessTaxRules( $data ) ) );
+        $this->processPayroll( );
     }
 
 

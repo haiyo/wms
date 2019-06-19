@@ -67,7 +67,7 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getProcessList( ) {
-        $sql = $this->DB->select( 'SELECT piID, title, basic, deduction, additional
+        $sql = $this->DB->select( 'SELECT piID, title, ordinary, deduction, additional
                                    FROM payroll_item
                                    WHERE deleted <> "1"
                                    ORDER BY title', __FILE__, __LINE__ );
@@ -86,16 +86,19 @@ class Item extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getBasic( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic FROM payroll_item pi 
-                                   WHERE pi.basic = "1" AND 
+    public function getOrdinary( ) {
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.ordinary FROM payroll_item pi 
+                                   WHERE pi.ordinary = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['piID']] = $row;
+            }
         }
-        return false;
+        return $list;
     }
 
 
@@ -109,10 +112,13 @@ class Item extends \DAO {
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['piID']] = $row;
+            }
         }
-        return false;
+        return $list;
     }
 
 
