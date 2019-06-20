@@ -201,44 +201,46 @@ class PayrollView extends AdminView {
             $SelectListView = new SelectListView( );
             $SelectListView->setClass('itemType');
 
+            $fullList = array( );
+            $itemList = $ItemModel->getList( );
+            $expenseList = $ExpenseModel->getList( );
+
+            $fullList[] = array( 'id' => 1, 'title' => 'Pay Items', 'parent' => 0 );
+            foreach( $itemList as $key => $value ) {
+                $fullList[] = array( 'id' => 'p-' . $key, 'title' => $value, 'parent' => 1 );
+            }
+
+            $fullList[] = array( 'id' => 2, 'title' => 'Expenses', 'parent' => 0 );
+            foreach( $expenseList as $key => $value ) {
+                $fullList[] = array( 'id' => 'e-' . $key, 'title' => $value, 'parent' => '2' );
+            }
+
+            $SelectGroupListView = new SelectGroupListView( );
+            $SelectGroupListView->includeBlank(false );
+            $SelectGroupListView->setClass("itemType");
+
             $vars['dynamic']['item'] = false;
+            $id = 0;
+
+            if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
+                $selected = 'p-' . $data['basic']['piID'];
+                $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
+
+                $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $data['empInfo']['salary'] );
+                $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
+
+                $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                    'TPLVAR_CURRENCY' => $userInfo['currency'],
+                                                    'TPLVAR_AMOUNT' => $userInfo['currency'] . $vars['TPLVAR_GROSS_AMOUNT'],
+                                                    'TPL_PAYROLL_ITEM_LIST' => $itemType,
+                                                    'TPLVAR_REMARK' => '',
+                                                    'TPL_ICON' => '' );
+                $id++;
+            }
 
             if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
-                $fullList = array( );
-                $itemList = $ItemModel->getList( );
-                $expenseList = $ExpenseModel->getList( );
-
-                $fullList[] = array( 'id' => 1, 'title' => 'Pay Items', 'parent' => 0 );
-                foreach( $itemList as $key => $value ) {
-                    $fullList[] = array( 'id' => 'p-' . $key, 'title' => $value, 'parent' => 1 );
-                }
-
-                $fullList[] = array( 'id' => 2, 'title' => 'Expenses', 'parent' => 0 );
-                foreach( $expenseList as $key => $value ) {
-                    $fullList[] = array( 'id' => 'e-' . $key, 'title' => $value, 'parent' => '2' );
-                }
-
-                $SelectGroupListView = new SelectGroupListView( );
-                $SelectGroupListView->includeBlank(false );
-                $SelectGroupListView->setClass("itemType");
-
                 $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
-                $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = $id = 0;
-
-                if( isset( $data['$ordinary'] ) && $data['empInfo']['salary'] ) {
-                    $selected = 'p-' . $data['basic']['piID'];
-                    $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
-
-                    $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $data['empInfo']['salary'] );
-                    $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
-
-                    $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
-                                                        'TPLVAR_CURRENCY' => $userInfo['currency'],
-                                                        'TPLVAR_AMOUNT' => $userInfo['currency'] . $vars['TPLVAR_GROSS_AMOUNT'],
-                                                        'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                        'TPLVAR_REMARK' => '',
-                                                        'TPL_ICON' => '' );
-                }
+                $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = 0;
 
                 if( isset( $data['items'] ) ) {
                     foreach( $data['items'] as $items ) {
@@ -250,13 +252,13 @@ class PayrollView extends AdminView {
                                 $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
                             }
                         }
-                        $id++;
                         $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                         $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                             'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
                                                             'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                             'TPLVAR_REMARK' => $items['title'] );
+                        $id++;
                     }
                 }
 
@@ -268,13 +270,13 @@ class PayrollView extends AdminView {
                             $vars['TPLVAR_CLAIM_AMOUNT'] += (float)$claims['amount'];
                             $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
 
-                            $id++;
                             $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                             $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                                 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $claims['amount'] ),
                                                                 'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                                 'TPLVAR_REMARK' => $claims['title'] );
+                            $id++;
                         }
                     }
                 }

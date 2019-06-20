@@ -120,12 +120,11 @@ class TaxComputingModel extends \Model {
                             break;
 
                         case 'ordinary' :
-                            if( !$data['empInfo']['salary'] ) {
-                                break;
-                            }
-                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                break;
+                            if( $data['empInfo']['salary'] ) {
+                                if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                                    unset( $data['taxRules'][$row['trID']] );
+                                    break;
+                                }
                             }
                             if( $row['computing'] == 'ltec' ) {
                                 // Set the cap amount for later deduction.
@@ -134,7 +133,7 @@ class TaxComputingModel extends \Model {
                             break;
                     }
                 }
-var_dump($data);
+
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {

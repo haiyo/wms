@@ -72,6 +72,15 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
+    public function getBasic( ) {
+        return $this->Item->getBasic( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
     public function getOrdinary( ) {
         return $this->Item->getOrdinary( );
     }
@@ -111,7 +120,7 @@ class ItemModel extends \Model {
                     $order = 'pi.title';
                     break;
                 case 2:
-                    $order = 'pi.basic';
+                    $order = 'pi.ordinary';
                     break;
                 case 3:
                     $order = 'pi.deduction';

@@ -86,6 +86,23 @@ class Item extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
+    public function getBasic( ) {
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic FROM payroll_item pi 
+                                   WHERE pi.basic = "1" AND 
+                                         pi.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
     public function getOrdinary( ) {
         $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.ordinary FROM payroll_item pi 
                                    WHERE pi.ordinary = "1" AND 
@@ -112,13 +129,10 @@ class Item extends \DAO {
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
-        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['piID']] = $row;
-            }
+            return $this->DB->fetch( $sql );
         }
-        return $list;
+        return false;
     }
 
 

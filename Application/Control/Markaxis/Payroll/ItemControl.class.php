@@ -62,6 +62,7 @@ class ItemControl {
      * @return string
      */
     public function processPayroll( ) {
+        Control::setOutputArray( array( 'basic' => $this->ItemModel->getBasic( ) ) );
         Control::setOutputArray( array( 'ordinary' => $this->ItemModel->getOrdinary( ) ) );
         Control::setOutputArray( array( 'deduction' => $this->ItemModel->getDeduction( ) ) );
         Control::setOutputArray( array( 'additional' => $this->ItemModel->getAdditional( ) ) );

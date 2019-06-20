@@ -58,21 +58,18 @@ class TaxPayItemControl {
     /**
      * Render main navigation
      * @return string
-
-    public function processPayroll( ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxPayItemModel->processPayroll( $data ) );
-    } */
-
-
-    /**
-     * Render main navigation
-     * @return string
      */
     public function reprocessPayroll( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxPayItemModel->reprocessPayroll( $data, $post ) );
+
+        if( $data = $this->TaxPayItemModel->reprocessPayroll( $data, $post ) ) {
+            $vars = array( );
+            $vars['bool'] = 1;
+            $vars['data'] = $data;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 
 

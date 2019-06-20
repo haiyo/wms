@@ -364,6 +364,7 @@
 
             var itemWrapper = $("#itemWrapper");
             itemWrapper.animate({ scrollTop: itemWrapper.prop("scrollHeight") - itemWrapper.height() }, 300);
+            return length;
         }
     });
 </script>
