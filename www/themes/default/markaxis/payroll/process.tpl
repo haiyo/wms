@@ -333,14 +333,22 @@
                 bundle: {
                     data: Aurora.WebService.serializePost("#processForm")
                 },
-                success: function (res) {
-                    var obj = $.parseJSON(res);
+                success: function( res ) {
+                    var obj = $.parseJSON( res );
+
                     if( obj.bool == 0 ) {
-                        swal("error", obj.errMsg);
+                        swal( "error", obj.errMsg );
                         return;
                     }
                     else {
-                        console.log(obj)
+                        if( obj.data.addItem.length > 0 ) {
+                            for( var i=0; i<obj.data.addItem.length; i++ ) {
+                                var id = addItem( );
+                                $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
+                                $("#amount_" + id).val( obj.data.addItem[i]['amount'] );
+                                $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
+                            }
+                        }
                     }
                 }
             }

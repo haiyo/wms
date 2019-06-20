@@ -257,7 +257,7 @@ class PayrollView extends AdminView {
                         $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                             'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'] ),
                                                             'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                            'TPLVAR_REMARK' => $items['title'] );
+                                                            'TPLVAR_REMARK' => $items['remark'] );
                         $id++;
                     }
                 }
@@ -275,7 +275,7 @@ class PayrollView extends AdminView {
                             $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                                 'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $claims['amount'] ),
                                                                 'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                                'TPLVAR_REMARK' => $claims['title'] );
+                                                                'TPLVAR_REMARK' => $claims['remark'] );
                             $id++;
                         }
                     }

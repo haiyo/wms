@@ -159,7 +159,7 @@ class TaxComputingModel extends \Model {
                                         }
                                         $data['items'][] = array( 'piID' => $data['deduction']['piID'],
                                                                   'trID' => $rules['trID'],
-                                                                  'title' => $rules['title'] . $remark,
+                                                                  'remark' => $rules['title'] . $remark,
                                                                   'amount' => $amount );
                                     }
                                 }

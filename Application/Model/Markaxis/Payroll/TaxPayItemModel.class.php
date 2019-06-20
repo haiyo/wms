@@ -132,7 +132,7 @@ class TaxPayItemModel extends \Model {
 
                                 $data['addItem'][] = array( 'piID' => $data['deduction']['piID'],
                                                             'trID' => $itemInfo['trID'],
-                                                            'title' => $remark,
+                                                            'remark' => $remark,
                                                             'amount' => $amount );
                             }
                         }

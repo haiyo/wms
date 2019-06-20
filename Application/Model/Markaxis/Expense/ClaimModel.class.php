@@ -123,7 +123,7 @@ class ClaimModel extends \Model {
         if( sizeof( $claimInfo ) > 0 ) {
             foreach( $claimInfo as $value ) {
                 $data['claims'][] = array( 'eiID' => $value['eiID'],
-                                           'title' => $value['descript'],
+                                           'remark' => $value['descript'],
                                            'amount' => $value['amount'] );
             }
         }

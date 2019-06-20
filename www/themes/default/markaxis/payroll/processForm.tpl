@@ -32,7 +32,7 @@
             </div>
 
             <div class="col-md-4 remark">
-                <input type="text" name="remark_<?TPLVAR_ID?>" class="form-control remark" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">
@@ -165,7 +165,7 @@
         </div>
 
         <div class="col-md-4 remark">
-            <input type="text" name="remark_{id}" class="form-control remark" value="" placeholder="" autocomplete="off" data-fouc />
+            <input type="text" name="remark_{id}" id="remark_{id}" class="form-control remark" value="" placeholder="" autocomplete="off" data-fouc />
         </div>
 
         <div class="col-lg-1 sm-addrm text-center">
