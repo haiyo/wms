@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Employee\EmployeeModel;
 use \Control;
 use \Library\Http\HttpResponse;
 use \Library\Exception\Aurora\PageNotFoundException;
@@ -16,6 +15,7 @@ class EmployeeControl {
 
 
     // Properties
+    private $EmployeeModel;
     private $EmployeeView;
 
 
@@ -24,6 +24,7 @@ class EmployeeControl {
      * @return void
      */
     function __construct( ) {
+        $this->EmployeeModel = EmployeeModel::getInstance( );
         $this->EmployeeView = new EmployeeView( );
     }
 
@@ -32,13 +33,14 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args ) {
+    public function processPayroll( $args, $reprocess=false ) {
         try {
-            $EmployeeModel = EmployeeModel::getInstance( );
-
-            if( isset( $args[1] ) && $empInfo = $EmployeeModel->getFieldByUserID( $args[1], '*' ) ) {
+            if( isset( $args[1] ) && $empInfo = $this->EmployeeModel->getProcessInfo( $args[1] ) ) {
                 Control::setOutputArray( array( 'empInfo' => $empInfo ) );
-                Control::setOutputArray( $this->EmployeeView->renderProcessForm( $args[1] ) );
+
+                if( !$reprocess ) {
+                    Control::setOutputArray( $this->EmployeeView->renderProcessForm( $empInfo ) );
+                }
             }
             else {
                 throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
@@ -56,7 +58,7 @@ class EmployeeControl {
      * @return string
      */
     public function reprocessPayroll( $args ) {
-        $this->processPayroll( $args );
+        $this->processPayroll( $args, true );
     }
 }
 ?>

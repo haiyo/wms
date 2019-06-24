@@ -49,134 +49,140 @@ class TaxPayItemModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
-    public function reprocessPayroll( $data, $post ) {
-        $amountInput = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
-        $amountInput = (int)str_replace( ',', '', $amountInput );
+    public function getBytrIDs( $trIDs, $piID ) {
+        return $this->TaxPayItem->getBytrIDs( $trIDs, $piID );
+    }
 
-        if( !$amountInput ) { return 0; }
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalAWPostCount( $data, $post ) {
         $sizeof = sizeof( $post['data'] );
-        $loop = $sizeof > 2 ? $sizeof/2 : 0;
+        $sizeof = $sizeof > 2 ? $sizeof/2 : 0;
+        $total  = array( );
+        $total['totalAW'] = $total['deductionAW'] = 0;
 
-        if( $loop && isset( $data['empInfo']['salary'] ) && $data['empInfo']['salary'] &&
-            isset( $data['empInfo']['startDate'] ) && $data['empInfo']['startDate'] ) {
-
-            $totalAW = array( );
-            $deductionAdditional = 0;
-
-            for( $i=0; $i<$loop; $i++ ) {
+        if( $sizeof ) {
+            for( $i=0; $i<$sizeof; $i++ ) {
                 if( isset( $post['data']['itemType_' . $i] ) ) {
                     $itemType = str_replace('p-', '', $post['data']['itemType_' . $i] );
                     $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $i] );
                     $amount = (int)str_replace( ',', '', $amount );
 
                     if( isset( $data['additional'][$itemType] ) ) {
-                        if( isset( $totalAW[$itemType] ) ) {
-                            $totalAW[$itemType]['totalAW'] += $amount;
+                        if( isset( $total['totalAW'] ) ) {
+                            $total['totalAW'] += $amount;
                         }
                         else {
-                            $totalAW[$itemType]['totalAW'] = $amount;
+                            $total['totalAW'] = $amount;
                         }
                     }
 
-                    if( isset( $data['deductionAdditional']['piID'] ) &&
-                        $data['deductionAdditional']['piID'] == $itemType ) {
-                        $deductionAdditional += $amount;
+                    if( isset( $data['deductionAW']['piID'] ) && $data['deductionAW']['piID'] == $itemType ) {
+                        if( isset( $total['deductionAW'] ) ) {
+                            $total['deductionAW'] += $amount;
+                        }
+                        else {
+                            $total['deductionAW'] = $amount;
+                        }
                     }
                 }
             }
+        }
+        return $total;
+    }
 
-            if( sizeof( $totalAW ) > 0 ) {
-                // Do all assignment before loop
-                $monthDiff = 0;
-                $currYear = date( 'Y' );
-                $dateDiff = \DateTime::createFromFormat('Y-m-d',
-                                $data['empInfo']['startDate'] )->diff( new \DateTime('now') );
 
-                foreach( $totalAW as $piID => $value ) {
-                    $itemInfo = $this->getBypiID( $piID );
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function reprocessPayroll( $data, $post ) {
+        if( isset( $post['amountInput'] ) && isset( $post['itemType'] ) ) {
+            $itemType    = str_replace( 'p-', '', $post['itemType'] );
+            $amountInput = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
+            $amountInput = (int)str_replace( ',', '', $amountInput );
+            if( !$amountInput ) { return 0; }
 
-                    if( sizeof( $itemInfo ) > 0 && $itemInfo['valueType'] == 'formula' && $itemInfo['value'] ) {
-                        if( $dateDiff->y < $currYear ) {
-                            $monthDiff = 12;
-                        }
-                        else if( $dateDiff->y == $currYear ) {
-                            $begin = new \DateTime($dateDiff->d . '-' . $dateDiff->m . '-' . $currYear );
-                            $end = new \DateTime( );
-                            $end = $end->modify( '+1 month' );
+            if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+                $trIDs = implode(', ', array_column($data['taxRules'], 'trID'));
+                $itemInfo = $this->getBytrIDs( $trIDs, $itemType );
 
-                            $interval = \DateInterval::createFromDateString('1 month');
+                if( sizeof( $itemInfo ) > 0 ) {
+                    foreach( $itemInfo as $row ) {
+                        if( $row['valueType'] == 'formula' && $row['value'] ) {
+                            $salary = $data['empInfo']['salary'];
 
-                            $period = new \DatePeriod( $begin, $interval, $end );
-                            foreach( $period as $dt ) {
-                                $monthDiff++;
+                            if( isset( $data['taxRules'][$row['trID']]['capped'] ) &&
+                                $salary > $data['taxRules'][$row['trID']]['capped'] ) {
+                                // Salary capped
+                                $salary = $data['taxRules'][$row['trID']]['capped'];
                             }
-                        }
 
-                        if( isset( $data['taxRules'][$itemInfo['trID']]['capped'] ) ) {
-                            // Salary capped at $6K
-                            if( $data['empInfo']['salary'] > $data['taxRules'][$itemInfo['trID']]['capped'] ) {
-                                $data['empInfo']['salary'] = $data['taxRules'][$itemInfo['trID']]['capped'];
-                            }
-                        }
+                            $formula = str_replace( '{salary}', $salary, $row['value'] );
+                            $formula = str_replace( '{durationMonth}', $data['empInfo']['monthDiff'], $formula );
 
-                        $formula = str_replace( '{salary}', $data['empInfo']['salary'], $itemInfo['value'] );
-                        $formula = str_replace( '{durationMonth}', $monthDiff, $formula );
+                            // AW Ceiling
+                            $Formula = new Formula( );
+                            $capAmount = $Formula->calculate( $formula );
+                            $remark = '';
 
-                        // AW Ceiling
-                        $Formula = new Formula( );
-                        $capAmount = $Formula->calculate( $formula );
-                        $remark = '';
+                            // Get all AW paid within this year (if any) to check if the total hit ceiling!
+                            // var_dump( array_keys( $data['additional']) ); exit;
 
-                        // Get all AW paid within this year (if any) to check if the total hit ceiling!
-                        // var_dump( array_keys( $data['additional']) ); exit;
+                            $total = $this->getTotalAWPostCount( $data, $post );
 
-                        if( $value['totalAW'] >= $capAmount ) {
-                            // Check if previously capped before
-                            if( $value['totalAW']-$amountInput >= $capAmount ) {
-                                return 0;
-                            }
-                            if( $amountInput < $capAmount ) {
-                                $amountInput = $value['totalAW']-$capAmount;
-                            }
-                            else {
-                                $amountInput = $capAmount;
-                            }
-                            $remark .= ' (Capped at ' . $data['empInfo']['currency'] . number_format( $capAmount ) . ')';
-                        }
-
-                        if( isset( $data['taxRules'][$itemInfo['trID']]['applyType'] ) &&
-                            isset( $data['taxRules'][$itemInfo['trID']]['applyValueType'] ) &&
-                            isset( $data['taxRules'][$itemInfo['trID']]['applyValue'] ) ) {
-
-                            $applyType = $data['taxRules'][$itemInfo['trID']]['applyType'];
-                            $applyValueType = $data['taxRules'][$itemInfo['trID']]['applyValueType'];
-                            $applyValue = $data['taxRules'][$itemInfo['trID']]['applyValue'];
-
-                            if( $applyType == 'deductionAW' && $applyValueType == 'percentage' && $applyValue ) {
-                                $amount  = $amountInput * $applyValue / 100;
-
-                                if( $amountInput-$deductionAdditional ) {
-                                    $remark  = $data['taxRules'][$itemInfo['trID']]['title'] . $remark;
-
-                                    $data['items'][] = $data['addItem'][] = array( 'piID' => $data['deductionAdditional']['piID'],
-                                                                                   'trID' => $itemInfo['trID'],
-                                                                                   'remark' => $remark,
-                                                                                   'amount' => $amount );
+                            if( isset( $total['totalAW'] ) && $total['totalAW'] >= $capAmount ) {
+                                // Check if previously capped before
+                                if( $total['totalAW']-$amountInput >= $capAmount ) {
+                                    return 0;
                                 }
+                                if( $amountInput < $capAmount ) {
+                                    $amountInput = $total['totalAW']-$capAmount;
+                                }
+                                else {
+                                    $amountInput = $capAmount;
+                                }
+                                $remark .= ' (Capped at ' . $data['empInfo']['currency'] . number_format( $capAmount ) . ')';
                             }
-                            if( $applyType == 'contribution' && $applyValueType == 'percentage' && $applyValue ) {
-                                $amount  = $value['totalAW'] * $applyValue / 100;
 
-                                $data['contribution'][] = array( 'title' => $data['taxRules'][$itemInfo['trID']]['title'],
-                                                                 'amount' => $amount );
+                            if( isset( $data['taxRules'][$row['trID']]['applyType'] ) &&
+                                isset( $data['taxRules'][$row['trID']]['applyValueType'] ) &&
+                                isset( $data['taxRules'][$row['trID']]['applyValue'] ) ) {
+
+                                $applyType = $data['taxRules'][$row['trID']]['applyType'];
+                                $applyValueType = $data['taxRules'][$row['trID']]['applyValueType'];
+                                $applyValue = $data['taxRules'][$row['trID']]['applyValue'];
+
+                                if( $applyType == 'deductionAW' && $applyValueType == 'percentage' && $applyValue ) {
+                                    $amount  = $amountInput * $applyValue / 100;
+
+                                    if( $amountInput-$total['deductionAW'] ) {
+                                        $remark  = $data['taxRules'][$row['trID']]['title'] . $remark;
+
+                                        $data['items'][] = $data['addItem'][] = array( 'piID' => $data['deductionAW']['piID'],
+                                                                                       'trID' => $row['trID'],
+                                                                                       'remark' => $remark,
+                                                                                       'amount' => $amount );
+                                    }
+                                }
+                                if( $applyType == 'contribution' && $applyValueType == 'percentage' && $applyValue ) {
+                                    $amount  = $total['totalAW'] * $applyValue / 100;
+
+                                    $data['contribution'][] = array( 'title' => $data['taxRules'][$row['trID']]['title'],
+                                                                     'amount' => $amount );
+                                }
+                                unset( $data['taxRules'][$row['trID']] );
                             }
                         }
                     }
                 }
-                return $data;
             }
+            return $data;
         }
     }
 

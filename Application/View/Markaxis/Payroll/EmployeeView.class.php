@@ -40,8 +40,8 @@ class EmployeeView extends AdminView {
      * Render main navigation
      * @return mixed
      */
-    public function renderProcessForm( $userID ) {
-        if( $empInfo = $this->EmployeeModel->getProcessInfo( $userID ) ) {
+    public function renderProcessForm( $empInfo ) {
+        if( $empInfo ) {
             $titleValue = $empInfo['name'];
 
             if( $empInfo['birthday'] ) {

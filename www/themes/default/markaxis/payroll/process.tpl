@@ -315,8 +315,7 @@
         var itemAdded = 0;
 
         $(document).on("click", ".addItem", function ( ) {
-            addItem( );
-            itemAdded++;
+            itemAdded = addItem( );
             return false;
         });
 
@@ -342,6 +341,7 @@
             if( itemAdded ) {
                 var data = {
                     bundle: {
+                        itemType: $("#itemType_" + itemAdded).val( ),
                         amountInput: amountInput,
                         data: Aurora.WebService.serializePost("#processForm")
                     },

@@ -20,9 +20,9 @@ class Employee extends \DAO {
      */
     public function getProcessInfo( $userID ) {
         $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
-                                          u.birthday, n.nationality, e.idnumber, 
+                                          u.birthday, u.raceID, n.nationality, e.idnumber, 
                                           d.title AS designation, c.type AS contractType, 
-                                          pt.title AS passType,
+                                          e.officeID, e.currency, e.salary, pt.title AS passType,
                                           DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
                                           DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate

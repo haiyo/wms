@@ -96,43 +96,53 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function filterInvalidRules( $data, $compInfo ) {
+        $age = 0;
+
+        foreach( $compInfo as $row ) {
+            switch( $row['criteria'] ) {
+                case 'age' :
+                    if(  !$age ) {
+                        // If invalid age, break altogether.
+                        if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
+                            break;
+                        }
+                    }
+                    if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
+                        unset( $data['taxRules'][$row['trID']] );
+                        break;
+                    }
+                    break;
+                case 'ordinary' :
+                    if( $data['empInfo']['salary'] ) {
+                        if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                            unset( $data['taxRules'][$row['trID']] );
+                            break;
+                        }
+                    }
+                    if( $row['computing'] == 'ltec' ) {
+                        // Set the cap amount for later deduction.
+                        $data['taxRules'][$row['trID']]['capped'] = $row['value'];
+                    }
+                    break;
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function processPayroll( $data ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
 
             if( sizeof( $compInfo ) > 0 ) {
-                $age = $ordinary = 0;
+                $data = $this->filterInvalidRules( $data, $compInfo );
 
-                foreach( $compInfo as $row ) {
-                    switch( $row['criteria'] ) {
-                        case 'age' :
-                            if(  !$age ) {
-                                // If invalid age, break altogether.
-                                if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
-                                    break;
-                                }
-                            }
-                            if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                break;
-                            }
-                            break;
-
-                        case 'ordinary' :
-                            if( $data['empInfo']['salary'] ) {
-                                if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
-                                    unset( $data['taxRules'][$row['trID']] );
-                                    break;
-                                }
-                            }
-                            if( $row['computing'] == 'ltec' ) {
-                                // Set the cap amount for later deduction.
-                                $data['taxRules'][$row['trID']]['capped'] = $row['value'];
-                            }
-                            break;
-                    }
-                }
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {
@@ -145,10 +155,11 @@ class TaxComputingModel extends \Model {
                                         if( $rules['applyValueType'] == 'percentage' ) {
                                             if( isset( $rules['capped'] ) ) {
                                                 $amount = $rules['capped'] * $rules['applyValue'] / 100;
-                                                $remark = ' (Capped at ' . $data['empInfo']['currency'] . number_format( $rules['capped'] ) . ')';
+                                                $remark = ' (Capped at ' . $data['empInfo']['currency'] .
+                                                            number_format( $rules['capped'] ) . ')';
                                             }
                                             else {
-                                                $amount = $ordinary * $rules['applyValue'] / 100;
+                                                $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
                                                 $remark = '';
                                             }
                                         }

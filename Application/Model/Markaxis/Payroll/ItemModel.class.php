@@ -99,8 +99,8 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getDeductionAdditional( ) {
-        return $this->Item->getDeductionAdditional( );
+    public function getDeductionAW( ) {
+        return $this->Item->getDeductionAW( );
     }
 
 
