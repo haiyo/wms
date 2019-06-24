@@ -133,7 +133,6 @@ class TaxComputingModel extends \Model {
                             break;
                     }
                 }
-
                 // Parse all passes to items
                 if( sizeof( $data['taxRules'] ) > 0 ) {
                     if( isset( $data['deduction'] ) ) {
@@ -171,8 +170,8 @@ class TaxComputingModel extends \Model {
                                     else {
                                         $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
                                     }
-                                    $data['info'][] = array( 'title' => $rules['title'],
-                                                             'amount' => $amount );
+                                    $data['contribution'][] = array( 'title' => $rules['title'],
+                                                                     'amount' => $amount );
                                 }
                                 //unset( $data['taxRules'][$key] );
                             }
@@ -216,7 +215,7 @@ class TaxComputingModel extends \Model {
 
                     switch( $data['criteria_' . $id] ) {
                         case 'age' :
-                        case 'salary' :
+                        case 'ordinary' :
                         case 'workforce' :
                             if( isset( $data['computing_' . $id] ) && isset( $data['valueType_' . $id] ) &&
                                 isset( $data['value_' . $id] ) ) {

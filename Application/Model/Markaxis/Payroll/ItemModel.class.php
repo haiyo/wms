@@ -99,6 +99,15 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
+    public function getDeductionAdditional( ) {
+        return $this->Item->getDeductionAdditional( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
     public function getAdditional( ) {
         return $this->Item->getAdditional( );
     }

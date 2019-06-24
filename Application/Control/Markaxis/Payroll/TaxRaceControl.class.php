@@ -70,6 +70,16 @@ class TaxRaceControl {
      * Render main navigation
      * @return string
      */
+    public function reProcessPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxRaceModel->processPayroll( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $this->TaxRaceModel->saveTaxRule( Control::getPostData( ) );
     }

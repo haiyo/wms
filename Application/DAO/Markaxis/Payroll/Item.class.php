@@ -140,6 +140,24 @@ class Item extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
+    public function getDeductionAdditional( ) {
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.deduction, pi.deductionAdditional
+                                   FROM payroll_item pi 
+                                   WHERE pi.deductionAdditional = "1" AND 
+                                         pi.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
     public function getAdditional( ) {
         $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.additional FROM payroll_item pi 
                                    WHERE pi.additional = "1" AND 

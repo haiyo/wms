@@ -312,8 +312,11 @@
         $("#office").select2( );
         $(".select").select2({minimumResultsForSearch: -1});
 
+        var itemAdded = 0;
+
         $(document).on("click", ".addItem", function ( ) {
             addItem( );
+            itemAdded++;
             return false;
         });
 
@@ -328,32 +331,94 @@
             return false;
         });
 
-        $(document).on("blur", ".amountInput", function(e) {
-            var data = {
-                bundle: {
-                    data: Aurora.WebService.serializePost("#processForm")
-                },
-                success: function( res ) {
-                    var obj = $.parseJSON( res );
+        $(document).on("focus", ".amountInput", function(e) {
+            $(this).val( unFormatMoney( $(this).val( ) ) );
+        });
 
-                    if( obj.bool == 0 ) {
-                        swal( "error", obj.errMsg );
-                        return;
-                    }
-                    else {
-                        if( obj.data.addItem.length > 0 ) {
-                            for( var i=0; i<obj.data.addItem.length; i++ ) {
-                                var id = addItem( );
-                                $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
-                                $("#amount_" + id).val( obj.data.addItem[i]['amount'] );
-                                $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
+        $(document).on("blur", ".amountInput", function(e) {
+            var amountInput = formatMoney( $(this).val( ), defaultOptions );
+            $(this).val( amountInput );
+
+            if( itemAdded ) {
+                var data = {
+                    bundle: {
+                        amountInput: amountInput,
+                        data: Aurora.WebService.serializePost("#processForm")
+                    },
+                    success: function( res ) {
+                        if( res ) {
+                            var obj = $.parseJSON( res );
+
+                            if( obj.bool === 0 ) {
+                                swal( "error", obj.errMsg );
+                                return;
+                            }
+                            else {
+                                if( obj.data.addItem.length > 0 ) {
+                                    for( var i=0; i<obj.data.addItem.length; i++ ) {
+                                        var id = addItem( );
+                                        itemAdded--;
+
+                                        $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
+                                        $("#amount_" + id).val( formatMoney( obj.data.addItem[i]['amount'] + "", defaultOptions ) );
+                                        $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
+                                    }
+                                }
+                                $("#processSummary").html( obj.summary );
                             }
                         }
                     }
                 }
+                Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
             }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
         });
+
+        var IS_NUMERIC = /^[0-9\.\,]+$/, defaultOptions = {
+                thousands: ",",
+                decimal: ".",
+                zeroes: 2
+            };
+
+        function formatMoney(n, t) {
+            n = n.replace(/[^0-9.-]+/g,"");
+            n = toFixed(n);
+            var i = [],
+                u = [],
+                r = n;
+
+            n = (n = String(n.replace(/\,/g, "")).split("."), n.length > 2) ? r : t.zeroes == 0 &&
+                        n.length == 2 ? r : t.zeroes != 0 &&
+                        n[1] != null && n[1].length > t.zeroes ? r : (n[0] != 0 &&
+                        (n[0] = n[0].replace(/^0*/, "")), (n[0] == "" || n[0] == 0) &&
+                        (n[0] = 0), i = formatThousands(n[0], t.thousands), u = formatDecimal(n[1], t.zeroes),
+                        t.zeroes == 0 ? i : i + t.decimal + u);
+
+            return $("#currency").val( ) + n;
+        }
+
+        function formatThousands(n, t) {
+            var r = [],
+                i;
+            for (n = String(n).split("").reverse(), i = 0; i < n.length; i++) i % 3 == 0 && i !== 0 && r.push(t), r.push(n[i]);
+            return r.reverse().join("")
+        }
+
+        function formatDecimal(n, t) {
+            for (n = n || 0, n = String(n).substr(0, t), t = t - n.length, t; t > 0; t--) n = n + "0";
+            return n
+        }
+
+        function toFixed(n) {
+            if( Math.abs(n) < 1 ) {
+                var t = parseInt(n.toString().split("E-")[1]);
+                t && (n *= Math.pow(10, t - 1), n = "0." + new Array(t).join("0") + n.toString().substring(2))
+            }
+            return n
+        }
+
+        function unFormatMoney( n ) {
+            return n.replace(/[^0-9.-]+/g,"");
+        }
 
         function addItem( ) {
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");

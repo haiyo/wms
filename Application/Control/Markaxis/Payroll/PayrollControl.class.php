@@ -93,18 +93,12 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+    public function reProcessPayroll( ) {
         $data = Control::getOutputArray( );
         $vars = array( );
-
-        if( $vars['data'] = $this->PayrollModel->reprocessPayroll( $post ) ) {
-            $vars['bool'] = 1;
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->PayrollModel->getErrMsg( );
-        }
+        $vars['bool'] = 1;
+        $vars['data'] = $data;
+        $vars['summary'] = $this->PayrollView->renderProcessSummary( $data );
         echo json_encode( $vars );
         exit;
     }

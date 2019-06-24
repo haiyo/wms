@@ -60,16 +60,9 @@ class TaxPayItemControl {
      * @return string
      */
     public function reprocessPayroll( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $data = Control::getOutputArray( );
-
-        if( $data = $this->TaxPayItemModel->reprocessPayroll( $data, $post ) ) {
-            $vars = array( );
-            $vars['bool'] = 1;
-            $vars['data'] = $data;
-            echo json_encode( $vars );
-            exit;
-        }
+        Control::setOutputArray( $this->TaxPayItemModel->reprocessPayroll( $data, $post ) );
     }
 
 

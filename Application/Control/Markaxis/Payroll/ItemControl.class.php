@@ -65,6 +65,7 @@ class ItemControl {
         Control::setOutputArray( array( 'basic' => $this->ItemModel->getBasic( ) ) );
         Control::setOutputArray( array( 'ordinary' => $this->ItemModel->getOrdinary( ) ) );
         Control::setOutputArray( array( 'deduction' => $this->ItemModel->getDeduction( ) ) );
+        Control::setOutputArray( array( 'deductionAdditional' => $this->ItemModel->getDeductionAdditional( ) ) );
         Control::setOutputArray( array( 'additional' => $this->ItemModel->getAdditional( ) ) );
     }
 

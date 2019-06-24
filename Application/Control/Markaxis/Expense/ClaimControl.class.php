@@ -89,6 +89,16 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function reProcessPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->ClaimModel->processPayroll( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveClaim( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
