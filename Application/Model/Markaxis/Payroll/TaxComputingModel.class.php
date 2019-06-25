@@ -82,10 +82,8 @@ class TaxComputingModel extends \Model {
                 return false;
             }
         }
-        if( $computing == 'gt' && $compare <= $against ) {
-            return false;
-        }
-        if( $computing == 'gte' && $compare < $against ) {
+        if( ( $computing == 'gt' && $compare <= $against ) ||
+            ( $computing == 'gte' && $compare < $against ) ) {
             return false;
         }
         return true;
@@ -96,35 +94,39 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function filterInvalidRules( $data, $compInfo ) {
+    public function filterInvalidRules( $data ) {
+        $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+        $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
         $age = 0;
 
-        foreach( $compInfo as $row ) {
-            switch( $row['criteria'] ) {
-                case 'age' :
-                    if(  !$age ) {
-                        // If invalid age, break altogether.
-                        if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
-                            break;
+        if( sizeof( $compInfo ) > 0 ) {
+            foreach( $compInfo as $row ) {
+                switch( $row['criteria'] ) {
+                    case 'age' :
+                        if(  !$age ) {
+                            // If invalid age, break altogether.
+                            if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
+                                break;
+                            }
                         }
-                    }
-                    if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
-                        unset( $data['taxRules'][$row['trID']] );
-                        break;
-                    }
-                    break;
-                case 'ordinary' :
-                    if( $data['empInfo']['salary'] ) {
-                        if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                        if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
                             break;
                         }
-                    }
-                    if( $row['computing'] == 'ltec' ) {
-                        // Set the cap amount for later deduction.
-                        $data['taxRules'][$row['trID']]['capped'] = $row['value'];
-                    }
-                    break;
+                        break;
+                    case 'ordinary' :
+                        if( $data['empInfo']['salary'] ) {
+                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                                unset( $data['taxRules'][$row['trID']] );
+                                break;
+                            }
+                        }
+                        if( $row['computing'] == 'ltec' ) {
+                            // Set the cap amount for later deduction.
+                            $data['taxRules'][$row['trID']]['capped'] = $row['value'];
+                        }
+                        break;
+                }
             }
         }
         return $data;
@@ -137,60 +139,46 @@ class TaxComputingModel extends \Model {
      */
     public function processPayroll( $data ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
-            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
-            $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
+            $data = $this->filterInvalidRules( $data );
 
-            if( sizeof( $compInfo ) > 0 ) {
-                $data = $this->filterInvalidRules( $data, $compInfo );
-
-                // Parse all passes to items
-                if( sizeof( $data['taxRules'] ) > 0 ) {
-                    if( isset( $data['deduction'] ) ) {
-                        foreach( $data['taxRules'] as $rules ) {
-                            if( isset( $rules['applyType'] ) ) {
-                                if( $rules['applyType'] == 'deductionOR' && isset( $rules['applyValue'] ) &&
-                                    isset( $rules['applyValueType'] ) ) {
-
-                                    if( $rules['applyValue'] ) {
-                                        if( $rules['applyValueType'] == 'percentage' ) {
-                                            if( isset( $rules['capped'] ) ) {
-                                                $amount = $rules['capped'] * $rules['applyValue'] / 100;
-                                                $remark = ' (Capped at ' . $data['empInfo']['currency'] .
-                                                            number_format( $rules['capped'] ) . ')';
-                                            }
-                                            else {
-                                                $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
-                                                $remark = '';
-                                            }
-                                        }
-                                        if( $rules['applyValueType'] == 'fixed' ) {
-                                            $amount = $rules['applyValue'];
-                                            $remark = '';
-                                        }
-                                        $data['items'][] = array( 'piID' => $data['deduction']['piID'],
-                                                                  'trID' => $rules['trID'],
-                                                                  'remark' => $rules['title'] . $remark,
-                                                                  'amount' => $amount );
-                                    }
-                                }
-                                if( $rules['applyType'] == 'contribution' && isset( $rules['applyValue'] ) &&
-                                    isset( $rules['applyValueType'] ) ) {
-                                    if( isset( $rules['capped'] ) ) {
-                                        $amount = $rules['capped'] * $rules['applyValue'] / 100;
-                                    }
-                                    else {
-                                        $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
-                                    }
-                                    $data['contribution'][] = array( 'title' => $rules['title'],
-                                                                     'amount' => $amount );
-                                }
-                                //unset( $data['taxRules'][$key] );
-                            }
-                        }
-                    }
-                }
+            if( sizeof( $data['taxRules'] ) == 0 || !isset( $data['deduction'] ) ) {
                 return $data;
             }
+            // Parse all passes to items
+            foreach( $data['taxRules'] as $rules ) {
+                if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] ) {
+                    if( $rules['applyValueType'] == 'percentage' ) {
+                        if( isset( $rules['capped'] ) ) {
+                            $amount = $rules['capped']*$rules['applyValue']/100;
+                            $remark = ' (Capped at ' . $data['empInfo']['currency'] .
+                                        number_format( $rules['capped'] ) . ')';
+                        }
+                        else {
+                            $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                            $remark = '';
+                        }
+                    }
+                    if( $rules['applyValueType'] == 'fixed' ) {
+                        $amount = $rules['applyValue'];
+                        $remark = '';
+                    }
+                    $data['items'][] = array( 'piID' => $data['deduction']['piID'],
+                                              'trID' => $rules['trID'],
+                                              'remark' => $rules['title'] . $remark,
+                                              'amount' => $amount );
+                }
+                if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
+                    if( isset( $rules['capped'] ) ) {
+                        $amount = $rules['capped']*$rules['applyValue']/100;
+                    }
+                    else {
+                        $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                    }
+                    $data['contribution'][] = array( 'title' => $rules['title'],
+                                                     'amount' => $amount );
+                }
+            }
+            return $data;
         }
     }
 
@@ -201,7 +189,6 @@ class TaxComputingModel extends \Model {
      */
     public function saveTaxRule( $data ) {
         $preg = '/^criteria_(\d)+/';
-
         $callback = function( $val ) use( $preg ) {
             if( preg_match( $preg, $val, $match ) ) {
                 return $match;
@@ -209,7 +196,6 @@ class TaxComputingModel extends \Model {
                 return false;
             }
         };
-
         $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $sizeof = sizeof( $criteria );
         $validID = array(0);

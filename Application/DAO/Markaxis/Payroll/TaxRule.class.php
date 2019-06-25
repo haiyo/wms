@@ -82,6 +82,7 @@ class TaxRule extends \DAO {
                                    FROM tax_rule tr
                                    LEFT JOIN tax_group tg ON ( tg.tgID = tr.tgID )
                                    LEFT JOIN office o ON ( o.oID = tr.officeID )
+                                   LEFT JOIN tax_pay_item tpi ON ( tpi.trID = tr.trID ) 
                                    WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ') AND 
                                          tr.officeID = "' . (int)$officeID . '"',
                                    __FILE__, __LINE__ );
