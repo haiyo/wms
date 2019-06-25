@@ -101,6 +101,15 @@ class TaxPayItemModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function processPayroll( $data ) {
+        var_dump($data);
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function reprocessPayroll( $data, $post ) {
         if( isset( $post['amountInput'] ) && isset( $post['itemType'] ) ) {
             $itemType    = str_replace( 'p-', '', $post['itemType'] );

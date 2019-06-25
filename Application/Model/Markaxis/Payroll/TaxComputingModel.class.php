@@ -98,34 +98,41 @@ class TaxComputingModel extends \Model {
         $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
         $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
         $age = 0;
+        $unset = array( );
 
         if( sizeof( $compInfo ) > 0 ) {
             foreach( $compInfo as $row ) {
-                switch( $row['criteria'] ) {
-                    case 'age' :
-                        if(  !$age ) {
-                            // If invalid age, break altogether.
-                            if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
-                                break;
-                            }
-                        }
-                        if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
+                // If we have trID already unset before, skip any compInfo related;
+                if( isset( $unset[$row['trID']] ) ) {
+                    continue;
+                }
+                if( $row['criteria'] == 'age' ) {
+                    if( !$age ) {
+                        // If invalid age, break altogether.
+                        if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
-                            break;
+                            $unset[$row['trID']] = 1;
+                            continue;
                         }
-                        break;
-                    case 'ordinary' :
-                        if( $data['empInfo']['salary'] ) {
-                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                break;
-                            }
+                    }
+                    if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
+                        unset( $data['taxRules'][$row['trID']] );
+                        $unset[$row['trID']] = 1;
+                        continue;
+                    }
+                }
+                if( $row['criteria'] == 'ordinary' ) {
+                    if( $data['empInfo']['salary'] ) {
+                        if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                            unset( $data['taxRules'][$row['trID']] );
+                            $unset[$row['trID']] = 1;
+                            continue;
                         }
-                        if( $row['computing'] == 'ltec' ) {
-                            // Set the cap amount for later deduction.
-                            $data['taxRules'][$row['trID']]['capped'] = $row['value'];
-                        }
-                        break;
+                    }
+                    if( $row['computing'] == 'ltec' ) {
+                        // Set the cap amount for later deduction.
+                        $data['taxRules'][$row['trID']]['capped'] = $row['value'];
+                    }
                 }
             }
         }
@@ -174,8 +181,8 @@ class TaxComputingModel extends \Model {
                     else {
                         $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
                     }
-                    $data['contribution'][] = array( 'title' => $rules['title'],
-                                                     'amount' => $amount );
+                    $data['contribution'][$rules['trID']] = array( 'title' => $rules['title'],
+                                                                   'amount' => $amount );
                 }
             }
             return $data;

@@ -59,6 +59,16 @@ class TaxPayItemControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxPayItemModel->processPayroll( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function reprocessPayroll( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $data = Control::getOutputArray( );
