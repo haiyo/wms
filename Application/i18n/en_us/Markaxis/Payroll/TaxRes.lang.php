@@ -21,6 +21,7 @@ class TaxRes extends Resource {
     function __construct( ) {
         $this->contents = array( );
         $this->contents['LANG_ENTER_RULE_TITLE'] = 'Please enter a Rule Title.';
+        $this->contents['LANG_INVALID_COUNTRY'] = 'Please select a valid Country.';
         $this->contents['LANG_DEDUCTION_FROM_ORDINARY_WAGE'] = 'Deduction From Ordinary Wage';
         $this->contents['LANG_DEDUCTION_FROM_ADDITIONAL_WAGE'] = 'Deduction From Additional Wage';
         $this->contents['LANG_EMPLOYER_CONTRIBUTION'] = 'Employer Contribution';

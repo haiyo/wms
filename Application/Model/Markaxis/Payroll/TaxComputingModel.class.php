@@ -146,9 +146,9 @@ class TaxComputingModel extends \Model {
      */
     public function processPayroll( $data ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
-            $data = $this->filterInvalidRules( $data );
+            return $this->filterInvalidRules( $data );
 
-            if( sizeof( $data['taxRules'] ) == 0 || !isset( $data['deduction'] ) ) {
+            /*if( sizeof( $data['taxRules'] ) == 0 || !isset( $data['deduction'] ) ) {
                 return $data;
             }
             // Parse all passes to items
@@ -185,7 +185,7 @@ class TaxComputingModel extends \Model {
                                                                    'amount' => $amount );
                 }
             }
-            return $data;
+            return $data;*/
         }
     }
 

@@ -915,7 +915,7 @@
             <div class="modal-body">
                 <input type="hidden" id="trID" name="trID" value="0" />
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Tax Rule Title: <span class="text-danger-400">*</span></label>
                             <input type="text" name="ruleTitle" id="ruleTitle" class="form-control" value=""
@@ -923,36 +923,18 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Apply To Which Country: <span class="text-danger-400">*</span></label>
+                            <?TPL_COUNTRY_LIST?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Belong to Group:</label>
                             <select name="group" id="group" data-placeholder="" placeholder="" data-id=""
                                     class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Apply This Tax Rule To Which Office: <span class="text-danger-400">*</span></label>
-                            <?TPL_OFFICE_LIST?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Enter State (Optional):</label>
-                            <select name="state" data-placeholder="Select State" placeholder="Select State" id="state" class="form-control select ">
-                                <option value="">Select State</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Enter City (Optional):</label>
-                            <select name="city" data-placeholder="Select City" placeholder="Select City" id="city" class="form-control select ">
-                                <option value="">Select City</option>
                             </select>
                         </div>
                     </div>
@@ -1254,9 +1236,7 @@
             return $result;
         }
 
-        $("#office").select2({minimumResultsForSearch:Infinity, allowClear:true});
-        $("#state").select2( );
-        $("#city").select2( );
+        $("#country").select2( );
         $("#applyType").select2({minimumResultsForSearch: Infinity});
         $("#applyValueType").select2({minimumResultsForSearch: Infinity});
 
@@ -1616,9 +1596,7 @@
                             $("#trID").val( obj.data.trID );
                             $("#ruleTitle").val( obj.data.title );
                             $("#group").val( obj.data.tgID ).trigger("change");
-                            $("#office").val( obj.data.officeID ).trigger("change");
-                            $("#city").val( obj.data.city ).trigger("change");
-                            $("#state").val( obj.data.state ).trigger("change");
+                            $("#country").val( obj.data.countryID ).trigger("change");
                             $("#applyType").val( obj.data.applyType ).trigger("change");
                             $("#applyValueType").val( obj.data.applyValueType ).trigger("change");
                             $("#applyValue").val( obj.data.applyValue );
@@ -1728,9 +1706,7 @@
                 $("#trID").val(0);
                 $("#ruleTitle").val("");
                 $("#group").val(0).trigger("change");
-                $("#office").val("").trigger("change");
-                $("#city").val("").trigger("change");
-                $("#state").val("").trigger("change");
+                $("#country").val("").trigger("change");
                 $("#applyType").val("deduction").trigger("change");
                 $("#applyValueType").val("percentage").trigger("change");
                 $("#applyValue").val("");

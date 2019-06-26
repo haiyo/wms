@@ -49,7 +49,7 @@ class TaxRaceModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getBytrID( $trID ) {
         return $this->TaxRace->getBytrID( $trID );
@@ -120,11 +120,7 @@ class TaxRaceModel extends \Model {
             $preg = '/^criteria_(\d)+/';
 
             $callback = function( $val ) use( $preg ) {
-                if( preg_match( $preg, $val, $match ) ) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return preg_match( $preg, $val, $match );
             };
 
             $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );

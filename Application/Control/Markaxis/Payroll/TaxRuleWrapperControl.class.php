@@ -13,6 +13,7 @@ class TaxRuleWrapperControl {
 
 
     // Properties
+    protected $TaxRuleWrapperModel;
     protected $TaxRuleWrapperView;
 
 
@@ -21,6 +22,7 @@ class TaxRuleWrapperControl {
      * @return void
      */
     function __construct( ) {
+        $this->TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
         $this->TaxRuleWrapperView = new TaxRuleWrapperView( );
     }
 
@@ -65,6 +67,25 @@ class TaxRuleWrapperControl {
             echo json_encode( $taxRules );
             exit;
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxRuleWrapperModel->processTaxRules( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reProcessPayroll( ) {
+        $this->processPayroll( );
     }
 
 

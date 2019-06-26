@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\OfficeModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
+use \Aurora\Component\CountryModel;
 use \Library\Validator\Validator;
 
 /**
@@ -62,9 +62,9 @@ class TaxRuleModel extends \Model {
      * @return int
      */
     public function getProcessTaxRules( $data ) {
-        if( $data['empInfo']['officeID'] ) {
+        if( $data['taxGroups'] ) {
             $tgIDs = implode(', ', array_column( $data['taxGroups'], 'tgID' ) );
-            return $this->TaxRule->getByGroupsOfficeID( $tgIDs, $data['empInfo']['officeID'] );
+            return $this->TaxRule->getBytgIDs( $tgIDs );
         }
     }
 
@@ -81,28 +81,21 @@ class TaxRuleModel extends \Model {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_RULE_TITLE') );
             return false;
         }
-        $OfficeModel = OfficeModel::getInstance( );
-        if( $OfficeModel->isFound( $data['office'] ) ) {
-            $this->info['officeID'] = (int)$data['office'];
+        $CountryModel = CountryModel::getInstance( );
+        if( $CountryModel->isFound( $data['country'] ) ) {
+            $this->info['countryID'] = (int)$data['country'];
         }
-        $StateModel = StateModel::getInstance( );
-        if( isset( $data['state'] ) && $StateModel->isFound( $data['state'] ) ) {
-            $this->info['state'] = (int)$data['state'];
+        else {
+            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_COUNTRY') );
+            return false;
         }
-        $CityModel = CityModel::getInstance( );
-        if( isset( $data['city'] ) && $CityModel->isFound( $data['city'] ) ) {
-            $this->info['city'] = (int)$data['city'];
-        }
-
         if( $data['applyType'] == 'deductionOR' || $data['applyType'] == 'deductionAW' ||
             $data['applyType'] == 'contribution' || $data['applyType'] == 'levy' ) {
             $this->info['applyType'] = $data['applyType'];
         }
-
         if( $data['applyValueType'] == 'percentage' || $data['applyValueType'] == 'fixed' ) {
             $this->info['applyValueType'] = $data['applyValueType'];
         }
-
         $this->info['applyValue'] = (float)$data['applyValue'];
 
         if( $this->info['tgID'] ) {

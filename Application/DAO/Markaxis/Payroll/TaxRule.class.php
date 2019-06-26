@@ -30,15 +30,11 @@ class TaxRule extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getAll( $officeID=false ) {
+    public function getAll( ) {
         $list = array( );
 
-        $where = $officeID ? 'WHERE o.oID = "' . (int)$officeID . '"' : '';
-
-        $sql = $this->DB->select( 'SELECT * FROM tax_rule tr 
-                                   LEFT JOIN office o ON ( o.oID = tr.officeID )
-                                   LEFT JOIN country c ON ( c.cID = o.countryID ) ' .
-                                   $where,
+        $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID ) ',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -57,9 +53,8 @@ class TaxRule extends \DAO {
      */
     public function getBytrID( $trID ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
-                                   LEFT JOIN office o ON ( o.oID = tr.officeID )
-                                   LEFT JOIN country c ON ( c.cID = o.countryID )
-                                   WHERE trID = "' . (int)$trID . '"',
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID )
+                                   WHERE tr.trID = "' . (int)$trID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -75,16 +70,15 @@ class TaxRule extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByGroupsOfficeID( $tgIDs, $officeID ) {
+    public function getBytgIDs( $tgIDs ) {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT tr.trID, tg.title, tr.applyType, tr.applyValueType, tr.applyValue
                                    FROM tax_rule tr
                                    LEFT JOIN tax_group tg ON ( tg.tgID = tr.tgID )
-                                   LEFT JOIN office o ON ( o.oID = tr.officeID )
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID )
                                    LEFT JOIN tax_pay_item tpi ON ( tpi.trID = tr.trID ) 
-                                   WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ') AND 
-                                         tr.officeID = "' . (int)$officeID . '"',
+                                   WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ')',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
