@@ -77,7 +77,7 @@ class TaxRaceModel extends \Model {
      * @return int
      */
     public function processPayroll( $data ) {
-        if( isset( $data['items'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $raceInfo = $this->TaxRace->getBytrIDs( $trIDs );
 
@@ -85,9 +85,12 @@ class TaxRaceModel extends \Model {
                 foreach( $raceInfo as $row ) {
                     // Whether or not user has race set, we need to unset taxes if not found.
                     if( !$data['empInfo']['raceID'] || $row['raceID'] != $data['empInfo']['raceID'] ) {
-                        $key = array_search( $row['trID'], array_column( $data['items'], 'trID' ) );
-                        unset( $data['items'][$key] );
-                        $data['items'] = array_values( $data['items'] );
+
+                        unset( $data['taxRules'][$row['trID']] );
+
+                        //$key = array_search( $row['trID'], array_column( $data['items'], 'trID' ) );
+                        //unset( $data['items'][$key] );
+                        //$data['items'] = array_values( $data['items'] );
                         //unset( $data['taxRules'][$row['trID']] );
                     }
                 }

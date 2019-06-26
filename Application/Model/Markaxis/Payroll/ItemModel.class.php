@@ -118,6 +118,10 @@ class ItemModel extends \Model {
      * @return mixed
      */
     public function getItemResults( $data ) {
+        $data['start'] = 0;
+        $data['length'] = 10;
+        $data['draw'] = 1;
+        $data['search']['value'] = '';
         $this->Item->setLimit( $data['start'], $data['length'] );
 
         $order = 'pi.title';

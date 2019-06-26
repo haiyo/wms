@@ -43,7 +43,7 @@ class ItemTaxControl {
      * Render main navigation
      * @return string
      */
-    public function getPayItem( $data ) {
+    public function getPayItem( ) {
         $vars = array( );
         $data = Control::getOutputArray( );
         $data['taxGroups'] = $this->ItemTaxModel->getBypiID( $data['piID'] );

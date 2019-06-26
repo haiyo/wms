@@ -15,7 +15,7 @@
                     d.csrfToken = Aurora.CSRF_TOKEN;
                 },
             },
-            initComplete: function () {
+            initComplete: function( ) {
                 /*var api = this.api();
                 var that = this;
                 $('input').on('keyup change', function() {
