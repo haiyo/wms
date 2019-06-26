@@ -184,7 +184,6 @@ class TaxPayItemModel extends \Model {
                                 $applyValue = $data['taxRules'][$row['trID']]['applyValue'];
 
                                 if( $applyType == 'deductionAW' && $applyValueType == 'percentage' && $applyValue ) {
-                                    //echo $amountInput.'*'.$applyValue.'/100 - ';
                                     $amount = $amountInput*$applyValue/100;
 
                                     if( $amountInput-$total['deductionAW'] ) {
@@ -197,7 +196,6 @@ class TaxPayItemModel extends \Model {
                                     }
                                 }
                                 if( $applyType == 'contribution' && $applyValueType == 'percentage' && $applyValue ) {
-                                    //echo $amountInput.'*'.$applyValue.'/100';
                                     $amount = $amountInput*$applyValue/100;
 
                                     $data['contribution'][] = array( 'title' => $data['taxRules'][$row['trID']]['title'],
