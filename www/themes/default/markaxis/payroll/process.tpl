@@ -222,7 +222,6 @@
             $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
                                               $invoker.attr("data-id") + "/" + $("#processDate").val( ), function() {
                 $(".itemType").select2( );
-                $("#itemRowWrapper_0").find(".iconWrapper").remove( );
 
                 var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
                 var icon = iconWrapper.find(".icon")

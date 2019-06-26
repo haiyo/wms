@@ -12,7 +12,7 @@
 
     <div class="col-md-4 text-light" style="border-bottom:1px solid #ccc;">
         <div class="col-md-8 text-right" style="padding:5px;">
-            <strong>Employer CPF Contribution (OW+AW):</strong>
+            <strong>Employer CPF Contribution:</strong>
         </div>
         <div class="col-md-4 text-right" style="padding:5px;">
             <?TPLVAR_CURRENCY?><?TPLVAR_CONTRIBUTION_AMOUNT?>

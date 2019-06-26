@@ -41,7 +41,7 @@ class TaxRuleWrapperModel extends \Model {
      * @return int
      */
     public function processTaxRules( $data ) {
-        if( sizeof( $data['taxRules'] ) == 0 || !isset( $data['deduction'] ) ) {
+        if( !isset( $data['taxRules'] ) || !isset( $data['deduction'] ) ) {
             return $data;
         }
         // Parse all passes to items

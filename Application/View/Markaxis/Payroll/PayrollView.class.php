@@ -219,18 +219,12 @@ class PayrollView extends AdminView {
             $SelectGroupListView = new SelectGroupListView( );
             $SelectGroupListView->includeBlank(false );
             $SelectGroupListView->setClass("itemType");
-
-            $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
-            $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = $id = 0;
-
             $vars['dynamic']['item'] = false;
+            $id = 0;
 
             if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
                 $selected = 'p-' . $data['basic']['piID'];
                 $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
-
-                $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $data['empInfo']['salary'] );
-                $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
 
                 $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                     'TPLVAR_CURRENCY' => $userInfo['currency'],
@@ -245,11 +239,6 @@ class PayrollView extends AdminView {
                 foreach( $data['items'] as $items ) {
                     if( isset( $items['piID'] ) ) {
                         $selected = 'p-' . $items['piID'];
-
-                        if( isset( $data['deduction'] ) ) {
-                            $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$items['amount'];
-                            $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
-                        }
                     }
                     $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
@@ -264,10 +253,6 @@ class PayrollView extends AdminView {
                     foreach( $data['claims'] as $claims ) {
                         if( isset( $claims['eiID'] ) ) {
                             $selected = 'e-' . $claims['eiID'];
-
-                            $vars['TPLVAR_CLAIM_AMOUNT'] += (float)$claims['amount'];
-                            $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
-
                             $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                             $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
@@ -279,21 +264,8 @@ class PayrollView extends AdminView {
                     }
                 }
                 $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
-                $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'] );
-                $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'] );
-                $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'] );
-
-                if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-                    $contriAmount = 0;
-
-                    foreach( $data['contribution'] as $contri ) {
-                        $contriAmount += $contri['amount'];
-                    }
-                    $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contriAmount );
-                }
             }
-
-            $vars['TPL_PROCESS_SUMMARY'] = $this->render( 'markaxis/payroll/processSummary.tpl', $vars );
+            $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
 
             if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
             if( isset( $data['col_2'] ) ) $vars['TPL_COL_2'] = $data['col_2'];
@@ -308,6 +280,7 @@ class PayrollView extends AdminView {
      * @return string
      */
     public function renderProcessSummary( $data ) {
+        //var_dump($data);
         $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
         $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = 0;
 
@@ -315,7 +288,6 @@ class PayrollView extends AdminView {
             $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $data['empInfo']['salary'] );
             $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
         }
-
         if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
             foreach( $data['items'] as $items ) {
                 if( isset( $items['piID'] ) ) {
@@ -325,7 +297,6 @@ class PayrollView extends AdminView {
                     }
                 }
             }
-
             if( isset( $data['claims'] ) ) {
                 foreach( $data['claims'] as $claims ) {
                     if( isset( $claims['eiID'] ) ) {
@@ -334,7 +305,6 @@ class PayrollView extends AdminView {
                     }
                 }
             }
-
             if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
                 $contriAmount = 0;
 
@@ -349,7 +319,7 @@ class PayrollView extends AdminView {
             $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'] );
             $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'] );
         }
-        return $this->render( 'markaxis/payroll/processSummary.tpl', $vars );
+        return $this->render('markaxis/payroll/processSummary.tpl', $vars );
     }
 
 

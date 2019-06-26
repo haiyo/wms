@@ -161,7 +161,7 @@ class TaxPayItemModel extends \Model {
 
                             $total = $this->getTotalAWPostCount( $data, $post );
 
-                            if( isset( $total['totalAW'] ) && $total['totalAW'] >= $capAmount ) {
+                            if( isset( $total['totalAW'] ) && $total['totalAW'] > $capAmount ) {
                                 // Check if previously capped before
                                 if( $total['totalAW']-$amountInput >= $capAmount ) {
                                     return 0;
