@@ -63,19 +63,24 @@ class TaxRuleWrapperModel extends \Model {
                     $remark = '';
                 }
                 $data['items'][] = array( 'piID' => $data['deduction']['piID'],
-                    'trID' => $rules['trID'],
-                    'remark' => $rules['title'] . $remark,
-                    'amount' => $amount );
+                                          'trID' => $rules['trID'],
+                                          'remark' => $rules['title'] . $remark,
+                                          'amount' => $amount );
             }
             if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
-                if( isset( $rules['capped'] ) ) {
-                    $amount = $rules['capped']*$rules['applyValue']/100;
+                if( $rules['applyValueType'] == 'percentage' ) {
+                    if( isset( $rules['capped'] ) ) {
+                        $amount = $rules['capped']*$rules['applyValue']/100;
+                    }
+                    else {
+                        $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                    }
                 }
-                else {
-                    $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                if( $rules['applyValueType'] == 'fixed' ) {
+                    $amount = $rules['applyValue'];
                 }
                 $data['contribution'][$rules['trID']] = array( 'title' => $rules['title'],
-                    'amount' => $amount );
+                                                               'amount' => $amount );
             }
         }
         return $data;

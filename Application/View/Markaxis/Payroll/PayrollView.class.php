@@ -329,15 +329,15 @@ class PayrollView extends AdminView {
                 $contriAmount += $contri['amount'];
                 $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$contri['amount'];
             }
-            $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contriAmount );
+            $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contriAmount,2 );
         }
 
         $vars['TPLVAR_CURRENCY'] = $data['empInfo']['currency'];
-        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $vars['TPLVAR_GROSS_AMOUNT'] );
-        $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'] );
-        $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'] );
-        $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'] );
-        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'] );
+        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $vars['TPLVAR_GROSS_AMOUNT'],2 );
+        $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'],2 );
+        $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'],2 );
+        $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'],2 );
+        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'],2 );
         return $this->render('markaxis/payroll/processSummary.tpl', $vars );
     }
 

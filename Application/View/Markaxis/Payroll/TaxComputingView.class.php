@@ -91,16 +91,16 @@ class TaxComputingView extends AdminView {
                 $txt = 'Ordinary wage ';
 
                 if( $ordinary[0]['computing'] == 'gt' ) {
-                    $txt .= 'more than ' . $currency . (float)$ordinary[0]['value'];
+                    $txt .= 'more than ' . $currency . number_format( $ordinary[0]['value'],2 );
                 }
                 if( $ordinary[0]['computing'] == 'lt' ) {
-                    $txt .= 'less than ' . $currency . (float)$ordinary[0]['value'];
+                    $txt .= 'less than ' . $currency . number_format( $ordinary[0]['value'],2 );
                 }
                 if( $ordinary[0]['computing'] == 'lte' ) {
-                    $txt .= $currency . (float)$ordinary[0]['value'] . ' and below';
+                    $txt .= $currency . number_format( $ordinary[0]['value'],2 ) . ' and below';
                 }
                 if( $ordinary[0]['computing'] == 'eq' ) {
-                    $txt .= $currency . (float)$ordinary[0]['value'];
+                    $txt .= $currency . number_format( $ordinary[0]['value'],2 );
                 }
                 array_push($criteriaSet, $txt );
             }
@@ -108,12 +108,14 @@ class TaxComputingView extends AdminView {
             if( sizeof( $ordinary ) == 2 ) {
                 if( $ordinary[0]['value'] < $ordinary[1]['value'] ) {
                     $txt  = 'Ordinary wage more than ';
-                    $txt .= $currency . (float)$ordinary[0]['value'] . ' to ' . $currency . (float)$ordinary[1]['value'];
+                    $txt .= $currency . number_format( $ordinary[0]['value'],2 ) . ' to ' .
+                            $currency . number_format( $ordinary[1]['value'],2 );
                     array_push($criteriaSet, $txt );
                 }
                 if( $ordinary[0]['value'] > $ordinary[1]['value'] ) {
                     $txt  = 'Ordinary wage more than ';
-                    $txt .= $currency . (float)$ordinary[1]['value'] . ' to ' . $currency . (float)$ordinary[0]['value'];
+                    $txt .= $currency . number_format( $ordinary[1]['value'],2 ) . ' to ' .
+                            $currency . number_format( $ordinary[0]['value'],2 );
                     array_push($criteriaSet, $txt );
                 }
             }

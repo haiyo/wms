@@ -904,18 +904,18 @@
 </div>
 
 <div id="modalTaxRule" class="modal fade">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
+    <div class="modal-dialog modal-xl overflow-y-visible">
+        <div class="modal-content overflow-y-visible">
             <form id="saveTaxRule" name="saveTaxRule" method="post" action="">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h6 class="modal-title">Create New Tax Rule</h6>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body overflow-y-visible">
                 <input type="hidden" id="trID" name="trID" value="0" />
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Tax Rule Title: <span class="text-danger-400">*</span></label>
                             <input type="text" name="ruleTitle" id="ruleTitle" class="form-control" value=""
@@ -923,14 +923,14 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Apply To Which Country: <span class="text-danger-400">*</span></label>
                             <?TPL_COUNTRY_LIST?>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Belong to Group:</label>
                             <select name="group" id="group" data-placeholder="" placeholder="" data-id=""
@@ -939,7 +939,12 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
                         <div class="card">
                             <div id="rulesWrapper" class="card-body" style="padding: 12px;">
                             </div>
@@ -1051,7 +1056,7 @@
                     </div>
 
                     <div id="competencyTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8">
+                        <div id="col_{id}" class="col-md-8 competency-col">
                             <input type="hidden" id="cID_{id}" name="cID_{id}" value="" />
                             <div class="form-group">
                                 <label>Enter Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
