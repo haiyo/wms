@@ -107,7 +107,7 @@ class TaxComputingView extends AdminView {
             // 2 Salary Criteria
             if( sizeof( $ordinary ) == 2 ) {
                 if( $ordinary[0]['value'] < $ordinary[1]['value'] ) {
-                    $txt  = 'Ordinary wage from ';
+                    $txt  = 'Ordinary wage more than ';
                     $txt .= $currency . (float)$ordinary[0]['value'] . ' to ' . $currency . (float)$ordinary[1]['value'];
                     array_push($criteriaSet, $txt );
                 }

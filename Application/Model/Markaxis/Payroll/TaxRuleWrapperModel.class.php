@@ -51,7 +51,7 @@ class TaxRuleWrapperModel extends \Model {
                     if( isset( $rules['capped'] ) ) {
                         $amount = $rules['capped']*$rules['applyValue']/100;
                         $remark = ' (Capped at ' . $data['empInfo']['currency'] .
-                            number_format( $rules['capped'] ) . ')';
+                                    number_format( $rules['capped'] ) . ')';
                     }
                     else {
                         $amount = $data['empInfo']['salary']*$rules['applyValue']/100;

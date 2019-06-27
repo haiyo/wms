@@ -129,7 +129,7 @@ class TaxComputingModel extends \Model {
                             continue;
                         }
                     }
-                    if( $row['computing'] == 'ltec' ) {
+                    if( $row['computing'] == 'ltec' && $data['empInfo']['salary'] > $row['value'] ) {
                         // Set the cap amount for later deduction.
                         $data['taxRules'][$row['trID']]['capped'] = $row['value'];
                     }
@@ -147,45 +147,6 @@ class TaxComputingModel extends \Model {
     public function processPayroll( $data ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             return $this->filterInvalidRules( $data );
-
-            /*if( sizeof( $data['taxRules'] ) == 0 || !isset( $data['deduction'] ) ) {
-                return $data;
-            }
-            // Parse all passes to items
-            foreach( $data['taxRules'] as $rules ) {
-                if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] ) {
-                    if( $rules['applyValueType'] == 'percentage' ) {
-                        if( isset( $rules['capped'] ) ) {
-                            $amount = $rules['capped']*$rules['applyValue']/100;
-                            $remark = ' (Capped at ' . $data['empInfo']['currency'] .
-                                        number_format( $rules['capped'] ) . ')';
-                        }
-                        else {
-                            $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
-                            $remark = '';
-                        }
-                    }
-                    if( $rules['applyValueType'] == 'fixed' ) {
-                        $amount = $rules['applyValue'];
-                        $remark = '';
-                    }
-                    $data['items'][] = array( 'piID' => $data['deduction']['piID'],
-                                              'trID' => $rules['trID'],
-                                              'remark' => $rules['title'] . $remark,
-                                              'amount' => $amount );
-                }
-                if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
-                    if( isset( $rules['capped'] ) ) {
-                        $amount = $rules['capped']*$rules['applyValue']/100;
-                    }
-                    else {
-                        $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
-                    }
-                    $data['contribution'][$rules['trID']] = array( 'title' => $rules['title'],
-                                                                   'amount' => $amount );
-                }
-            }
-            return $data;*/
         }
     }
 

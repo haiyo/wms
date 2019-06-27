@@ -38,7 +38,7 @@
             <strong>Foreign Worker Levy (FWL):</strong>
         </div>
         <div class="col-md-4 text-right" style="padding:5px;">
-            -SGD$450
+            <?TPLVAR_CURRENCY?><?TPLVAR_FWL_AMOUNT?>
         </div>
     </div>
 
@@ -72,7 +72,7 @@
             <strong>Skill Development Levy (SDL):</strong>
         </div>
         <div class="col-md-4 text-right" style="padding:5px;">
-            -SGD$11.25
+            <?TPLVAR_CURRENCY?><?TPLVAR_SDL_AMOUNT?>
         </div>
     </div>
 
@@ -81,7 +81,7 @@
             <strong>Total Tax / Deduction:</strong>
         </div>
         <div class="col-md-4 text-right" style="padding:5px;">
-            -<?TPLVAR_CURRENCY?><?TPLVAR_DEDUCTION_AMOUNT?>
+            <?TPLVAR_CURRENCY?><?TPLVAR_DEDUCTION_AMOUNT?>
         </div>
     </div>
 </div>
@@ -94,7 +94,7 @@
             <strong>Total Employer Contribution:</strong>
         </div>
         <div class="col-md-4 text-right" style="padding:5px;">
-            -SGD$1,371.25
+            <?TPLVAR_CURRENCY?><?TPLVAR_TOTAL_CONTRIBUTION?>
         </div>
     </div>
 

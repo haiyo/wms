@@ -282,11 +282,27 @@ class PayrollView extends AdminView {
     public function renderProcessSummary( $data ) {
         //var_dump($data);
         $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
-        $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] = 0;
+        $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
+        $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
+        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
 
         if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
-            $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $data['empInfo']['salary'] );
+            $vars['TPLVAR_GROSS_AMOUNT'] = $data['empInfo']['salary'];
             $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
+        }
+        if( isset( $data['gross'] ) ) {
+            foreach( $data['gross'] as $gross ) {
+                if( isset( $gross['amount'] ) ) {
+                    $vars['TPLVAR_GROSS_AMOUNT'] += (float)$gross['amount'];
+                }
+            }
+        }
+        if( isset( $data['net'] ) ) {
+            foreach( $data['net'] as $net ) {
+                if( isset( $net['amount'] ) ) {
+                    $vars['TPLVAR_NET_AMOUNT'] += (float)$net['amount'];
+                }
+            }
         }
         if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
             foreach( $data['items'] as $items ) {
@@ -297,28 +313,31 @@ class PayrollView extends AdminView {
                     }
                 }
             }
-            if( isset( $data['claims'] ) ) {
-                foreach( $data['claims'] as $claims ) {
-                    if( isset( $claims['eiID'] ) ) {
-                        $vars['TPLVAR_CLAIM_AMOUNT'] += (float)$claims['amount'];
-                        $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
-                    }
-                }
-            }
-            if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-                $contriAmount = 0;
-
-                foreach( $data['contribution'] as $contri ) {
-                    $contriAmount += $contri['amount'];
-                }
-                $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contriAmount );
-            }
-
-            $vars['TPLVAR_CURRENCY'] = $data['empInfo']['currency'];
-            $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'] );
-            $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'] );
-            $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'] );
         }
+        if( isset( $data['claims'] ) ) {
+            foreach( $data['claims'] as $claims ) {
+                if( isset( $claims['eiID'] ) ) {
+                    $vars['TPLVAR_CLAIM_AMOUNT'] += (float)$claims['amount'];
+                    $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
+                }
+            }
+        }
+        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
+            $contriAmount = 0;
+
+            foreach( $data['contribution'] as $contri ) {
+                $contriAmount += $contri['amount'];
+                $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$contri['amount'];
+            }
+            $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contriAmount );
+        }
+
+        $vars['TPLVAR_CURRENCY'] = $data['empInfo']['currency'];
+        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $vars['TPLVAR_GROSS_AMOUNT'] );
+        $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'] );
+        $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'] );
+        $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'] );
+        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'] );
         return $this->render('markaxis/payroll/processSummary.tpl', $vars );
     }
 

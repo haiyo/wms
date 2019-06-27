@@ -134,6 +134,8 @@ class TaxPayItemModel extends \Model {
             $amountInput = (int)str_replace( ',', '', $amountInput );
             if( !$amountInput ) { return 0; }
 
+            $data['gross'][] = array( 'amount' => $amountInput );
+
             if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
                 $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
                 $itemInfo = $this->getBytrIDs( $trIDs, $itemType );
@@ -183,23 +185,27 @@ class TaxPayItemModel extends \Model {
                                 $applyValueType = $data['taxRules'][$row['trID']]['applyValueType'];
                                 $applyValue = $data['taxRules'][$row['trID']]['applyValue'];
 
-                                if( $applyType == 'deductionAW' && $applyValueType == 'percentage' && $applyValue ) {
+                                if( $applyValueType == 'percentage' && $applyValue ) {
                                     $amount = $amountInput*$applyValue/100;
 
-                                    if( $amountInput-$total['deductionAW'] ) {
-                                        $remark  = $data['taxRules'][$row['trID']]['title'] . $remark;
+                                    if( $applyType == 'deductionAW' ) {
+                                        $afterDeduct = $amountInput-$total['deductionAW'];
 
-                                        $data['items'][] = $data['addItem'][] = array( 'piID' => $data['deductionAW']['piID'],
-                                                                                       'trID' => $row['trID'],
-                                                                                       'remark' => $remark,
-                                                                                       'amount' => $amount );
+                                        if( $afterDeduct ) {
+                                            $data['net'][] = array( 'amount' => $afterDeduct );
+                                            $remark = $data['taxRules'][$row['trID']]['title'] . $remark;
+
+                                            $data['items'][] = $data['addItem'][] =
+                                                array( 'piID' => $data['deductionAW']['piID'],
+                                                       'trID' => $row['trID'],
+                                                       'remark' => $remark,
+                                                       'amount' => $amount );
+                                        }
                                     }
-                                }
-                                if( $applyType == 'contribution' && $applyValueType == 'percentage' && $applyValue ) {
-                                    $amount = $amountInput*$applyValue/100;
-
-                                    $data['contribution'][] = array( 'title' => $data['taxRules'][$row['trID']]['title'],
-                                                                     'amount' => $amount );
+                                    if( $applyType == 'contribution' ) {
+                                        $data['contribution'][] = array( 'title' => $data['taxRules'][$row['trID']]['title'],
+                                                                         'amount' => $amount );
+                                    }
                                 }
                                 unset( $data['taxRules'][$row['trID']] );
                             }
