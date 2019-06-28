@@ -1153,7 +1153,8 @@
                                 <option value="deductionOR" selected>Deduction From Ordinary Wage</option>
                                 <option value="deductionAW">Deduction From Additional Wage</option>
                                 <option value="contribution">Employer Contribution</option>
-                                <option value="levy">Employer Levy</option>
+                                <option value="skillLevy">Skill Development Levy</option>
+                                <option value="foreignLevy">Foreign Worker Levy</option>
                             </select>
                         </div>
                     </div>

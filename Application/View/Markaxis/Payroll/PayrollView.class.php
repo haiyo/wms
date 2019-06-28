@@ -322,6 +322,10 @@ class PayrollView extends AdminView {
                 }
             }
         }
+        if( isset( $data['skillLevy'] ) ) {
+            $vars['TPLVAR_SDL_AMOUNT'] =
+            $vars['TPLVAR_TOTAL_CONTRIBUTION'] = (float)$data['skillLevy']['amount'];
+        }
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
             $contriAmount = 0;
 
@@ -338,6 +342,7 @@ class PayrollView extends AdminView {
         $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'],2 );
         $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'],2 );
         $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'],2 );
+        $vars['TPLVAR_SDL_AMOUNT'] = number_format( $vars['TPLVAR_SDL_AMOUNT'],2 );
         return $this->render('markaxis/payroll/processSummary.tpl', $vars );
     }
 

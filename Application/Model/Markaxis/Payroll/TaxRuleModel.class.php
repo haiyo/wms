@@ -90,7 +90,8 @@ class TaxRuleModel extends \Model {
             return false;
         }
         if( $data['applyType'] == 'deductionOR' || $data['applyType'] == 'deductionAW' ||
-            $data['applyType'] == 'contribution' || $data['applyType'] == 'levy' ) {
+            $data['applyType'] == 'contribution' || $data['applyType'] == 'skillLevy' ||
+            $data['applyType'] == 'foreignLevy' ) {
             $this->info['applyType'] = $data['applyType'];
         }
         if( $data['applyValueType'] == 'percentage' || $data['applyValueType'] == 'fixed' ) {

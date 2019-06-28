@@ -67,6 +67,13 @@ class TaxRuleWrapperModel extends \Model {
                                           'remark' => $rules['title'] . $remark,
                                           'amount' => $amount );
             }
+            if( $rules['applyType'] == 'skillLevy' && $rules['applyValueType'] ) {
+                if( $rules['applyValueType'] == 'fixed' ) {
+                    $amount = $rules['applyValue'];
+                }
+                $data['skillLevy'] = array( 'title' => $rules['title'],
+                                            'amount' => $amount );
+            }
             if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
                 if( $rules['applyValueType'] == 'percentage' ) {
                     if( isset( $rules['capped'] ) ) {

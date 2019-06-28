@@ -99,6 +99,9 @@ class TaxComputingView extends AdminView {
                 if( $ordinary[0]['computing'] == 'lte' ) {
                     $txt .= $currency . number_format( $ordinary[0]['value'],2 ) . ' and below';
                 }
+                if( $ordinary[0]['computing'] == 'ltec' ) {
+                    $txt .= 'less than and capped at ' . $currency . number_format( $ordinary[0]['value'],2 );
+                }
                 if( $ordinary[0]['computing'] == 'eq' ) {
                     $txt .= $currency . number_format( $ordinary[0]['value'],2 );
                 }
