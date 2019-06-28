@@ -12,7 +12,8 @@ var MarkaxisEmployee = (function( ) {
      * @return void
      */
     MarkaxisEmployee = function( ) {
-        this.markaxisUSuggest = new MarkaxisUSuggest( true );
+        this.markaxisUSuggest   = new MarkaxisUSuggest( true );
+        this.markaxisCompetency = new MarkaxisCompetency( true );
         this.uploadCrop = false;
         this.init( );
     };
@@ -67,14 +68,14 @@ var MarkaxisEmployee = (function( ) {
                 var ind  = value.indexOf('@');
                 var str2 = value.substr(ind+1);
                 var str3 = str2.substr(0,str2.indexOf('.'));
-                if( str3.lastIndexOf('-') == (str3.length-1) ||
-                    (str3.indexOf('-') != str3.lastIndexOf('-')) )
+                if( str3.lastIndexOf('-') === (str3.length-1) ||
+                    (str3.indexOf('-') !== str3.lastIndexOf('-')) )
                     return false;
 
                 var str1 = value.substr(0,ind );
-                if( (str1.lastIndexOf('_') == (str1.length-1)) ||
-                    (str1.lastIndexOf('.') == (str1.length-1)) ||
-                    (str1.lastIndexOf('-') == (str1.length-1)) )
+                if( (str1.lastIndexOf('_') === (str1.length-1)) ||
+                    (str1.lastIndexOf('.') === (str1.length-1)) ||
+                    (str1.lastIndexOf('-') === (str1.length-1)) )
                     return false;
                 str = /(^[a-zA-Z0-9]+[\._-]{0,1})+([a-zA-Z0-9]+[_]{0,1})*@([a-zA-Z0-9]+[-]{0,1})+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,3})$/;
                 temp1 = str.test(value);
@@ -128,7 +129,7 @@ var MarkaxisEmployee = (function( ) {
                         error.appendTo( element.parent().parent() );
                     }
                     else {
-                        if( $(".error").length == 0 )
+                        if( $(".error").length === 0 )
                             $(".stepy-navigator").prepend(error);
                     }
                 },
@@ -184,6 +185,7 @@ var MarkaxisEmployee = (function( ) {
 
             if( $("#userID").val( ) != 0 ) {
                 this.getUserManager( );
+                this.getCompetency( );
             }
 
             $("#department").on("change", function( ) {
@@ -331,7 +333,7 @@ var MarkaxisEmployee = (function( ) {
         },
 
         suggestDeptManager: function( ) {
-            if( this.markaxisUSuggest.getCount( ) == 0 ) {
+            if( this.markaxisUSuggest.getCount( ) === 0 ) {
                 //this.markaxisUSuggest.clearToken( );
                 var departments = $("#department").val( );
 
@@ -345,6 +347,11 @@ var MarkaxisEmployee = (function( ) {
 
         getUserManager: function( ) {
             this.markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken/" + $("#userID").val( ));
+        },
+
+
+        getCompetency: function( ) {
+            this.markaxisCompetency.getSuggestToken("admin/employee/getCompetencyToken/" + $("#userID").val( ));
         },
 
         /**
@@ -373,7 +380,7 @@ var MarkaxisEmployee = (function( ) {
                             return;
                         }
                         else {
-                            if( $("#userID").val( ) == 0 ) {
+                            if( $("#userID").val( ) === 0 ) {
                                 title = "New Employee Added  Successfully";
                                 goToURL = Aurora.ROOT_URL + "admin/employee/add";
                                 backToURL = Aurora.ROOT_URL + "admin/employee/list";

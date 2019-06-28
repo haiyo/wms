@@ -77,18 +77,15 @@ class ManagerModel extends \Model {
      */
     public function isValid( $data ) {
         if( isset( $data['managers'] ) ) {
-            $managers = explode( ';', $data['managers'] );
-
+            $managers = array_map('trim', explode( ';', $data['managers'] ) );
             $UserModel = new UserModel( );
 
             foreach( $managers as $userID ) {
-                if( $userID ) {
-                    if( !$UserModel->isFound( $userID ) ) {
-                        $this->errMsg = 'Invalid User!';
-                        return false;
-                    }
-                    $this->validManagerID[] = (int)$userID;
+                if( $userID && !$UserModel->isFound( $userID ) ) {
+                    $this->errMsg = 'Invalid User!';
+                    return false;
                 }
+                $this->validManagerID[] = (int)$userID;
             }
             // userID is conditionally set so as we can reuse this method for
             // other classes. It's only applicable for saving employee data.

@@ -46,10 +46,30 @@ class Competency extends \DAO {
 
 
     /**
-     * Return total count of records
-     * @return int
+     * Retrieve all user roles
+     * @return mixed
      */
     public function getByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT cID FROM employee_competency 
+                                   WHERE userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['cID']] = $row['cID'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+
+    public function getCompetencyByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT GROUP_CONCAT(c.competency SEPARATOR ";") AS competency 
                                    FROM employee_competency ec
                                    LEFT JOIN competency c ON ( c.cID = ec.cID )
@@ -61,6 +81,27 @@ class Competency extends \DAO {
             return $this->DB->fetch( $sql );
         }
         return false;
+    }  */
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCompetencyToken( $userID ) {
+        $sql = $this->DB->select( 'SELECT c.cID, c.competency 
+                                   FROM employee_competency ec
+                                   LEFT JOIN competency c ON ( c.cID = ec.cID )
+                                   WHERE ec.userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
     }
 
 

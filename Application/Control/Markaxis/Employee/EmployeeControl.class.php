@@ -29,7 +29,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
@@ -39,7 +39,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
@@ -52,7 +52,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function getCountList( $data ) {
         $output = Control::getOutputArray( );
@@ -66,7 +66,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function list( ) {
         $this->EmployeeView->printAll( $this->EmployeeView->renderList( ) );
@@ -75,7 +75,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function view( ) {
         echo $this->EmployeeView->renderEdit( );
@@ -84,7 +84,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function add( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->EmployeeView->renderAdd( ) ) );
@@ -93,7 +93,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -103,7 +103,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function save( ) {
         $post = Control::getPostData( );
@@ -114,18 +114,17 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function log( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
         echo $this->EmployeeView->renderLog( $userID );
     }
 
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function logResults( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -138,7 +137,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function results( ) {
         $post = Control::getRequest( )->request( POST );
@@ -150,7 +149,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return string
+     * @return void
      */
     public function setResignStatus( ) {
         $post = Control::getRequest( )->request( POST );

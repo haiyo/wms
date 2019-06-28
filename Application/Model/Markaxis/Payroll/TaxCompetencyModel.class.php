@@ -75,6 +75,33 @@ class TaxCompetencyModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $data ) {
+        var_dump($data['taxRules'] ); exit;
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+            $payItemRules = $this->getBytrIDs( $trIDs );
+
+            // Firstly do we have items coming in?
+            if( isset( $data['items'] ) ) {
+                // if so then we get all the related piID from the items
+                $piIDs = array_unique( array_column( $data['items'], 'piID' ) );
+            }
+            foreach( $payItemRules as $rule ) {
+                // 1. If list of $payItemRules doesnt even exist in items, we just unset;
+                // 2. OR if we do have items but our payItemRules doesn't apply, unset;
+                if( !isset( $data['items'][$rule['piID']] ) || !in_array( $rule['piID'], $piIDs ) ) {
+                    unset( $data['taxRules'][$rule['trID']] );
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */

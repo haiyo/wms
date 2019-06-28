@@ -80,6 +80,41 @@ class CompetencyControl {
      * Render main navigation
      * @return string
      */
+    public function getCompetencyToken( $arg ) {
+        $userID = isset( $arg[1] ) ? $arg[1] : false;
+
+        $vars = array( );
+        $vars['data'] = $this->CompetencyModel->getCompetencyToken( $userID );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function save( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $this->CompetencyModel->isValid( $post ) ) {
+            $this->CompetencyModel->save( );
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+
     public function saveCompetency( ) {
         if( Control::hasPermission( 'Markaxis', 'add_modify_competency' ) ) {
             $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
@@ -95,7 +130,7 @@ class CompetencyControl {
             echo json_encode( $vars );
             exit;
         }
-    }
+    } */
 
 
     /**

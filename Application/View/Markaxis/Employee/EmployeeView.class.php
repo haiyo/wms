@@ -217,12 +217,6 @@ class EmployeeView extends AdminView {
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
         $roleList = $SelectListView->build( 'role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
-        $ManagerModel = ManagerModel::getInstance( );
-        $managers = $this->info['userID'] ? $ManagerModel->getSuggestToken( $this->info['userID'] ) : '';
-
-        $CompetencyModel = CompetencyModel::getInstance( );
-        $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );
-
         $A_DepartmentModel = A_DepartmentModel::getInstance( );
         $DepartmentModel = DepartmentModel::getInstance( );
 
@@ -239,8 +233,6 @@ class EmployeeView extends AdminView {
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
                        'TPLVAR_SALARY' => number_format( $this->info['salary'] ),
                        'TPLVAR_PASS_NUMBER' => $this->info['passNumber'],
-                       'TPLVAR_MANAGERS' => isset( $managers['name'] ) ? $managers['name'] : '',
-                       'TPLVAR_COMPETENCY' => $competencyList['competency'],
                        'TPL_OFFICE_LIST' => $officeList,
                        'TPL_DEPARTMENT_LIST' => $departmentList,
                        'TPL_DESIGNATION_LIST' => $designationList,

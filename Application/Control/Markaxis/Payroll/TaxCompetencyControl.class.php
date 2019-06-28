@@ -52,6 +52,16 @@ class TaxCompetencyControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxCompetencyModel->processPayroll( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
         $this->TaxCompetencyModel->saveTaxRule( $post );
