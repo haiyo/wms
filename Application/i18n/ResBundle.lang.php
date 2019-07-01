@@ -74,11 +74,11 @@ abstract class ResBundle {
             $string = $this->contents[$key];
 
             //$t = preg_match_all( '/(.*)(\d+)\s+(.*)/', $string, $match );
-            $t = preg_match_all( '/(.*)({n}+)\s+(.*)/', $string, $match );
+            preg_match_all( '/(.*)({n}+)\s+(.*)/', $string, $match );
             //if( $t === 0 ) return $string;
 
             $frontText = $match[1][0] . $match[2][0] . ' ';
-            $backText  = preg_match_all( '/\s+(.*)/', $match[3][0], $back );
+            preg_match_all( '/\s+(.*)/', $match[3][0], $back );
 
             if( isset( $back[0][0] ) ) {
                 $backText = $back[0][0];

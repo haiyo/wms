@@ -88,16 +88,16 @@ class TaxCompetencyModel extends \Model {
      * @return int
      */
     public function processPayroll( $data ) {
-        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+        if( isset( $data['competency'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $competencies = $this->getBytrIDs( $trIDs );
-var_dump($competencies); exit;
+
             foreach( $competencies as $competency ) {
-                if( !isset( $data['taxRules'][$competency['trID']] ) ) {
+                if( !in_array( $competency['competency'], $data['competency'] ) ) {
                     unset( $data['taxRules'][$competency['trID']] );
                 }
             }
-        }var_dump($data['taxRules']); exit;
+        }
         return $data;
     }
 

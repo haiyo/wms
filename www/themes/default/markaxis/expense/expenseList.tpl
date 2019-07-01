@@ -8,7 +8,7 @@
                 $(nRow).attr('id', 'expenseTable-row' + aData['eiID']);
             },
             ajax: {
-                url: Aurora.ROOT_URL + "admin/expense/getResults",
+                url: Aurora.ROOT_URL + "admin/expense/getExpensesResults",
                 type: "POST",
                 data: function(d) {
                     d.ajaxCall = 1;
@@ -386,7 +386,7 @@
                                 </div>
                                 <div class="col-md-8 p-0">
                                     <input type="text" name="expenseAmount" id="expenseAmount" class="form-control" value=""
-                                           placeholder="Enter an amount (For eg: 2.50)" />
+                                           placeholder="Enter an amount (Enter 0 for unlimited)" />
                                 </div>
                             </div>
                         </div>

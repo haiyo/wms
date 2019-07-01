@@ -584,7 +584,7 @@
     <fieldset>
         <legend class="text-semibold">Select Employee to Pay</legend>
 
-        <div class="col-md-2 officeFilter"><?TPL_OFFICE_LIST?></div>
+        <div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>
 
         <div class="input-group payroll-range">
             <span class="input-group-prepend">

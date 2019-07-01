@@ -40,7 +40,7 @@ class TaxRuleControl {
      * Render main navigation
      * @return string
      */
-    public function getAll( ) {
+    public function getAllTaxRules( ) {
         Control::setOutputArray( $this->TaxRuleModel->getAll( ) );
     }
 

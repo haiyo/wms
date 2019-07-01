@@ -54,7 +54,7 @@ class TaxRuleWrapperControl {
      * Render main navigation
      * @return string
      */
-    public function getAll( $data ) {
+    public function getAllTaxRules( $data ) {
         $taxRules = Control::getOutputArray( );
 
         if( isset( $data[1] ) && $data[1] == 'html' ) {
@@ -84,7 +84,7 @@ class TaxRuleWrapperControl {
      * Render main navigation
      * @return string
      */
-    public function reProcessPayroll( ) {
+    public function reprocessPayroll( ) {
         $this->processPayroll( );
     }
 

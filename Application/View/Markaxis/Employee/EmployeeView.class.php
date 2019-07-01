@@ -15,7 +15,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EmployeeView extends AdminView {
+class EmployeeView {
 
 
     // Properties
@@ -32,7 +32,7 @@ class EmployeeView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
@@ -41,9 +41,9 @@ class EmployeeView extends AdminView {
         // Get new instance!
         $this->EmployeeModel = new EmployeeModel( );
 
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
-                                  'plugins/scrollto' => 'jquery.scrollTo.min.js',
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
+                                        'plugins/scrollto' => 'jquery.scrollTo.min.js',
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 
@@ -53,12 +53,12 @@ class EmployeeView extends AdminView {
      */
     public function renderSettings( $data ) {
         if( isset( $data['tab'] ) && isset( $data['form'] ) ) {
-            $this->setBreadcrumbs( array( 'link' => '',
-                                          'icon' => 'icon-cog3',
-                                          'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
+            $this->View->setBreadcrumbs( array( 'link' => '',
+                                                'icon' => 'icon-cog3',
+                                                'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
 
             $vars = array( 'TPL_TAB' => $data['tab'], 'TPL_FORM' => $data['form'] );
-            return $this->render( 'markaxis/employee/settings.tpl', $vars );
+            $this->View->printAll( $this->View->render( 'markaxis/employee/settings.tpl', $vars ) );
         }
     }
 
@@ -68,9 +68,9 @@ class EmployeeView extends AdminView {
      * @return string
      */
     public function renderList( ) {
-        $this->setBreadcrumbs( array( 'link' => 'admin/employee/list',
-                                      'icon' => 'icon-users4',
-                                      'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
+        $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/list',
+                                            'icon' => 'icon-users4',
+                                            'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
@@ -80,7 +80,7 @@ class EmployeeView extends AdminView {
             $vars['dynamic']['addEmployeeBtn'][] = true;
         }
 
-        return $this->render( 'markaxis/employee/list.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/employee/list.tpl', $vars ) );
     }
 
 
@@ -101,7 +101,7 @@ class EmployeeView extends AdminView {
                                                     'TPLVAR_DEPARTMENT' => $value['department'],
                                                     'TPLVAR_DESIGNATION' => $value['designation'] );
             }
-            return $this->render( 'markaxis/employee/countList.tpl', $vars );
+            return $this->View->render( 'markaxis/employee/countList.tpl', $vars );
         }
     }
 
@@ -113,7 +113,7 @@ class EmployeeView extends AdminView {
     public function renderView( ) {
         $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') );
 
-        return $this->render( 'markaxis/employee/view.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/view.tpl', $vars );
     }
 
 
@@ -250,7 +250,7 @@ class EmployeeView extends AdminView {
                        'TPL_PASS_EXPIRY_MONTH_LIST' => $passExpiryMonthList,
                        'TPL_PASS_EXPIRY_DAY_LIST' => $passExpiryDayList ) );
 
-        return $this->render( 'markaxis/employee/employeeForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/employeeForm.tpl', $vars );
     }
 
 
@@ -260,7 +260,7 @@ class EmployeeView extends AdminView {
      */
     public function renderLog( $userID ) {
         $vars = array( 'TPLVAR_USERID' => $userID );
-        return $this->render( 'markaxis/employee/log.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/log.tpl', $vars );
     }
 }
 ?>

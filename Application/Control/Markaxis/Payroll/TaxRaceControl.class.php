@@ -50,7 +50,7 @@ class TaxRaceControl {
      * Render main navigation
      * @return string
      */
-    public function getAll( ) {
+    public function getAllTaxRules( ) {
         $taxRules = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxRaceView->renderAll( $taxRules ) );
     }
@@ -70,7 +70,7 @@ class TaxRaceControl {
      * Render main navigation
      * @return string
      */
-    public function reProcessPayroll( ) {
+    public function reprocessPayroll( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxRaceModel->processPayroll( $data ) );
     }

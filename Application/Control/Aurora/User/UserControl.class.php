@@ -58,7 +58,6 @@ class UserControl {
 
             $ChildrenModel = new ChildrenModel( );
             $ChildrenModel->save( $post );
-
             Control::setPostData( $post );
         }
         else {

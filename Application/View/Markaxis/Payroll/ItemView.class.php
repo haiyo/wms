@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ItemView extends AdminView {
+class ItemView {
 
 
     // Properties
@@ -26,15 +26,14 @@ class ItemView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->ItemModel = ItemModel::getInstance( );
-
-        $this->setJScript( array( ) );
+        $this->View->setJScript( array( ) );
     }
 
 
@@ -54,7 +53,7 @@ class ItemView extends AdminView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_TAX_GROUP_LIST' => $taxGroupList ) );
 
-        return $this->render( 'markaxis/payroll/itemList.tpl', $vars );
+        return $this->View->render( 'markaxis/payroll/itemList.tpl', $vars );
     }
 }
 ?>

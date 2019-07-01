@@ -40,7 +40,7 @@ class ExpenseControl {
      * Render main navigation
      * @return string
      */
-    public function getResults( ) {
+    public function getExpensesResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->ExpenseModel->getResults( $post ) );
         exit;

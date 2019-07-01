@@ -31,7 +31,7 @@ class TaxGroupControl {
      * Get File Information
      * @return mixed
      */
-    public function getSelectList( ) {
+    public function getGroupList( ) {
         echo json_encode( $this->TaxGroupModel->getSelectList( ) );
         exit;
     }

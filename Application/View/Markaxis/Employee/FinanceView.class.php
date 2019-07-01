@@ -115,7 +115,7 @@ class FinanceView extends AdminView {
         $SelectListView->setClass( '' );
 
         $taxGroup = isset( $taxInfo['tgID'] ) ? explode(',', $taxInfo['tgID'] ) : '';
-        $taxGroupList = $SelectListView->build( 'tgID', $TaxGroupModel->getList( ), $taxGroup, 'Select Tax Group' );
+        $taxGroupList = $SelectListView->build( 'tgID', $TaxGroupModel->getList( true ), $taxGroup, 'Select Tax Group' );
 
         $leaveType = isset( $leaveTypeInfo['ltID'] ) ? explode(',', $leaveTypeInfo['ltID'] ) : '';
         $leaveTypeList = $SelectListView->build( 'ltID', $TypeModel->getList( ), $leaveType, 'Select Leave Type' );

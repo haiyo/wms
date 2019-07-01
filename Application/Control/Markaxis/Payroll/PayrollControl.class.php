@@ -32,7 +32,7 @@ class PayrollControl {
      * @return string
      */
     public function overview( ) {
-        $this->PayrollView->printAll( $this->PayrollView->renderOverview( ) );
+        $this->PayrollView->renderOverview( );
     }
 
 
@@ -41,7 +41,7 @@ class PayrollControl {
      * @return string
      */
     public function slips( ) {
-        $this->PayrollView->printAll( $this->PayrollView->renderSlips( ) );
+        $this->PayrollView->renderSlips( );
     }
 
 
@@ -71,7 +71,7 @@ class PayrollControl {
  */
     public function process( $args ) {
         if( isset( $args[1] ) ) {
-            $this->PayrollView->printAll( $this->PayrollView->renderProcess( $args[1] ) );
+            $this->PayrollView->renderProcess( $args[1] );
         }
     }
 
@@ -93,7 +93,7 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function reProcessPayroll( ) {
+    public function reprocessPayroll( ) {
         $data = Control::getOutputArray( );
         $vars = array( );
         $vars['bool'] = 1;
@@ -110,7 +110,7 @@ class PayrollControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-        $this->PayrollView->printAll( $this->PayrollView->renderSettings( $output['form'] ) );
+        $this->PayrollView->renderSettings( $output['form'] );
     }
 }
 ?>

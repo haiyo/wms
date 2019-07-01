@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\LeaveBalanceModel, \Markaxis\Employee\EmployeeModel;
-use \Library\Helper\Aurora\DayHelper;
-use \Library\Util\Date;
+use \Aurora\Notification\NotificationModel;
+use \Library\Helper\Aurora\DayHelper, \Library\Util\Date;
 use \DateTime;
 
 /**
@@ -58,7 +58,7 @@ class LeaveApplyModel extends \Model {
     public function getHistory( $post ) {
         $this->LeaveApply->setLimit( $post['start'], $post['length'] );
 
-        $order = 'lt.name';
+        $order = 'la.created';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
 
         if( isset( $post['order'][0]['column'] ) ) {

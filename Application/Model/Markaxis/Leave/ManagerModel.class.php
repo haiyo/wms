@@ -118,7 +118,7 @@ class ManagerModel extends \Model {
 
         // Make sure userID has "passed" from UserModel before proceed
         if( isset( $data['managers'] ) && isset( $data['laID'] ) && $data['laID'] ) {
-            $managers = explode( ';', $data['managers'] );
+            $managers = explode(';', $data['managers'] );
 
             if( sizeof( $managers ) > 0 ) {
                 $EmployeeModel = new EmployeeModel( );
@@ -131,6 +131,10 @@ class ManagerModel extends \Model {
                         $info['laID'] = (int)$data['laID'];
                         $info['managerID'] = $value;
                         $this->Manager->insert( 'leave_apply_manager', $info );
+
+                        $NotificationModel = NotificationModel::getInstance( );
+                        $NotificationModel->notify( $data['userID'], $info['managerID'], $url, $data['created'] );
+
                         $hasSup = true;
                     }
                 }

@@ -366,7 +366,7 @@
                     return '';
                 }
             }],
-            order: [],
+            order: [0,"desc"],
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             language: {
                 search: '',
@@ -467,7 +467,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Acrued So Far</div>
+                        <div>Acrued</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -478,7 +478,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Annual Quota</div>
+                        <div>Entitled</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -524,7 +524,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Acrued So Far</div>
+                        <div>Acrued</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -535,7 +535,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Annual Quota</div>
+                        <div>Entitled</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -581,7 +581,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Acrued So Far</div>
+                        <div>Acrued</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -592,7 +592,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Annual Quota</div>
+                        <div>Entitled</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -638,7 +638,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Acrued So Far</div>
+                        <div>Acrued</div>
                     </div>
 
                     <div class="col-md-4 text-right">
@@ -649,7 +649,7 @@
                         <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
                     </div>
                     <div class="col-md-7">
-                        <div>Annual Quota</div>
+                        <div>Entitled</div>
                     </div>
 
                     <div class="col-md-4 text-right">

@@ -36,10 +36,10 @@ class Application {
     public function init( ) {
         try {
             $HttpRequest = new HttpRequest( );
-            $pathInfo = $HttpRequest->request( GET, 'pathInfo' );
+            $pathInfo = $HttpRequest->request(GET, 'pathInfo' );
 
             $Dispatcher = new Dispatcher( );
-            $Dispatcher->setMapping( XML . 'urlmap.xml' );
+            $Dispatcher->setMapping(XML . 'urlmap.xml' );
             $Dispatcher->monitor( $pathInfo );
         }
         catch( Exceptions $e ) {

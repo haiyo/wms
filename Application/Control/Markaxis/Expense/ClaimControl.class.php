@@ -89,7 +89,7 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
-    public function reProcessPayroll( ) {
+    public function reprocessPayroll( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->ClaimModel->processPayroll( $data ) );
     }

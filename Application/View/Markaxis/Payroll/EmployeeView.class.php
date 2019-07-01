@@ -10,7 +10,7 @@ use \Library\Runtime\Registry, \Library\Util\Date;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EmployeeView extends AdminView {
+class EmployeeView {
 
 
     // Properties
@@ -26,7 +26,7 @@ class EmployeeView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
@@ -60,7 +60,7 @@ class EmployeeView extends AdminView {
             $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_WORK_PASS'),
                                                 'TPLVAR_VALUE' => $empInfo['passType'] ? $empInfo['passType'] : $empInfo['nationality'] );
 
-            $col_1 = $this->render( 'markaxis/payroll/processHeader.tpl', $vars );
+            $col_1 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
 
             $vars = array_merge( $this->L10n->getContents( ),
                     array( 'TPLVAR_TITLE_KEY' => $this->L10n->getContents('LANG_EMPLOYEE_ID'),
@@ -93,7 +93,7 @@ class EmployeeView extends AdminView {
             $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_CONFIRM_DATE'),
                                                 'TPLVAR_VALUE' => $empInfo['confirmDate'] ? $empInfo['confirmDate'] : '--' );
 
-            $col_2 = $this->render( 'markaxis/payroll/processHeader.tpl', $vars );
+            $col_2 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
 
             return array( 'col_1' => $col_1, 'col_2' => $col_2 );
         }

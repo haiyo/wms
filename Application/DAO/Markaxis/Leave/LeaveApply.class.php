@@ -42,7 +42,7 @@ class LeaveApply extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getHistory( $q='', $order='name ASC' ) {
+    public function getHistory( $q='', $order='la.created DESC' ) {
         $list = array( );
 
         $q = '';

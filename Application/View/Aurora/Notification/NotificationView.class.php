@@ -1,5 +1,5 @@
 <?php
-namespace Aurora\Page;
+namespace Aurora\Notification;
 use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class NotificationView extends AdminView {
+class NotificationView {
 
 
     // Properties
@@ -27,8 +27,7 @@ class NotificationView extends AdminView {
      * @return void
      */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->NotificationModel = NotificationModel::getInstance( );
 
@@ -45,12 +44,12 @@ class NotificationView extends AdminView {
         $count = $this->NotificationModel->getUnreadCount( );
 
         $vars = array( 'TPLVAR_CLASS_NAME' => 'notifyIco flagIco',
-            'TPL_WINDOW' => $this->renderNavWindow( ),
-            'TPLVAR_CLASS' => 'notifyCounter',
-            'TPLVAR_DISPLAY' => $count ? '' : 'none',
-            'TPLVAR_COUNT' => $count );
+                       'TPL_WINDOW' => $this->renderNavWindow( ),
+                       'TPLVAR_CLASS' => 'notifyCounter',
+                       'TPLVAR_DISPLAY' => $count ? '' : 'none',
+                       'TPLVAR_COUNT' => $count );
 
-        return $this->render( 'aurora/navigation/html/navParentIcon.tpl', $vars );
+        return $this->View->render( 'aurora/navigation/html/navParentIcon.tpl', $vars );
     }
 
 
@@ -64,7 +63,7 @@ class NotificationView extends AdminView {
                        'LANG_TITLE' => $this->L10n->getContents('LANG_NOTIFICATIONS'),
                        'LANG_BOTTOM_TEXT' => $this->L10n->getContents('LANG_VIEW_ALL') );
 
-        return $this->render( 'aurora/notification/html/notifyWindow.tpl', $vars );
+        return $this->View->render( 'aurora/notification/html/notifyWindow.tpl', $vars );
     }
 
 
@@ -100,7 +99,7 @@ class NotificationView extends AdminView {
             $vars['dynamic']['noList'] = false;
             //$UserAvatarView = new UserAvatarView( );
 
-            while( list( , $row ) = each( $list ) ) {
+            foreach( $list as $row ) {
                 $class = $this->getNavClass( $row['folder'], $row['namespace'], $row['class'] );
 
                 if( $row['popup'] ) {
@@ -116,11 +115,11 @@ class NotificationView extends AdminView {
                 $vars['dynamic']['list'][] = array( //'TPL_AVATAR' => $UserAvatarView->renderAvatar( $row, 'micro' ),
                                                     'TPLVAR_MESSAGE' => $class->getNotification( $row ),
                                                     'TPLVAR_LINK' => $link,
-                                                    'TPLVAR_DATE_TIME' => Date::timeSince( strtotime( $row['nuCreated'] ) ) );
+                                                    'TPLVAR_DATE_TIME' => \Date::timeSince( strtotime( $row['nuCreated'] ) ) );
             }
         }
         $vars = array_merge( $this->L10n->getContents( ), $vars );
-        return $this->render( 'aurora/page/notifyList.tpl', $vars );
+        return $this->View->render( 'aurora/page/notifyList.tpl', $vars );
     }
 }
 ?>

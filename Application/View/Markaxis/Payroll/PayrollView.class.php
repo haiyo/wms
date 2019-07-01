@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollView extends AdminView {
+class PayrollView {
 
 
     // Properties
@@ -29,7 +29,7 @@ class PayrollView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
@@ -37,14 +37,14 @@ class PayrollView extends AdminView {
 
         $this->PayrollModel = PayrollModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
-                                  'plugins/moment' => 'moment.min.js',
-                                  'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                            'input/typeahead.bundle.min.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
+                                        'plugins/moment' => 'moment.min.js',
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                                  'input/typeahead.bundle.min.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
     }
 
 
@@ -90,21 +90,19 @@ class PayrollView extends AdminView {
                                                'TPLVAR_STATUS' => $status );
 
             $vars['dynamic'][$pane][] = array( 'TPLVAR_DATA_ID' => $dataID,
-                                                    'TPLVAR_STATUS_TAB' => $statusTab,
-                                                    'TPLVAR_LONG_MONTH' => $datetime->format('F'),
-                                                    'TPLVAR_MONTH' => $datetime->format('M'),
-                                                    'TPLVAR_YEAR' => $datetime->format('Y'),
-                                                    'TPLVAR_DATE' => $datetime->format('Y-m-d') );
+                                               'TPLVAR_STATUS_TAB' => $statusTab,
+                                               'TPLVAR_LONG_MONTH' => $datetime->format('F'),
+                                               'TPLVAR_MONTH' => $datetime->format('M'),
+                                               'TPLVAR_YEAR' => $datetime->format('Y'),
+                                               'TPLVAR_DATE' => $datetime->format('Y-m-d') );
         }
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-stats-bars2',
-                                      'text' => $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-stats-bars2',
+                                            'text' => $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') ) );
 
-        $this->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ) ) );
-
+        $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ) ) );
         $vars = array_merge( $this->L10n->getContents( ), $vars );
-
-        return $this->render( 'markaxis/payroll/overview.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/payroll/overview.tpl', $vars ) );
     }
 
 
@@ -113,13 +111,13 @@ class PayrollView extends AdminView {
      * @return string
      */
     public function renderSlips( ) {
-        $this->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
-                                      'icon' => 'icon-cash3',
-                                      'text' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
+        $this->View->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
+                                            'icon' => 'icon-cash3',
+                                            'text' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
 
-        return $this->render( 'markaxis/payroll/slips.tpl', $vars );
+        return $this->View->render( 'markaxis/payroll/slips.tpl', $vars );
     }
 
 
@@ -130,11 +128,11 @@ class PayrollView extends AdminView {
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
 
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-cog2',
-                                      'text' => $this->L10n->getContents('LANG_PAYROLL_SETTINGS') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-cog2',
+                                            'text' => $this->L10n->getContents('LANG_PAYROLL_SETTINGS') ) );
 
-        return $this->render( 'markaxis/payroll/settings.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/payroll/settings.tpl', $vars ) );
     }
 
 
@@ -152,11 +150,11 @@ class PayrollView extends AdminView {
                              array( 'TPLVAR_PROCESS_DATE' => $processDate,
                                     'TPL_OFFICE_LIST' => $officeList ) );
 
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-calculator2',
-                                      'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-calculator2',
+                                            'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
 
-        return $this->render( 'markaxis/payroll/process.tpl', $vars );
+        return $this->View->printAll( $this->View->render( 'markaxis/payroll/process.tpl', $vars ) );
     }
 
 
@@ -217,6 +215,7 @@ class PayrollView extends AdminView {
             }
 
             $SelectGroupListView = new SelectGroupListView( );
+            $SelectGroupListView->isDisabled( true );
             $SelectGroupListView->includeBlank(false );
             $SelectGroupListView->setClass("itemType");
             $vars['dynamic']['item'] = false;
@@ -263,6 +262,7 @@ class PayrollView extends AdminView {
                         }
                     }
                 }
+                $SelectGroupListView->isDisabled( false );
                 $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
             }
             $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
@@ -270,7 +270,7 @@ class PayrollView extends AdminView {
             if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
             if( isset( $data['col_2'] ) ) $vars['TPL_COL_2'] = $data['col_2'];
             if( isset( $data['col_3'] ) ) $vars['TPL_COL_3'] = $data['col_3'];
-            return $this->render( 'markaxis/payroll/processForm.tpl', $vars );
+            return $this->View->render( 'markaxis/payroll/processForm.tpl', $vars );
         }
     }
 
@@ -323,8 +323,12 @@ class PayrollView extends AdminView {
             }
         }
         if( isset( $data['skillLevy'] ) ) {
-            $vars['TPLVAR_SDL_AMOUNT'] =
-            $vars['TPLVAR_TOTAL_CONTRIBUTION'] = (float)$data['skillLevy']['amount'];
+            $vars['TPLVAR_SDL_AMOUNT'] = (float)$data['skillLevy']['amount'];
+            $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$data['skillLevy']['amount'];
+        }
+        if( isset( $data['foreignLevy'] ) ) {
+            $vars['TPLVAR_FWL_AMOUNT'] = (float)$data['foreignLevy']['amount'];
+            $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$data['foreignLevy']['amount'];
         }
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
             $contriAmount = 0;
@@ -343,7 +347,7 @@ class PayrollView extends AdminView {
         $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'],2 );
         $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'],2 );
         $vars['TPLVAR_SDL_AMOUNT'] = number_format( $vars['TPLVAR_SDL_AMOUNT'],2 );
-        return $this->render('markaxis/payroll/processSummary.tpl', $vars );
+        return $this->View->render('markaxis/payroll/processSummary.tpl', $vars );
     }
 
 
@@ -366,7 +370,7 @@ class PayrollView extends AdminView {
             }
         }
         $vars['bool'] = 1;
-        $vars['html'] = $this->render( 'markaxis/payroll/selectItem.tpl', $vars );
+        $vars['html'] = $this->View->render( 'markaxis/payroll/selectItem.tpl', $vars );
         return json_encode( $vars );
     }
 }

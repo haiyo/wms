@@ -100,14 +100,7 @@ class CompetencyControl {
 
         if( $this->CompetencyModel->isValid( $post ) ) {
             $this->CompetencyModel->save( );
-            $vars['bool'] = 1;
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
     }
 
 

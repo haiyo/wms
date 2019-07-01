@@ -5,6 +5,9 @@ id="<?TPLVAR_ID?>"
 <!-- BEGIN DYNAMIC BLOCK: multiple -->
 multiple="multiple"
 <!-- END DYNAMIC BLOCK: multiple -->
+<!-- BEGIN DYNAMIC BLOCK: disabled -->
+disabled="disabled"
+<!-- END DYNAMIC BLOCK: disabled -->
 class="form-control select <?TPLVAR_CLASS?>">
 <!-- BEGIN DYNAMIC BLOCK: blank -->
 <option value=""></option>

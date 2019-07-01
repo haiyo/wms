@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class MenuView extends AdminView {
+class MenuView {
 
 
     // Properties
@@ -27,10 +27,10 @@ class MenuView extends AdminView {
      * @return void MessageModel $MessageModel
      */
     function __construct( \Aurora\Page\MenuModel $MenuModel ) {
-        parent::__construct();
-        $this->Authorization = $this->Registry->get(HKEY_CLASS, 'Authorization');
+        $this->View = AdminView::getInstance( );
 
-        $this->Registry = Registry::getInstance();
+        $this->Registry = Registry::getInstance( );
+        $this->Authorization = $this->Registry->get(HKEY_CLASS, 'Authorization');
         $this->MenuModel = $MenuModel;
 
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
@@ -82,7 +82,7 @@ class MenuView extends AdminView {
                                                            'LANG_LINK' => $L10n->getContents( $value['langText'] ) );
             }
         }
-        return $this->render('aurora/menu/secondLevel.tpl', $vars );
+        return $this->View->render('aurora/menu/secondLevel.tpl', $vars );
     }
 
 
@@ -128,7 +128,7 @@ class MenuView extends AdminView {
                                     'TPLVAR_ICON' => $value['icon'],
                                     'LANG_LINK' => $L10n->getContents( $value['langText'] ) );
 
-                $menu[$value['parent']]['TPL_SECOND_LEVEL'] .= $this->render('aurora/menu/secondLevel.tpl', $childVars );
+                $menu[$value['parent']]['TPL_SECOND_LEVEL'] .= $this->View->render('aurora/menu/secondLevel.tpl', $childVars );
             }
         }
 
@@ -149,7 +149,7 @@ class MenuView extends AdminView {
             }
         }
 
-        return $this->render('aurora/menu/firstLevel.tpl', $vars );
+        return $this->View->render('aurora/menu/firstLevel.tpl', $vars );
     }
 }
 ?>

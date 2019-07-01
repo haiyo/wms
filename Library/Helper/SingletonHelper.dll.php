@@ -15,15 +15,6 @@ abstract class SingletonHelper {
 
 
     /**
-    * SingletonHelper Constructor
-    * @return void
-    */
-    protected function __construct( ) {
-        //
-	}
-
-
-    /**
     * Return Class Instance
     * @return Obj
     */

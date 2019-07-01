@@ -111,7 +111,7 @@ class Dispatcher {
                     $this->call = $namespace;
 
                     if( !$args ) {
-                        array_shift($pathInfo);
+                        array_shift($pathInfo );
                         $this->args = $pathInfo;
                     }
                     else {

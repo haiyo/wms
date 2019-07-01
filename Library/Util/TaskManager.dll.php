@@ -46,20 +46,28 @@ class TaskManager {
 
     /**
     * Add task to list
-    * @return void
+    * @return bool
     */
-    public function addTask( $xmlFile, $task ) {
+    public function foundTask( $xmlFile, $task ) {
         $XML = new XML( );
         $XMLElement = $XML->load( $xmlFile );
         $sizeof = sizeof( $XMLElement->task );
+        $found = false;
 
         for( $i=0; $i<$sizeof; $i++ ) {
-            if( $XMLElement->task[$i]['type'] == $task ) {
+            $type = array_map('trim', explode(',', $XMLElement->task[$i]['type'] ) );
+
+            if( in_array( $task, $type ) ) {
                 $this->tasks = $this->recursive( $XMLElement->task[$i]->observer );
+
+                // Assign explode first because array_pop expects by non-reference;
+                $explode = explode('/', $task );
+                $this->task = array_pop($explode );
+                $found = true;
                 break;
             }
         }
-        $this->task = $task;
+        return $found;
 	}
 
 
@@ -71,14 +79,13 @@ class TaskManager {
         $sizeof = sizeof( $XMLElement );
 
         for( $i=0; $i<$sizeof; $i++ ) {
-            $task = (string)$XMLElement[$i]->attributes( );
+            $controller = (string)$XMLElement[$i]->attributes( );
 
-            if( !isset( $taskList[$task] ) ) {
-                $taskList[$task] = array( );
+            if( !isset( $taskList[$controller] ) ) {
+                $taskList[$controller] = array( );
             }
             if( sizeof( $XMLElement[$i]->observer ) > 0 ) {
-                $taskList[$task] = $this->recursive( $XMLElement[$i]->observer,
-                                                     $taskList[$task] );
+                $taskList[$controller] = $this->recursive( $XMLElement[$i]->observer, $taskList[$controller] );
             }
         }
         return $taskList;

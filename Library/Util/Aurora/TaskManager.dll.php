@@ -18,15 +18,6 @@ class TaskManager extends DefTaskManager {
     // Properties
     protected $args;
 
-    
-    /**
-    * TaskManager Constructor
-    * @return void
-    */
-    function __construct( ) {
-        //
-	}
-
 
     /**
     * Perform Task Escalation

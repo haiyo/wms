@@ -42,7 +42,7 @@ class TaxGenderControl {
      * Render main navigation
      * @return string
      */
-    public function getAll( ) {
+    public function getAllTaxRules( ) {
         $taxRules = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxGenderModel->getAll( $taxRules ) );
     }

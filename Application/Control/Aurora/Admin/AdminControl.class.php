@@ -102,6 +102,7 @@ class AdminControl extends Control {
         $XMLElement = $XML->load( XML . 'Aurora/admin-no.xml' );
         $sizeof = sizeof( $XMLElement->task );
 
+        // If not admin task, override the default xmlTaskFile
         for( $i=0; $i<$sizeof; $i++ ) {
             if( $XMLElement->task[$i]['type'] == $task ) {
                 $this->xmlTaskFile = XML . 'Aurora/admin-no.xml';
@@ -173,14 +174,30 @@ class AdminControl extends Control {
      */
     public function __call( $task, $args ) {
         try {
+            $cacheArgs = array( );
+
             // Remove extra array from magic call.
             if( isset( $args[0][0] ) ) {
                 array_shift( $args[0] );
-                $args = $args[0];
+                $args = $cacheArgs = $args[0];
             }
             $TaskManager = new TaskManager( );
-            $TaskManager->addTask( $this->xmlTaskFile, $task );
-            $TaskManager->escalate( $args );
+
+            do {
+                $secondaryTask = rtrim($task . '/' . implode('/', $args ),'/' );
+
+                if( $TaskManager->foundTask( $this->xmlTaskFile, $secondaryTask ) ) {
+                    $TaskManager->escalate( $cacheArgs );
+                    break;
+                }
+                // If no secondary task found, we will fallback to main task.
+                if( $TaskManager->foundTask( $this->xmlTaskFile, $task ) ) {
+                    $TaskManager->escalate( $cacheArgs );
+                    break;
+                }
+                array_pop($args );
+            }
+            while( sizeof( $args ) > 0 );
         }
         catch( InstantiationException $e ) {
             $e->record( );

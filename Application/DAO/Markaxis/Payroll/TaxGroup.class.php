@@ -30,10 +30,12 @@ class TaxGroup extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getList( ) {
+    public function getList( $selectable ) {
         $list = array( );
+        $selectable = $selectable ? ' WHERE selectable = "1"' : '';
 
-        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group' . $selectable,
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

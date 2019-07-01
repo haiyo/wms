@@ -1,5 +1,5 @@
 <?php
-namespace Aurora\Page;
+namespace Aurora\Notification;
 use \Aurora\User\UserModel;
 
 /**
@@ -55,7 +55,7 @@ class NotificationModel extends \Model {
     public function markRead( ) {
         return $this->Notification->update('notification_user',
                                             array( 'isRead' => 1 ),
-                                            'WHERE toUserID = "' . (int)$this->userInfo['userID'] . '"' );
+                                           'WHERE toUserID = "' . (int)$this->userInfo['userID'] . '"' );
     }
 
 
@@ -63,29 +63,25 @@ class NotificationModel extends \Model {
      * Add new notification
      * @return int
      */
-    public function addNew( $refID, $urlpath, $popup, $folder, $namespace, $class ) {
+    public function notify( $userID, $toUserID, $url, $created=NULL ) {
+        if( !$created ) {
+            $info['created'] = date( 'Y-m-d H:i:s' );
+        }
+        $this->create( $userID, $toUserID, $url, $created );
+    }
+
+
+    /**
+     * Add new notification
+     * @return int
+     */
+    public function create( $userID, $toUserID, $url, $created ) {
         $info = array( );
-        $info['refID']   = (int)$refID;
-        $info['urlpath'] = $urlpath;
-        $info['popup']   = $popup;
-        $info['folder'] = $folder;
-        $info['namespace'] = $namespace;
-        $info['class'] = $class;
+        $info['userID'] = (int)$userID;
+        $info['toUserID'] = (int)$toUserID;
+        $info['url'] = $url;
+        $info['created'] = $created;
         return $this->Notification->insert( 'notification', $info );
-    }
-
-
-    /**
-     * Add new notification
-     * @return int
-     */
-    public function notify( $nID, $userID ) {
-        $info = array( );
-        $info['nID']      = (int)$nID;
-        $info['userID']   = (int)$this->userInfo['userID'];
-        $info['toUserID'] = (int)$userID;
-        $info['created']  = date( 'Y-m-d H:i:s' );
-        return $this->Notification->insert( 'notification_user', $info );
     }
 }
 ?>

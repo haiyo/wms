@@ -9,10 +9,11 @@ use \Aurora\Admin\AdminView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class SelectListView extends AdminView {
+class SelectListView {
 
 
     // Properties
+    protected $View;
     protected $multiple;
     protected $disabled;
     protected $includeBlank;
@@ -24,7 +25,7 @@ class SelectListView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
         $this->multiple = false;
         $this->disabled = false;
         $this->includeBlank = true;
@@ -72,7 +73,6 @@ class SelectListView extends AdminView {
     * @return string
     */
     public function build( $name, $arrayList, $selected='', $placeHolder='', $id=true ) {
-
         $vars = array( 'TPLVAR_NAME' => $name,
                        'TPLVAR_PLACEHOLDER' => $placeHolder,
                        'TPLVAR_CLASS'  => $this->class, );
@@ -112,7 +112,7 @@ class SelectListView extends AdminView {
                                                   'TPLVAR_SELECT' => $select,
                                                   'TPLVAR_KEY'    => $key );
         }
-        return $this->render( 'aurora/form/selectList.tpl', $vars );
+        return $this->View->render( 'aurora/form/selectList.tpl', $vars );
     }
 }
 ?>

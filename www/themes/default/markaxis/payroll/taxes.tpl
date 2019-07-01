@@ -1208,19 +1208,28 @@
                 });
             }
         };
-        Aurora.WebService.AJAX("admin/payroll/getAll/html", data);
+        Aurora.WebService.AJAX("admin/payroll/getAllTaxRules/html", data);
 
-        function refreshGroupList( element ) {
+        function refreshGroupList( ) {
             var data = {
-                success: function (res) {
+                success: function( res ) {
                     var res = $.parseJSON(res);
 
-                    var data = $.map(res, function(obj) {
+                    groupList = $.map(res, function( obj ) {
                         return {id: obj.id, text: obj.text, level: obj.level};
                     });
 
-                    element.select2({
-                        data: data,
+                    $("#parent").select2({ data: groupList,
+                        formatSelection: function (item) {
+                            return item.text
+                        },
+                        formatResult: function (item) {
+                            return item.text
+                        },
+                        templateResult: formatResult,
+                    });
+
+                    $("#group").select2({ data: groupList,
                         formatSelection: function (item) {
                             return item.text
                         },
@@ -1231,11 +1240,10 @@
                     });
                 }
             };
-            Aurora.WebService.AJAX("admin/payroll/getSelectList", data);
+            Aurora.WebService.AJAX("admin/payroll/getGroupList", data);
         }
 
-        refreshGroupList( $("#parent") );
-        refreshGroupList( $("#group") );
+        refreshGroupList( );
 
         function formatResult(node) {
             var $result = $('<span style="padding-left:' + (10 * node.level) + 'px;">' + node.text + '</span>');
@@ -1509,8 +1517,7 @@
                             return;
                         }
                         else {
-                            refreshGroupList($("#parent"));
-                            refreshGroupList($("#group"));
+                            refreshGroupList( );
 
                             if( tgID != 0 ) {
                                 $("#groupTitle_" + tgID).html( obj.data.title );

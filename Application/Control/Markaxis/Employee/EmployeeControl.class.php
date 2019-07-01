@@ -33,7 +33,7 @@ class EmployeeControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-        $this->EmployeeView->printAll( $this->EmployeeView->renderSettings( $output ) );
+        $this->EmployeeView->renderSettings( $output );
     }
 
 
@@ -69,7 +69,7 @@ class EmployeeControl {
      * @return void
      */
     public function list( ) {
-        $this->EmployeeView->printAll( $this->EmployeeView->renderList( ) );
+        $this->EmployeeView->renderList( );
     }
 
 
@@ -141,7 +141,6 @@ class EmployeeControl {
      */
     public function results( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->EmployeeModel->getResults( $post ) );
         exit;
     }
