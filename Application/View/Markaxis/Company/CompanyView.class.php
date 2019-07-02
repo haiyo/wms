@@ -10,7 +10,7 @@ use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CompanyView extends AdminView {
+class CompanyView {
 
 
     // Properties
@@ -27,21 +27,19 @@ class CompanyView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/CompanyRes');
 
         $this->CompanyModel = CompanyModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                            'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
-                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
-
-                                  'pages' => 'wizard_stepy.js',
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                                  'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
+                                        'pages' => 'wizard_stepy.js',
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 
@@ -51,7 +49,7 @@ class CompanyView extends AdminView {
      */
     public function renderSetup( ) {
         $this->info = $this->CompanyModel->getInfo( );
-        return $this->renderSetupForm( );
+        $this->View->printAll( $this->renderSetupForm( ), true );
     }
 
 
@@ -60,17 +58,17 @@ class CompanyView extends AdminView {
      * @return string
      */
     public function renderSettings( $data ) {
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-cog3',
-                                      'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-cog3',
+                                            'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
         $vars = array( );
         $vars['TPL_TAB'] = $data['tab'];
         $vars['TPL_FORM'] = $data['form'];
 
         if( isset( $data['js'] ) ) {
-            $this->setJScript( $data['js'] );
+            $this->View->setJScript( $data['js'] );
         }
-        return $this->render( 'markaxis/company/settings.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/company/settings.tpl', $vars ) );
     }
 
 
@@ -211,7 +209,7 @@ class CompanyView extends AdminView {
                        'TPL_COUNTRY_LIST' => $countryList,
                        'TPL_TYPE_LIST' => $companyTypeList );
 
-        return $this->render( 'markaxis/company/setupForm.tpl', $vars );
+        return $this->View->render( 'markaxis/company/setupForm.tpl', $vars );
     }
 }
 ?>

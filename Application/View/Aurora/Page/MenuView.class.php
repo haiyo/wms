@@ -26,15 +26,15 @@ class MenuView {
      * MenuView Constructor
      * @return void MessageModel $MessageModel
      */
-    function __construct( \Aurora\Page\MenuModel $MenuModel ) {
+    function __construct( ) {
         $this->View = AdminView::getInstance( );
-
         $this->Registry = Registry::getInstance( );
         $this->Authorization = $this->Registry->get(HKEY_CLASS, 'Authorization');
-        $this->MenuModel = $MenuModel;
 
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Aurora/NavRes');
+
+        $this->MenuModel = MenuModel::getInstance( );
     }
 
 

@@ -37,7 +37,10 @@
                 orderable: true,
                 searchable: false,
                 width: "100px",
-                data: "max_amount"
+                data: "max_amount",
+                render: function( data ) {
+                    return Aurora.currency + data;
+                }
             },{
                 targets: [2],
                 orderable: false,
@@ -381,11 +384,8 @@
                         <div class="form-group">
                             <label>Maximum Amount Allowed For Claim:</label>
                             <div class="form-group">
-                                <div class="col-md-4 pl-0 pb-10">
-                                    <?TPL_CURRENCY_LIST?>
-                                </div>
-                                <div class="col-md-8 p-0">
-                                    <input type="text" name="expenseAmount" id="expenseAmount" class="form-control" value=""
+                                <div class="col-md-12 p-0">
+                                    <input type="text" name="expenseAmount" id="expenseAmount" class="form-control amountInput" value=""
                                            placeholder="Enter an amount (Enter 0 for unlimited)" />
                                 </div>
                             </div>

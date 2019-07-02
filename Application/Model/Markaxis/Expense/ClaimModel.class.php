@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Expense;
-use \Aurora\User\UserModel, \Aurora\Component\CurrencyModel, \Aurora\Component\UploadModel;
-use \Library\IO\File, \Library\Util\Uploader;
-use \Library\Validator\Validator;
+use \Aurora\User\UserModel, \Aurora\Component\CurrencyModel;
+use \Aurora\Component\UploadModel;
+use \Library\Util\Uploader, \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -16,7 +16,6 @@ class ClaimModel extends \Model {
 
     // Properties
     protected $Claim;
-
 
 
     /**
@@ -172,12 +171,10 @@ class ClaimModel extends \Model {
         else {
             unset( $this->info['uID'] );
         }
-
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
-
         return true;
     }
 
@@ -235,44 +232,6 @@ class ClaimModel extends \Model {
             return true;
         }
         $this->setErrMsg( $Uploader->getFileInfo( )['error'] );
-        return false;
-    }
-
-
-    /**
-     * Upload file
-     * @return bool
-     */
-    public function updateCertificate( $data ) {
-        if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
-            $UploadModel = new UploadModel( );
-
-            if( $UploadModel->isFound( $data['uID'], $data['hashName'] ) &&
-                $this->getByEduID( $data['eduID'], '*' ) ) {
-                //check if $eduInfo['userID'] == USER || is admin
-
-                $info = array( );
-                $info['uID'] = (int)$data['uID'];
-                $this->Education->update( 'employee_education', $info, 'WHERE eduID = "' . (int)$data['eduID'] . '"' );
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * Upload file
-     * @return bool
-     */
-    public function deleteCertificate( $data ) {
-        if( isset( $data['eduID'] ) && isset( $data['uID'] ) && isset( $data['hashName'] ) ) {
-            if( $this->isFoundByUID( $data['eduID'], $data['uID'] ) ) {
-                $UploadModel = new UploadModel( );
-                return $UploadModel->deleteFile( $data['uID'], $data['hashName'] );
-            }
-        }
-        $this->setErrMsg( 'File not found!' );
         return false;
     }
 }

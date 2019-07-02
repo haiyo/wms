@@ -27,8 +27,7 @@ class ItemView {
     */
     function __construct( ) {
         $this->View = AdminView::getInstance( );
-
-        $this->Registry = Registry::getInstance();
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 

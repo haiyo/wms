@@ -9,7 +9,7 @@ use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class DepartmentView extends AdminView {
+class DepartmentView {
 
 
     // Properties
@@ -26,9 +26,8 @@ class DepartmentView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/DepartmentRes');
 
@@ -42,12 +41,12 @@ class DepartmentView extends AdminView {
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-            array( 'TPLVAR_HREF' => 'departmentList',
-                   'LANG_TEXT' => $this->L10n->getContents( 'LANG_DEPARTMENT' ) ) );
+                array( 'TPLVAR_HREF' => 'departmentList',
+                       'LANG_TEXT' => $this->L10n->getContents('LANG_DEPARTMENT') ) );
 
-        return array( 'js' => array( 'markaxis' => array( 'uSuggest.js' ) ),
-                      'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
-                      'form' => $this->render( 'markaxis/company/departmentList.tpl', $vars ) );
+        return array( 'js' => array( 'markaxis' => array('uSuggest.js') ),
+                      'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/company/departmentList.tpl', $vars ) );
     }
 }
 ?>

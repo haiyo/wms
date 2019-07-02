@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveView extends AdminView {
+class LeaveView {
 
 
     // Properties
@@ -27,9 +27,8 @@ class LeaveView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/LeaveRes');
     }
@@ -51,7 +50,7 @@ class LeaveView extends AdminView {
                 $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $row['name'],
                                                     'TPLVAR_VALUE' => $row['balance'] );
             }
-            $col_3 = $this->render( 'markaxis/payroll/processHeader.tpl', $vars );
+            $col_3 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
             return array( 'col_3' => $col_3 );
         }
     }

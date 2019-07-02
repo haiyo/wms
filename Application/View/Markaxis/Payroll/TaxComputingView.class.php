@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxComputingView extends AdminView {
+class TaxComputingView {
 
 
     // Properties
@@ -26,9 +26,8 @@ class TaxComputingView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
@@ -42,7 +41,6 @@ class TaxComputingView extends AdminView {
      */
     public function renderTaxRule( $taxRule ) {
         if( isset( $taxRule['trID'] ) && $computingInfo = $this->TaxComputingModel->getBytrID( $taxRule['trID'] ) ) {
-
             $criteriaSet = $age = $ordinary = $workforce = array( );
             $currency = $taxRule['currencyCode'] . $taxRule['currencySymbol'];
 

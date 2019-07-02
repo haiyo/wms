@@ -81,19 +81,19 @@
             </li>-->
 
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a id="notification" href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-bell2"></i>
-                    <span class="badge bg-warning-400">2</span>
+                    <span id="notificationCount" class="badge bg-warning-400"></span>
                 </a>
-                <?TPL_NOTIFICATION_LIST?>
+                <?TPL_NOTIFICATION_WINDOW?>
             </li>
 
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-bubbles4"></i>
-                    <span class="badge bg-warning-400">2</span>
+                    <span class="badge bg-warning-400"></span>
                 </a>
-                <?TPL_NOTIFICATION_LIST?>
+                <?TPL_CHAT_LIST?>
             </li>
 
             <li class="dropdown dropdown-user">

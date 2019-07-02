@@ -28,8 +28,7 @@ class EducationView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
@@ -128,7 +127,7 @@ class EducationView extends AdminView {
                                                          'TPLVAR_INDEX' => $i );
             }
         }
-        return $this->render( 'markaxis/employee/educationForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/educationForm.tpl', $vars );
     }
 }
 ?>

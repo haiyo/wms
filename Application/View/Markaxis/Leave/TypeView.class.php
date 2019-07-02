@@ -31,9 +31,8 @@ class TypeView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
@@ -49,7 +48,7 @@ class TypeView extends AdminView {
         $vars = array_merge( $this->L10n->getContents( ),
                 array( ) );
 
-        return $this->render( 'markaxis/leave/typeList.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/typeList.tpl', $vars );
     }
 
 
@@ -156,7 +155,7 @@ class TypeView extends AdminView {
                        'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
                        'TPL_CHILD_AGE_LIST' => $childAgeList ) );
 
-        return $this->render( 'markaxis/leave/typeForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/typeForm.tpl', $vars );
     }
 }
 ?>

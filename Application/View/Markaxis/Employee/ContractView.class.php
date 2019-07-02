@@ -9,7 +9,7 @@ use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ContractView extends AdminView {
+class ContractView {
 
 
     // Properties
@@ -26,9 +26,8 @@ class ContractView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/ContractRes');
 
@@ -45,8 +44,8 @@ class ContractView extends AdminView {
             array( 'TPLVAR_HREF' => 'contractList',
                    'LANG_TEXT' => $this->L10n->getContents( 'LANG_CONTRACT_TYPE' ) ) );
 
-        return array( 'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
-                      'form' => $this->render( 'markaxis/employee/contractList.tpl', $vars ) );
+        return array( 'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/employee/contractList.tpl', $vars ) );
     }
 }
 ?>

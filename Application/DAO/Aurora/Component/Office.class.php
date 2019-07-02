@@ -34,8 +34,28 @@ class Office extends \DAO {
      */
     public function getByoID( $oID ) {
         $sql = $this->DB->select( 'SELECT * FROM office o
-                                   LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID ) 
+                                   LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
+                                   LEFT JOIN country c ON ( c.cID = o.countryID )
                                    WHERE oID = "' . (int)$oID . '" AND
+                                         o.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getMainOffice( ) {
+        $sql = $this->DB->select( 'SELECT * FROM office o
+                                   LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
+                                   LEFT JOIN country c ON ( c.cID = o.countryID )
+                                   WHERE main = "1" AND
                                          o.deleted <> "1"',
                                    __FILE__, __LINE__ );
 

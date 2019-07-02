@@ -329,19 +329,12 @@
             return false;
         });
 
-        $(document).on("focus", ".amountInput", function(e) {
-            $(this).val( unFormatMoney( $(this).val( ) ) );
-        });
-
         $(document).on("blur", ".amountInput", function(e) {
-            var amountInput = formatMoney( $(this).val( ), defaultOptions );
-            $(this).val( amountInput );
-
             if( itemAdded ) {
                 var data = {
                     bundle: {
                         itemType: $("#itemType_" + itemAdded).val( ),
-                        amountInput: amountInput,
+                        amountInput: $(this).val( ),
                         data: Aurora.WebService.serializePost("#processForm")
                     },
                     success: function( res ) {
@@ -371,53 +364,6 @@
                 Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
             }
         });
-
-        var IS_NUMERIC = /^[0-9\.\,]+$/, defaultOptions = {
-                thousands: ",",
-                decimal: ".",
-                zeroes: 2
-            };
-
-        function formatMoney(n, t) {
-            n = n.replace(/[^0-9.-]+/g,"");
-            n = toFixed(n);
-            var i = [],
-                u = [],
-                r = n;
-
-            n = (n = String(n.replace(/\,/g, "")).split("."), n.length > 2) ? r : t.zeroes == 0 &&
-                        n.length == 2 ? r : t.zeroes != 0 &&
-                        n[1] != null && n[1].length > t.zeroes ? r : (n[0] != 0 &&
-                        (n[0] = n[0].replace(/^0*/, "")), (n[0] == "" || n[0] == 0) &&
-                        (n[0] = 0), i = formatThousands(n[0], t.thousands), u = formatDecimal(n[1], t.zeroes),
-                        t.zeroes == 0 ? i : i + t.decimal + u);
-
-            return $("#currency").val( ) + n;
-        }
-
-        function formatThousands(n, t) {
-            var r = [],
-                i;
-            for (n = String(n).split("").reverse(), i = 0; i < n.length; i++) i % 3 == 0 && i !== 0 && r.push(t), r.push(n[i]);
-            return r.reverse().join("")
-        }
-
-        function formatDecimal(n, t) {
-            for (n = n || 0, n = String(n).substr(0, t), t = t - n.length, t; t > 0; t--) n = n + "0";
-            return n
-        }
-
-        function toFixed(n) {
-            if( Math.abs(n) < 1 ) {
-                var t = parseInt(n.toString().split("E-")[1]);
-                t && (n *= Math.pow(10, t - 1), n = "0." + new Array(t).join("0") + n.toString().substring(2))
-            }
-            return n
-        }
-
-        function unFormatMoney( n ) {
-            return n.replace(/[^0-9.-]+/g,"");
-        }
 
         function addItem( ) {
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");

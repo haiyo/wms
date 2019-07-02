@@ -13,6 +13,9 @@
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
         <observer controller="Aurora/Page/DashboardControl"></observer>
     </task>
+    <task type="notification">
+        <observer controller="Aurora/Notification/NotificationControl"></observer>
+    </task>
     <task type="chat">
         <observer controller="Aurora/Chat/RoomControl"></observer>
         <observer controller="Aurora/Chat/UserControl"></observer>
@@ -131,6 +134,9 @@
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
     </task>
     <task type="payroll/overview">
+        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+    </task>
+    <task type="payroll/getProcessPass">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/processPayroll">

@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ExperienceView extends AdminView {
+class ExperienceView {
 
 
     // Properties
@@ -28,8 +28,7 @@ class ExperienceView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
@@ -122,7 +121,7 @@ class ExperienceView extends AdminView {
                                                           'TPLVAR_INDEX' => $i );
             }
         }
-        return $this->render( 'markaxis/employee/experienceForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/experienceForm.tpl', $vars );
     }
 }
 ?>

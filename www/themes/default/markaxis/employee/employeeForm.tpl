@@ -44,21 +44,14 @@
             <?TPL_ROLE_LIST?>
         </div>
 
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>Select Currency:</label>
-                <?TPL_CURRENCY_LIST?>
-            </div>
-        </div>
-
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
                 <label>Basic Salary:</label>
-                <input type="text" name="salary" placeholder="5000" class="form-control" value="<?TPLVAR_SALARY?>" />
+                <input type="text" name="salary" placeholder="5000" class="form-control amountInput" value="<?TPLVAR_SALARY?>" />
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
                 <label>Salary Type:</label>
                 <?TPL_SALARY_TYPE?>

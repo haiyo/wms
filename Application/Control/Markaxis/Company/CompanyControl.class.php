@@ -31,7 +31,7 @@ class CompanyControl {
      * @return string
      */
     public function setup( ) {
-        $this->CompanyView->printAll( $this->CompanyView->renderSetup( ), true );
+        $this->CompanyView->renderSetup( );
     }
 
 
@@ -41,7 +41,7 @@ class CompanyControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-        $this->CompanyView->printAll( $this->CompanyView->renderSettings( $output ) );
+        $this->CompanyView->renderSettings( $output );
     }
 
 

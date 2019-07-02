@@ -11,7 +11,7 @@ use \Library\Helper\Aurora\DayHelper;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class OfficeView extends AdminView {
+class OfficeView {
 
 
     // Properties
@@ -28,8 +28,7 @@ class OfficeView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/OfficeRes');
@@ -61,8 +60,8 @@ class OfficeView extends AdminView {
                        'TPL_WORK_DAY_FROM' => $workDayFromList,
                        'TPL_WORK_DAY_TO' => $workDayToList ) );
 
-        return array( 'tab'  => $this->render( 'aurora/core/tab.tpl', $vars ),
-                      'form' => $this->render( 'markaxis/company/officeList.tpl', $vars ) );
+        return array( 'tab'  => $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/company/officeList.tpl', $vars ) );
     }
 }
 ?>

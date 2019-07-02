@@ -11,7 +11,7 @@ use \Library\Runtime\Registry, \Library\Util\Date;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ClaimView extends AdminView {
+class ClaimView {
 
 
     // Properties
@@ -27,21 +27,20 @@ class ClaimView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
         $this->ClaimModel = ClaimModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
-                                  'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                  'plugins/forms' => array( 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                  'plugins/uploaders' => array( 'fileinput.min.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/moment' => 'moment.min.js',
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
+                                        'plugins/forms' => array( 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
+                                        'plugins/uploaders' => array( 'fileinput.min.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
     }
 
 
@@ -50,9 +49,9 @@ class ClaimView extends AdminView {
      * @return mixed
      */
     public function renderClaimList( ) {
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-coins',
-                                      'text' => $this->L10n->getContents('LANG_EXPENSES_CLAIM') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-coins',
+                                            'text' => $this->L10n->getContents('LANG_EXPENSES_CLAIM') ) );
 
         $ExpenseModel = ExpenseModel::getInstance( );
         $CurrencyModel = CurrencyModel::getInstance( );
@@ -64,11 +63,11 @@ class ClaimView extends AdminView {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList,
                                                                  'TPLVAR_EXPENSE_LIST' => $expenseList ) );
 
-        $this->setJScript( array( 'markaxis' => array( 'usuggest.js' ),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                            'input/typeahead.bundle.min.js', 'input/handlebars.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'usuggest.js' ),
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                                  'input/typeahead.bundle.min.js', 'input/handlebars.js' ) ) );
 
-        return $this->render( 'markaxis/expense/claimList.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/expense/claimList.tpl', $vars ) );
     }
 
 
@@ -108,7 +107,7 @@ class ClaimView extends AdminView {
                                                     'TPLVAR_VALUE' => $row['code'] . $row['symbol'] . $row['amount'],
                                                     'TPLVAR_ATTACHMENT' => $attachment );
 
-                return $this->render( 'aurora/page/tableRowRequest.tpl', $vars );
+                return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
             }
         }
     }

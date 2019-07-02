@@ -31,12 +31,12 @@ class TaxGroup extends \DAO {
      * @return mixed
      */
     public function getList( $selectable ) {
-        $list = array( );
         $selectable = $selectable ? ' WHERE selectable = "1"' : '';
 
         $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group' . $selectable,
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['tgID']] = $row['title'];
@@ -51,11 +51,11 @@ class TaxGroup extends \DAO {
      * @return mixed
      */
     public function getSelectList( ) {
+        $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group',
+                                   __FILE__, __LINE__ );
+
         $list = array( );
         $list[] = array( 'tgID' => 0, 'parent' => 0, 'id' => 0, 'text' => 'None' );
-
-        $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group',
-            __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -71,11 +71,10 @@ class TaxGroup extends \DAO {
      * @return mixed
      */
     public function getAll( ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group',
                                     __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;

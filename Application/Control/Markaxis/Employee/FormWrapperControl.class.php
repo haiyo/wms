@@ -32,7 +32,7 @@ class FormWrapperControl {
         $output = Control::getOutputArray( );
 
         $FormWrapperView = new FormWrapperView( );
-        $FormWrapperView->printAll( $FormWrapperView->renderAdd( $output['form'] ) );
+        $FormWrapperView->renderAdd( $output['form'] );
     }
 
 
@@ -48,7 +48,7 @@ class FormWrapperControl {
         $photo = isset( $output['photo'] ) ? $output['photo'] : '';
 
         $FormWrapperView = new FormWrapperView( );
-        $FormWrapperView->printAll( $FormWrapperView->renderEdit( $form, $userID, $photo ) );
+        $FormWrapperView->renderEdit( $form, $userID, $photo );
     }
 
 

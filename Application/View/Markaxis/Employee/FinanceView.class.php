@@ -15,7 +15,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class FinanceView extends AdminView {
+class FinanceView {
 
 
     // Properties
@@ -31,8 +31,7 @@ class FinanceView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/AdditionalRes');
@@ -132,7 +131,7 @@ class FinanceView extends AdminView {
                        'TPL_PAYMENT_METHOD_LIST' => $paymentMethodList,
                        'TPL_BANK_LIST' => $bankList ) );
 
-        return $this->render( 'markaxis/employee/financeForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/financeForm.tpl', $vars );
     }
 }
 ?>

@@ -48,6 +48,15 @@ class OfficeModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
+    public function getMainOffice( ) {
+        return $this->Office->getMainOffice( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
     public function getList( ) {
         $list = $this->Office->getList( );
         $newList = array( );

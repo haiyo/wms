@@ -21,8 +21,8 @@ class Notification extends \DAO {
     public function getUnreadCount( $userID ) {
         $sql = $this->DB->select( 'SELECT COUNT(nuID) FROM notification_user nu
                                    WHERE nu.toUserID = "' . (int)$userID . '" AND
-                                         nu.isRead = "0"',
-            __FILE__, __LINE__ );
+                                         nu.hasRead = "0"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -34,12 +34,12 @@ class Notification extends \DAO {
      */
     public function getByUserID( $userID ) {
         $list = array( );
-        $sql = $this->DB->select( 'SELECT *, nu.created AS nuCreated FROM notification_user nu
+        $sql = $this->DB->select( 'SELECT *, n.created AS created FROM notification_user nu
                                           LEFT JOIN notification n ON(n.nID = nu.nID)
                                           LEFT JOIN user u ON(u.userID = nu.userID)
                                           LEFT OUTER JOIN user_image ui ON(ui.userID = nu.userID)
                                    WHERE nu.toUserID = "' . (int)$userID . '"
-                                          ORDER BY nuCreated DESC ' . $this->limit,
+                                          ORDER BY n.created DESC ' . $this->limit,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

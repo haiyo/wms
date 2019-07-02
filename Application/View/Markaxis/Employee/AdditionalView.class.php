@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class AdditionalView extends AdminView {
+class AdditionalView {
 
 
     // Properties
@@ -30,8 +30,7 @@ class AdditionalView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/AdditionalRes');
@@ -73,7 +72,8 @@ class AdditionalView extends AdminView {
         $SelectListView = new SelectListView( );
         $RecruitSourceModel = RecruitSourceModel::getInstance( );
         $rsID = isset( $this->info['rsID'] ) ? $this->info['rsID'] : '';
-        $rsList = $SelectListView->build( 'recruitSource',  $RecruitSourceModel->getList( ), $rsID, 'Select Recruitment Source' );
+        $rsList = $SelectListView->build( 'recruitSource',  $RecruitSourceModel->getList( ),
+                                            $rsID, 'Select Recruitment Source' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_RS_LIST' => $rsList,
@@ -117,7 +117,7 @@ class AdditionalView extends AdminView {
                                                         'TPL_ERS_LIST' => $eRsList ) );
             }
         }
-        return $this->render( 'markaxis/employee/additionalForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/additionalForm.tpl', $vars );
     }
 }
 ?>

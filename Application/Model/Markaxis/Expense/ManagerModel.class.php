@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Expense;
 use \Markaxis\Employee\EmployeeModel;
+use \Aurora\Notification\NotificationModel;
+use \Library\Interfaces\IObservable;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +11,7 @@ use \Markaxis\Employee\EmployeeModel;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ManagerModel extends \Model {
+class ManagerModel extends \Model implements IObservable {
 
 
     // Properties
@@ -23,9 +25,10 @@ class ManagerModel extends \Model {
     function __construct() {
         parent::__construct();
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-        $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
+        $this->L10n = $i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
         $this->Manager = new Manager( );
+        $this->addObservers( new NotificationModel( ) );
     }
 
 
@@ -136,6 +139,13 @@ class ManagerModel extends \Model {
                 if( sizeof( $success ) > 0 ) {
                     $this->Manager->delete('expense_claim_manager', 'WHERE ecID = "' . (int)$data['ecID'] . '" AND 
                                               managerID NOT IN(' . addslashes( implode( ',', $success ) ) . ')' );
+
+                    $this->info['userID'] = $data['userID'];
+                    $this->info['toUserID'] = $success;
+                    $this->info['url'] = $data['userID'];
+                    $this->info['message'] = $this->L10n->getContents('LANG_CLAIM_PENDING_APPROVAL');
+                    $this->info['created'] = $data['created'];
+                    $this->notifyObservers('notify' );
                 }
             }
         }

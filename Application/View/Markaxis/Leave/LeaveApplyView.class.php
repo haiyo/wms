@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveApplyView extends AdminView {
+class LeaveApplyView {
 
 
     // Properties
@@ -28,9 +28,8 @@ class LeaveApplyView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
@@ -67,7 +66,7 @@ class LeaveApplyView extends AdminView {
             $vars['TPLVAR_CLOSE_TIME'] = $officeInfo['closeTime'];
         }
         return array( 'js' => array( 'markaxis' => array( 'usuggest.js', 'applyLeave.js' ) ),
-                      'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
+                      'content' => $this->View->render( 'markaxis/leave/applyForm.tpl', $vars ) );
     }
 
 
@@ -97,7 +96,7 @@ class LeaveApplyView extends AdminView {
                 }
                 $pdVars['TPLVAR_START_DATE'] = $row['startDate'];
                 $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
-                $reason = $this->render( 'markaxis/leave/pending_description.tpl', $pdVars );
+                $reason = $this->View->render( 'markaxis/leave/pending_description.tpl', $pdVars );
 
                 $UserImageModel = UserImageModel::getInstance( );
 
@@ -113,7 +112,7 @@ class LeaveApplyView extends AdminView {
                                                     'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
                                                     'TPLVAR_ATTACHMENT' => '' );
 
-                return $this->render( 'aurora/page/tableRowRequest.tpl', $vars );
+                return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
             }
         }
     }

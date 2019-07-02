@@ -61,19 +61,11 @@ class ManagerControl {
     public function apply( ) {
         $post = Control::getPostData( );
 
-        if( $post['laID'] ) {
+        if( isset( $post['laID'] ) && $post['laID'] ) {
             $post['hasSup'] = $this->ManagerModel->save( $post );
 
             $vars['bool'] = 1;
             $vars['data'] = $post;
-            echo json_encode( $vars );
-            exit;
-        }
-        else {
-            $LeaveApplyModel = LeaveApplyModel::getInstance( );
-
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $LeaveApplyModel->getErrMsg( );
             echo json_encode( $vars );
             exit;
         }

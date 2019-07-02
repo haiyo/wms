@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class FormWrapperView extends AdminView {
+class FormWrapperView {
 
 
     // Properties
@@ -28,23 +28,22 @@ class FormWrapperView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
         $this->EmployeeModel = EmployeeModel::getInstance( );
 
-        $this->setStyle( array( 'core' => 'croppie' ) );
+        $this->View->setStyle( array( 'core' => 'croppie' ) );
 
-        $this->setJScript( array( 'core' => 'aurora.uploader.js',
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                            'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
-                                  'markaxis' => array( 'employee.js', 'uSuggest.js', 'competency.js' ) ) );
+        $this->View->setJScript( array( 'core' => 'aurora.uploader.js',
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                                  'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'markaxis' => array( 'employee.js', 'uSuggest.js', 'competency.js' ) ) );
     }
 
 
@@ -53,10 +52,10 @@ class FormWrapperView extends AdminView {
      * @return string
      */
     public function renderAdd( $form ) {
-        $this->setBreadcrumbs( array( 'link' => 'admin/employee/add',
-                                      'icon' => 'icon-user-plus',
-                                      'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
-        return $this->renderForm( $form );
+        $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/add',
+                                            'icon' => 'icon-user-plus',
+                                            'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
+        $this->View->printAll( $this->renderForm( $form ) );
     }
 
 
@@ -65,11 +64,11 @@ class FormWrapperView extends AdminView {
      * @return string
      */
     public function renderEdit( $form, $userID, $photo ) {
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-user-plus',
-                                      'text' => $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-user-plus',
+                                            'text' => $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') ) );
 
-        return $this->renderForm( $form, $userID, $photo );
+        $this->View->printAll( $this->renderForm( $form, $userID, $photo ) );
     }
 
 
@@ -137,7 +136,7 @@ class FormWrapperView extends AdminView {
                 $vars['dynamic']['designation'][] = array( 'TPLVAR_DESIGNATION' => $dInfo[$key]['title'] );
             }
         }
-        return $this->render( 'markaxis/employee/formWrapper.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/formWrapper.tpl', $vars );
     }
 }
 ?>

@@ -41,7 +41,7 @@ class ClaimControl {
      * @return string
      */
     public function claim( ) {
-        $this->ClaimView->printAll( $this->ClaimView->renderClaimList( ) );
+        $this->ClaimView->renderClaimList( );
     }
 
 
@@ -90,8 +90,7 @@ class ClaimControl {
      * @return string
      */
     public function reprocessPayroll( ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->ClaimModel->processPayroll( $data ) );
+        $this->processPayroll( );
     }
 
 
@@ -103,8 +102,8 @@ class ClaimControl {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
         if( $this->ClaimModel->isValid( $post ) ) {
-            $post['ecID'] = $this->ClaimModel->save( );
-            Control::setPostData( $post );
+            $this->ClaimModel->save( );
+            Control::setPostData( array_merge( $post, $this->ClaimModel->getInfo( ) ) );
         }
         else {
             $vars['bool'] = 0;

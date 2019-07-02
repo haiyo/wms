@@ -9,7 +9,7 @@ use \Library\Runtime\Registry, \Aurora\Admin\AdminView, \Aurora\Form\SelectListV
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class DesignationView extends AdminView {
+class DesignationView {
 
 
     // Properties
@@ -26,8 +26,7 @@ class DesignationView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/DesignationRes');
@@ -44,8 +43,8 @@ class DesignationView extends AdminView {
         $designationGroupList = $this->DesignationModel->getGroupList( );
 
         $SelectListView = new SelectListView( );
-        return $SelectListView->build( 'dID', $designationGroupList, '',
-                                        'Select Designation Group' );
+        return $SelectListView->build('dID', $designationGroupList, '',
+                                      'Select Designation Group' );
     }
 
 
@@ -55,12 +54,12 @@ class DesignationView extends AdminView {
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
-            array( 'TPLVAR_HREF' => 'designationList',
-                   'LANG_TEXT' => $this->L10n->getContents( 'LANG_DESIGNATION' ),
-                   'TPL_DESIGNATION_GROUP_LIST' => $this->renderGroupList( ) ) );
+                array( 'TPLVAR_HREF' => 'designationList',
+                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_DESIGNATION' ),
+                       'TPL_DESIGNATION_GROUP_LIST' => $this->renderGroupList( ) ) );
 
-        return array( 'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
-                      'form' => $this->render( 'markaxis/employee/designationList.tpl', $vars ) );
+        return array( 'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/employee/designationList.tpl', $vars ) );
     }
 }
 ?>

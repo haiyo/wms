@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\Notification;
 use \Aurora\User\UserModel;
+use \Library\Interfaces\IObservable, \Library\Helper\HTMLHelper;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -33,7 +34,7 @@ class NotificationModel extends \Model {
      * Return list by userID
      * @return mixed
      */
-    public function getByUserID( $curPage=1, $pageLimit=10 ) {
+    public function getByUserID( $curPage=0, $pageLimit=10 ) {
         $this->Notification->setLimit( $curPage, $pageLimit );
         return $this->Notification->getByUserID( $this->userInfo['userID'] );
     }
@@ -54,7 +55,7 @@ class NotificationModel extends \Model {
      */
     public function markRead( ) {
         return $this->Notification->update('notification_user',
-                                            array( 'isRead' => 1 ),
+                                            array( 'hasRead' => 1 ),
                                            'WHERE toUserID = "' . (int)$this->userInfo['userID'] . '"' );
     }
 
@@ -63,11 +64,16 @@ class NotificationModel extends \Model {
      * Add new notification
      * @return int
      */
-    public function notify( $userID, $toUserID, $url, $created=NULL ) {
-        if( !$created ) {
-            $info['created'] = date( 'Y-m-d H:i:s' );
+    public function notify( IObservable $object ) {
+        $this->info = $object->getInfo( );
+
+        if( isset( $this->info['userID'] ) && isset( $this->info['toUserID'] ) &&
+            isset( $this->info['message'] ) && isset( $this->info['url'] ) ) {
+            if( isset( $this->info['userID'] ) || !$this->info['ceated'] ) {
+                $this->info['created'] = date( 'Y-m-d H:i:s' );
+            }
+            $this->create( );
         }
-        $this->create( $userID, $toUserID, $url, $created );
     }
 
 
@@ -75,13 +81,28 @@ class NotificationModel extends \Model {
      * Add new notification
      * @return int
      */
-    public function create( $userID, $toUserID, $url, $created ) {
+    public function create( ) {
         $info = array( );
-        $info['userID'] = (int)$userID;
-        $info['toUserID'] = (int)$toUserID;
-        $info['url'] = $url;
-        $info['created'] = $created;
-        return $this->Notification->insert( 'notification', $info );
+        $info['message'] = $this->info['message'];
+        $info['url'] = $this->info['url'];
+        $info['created'] = $this->info['created'];
+
+        $HTMLHelper = new HTMLHelper( );
+        $vars = array( );
+        $vars['TPLVAR_FNAME'] = $this->userInfo['fname'];
+        $vars['TPLVAR_LNAME'] = $this->userInfo['lname'];
+        $info['message'] = $HTMLHelper->parseTemplate( $this->info['message'], $vars );
+        $nID = $this->Notification->insert( 'notification', $info );
+
+        if( is_array( $this->info['toUserID'] ) ) {
+            foreach( $this->info['toUserID'] as $toUserID ) {
+                $info = array( );
+                $info['nID'] = (int)$nID;
+                $info['userID'] = (int)$this->info['userID'];
+                $info['toUserID'] = (int)$toUserID;
+                $this->Notification->insert( 'notification_user', $info );
+            }
+        }
     }
 }
 ?>

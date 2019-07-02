@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ExpenseView extends AdminView {
+class ExpenseView {
 
 
     // Properties
@@ -27,21 +27,20 @@ class ExpenseView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
         $this->ExpenseModel = ExpenseModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
-                                  'plugins/moment' => 'moment.min.js',
-                                  'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
+                                        'plugins/moment' => 'moment.min.js',
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
     }
 
 
@@ -54,7 +53,7 @@ class ExpenseView extends AdminView {
         $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), '', 'Currency' );
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList ) );
 
-        return $this->render( 'markaxis/expense/expenseList.tpl', $vars );
+        return $this->View->render( 'markaxis/expense/expenseList.tpl', $vars );
     }
 }
 ?>

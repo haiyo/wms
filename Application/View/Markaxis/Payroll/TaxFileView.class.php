@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxFileView extends AdminView {
+class TaxFileView {
 
 
     // Properties
@@ -28,21 +28,20 @@ class TaxFileView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->TaxFileModel = TaxModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
-                                  'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                  'plugins/uploaders' => array( 'fileinput.min.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/moment' => 'moment.min.js',
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
+                                        'plugins/uploaders' => array( 'fileinput.min.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
     }
 
 
@@ -51,12 +50,12 @@ class TaxFileView extends AdminView {
      * @return string
      */
     public function renderTaxFile( ) {
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-coins',
-                                      'text' => $this->L10n->getContents('LANG_TAX_FILING') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-coins',
+                                            'text' => $this->L10n->getContents('LANG_TAX_FILING') ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
-        return $this->render( 'markaxis/payroll/taxFile.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/payroll/taxFile.tpl', $vars ) );
     }
 
 
@@ -103,11 +102,11 @@ class TaxFileView extends AdminView {
                        'TPL_DESIGNATION_LIST' => $designationList,
                        'TPL_IDENTITY_TYPE_LIST' => $idTypeList ) );
 
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-coins',
-                                      'text' => $this->L10n->getContents('LANG_TAX_FILING') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-coins',
+                                            'text' => $this->L10n->getContents('LANG_TAX_FILING') ) );
 
-        return $this->render( 'markaxis/payroll/taxFileForm.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/payroll/taxFileForm.tpl', $vars ) );
     }
 }
 ?>

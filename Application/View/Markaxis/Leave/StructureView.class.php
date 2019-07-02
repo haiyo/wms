@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class StructureView extends AdminView {
+class StructureView {
 
 
     // Properties
@@ -26,9 +26,8 @@ class StructureView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
@@ -45,7 +44,7 @@ class StructureView extends AdminView {
                 array(  ) );
 
         $vars['dynamic']['structure'] = false;
-        return $this->render( 'markaxis/leave/structureForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/structureForm.tpl', $vars );
     }
 
 
@@ -55,7 +54,7 @@ class StructureView extends AdminView {
      */
     public function renderEditType( $ltID ) {
         $vars = array_merge( $this->L10n->getContents( ),
-            array(  ) );
+                array(  ) );
 
         $vars['dynamic']['structure'] = false;
 
@@ -70,7 +69,7 @@ class StructureView extends AdminView {
                 $id++;
             }
         }
-        return $this->render( 'markaxis/leave/structureForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/structureForm.tpl', $vars );
     }
 }
 ?>

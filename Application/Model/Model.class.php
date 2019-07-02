@@ -10,7 +10,7 @@ use \Library\Interfaces\IObserver;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-abstract class Model extends SingletonHelper {
+abstract class Model extends SingletonHelper implements IObserver {
 
 
     // Properties
@@ -32,6 +32,15 @@ abstract class Model extends SingletonHelper {
         $this->info = array( );
         $this->observers = array( );
 	}
+
+
+    /**
+     * Performs message actions
+     * @return void
+     */
+    public function onChanged( $sender, $action ) {
+        $this->$action( $sender );
+    }
 
 
     /**
@@ -83,32 +92,6 @@ abstract class Model extends SingletonHelper {
 
 
     /**
-    * Retrieve Droplet Settings
-    * @return mixed
-    */
-    public function getSetInfo( $dropletID=NULL ) {
-        if( $dropletID != NULL ) {
-            $DropletModel = new DropletModel( );
-
-            if( $setInfo = $DropletModel->getSettings( $dropletID ) ) {
-                return $setInfo;
-            }
-        }
-        return $this->setInfo;
-    }
-
-
-    /**
-    * Save Droplet Settings
-    * @return mixed
-    */
-    public function saveSettings( $dropletID, $setInfo ) {
-        $DropletModel = new DropletModel( );
-        $DropletModel->saveSettings( $dropletID, $setInfo );
-    }
-
-
-    /**
     * Provides a custom to check on all Observer classes are valid before notify
     * @return void
     */
@@ -124,7 +107,7 @@ abstract class Model extends SingletonHelper {
     public function notifyObservers( $action ) {
         $sizeof = sizeof( $this->observers );
         for( $i=0; $i<$sizeof; $i++ ) {
-			$this->observers[$i]->init( $this, $action );
+			$this->observers[$i]->onChanged( $this, $action );
 		}
     }
 }

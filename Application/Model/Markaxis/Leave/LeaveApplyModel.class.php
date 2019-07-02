@@ -278,7 +278,6 @@ class LeaveApplyModel extends \Model {
                     else if( $hoursDiff ) {
                         $hours = $this->L10n->getText( 'LANG_APPLY_HOURS', $hoursDiff );
                     }
-
                     if( $daysDiff ) {
                         $days = $this->L10n->getText( 'LANG_APPLY_DAYS', $daysDiff );
                     }

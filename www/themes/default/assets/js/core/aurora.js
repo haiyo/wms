@@ -9,19 +9,33 @@ $(document).ready( function( ) {
 
     var queue = [];
     var filesLoaded = [];
+    var IS_NUMERIC = /^[0-9\.\,]+$/, defaultOptions = {
+        thousands: ",",
+        decimal: ".",
+        zeroes: 2
+    };
 
 
     /**
     * Aurora.Init Namespace
     */
     Aurora.Init = {
-
         start : function( ) {
+            var parent = this;
+
             if( $(".nav-tabs").length > 0 ) {
                 $(".nav-tabs li:first-child a").click( );
             }
 
-            $(document).on("change", "#country", function(e) {
+            $(document).on("focus", ".amountInput", function(e) {
+                $(this).val( Aurora.String.unFormatMoney( $(this).val( ) ) );
+            });
+            $(document).on("blur", ".amountInput", function(e) {
+                var amountInput = Aurora.String.formatMoney( $(this).val(), defaultOptions );
+                $(this).val( amountInput );
+            });
+
+            /*$(document).on("change", "#country", function(e) {
                 if( $("#state").length > 0 ) {
                     $("#state").empty();
 
@@ -47,7 +61,6 @@ $(document).ready( function( ) {
                     Aurora.WebService.AJAX( "admin/stateList", data );
                 }
             });
-
             $(document).on("change", "#state", function(e) {
                 if( $("#city").length > 0 ) {
                     $("#city").empty();
@@ -69,8 +82,8 @@ $(document).ready( function( ) {
                     };
                     Aurora.WebService.AJAX( "admin/cityList", data );
                 }
-            });
-        },
+            });*/
+        }
     },
 
 
@@ -749,6 +762,46 @@ $(document).ready( function( ) {
         */
         escID : function( id ) {
             return id.replace(/(:|\.)/g,'\\$1');
+        },
+
+        formatMoney: function(n, t) {
+            n = n.replace(/[^0-9.-]+/g,"");
+            n = this.toFixed(n);
+            var i = [],
+                u = [],
+                r = n;
+
+            n = (n = String(n.replace(/\,/g, "")).split("."), n.length > 2) ?
+                r : t.zeroes === 0 && n.length === 2 ? r : t.zeroes !== 0 &&
+                n[1] != null && n[1].length > t.zeroes ? r : (n[0] !== 0 &&
+                (n[0] = n[0].replace(/^0*/, "")), (n[0] === "" || n[0] === 0) &&
+                (n[0] = 0), i = this.formatThousands(n[0], t.thousands), u = this.formatDecimal(n[1], t.zeroes),
+                    t.zeroes === 0 ? i : i + t.decimal + u);
+
+            return Aurora.currency + n;
+        },
+
+        formatThousands: function(n, t) {
+            var r = [], i;
+            for (n = String(n).split("").reverse(), i = 0; i < n.length; i++) i % 3 === 0 && i !== 0 && r.push(t), r.push(n[i]);
+            return r.reverse().join("")
+        },
+
+        formatDecimal: function(n, t) {
+            for (n = n || 0, n = String(n).substr(0, t), t = t - n.length, t; t > 0; t--) n = n + "0";
+            return n
+        },
+
+        toFixed: function(n) {
+            if( Math.abs(n) < 1 ) {
+                var t = parseInt(n.toString().split("E-")[1]);
+                t && (n *= Math.pow(10, t - 1), n = "0." + new Array(t).join("0") + n.toString().substring(2))
+            }
+            return n
+        },
+
+        unFormatMoney: function( n ) {
+            return n.replace(/[^0-9.-]+/g,"");
         }
     },
 

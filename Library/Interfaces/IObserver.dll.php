@@ -14,6 +14,6 @@ interface IObserver {
     * Retrieve notification call from Observable class
     * @return void
     */
-    public function init( $sender, $event );
+    public function onChanged( $sender, $event );
 }
 ?>

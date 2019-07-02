@@ -1,7 +1,6 @@
 <?php
 namespace Aurora\Admin;
-use \Aurora\User\UserModel;
-use \Aurora\Page\MenuModel, \Aurora\Page\MenuView;
+use \Aurora\User\UserModel, \Aurora\Component\OfficeModel, \Aurora\Page\MenuView;
 use \Library\Helper\HTMLHelper, \Aurora\Notification\NotificationView;
 use \Library\Helper\SingletonHelper, \Library\Runtime\Registry;
 
@@ -50,12 +49,17 @@ class AdminView extends SingletonHelper {
         $this->userInfo = UserModel::getInstance( )->getInfo( );
         $userID = isset( $this->userInfo['userID'] ) ? '&USERID=' . (int)$this->userInfo['userID'] : '';
 
+        $OfficeModel = OfficeModel::getInstance( );
+        $officeInfo = $OfficeModel->getMainOffice( );
+
         $this->setJScript( array( 'aurora.noiframe' => 'aurora/aurora.noiframe.js',
                                   'jquery' => 'jquery-3.3.1.min.js',
-                                  'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'aurora.init.js.php?' .
-                                                   'ROOT_URL=' . urlencode( ROOT_URL ) .
+                                  'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'notification.js',
+                                                   'aurora.init.js.php?ROOT_URL=' . urlencode( ROOT_URL ) .
                                                    '&THEME=' . $this->HKEY_LOCAL['theme'] .
-                                                   '&LANG=' . $this->i18n->getUserLang( ) . $userID ),
+                                                   '&LANG=' . $this->i18n->getUserLang( ) .
+                                                   '&currency=' . $officeInfo['currencyCode'] .
+                                                                  $officeInfo['currencySymbol'] . $userID ),
                                   'plugins/loaders' => array( 'blockui.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/forms/selects' => array( 'bootstrap_multiselect.js', 'select2.min.js' ),
@@ -199,15 +203,15 @@ class AdminView extends SingletonHelper {
         if( sizeof( $this->js ) > 0 ) {
             foreach( $this->js as $jname ) {
                 $jsLoad[] = array( 'TPLVAR_ROOT_URL' => ROOT_URL,
-                    'TPLVAR_JNAME'    => $jname );
+                                   'TPLVAR_JNAME'    => $jname );
             }
             $vars['dynamic']['jsRow'] = $jsLoad;
         }
         if( is_array( $this->css ) ) {
             foreach( $this->css as $cssname ) {
                 $cssLoad[] = array( 'TPLVAR_ROOT_URL' => ROOT_URL,
-                    'TPLVAR_CSSNAME'  => $cssname,
-                    'TPLVAR_MICRO' => MD5(microtime( ) ) );
+                                    'TPLVAR_CSSNAME'  => $cssname,
+                                    'TPLVAR_MICRO' => MD5(microtime( ) ) );
             }
             $vars['dynamic']['cssRow'] = $cssLoad;
         }
@@ -229,15 +233,14 @@ class AdminView extends SingletonHelper {
      * @return string
      */
     public function renderNavBar( ) {
-        $MenuModel = MenuModel::getInstance( );
-        $MenuView = new MenuView( $MenuModel );
+        $MenuView = new MenuView( );
         $NotificationView = new NotificationView( );
 
         return $this->render('aurora/core/navBar.tpl',
                             array( 'TPL_MENU' => $MenuView->renderMenu( ),
                                    'TPLVAR_FNAME' => $this->userInfo['fname'],
                                    'TPLVAR_LNAME' => $this->userInfo['lname'],
-                                   'TPL_NOTIFICATION_LIST' => $NotificationView->renderWindow( ) ) );
+                                   'TPL_NOTIFICATION_WINDOW' => $NotificationView->renderWindow( ) ) );
     }
 
 
@@ -271,7 +274,7 @@ class AdminView extends SingletonHelper {
                                                            'LANG_TEXT' => $crumbs['text'] );
             }
         }
-        return $this->render( 'aurora/page/pageHeader.tpl', $vars );
+        return $this->render('aurora/page/pageHeader.tpl', $vars );
     }
 
 
@@ -281,7 +284,7 @@ class AdminView extends SingletonHelper {
      */
     public function renderFooter( ) {
         $vars = array( 'TPLVAR_AURORA_VERSION' => AURORA_VERSION );
-        return $this->render( 'aurora/core/footer.tpl', $vars );
+        return $this->render('aurora/core/footer.tpl', $vars );
     }
 
 
@@ -295,7 +298,7 @@ class AdminView extends SingletonHelper {
                        'TPL_PAGE_HEADER' => !$setup ? $this->renderPageHeader( ) : '',
                        'TPL_CONTENT' => $template );
 
-        $content = $this->render( 'aurora/page/left.tpl', $vars );
+        $content = $this->render('aurora/page/left.tpl', $vars );
 
         header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
         header('Expires: 0');

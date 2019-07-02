@@ -279,7 +279,6 @@
             ignore: "",
             rules: {
                 expense: { required: true },
-                currency: { required: true },
                 claimAmount: { required: true }
             },
             messages: {

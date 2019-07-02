@@ -1,7 +1,8 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
-use \Library\Validator\Validator;
+use \Aurora\Notification\NotificationModel;
+use \Library\Interfaces\IObservable;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -10,7 +11,7 @@ use \Library\Validator\Validator;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ManagerModel extends \Model {
+class ManagerModel extends \Model implements IObservable {
 
 
     // Properties
@@ -24,9 +25,10 @@ class ManagerModel extends \Model {
     function __construct() {
         parent::__construct();
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-        $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
+        $this->L10n = $i18n->loadLanguage('Markaxis/Leave/ManagerRes');
 
         $this->Manager = new Manager( );
+        $this->addObservers( new NotificationModel( ) );
     }
 
 
@@ -115,6 +117,7 @@ class ManagerModel extends \Model {
      */
     public function save( $data ) {
         $hasSup = false;
+        $managerIDs = array( );
 
         // Make sure userID has "passed" from UserModel before proceed
         if( isset( $data['managers'] ) && isset( $data['laID'] ) && $data['laID'] ) {
@@ -130,13 +133,18 @@ class ManagerModel extends \Model {
                         $info = array( );
                         $info['laID'] = (int)$data['laID'];
                         $info['managerID'] = $value;
-                        $this->Manager->insert( 'leave_apply_manager', $info );
-
-                        $NotificationModel = NotificationModel::getInstance( );
-                        $NotificationModel->notify( $data['userID'], $info['managerID'], $url, $data['created'] );
-
+                        $this->Manager->insert('leave_apply_manager', $info );
+                        array_push($managerIDs, $info['managerID'] );
                         $hasSup = true;
                     }
+                }
+                if( $hasSup ) {
+                    $this->info['userID'] = $data['userID'];
+                    $this->info['toUserID'] = $managerIDs;
+                    $this->info['url'] = $data['userID'];
+                    $this->info['message'] = $this->L10n->getContents('LANG_LEAVE_PENDING_APPROVAL');
+                    $this->info['created'] = $data['created'];
+                    $this->notifyObservers('notify' );
                 }
             }
         }

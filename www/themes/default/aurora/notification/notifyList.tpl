@@ -31,7 +31,7 @@
 <div><?LANG_NO_NOTIFICATIONS?></div>
 <!-- END DYNAMIC BLOCK: noList -->
 <!-- BEGIN DYNAMIC BLOCK: list -->
-<div class="notifyList" onclick="<?TPLVAR_LINK?>">
+<div class="notifyList" onclick="<?TPLVAR_URL?>">
     <div style="float:left; width:35px; margin-right:5px;"><?TPL_AVATAR?></div>
     <div style="text-align:left;">
       <div class="message"><?TPLVAR_MESSAGE?></div>

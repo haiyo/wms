@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxView extends AdminView {
+class TaxView {
 
 
     // Properties
@@ -29,15 +29,14 @@ class TaxView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->TaxModel = TaxModel::getInstance( );
 
-        $this->setJScript( array( ) );
+        $this->View->setJScript( array( ) );
     }
 
 
@@ -75,7 +74,7 @@ class TaxView extends AdminView {
         $raceList = $SelectListView->build( 'race{template}',  $RaceModel->getList( ), '', 'Select Race' );
 
         $RadioView = new RadioView( );
-        $genderRadio  = $RadioView->build( 'gender{template}',  GenderHelper::getL10nList( ), '', 'gender' );
+        $genderRadio  = $RadioView->build( 'gender{template}', GenderHelper::getL10nList( ), '', 'gender' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_COUNTRY_LIST' => $countryList,
@@ -90,7 +89,7 @@ class TaxView extends AdminView {
         if( isset( $output['groupList'] ) ) {
             $vars['TPL_GROUP_TREE_LIST'] = $output['groupList'];
         }
-        return $this->render( 'markaxis/payroll/taxes.tpl', $vars );
+        return $this->View->render( 'markaxis/payroll/taxes.tpl', $vars );
     }
 }
 ?>

@@ -32,7 +32,7 @@ class TaxFileControl {
      * @return string
      */
     public function taxfile( ) {
-        $this->TaxFileView->printAll( $this->TaxFileView->renderTaxFile( ) );
+        $this->TaxFileView->renderTaxFile( );
     }
 
 
@@ -52,7 +52,7 @@ class TaxFileControl {
      * @return string
      */
     public function newTaxFiling( ) {
-        $this->TaxFileView->printAll( $this->TaxFileView->renderTaxFileForm( ) );
+        $this->TaxFileView->renderTaxFileForm( );
     }
 }
 ?>
