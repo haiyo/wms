@@ -94,7 +94,7 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function filterInvalidRules( $data ) {
+    public function filterInvalidRules( $data, $post=false ) {
         $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
         $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
         $age = 0;
@@ -121,7 +121,7 @@ class TaxComputingModel extends \Model {
                         continue;
                     }
                 }
-                if( $row['criteria'] == 'ordinary' || $row['criteria'] == 'allPayItem' ) {
+                if( $row['criteria'] == 'ordinary' ) {
                     if( $data['empInfo']['salary'] ) {
                         if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
@@ -132,6 +132,13 @@ class TaxComputingModel extends \Model {
                     if( $row['computing'] == 'ltec' && $data['empInfo']['salary'] > $row['value'] ) {
                         // Set the cap amount for later deduction.
                         $data['taxRules'][$row['trID']]['capped'] = $row['value'];
+                    }
+                }
+                if( $row['criteria'] == 'allPayItem' ) {
+                    $items = $data['empInfo']['salary'];
+
+                    if( $post ) {
+                        var_dump($post); exit;
                     }
                 }
             }
@@ -156,9 +163,8 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function reProcessPayroll( $data, $post ) {
-        var_dump($post);exit;
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
-            return $this->filterInvalidRules( $data );
+            return $this->filterInvalidRules( $data, $post );
         }
     }
 
