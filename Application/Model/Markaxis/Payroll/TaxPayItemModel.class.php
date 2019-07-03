@@ -62,7 +62,7 @@ class TaxPayItemModel extends \Model {
      */
     public function getTotalAWPostCount( $data, $post ) {
         $sizeof = sizeof( $post['data'] );
-        $sizeof = $sizeof > 2 ? $sizeof/2 : 0;
+        $sizeof = $sizeof > 2 ? round($sizeof/2)+1 : 0;
         $total  = array( );
         $total['totalAW'] = $total['deductionAW'] = 0;
 
@@ -81,7 +81,6 @@ class TaxPayItemModel extends \Model {
                             $total['totalAW'] = $amount;
                         }
                     }
-
                     if( isset( $data['deductionAW']['piID'] ) && $data['deductionAW']['piID'] == $itemType ) {
                         if( isset( $total['deductionAW'] ) ) {
                             $total['deductionAW'] += $amount;
@@ -170,14 +169,13 @@ class TaxPayItemModel extends \Model {
                                     return 0;
                                 }
                                 else if( $total['totalAW'] < $capAmount ) {
-                                    $amountInput = $total['totalAW'];
+                                    $amount = $total['totalAW'];
                                 }
                                 else {
-                                    $amountInput = $capAmount;
+                                    $amount = $capAmount;
                                 }
                                 $remark .= ' (Capped at ' . $data['empInfo']['currency'] . number_format( $capAmount ) . ')';
                             }
-
                             if( isset( $data['taxRules'][$row['trID']]['applyType'] ) &&
                                 isset( $data['taxRules'][$row['trID']]['applyValueType'] ) &&
                                 isset( $data['taxRules'][$row['trID']]['applyValue'] ) ) {
@@ -187,10 +185,10 @@ class TaxPayItemModel extends \Model {
                                 $applyValue = $data['taxRules'][$row['trID']]['applyValue'];
 
                                 if( $applyValueType == 'percentage' && $applyValue ) {
-                                    $amount = $amountInput*$applyValue/100;
+                                    $amount = $amount*$applyValue/100;
 
                                     if( $applyType == 'deductionAW' ) {
-                                        $afterDeduct = $amountInput-$total['deductionAW'];
+                                        $afterDeduct = $amount-$total['deductionAW'];
 
                                         if( $afterDeduct ) {
                                             $data['net'][] = array( 'amount' => $afterDeduct );

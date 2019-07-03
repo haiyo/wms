@@ -70,18 +70,18 @@ class PayrollView {
             $dataID = 'upcoming';
             $pane = 'tab-pane-process';
             $statusTab = 'upcoming-tab';
-            $status = $this->L10n->getContents( 'LANG_NO_DATA' );
+            $status = $this->L10n->getContents('LANG_NO_DATA');
 
             if( isset( $processed[$index]['completed'] ) && $processed[$index]['completed'] ) {
                 $dataID = 'complete';
                 $statusTab = 'complete-tab';
                 $pane = 'tab-pane';
-                $status = $this->L10n->getContents( 'LANG_COMPLETED' );
+                $status = $this->L10n->getContents('LANG_COMPLETED');
             }
             else if( $index == date('n') ) {
                 $dataID = 'pending';
                 $statusTab = 'pending-tab active show';
-                $status = $this->L10n->getContents( 'LANG_PENDING' );
+                $status = $this->L10n->getContents('LANG_PENDING');
             }
 
             $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
@@ -215,7 +215,7 @@ class PayrollView {
             }
 
             $SelectGroupListView = new SelectGroupListView( );
-            $SelectGroupListView->isDisabled( true );
+            $SelectGroupListView->isDisabled(true );
             $SelectGroupListView->includeBlank(false );
             $SelectGroupListView->setClass("itemType");
             $vars['dynamic']['item'] = false;

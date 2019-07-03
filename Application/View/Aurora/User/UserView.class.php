@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class UserView extends AdminView {
+class UserView {
 
 
     // Properties
@@ -30,9 +30,8 @@ class UserView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
@@ -168,7 +167,7 @@ class UserView extends AdminView {
                 }
             }
         }
-        return $this->render( 'aurora/user/form.tpl', $vars );
+        return $this->View->render( 'aurora/user/form.tpl', $vars );
     }
 
 
@@ -178,7 +177,7 @@ class UserView extends AdminView {
      */
     public function renderLog( $userID ) {
         $vars = array( 'TPLVAR_USERID' => $userID );
-        return $this->render( 'aurora/employee/log.tpl', $vars );
+        return $this->View->render( 'aurora/employee/log.tpl', $vars );
     }
 }
 ?>

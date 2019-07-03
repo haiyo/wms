@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class DashboardView extends AdminView {
+class DashboardView {
 
 
     // Properties
@@ -26,24 +26,22 @@ class DashboardView extends AdminView {
      * @return void
      */
     function __construct( ) {
-        parent::__construct();
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get(HKEY_LOCAL);
-
-        $this->DashboardModel = DashboardModel::getInstance( );
-
         $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $i18n->loadLanguage('Aurora/Page/DashboardRes');
 
-        $this->setJScript( array( 'pages' => 'dashboard.js',
-                                  'plugins' => array( 'moment/moment.min.js' ),
-                                  'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
-                                  'plugins/visualization' => array( 'd3/d3.min.js', 'd3/d3_tooltip.js' ),
-                                  'plugins/forms' => array( 'styling/switchery.min.js', 'tags/tokenfield.min.js',
-                                                            'input/handlebars.js', 'input/typeahead.bundle.min.js' ) ) );
+        $this->View->setJScript( array( 'pages' => 'dashboard.js',
+                                        'plugins' => array( 'moment/moment.min.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
+                                        'plugins/visualization' => array( 'd3/d3.min.js', 'd3/d3_tooltip.js' ),
+                                        'plugins/forms' => array( 'styling/switchery.min.js', 'tags/tokenfield.min.js',
+                                                                  'input/handlebars.js', 'input/typeahead.bundle.min.js' ) ) );
 
-        $this->setStyle( array( 'core' => 'dashboard' ) );
+        $this->View->setStyle( array( 'core' => 'dashboard' ) );
+
+        $this->DashboardModel = DashboardModel::getInstance( );
     }
 
 
@@ -62,7 +60,7 @@ class DashboardView extends AdminView {
             $vars['dynamic']['logoTools'][] = true;
         }*/
 
-        return $this->render( 'aurora/menu/parentLink.tpl', $vars );
+        return $this->View->render( 'aurora/menu/parentLink.tpl', $vars );
     }
 
 
@@ -83,7 +81,7 @@ class DashboardView extends AdminView {
                     $vars['TPLVAR_LEAVE_TYPE_NAME_' . $i] = $output['balance'][$i]['name'];
                     $vars['TPLVAR_LEAVE_BAL_' . $i] = $output['balance'][$i]['balance'];
                 }
-                return $this->render( 'aurora/page/searchBox.tpl', $vars );
+                return $this->View->render( 'aurora/page/searchBox.tpl', $vars );
             }
         }
         return '';
@@ -114,13 +112,13 @@ class DashboardView extends AdminView {
             $vars['TPL_CONTENT'] = $output['content'];
         }
         if( isset( $output['js'] ) ) {;
-            $this->setJScript( $output['js'] );
+            $this->View->setJScript( $output['js'] );
         }
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-home2',
-                                      'text' => $this->L10n->getContents('LANG_DASHBOARD') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-home2',
+                                            'text' => $this->L10n->getContents('LANG_DASHBOARD') ) );
 
-        return $this->render( 'aurora/page/dashboard.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'aurora/page/dashboard.tpl', $vars ) );
     }
 
 
@@ -130,7 +128,7 @@ class DashboardView extends AdminView {
      */
     public function renderPendingAction( $data ) {
         $vars['TPL_ROW'] = $data;
-        return $this->render( 'aurora/page/tableRequest.tpl', $vars );
+        return $this->View->render( 'aurora/page/tableRequest.tpl', $vars );
     }
 }
 ?>

@@ -42,7 +42,7 @@ class TaskManager extends DefTaskManager {
     * @return void
     */
     private function importClass( $tasks ) {
-        foreach( $tasks as $classPath => $childPath ) {
+        foreach( $tasks as $childPath ) {
             if( sizeof( $childPath ) > 0 ) {
                 $this->importClass( $childPath );
             }

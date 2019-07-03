@@ -40,7 +40,7 @@ class DashboardControl {
      */
     public function dashboard( ) {
         $output = Control::getOutputArray( );
-        $this->DashboardView->printAll( $this->DashboardView->renderDashboard( $output ) );
+        $this->DashboardView->renderDashboard( $output );
     }
 
 

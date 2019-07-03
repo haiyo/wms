@@ -281,7 +281,7 @@
             </div>
 
             <div class="modal-body overflow-y-visible">
-                <form id="createTeamForm" name="createTeamForm" method="post" action="">
+                <form id="verifyPwd" name="verifyPwd" method="post" action="">
                     <input type="hidden" name="processDate" id="processDate" value="" />
                     <div class="col-md-12">
                         <div class="form-group">
@@ -290,12 +290,13 @@
                                    placeholder="" />
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-                        <button id="unlock" type="submit" class="btn btn-primary">Unlock</button>
-                    </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                    <button id="unlock" type="submit" class="btn btn-primary">Unlock</button>
+                </div>
             </div>
         </div>
     </div>
@@ -308,6 +309,13 @@
             var $invoker = $(e.relatedTarget);
             $("#processDate").val( $invoker.attr("data-date") );
             $("#password").focus( );
+        });
+
+        $("#password").keypress( function( e ) {
+            if( e.which === 13 ) {
+                $("#unlock").click( );
+                return false;
+            }
         });
 
         $("#unlock").on("click", function( ) {

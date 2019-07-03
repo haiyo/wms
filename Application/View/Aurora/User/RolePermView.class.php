@@ -10,13 +10,14 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RolePermView extends AdminView {
+class RolePermView {
 
 
     // Properties
     protected $Registry;
     protected $HKEY_LOCAL;
     protected $L10n;
+    protected $View;
     protected $RolePermModel;
     protected $PermissionModel;
 
@@ -26,8 +27,7 @@ class RolePermView extends AdminView {
     * @return void
     */
     function __construct( RolePermModel $RolePermModel, PermissionModel $PermissionModel ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get( HKEY_LOCAL );
         $this->RolePermModel = $RolePermModel;
@@ -47,8 +47,8 @@ class RolePermView extends AdminView {
                 array( 'TPLVAR_HREF' => 'rolePermList',
                        'LANG_TEXT' => $this->L10n->getContents( 'LANG_ROLES_PERMISSIONS' ) ) );
 
-        return array( 'tab' =>  $this->render( 'aurora/core/tab.tpl', $vars ),
-                      'form' => $this->render( 'markaxis/employee/roleList.tpl', $vars ) );
+        return array( 'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/employee/roleList.tpl', $vars ) );
     }
 
 
@@ -57,7 +57,7 @@ class RolePermView extends AdminView {
      * @return string
      */
     public function renderPerms( $roleID ) {
-        $userInfo = $this->PayrollModel->getCalculateUserInfo( $roleID );
+        //$userInfo = $this->PayrollModel->getCalculateUserInfo( $roleID );
 
         $roleList = $this->RolePermModel->getAll( );
         $sizeof   = sizeof( $roleList );
@@ -72,7 +72,7 @@ class RolePermView extends AdminView {
             }
         }
         $vars['TPL_PERM_LIST'] = $this->renderPermList( );
-        return $this->render( 'markaxis/employee/roleList.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/roleList.tpl', $vars );
     }
 
 
@@ -92,14 +92,14 @@ class RolePermView extends AdminView {
                            'TPLVAR_PERM_DESCRIPT' => $permList[$i]['descript'] );
 
             if( $permList[$i]['parentID'] == 0 ) {
-                $list[$permList[$i]['permID']] = $this->render( 'aurora/role/permGroup.tpl', $vars );
+                $list[$permList[$i]['permID']] = $this->View->render( 'aurora/role/permGroup.tpl', $vars );
             }
             else {
-                $list[$permList[$i]['parentID']] .= $this->render( 'aurora/role/permList.tpl', $vars );
+                $list[$permList[$i]['parentID']] .= $this->View->render( 'aurora/role/permList.tpl', $vars );
             }
         }
         $vars['TPL_PERM_LIST'] = implode( '', array_values( $list ) );
-        return $this->render( 'markaxis/employee/permList.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/permList.tpl', $vars );
     }
 }
 ?>

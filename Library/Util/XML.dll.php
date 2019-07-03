@@ -13,6 +13,8 @@ class XML {
 
 
     protected $cache;
+    protected $file;
+    protected $data;
 
     
     /**
@@ -26,7 +28,7 @@ class XML {
 
     /**
     * User Constructor
-    * @return void
+    * @return mixed
     */
     public function load( $file ) {
         if( is_file( $file ) && !isset( $this->cache[$file] ) ) {

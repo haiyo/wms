@@ -9,10 +9,11 @@ use \Aurora\Admin\AdminView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RadioView extends AdminView {
+class RadioView {
 
 
     // Properties
+    protected $View;
 
 
     /**
@@ -20,7 +21,7 @@ class RadioView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 	}
 
 
@@ -58,7 +59,7 @@ class RadioView extends AdminView {
     */
     private function parseTPL( $radio ) {
         $vars['dynamic']['radio'] = $radio;
-        return $this->render( 'aurora/form/radio.tpl', $vars );
+        return $this->View->render( 'aurora/form/radio.tpl', $vars );
     }
 }
 ?>

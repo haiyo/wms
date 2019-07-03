@@ -137,8 +137,43 @@ class TaxComputingModel extends \Model {
                 if( $row['criteria'] == 'allPayItem' ) {
                     $items = $data['empInfo']['salary'];
 
-                    if( $post ) {
-                        var_dump($post); exit;
+                    if( isset( $post['data'] ) ) {
+                        $preg = '/^itemType_(\d)+/';
+                        $callback = function( $val ) use( $preg ) {
+                            if( preg_match( $preg, $val, $match ) ) {
+                                return $match;
+                            } else {
+                                return false;
+                            }
+                        };
+                        $criteria = array_filter( $post['data'], $callback, ARRAY_FILTER_USE_KEY );
+
+                        foreach( $criteria as $key => $piID ) {
+                            preg_match( $preg, $key, $match );
+
+                            if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                                $id = $match[1];
+                                $piID = str_replace( 'p-', '', $piID );
+
+                                if( $data['deduction']['piID'] != $piID &&
+                                    $data['deductionAW']['piID'] != $piID ) {
+                                    if( isset( $post['data']['amount_' . $id] ) ) {
+                                        $amountInput = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
+                                        $amountInput = (int)str_replace( ',', '', $amountInput );
+                                        $amountInput = preg_replace('/[^0-9,.]/', '', $amountInput );
+
+                                        if( $amountInput ) {
+                                            $items += $amountInput;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if( !$this->isEquality( $row['computing'], $items, $row['value'] ) ) {
+                        unset( $data['taxRules'][$row['trID']] );
+                        $unset[$row['trID']] = 1;
+                        continue;
                     }
                 }
             }
