@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
-use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
+use \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
@@ -180,11 +180,8 @@ class EmployeeModel extends \Model {
         $saveInfo = array( );
         $saveInfo['idnumber'] = Validator::stripTrim( $data['idnumber'] );
         $saveInfo['passNumber'] = Validator::stripTrim( $data['passNumber'] );
-        $saveInfo['salary'] = str_replace( ',', '', Validator::stripTrim( $data['salary'] ) );
-
-        if( isset( CurrencyHelper::getL10nList( )[$data['currency']] ) ) {
-            $saveInfo['currency'] = $data['currency'];
-        }
+        $saveInfo['salary'] = str_replace(',', '', Validator::stripTrim( $data['salary'] ) );
+        $saveInfo['salary'] = preg_replace('/[^0-9,.]/', '', $saveInfo['salary'] );
 
         if( isset( $data['salaryType'] ) ) {
             $SalaryTypeModel = SalaryTypeModel::getInstance( );

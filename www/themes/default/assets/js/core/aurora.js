@@ -764,7 +764,8 @@ $(document).ready( function( ) {
             return id.replace(/(:|\.)/g,'\\$1');
         },
 
-        formatMoney: function(n, t) {
+        formatMoney: function( n ) {
+            t = defaultOptions;
             n = n.replace(/[^0-9.-]+/g,"");
             n = this.toFixed(n);
             var i = [],

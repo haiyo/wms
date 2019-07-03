@@ -885,7 +885,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Parent:</label>
-                                <select name="parent" id="parent" data-placeholder="" placeholder="" data-id=""
+                                <select name="parent" id="parent" data-placeholder="" data-id=""
                                         class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                 </select>
                             </div>
@@ -933,7 +933,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Belong to Group:</label>
-                            <select name="group" id="group" data-placeholder="" placeholder="" data-id=""
+                            <select name="group" id="group" data-placeholder="" data-id=""
                                     class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                             </select>
                         </div>
@@ -955,13 +955,14 @@
                         <div id="criteriaRow_{id}" class="col-md-3 criteriaRow criteriaFirstCol">
                             <div class="form-group">
                                 <label>Select Criteria: <span class="text-danger-400">*</span></label>
-                                <select name="criteria_{id}" id="criteria_{id}" data-placeholder="" placeholder="" data-id="{id}"
+                                <select name="criteria_{id}" id="criteria_{id}" data-placeholder="" data-id="{id}"
                                         class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
                                     <option value=""></option>
                                     <optgroup label="Computing Variables">
                                         <option value="age">Age</option>
-                                        <option value="payItem">Pay Item</option>
                                         <option value="ordinary">Ordinary Wage</option>
+                                        <option value="payItem">Pay Item</option>
+                                        <option value="allPayItem">All Pay Item</option>
                                         <option value="workforce">Total Workforce</option>
                                     </optgroup>
 
@@ -983,7 +984,7 @@
                             <input type="hidden" id="tcID_{id}" name="tcID_{id}" value="" />
                             <div class="form-group">
                                 <label>Computing:</label>
-                                <select name="computing_{id}" id="computing_{id}" data-placeholder="" placeholder=""
+                                <select name="computing_{id}" id="computing_{id}" data-placeholder=""
                                         class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                     <option value="lt">Less Than</option>
                                     <option value="gt">Greater Than</option>
@@ -998,7 +999,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Amount Type:</label>
-                                <select name="valueType_{id}" id="valueType_{id}" data-placeholder="" placeholder=""
+                                <select name="valueType_{id}" id="valueType_{id}" data-placeholder=""
                                         class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                     <option value="percentage">Percentage</option>
                                     <option value="fixed" selected>Fixed / Integer</option>
@@ -1032,7 +1033,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Amount Type:</label>
-                                <select name="valueType_{id}" id="valueType_{id}" data-id="{id}" data-placeholder="" placeholder=""
+                                <select name="valueType_{id}" id="valueType_{id}" data-id="{id}" data-placeholder=""
                                         class="form-control amtType select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                     <option value="percentage">Percentage</option>
                                     <option value="fixed" selected>Fixed / Integer</option>
@@ -1201,7 +1202,7 @@
                 $.each( $(".taxRow"), function( key, value ) {
                     var parent = $(this).attr("data-parent");
 
-                    if( parent != 0 ) {
+                    if( parent !== 0 ) {
                         $("#expandIcon_" + parent).show( );
                         $(this).prependTo("#item-" + parent);
                     }
@@ -1246,8 +1247,7 @@
         refreshGroupList( );
 
         function formatResult(node) {
-            var $result = $('<span style="padding-left:' + (10 * node.level) + 'px;">' + node.text + '</span>');
-            return $result;
+            return $('<span style="padding-left:' + (10 * node.level) + 'px;">' + node.text + '</span>');
         }
 
         $("#country").select2( );
@@ -1257,7 +1257,7 @@
         $(document).on("change", ".amtType", function(e) {
             var id = $(this).attr("data-id");
 
-            if( $(this).val( ) == "formula" ) {
+            if( $(this).val( ) === "formula" ) {
                 $("#value_" + id).attr("type", "text");
             }
             else {
@@ -1272,32 +1272,26 @@
             if( $("#criteriaSet_" + id).length > 0 ) {
                 $("#criteriaSet_" + id).remove( );
             }
-
-            if( $(this).val( ) == "age" ) {
+            if( $(this).val( ) === "age" || $(this).val( ) === "ordinary" ||
+                $(this).val( ) === "workforce" || $(this).val( ) === "allPayItem" ) {
                 addComputing( $(this) );
             }
-            if( $(this).val( ) == "payItem" ) {
+            if( $(this).val( ) === "payItem" ) {
                 addPayItem( $(this) );
             }
-            if( $(this).val( ) == "ordinary" ) {
-                addComputing( $(this) );
-            }
-            if( $(this).val( ) == "workforce" ) {
-                addComputing( $(this) );
-            }
-            if( $(this).val( ) == "competency" ) {
+            if( $(this).val( ) === "competency" ) {
                 addCompetency( $(this) );
             }
-            if( $(this).val( ) == "contract" ) {
+            if( $(this).val( ) === "contract" ) {
                 addContract( $(this) );
             }
-            if( $(this).val( ) == "designation" ) {
+            if( $(this).val( ) === "designation" ) {
                 addDesignation( $(this) );
             }
-            if( $(this).val( ) == "race" ) {
+            if( $(this).val( ) === "race" ) {
                 addRace( $(this) );
             }
-            if( $(this).val( ) == "gender" ) {
+            if( $(this).val( ) === "gender" ) {
                 addGender( $(this) );
             }
             var id = $("#rulesWrapper .criteriaRow").length-1;

@@ -352,7 +352,7 @@
                                         itemAdded--;
 
                                         $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
-                                        $("#amount_" + id).val( formatMoney( obj.data.addItem[i]['amount'] + "", defaultOptions ) );
+                                        $("#amount_" + id).val( Aurora.String.formatMoney( obj.data.addItem[i]['amount'] + "" ) );
                                         $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
                                     }
                                 }

@@ -167,6 +167,7 @@
         <observer controller="Markaxis/Expense/ExpenseControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
         <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
         <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>

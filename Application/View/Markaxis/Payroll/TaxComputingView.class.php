@@ -41,8 +41,7 @@ class TaxComputingView {
      */
     public function renderTaxRule( $taxRule ) {
         if( isset( $taxRule['trID'] ) && $computingInfo = $this->TaxComputingModel->getBytrID( $taxRule['trID'] ) ) {
-            $criteriaSet = $age = $ordinary = $workforce = array( );
-            $currency = $taxRule['currencyCode'] . $taxRule['currencySymbol'];
+            $criteriaSet = $age = $ordinary = $allPayItem = $workforce = array( );
 
             foreach( $computingInfo as $computing ) {
                 if( $computing['criteria'] == 'age' ) {
@@ -50,6 +49,9 @@ class TaxComputingView {
                 }
                 if( $computing['criteria'] == 'ordinary' ) {
                     $ordinary[] = $computing;
+                }
+                if( $computing['criteria'] == 'allPayItem' ) {
+                    $allPayItem[] = $computing;
                 }
                 if( $computing['criteria'] == 'workforce' ) {
                     $workforce[] = $computing;
@@ -85,43 +87,57 @@ class TaxComputingView {
                     array_push($criteriaSet, $txt );
                 }
             }
-            if( sizeof( $ordinary ) == 1 ) {
-                $txt = 'Ordinary wage ';
 
-                if( $ordinary[0]['computing'] == 'gt' ) {
-                    $txt .= 'more than ' . $currency . number_format( $ordinary[0]['value'],2 );
-                }
-                if( $ordinary[0]['computing'] == 'lt' ) {
-                    $txt .= 'less than ' . $currency . number_format( $ordinary[0]['value'],2 );
-                }
-                if( $ordinary[0]['computing'] == 'lte' ) {
-                    $txt .= $currency . number_format( $ordinary[0]['value'],2 ) . ' and below';
-                }
-                if( $ordinary[0]['computing'] == 'ltec' ) {
-                    $txt .= 'less than and capped at ' . $currency . number_format( $ordinary[0]['value'],2 );
-                }
-                if( $ordinary[0]['computing'] == 'eq' ) {
-                    $txt .= $currency . number_format( $ordinary[0]['value'],2 );
-                }
-                array_push($criteriaSet, $txt );
-            }
-            // 2 Salary Criteria
-            if( sizeof( $ordinary ) == 2 ) {
-                if( $ordinary[0]['value'] < $ordinary[1]['value'] ) {
-                    $txt  = 'Ordinary wage more than ';
-                    $txt .= $currency . number_format( $ordinary[0]['value'],2 ) . ' to ' .
-                            $currency . number_format( $ordinary[1]['value'],2 );
-                    array_push($criteriaSet, $txt );
-                }
-                if( $ordinary[0]['value'] > $ordinary[1]['value'] ) {
-                    $txt  = 'Ordinary wage more than ';
-                    $txt .= $currency . number_format( $ordinary[1]['value'],2 ) . ' to ' .
-                            $currency . number_format( $ordinary[0]['value'],2 );
-                    array_push($criteriaSet, $txt );
-                }
-            }
+            $criteriaSet = $this->renderPayTags('Ordinary wage ', $ordinary, $criteriaSet, $taxRule );
+            $criteriaSet = $this->renderPayTags('All pay items ', $allPayItem, $criteriaSet, $taxRule );
             return $criteriaSet;
         }
+    }
+
+
+    /**
+     * Get File Information
+     * @return mixed
+     */
+    public function renderPayTags( $typeText, $typeSet, $criteriaSet, $taxRule ) {
+        $currency = $taxRule['currencyCode'] . $taxRule['currencySymbol'];
+
+        if( sizeof( $typeSet ) == 1 ) {
+            $txt = $typeText;
+
+            if( $typeSet[0]['computing'] == 'gt' ) {
+                $txt .= 'more than ' . $currency . number_format( $typeSet[0]['value'],2 );
+            }
+            if( $typeSet[0]['computing'] == 'lt' ) {
+                $txt .= 'less than ' . $currency . number_format( $typeSet[0]['value'],2 );
+            }
+            if( $typeSet[0]['computing'] == 'lte' ) {
+                $txt .= $currency . number_format( $typeSet[0]['value'],2 ) . ' and below';
+            }
+            if( $typeSet[0]['computing'] == 'ltec' ) {
+                $txt .= 'less than and capped at ' . $currency . number_format( $typeSet[0]['value'],2 );
+            }
+            if( $typeSet[0]['computing'] == 'eq' ) {
+                $txt .= $currency . number_format( $typeSet[0]['value'],2 );
+            }
+            array_push($criteriaSet, $txt );
+        }
+        // 2 Salary Criteria
+        if( sizeof( $typeSet ) == 2 ) {
+            if( $typeSet[0]['value'] < $typeSet[1]['value'] ) {
+                $txt  = $typeText . 'more than ';
+                $txt .= $currency . number_format( $typeSet[0]['value'],2 ) . ' to ' .
+                        $currency . number_format( $typeSet[1]['value'],2 );
+                array_push($criteriaSet, $txt );
+            }
+            if( $typeSet[0]['value'] > $typeSet[1]['value'] ) {
+                $txt  = $typeText . 'more than ';
+                $txt .= $currency . number_format( $typeSet[1]['value'],2 ) . ' to ' .
+                        $currency . number_format( $typeSet[0]['value'],2 );
+                array_push($criteriaSet, $txt );
+            }
+        }
+        return $criteriaSet;
     }
 
 

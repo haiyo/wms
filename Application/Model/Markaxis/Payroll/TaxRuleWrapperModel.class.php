@@ -71,6 +71,9 @@ class TaxRuleWrapperModel extends \Model {
                 if( $rules['applyValueType'] == 'fixed' ) {
                     $amount = $rules['applyValue'];
                 }
+                if( $rules['applyValueType'] == 'percentage' ) {
+                    $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                }
                 $data['skillLevy'] = array( 'title' => $rules['title'],
                                             'amount' => $amount );
             }

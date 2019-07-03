@@ -70,7 +70,10 @@ class TaxComputingControl {
      * @return string
      */
     public function reprocessPayroll( ) {
-        $this->processPayroll( );
+        //$this->processPayroll( );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxComputingModel->reprocessPayroll( $data, $post ) );
     }
 
 

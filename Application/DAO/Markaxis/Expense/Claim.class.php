@@ -81,10 +81,9 @@ class Claim extends \DAO {
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS ec.ecID AS ecID, ec.userID AS userID, 
                                           ec.descript, ec.amount, ec.uID, ec.status, ec.cancelled,
                                           DATE_FORMAT(ec.created, "%D %b %Y") AS created,
-                                          u.name AS uploadName, u.hashName, c.code, c.symbol, ei.title
+                                          u.name AS uploadName, u.hashName, ei.title
                                    FROM expense_claim ec
                                    LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
-                                   LEFT JOIN currency c ON ( c.cID = ec.currencyID )
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
                                    WHERE ec.userID = "' . (int)$userID . '" ' . $q . '
                                    ORDER BY ec.created DESC, ' . $order . $this->limit,

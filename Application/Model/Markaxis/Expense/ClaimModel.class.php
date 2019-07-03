@@ -147,18 +147,6 @@ class ClaimModel extends \Model {
             $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CLAIM_TYPE') );
             return false;
         }
-
-        $CurrencyModel = CurrencyModel::getInstance( );
-        $currList = $CurrencyModel->getList( );
-
-        if( isset( $currList[$data['currency']] ) ) {
-            $this->info['currencyID'] = $data['currency'];
-        }
-        else {
-            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CURRENCY') );
-            return false;
-        }
-
         $ecaUID = Validator::stripTrim( $data['ecaUID'] );
         $hashName = Validator::stripTrim( $data['ecaHashName'] );
 

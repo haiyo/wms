@@ -49,9 +49,7 @@ class ExpenseView {
      * @return string
      */
     public function renderSettings( ) {
-        $SelectListView = new SelectListView( );
-        $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), '', 'Currency' );
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList ) );
+        $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
         return $this->View->render( 'markaxis/expense/expenseList.tpl', $vars );
     }

@@ -50,7 +50,7 @@
                 width: "100px",
                 data: "amount",
                 render: function( data, type, full, meta ) {
-                    return full['code'] + full['symbol'] + data;
+                    return Aurora.currency + data;
                 }
             },{
                 targets: [3],
@@ -245,7 +245,6 @@
                             $("#ecID").val( obj.data.ecID )
                             $("#expense").val( obj.data.eiID ).trigger("change");
                             $("#claimDescript").val( obj.data.descript );
-                            $("#currency").val( obj.data.currencyID ).trigger("change");
                             $("#claimAmount").val( obj.data.amount );
                             $("#ecaUploadField").val( obj.data.uploadName );
 
@@ -559,10 +558,7 @@
                             <div class="form-group">
                                 <label>Amount To Claim: <span class="requiredField">*</span></label>
                                 <div class="form-group">
-                                    <div class="col-md-4 pl-0 pb-10">
-                                        <?TPL_CURRENCY_LIST?>
-                                    </div>
-                                    <div class="col-md-8 p-0">
+                                    <div class="col-md-12 p-0">
                                         <input type="number" name="claimAmount" id="claimAmount" class="form-control" value=""
                                                placeholder="Enter claim amount (For eg: 2.50)" />
                                     </div>

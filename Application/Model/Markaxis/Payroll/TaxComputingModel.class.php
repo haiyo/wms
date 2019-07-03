@@ -121,7 +121,7 @@ class TaxComputingModel extends \Model {
                         continue;
                     }
                 }
-                if( $row['criteria'] == 'ordinary' ) {
+                if( $row['criteria'] == 'ordinary' || $row['criteria'] == 'allPayItem' ) {
                     if( $data['empInfo']['salary'] ) {
                         if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
@@ -145,6 +145,18 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function processPayroll( $data ) {
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            return $this->filterInvalidRules( $data );
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function reProcessPayroll( $data, $post ) {
+        var_dump($post);exit;
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             return $this->filterInvalidRules( $data );
         }
@@ -181,6 +193,7 @@ class TaxComputingModel extends \Model {
                     switch( $data['criteria_' . $id] ) {
                         case 'age' :
                         case 'ordinary' :
+                        case 'allPayItem' :
                         case 'workforce' :
                             if( isset( $data['computing_' . $id] ) && isset( $data['valueType_' . $id] ) &&
                                 isset( $data['value_' . $id] ) ) {

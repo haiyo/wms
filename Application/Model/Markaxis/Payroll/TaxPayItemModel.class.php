@@ -132,6 +132,7 @@ class TaxPayItemModel extends \Model {
             $itemType    = str_replace( 'p-', '', $post['itemType'] );
             $amountInput = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
             $amountInput = (int)str_replace( ',', '', $amountInput );
+            $amountInput = preg_replace('/[^0-9,.]/', '', $amountInput );
             if( !$amountInput ) { return 0; }
 
             $data['gross'][] = array( 'amount' => $amountInput );
