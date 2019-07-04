@@ -227,14 +227,15 @@ class PayrollView {
 
                 $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                     'TPLVAR_CURRENCY' => $userInfo['currency'],
-                                                    'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $data['empInfo']['salary'],2 ),
+                                                    'TPLVAR_AMOUNT' => $userInfo['currency'] .
+                                                                       number_format( $data['empInfo']['salary'],2 ),
                                                     'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                     'TPLVAR_REMARK' => '',
                                                     'TPL_ICON' => '' );
                 $id++;
             }
 
-            /*if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
+            if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
                 foreach( $data['items'] as $items ) {
                     if( isset( $items['piID'] ) ) {
                         $selected = 'p-' . $items['piID'];
@@ -242,7 +243,8 @@ class PayrollView {
                     $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                     $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
-                                                        'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $items['amount'],2 ),
+                                                        'TPLVAR_AMOUNT' => $userInfo['currency'] .
+                                                                           number_format( $items['amount'],2 ),
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                         'TPLVAR_REMARK' => $items['remark'] );
                     $id++;
@@ -255,14 +257,15 @@ class PayrollView {
                             $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                             $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
-                                                                'TPLVAR_AMOUNT' => $userInfo['currency'] . number_format( $claims['amount'],2 ),
+                                                                'TPLVAR_AMOUNT' => $userInfo['currency'] .
+                                                                                   number_format( $claims['amount'],2 ),
                                                                 'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                                 'TPLVAR_REMARK' => $claims['remark'] );
                             $id++;
                         }
                     }
                 }
-            }*/
+            }
             $SelectGroupListView->isDisabled( false );
             $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
             $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
@@ -280,7 +283,6 @@ class PayrollView {
      * @return string
      */
     public function renderProcessSummary( $data ) {
-        //var_dump($data);
         $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
         $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
         $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
@@ -291,6 +293,7 @@ class PayrollView {
             $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
         }
         if( isset( $data['gross'] ) ) {
+            var_dump($data['gross']);exit;
             foreach( $data['gross'] as $gross ) {
                 if( isset( $gross['amount'] ) ) {
                     $vars['TPLVAR_GROSS_AMOUNT'] += (float)$gross['amount'];

@@ -156,7 +156,6 @@ class TaxComputingModel extends \Model {
                         if( !$this->isEquality( $row['computing'], $items, $row['value'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
                             $unset[$row['trID']] = 1;
-                            continue;
                         }
                     }
                 }
@@ -180,11 +179,10 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function reprocessPayroll( $data, $post ) {
-        if( isset( $post['amountInput'] ) && isset( $post['itemType'] ) ) {
-            if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) && $post['amountInput'] &&
-                isset( $data['ordinary'][$post['itemType']] ) ) {
-                $data['empInfo']['salary'] += $post['amountInput'];
-            }
+        if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) && $post['amountInput'] &&
+            isset( $data['ordinary'][$post['itemType']] ) ) {
+            //$data['gross'][] = array( 'amount' => $post['amountInput'] );
+            //$data['empInfo']['salary'] += $post['amountInput'];
             return $this->filterInvalidRules( $data, $post );
         }
     }
