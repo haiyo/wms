@@ -346,7 +346,7 @@
                                 return;
                             }
                             else {
-                                if( obj.data.addItem.length > 0 ) {
+                                if( obj.data.addItem && obj.data.addItem.length > 0 ) {
                                     for( var i=0; i<obj.data.addItem.length; i++ ) {
                                         var id = addItem( );
                                         itemAdded--;

@@ -128,17 +128,9 @@ class TaxPayItemModel extends \Model {
      */
     public function reprocessPayroll( $data, $post ) {
         if( isset( $post['amountInput'] ) && isset( $post['itemType'] ) ) {
-            $itemType    = str_replace( 'p-', '', $post['itemType'] );
-            $amountInput = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
-            $amountInput = (int)str_replace( ',', '', $amountInput );
-            $amountInput = preg_replace('/[^0-9,.]/', '', $amountInput );
-            if( !$amountInput ) { return 0; }
-
-            $data['gross'][] = array( 'amount' => $amountInput );
-
             if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
                 $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
-                $itemInfo = $this->getBytrIDs( $trIDs, $itemType );
+                $itemInfo = $this->getBytrIDs( $trIDs, $post['itemType'] );
 
                 if( sizeof( $itemInfo ) > 0 ) {
                     foreach( $itemInfo as $row ) {
@@ -161,11 +153,12 @@ class TaxPayItemModel extends \Model {
                             // Get all AW paid within this year (if any) to check if the total hit ceiling!
                             // var_dump( array_keys( $data['additional']) ); exit;
 
+                            $amount = $post['amountInput'];
                             $total = $this->getTotalAWPostCount( $data, $post );
 
                             if( isset( $total['totalAW'] ) && $total['totalAW'] > $capAmount ) {
                                 // Check if previously capped before
-                                if( $total['totalAW']-$amountInput >= $capAmount ) {
+                                if( $total['totalAW']-$post['amountInput'] >= $capAmount ) {
                                     return 0;
                                 }
                                 else if( $total['totalAW'] < $capAmount ) {
@@ -191,10 +184,11 @@ class TaxPayItemModel extends \Model {
                                         $afterDeduct = $amount-$total['deductionAW'];
 
                                         if( $afterDeduct ) {
+                                            $data['gross'][] = array( 'amount' => $post['amountInput'] );
                                             $data['net'][] = array( 'amount' => $afterDeduct );
                                             $remark = $data['taxRules'][$row['trID']]['title'] . $remark;
 
-                                            $data['items'][] = $data['addItem'][] =
+                                            $data['items'][] = //$data['addItem'][] =
                                                 array( 'piID' => $data['deductionAW']['piID'],
                                                        'trID' => $row['trID'],
                                                        'remark' => $remark,

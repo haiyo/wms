@@ -69,11 +69,11 @@ class TaxComputing extends \DAO {
      * @return mixed
      */
     public function getBytrIDs( $trIDs ) {
-        $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID IN (' . addslashes( $trIDs ) . ')',
+        $sql = $this->DB->select( 'SELECT * FROM tax_computing 
+                                   WHERE trID IN (' . addslashes( $trIDs ) . ')',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $row['value'] = (float)$row['value'];

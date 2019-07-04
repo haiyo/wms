@@ -147,9 +147,9 @@
         <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
         <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
         <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
         <observer controller="Markaxis/Payroll/TaxContractControl"></observer>
         <observer controller="Markaxis/Payroll/TaxDesignationControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
@@ -175,7 +175,7 @@
     <task type="payroll/getTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
     </task>
-    <task type="payroll/getPayItem">
+    <task type="payroll/getPayItem,payroll/savePayItem">
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
         <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
     </task>

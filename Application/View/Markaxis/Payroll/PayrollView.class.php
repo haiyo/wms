@@ -234,7 +234,7 @@ class PayrollView {
                 $id++;
             }
 
-            if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
+            /*if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
                 foreach( $data['items'] as $items ) {
                     if( isset( $items['piID'] ) ) {
                         $selected = 'p-' . $items['piID'];
@@ -262,9 +262,9 @@ class PayrollView {
                         }
                     }
                 }
-                $SelectGroupListView->isDisabled( false );
-                $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
-            }
+            }*/
+            $SelectGroupListView->isDisabled( false );
+            $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
             $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
 
             if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];

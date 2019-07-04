@@ -70,8 +70,8 @@ class TaxPayItemControl {
      * @return string
      */
     public function reprocessPayroll( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $data = Control::getOutputArray( );
+        $post = Control::getPostData( );
         Control::setOutputArray( $this->TaxPayItemModel->reprocessPayroll( $data, $post ) );
     }
 

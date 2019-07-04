@@ -154,6 +154,22 @@ class ItemModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function reprocessPayroll( $data, $post ) {
+        if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) ) {
+            $post['itemType'] = str_replace( 'p-', '', $post['itemType'] );
+
+            $post['amountInput'] = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
+            $post['amountInput'] = (int)str_replace( ',', '', $post['amountInput'] );
+            $post['amountInput'] = preg_replace('/[^0-9,.]/', '', $post['amountInput'] );
+            return $post;
+        }
+    }
+
+
+    /**
      * Set Pay Item Info
      * @return bool
      */

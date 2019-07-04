@@ -60,6 +60,15 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getBytrIDs( $trIDs ) {
+        return $this->TaxComputing->getBytrIDs( $trIDs );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getAll( $taxRules ) {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
@@ -95,85 +104,60 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterInvalidRules( $data, $post=false ) {
-        $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
-        $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
-        $age = 0;
-        $unset = array( );
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+            $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
+            $age = 0;
+            $unset = array( );
 
-        if( sizeof( $compInfo ) > 0 ) {
-            foreach( $compInfo as $row ) {
-                // If we have trID already unset before, skip any compInfo related;
-                if( isset( $unset[$row['trID']] ) ) {
-                    continue;
-                }
-                if( $row['criteria'] == 'age' ) {
-                    if( !$age ) {
-                        // If invalid age, break altogether.
-                        if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
+            if( sizeof( $compInfo ) > 0 ) {
+                foreach( $compInfo as $row ) {
+                    // If we have trID already unset before, skip any compInfo related;
+                    if( isset( $unset[$row['trID']] ) ) {
+                        continue;
+                    }
+                    if( $row['criteria'] == 'age' ) {
+                        if( !$age ) {
+                            // If invalid age, break altogether.
+                            if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
+                                unset( $data['taxRules'][$row['trID']] );
+                                $unset[$row['trID']] = 1;
+                                continue;
+                            }
+                        }
+                        if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
                             $unset[$row['trID']] = 1;
                             continue;
                         }
                     }
-                    if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
-                        unset( $data['taxRules'][$row['trID']] );
-                        $unset[$row['trID']] = 1;
-                        continue;
+                    if( $row['criteria'] == 'ordinary' ) {
+                        if( $data['empInfo']['salary'] ) {
+                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                                unset( $data['taxRules'][$row['trID']] );
+                                $unset[$row['trID']] = 1;
+                                continue;
+                            }
+                            if( $row['computing'] == 'ltec' && $data['empInfo']['salary'] > $row['value'] ) {
+                                // Set the cap amount for later deduction.
+                                $data['taxRules'][$row['trID']]['capped'] = $row['value'];
+                            }
+                        }
                     }
-                }
-                if( $row['criteria'] == 'ordinary' ) {
-                    if( $data['empInfo']['salary'] ) {
-                        if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
+                    if( $row['criteria'] == 'allPayItem' ) {
+                        $items = $data['empInfo']['salary'];
+
+                        if( $data['deduction']['piID'] != $post['itemType'] &&
+                            $data['deductionAW']['piID'] != $post['itemType'] ) {
+                            if( isset( $post['amountInput'] ) && $post['amountInput']  ) {
+                                $items += $post['amountInput'] ;
+                            }
+                        }
+                        if( !$this->isEquality( $row['computing'], $items, $row['value'] ) ) {
                             unset( $data['taxRules'][$row['trID']] );
                             $unset[$row['trID']] = 1;
                             continue;
                         }
-                    }
-                    if( $row['computing'] == 'ltec' && $data['empInfo']['salary'] > $row['value'] ) {
-                        // Set the cap amount for later deduction.
-                        $data['taxRules'][$row['trID']]['capped'] = $row['value'];
-                    }
-                }
-                if( $row['criteria'] == 'allPayItem' ) {
-                    $items = $data['empInfo']['salary'];
-
-                    if( isset( $post['data'] ) ) {
-                        $preg = '/^itemType_(\d)+/';
-                        $callback = function( $val ) use( $preg ) {
-                            if( preg_match( $preg, $val, $match ) ) {
-                                return $match;
-                            } else {
-                                return false;
-                            }
-                        };
-                        $criteria = array_filter( $post['data'], $callback, ARRAY_FILTER_USE_KEY );
-
-                        foreach( $criteria as $key => $piID ) {
-                            preg_match( $preg, $key, $match );
-
-                            if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
-                                $id = $match[1];
-                                $piID = str_replace( 'p-', '', $piID );
-
-                                if( $data['deduction']['piID'] != $piID &&
-                                    $data['deductionAW']['piID'] != $piID ) {
-                                    if( isset( $post['data']['amount_' . $id] ) ) {
-                                        $amountInput = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
-                                        $amountInput = (int)str_replace( ',', '', $amountInput );
-                                        $amountInput = preg_replace('/[^0-9,.]/', '', $amountInput );
-
-                                        if( $amountInput ) {
-                                            $items += $amountInput;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if( !$this->isEquality( $row['computing'], $items, $row['value'] ) ) {
-                        unset( $data['taxRules'][$row['trID']] );
-                        $unset[$row['trID']] = 1;
-                        continue;
                     }
                 }
             }
@@ -187,9 +171,7 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function processPayroll( $data ) {
-        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
-            return $this->filterInvalidRules( $data );
-        }
+        return $this->filterInvalidRules( $data );
     }
 
 
@@ -197,8 +179,12 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function reProcessPayroll( $data, $post ) {
-        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+    public function reprocessPayroll( $data, $post ) {
+        if( isset( $post['amountInput'] ) && isset( $post['itemType'] ) ) {
+            if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) && $post['amountInput'] &&
+                isset( $data['ordinary'][$post['itemType']] ) ) {
+                $data['empInfo']['salary'] += $post['amountInput'];
+            }
             return $this->filterInvalidRules( $data, $post );
         }
     }
