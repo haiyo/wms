@@ -154,18 +154,76 @@ class ItemModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getAllItems( $data ) {
+        $items = array( );
+        $items['basic'] = $this->getBasic( );
+        $items['ordinary'] = $this->getOrdinary( );
+        $items['deduction'] = $this->getDeduction( );
+        $items['deductionAW'] = $this->getDeductionAW( );
+        $items['additional'] = $this->getAdditional( );
+
+        if( isset( $data['empInfo']['salary'] ) && is_numeric( $data['empInfo']['salary'] ) &&
+            $data['empInfo']['salary'] > 0 && isset( $items['basic']['piID'] ) ) {
+            if( isset( $items['ordinary'][$items['basic']['piID']] ) ) {
+                $items['ordinary'][$items['basic']['piID']]['amount'] = $data['empInfo']['salary'];
+            }
+        }
+        return $items;
+    }
+
+
+    /**
      * Return total count of records
      * @return int
      */
     public function reprocessPayroll( $data, $post ) {
-        if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) ) {
+        if( isset( $post['data'] ) ) {
+            $preg = '/^itemType_(\d)+/';
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return $match;
+                } else {
+                    return false;
+                }
+            };
+            $criteria = array_filter( $post['data'], $callback, ARRAY_FILTER_USE_KEY );
+            $post['postItems'] = array( );
+
+            foreach( $criteria as $key => $item ) {
+                preg_match( $preg, $key, $match );
+
+                if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                    $id = $match[1];
+
+                    if( strstr( $item,'p-' ) ) {
+                        $piID = str_replace( 'p-', '', $item );
+
+                        if( isset( $post['data']['amount_' . $id] ) ) {
+                            $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
+                            $amount = (int)str_replace( ',', '', $amount );
+
+                            if( $amount > 0 ) {
+                                $post['postItems'][] = array( 'piID' => $piID,
+                                                              'amount' => $amount );
+                            }
+                        }
+                    }
+                }
+            }
+            return $post;
+        }
+
+        /*if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) ) {
             $post['itemType'] = str_replace( 'p-', '', $post['itemType'] );
 
             $post['amountInput'] = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
             $post['amountInput'] = (int)str_replace( ',', '', $post['amountInput'] );
             $post['amountInput'] = preg_replace('/[^0-9,.]/', '', $post['amountInput'] );
             return $post;
-        }
+        }*/
     }
 
 

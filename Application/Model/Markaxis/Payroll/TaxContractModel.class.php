@@ -102,36 +102,33 @@ class TaxContractModel extends \Model {
                 }
             };
             $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
-            $sizeof = sizeof( $criteria );
 
-            if( $sizeof > 0 ) {
-                foreach( $criteria as $key => $value ) {
-                    preg_match( $preg, $key, $match );
+            foreach( $criteria as $key => $value ) {
+                preg_match( $preg, $key, $match );
 
-                    if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
-                        $id = $match[1];
+                if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                    $id = $match[1];
 
-                        if( $data['criteria_' . $id] == 'contract' ) {
-                            if( $existing = $this->getBytrID( $cInfo['trID'] ) ) {
-                                $existingIDs = array_column( $existing, 'contractID' );
+                    if( $data['criteria_' . $id] == 'contract' ) {
+                        if( $existing = $this->getBytrID( $cInfo['trID'] ) ) {
+                            $existingIDs = array_column( $existing, 'contractID' );
 
-                                foreach( $data['contract'] as $contractID ) {
-                                    if( !in_array( $contractID, $existingIDs ) ) {
-                                        $cInfo['contractID'] = $contractID;
-                                        $this->TaxContract->insert('tax_contract', $cInfo );
-                                    }
-                                    array_push($validID, $contractID );
-                                }
-                            }
-                            else {
-                                foreach( $data['contract'] as $contractID ) {
-                                    $cInfo['contractID'] = (int)$contractID;
+                            foreach( $data['contract'] as $contractID ) {
+                                if( !in_array( $contractID, $existingIDs ) ) {
+                                    $cInfo['contractID'] = $contractID;
                                     $this->TaxContract->insert('tax_contract', $cInfo );
-                                    array_push($validID, $cInfo['contractID'] );
                                 }
+                                array_push($validID, $contractID );
                             }
-                            break;
                         }
+                        else {
+                            foreach( $data['contract'] as $contractID ) {
+                                $cInfo['contractID'] = (int)$contractID;
+                                $this->TaxContract->insert('tax_contract', $cInfo );
+                                array_push($validID, $cInfo['contractID'] );
+                            }
+                        }
+                        break;
                     }
                 }
             }

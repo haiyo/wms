@@ -217,7 +217,6 @@ class TaxPayItemModel extends \Model {
      */
     public function saveTaxRule( $data ) {
         $preg = '/^criteria_(\d)+/';
-
         $callback = function( $val ) use( $preg ) {
             if( preg_match( $preg, $val, $match ) ) {
                 return $match;

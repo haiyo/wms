@@ -234,22 +234,24 @@ class PayrollView {
                                                     'TPL_ICON' => '' );
                 $id++;
             }
-
             if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
                 foreach( $data['items'] as $items ) {
-                    if( isset( $items['piID'] ) ) {
+                    if( isset( $items['piID'] ) &&
+                        $items['piID'] != $data['deduction']['piID'] &&
+                        $items['piID'] != $data['deductionAW']['piID'] ) {
                         $selected = 'p-' . $items['piID'];
+
+                        $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected,
+                                                                'Select Payroll Item' );
+
+                        $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                            'TPLVAR_AMOUNT' => $userInfo['currency'] .
+                                                                                number_format( $items['amount'],2 ),
+                                                            'TPL_PAYROLL_ITEM_LIST' => $itemType,
+                                                            'TPLVAR_REMARK' => $items['remark'] );
+                        $id++;
                     }
-                    $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
-
-                    $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
-                                                        'TPLVAR_AMOUNT' => $userInfo['currency'] .
-                                                                           number_format( $items['amount'],2 ),
-                                                        'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                        'TPLVAR_REMARK' => $items['remark'] );
-                    $id++;
                 }
-
                 if( isset( $data['claims'] ) ) {
                     foreach( $data['claims'] as $claims ) {
                         if( isset( $claims['eiID'] ) ) {
@@ -288,14 +290,11 @@ class PayrollView {
         $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
         $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
 
-        if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
-            $vars['TPLVAR_GROSS_AMOUNT'] = $data['empInfo']['salary'];
-            $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
-        }
         if( isset( $data['gross'] ) ) {
             foreach( $data['gross'] as $gross ) {
                 if( isset( $gross['amount'] ) ) {
                     $vars['TPLVAR_GROSS_AMOUNT'] += (float)$gross['amount'];
+                    $vars['TPLVAR_NET_AMOUNT'] += (float)$gross['amount'];
                 }
             }
         }
@@ -315,7 +314,7 @@ class PayrollView {
                     }
                 }
             }
-        }
+        }//var_dump($vars); exit;
         if( isset( $data['claims'] ) ) {
             foreach( $data['claims'] as $claims ) {
                 if( isset( $claims['eiID'] ) ) {

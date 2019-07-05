@@ -127,19 +127,15 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function filterOrdinary( $data, $compInfo, $ordinaryWage, $post=false ) {
-        if( $compInfo['criteria'] == 'ordinary' ) {
-
-            // COMBINE ALL ORDINARY??
-            if( $data['empInfo']['salary'] ) {
-                if( !$this->isEquality( $compInfo['computing'], $ordinaryWage, $compInfo['value'] ) ) {
-                    unset( $data['taxRules'][$compInfo['trID']] );
-                    $unset[$compInfo['trID']] = 1;
-                }
-                if( $compInfo['computing'] == 'ltec' && $ordinaryWage > $compInfo['value'] ) {
-                    // Set the cap amount for later deduction.
-                    $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
-                }
+    public function filterOrdinary( $data, $compInfo, $totalOrdinary ) {
+        if( $compInfo['criteria'] == 'ordinary' && $totalOrdinary ) {
+            if( !$this->isEquality( $compInfo['computing'], $totalOrdinary, $compInfo['value'] ) ) {
+                unset( $data['taxRules'][$compInfo['trID']] );
+                $unset[$compInfo['trID']] = 1;
+            }
+            if( $compInfo['computing'] == 'ltec' && $totalOrdinary > $compInfo['value'] ) {
+                // Set the cap amount for later deduction.
+                $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
             }
         }
         return $data;
@@ -154,7 +150,7 @@ class TaxComputingModel extends \Model {
         if( $compInfo['criteria'] == 'allPayItem' ) {
             $items = $data['empInfo']['salary'];
 
-            if( $post &&
+            if( isset( $post['postItems'] ) &&
                 $data['deduction']['piID'] != $post['itemType'] &&
                 $data['deductionAW']['piID'] != $post['itemType'] ) {
 
@@ -165,7 +161,6 @@ class TaxComputingModel extends \Model {
                 $unset[$compInfo['trID']] = 1;
             }
         }
-        var_dump($data);
         return $data;
     }
 
@@ -181,14 +176,21 @@ class TaxComputingModel extends \Model {
             $unset = array( );
 
             if( sizeof( $compInfo ) > 0 ) {
-                $data['ordinary']['amount'] = $data['empInfo']['salary'];
-
-                if( $post &&
-                    isset( $data['ordinary'][$post['itemType']] ) ) {
-                    $data['gross'][] = array( 'amount' => $post['amountInput'] );
-                    $data['ordinary']['amount'] += $post['amountInput'];
+                if( isset( $post['postItems'] ) ) {
+                    foreach( $post['postItems'] as $postItems ) {
+                        if( isset( $data['ordinary'][$postItems['piID']] ) ) {
+                            $data['ordinary'][$postItems['piID']]['amount'] = $postItems['amount'];
+                        }
+                    }
                 }
-
+                $data['totalOrdinary'] = 0;
+                // foreach is still the fastest compare to array_sum;
+                foreach( $data['ordinary'] as $ordinary ) {
+                    if( isset( $ordinary['amount'] ) ) {
+                        $data['totalOrdinary'] += $ordinary['amount'];
+                        $data['gross'][] = array( 'amount' => $ordinary['amount'] );
+                    }
+                }
                 foreach( $compInfo as $row ) {
                     // Multiple computing criteria can belong to one TaxRule.
                     // If we have the main TaxRule already unset before, skip any compInfo related;
@@ -196,8 +198,8 @@ class TaxComputingModel extends \Model {
                         continue;
                     }
                     $data = $this->filterAge( $data, $row );
-                    $data = $this->filterOrdinary( $data, $row, $data['ordinary']['amount'], $post );
-                    $data = $this->filterAllPayItem( $data, $row, $post );
+                    $data = $this->filterOrdinary( $data, $row, $data['totalOrdinary'] );
+                    //$data = $this->filterAllPayItem( $data, $row, $post );
                 }
             }
         }
@@ -219,9 +221,7 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function reprocessPayroll( $data, $post ) {
-        if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) && is_numeric( $post['amountInput'] ) ) {
-            return $this->filterInvalidRules( $data, $post );
-        }
+        return $this->filterInvalidRules( $data, $post );
     }
 
 

@@ -71,8 +71,7 @@ class TaxRaceControl {
      * @return string
      */
     public function reprocessPayroll( ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxRaceModel->processPayroll( $data ) );
+        $this->processPayroll( );
     }
 
 
