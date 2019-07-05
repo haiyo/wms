@@ -103,61 +103,101 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function filterAge( $data, $compInfo ) {
+        $age = 0;
+
+        if( $compInfo['criteria'] == 'age' ) {
+            if( !$age ) {
+                // If invalid age, break altogether.
+                if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
+                    unset( $data['taxRules'][$compInfo['trID']] );
+                    $unset[$compInfo['trID']] = 1;
+                }
+            }
+            if( !$this->isEquality( $compInfo['computing'], $age, $compInfo['value'] ) ) {
+                unset( $data['taxRules'][$compInfo['trID']] );
+                $unset[$compInfo['trID']] = 1;
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function filterOrdinary( $data, $compInfo, $ordinaryWage, $post=false ) {
+        if( $compInfo['criteria'] == 'ordinary' ) {
+
+            // COMBINE ALL ORDINARY??
+            if( $data['empInfo']['salary'] ) {
+                if( !$this->isEquality( $compInfo['computing'], $ordinaryWage, $compInfo['value'] ) ) {
+                    unset( $data['taxRules'][$compInfo['trID']] );
+                    $unset[$compInfo['trID']] = 1;
+                }
+                if( $compInfo['computing'] == 'ltec' && $ordinaryWage > $compInfo['value'] ) {
+                    // Set the cap amount for later deduction.
+                    $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function filterAllPayItem( $data, $compInfo, $post=false ) {
+        if( $compInfo['criteria'] == 'allPayItem' ) {
+            $items = $data['empInfo']['salary'];
+
+            if( $post &&
+                $data['deduction']['piID'] != $post['itemType'] &&
+                $data['deductionAW']['piID'] != $post['itemType'] ) {
+
+                $items += $post['amountInput'];
+            }
+            if( !$this->isEquality( $compInfo['computing'], $items, $compInfo['value'] ) ) {
+                unset( $data['taxRules'][$compInfo['trID']] );
+                $unset[$compInfo['trID']] = 1;
+            }
+        }
+        var_dump($data);
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function filterInvalidRules( $data, $post=false ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
-            $age = 0;
             $unset = array( );
 
             if( sizeof( $compInfo ) > 0 ) {
+                $data['ordinary']['amount'] = $data['empInfo']['salary'];
+
+                if( $post &&
+                    isset( $data['ordinary'][$post['itemType']] ) ) {
+                    $data['gross'][] = array( 'amount' => $post['amountInput'] );
+                    $data['ordinary']['amount'] += $post['amountInput'];
+                }
+
                 foreach( $compInfo as $row ) {
-                    // If we have trID already unset before, skip any compInfo related;
+                    // Multiple computing criteria can belong to one TaxRule.
+                    // If we have the main TaxRule already unset before, skip any compInfo related;
                     if( isset( $unset[$row['trID']] ) ) {
                         continue;
                     }
-                    if( $row['criteria'] == 'age' ) {
-                        if( !$age ) {
-                            // If invalid age, break altogether.
-                            if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                $unset[$row['trID']] = 1;
-                                continue;
-                            }
-                        }
-                        if( !$this->isEquality( $row['computing'], $age, $row['value'] ) ) {
-                            unset( $data['taxRules'][$row['trID']] );
-                            $unset[$row['trID']] = 1;
-                            continue;
-                        }
-                    }
-                    if( $row['criteria'] == 'ordinary' ) {
-                        if( $data['empInfo']['salary'] ) {
-                            if( !$this->isEquality( $row['computing'], $data['empInfo']['salary'], $row['value'] ) ) {
-                                unset( $data['taxRules'][$row['trID']] );
-                                $unset[$row['trID']] = 1;
-                                continue;
-                            }
-                            if( $row['computing'] == 'ltec' && $data['empInfo']['salary'] > $row['value'] ) {
-                                // Set the cap amount for later deduction.
-                                $data['taxRules'][$row['trID']]['capped'] = $row['value'];
-                            }
-                        }
-                    }
-                    if( $row['criteria'] == 'allPayItem' ) {
-                        $items = $data['empInfo']['salary'];
-
-                        if( $data['deduction']['piID'] != $post['itemType'] &&
-                            $data['deductionAW']['piID'] != $post['itemType'] ) {
-                            if( isset( $post['amountInput'] ) && $post['amountInput']  ) {
-                                $items += $post['amountInput'] ;
-                            }
-                        }
-                        if( !$this->isEquality( $row['computing'], $items, $row['value'] ) ) {
-                            unset( $data['taxRules'][$row['trID']] );
-                            $unset[$row['trID']] = 1;
-                        }
-                    }
+                    $data = $this->filterAge( $data, $row );
+                    $data = $this->filterOrdinary( $data, $row, $data['ordinary']['amount'], $post );
+                    $data = $this->filterAllPayItem( $data, $row, $post );
                 }
             }
         }
@@ -179,10 +219,7 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function reprocessPayroll( $data, $post ) {
-        if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) && $post['amountInput'] &&
-            isset( $data['ordinary'][$post['itemType']] ) ) {
-            //$data['gross'][] = array( 'amount' => $post['amountInput'] );
-            //$data['empInfo']['salary'] += $post['amountInput'];
+        if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) && is_numeric( $post['amountInput'] ) ) {
             return $this->filterInvalidRules( $data, $post );
         }
     }

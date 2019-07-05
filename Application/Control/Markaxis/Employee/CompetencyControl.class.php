@@ -95,6 +95,25 @@ class CompetencyControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'competency' => $this->CompetencyModel->getByUserID( $data['empInfo']['userID'], '*' ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
@@ -102,28 +121,6 @@ class CompetencyControl {
             $this->CompetencyModel->save( );
         }
     }
-
-
-    /**
-     * Render main navigation
-     * @return string
-
-    public function saveCompetency( ) {
-        if( Control::hasPermission( 'Markaxis', 'add_modify_competency' ) ) {
-            $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
-
-            if( $this->CompetencyModel->isValid( $post ) ) {
-                $this->CompetencyModel->saveCompetency( );
-                $vars['bool'] = 1;
-            }
-            else {
-                $vars['bool'] = 0;
-                $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
-            }
-            echo json_encode( $vars );
-            exit;
-        }
-    } */
 
 
     /**

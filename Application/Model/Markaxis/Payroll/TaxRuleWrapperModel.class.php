@@ -46,7 +46,7 @@ class TaxRuleWrapperModel extends \Model {
         }
         // Parse all passes to items
         foreach( $data['taxRules'] as $rules ) {
-            if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] ) {
+            if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] && isset( $data['ordinary']['amount'] ) ) {
                 if( $rules['applyValueType'] == 'percentage' ) {
                     if( isset( $rules['capped'] ) ) {
                         $amount = $rules['capped']*$rules['applyValue']/100;
@@ -54,7 +54,7 @@ class TaxRuleWrapperModel extends \Model {
                                     number_format( $rules['capped'] ) . ')';
                     }
                     else {
-                        $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                        $amount = $data['ordinary']['amount']*$rules['applyValue']/100;
                         $remark = '';
                     }
                 }

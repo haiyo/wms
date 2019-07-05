@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Employee;
 use \Control;
+use \Library\Http\HttpResponse;
+use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -98,6 +100,39 @@ class EmployeeControl {
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
         Control::setOutputArrayAppend( array( 'form' => $this->EmployeeView->renderEdit( $userID ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( $args, $reprocess=false ) {
+        try {
+            if( isset( $args[1] ) && $empInfo = $this->EmployeeModel->getProcessInfo( $args[1] ) ) {
+                Control::setOutputArray( array( 'empInfo' => $empInfo ) );
+
+                if( !$reprocess ) {
+                    Control::setOutputArray( $this->EmployeeView->renderProcessForm( $empInfo ) );
+                }
+            }
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+            }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( $args ) {
+        $this->processPayroll( $args, true );
     }
 
 

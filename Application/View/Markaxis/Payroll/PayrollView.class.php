@@ -293,7 +293,6 @@ class PayrollView {
             $vars['TPLVAR_NET_AMOUNT'] = $data['empInfo']['salary'];
         }
         if( isset( $data['gross'] ) ) {
-            var_dump($data['gross']);exit;
             foreach( $data['gross'] as $gross ) {
                 if( isset( $gross['amount'] ) ) {
                     $vars['TPLVAR_GROSS_AMOUNT'] += (float)$gross['amount'];

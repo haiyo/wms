@@ -106,7 +106,7 @@ class HTMLHelper {
 				    if( is_array( $val ) ) {
 				        var_dump($val);
                     }
-					settype( $val, 'string' );
+					settype($val, 'string' );
 				}
                 $template = str_replace( '<?' . $key . '?>', "$val", "$template" );
 			}
