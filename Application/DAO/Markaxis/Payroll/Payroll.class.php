@@ -19,7 +19,8 @@ class Payroll extends \DAO {
      * @return int
      */
     public function isFound( $prID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(prID) FROM payroll WHERE prID = "' . (int)$prID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(prID) FROM payroll 
+                                   WHERE prID = "' . (int)$prID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -31,11 +32,10 @@ class Payroll extends \DAO {
      * @return mixed
      */
     public function getPayruns( ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM payrun pr',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
@@ -85,13 +85,16 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByRange( $startDate, $endDate ) {
-        $list = array( );
+    public function getByRange( $startDate, $endDate, $userID=false ) {
+        $userID = $userID ? ' WHERE p.userID = "' . (int)$userID . '"' : '';
 
-        $sql = $this->DB->select( 'SELECT *, MONTH(startDate) AS startIndex FROM payroll p WHERE startDate 
-                                   BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '"',
+        $sql = $this->DB->select( 'SELECT *, MONTH(startDate) AS startIndex 
+                                   FROM payroll p WHERE startDate 
+                                   BETWEEN "' . addslashes( $startDate ) . '" AND 
+                                           "' . addslashes( $endDate ) . '"' . $userID,
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['startIndex']] = $row;

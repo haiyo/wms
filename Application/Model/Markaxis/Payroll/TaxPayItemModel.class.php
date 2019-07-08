@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Company\OfficeModel;
 use \Library\Util\Formula;
 
 /**
@@ -137,23 +138,18 @@ class TaxPayItemModel extends \Model {
                     $data['gross'][] = array( 'amount' => $postItems['amount'] );
                 }
             }
+
+            /*$OfficeModel = OfficeModel::getInstance( );
+            $officeInfo = $OfficeModel->getByoID( $data['empInfo']['officeID'] );
+
+            $Payroll = PayrollModel::getInstance( );
+            var_dump($Payroll->getTotalFYOrdinaryByUserID( $startDate, $endDate, $data['empInfo']['userID'] ) );*/
         }
-
-        if( !$data['totalAW'] ) return;
-
-        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+        if( $data['totalAW'] && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $itemInfo = $this->getBytrIDs( $trIDs );
 
             if( sizeof( $itemInfo ) > 0 ) {
-                /*
-                // foreach is still the fastest compare to array_sum;
-                foreach( $data['additional'] as $additional ) {
-                    if( isset( $additional['amount'] ) ) {
-                        $data['totalAW'] += $additional['amount'];
-                    }
-                }*/
-
                 foreach( $itemInfo as $row ) {
                     if( $row['valueType'] == 'formula' && $row['value'] ) {
                         $salary = $data['empInfo']['salary'];
