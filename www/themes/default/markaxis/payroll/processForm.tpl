@@ -21,9 +21,9 @@
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
-    <div id="itemWrapper" style="min-height:270px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
+    <div id="itemWrapper" style="min-height:243px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
         <!-- BEGIN DYNAMIC BLOCK: item -->
-        <div id="itemRowWrapper_<?TPLVAR_ID?>" class="row itemRow" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
+        <div id="itemRowWrapper_<?TPLVAR_ID?>" class="row itemRow <?TPLVAR_DEDUCTION?>" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
             <div class="col-md-4">
                 <?TPL_PAYROLL_ITEM_LIST?>
             </div>
@@ -51,7 +51,7 @@
     </div>
 </form>
 <div id="itemTemplate" class="hide">
-    <div id="itemRowWrapper_{id}" class="row itemRow" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
+    <div id="itemRowWrapper_{id}" class="row itemRow {deduction}" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
         <div class="col-md-4">
             <?TPL_PAYROLL_ITEM_LIST?>
         </div>

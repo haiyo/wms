@@ -73,8 +73,7 @@ class TaxRule extends \DAO {
     public function getBytgIDs( $tgIDs ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT tr.trID, tg.title, tr.applyType, tr.applyValueType, tr.applyValue
-                                   FROM tax_rule tr
+        $sql = $this->DB->select( 'SELECT tr.* FROM tax_rule tr
                                    LEFT JOIN tax_group tg ON ( tg.tgID = tr.tgID )
                                    LEFT JOIN country c ON ( c.cID = tr.countryID )
                                    LEFT JOIN tax_pay_item tpi ON ( tpi.trID = tr.trID ) 

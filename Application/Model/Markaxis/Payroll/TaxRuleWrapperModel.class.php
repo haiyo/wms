@@ -62,9 +62,10 @@ class TaxRuleWrapperModel extends \Model {
                     $amount = $rules['applyValue'];
                     $remark = '';
                 }
-                $data['items'][] = //$data['addItem'][] =
-                    array( 'piID' => $data['deduction']['piID'],
+                $data['items'][] = array( 'piID' => $data['deduction']['piID'],
                                           'trID' => $rules['trID'],
+                                          'tgID' => $rules['tgID'],
+                                          'deduction' => 1,
                                           'remark' => $rules['title'] . $remark,
                                           'amount' => $amount );
             }

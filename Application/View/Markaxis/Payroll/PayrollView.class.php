@@ -226,6 +226,7 @@ class PayrollView {
                 $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                 $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                    'TPLVAR_DEDUCTION' => '',
                                                     'TPLVAR_CURRENCY' => $userInfo['currency'],
                                                     'TPLVAR_AMOUNT' => $userInfo['currency'] .
                                                                        number_format( $data['empInfo']['salary'],2 ),
@@ -238,13 +239,21 @@ class PayrollView {
                 foreach( $data['items'] as $items ) {
                     if( isset( $items['piID'] ) &&
                         $items['piID'] != $data['deduction']['piID'] &&
-                        $items['piID'] != $data['deductionAW']['piID'] ) {
-                        $selected = 'p-' . $items['piID'];
+                        $items['piID'] != $data['deductionAW']['piID']
+                        ) {
+                        $selected  = 'p-' . $items['piID'];
+                        $deduction = '';
+
+                        if( $items['piID'] == $data['deduction']['piID'] || $items['piID'] == $data['deductionAW']['piID'] ) {
+                            $deduction = 'deduction';
+
+                        }
 
                         $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected,
                                                                 'Select Payroll Item' );
 
                         $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                            'TPLVAR_DEDUCTION' => $deduction,
                                                             'TPLVAR_AMOUNT' => $userInfo['currency'] .
                                                                                 number_format( $items['amount'],2 ),
                                                             'TPL_PAYROLL_ITEM_LIST' => $itemType,
@@ -305,16 +314,41 @@ class PayrollView {
                 }
             }
         }
+
+        $vars['dynamic']['deductionSummary'] = false;
+        $itemGroups = array( );
+
         if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
             foreach( $data['items'] as $items ) {
-                if( isset( $items['piID'] ) ) {
-                    if( isset( $data['deduction'] ) ) {
-                        $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$items['amount'];
-                        $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
+                if( isset( $data['deduction'] ) ) {
+                    $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$items['amount'];
+                    $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
+
+                    foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroups ) {
+                        if( $taxGroups['summary'] ) {
+                            if( in_array( $items['tgID'], $taxGroups['child'] ) ) {
+
+                                $itemGroups[$key]['title'] = $taxGroups['title'];
+
+                                if( isset( $itemGroups[$key]['amount'] ) ) {
+                                    $itemGroups[$key]['amount'] += (float)$items['amount'];
+                                }
+                                else {
+                                    $itemGroups[$key]['amount'] = (float)$items['amount'];
+                                }
+                            }
+                        }
                     }
+
                 }
             }
-        }//var_dump($vars); exit;
+            foreach( $itemGroups as $groups ) {
+                $vars['dynamic']['deductionSummary'][] =
+                    array( 'TPLVAR_TITLE' => $groups['title'],
+                           'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                           'TPLVAR_DEDUCTION_AMOUNT' => number_format( $groups['amount'],2 ) );
+            }
+        }
         if( isset( $data['claims'] ) ) {
             foreach( $data['claims'] as $claims ) {
                 if( isset( $claims['eiID'] ) ) {
@@ -348,6 +382,7 @@ class PayrollView {
         $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'],2 );
         $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'],2 );
         $vars['TPLVAR_SDL_AMOUNT'] = number_format( $vars['TPLVAR_SDL_AMOUNT'],2 );
+
         return $this->View->render('markaxis/payroll/processSummary.tpl', $vars );
     }
 

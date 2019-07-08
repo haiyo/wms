@@ -34,13 +34,15 @@ class Tax extends \DAO {
     public function getByUserID( $userID, $column ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM employee_tax
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ', tg.title, tg.summary
+                                   FROM employee_tax et
+                                   LEFT JOIN tax_group tg ON ( tg.tgID = et.tgID )
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
+                $list['mainGroup'][$row['tgID']] = $row;
 
                 $sql2 = $this->DB->select( 'SELECT tgID, title, parent
                                             FROM ( SELECT * FROM tax_group ORDER BY parent, tgID) tax_group,
@@ -51,6 +53,7 @@ class Tax extends \DAO {
 
                 while( $child = $this->DB->fetch( $sql2 ) ) {
                     $list[] = $child;
+                    $list['mainGroup'][$row['tgID']]['child'][] = $child['tgID'];
                 }
             }
         }

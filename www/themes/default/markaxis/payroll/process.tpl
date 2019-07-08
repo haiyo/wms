@@ -314,7 +314,7 @@
         var itemAdded = 0;
 
         $(document).on("click", ".addItem", function ( ) {
-            itemAdded = addItem( );
+            itemAdded = addItem( false );
             return false;
         });
 
@@ -347,13 +347,23 @@
                             }
                             else {
                                 if( obj.data.addItem && obj.data.addItem.length > 0 ) {
+                                    var deduction = false;
+
                                     for( var i=0; i<obj.data.addItem.length; i++ ) {
-                                        var id = addItem( );
+                                        if( obj.data.addItem[i]['deduction'] === 1 ) {
+                                            deduction = true;
+                                        }
+
+                                        var id = addItem( deduction );
                                         itemAdded--;
 
                                         $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
                                         $("#amount_" + id).val( Aurora.String.formatMoney( obj.data.addItem[i]['amount'] + "" ) );
                                         $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
+                                    }
+                                    if( deduction ) {
+                                        $(".deduction").remove( );
+                                        $(".deduction1").removeClass("deduction1").addClass("deduction");
                                     }
                                 }
                                 $("#processSummary").html( obj.summary );
@@ -365,7 +375,7 @@
             }
         });
 
-        function addItem( ) {
+        function addItem( deduction ) {
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
             var icon = iconWrapper.find(".icon")
 
@@ -375,6 +385,14 @@
             var length = $(".itemRow").length;
             var item = $("#itemTemplate").html( );
             item = item.replace(/\{id\}/g, length );
+
+            if( deduction ) {
+                item = item.replace(/\{deduction\}/g, "deduction1" );
+            }
+            else {
+                item = item.replace(/\{deduction\}/g, "" );
+            }
+
             $("#itemWrapper").append( item );
 
             $("#itemRowWrapper_" + length).find(".select2").remove( );

@@ -51,11 +51,9 @@ class TaxPayItem extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getBytrIDs( $trIDs, $piID=false ) {
-        $piID = $piID ? ' AND piID = "' . (int)$piID . '"' : '';
-
+    public function getBytrIDs( $trIDs ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_pay_item 
-                                   WHERE trID IN (' . addslashes( $trIDs ) . ')' . $piID,
+                                   WHERE trID IN (' . addslashes( $trIDs ) . ')',
                                    __FILE__, __LINE__ );
 
         $list = array( );

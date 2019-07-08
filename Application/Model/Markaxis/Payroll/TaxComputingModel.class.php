@@ -133,7 +133,8 @@ class TaxComputingModel extends \Model {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $unset[$compInfo['trID']] = 1;
             }
-            if( $compInfo['computing'] == 'ltec' && $totalOrdinary > $compInfo['value'] ) {
+            if( isset( $data['taxRules'][$compInfo['trID']] ) &&
+                $compInfo['computing'] == 'ltec' && $totalOrdinary > $compInfo['value'] ) {
                 // Set the cap amount for later deduction.
                 $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
             }
@@ -146,17 +147,9 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function filterAllPayItem( $data, $compInfo, $post=false ) {
-        if( $compInfo['criteria'] == 'allPayItem' ) {
-            $items = $data['empInfo']['salary'];
-
-            if( isset( $post['postItems'] ) &&
-                $data['deduction']['piID'] != $post['itemType'] &&
-                $data['deductionAW']['piID'] != $post['itemType'] ) {
-
-                $items += $post['amountInput'];
-            }
-            if( !$this->isEquality( $compInfo['computing'], $items, $compInfo['value'] ) ) {
+    public function filterAllPayItem( $data, $compInfo, $totalOrdinary ) {
+        if( $compInfo['criteria'] == 'allPayItem' && $totalOrdinary ) {
+            if( !$this->isEquality( $compInfo['computing'], $totalOrdinary, $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $unset[$compInfo['trID']] = 1;
             }
@@ -184,6 +177,7 @@ class TaxComputingModel extends \Model {
                     }
                 }
                 $data['totalOrdinary'] = 0;
+
                 // foreach is still the fastest compare to array_sum;
                 foreach( $data['ordinary'] as $ordinary ) {
                     if( isset( $ordinary['amount'] ) ) {
@@ -199,7 +193,7 @@ class TaxComputingModel extends \Model {
                     }
                     $data = $this->filterAge( $data, $row );
                     $data = $this->filterOrdinary( $data, $row, $data['totalOrdinary'] );
-                    //$data = $this->filterAllPayItem( $data, $row, $post );
+                    $data = $this->filterAllPayItem( $data, $row, $data['totalOrdinary'] );
                 }
             }
         }

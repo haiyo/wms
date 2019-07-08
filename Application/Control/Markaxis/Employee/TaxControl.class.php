@@ -31,7 +31,7 @@ class TaxControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'taxGroups' => $this->TaxModel->getByUserID( $data['empInfo']['userID'], '*' ) ) );
+        Control::setOutputArray( array( 'taxGroups' => $this->TaxModel->getByUserID( $data['empInfo']['userID'], 'et.*' ) ) );
     }
 
 

@@ -195,35 +195,24 @@ class ItemModel extends \Model {
             foreach( $criteria as $key => $item ) {
                 preg_match( $preg, $key, $match );
 
-                if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'p-' ) ) {
                     $id = $match[1];
 
-                    if( strstr( $item,'p-' ) ) {
-                        $piID = str_replace( 'p-', '', $item );
+                    $piID = str_replace( 'p-', '', $item );
 
-                        if( isset( $post['data']['amount_' . $id] ) ) {
-                            $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
-                            $amount = (int)str_replace( ',', '', $amount );
+                    if( isset( $post['data']['amount_' . $id] ) ) {
+                        $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
+                        $amount = (int)str_replace( ',', '', $amount );
 
-                            if( $amount > 0 ) {
-                                $post['postItems'][] = array( 'piID' => $piID,
-                                                              'amount' => $amount );
-                            }
+                        if( $amount > 0 ) {
+                            $post['postItems'][] = array( 'piID' => $piID,
+                                                          'amount' => $amount );
                         }
                     }
                 }
             }
             return $post;
         }
-
-        /*if( isset( $post['itemType'] ) && isset( $post['amountInput'] ) ) {
-            $post['itemType'] = str_replace( 'p-', '', $post['itemType'] );
-
-            $post['amountInput'] = str_replace( $data['empInfo']['currency'], '', $post['amountInput'] );
-            $post['amountInput'] = (int)str_replace( ',', '', $post['amountInput'] );
-            $post['amountInput'] = preg_replace('/[^0-9,.]/', '', $post['amountInput'] );
-            return $post;
-        }*/
     }
 
 
