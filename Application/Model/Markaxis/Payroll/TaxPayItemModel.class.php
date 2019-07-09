@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Company\OfficeModel;
+use \Markaxis\Company\FinancialYearModel;
 use \Library\Util\Formula;
 
 /**
@@ -128,24 +128,27 @@ class TaxPayItemModel extends \Model {
      * @return mixed
     */
     public function reprocessPayroll( $data, $post ) {
+        if( !isset( $post['postItems'] ) ) {
+            return;
+        }
         $data['totalAW'] = 0;
 
-        if( isset( $post['postItems'] ) ) {
-            foreach( $post['postItems'] as $postItems ) {
-                if( isset( $data['additional'][$postItems['piID']] ) ) {
-                    //$data['additional'][$postItems['piID']]['amount'] = $postItems['amount'];
-                    $data['totalAW'] += $postItems['amount'];
-                    $data['gross'][] = array( 'amount' => $postItems['amount'] );
-                }
+        foreach( $post['postItems'] as $postItems ) {
+            if( isset( $data['additional'][$postItems['piID']] ) ) {
+                //$data['additional'][$postItems['piID']]['amount'] = $postItems['amount'];
+                $data['totalAW'] += $postItems['amount'];
+                $data['gross'][] = array( 'amount' => $postItems['amount'] );
             }
-
-            /*$OfficeModel = OfficeModel::getInstance( );
-            $officeInfo = $OfficeModel->getByoID( $data['empInfo']['officeID'] );
-
-            $Payroll = PayrollModel::getInstance( );
-            var_dump($Payroll->getTotalFYOrdinaryByUserID( $startDate, $endDate, $data['empInfo']['userID'] ) );*/
         }
+
         if( $data['totalAW'] && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+
+            $FinancialYearModel = FinancialYearModel::getInstance( );
+            $dateRange = $FinancialYearModel->getRange( );
+
+            $PayrollModel = PayrollModel::getInstance( );
+            $totalOrdinary = $PayrollModel->getTotalOrdinaryByUserID( $dateRange['fyStart'], $dateRange['fyEnd'], $data['empInfo']['userID'] );
+
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $itemInfo = $this->getBytrIDs( $trIDs );
 

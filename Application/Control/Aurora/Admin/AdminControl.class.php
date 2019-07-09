@@ -64,7 +64,7 @@ class AdminControl extends Control {
             // Setup company profile if not already
             $CompanyModel = CompanyModel::getInstance( );
 
-            /*if( !$CompanyModel->loadInfo( ) ) {
+            if( !$CompanyModel->loadInfo( ) ) {
                 if( isset( $args[0] ) && $args[0] != 'company' ) {
                     // Redirect to setup page!
                     //header( 'location: ' . ROOT_URL . 'admin/company/setup' );
@@ -72,7 +72,7 @@ class AdminControl extends Control {
                 }
             }
             // If no event request, just redirect to main page
-            else */if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
+            else if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
                 // Redirect to default page if user is authenticated and tries to load admin/
                 header( 'location: ' . ROOT_URL . 'admin/dashboard' );
                 exit;

@@ -54,9 +54,8 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getTotalFYOrdinaryByUserID( $startDate, $endDate, $userID ) {
-        $range = $this->Payroll->getByRange( $startDate, $endDate, $userID );
-        return $range;
+    public function getTotalOrdinaryByUserID( $startDate, $endDate, $userID ) {
+        return $this->Payroll->getByRange( $startDate, $endDate, $userID );
     }
 
 

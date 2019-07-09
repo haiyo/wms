@@ -4,11 +4,11 @@ namespace Markaxis\Company;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Company.class.php, v 2.0 Exp $
+ * @version $Id: FinancialYear.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Company extends \DAO {
+class FinancialYear extends \DAO {
 
 
     // Properties
@@ -22,7 +22,12 @@ class Company extends \DAO {
         $sql = $this->DB->select( 'SELECT * FROM company', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            $list = array( );
+
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+            return $list;
         }
         return false;
     }

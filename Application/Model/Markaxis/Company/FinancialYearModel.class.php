@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Markaxis\Employee\EmployeeModel;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -7,19 +8,19 @@ use \Library\Exception\ValidatorException;
 /**
  * @author Andy L.W.L <support@markaxis.com>
   * @since Saturday, August 4th, 2012
- * @version $Id: CompanyModel.class.php, v 2.0 Exp $
+ * @version $Id: FinancialYearModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CompanyModel extends \Model {
+class FinancialYearModel extends \Model {
 
 
     // Properties
-    protected $Company;
+    protected $FinancialYear;
 
 
     /**
-    * CompanyModel Constructor
+    * FinancialYearModel Constructor
     * @return void
     */
     function __construct( ) {
@@ -28,20 +29,26 @@ class CompanyModel extends \Model {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
 
-        $this->Company = new Company( );
-
-        $this->info['regNo'] = $this->info['name'] = $this->info['address'] =
-        $this->info['email'] = $this->info['phone'] = $this->info['website'] =
-        $this->info['type'] = $this->info['country'] = '';
+        $this->FinancialYear = new FinancialYear( );
 	}
 
 
     /**
     * Return total count of records
-    * @return int
+    * @return mixed
     */
-    public function loadInfo( ) {
-        return $this->info = $this->Company->loadInfo( );
+    public function getRange( ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        $OfficeModel = OfficeModel::getInstance( );
+        $fyInfo = $OfficeModel->getByoID( $empInfo['officeID'] );
+
+        if( !$fyInfo['fyStart'] || !$fyInfo['fyEnd'] ) {
+            $CompanyModel = CompanyModel::getInstance( );
+            $fyInfo = $CompanyModel->getInfo( );
+        }
+        return array( 'fyStart' => $fyInfo['fyStart'], 'fyEnd' => $fyInfo['fyEnd'] );
     }
 
 
