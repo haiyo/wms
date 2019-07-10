@@ -221,11 +221,10 @@ class ItemModel extends \Model {
      * @return bool
      */
     public function isValid( $data ) {
-        $Validator = new Validator( );
-
         $this->info['piID'] = (int)$data['piID'];
         $this->info['title'] = Validator::stripTrim( $data['payItemTitle'] );
 
+        $Validator = new Validator( );
         $Validator->addModule( 'payItemTitle', new IsEmpty( $this->info['title'] ) );
 
         try {
