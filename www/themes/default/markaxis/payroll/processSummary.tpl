@@ -45,7 +45,7 @@
                 <strong>Total Employer Levy:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_TOTAL_CONTRIBUTION?>
+                <?TPLVAR_CURRENCY?><?TPLVAR_TOTAL_LEVY?>
             </div>
         </div>
 

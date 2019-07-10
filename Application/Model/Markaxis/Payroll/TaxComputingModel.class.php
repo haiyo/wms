@@ -127,16 +127,17 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function filterOrdinary( $data, $compInfo, $totalOrdinary ) {
-        if( $compInfo['criteria'] == 'ordinary' && $totalOrdinary ) {
-            if( !$this->isEquality( $compInfo['computing'], $totalOrdinary, $compInfo['value'] ) ) {
+    public function filterOrdinary( $data, $compInfo ) {
+        if( $compInfo['criteria'] == 'ordinary' && $data['totalOrdinary'] ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $unset[$compInfo['trID']] = 1;
             }
             if( isset( $data['taxRules'][$compInfo['trID']] ) &&
-                $compInfo['computing'] == 'ltec' && $totalOrdinary > $compInfo['value'] ) {
+                $compInfo['computing'] == 'ltec' && $data['totalOrdinary'] > $compInfo['value'] ) {
                 // Set the cap amount for later deduction.
                 $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
+                $data['totalOrdinaryAfterTax'] = $compInfo['value'];
             }
         }
         return $data;
@@ -147,9 +148,9 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function filterAllPayItem( $data, $compInfo, $totalOrdinary ) {
-        if( $compInfo['criteria'] == 'allPayItem' && $totalOrdinary ) {
-            if( !$this->isEquality( $compInfo['computing'], $totalOrdinary, $compInfo['value'] ) ) {
+    public function filterAllPayItem( $data, $compInfo ) {
+        if( $compInfo['criteria'] == 'allPayItem' && $data['totalOrdinary'] ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $unset[$compInfo['trID']] = 1;
             }
@@ -176,12 +177,13 @@ class TaxComputingModel extends \Model {
                         }
                     }
                 }
-                $data['totalOrdinary'] = 0;
+                $data['totalOrdinary'] = $data['totalOrdinaryAfterTax'] = 0;
 
                 // foreach is still the fastest compare to array_sum;
                 foreach( $data['ordinary'] as $ordinary ) {
                     if( isset( $ordinary['amount'] ) ) {
                         $data['totalOrdinary'] += $ordinary['amount'];
+                        $data['totalOrdinaryAfterTax'] += $ordinary['amount'];
                         $data['gross'][] = array( 'amount' => $ordinary['amount'] );
                     }
                 }
@@ -192,8 +194,8 @@ class TaxComputingModel extends \Model {
                         continue;
                     }
                     $data = $this->filterAge( $data, $row );
-                    $data = $this->filterOrdinary( $data, $row, $data['totalOrdinary'] );
-                    $data = $this->filterAllPayItem( $data, $row, $data['totalOrdinary'] );
+                    $data = $this->filterOrdinary( $data, $row );
+                    $data = $this->filterAllPayItem( $data, $row );
                 }
             }
         }

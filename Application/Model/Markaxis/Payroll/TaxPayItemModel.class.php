@@ -131,38 +131,44 @@ class TaxPayItemModel extends \Model {
         if( !isset( $post['postItems'] ) ) {
             return;
         }
-        $data['totalAW'] = 0;
+        $data['totalPostAW'] = 0;
 
         foreach( $post['postItems'] as $postItems ) {
             if( isset( $data['additional'][$postItems['piID']] ) ) {
                 //$data['additional'][$postItems['piID']]['amount'] = $postItems['amount'];
-                $data['totalAW'] += $postItems['amount'];
+                $data['totalPostAW'] += $postItems['amount'];
                 $data['gross'][] = array( 'amount' => $postItems['amount'] );
             }
         }
 
-        if( $data['totalAW'] && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
-
-            $FinancialYearModel = FinancialYearModel::getInstance( );
-            $dateRange = $FinancialYearModel->getRange( );
-
-            $PayrollModel = PayrollModel::getInstance( );
-            $totalOrdinary = $PayrollModel->getTotalOrdinaryByUserID( $dateRange['fyStart'], $dateRange['fyEnd'], $data['empInfo']['userID'] );
-
+        if( $data['totalPostAW'] && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $itemInfo = $this->getBytrIDs( $trIDs );
 
             if( sizeof( $itemInfo ) > 0 ) {
+                $PayrollModel = PayrollModel::getInstance( );
+
                 foreach( $itemInfo as $row ) {
                     if( $row['valueType'] == 'formula' && $row['value'] ) {
-                        $salary = $data['empInfo']['salary'];
-
-                        if( isset( $data['taxRules'][$row['trID']]['capped'] ) &&
-                            $salary > $data['taxRules'][$row['trID']]['capped'] ) {
-                            // Salary capped
-                            $salary = $data['taxRules'][$row['trID']]['capped'];
+                        if( isset( $data['taxRules'][$row['trID']]['capped'] ) ) {
+                            $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'],
+                                                                                       $data['taxRules'][$row['trID']]['capped'] );
                         }
-                        $formula = str_replace('{salary}', $salary, $row['value'] );
+                        else {
+                            $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'] );
+                        }
+
+                        if( $totalOrdinary['months'] < 12 ) {
+                            $currSalary = $data['totalOrdinaryAfterTax'];
+
+                            if( isset( $data['taxRules'][$row['trID']]['capped'] ) &&
+                                $data['empInfo']['salary'] > $data['taxRules'][$row['trID']]['capped'] ) {
+                                $currSalary = $data['taxRules'][$row['trID']]['capped'];
+                            }
+                            $totalOrdinary['amount'] += $currSalary;
+                        }
+
+                        $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $row['value'] );
                         $formula = str_replace('{durationMonth}', $data['empInfo']['monthDiff'], $formula );
 
                         // AW Ceiling
@@ -170,21 +176,14 @@ class TaxPayItemModel extends \Model {
                         $capAmount = $Formula->calculate( $formula );
                         $remark = '';
 
-                        // Get all AW paid within this year (if any) to check if the total hit ceiling!
-                        // var_dump( array_keys( $data['additional']) ); exit;
-
-                        $amount = $data['totalAW'];
+                        $amount = $data['totalPostAW'];
                         //$total = $this->getTotalAWPostCount( $data, $post );
 
-                        if( $data['totalAW'] && $data['totalAW'] > $capAmount ) {
-                            // Check if previously capped before
-                            /*if( $data['totalAW']-$post['amountInput'] >= $capAmount ) {
-                                return 0;
-                            }
-                            else */
+                        if( $data['totalPostAW'] && $data['totalPostAW'] > $capAmount ) {
                             $amount = $capAmount;
                             $remark .= ' (Capped at ' . $data['empInfo']['currency'] . number_format( $capAmount ) . ')';
                         }
+
                         if( isset( $data['taxRules'][$row['trID']]['applyType'] ) &&
                             isset( $data['taxRules'][$row['trID']]['applyValueType'] ) &&
                             isset( $data['taxRules'][$row['trID']]['applyValue'] ) ) {

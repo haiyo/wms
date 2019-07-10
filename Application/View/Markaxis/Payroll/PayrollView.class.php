@@ -297,7 +297,7 @@ class PayrollView {
         $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
         $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
         $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
-        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
+        $vars['TPLVAR_TOTAL_LEVY'] = $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
 
         if( isset( $data['gross'] ) ) {
             foreach( $data['gross'] as $gross ) {
@@ -359,11 +359,11 @@ class PayrollView {
         }
         if( isset( $data['skillLevy'] ) ) {
             $vars['TPLVAR_SDL_AMOUNT'] = (float)$data['skillLevy']['amount'];
-            $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$data['skillLevy']['amount'];
+            $vars['TPLVAR_TOTAL_LEVY'] += (float)$data['skillLevy']['amount'];
         }
         if( isset( $data['foreignLevy'] ) ) {
             $vars['TPLVAR_FWL_AMOUNT'] = (float)$data['foreignLevy']['amount'];
-            $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$data['foreignLevy']['amount'];
+            $vars['TPLVAR_TOTAL_LEVY'] += (float)$data['foreignLevy']['amount'];
         }
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
             $contriAmount = 0;

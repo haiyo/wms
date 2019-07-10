@@ -16,6 +16,7 @@ class PayrollModel extends \Model {
 
     // Properties
     protected $Payroll;
+    private $totalOrdinary;
 
 
 
@@ -54,17 +55,35 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getTotalOrdinaryByUserID( $startDate, $endDate, $userID ) {
-        return $this->Payroll->getByRange( $startDate, $endDate, $userID );
+    public function getCalculateUserInfo( $userID ) {
+        return $this->Payroll->getCalculateUserInfo( $userID );
     }
 
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
-    public function getCalculateUserInfo( $userID ) {
-        return $this->Payroll->getCalculateUserInfo( $userID );
+    public function calculateCurrYearOrdinary( $userID, $cappedLimit=false ) {
+        if( $this->totalOrdinary ) {
+            return $this->totalOrdinary;
+        }
+        $year = date('Y');
+        $startDate = date('Y-m-d', mktime(0, 0, 0, 1, 1, $year) );
+        $endDate = date('Y-m-d', mktime(0, 0, 0, 12, 31, $year) );
+
+        $range = $this->Payroll->getByRange( $startDate, $endDate, $userID );
+        $this->totalOrdinary = array( 'months' => sizeof( $range ), 'amount' => 0 );
+
+        foreach( $range as $payroll ) {
+            if( $cappedLimit && $payroll['ordinary'] > $cappedLimit ) {
+                $this->totalOrdinary['amount'] += $cappedLimit;
+            }
+            else {
+                $this->totalOrdinary['amount'] += $payroll['ordinary'];
+            }
+        }
+        return $this->totalOrdinary;
     }
 
 
