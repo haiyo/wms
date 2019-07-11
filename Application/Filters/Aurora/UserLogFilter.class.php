@@ -1,7 +1,7 @@
 <?php
 namespace Filters\Aurora;
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
-use \Aurora\User\Userlog, \Aurora\User\UserModel;
+use \Aurora\User\UserLog, \Aurora\User\UserModel;
 use \Library\Runtime\Registry, \Library\Interfaces\IFilter, \Library\Util\FilterChain;
 
 /**
