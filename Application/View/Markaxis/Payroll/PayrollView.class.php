@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Expense\ExpenseModel;
+use \Markaxis\Expense\ExpenseModel, \Markaxis\Company\OfficeModel AS M_OfficeModel;
 use \Aurora\User\UserImageModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Form\SelectGroupListView, \Aurora\Component\OfficeModel;
@@ -56,44 +56,52 @@ class PayrollView {
         $vars = array( );
         $startDate = new \DateTime( date('Y-m-01') );
         $startDate = $startDate->modify( '-11 month' );
+
         $endDate   = new \DateTime( date('Y-m-01') );
         $endDate   = $endDate->modify( '+1 month' );
-
         $processed = $this->PayrollModel->getByRange( $startDate->format('Y-m-d'), $endDate->format('Y-m-d') );
 
         $interval = \DateInterval::createFromDateString('1 month');
         $period = new \DatePeriod( $startDate, $interval, $endDate );
 
-        foreach( $period as $datetime ) {
-            $index = $datetime->format('n');
+        $OfficeModel = M_OfficeModel::getInstance( );
 
-            $dataID = 'upcoming';
-            $pane = 'tab-pane-process';
+        foreach( $period as $datetime ) {
+            $index     = $datetime->format('n') . $datetime->format('Y');
+            $dataID    = 'upcoming';
+            $pane      = 'tab-pane-process';
             $statusTab = 'upcoming-tab';
-            $status = $this->L10n->getContents('LANG_NO_DATA');
+            $status    = $this->L10n->getContents('LANG_NO_DATA');
+            $month     = $datetime->format('M');
+            $year      = $datetime->format('Y');
+            $lastDay   = $datetime->format('t');
+            $workDays  = $OfficeModel->getWorkingDays( $datetime->format('Y-m-') . '01',
+                                                       $datetime->format('Y-m-') . $lastDay );
 
             if( isset( $processed[$index]['completed'] ) && $processed[$index]['completed'] ) {
-                $dataID = 'complete';
+                $dataID    = 'complete';
                 $statusTab = 'complete-tab';
-                $pane = 'tab-pane';
-                $status = $this->L10n->getContents('LANG_COMPLETED');
+                $pane      = 'tab-pane';
+                $status    = $this->L10n->getContents('LANG_COMPLETED');
             }
             else if( $index == date('n') ) {
-                $dataID = 'pending';
+                $dataID    = 'pending';
                 $statusTab = 'pending-tab active show';
-                $status = $this->L10n->getContents('LANG_PENDING');
+                $status    = $this->L10n->getContents('LANG_PENDING');
             }
 
             $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
-                                               'TPLVAR_MONTH' => $datetime->format('M'),
-                                               'TPLVAR_YEAR' => $datetime->format('Y'),
+                                               'TPLVAR_MONTH' => $month,
+                                               'TPLVAR_YEAR' => $year,
                                                'TPLVAR_STATUS' => $status );
 
             $vars['dynamic'][$pane][] = array( 'TPLVAR_DATA_ID' => $dataID,
                                                'TPLVAR_STATUS_TAB' => $statusTab,
+                                               'TPLVAR_WORK_DAYS' => $workDays,
                                                'TPLVAR_LONG_MONTH' => $datetime->format('F'),
-                                               'TPLVAR_MONTH' => $datetime->format('M'),
-                                               'TPLVAR_YEAR' => $datetime->format('Y'),
+                                               'TPLVAR_LAST_DAY' => $lastDay,
+                                               'TPLVAR_MONTH' => $month,
+                                               'TPLVAR_YEAR' => $year,
                                                'TPLVAR_DATE' => $datetime->format('Y-m-d') );
         }
         $this->View->setBreadcrumbs( array( 'link' => '',

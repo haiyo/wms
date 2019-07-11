@@ -88,7 +88,7 @@ class Payroll extends \DAO {
     public function getByRange( $startDate, $endDate, $userID=false ) {
         $userID = $userID ? ' AND p.userID = "' . (int)$userID . '"' : '';
 
-        $sql = $this->DB->select( 'SELECT *, MONTH(startDate) AS startIndex 
+        $sql = $this->DB->select( 'SELECT *, CONCAT( MONTH(startDate), "", YEAR(startDate) ) AS startIndex 
                                    FROM payroll p WHERE startDate 
                                    BETWEEN "' . addslashes( $startDate ) . '" AND 
                                            "' . addslashes( $endDate ) . '"' . $userID,

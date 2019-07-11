@@ -226,9 +226,10 @@
                     <div class="col-lg-3">
                         <div class="daterange-custom daterange-custom2 d-flex align-items-center justify-content-center" style="margin-top:10px;">
                             <div class="daterange-custom-display daterange-custom2"><i>1</i>
-                                <b><i>Jul</i> <i>2018</i></b><em> – </em><i>31</i> <b><i>Jul</i> <i>2018</i></b>
+                                <b><i><?TPLVAR_MONTH?></i> <i><?TPLVAR_YEAR?></i></b><em> –
+                                </em><i><?TPLVAR_LAST_DAY?></i> <b><i><?TPLVAR_MONTH?></i> <i><?TPLVAR_YEAR?></i></b>
                             </div>
-                            <span class="badge badge-primary ml-2">31 Days</span>
+                            <span class="badge badge-primary ml-2"><?TPLVAR_WORK_DAYS?> Work Days</span>
                         </div>
                     </div>
 
@@ -244,7 +245,7 @@
 
                     <div class="col-lg-3">
                         <div class="font-weight-semibold">WORKING DAYS</div>
-                        <h2>23</h2>
+                        <h2><?TPLVAR_WORK_DAYS?></h2>
                     </div>
 
                 </div>
@@ -352,6 +353,8 @@
                 initEChart( dataID + "Chart" );
             }, 100);
         });
+
+        $(".nav-pills li:last-child a").click( );
     });
 
     /*initEChart( 'MayChart' );
