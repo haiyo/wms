@@ -439,51 +439,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#458AF2;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#c3d8f8;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Acrued</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Entitled</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#458AF2;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#c3d8f8;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -496,51 +473,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#EC407A;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#fad0df;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Acrued</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Entitled</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#EC407A;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#fad0df;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -553,51 +507,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ffaf23;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#fee8c8;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Acrued</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Entitled</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ffaf23;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#fee8c8;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -610,51 +541,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#70b754;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#d4f1c8;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Acrued</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1 clear">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-7">
-                        <div>Entitled</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#70b754;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#d4f1c8;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
