@@ -1,7 +1,7 @@
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, July 9th, 2012
- * @version $Id: uSuggest.js, v 2.0 Exp $
+ * @version $Id: usuggest.js, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 var MarkaxisUSuggest = (function( ) {

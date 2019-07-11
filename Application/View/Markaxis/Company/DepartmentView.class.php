@@ -44,7 +44,7 @@ class DepartmentView {
                 array( 'TPLVAR_HREF' => 'departmentList',
                        'LANG_TEXT' => $this->L10n->getContents('LANG_DEPARTMENT') ) );
 
-        return array( 'js' => array( 'markaxis' => array('uSuggest.js') ),
+        return array( 'js' => array( 'markaxis' => array('usuggest.js') ),
                       'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
                       'form' => $this->View->render( 'markaxis/company/departmentList.tpl', $vars ) );
     }
