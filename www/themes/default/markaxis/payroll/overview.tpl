@@ -240,7 +240,7 @@
 
                     <div class="col-lg-3">
                         <div class="font-weight-semibold">TOTAL EMPLOYEES</div>
-                        <h2>45</h2>
+                        <h2><?TPLVAR_EMPLOYEE_COUNT?></h2>
                     </div>
 
                     <div class="col-lg-3">
@@ -265,7 +265,8 @@
             <div class="content">
                 <div class="no-data">
                     <div class="row"><h2><?TPLVAR_LONG_MONTH?> <?TPLVAR_YEAR?> <?LANG_NOT_PROCESS_YET?></h2></div>
-                    <a type="button" class="btn btn-lg bg-grey-400 btn-labeled" data-date="<?TPLVAR_DATE?>" data-toggle="modal" data-target="#modalEnterPassword">
+                    <a type="button" class="btn btn-lg bg-grey-400 btn-labeled" data-date="<?TPLVAR_DATE?>"
+                       data-toggle="modal" data-target="#modalEnterPassword">
                     <b><i class="icon-calculator2"></i></b> <?LANG_LETS_DO_IT?></a>
                 </div>
             </div>

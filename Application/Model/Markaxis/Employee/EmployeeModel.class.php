@@ -18,6 +18,7 @@ class EmployeeModel extends \Model {
 
     // Properties
     protected $Employee;
+    private $totalCount;
 
 
     /**
@@ -84,6 +85,27 @@ class EmployeeModel extends \Model {
      */
     public function getFieldByUserID( $userID, $column ) {
         return $this->info = $this->Employee->getFieldByUserID( $userID, $column );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getCount( ) {
+        return $this->Employee->getCount( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getCountByDate( $date ) {
+        if( !$this->totalCount ) {
+            $this->totalCount = $this->getCount( );
+        }
+        return $this->totalCount-$this->Employee->getCountByDate( $date );
     }
 
 
@@ -314,7 +336,8 @@ class EmployeeModel extends \Model {
 
         if( $UserModel->isFound( $post['userID'] ) ) {
             $info = array( );
-            $info['resigned'] = $post['status'] == 1 ? 1 : 0;;
+            $info['resigned'] = $post['status'] == 1 ? 1 : 0;
+            $info['endDate'] = date( 'Y-m-d H:i:s' );
             $this->Employee->update( 'employee', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
 
             $AuditLogModel = new AuditLogModel( );

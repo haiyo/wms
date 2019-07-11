@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Markaxis\Expense\ExpenseModel, \Markaxis\Company\OfficeModel AS M_OfficeModel;
-use \Aurora\User\UserImageModel;
+use \Markaxis\Employee\EmployeeModel, \Aurora\User\UserImageModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Form\SelectGroupListView, \Aurora\Component\OfficeModel;
 use \Library\Runtime\Registry;
@@ -65,6 +65,7 @@ class PayrollView {
         $period = new \DatePeriod( $startDate, $interval, $endDate );
 
         $OfficeModel = M_OfficeModel::getInstance( );
+        $EmployeeModel = EmployeeModel::getInstance( );
 
         foreach( $period as $datetime ) {
             $index     = $datetime->format('n') . $datetime->format('Y');
@@ -75,6 +76,7 @@ class PayrollView {
             $month     = $datetime->format('M');
             $year      = $datetime->format('Y');
             $lastDay   = $datetime->format('t');
+            $ymd       = $datetime->format('Y-m-d');
             $workDays  = $OfficeModel->getWorkingDays( $datetime->format('Y-m-') . '01',
                                                        $datetime->format('Y-m-') . $lastDay );
 
@@ -100,9 +102,10 @@ class PayrollView {
                                                'TPLVAR_WORK_DAYS' => $workDays,
                                                'TPLVAR_LONG_MONTH' => $datetime->format('F'),
                                                'TPLVAR_LAST_DAY' => $lastDay,
+                                               'TPLVAR_EMPLOYEE_COUNT' => $EmployeeModel->getCountByDate( $ymd ),
                                                'TPLVAR_MONTH' => $month,
                                                'TPLVAR_YEAR' => $year,
-                                               'TPLVAR_DATE' => $datetime->format('Y-m-d') );
+                                               'TPLVAR_DATE' => $ymd );
         }
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-stats-bars2',

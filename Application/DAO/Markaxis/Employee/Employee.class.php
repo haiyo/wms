@@ -45,6 +45,31 @@ class Employee extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCount( ) {
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountByDate( $endDate ) {
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e 
+                                   WHERE endDate IS NOT NULL AND endDate <= "' . addslashes( $endDate ) . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve a user list normally use for building select list
      * @return mixed
      */
