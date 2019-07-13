@@ -29,20 +29,6 @@ class ItemTaxControl {
      * Render main navigation
      * @return string
      */
-    public function getItemResults( ) {
-        $data = Control::getOutputArray( );
-
-        if( isset( $data['list'] ) ) {
-            echo json_encode( $this->ItemTaxModel->getItemResults( $data['list'] ) );
-            exit;
-        }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function getPayItem( ) {
         $vars = array( );
         $data = Control::getOutputArray( );

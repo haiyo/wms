@@ -41,16 +41,7 @@ class ItemView {
      * @return string
      */
     public function renderSettings( ) {
-        $SelectListView = new SelectListView( );
-        $SelectListView->isMultiple( true );
-        $SelectListView->includeBlank( false );
-
-        $TaxGroupModel = TaxGroupModel::getInstance( );
-
-        //$taxGroup = isset( $taxInfo['tgID'] ) ? explode(',', $taxInfo['tgID'] ) : '';
-        $taxGroupList = $SelectListView->build( 'itemTaxGroup', $TaxGroupModel->getList( ), '', 'Select Tax Group' );
-
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_TAX_GROUP_LIST' => $taxGroupList ) );
+        $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
         return $this->View->render( 'markaxis/payroll/itemList.tpl', $vars );
     }

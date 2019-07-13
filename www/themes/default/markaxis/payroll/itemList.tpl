@@ -78,20 +78,6 @@
                 }
             },{
                 targets: [4],
-                orderable: true,
-                searchable: false,
-                width:"200px",
-                data:"taxGroups",
-                render: function( data ) {
-                    var groups = '<div class="group-item">';
-
-                    for( var i=0; i<data.length; i++ ) {
-                        groups += '<span class="badge badge-primary badge-criteria">' + data[i].title + '</span> ';
-                    }
-                    return groups + '</div>';
-                }
-            }, {
-                targets: [5],
                 orderable: false,
                 searchable: false,
                 width:"100px",
@@ -273,15 +259,6 @@
                             else {
                                 selectPayItemType("none");
                             }
-
-                            $("#itemTaxGroup").multiselect("deselectAll", false);
-
-                            if( obj.data.taxGroups.length > 0 ) {
-                                for( var i=0; i<obj.data.taxGroups.length; i++ ) {
-                                    $("#itemTaxGroup").multiselect("select", obj.data.taxGroups[i].tgID);
-                                }
-                            }
-                            $("#itemTaxGroup").multiselect("refresh");
                         }
                     }
                 }
@@ -350,8 +327,6 @@
                             $(".payItemTable").DataTable().ajax.reload( );
                             $("#payItemTitle").val("");
                             selectPayItemType( "none" );
-                            $("#itemTaxGroup").multiselect("deselectAll", false);
-                            $("#itemTaxGroup").multiselect("refresh");
 
                             swal({
                                 title: $("#payItemTitle").val( ) + " has been successfully created!",
@@ -402,7 +377,6 @@
             <th>Ordinary Wage</th>
             <th>Deduction</th>
             <th>Additional Wage</th>
-            <th>Tax Groups</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -445,13 +419,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Select Tax Group(s):</label>
-                            <?TPL_TAX_GROUP_LIST?>
-                            </select>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
