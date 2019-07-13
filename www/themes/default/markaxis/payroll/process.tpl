@@ -375,6 +375,30 @@
             }
         });
 
+        $("#savePayroll").click(function () {
+            if( itemAdded ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#processForm")
+                    },
+                    success: function( res ) {
+                        if( res ) {
+                            var obj = $.parseJSON( res );
+
+                            if( obj.bool === 0 ) {
+                                swal( "error", obj.errMsg );
+                                return;
+                            }
+                            else {
+                                //
+                            }
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/payroll/savePayroll/", data );
+            }
+        });
+
         function addItem( deduction ) {
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
             var icon = iconWrapper.find(".icon")

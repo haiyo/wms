@@ -165,11 +165,12 @@ class ItemModel extends \Model {
         $items['deductionAW'] = $this->getDeductionAW( );
         $items['additional'] = $this->getAdditional( );
 
-        if( isset( $data['empInfo']['salary'] ) && is_numeric( $data['empInfo']['salary'] ) &&
-            $data['empInfo']['salary'] > 0 && isset( $items['basic']['piID'] ) ) {
-            if( isset( $items['ordinary'][$items['basic']['piID']] ) ) {
-                $items['ordinary'][$items['basic']['piID']]['amount'] = $data['empInfo']['salary'];
-            }
+        if( isset( $data['empInfo']['salary'] ) &&
+            isset( $items['basic']['piID'] ) &&
+            isset( $items['ordinary'][$items['basic']['piID']] ) &&
+            is_numeric( $data['empInfo']['salary'] ) &&
+            $data['empInfo']['salary'] > 0 ) {
+            $items['ordinary'][$items['basic']['piID']]['amount'] = $data['empInfo']['salary'];
         }
         return $items;
     }
@@ -189,24 +190,22 @@ class ItemModel extends \Model {
                     return false;
                 }
             };
-            $criteria = array_filter( $post['data'], $callback, ARRAY_FILTER_USE_KEY );
+            $criteria = array_filter( $post['data'], $callback,ARRAY_FILTER_USE_KEY );
             $post['postItems'] = array( );
 
             foreach( $criteria as $key => $item ) {
                 preg_match( $preg, $key, $match );
 
                 if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'p-' ) ) {
-                    $id = $match[1];
-
-                    $piID = str_replace( 'p-', '', $item );
+                    $id   = $match[1];
+                    $piID = str_replace('p-', '', $item );
 
                     if( isset( $post['data']['amount_' . $id] ) ) {
                         $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
-                        $amount = (int)str_replace( ',', '', $amount );
+                        $amount = (int)str_replace(',', '', $amount );
 
                         if( $amount > 0 ) {
-                            $post['postItems'][] = array( 'piID' => $piID,
-                                                          'amount' => $amount );
+                            $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount );
                         }
                     }
                 }
