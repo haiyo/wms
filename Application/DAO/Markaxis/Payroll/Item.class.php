@@ -178,7 +178,7 @@ class Item extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getItemResults( $q, $order='pi.title DESC' ) {
+    public function getResults( $q, $order='pi.title DESC' ) {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
