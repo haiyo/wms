@@ -128,7 +128,6 @@
     </task>
     <task type="payroll/getItemResults">
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
     </task>
     <task type="payroll/getCalResults">
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
@@ -178,7 +177,6 @@
     </task>
     <task type="payroll/getPayItem,payroll/savePayItem">
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
     </task>
     <task type="payroll/getTaxRule,payroll/getAllTaxRules">
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
@@ -205,7 +203,6 @@
     <task type="payroll/settings">
         <observer controller="Markaxis/Employee/TaxControl"></observer>
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemTaxControl"></observer>
         <observer controller="Markaxis/Expense/ExpenseControl"></observer>
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>

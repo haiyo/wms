@@ -29,36 +29,6 @@ class ItemTaxControl {
      * Render main navigation
      * @return string
      */
-    public function getItemResults( ) {
-        $data = Control::getOutputArray( );
-
-        if( isset( $data['list'] ) ) {
-            echo json_encode( $this->ItemTaxModel->getItemResults( $data['list'] ) );
-            exit;
-        }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getPayItem( ) {
-        $vars = array( );
-        $data = Control::getOutputArray( );
-        $data['taxGroups'] = $this->ItemTaxModel->getBypiID( $data['piID'] );
-
-        $vars['data'] = $data;
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function savePayItem( ) {
         $this->ItemTaxModel->save( Control::getPostData( ) );
 

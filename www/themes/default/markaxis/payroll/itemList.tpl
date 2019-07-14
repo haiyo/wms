@@ -66,6 +66,21 @@
                 orderable: true,
                 searchable: false,
                 width: "100px",
+                data: "deductionAW",
+                className : "text-center",
+                render: function( data, type, full ) {
+                    if( data === '0' ) {
+                        return '<span id="deductionAW' + full['piID'] + '" class="label label-pending">No</span>';
+                    }
+                    else {
+                        return '<span id="deductionAW' + full['piID'] + '" class="label label-success">Yes</span>';
+                    }
+                }
+            },{
+                targets: [4],
+                orderable: true,
+                searchable: false,
+                width: "100px",
                 data: "additional",
                 className : "text-center",
                 render: function( data, type, full ) {
@@ -75,20 +90,6 @@
                     else {
                         return '<span id="additional' + full['piID'] + '" class="label label-success">Yes</span>';
                     }
-                }
-            },{
-                targets: [4],
-                orderable: true,
-                searchable: false,
-                width:"200px",
-                data:"taxGroups",
-                render: function( data ) {
-                    var groups = '<div class="group-item">';
-
-                    for( var i=0; i<data.length; i++ ) {
-                        groups += '<span class="badge badge-primary badge-criteria">' + data[i].title + '</span> ';
-                    }
-                    return groups + '</div>';
                 }
             }, {
                 targets: [5],
@@ -114,9 +115,6 @@
                             '</div>';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
             order: [],
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
@@ -154,8 +152,6 @@
             minimumResultsForSearch: Infinity,
             width: "auto"
         });
-
-        $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
 
         $(".payItemBtn").on("click", function ( ) {
             selectPayItemType( $(this).val( ) );
@@ -264,24 +260,21 @@
                             $("#piID").val( obj.data.piID );
                             $("#payItemTitle").val( obj.data.title );
 
-                            if( obj.data.ordinary === 1 ) {
+                            if( obj.data.ordinary == 1 ) {
                                 selectPayItemType("ordinary");
                             }
-                            else if( obj.data.deduction === 1 ) {
+                            else if( obj.data.deduction == 1 ) {
                                 selectPayItemType("deduction");
+                            }
+                            else if( obj.data.deductionAW == 1 ) {
+                                selectPayItemType("deductionAW");
+                            }
+                            else if( obj.data.additional == 1 ) {
+                                selectPayItemType("additional");
                             }
                             else {
                                 selectPayItemType("none");
                             }
-
-                            $("#itemTaxGroup").multiselect("deselectAll", false);
-
-                            if( obj.data.taxGroups.length > 0 ) {
-                                for( var i=0; i<obj.data.taxGroups.length; i++ ) {
-                                    $("#itemTaxGroup").multiselect("select", obj.data.taxGroups[i].tgID);
-                                }
-                            }
-                            $("#itemTaxGroup").multiselect("refresh");
                         }
                     }
                 }
@@ -306,6 +299,10 @@
             else if( type === "deduction" ) {
                 $("#payItemDeduction").addClass("btn-green");
                 $("#payItemType").val("deduction");
+            }
+            else if( type === "deductionAW" ) {
+                $("#payItemDeductionAW").addClass("btn-green");
+                $("#payItemType").val("deductionAW");
             }
             else if( type === "additional" ) {
                 $("#payItemAdditional").addClass("btn-green");
@@ -350,8 +347,6 @@
                             $(".payItemTable").DataTable().ajax.reload( );
                             $("#payItemTitle").val("");
                             selectPayItemType( "none" );
-                            $("#itemTaxGroup").multiselect("deselectAll", false);
-                            $("#itemTaxGroup").multiselect("refresh");
 
                             swal({
                                 title: $("#payItemTitle").val( ) + " has been successfully created!",
@@ -401,15 +396,15 @@
             <th>Pay Item Title</th>
             <th>Ordinary Wage</th>
             <th>Deduction</th>
+            <th>Deduction AW</th>
             <th>Additional Wage</th>
-            <th>Tax Groups</th>
             <th>Actions</th>
         </tr>
         </thead>
     </table>
 </div>
 <div id="modalPayItem" class="modal fade">
-    <div class="modal-dialog modal-med">
+    <div class="modal-dialog modal-med2">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -437,6 +432,7 @@
                                     <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
                                     <button id="payItemOrdinary" class="btn btn-light payItemBtn" type="button" value="ordinary">Ordinary Wage</button>
                                     <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
+                                    <button id="payItemDeductionAW" class="btn btn-light payItemBtn" type="button" value="deductionAW">Deduction AW</button>
                                 </span>
                                 <span class="input-group-append">
                                     <button id="payItemAdditional" class="btn btn-light payItemBtn" type="button" value="additional">Additional Wage</button>
@@ -445,13 +441,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Select Tax Group(s):</label>
-                            <?TPL_TAX_GROUP_LIST?>
-                            </select>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">

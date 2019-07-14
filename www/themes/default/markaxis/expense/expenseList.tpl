@@ -65,9 +65,6 @@
                             '</div>';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
             order: [],
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
@@ -107,12 +104,10 @@
             width: "auto"
         });
 
-        $("#itemTaxGroup").multiselect({includeSelectAllOption: true});
-
         $("#modalExpense").on("show.bs.modal", function( ) {
             $("#currency").select2( );
         });
-
+/*
         $(document).on("click", ".payItemDelete", function ( ) {
             var id = $(this).attr("data-id");
             var title = $("#payItemTable-row" + id).find("td").eq(1).text( );
@@ -334,7 +329,7 @@
                 };
                 Aurora.WebService.AJAX( "admin/payroll/savePayItem", data );
             }
-        });
+        });*/
     });
 </script>
 
