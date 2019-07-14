@@ -93,6 +93,15 @@ class TaxRuleWrapperControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $this->reprocessPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $vars['data'] = Control::getPostData( );
         $vars['bool'] = 1;

@@ -89,10 +89,7 @@ class ItemControl {
      * @return string
      */
     public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setPostData( $this->ItemModel->savePayroll( $data, $post ) );
-        $this->processPayroll( );
+        $this->reprocessPayroll( );
     }
 
 

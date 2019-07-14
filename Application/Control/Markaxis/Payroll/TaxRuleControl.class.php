@@ -68,6 +68,15 @@ class TaxRuleControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $this->reprocessPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
         $vars = array( );
