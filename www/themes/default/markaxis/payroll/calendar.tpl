@@ -12,7 +12,6 @@
                 data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
             },
             initComplete: function() {
-                Popups.init();
                 /*var api = this.api();
                 var that = this;
                 $('input').on('keyup change', function() {
@@ -77,7 +76,6 @@
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                Popups.init();
                 $(".payCalTable [type=checkbox]").uniform();
             },
             preDrawCallback: function() {

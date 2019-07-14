@@ -240,11 +240,17 @@ class ItemModel extends \Model {
         else if( $data['payItemType'] == 'deduction' ) {
             $this->info['deduction'] = 1;
         }
+        else if( $data['payItemType'] == 'deductionAW' ) {
+            $this->info['deductionAW'] = 1;
+        }
         else if( $data['payItemType'] == 'additional' ) {
             $this->info['additional'] = 1;
         }
-        else if( $data['payItemType'] == 'claim' ) {
-            $this->info['claim'] = 1;
+        else if( $data['payItemType'] == 'none' ) {
+            $this->info['ordinary'] = 0;
+            $this->info['deduction'] = 0;
+            $this->info['deductionAW'] = 0;
+            $this->info['additional'] = 0;
         }
         return true;
     }

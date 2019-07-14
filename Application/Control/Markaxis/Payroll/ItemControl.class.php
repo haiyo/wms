@@ -42,7 +42,6 @@ class ItemControl {
      */
     public function getItemResults( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->ItemModel->getResults( $post ) );
         exit;
     }
@@ -54,7 +53,11 @@ class ItemControl {
      */
     public function getPayItem( $data ) {
         if( isset( $data[1] ) ) {
-            Control::setOutputArray( $this->ItemModel->getBypiID( $data[1] ) );
+            $vars = array( );
+            $vars['data'] = $this->ItemModel->getBypiID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
         }
     }
 
@@ -90,7 +93,9 @@ class ItemControl {
 
         if( $this->ItemModel->isValid( $post ) ) {
             $post['piID'] = $this->ItemModel->save( );
-            Control::setPostData( $post );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
         }
         else {
             $vars['bool'] = 0;

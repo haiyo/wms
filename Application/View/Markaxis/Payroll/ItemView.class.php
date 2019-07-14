@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
