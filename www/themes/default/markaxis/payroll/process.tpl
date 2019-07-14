@@ -311,8 +311,6 @@
         $("#office").select2( );
         $(".select").select2({minimumResultsForSearch: -1});
 
-        var itemAdded = 0;
-
         $(document).on("click", ".addItem", function ( ) {
             itemAdded = addItem( false );
             return false;
@@ -330,73 +328,69 @@
         });
 
         $(document).on("blur", ".amountInput", function(e) {
-            if( itemAdded ) {
-                var data = {
-                    bundle: {
-                        itemType: $("#itemType_" + itemAdded).val( ),
-                        amountInput: $(this).val( ),
-                        data: Aurora.WebService.serializePost("#processForm")
-                    },
-                    success: function( res ) {
-                        if( res ) {
-                            var obj = $.parseJSON( res );
+            var data = {
+                bundle: {
+                    itemType: $("#itemType_" + itemAdded).val( ),
+                    amountInput: $(this).val( ),
+                    data: Aurora.WebService.serializePost("#processForm")
+                },
+                success: function( res ) {
+                    if( res ) {
+                        var obj = $.parseJSON( res );
 
-                            if( obj.bool === 0 ) {
-                                swal( "error", obj.errMsg );
-                                return;
-                            }
-                            else {
-                                if( obj.data.addItem && obj.data.addItem.length > 0 ) {
-                                    var deduction = false;
+                        if( obj.bool === 0 ) {
+                            swal( "error", obj.errMsg );
+                            return;
+                        }
+                        else {
+                            if( obj.data.addItem && obj.data.addItem.length > 0 ) {
+                                var deduction = false;
 
-                                    for( var i=0; i<obj.data.addItem.length; i++ ) {
-                                        if( obj.data.addItem[i]['deduction'] === 1 ) {
-                                            deduction = true;
-                                        }
-
-                                        var id = addItem( deduction );
-                                        itemAdded--;
-
-                                        $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
-                                        $("#amount_" + id).val( Aurora.String.formatMoney( obj.data.addItem[i]['amount'] + "" ) );
-                                        $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
+                                for( var i=0; i<obj.data.addItem.length; i++ ) {
+                                    if( obj.data.addItem[i]['deduction'] === 1 ) {
+                                        deduction = true;
                                     }
-                                    if( deduction ) {
-                                        $(".deduction").remove( );
-                                        $(".deduction1").removeClass("deduction1").addClass("deduction");
-                                    }
+
+                                    var id = addItem( deduction );
+                                    itemAdded--;
+
+                                    $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
+                                    $("#amount_" + id).val( Aurora.String.formatMoney( obj.data.addItem[i]['amount'] + "" ) );
+                                    $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
                                 }
-                                $("#processSummary").html( obj.summary );
+                                if( deduction ) {
+                                    $(".deduction").remove( );
+                                    $(".deduction1").removeClass("deduction1").addClass("deduction");
+                                }
                             }
+                            $("#processSummary").html( obj.summary );
                         }
                     }
                 }
-                Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
             }
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
         });
 
         $("#savePayroll").click(function () {
-            if( itemAdded ) {
-                var data = {
-                    bundle: {
-                        data: Aurora.WebService.serializePost("#processForm")
-                    },
-                    success: function( res ) {
-                        if( res ) {
-                            var obj = $.parseJSON( res );
-
-                            if( obj.bool === 0 ) {
-                                swal( "error", obj.errMsg );
-                                return;
-                            }
-                            else {
-                                //
-                            }
+            var data = {
+                bundle: {
+                    data: Aurora.WebService.serializePost("#processForm")
+                },
+                success: function( res ) {
+                    if( res ) {
+                        var obj = $.parseJSON( res );
+                        console.log(obj)
+                        if( obj.bool === 0 ) {
+                            swal( "error", obj.errMsg );
+                            return;
+                        }
+                        else {
+                            //
                         }
                     }
                 }
-                Aurora.WebService.AJAX( "admin/payroll/savePayroll/", data );
             }
+            Aurora.WebService.AJAX( "admin/payroll/savePayroll/", data );
         });
 
         function addItem( deduction ) {
@@ -561,7 +555,7 @@
             <div class="modal-footer">
                 <div class="modal-footer-btn">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button id="createTeam" type="submit" class="btn btn-primary">Save Payroll</button>
+                    <button id="savePayroll" type="submit" class="btn btn-primary">Save Payroll</button>
                 </div>
             </div>
         </div>
