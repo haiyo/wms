@@ -117,7 +117,7 @@ class ItemModel extends \Model {
      * Get Table Results
      * @return mixed
      */
-    public function getItemResults( $data ) {
+    public function getResults( $data ) {
         $this->Item->setLimit( $data['start'], $data['length'] );
 
         $order = 'pi.title';
@@ -142,7 +142,7 @@ class ItemModel extends \Model {
                     break;
             }
         }
-        $results = $this->Item->getItemResults( $data['search']['value'], $order . $dir );
+        $results = $this->Item->getResults( $data['search']['value'], $order . $dir );
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
@@ -234,17 +234,22 @@ class ItemModel extends \Model {
             return false;
         }
 
+        $this->info['ordinary'] = 0;
+        $this->info['deduction'] = 0;
+        $this->info['deductionAW'] = 0;
+        $this->info['additional'] = 0;
+
         if( $data['payItemType'] == 'ordinary' ) {
             $this->info['ordinary'] = 1;
         }
         else if( $data['payItemType'] == 'deduction' ) {
             $this->info['deduction'] = 1;
         }
+        else if( $data['payItemType'] == 'deductionAW' ) {
+            $this->info['deductionAW'] = 1;
+        }
         else if( $data['payItemType'] == 'additional' ) {
             $this->info['additional'] = 1;
-        }
-        else if( $data['payItemType'] == 'claim' ) {
-            $this->info['claim'] = 1;
         }
         return true;
     }
