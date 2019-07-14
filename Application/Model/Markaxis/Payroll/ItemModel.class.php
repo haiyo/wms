@@ -216,6 +216,50 @@ class ItemModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        if( isset( $post['data'] ) ) {
+            $preg = '/^itemType_(\d)+/';
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return $match;
+                } else {
+                    return false;
+                }
+            };
+            $criteria = array_filter( $post['data'], $callback,ARRAY_FILTER_USE_KEY );
+            $post['postItems'] = array( );
+
+            foreach( $criteria as $key => $item ) {
+                preg_match( $preg, $key, $match );
+
+                if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'p-' ) ) {
+                    $id   = $match[1];
+                    $piID = str_replace('p-', '', $item );
+
+                    if( isset( $post['data']['amount_' . $id] ) ) {
+                        $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
+                        $amount = (int)str_replace(',', '', $amount );
+                        $remark = '';
+
+                        if( isset( $post['data']['remark_' . $id] ) ) {
+                            $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
+                        }
+
+                        if( $amount > 0 ) {
+                            $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
+                        }
+                    }
+                }
+            }
+            return $post;
+        }
+    }
+
+
+    /**
      * Set Pay Item Info
      * @return bool
      */

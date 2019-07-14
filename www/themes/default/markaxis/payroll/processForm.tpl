@@ -30,7 +30,7 @@
 
             <div class="col-md-3 amount">
                 <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control amountInput"
-                       value="<?TPLVAR_AMOUNT?>" placeholder="" disabled="disabled" />
+                       value="<?TPLVAR_AMOUNT?>" placeholder="" />
             </div>
 
             <div class="col-md-4 remark">

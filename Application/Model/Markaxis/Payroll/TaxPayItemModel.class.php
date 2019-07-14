@@ -135,13 +135,12 @@ class TaxPayItemModel extends \Model {
 
         foreach( $post['postItems'] as $postItems ) {
             if( isset( $data['additional'][$postItems['piID']] ) ) {
-                //$data['additional'][$postItems['piID']]['amount'] = $postItems['amount'];
                 $data['totalPostAW'] += $postItems['amount'];
                 $data['gross'][] = array( 'amount' => $postItems['amount'] );
             }
         }
 
-        if( $data['totalPostAW'] && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $itemInfo = $this->getBytrIDs( $trIDs );
 
@@ -149,6 +148,11 @@ class TaxPayItemModel extends \Model {
                 $PayrollModel = PayrollModel::getInstance( );
 
                 foreach( $itemInfo as $row ) {
+                    if( !$data['totalPostAW'] ) {
+                        unset( $data['taxRules'][$row['trID']] );
+                        continue;
+                    }
+
                     if( $row['valueType'] == 'formula' && $row['value'] ) {
                         if( isset( $data['taxRules'][$row['trID']]['capped'] ) ) {
                             $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'],
@@ -228,7 +232,6 @@ class TaxPayItemModel extends \Model {
                                                                      'amount' => $amount );
                                 }
                             }
-                            unset( $data['taxRules'][$row['trID']] );
                         }
                     }
                 }
