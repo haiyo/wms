@@ -79,6 +79,15 @@ class TaxRaceControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $this->reprocessPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $this->TaxRaceModel->saveTaxRule( Control::getPostData( ) );
     }

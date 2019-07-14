@@ -42,5 +42,14 @@ class TaxControl {
     public function reprocessPayroll( ) {
         $this->processPayroll( );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $this->reprocessPayroll( );
+    }
 }
 ?>

@@ -138,6 +138,15 @@ class EmployeeControl {
 
     /**
      * Render main navigation
+     * @return string
+     */
+    public function savePayroll( $args ) {
+        $this->reprocessPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
      * @return void
      */
     public function save( ) {

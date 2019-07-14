@@ -159,21 +159,7 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="payroll/reprocessPayroll">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
-        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
-        <observer controller="Markaxis/Employee/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
-        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
-    </task>
-    <task type="payroll/savePayroll">
+    <task type="payroll/reprocessPayroll,payroll/savePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/TaxControl"></observer>

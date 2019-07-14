@@ -390,7 +390,7 @@
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/savePayroll/", data );
+            Aurora.WebService.AJAX( "admin/payroll/savePayroll/" + $("#userID").val( ), data );
         });
 
         function addItem( deduction ) {

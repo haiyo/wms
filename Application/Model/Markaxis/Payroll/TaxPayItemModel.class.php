@@ -163,7 +163,7 @@ class TaxPayItemModel extends \Model {
                         }
 
                         if( $totalOrdinary['months'] < 12 ) {
-                            $currSalary = $data['totalOrdinaryAfterTax'];
+                            $currSalary = $data['totalOrdinaryNett'];
 
                             if( isset( $data['taxRules'][$row['trID']]['capped'] ) &&
                                 $data['empInfo']['salary'] > $data['taxRules'][$row['trID']]['capped'] ) {
@@ -209,7 +209,7 @@ class TaxPayItemModel extends \Model {
                                         array( 'piID' => $data['deductionAW']['piID'],
                                                'trID' => $row['trID'],
                                                'tgID' => $data['taxRules'][$row['trID']]['tgID'],
-                                               'deduction' => 1,
+                                               'deductionAW' => 1,
                                                'remark' => $remark,
                                                'amount' => $amount );
 
