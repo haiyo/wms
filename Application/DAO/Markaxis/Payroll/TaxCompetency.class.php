@@ -15,15 +15,6 @@ class TaxCompetency extends \DAO {
 
 
     /**
-     * TaxCompetency Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -48,6 +39,25 @@ class TaxCompetency extends \DAO {
                                    LEFT JOIN competency c ON ( c.cID = tc.competency )
                                    WHERE trID = "' . (int)$trID . '"', __FILE__, __LINE__ );
 
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBytrIDs( $trIDs ) {
+        $sql = $this->DB->select( 'SELECT * FROM tax_competency 
+                                   WHERE trID IN (' . addslashes( $trIDs ) . ')',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;

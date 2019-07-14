@@ -15,15 +15,6 @@ class TaxContract extends \DAO {
 
 
     /**
-     * TaxContract Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -43,7 +34,7 @@ class TaxContract extends \DAO {
      */
     public function getByID( $trID, $tcID ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_contract tc
-                                   LEFT JOIN contract c ON ( c.cID = tc.contract )
+                                   LEFT JOIN contract c ON ( c.cID = tc.contractID )
                                    WHERE trID = "' . (int)$trID . '" AND
                                    tcID = "' . (int)$tcID . '"',
                                    __FILE__, __LINE__ );
@@ -63,7 +54,7 @@ class TaxContract extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT * FROM tax_contract tc
-                                   LEFT JOIN contract c ON ( c.cID = tc.contract ) 
+                                   LEFT JOIN contract c ON ( c.cID = tc.contractID ) 
                                    WHERE trID = "' . (int)$trID . '"',
                                    __FILE__, __LINE__ );
 

@@ -15,21 +15,14 @@ class Office extends \DAO {
 
 
     /**
-     * Office Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
     public function isFound( $oID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(oID) FROM office WHERE oID = "' . (int)$oID . '"',
-                                    __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT COUNT(oID) FROM office 
+                                   WHERE oID = "' . (int)$oID . '" AND
+                                         deleted <> "1"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -39,8 +32,31 @@ class Office extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByOID( $oID ) {
-        $sql = $this->DB->select( 'SELECT * FROM office WHERE oID = "' . (int)$oID . '"',
+    public function getByoID( $oID ) {
+        $sql = $this->DB->select( 'SELECT * FROM office o
+                                   LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
+                                   LEFT JOIN country c ON ( c.cID = o.countryID )
+                                   WHERE oID = "' . (int)$oID . '" AND
+                                         o.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getMainOffice( ) {
+        $sql = $this->DB->select( 'SELECT * FROM office o
+                                   LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
+                                   LEFT JOIN country c ON ( c.cID = o.countryID )
+                                   WHERE main = "1" AND
+                                         o.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -55,24 +71,8 @@ class Office extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM office', __FILE__, __LINE__ );
-
-        $list = array( );
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['oID']] = $row;
-            }
-        }
-        return $list;
-    }
-
-
-    /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
-    public function getIDList( ) {
-        $sql = $this->DB->select( 'SELECT oID FROM office', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM office WHERE deleted <> "1"',
+                                   __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {

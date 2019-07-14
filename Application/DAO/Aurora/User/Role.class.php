@@ -15,15 +15,6 @@ class Role extends \DAO {
 
 
     /**
-    * Role Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -32,6 +23,21 @@ class Role extends \DAO {
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return role information by roleID
+     * @return mixed
+     */
+    public function getByRoleID( $roleID ) {
+        $sql = $this->DB->select( 'SELECT * FROM role WHERE roleID = "' . (int)$roleID . '"',
+                                  __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -50,22 +56,6 @@ class Role extends \DAO {
        	    }
         }
         return $list;
-    }
-
-
-    /**
-    * Return role information by roleID
-    * @return mixed
-    */
-    public function getByRoleID( $roleID ) {
-        $list = array( );
-        $sql = $this->DB->select( 'SELECT * FROM role WHERE roleID = "' . (int)$roleID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
     }
 }
 ?>

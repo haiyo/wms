@@ -8,8 +8,8 @@
             <!-- Sidebar search -->
             <div class="card">
                 <div class="header-inline">
-                    <div class="avatar"><img src="http://localhost/wms/themes/default/assets/images/face11.jpg" alt=""></div>
-                    <div class="bg-transparent dashboard-side-header">
+                    <div class="avatar"><img src="<?TPLVAR_PHOTO?>" width="95" height="95" /></div>
+                    <div class="bg-transparent dashboard-side-header text-ellipsis dashboard-side-ellipsis">
                         <div class="dashboard-side-role"><h2><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h2></div>
                         <div class="dashboard-side-role">HR Administrator</div>
                     </div>
@@ -23,7 +23,8 @@
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
                     <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">My Team Members (3) &nbsp;-&nbsp;
-                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar">Create a Team</a> &nbsp;|&nbsp; <a href="">Join Existing Team</a>
+                        <a href="#" class="" data-toggle="modal" data-target="#modalNewTeam">Create New Team</a> &nbsp;|&nbsp;
+                        <a href="">Join Existing Team</a>
                     </span>
                 </div>
 
@@ -61,7 +62,7 @@
                                         <span class="badge badge-info badge-pill badge-float border-2 border-white">9</span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-force dropdown-menu-left" x-placement="bottom-end">
-                                        <a href="#" class="dropdown-item modalChat" data-toggle="modal"><i class="icon-bubbles4"></i> Chat with David</a>
+                                        <a href="#" class="dropdown-item modalChat" data-toggle="modal" id="34"><i class="icon-bubbles4"></i> Chat with David</a>
                                         <div class="divider"></div>
                                         <a href="#" class="dropdown-item"><i class="icon-calendar"></i> View David's Calendar</a>
                                         <a href="#" class="dropdown-item"><i class="icon-user"></i> View David's Profile</a>
@@ -246,7 +247,7 @@
                         </div>
                         <div class="box-content right">
                             <a href="<?TPLVAR_ROOT_URL?>admin/payroll/slips"><i class="icon-cash3"></i><h4>My Payslips</h4>
-                                <div class="box-content-descript">View or download your monthly payslips</div>
+                                <div class="box-content-descript">View history or download your monthly payslips</div>
                             </a>
                         </div>
                         <div class="box-content">
@@ -262,17 +263,21 @@
         <?TPL_CONTENT?>
 
         <div class="bg-transparent header-elements-inline">
-            <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Pending Activities</span>
+            <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Pending Your Action</span>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="no-notification text-center">
-                    <i class="icon-pulse2 mr-3 icon-3x"></i>
-                    <span>You have no activities at the moment...</span>
+        <div id="noPendingAction">
+            <div class="card">
+                <div class="card-body">
+                    <div class="no-notification text-center">
+                        <i class="icon-pulse2 mr-3 icon-3x"></i>
+                        <span>You have no pending action at the moment...</span>
+                    </div>
                 </div>
             </div>
         </div>
+        <div id="pendingAction"></div>
+
 
         <div class="bg-transparent header-elements-inline">
             <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">What's Happening at Markaxis?</span>
@@ -626,14 +631,14 @@
             padding:0;
             height:650px;
         }
-        .chat-body .contact-list {
+        .chat-body .room-list {
             padding:0;
             height: 100%;
             border-right: 1px solid #efefef;
             -webkit-box-shadow:1px 0 5px -2px rgba(0,0,0,.5);
             box-shadow:1px 0 5px -2px rgba(0,0,0,.5);
         }
-        .chat-body .messages {
+        .chat-body .right-window {
             position:relative;
             padding-right:0;
             height:100%;
@@ -660,7 +665,7 @@
             text-align:center;
             display:none;
         }
-        .contact {
+        .room {
             position:relative;
             display:block;
             float:left;
@@ -669,7 +674,7 @@
             border-bottom:1px solid rgba(0,0,0,.125);
             color:inherit;
         }
-        .contact:hover {
+        .room:hover {
             color:#666;
             background-color:#efefef;
         }
@@ -686,19 +691,19 @@
         .read {
             color:#999;
         }
-        .contact .badge-float {
+        .room .badge-float {
             position: absolute;
             right:1em;
             top:3em;
         }
-        .contact .badge-pill {
+        .room .badge-pill {
             padding-right:.5em;
             padding-left:.5em;
         }
-        .messages .textfield, .messages .send {
+        .right-window .textfield, .right-window .send {
             float:left;
         }
-        .messages .textfield {
+        .right-window .textfield {
             margin-right:10px;
             width:90%;
         }
@@ -712,6 +717,25 @@
             position:absolute;
             bottom:64px;
         }
+        .message-wrapper {
+            position:relative;
+            width:99%;
+            height:84%;
+            margin-top:10px;
+            padding:10px;
+            overflow:hidden;
+            overflow-y:auto;
+        }
+        .message {
+            padding:9px;
+        }
+        .message .name {
+            font-weight: bold;
+        }
+        .message .datetime {
+            font-size: 13px;
+            margin-left: 5px;
+        }
     </style>
     <div id="modalChat" class="modal-dialog chat-dialog modal-xl ">
         <div class="modal-content">
@@ -723,7 +747,7 @@
             <div class="modal-body chat-body">
 
                 <!-- contact list -->
-                <div class="col-md-3 contact-list">
+                <div class="col-md-3 room-list">
                     <div class="search">
                         <label>
                             <input type="search" class="" placeholder="Filter" />
@@ -733,7 +757,7 @@
                         You have no chat history at the moment
                     </div>
 
-                    <a href="" class="contact">
+                    <!--<a href="" class="room" data-user="0" data-room="">
                         <div class="col-md-3">
                             <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face13.jpg" width="48" height="48" class="rounded-circle" alt="">
                         </div>
@@ -742,7 +766,7 @@
                             <div class="contact-position">HR Manager</div>
                         </div>
                     </a>
-                    <a href="" class="contact read">
+                    <a href="" class="room read" data-user="" data-room="">
                         <div class="col-md-3">
                             <img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face25.jpg" width="48" height="48" class="rounded-circle" alt="">
                         </div>
@@ -751,25 +775,94 @@
                             <div class="contact-position">HR Manager</div>
                         </div>
                         <div class="badge badge-info badge-pill badge-float">9</div>
-                    </a>
+                    </a>-->
                 </div>
                 <!-- contact list -->
 
                 <script>
                     $(document).ready( function( ) {
+                        var crID = 0;
+                        var users = [];
+
+                        $("#message").keypress(function (e) {
+                            var key = e.which;
+                            if( key == 13 ) {
+                                $("#sendMessage").click();
+                                return false;
+                            }
+                        });
+
                         $("#sendMessage").on("click", function ( ) {
+                            var selected = $(".selected");
+                            var crID = selected.attr("data-room");
+                            var users = selected.attr("data-user");
+
                             var data = {
+                                bundle: {
+                                    crID: crID,
+                                    users: users,
+                                    message: $("#message").val( )
+                                },
                                 success: function (res) {
-                                    socket.emit("notify", (res) );
+                                    var obj = $.parseJSON(res);
+                                    //console.log(obj)
+                                    if( obj.bool == 0 ) {
+                                        swal("error", obj.errMsg);
+                                        return;
+                                    }
+                                    else {
+                                        console.log(res)
+                                        //what happen if some garbage sent to socket? will it terminate?
+                                        socket.emit("notify", res );
+                                    }
                                 }
                             }
-                            Aurora.WebService.AJAX( "admin/dashboard/test", data );
+                            Aurora.WebService.AJAX( "admin/chat/send", data );
                             return false;
+                        });
+
+                        $(".room").on("click", function ( ) {
+                            crID = $(this).attr("data-room");
+
+                            // load last 10/20 messages in window
+                        });
+
+                        $(".modalChat").on("click", function ( ) {
+                            var found = false;
+                            var userID = $(this).attr("id");
+                            users.push( userID );
+
+                            $(".no-history").hide( );
+
+                            $(".room").each(function( i ) {
+                                if( $(this).attr("data-user") == userID ) {
+                                    // highlight existing room tab
+                                    found = true;
+                                }
+                            });
+
+                            if( !found ) {
+                                // create new room tab
+                                var html = '<a href="" class="room selected" data-user="' + users.join( ) + '" data-room="0">\n' +
+                                            '<div class="col-md-3">\n' +
+                                            '<img src="http://demo.interface.club/limitless/demo/bs4/Template/global_assets/images/demo/users/face25.jpg" width="48" height="48" class="rounded-circle" alt="">\n' +
+                                            '</div>\n' +
+                                            '<div class="col-md-9 contact-name">David Seaman\n' +
+                                            '<div class="contact-position">HR Manager</div>\n' +
+                                            '</div>\n' +
+                                            '<div class="badge badge-info badge-pill badge-float">9</div>\n' +
+                                            '</a>';
+
+                                $(".room-list").append(html);
+                            }
+
+                            // load last 10/20 messages in window
                         });
                     })
                 </script>
 
-                <div class="col-md-9 messages">
+                <div class="col-md-9 right-window">
+                    <div class="message-wrapper"></div>
                     <div class="typing">Sally Chan is typing...</div>
                     <div class="col-md-10 textfield-wrapper">
                         <div class="textfield">
@@ -780,6 +873,159 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $("#modalNewTeam").on("shown.bs.modal", function(e) {
+                $("#teamName").focus( );
+            });
+
+            var engine1 = new Bloodhound({
+                remote: {
+                    url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
+                    wildcard: '%QUERY',
+                    filter: function( response ) {
+                        var tokens = $(".teamMemberList").tokenfield("getTokens");
+
+                        return $.map( response, function( d ) {
+                            if( engine1.valueCache.indexOf(d.name) === -1) {
+                                engine1.valueCache.push(d.name);
+                            }
+                            var exists = false;
+                            for( var i=0; i<tokens.length; i++ ) {
+                                if( d.name === tokens[i].label ) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                            if( !exists ) {
+                                return {
+                                    id: d.userID,
+                                    value: d.name,
+                                    image: d.image,
+                                    designation: d.designation
+                                }
+                            }
+                        });
+                    }
+                },
+                datumTokenizer: function(d) {
+                    return Bloodhound.tokenizers.whitespace(d.value);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace
+            });
+
+            // Initialize engine
+            engine1.valueCache = [];
+            engine1.initialize();
+
+            // Initialize tokenfield
+            $(".teamMemberList").tokenfield({
+                delimiter: ';',
+                typeahead: [{
+                    minLength:1,
+                    highlight:true,
+                    hint:false
+                },{
+                    displayKey: 'value',
+                    source: engine1.ttAdapter(),
+                    templates: {
+                        suggestion: Handlebars.compile([
+                            '<div class="col-md-12">',
+                            '<div class="col-md-2"><img src="{{image}}" width="40" height="40" ',
+                            'style="padding:0;" class="rounded-circle" /></div>',
+                            '<div class="col-md-10"><span class="typeahead-name">{{value}}</span>',
+                            '<div class="typeahead-designation">{{designation}}</div></div>',
+                            '</div>'
+                        ].join(''))
+                    }
+                }]
+            });
+
+            $(".teamMemberList").on("tokenfield:createtoken", function( event ) {
+                var exists = false;
+                $.each( engine1.valueCache, function(index, value) {
+                    if( event.attrs.value === value ) {
+                        exists = true;
+                    }
+                });
+                if( !exists ) {
+                    event.preventDefault( );
+                }
+            });
+
+            $("#createTeam").on("click", function ( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#createTeamForm")
+                    },
+                    success: function( res, ladda ) {
+
+                        //ladda.stop( );
+
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            //
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/team/create", data );
+                return false;
+            });
+        });
+    </script>
+
+    <div id="modalNewTeam" class="modal fade">
+        <div class="modal-dialog modal-med">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title">Create New Team</h6>
+                </div>
+
+                <form id="createTeamForm" name="createTeamForm" method="post" action="">
+                    <div class="modal-body overflow-y-visible">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Name your team:</label>
+                                    <input type="text" name="teamName" id="teamName" class="form-control" value=""
+                                           placeholder="Give your team a short and sweet name!" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Describe your team's objective:</label>
+                                    <textarea name="teamDescript" id="teamDescript" rows="6" cols="5"
+                                              placeholder="We are the warriors of the company! Improving the quality of products, services, processes and communications!"
+                                              class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Invite team members to join in the fun!</label>
+                                <input type="text" name="teamMembers" class="form-control tokenfield-typeahead teamMemberList"
+                                       placeholder="Enter team member's name" autocomplete="off" data-fouc />
+                                       <!--value="<?TPLVAR_TEAM_MEMBERS?>"-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="modal-footer-btn">
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                            <button id="createTeam" type="submit" class="btn btn-primary">Create Team</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

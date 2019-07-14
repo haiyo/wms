@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class MenuView extends AuroraView {
+class MenuView {
 
 
     // Properties
@@ -26,21 +26,21 @@ class MenuView extends AuroraView {
      * MenuView Constructor
      * @return void MessageModel $MessageModel
      */
-    function __construct( \Aurora\Page\MenuModel $MenuModel ) {
-        parent::__construct();
+    function __construct( ) {
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->Authorization = $this->Registry->get(HKEY_CLASS, 'Authorization');
-
-        $this->Registry = Registry::getInstance();
-        $this->MenuModel = $MenuModel;
 
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Aurora/NavRes');
+
+        $this->MenuModel = MenuModel::getInstance( );
     }
 
 
     /**
      * Get Navigation Class
-     * @return str
+     * @return string
      */
     public function getNavClass( $folder, $namespace, $className ) {
         static $nav;
@@ -56,16 +56,23 @@ class MenuView extends AuroraView {
 
     /**
      * Render account header
-     * @return mixed[]
+     * @return string
      */
     public function renderMenuChildRecursive( $menuSet ) {
         $vars = array( );
 
         if( is_array( $menuSet ) ) {
             foreach( $menuSet as $value ) {
-                if( $value['perm'] ) {
-                    if( !$this->Authorization->isAdmin( ) && !$this->Authorization->hasAnyRole( $value['perm'] ) ) {
-                        continue;
+                if( !$value['perms'] ) {
+                    continue;
+                }
+                $actions = explode( ',', $value['perms'] );
+
+                foreach( $actions as $namespace_action ) {
+                    $perm = explode( '.', $namespace_action );
+
+                    if( !$this->Authorization->hasPermission( $perm[0], $perm[1] ) ) {
+                        continue 2;
                     }
                 }
                 $L10n = $this->i18n->loadLanguage( $value['langFile'] );
@@ -75,42 +82,74 @@ class MenuView extends AuroraView {
                                                            'LANG_LINK' => $L10n->getContents( $value['langText'] ) );
             }
         }
-        return $this->render('aurora/menu/secondLevel.tpl', $vars );
+        return $this->View->render('aurora/menu/secondLevel.tpl', $vars );
     }
 
 
     /**
      * Render account header
-     * @return str
+     * @return string
      */
     public function renderMenu( ) {
         $menuSet = $this->MenuModel->getMenu( );
-        $toggle  = '';
-        $vars = array( );
+        $vars = $menu = array( );
 
         foreach( $menuSet as $value ) {
             $secondMenu = '';
 
-            if( $value['perm'] ) {
-                if ( !$this->Authorization->isAdmin( ) && !$this->Authorization->hasAnyRole($value['perm'] ) ) {
-                    continue;
+            if( !$value['perms'] ) {
+                continue;
+            }
+            $actions = explode( ',', $value['perms'] );
+            $sizeof  = sizeof( $actions );
+            $count   = 0;
+
+            foreach( $actions as $namespace_action ) {
+                $perm = explode( '.', $namespace_action );
+
+                if( $this->Authorization->hasPermission( $perm[0], $perm[1] ) ) {
+                    $count = 1;
+                    break;
                 }
             }
-            if( $value['parent'] == 0 ) {
-                if( isset( $value['child'] ) ) {
-                    $secondMenu = $this->renderMenuChildRecursive( $value['child'] );
-                    $toggle = 'dropdown';
-                }
-                $L10n = $this->i18n->loadLanguage( $value['langFile'] );
 
-                $vars['dynamic']['firstLevel'][] = array('TPLVAR_URL' => $value['url'],
-                                                         'TPLVAR_ICON' => $value['icon'],
-                                                         'LANG_LINK' => $L10n->getContents( $value['langText'] ),
-                                                         'TPLVAR_TOGGLE' => $toggle,
-                                                         'TPL_SECOND_LEVEL' => $secondMenu );
+            if( !$count ) continue;
+
+            $L10n = $this->i18n->loadLanguage( $value['langFile'] );
+
+            if( $value['parent'] == 0 ) {
+                $menu[$value['id']] = array('TPLVAR_URL' => $value['url'],
+                                            'TPLVAR_ICON' => $value['icon'],
+                                            'LANG_LINK' => $L10n->getContents( $value['langText'] ),
+                                            'TPL_SECOND_LEVEL' => '' );
+            }
+            else if( isset( $menu[$value['parent']] ) ) {
+                $childVars = array( 'TPLVAR_URL' => $value['url'],
+                                    'TPLVAR_ICON' => $value['icon'],
+                                    'LANG_LINK' => $L10n->getContents( $value['langText'] ) );
+
+                $menu[$value['parent']]['TPL_SECOND_LEVEL'] .= $this->View->render('aurora/menu/secondLevel.tpl', $childVars );
             }
         }
-        return $this->render('aurora/menu/firstLevel.tpl', $vars );
+
+        if( sizeof( $menu ) > 0 ) {
+            foreach( $menu as $links ) {
+                $toggle = $toggleClass = '';
+
+                if( $links['TPL_SECOND_LEVEL'] ) {
+                    $toggle = 'dropdown';
+                    $toggleClass = 'nav-dropdown-toggle';
+                }
+                $vars['dynamic']['firstLevel'][] = array('TPLVAR_URL' => $links['TPLVAR_URL'],
+                                                         'TPLVAR_ICON' => $links['TPLVAR_ICON'],
+                                                         'LANG_LINK' => $links['LANG_LINK'],
+                                                         'TPLVAR_TOGGLE' => $toggle,
+                                                         'TPLVAR_TOGGLE_CLASS' => $toggleClass,
+                                                         'TPL_SECOND_LEVEL' => $links['TPL_SECOND_LEVEL'] );
+            }
+        }
+
+        return $this->View->render('aurora/menu/firstLevel.tpl', $vars );
     }
 }
 ?>

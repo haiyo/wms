@@ -29,7 +29,7 @@ class PostJobControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         return $this->PostJobView->renderMenu( $css );
@@ -38,7 +38,7 @@ class PostJobControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getInternalJobMenu( $css ) {
         return $this->PostJobView->renderInternalJobMenu( $css );

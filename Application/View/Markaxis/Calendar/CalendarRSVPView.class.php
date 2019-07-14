@@ -40,7 +40,7 @@ class CalendarRSVPView {
 
     /**
     * Get Notification
-    * @return str
+    * @return string
     */
     public function getNotification( $info ) {
         $CalendarModel = CalendarModel::getInstance( );
@@ -62,7 +62,7 @@ class CalendarRSVPView {
 
     /**
     * Render Tab
-    * @return str
+    * @return string
     */
     public function renderTab( ) {
         $vars = array( 'TPVAR_TAB_ID' => 'rsvp',
@@ -74,7 +74,7 @@ class CalendarRSVPView {
 
     /**
     * Return RSVP form
-    * @return str
+    * @return string
     */
     public function renderForm( ) {
         $CalendarModel = CalendarModel::getInstance( );
@@ -142,7 +142,7 @@ class CalendarRSVPView {
 
     /**
     * Render Agenda Tab
-    * @return str
+    * @return string
     */
     public function renderAgendaTab( ) {
         $vars = array( 'TPVAR_TAB_ID' => 'agendaRSVP',
@@ -153,7 +153,7 @@ class CalendarRSVPView {
 
     /**
     * Render Agenda
-    * @return str
+    * @return string
     */
     public function renderAgendaData( $eventInfo ) {
         $info = $this->CalendarRSVPModel->getByEventID( $eventInfo['eventID'] );

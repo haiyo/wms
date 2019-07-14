@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
 use \Aurora\Component\CountryModel, \Aurora\Component\UploadModel;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EducationView extends AuroraView {
+class EducationView extends AdminView {
 
 
     // Properties
@@ -28,8 +28,7 @@ class EducationView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
@@ -40,7 +39,7 @@ class EducationView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->EducationModel->getInfo( );
@@ -50,7 +49,7 @@ class EducationView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         $existInfo = $this->EducationModel->getByUserID( $userID, '*' );
@@ -61,7 +60,7 @@ class EducationView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $SelectListView = new SelectListView( );
@@ -128,7 +127,7 @@ class EducationView extends AuroraView {
                                                          'TPLVAR_INDEX' => $i );
             }
         }
-        return $this->render( 'markaxis/employee/educationForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/educationForm.tpl', $vars );
     }
 }
 ?>

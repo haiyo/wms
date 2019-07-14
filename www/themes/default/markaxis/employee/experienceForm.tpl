@@ -63,7 +63,7 @@
                 <span class="help-block">Accepted formats: pdf, doc. Max file size 2Mb</span>-->
 
                 <div class="input-group">
-                    <input type="text" id="expTestimonial" name="expTestimonial" class="form-control" readonly="readonly" />
+                    <input type="text" id="expTestimonial" name="expTestimonial" class="form-control upload-control" readonly="readonly" />
                     <input type="hidden" id="expUID" name="expUID" class="form-control" />
                     <input type="hidden" id="expHashName" name="expHashName" class="form-control" />
                     <input type="hidden" id="expIndex" name="expIndex" value="" />
@@ -104,7 +104,7 @@
 
         <div class="row" id="appendExp">
             <div class="col-md-6">
-                <a href="#" class="btn bg-blue" id="addMoreExp">Add More Experience <i class="icon-arrow-right14 ml-2"></i></a>
+                <a href="#" class="btn bg-blue" id="addMoreExp">Add More Experience <i class="icon-plus22 ml-2"></i></a>
             </div>
         </div>
 

@@ -15,15 +15,6 @@ class Type extends \DAO {
 
 
     /**
-     * Type Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -64,7 +55,7 @@ class Type extends \DAO {
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $row = $this->DB->fetch( $sql );
+            return $this->DB->fetch( $sql );
         }
         return false;
     }
@@ -120,6 +111,33 @@ class Type extends \DAO {
                 $list[$row['ltID']] = $row;
             }
         }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getResults( $q='', $order='lt.name ASC' ) {
+        $list = array( );
+
+        $q = $q ? addslashes( $q ) : '';
+        $q = $q ? 'AND ( lt.name LIKE "%' . $q . '%" )' : '';
+
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS lt.* FROM leave_type lt
+                                   WHERE lt.deleted <> 0 ' . $q . '
+                                   ORDER BY ' . $order . $this->limit,
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
+        $row = $this->DB->fetch( $sql );
+        $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
     }
 }

@@ -15,15 +15,6 @@ class PaymentMethod extends \DAO {
 
 
     /**
-     * PaymentMethod Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -32,6 +23,21 @@ class PaymentMethod extends \DAO {
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $pmID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payment_method WHERE pmID = "' . (int)$pmID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 

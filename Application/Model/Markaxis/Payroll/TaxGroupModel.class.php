@@ -61,8 +61,8 @@ class TaxGroupModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function getList( ) {
-        return $this->TaxGroup->getList( );
+    public function getList( $selectable=false ) {
+        return $this->TaxGroup->getList( $selectable );
     }
 
 
@@ -85,7 +85,6 @@ class TaxGroupModel extends \Model {
         foreach( $elements as $element ) {
             if( $element['parent'] == $parentID ) {
                 $element['level'] = $level+1;
-
                 $branch[] = $element;
 
                 if( $element['tgID'] == 0 ) continue;
@@ -118,7 +117,7 @@ class TaxGroupModel extends \Model {
      */
     public function saveTaxGroup( $data ) {
         $this->info['title'] = Validator::stripTrim( $data['groupTitle'] );
-        $this->info['description'] = Validator::stripTrim( $data['groupDescription'] );
+        $this->info['descript'] = Validator::stripTrim( $data['groupDescription'] );
         $this->info['parent'] = (int)$data['parent'];
 
         if( $this->info['parent'] && !$this->isFound( $this->info['parent'] ) ) {

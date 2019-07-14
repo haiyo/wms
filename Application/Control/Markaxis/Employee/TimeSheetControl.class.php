@@ -26,7 +26,7 @@ class TimeSheetControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function timesheet( ) {
         $TimeSheetView = new TimeSheetView( );

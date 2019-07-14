@@ -26,7 +26,7 @@ class DesignationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveType( ) {
         $post = Control::getPostData( );

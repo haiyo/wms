@@ -47,7 +47,7 @@ class YearListView extends SelectListView {
 
     /**
     * Reurn Year List
-    * @return str
+    * @return string
     */
     public function getList( $id, $year='' ) {
         $list = array( );

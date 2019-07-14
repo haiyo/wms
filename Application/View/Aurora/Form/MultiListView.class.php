@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Form;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +9,7 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class MultiListView extends AuroraView {
+class MultiListView extends AdminView {
 
 
     // Properties
@@ -37,7 +37,7 @@ class MultiListView extends AuroraView {
 
     /**
     * Build Multi List
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='' ) {
         $vars = array( 'TPLVAR_NAME'  => $name,

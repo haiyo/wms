@@ -35,7 +35,7 @@ class RoleListView extends MultiListView {
 
     /**
     * Return Role List
-    * @return str
+    * @return string
     */
     public function getList( $roleList='', $withAdmin=false, $withHeader=false, $id='roles', $extras=array( ) ) {
         $Role = new Role( );

@@ -25,7 +25,7 @@ class URLSanitizer {
     /**
     * Return sanitize string
     * Returns a sanitized string
-    * @return str
+    * @return string
     */
     public static function sanitize( $string, $lowercase=false, $removeNonAlpha=false ) {
         $strip = array("~", "`", "!", "@", "$", "^", "*", "(", ")", "[", "{", "]",

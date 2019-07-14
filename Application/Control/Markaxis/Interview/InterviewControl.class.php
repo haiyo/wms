@@ -26,7 +26,7 @@ class InterviewControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         $InterviewModel = InterviewModel::getInstance( );

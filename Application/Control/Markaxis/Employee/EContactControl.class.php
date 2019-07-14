@@ -26,7 +26,7 @@ class EContactControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $EContactModel = EContactModel::getInstance( );

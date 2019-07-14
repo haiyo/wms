@@ -12,14 +12,5 @@ class Help extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Help Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

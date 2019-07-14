@@ -1,6 +1,5 @@
 <?php
-namespace Library\Util;
-use \Library\Interfaces\IObserver;
+namespace Library\Interfaces;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

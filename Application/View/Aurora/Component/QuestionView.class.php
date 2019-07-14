@@ -8,7 +8,7 @@ namespace Aurora;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class QuestionView extends AuroraView {
+class QuestionView extends AdminView {
 
 
     // Properties
@@ -38,7 +38,7 @@ class QuestionView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->QuestionModel->getInfo( );
@@ -48,7 +48,7 @@ class QuestionView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $this->info = $this->QuestionModel->getFieldByUserID( $userID, '*' ) ) {
@@ -59,7 +59,7 @@ class QuestionView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $questions = $this->QuestionModel->getList( );

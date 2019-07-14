@@ -1,8 +1,8 @@
 <?php
 namespace Aurora\User;
-use \Aurora\AuroraView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Aurora\Form\DayIntListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Aurora\Form\DayIntListView;
 use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\YesNoHelper, \Library\Helper\Aurora\MonthHelper;
-use \Library\Helper\Aurora\MaritalHelper, \Library\Helper\Aurora\NationalityHelper;
+use \Library\Helper\Aurora\MaritalHelper, \Aurora\Component\NationalityModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Library\Runtime\Registry;
 
@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class UserView extends AuroraView {
+class UserView {
 
 
     // Properties
@@ -30,25 +30,19 @@ class UserView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
         // We'll be doing user setup so make sure we use a new model instead of instance.
         $this->UserModel = new UserModel( );
-
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                  'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js' ),
-                                  'pages' => 'wizard_stepy.js',
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->UserModel->getInfo( );
@@ -58,7 +52,7 @@ class UserView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $this->info = $this->UserModel->getFieldByUserID( $userID, '*' ) ) {
@@ -70,7 +64,7 @@ class UserView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
@@ -91,12 +85,14 @@ class UserView extends AuroraView {
 
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
-        $countryList = $SelectListView->build( 'country', $countries, $this->info['country'], 'Select Country' );
+        $countryList = $SelectListView->build( 'country', $countries, $this->info['countryID'], 'Select Country' );
+
+        $NationalityModel = NationalityModel::getInstance( );
+        $nationalities = $NationalityModel->getList( );
+        $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->info['nationalityID'], 'Select Nationality' );
 
         $SelectListView->setClass( 'maritalList' );
         $maritalList  = $SelectListView->build( 'marital', MaritalHelper::getL10nList( ), $this->info['marital'], 'Select Status' );
-        $nationalityList = $SelectListView->build( 'nationality', NationalityHelper::getL10nList( ),
-                                                    $this->info['nationality'], 'Select Nationality' );
 
         $ReligionModel = ReligionModel::getInstance( );
         $religionID = isset( $this->info['religionID'] ) ? $this->info['religionID'] : '';
@@ -171,17 +167,17 @@ class UserView extends AuroraView {
                 }
             }
         }
-        return $this->render( 'aurora/user/form.tpl', $vars );
+        return $this->View->render( 'aurora/user/form.tpl', $vars );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderLog( $userID ) {
         $vars = array( 'TPLVAR_USERID' => $userID );
-        return $this->render( 'aurora/employee/log.tpl', $vars );
+        return $this->View->render( 'aurora/employee/log.tpl', $vars );
     }
 }
 ?>

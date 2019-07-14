@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Employee;
-use \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\DesignationModel;
+use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
+use \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
@@ -17,6 +18,7 @@ class EmployeeModel extends \Model {
 
     // Properties
     protected $Employee;
+    private $totalCount;
 
 
     /**
@@ -28,7 +30,7 @@ class EmployeeModel extends \Model {
 
         $this->info['userID'] = $this->info['salary'] = 0;
         $this->info['idnumber'] = $this->info['currency'] =
-        $this->info['passNumber'] = $this->info['confirmDate'] =
+        $this->info['passTypeID'] = $this->info['passNumber'] = $this->info['confirmDate'] =
         $this->info['startDate'] = $this->info['endDate'] = $this->info['passExpiryDate'] = '';
 
         $this->Employee = new Employee( );
@@ -57,8 +59,23 @@ class EmployeeModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getList( $q='' ) {
-        return $this->Employee->getList( $q );
+    public function getList( $q='', $includeOwn=false ) {
+        $exclude = '';
+
+        if( !$includeOwn ) {
+            $userInfo = UserModel::getInstance( )->getInfo( );
+            $exclude = $userInfo['userID'];
+        }
+        $row = $this->Employee->getList( $q, $exclude );
+
+        if( sizeof( $row ) > 0 ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $row as $key => $value ) {
+                $row[$key]['image'] = $UserImageModel->getImgLinkByUserID( $row[$key]['userID'] );
+            }
+        }
+        return $row;
     }
 
 
@@ -67,7 +84,28 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getFieldByUserID( $userID, $column ) {
-        return $this->Employee->getFieldByUserID( $userID, $column );
+        return $this->info = $this->Employee->getFieldByUserID( $userID, $column );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getCount( ) {
+        return $this->Employee->getCount( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getCountByDate( $date ) {
+        if( !$this->totalCount ) {
+            $this->totalCount = $this->getCount( );
+        }
+        return $this->totalCount-$this->Employee->getCountByDate( $date );
     }
 
 
@@ -157,6 +195,39 @@ class EmployeeModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getProcessInfo( $userID ) {
+        $empInfo = $this->Employee->getProcessInfo( $userID );
+        $empInfo['monthDiff'] = 0;
+
+        if( $empInfo['startDate'] ) {
+            $currYear  = date( 'Y' );
+            $dateDiff  = \DateTime::createFromFormat('jS M Y',
+                $empInfo['startDate'] )->diff( new \DateTime('now') );
+
+            if( $dateDiff->y < $currYear ) {
+                $empInfo['monthDiff'] = 12;
+            }
+            else if( $dateDiff->y == $currYear ) {
+                $begin = new \DateTime($dateDiff->d . '-' . $dateDiff->m . '-' . $currYear );
+                $end = new \DateTime( );
+                $end = $end->modify( '+1 month' );
+
+                $interval = \DateInterval::createFromDateString('1 month');
+                $period = new \DatePeriod( $begin, $interval, $end );
+
+                foreach( $period as $dt ) {
+                    $empInfo['monthDiff']++;
+                }
+            }
+        }
+        return $empInfo;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -164,44 +235,50 @@ class EmployeeModel extends \Model {
         $saveInfo = array( );
         $saveInfo['idnumber'] = Validator::stripTrim( $data['idnumber'] );
         $saveInfo['passNumber'] = Validator::stripTrim( $data['passNumber'] );
-        $saveInfo['salary'] = Validator::stripTrim( $data['salary'] );
-
-        if( isset( CurrencyHelper::getL10nList( )[$data['currency']] ) ) {
-            $saveInfo['currency'] = $data['currency'];
-        }
+        $saveInfo['salary'] = str_replace(',', '', Validator::stripTrim( $data['salary'] ) );
+        $saveInfo['salary'] = preg_replace('/[^0-9,.]/', '', $saveInfo['salary'] );
 
         if( isset( $data['salaryType'] ) ) {
             $SalaryTypeModel = SalaryTypeModel::getInstance( );
             if( $SalaryTypeModel->isFound( $data['salaryType'] ) ) {
-                $saveInfo['stID'] = (int)$data['salaryType'];
+                $saveInfo['salaryTypeID'] = (int)$data['salaryType'];
             }
         }
 
         if( isset( $data['office'] ) ) {
             $OfficeModel = OfficeModel::getInstance( );
             if( $OfficeModel->isFound( $data['office'] ) ) {
-                $saveInfo['oID'] = (int)$data['office'];
+                $saveInfo['officeID'] = (int)$data['office'];
             }
         }
 
         if( isset( $data['designation'] ) ) {
             $DesignationModel = DesignationModel::getInstance( );
             if( $DesignationModel->isFound( $data['designation'] ) ) {
-                $saveInfo['dID'] = (int)$data['designation'];
+                $saveInfo['designationID'] = (int)$data['designation'];
             }
         }
 
         if( isset( $data['contractType'] ) ) {
             $ContractModel = ContractModel::getInstance( );
             if( $ContractModel->isFound( $data['contractType'] ) ) {
-                $saveInfo['cID'] = (int)$data['contractType'];
+                $saveInfo['contractID'] = (int)$data['contractType'];
             }
         }
+
+        if( isset( $data['paymentMethod'] ) ) {
+            $PaymentMethodModel = PaymentMethodModel::getInstance( );
+            if( $PaymentMethodModel->isFound( $data['paymentMethod'] ) ) {
+                $saveInfo['paymentMethodID'] = (int)$data['paymentMethod'];
+            }
+        }
+
+        $saveInfo['passTypeID'] = NULL;
 
         if( isset( $data['passType'] ) ) {
             $PassTypeModel = PassTypeModel::getInstance( );
             if( $PassTypeModel->isFound( $data['passType'] ) ) {
-                $saveInfo['ptID'] = (int)$data['passType'];
+                $saveInfo['passTypeID'] = (int)$data['passType'];
             }
         }
 
@@ -226,7 +303,8 @@ class EmployeeModel extends \Model {
         $startYear  = (int)Validator::stripTrim( $data['startYear'] );
 
         if( !$saveInfo['startDate'] = Date::getDateStr( $startMonth, $startDay, $startYear ) ) {
-            unset( $saveInfo['startDate'] );
+            // Default to current date if no date set.
+            $saveInfo['startDate'] = date('Y-m-d');
         }
 
         $endDay   = (int)Validator::stripTrim( $data['endDay'] );
@@ -237,13 +315,12 @@ class EmployeeModel extends \Model {
             unset( $saveInfo['endDate'] );
         }
 
-        $saveInfo['userID'] = (int)$data['userID'];
-
-        if( $info = $this->getFieldByUserID( $saveInfo['userID'], 'e.eID' ) ) {
+        if( $info = $this->getFieldByUserID( $data['userID'], 'e.eID' ) ) {
             $eID = $info['eID'];
             $this->Employee->update( 'employee', $saveInfo, 'WHERE eID = "' . (int)$eID . '"' );
         }
         else {
+            $saveInfo['userID'] = (int)$data['userID'];
             $eID = $this->Employee->insert('employee', $saveInfo);
         }
         return $eID;
@@ -259,7 +336,8 @@ class EmployeeModel extends \Model {
 
         if( $UserModel->isFound( $post['userID'] ) ) {
             $info = array( );
-            $info['resigned'] = $post['status'] == 1 ? 1 : 0;;
+            $info['resigned'] = $post['status'] == 1 ? 1 : 0;
+            $info['endDate'] = date( 'Y-m-d H:i:s' );
             $this->Employee->update( 'employee', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
 
             $AuditLogModel = new AuditLogModel( );

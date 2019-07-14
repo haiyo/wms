@@ -8,7 +8,8 @@
     </div>
     <div class="header-elements">
         <div class="list-icons tax-icons">
-            <a data-id="<?TPLVAR_TRID?>" class="list-icons-item" data-toggle="modal" data-target="#modalTaxRule"><i class="icon-pencil5"></i></a>
+            <a data-id="<?TPLVAR_TRID?>" class="list-icons-item" data-toggle="modal" data-target="#modalTaxRule"
+               data-backdrop="static" data-keyboard="false"><i class="icon-pencil5"></i></a>
             <a data-id="<?TPLVAR_TRID?>" class="list-icons-item"><i class="icon-bin"></i></a>
         </div>
     </div>

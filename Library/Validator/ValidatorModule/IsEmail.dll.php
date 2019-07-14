@@ -30,8 +30,10 @@ class IsEmail implements IValidator {
     * @return bool
     */
     public function validate( ) {
-        //if( !preg_match( '/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email ) ) {
-        if( !preg_match("/^[^@]+@[^@]+\.[a-z]{2,6}$/i", $this->email ) ) {
+        // Remove all illegal characters from email
+        $this->email = filter_var( $this->email,FILTER_SANITIZE_EMAIL );
+
+        if( !filter_var( $this->email,FILTER_VALIDATE_EMAIL ) ) {
             return false;
         }
         return true;

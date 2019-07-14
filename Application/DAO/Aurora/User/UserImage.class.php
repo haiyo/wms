@@ -13,15 +13,6 @@ class UserImage extends \DAO {
 
     // Properties
 
-    
-    /**
-    * UserImage Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
 
     /**
     * Return total count of records
@@ -39,9 +30,9 @@ class UserImage extends \DAO {
     * Retrieve a user column by userID
     * @return mixed
     */
-    public function getByUserID( $userID, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user_image ui
-                                   LEFT JOIN upload u ON (ui.uID = u.uID)
+    public function getByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT * FROM user_image ui
+                                   LEFT JOIN upload up ON (ui.uID = up.uID)
                                    WHERE ui.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 

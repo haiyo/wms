@@ -1,0 +1,4 @@
+<!-- BEGIN DYNAMIC BLOCK: reason -->
+<?TPLVAR_REASON?><br />
+<!-- END DYNAMIC BLOCK: reason -->
+<?LANG_FROM?> <?TPLVAR_START_DATE?> <?LANG_TO?> <?TPLVAR_END_DATE?>

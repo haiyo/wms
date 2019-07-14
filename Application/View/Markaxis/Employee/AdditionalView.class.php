@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Aurora\Component\RecruitSourceModel;
 use \Library\Helper\Aurora\RelationshipHelper;
 use \Library\Runtime\Registry;
@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class AdditionalView extends AuroraView {
+class AdditionalView {
 
 
     // Properties
@@ -30,8 +30,7 @@ class AdditionalView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/AdditionalRes');
@@ -42,7 +41,7 @@ class AdditionalView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->AdditionalModel->getInfo( );
@@ -52,7 +51,7 @@ class AdditionalView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         $existInfo = $this->AdditionalModel->getByUserID( $userID, '*' );
@@ -67,13 +66,14 @@ class AdditionalView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $SelectListView = new SelectListView( );
         $RecruitSourceModel = RecruitSourceModel::getInstance( );
         $rsID = isset( $this->info['rsID'] ) ? $this->info['rsID'] : '';
-        $rsList = $SelectListView->build( 'recruitSource',  $RecruitSourceModel->getList( ), $rsID, 'Select Recruitment Source' );
+        $rsList = $SelectListView->build( 'recruitSource',  $RecruitSourceModel->getList( ),
+                                            $rsID, 'Select Recruitment Source' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_RS_LIST' => $rsList,
@@ -117,7 +117,7 @@ class AdditionalView extends AuroraView {
                                                         'TPL_ERS_LIST' => $eRsList ) );
             }
         }
-        return $this->render( 'markaxis/employee/additionalForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/additionalForm.tpl', $vars );
     }
 }
 ?>

@@ -26,19 +26,19 @@ class FormWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         $output = Control::getOutputArray( );
 
         $FormWrapperView = new FormWrapperView( );
-        $FormWrapperView->printAll( $FormWrapperView->renderAdd( $output['form'] ) );
+        $FormWrapperView->renderAdd( $output['form'] );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -48,13 +48,13 @@ class FormWrapperControl {
         $photo = isset( $output['photo'] ) ? $output['photo'] : '';
 
         $FormWrapperView = new FormWrapperView( );
-        $FormWrapperView->printAll( $FormWrapperView->renderEdit( $form, $userID, $photo ) );
+        $FormWrapperView->renderEdit( $form, $userID, $photo );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $vars['bool'] = 1;

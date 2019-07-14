@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveBalanceView extends AuroraView {
+class LeaveBalanceView {
 
 
     // Properties
@@ -26,8 +26,7 @@ class LeaveBalanceView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');

@@ -15,23 +15,30 @@ class Department extends \DAO {
 
 
     /**
-     * Department Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
     public function isFound( $dID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM department WHERE dID = "' . (int)$dID . '"',
-                                    __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM department
+                                   WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $dID ) {
+        $sql = $this->DB->select( 'SELECT * FROM department WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -40,7 +47,7 @@ class Department extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM department', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM department WHERE deleted <> "1"', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {

@@ -12,15 +12,6 @@ class UserSetting extends \DAO {
 
 
     // Properties
-    
-
-    /**
-    * UserSetting Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
 
 
     /**

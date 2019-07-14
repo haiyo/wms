@@ -26,15 +26,6 @@ class CalendarMessageModel extends \Model implements IObserver {
 
 
     /**
-    * Performs message actions
-    * @return void
-    */
-    public function init( $sender, $action ) {
-        //$this->$action( $sender );
-	}
-
-
-    /**
     * Set approval
     * @return void
     */

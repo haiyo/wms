@@ -27,7 +27,7 @@ class TaxCompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( ) {
         $taxRule = Control::getOutputArray( );
@@ -40,9 +40,9 @@ class TaxCompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function getAll( ) {
+    public function getAllTaxRules( ) {
         $taxRules = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxCompetencyModel->getAll( $taxRules ) );
     }
@@ -50,7 +50,26 @@ class TaxCompetencyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxCompetencyModel->processPayroll( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );

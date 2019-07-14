@@ -1,7 +1,7 @@
 
 <script>
     $(function() {
-        $(".employeeTable").DataTable({
+        var employeeTable = $(".employeeTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
@@ -10,7 +10,10 @@
             ajax: {
                 url: Aurora.ROOT_URL + "admin/employee/results",
                 type: "POST",
-                data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+                data: function ( d ) {
+                    d.ajaxCall = 1;
+                    d.csrfToken = Aurora.CSRF_TOKEN;
+                },
             },
             initComplete: function() {
                 Popups.init();
@@ -34,7 +37,7 @@
                 searchable : false,
                 data: 'userID',
                 render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                 }
             },{
                 targets: [1],
@@ -44,7 +47,7 @@
             },{
                 targets: [2],
                 orderable: true,
-                width: '280px',
+                width: '270px',
                 data: 'name'
             },{
                 targets: [3],
@@ -55,7 +58,7 @@
                 targets: [4],
                 searchable : false,
                 data: 'status',
-                width: '130px',
+                width: '190px',
                 className : "text-center",
                 render: function(data, type, full, meta) {
                     var reason = full['suspendReason'] ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
@@ -88,7 +91,7 @@
                 orderable: false,
                 searchable : false,
                 width: '100px',
-                className : "text-center",
+                className : "text-center p-0",
                 data: 'userID',
                 render: function(data, type, full, meta) {
                     var name   = full["name"];
@@ -98,8 +101,8 @@
                                 '<div class="list-icons-item dropdown">' +
                                     '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                                         '<i class="icon-menu9"></i></a>' +
-                                    '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view\' + data + \'">' +
+                                    '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
+                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view/' + data + '">' +
                                             '<i class="icon-user"></i> View Employee Info</a>' +
                                         '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
                                             '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
@@ -115,23 +118,6 @@
                                     '</div>' +
                                 '</div>' +
                             '</div>';
-
-                    /*return '<ul class="action icons-list">\n' +
-                        '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-                        '<i class="icon-menu9"></i>\n' +
-                        '</a>\n' +
-                        '<ul class="dropdown-menu dropdown-menu-right">\n' +
-                        '<li><a><i class="icon-user"></i> View Employee Info</a></li>\n' +
-
-                        '<li><a href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '"><i class="icon-pencil5"></i> Edit Employee Info</a></li>\n' +
-                        '<li><a data-href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '"><i class="icon-mail5"></i> Message Employee</a></li>\n' +
-                        '<li><a data-title="View ' + name + ' History Log" data-href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '" data-toggle="modal" data-target="#modalLoad"><i class="icon-history"></i> View History Log</a></li>\n' +
-                        '<li class="divider"></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')"><i class="icon-user-block"></i> ' + statusText + '</a></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')"><i class="icon-exit3"></i> Employee Resigned</a></li>\n' +
-                        '</ul>\n' +
-                        '</li>\n' +
-                        '</ul>'*/
                 }
             }],
             select: {
@@ -141,13 +127,14 @@
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee',
+                searchPlaceholder: 'Search Employee, Designation or Contract Type',
                 lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
                 Popups.init();
+                $(".employeeTable [type=checkbox]").uniform();
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
@@ -175,17 +162,16 @@
 
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
-        var table = $(".dataTable").DataTable( );
 
         $(".dataTable tbody").on("mouseover", "td", function( ) {
-            var colIdx = table.cell(this).index( ).column;
+            var colIdx = employeeTable.cell(this).index( ).column;
 
             if( colIdx !== lastIdx ) {
-                $(table.cells().nodes()).removeClass("active");
-                $(table.column(colIdx).nodes()).addClass("active");
+                $(employeeTable.cells().nodes()).removeClass("active");
+                $(employeeTable.column(colIdx).nodes()).addClass("active");
             }
         }).on("mouseleave", function() {
-            $(table.cells().nodes()).removeClass("active");
+            $(employeeTable.cells().nodes()).removeClass("active");
         });
 
         // External table additions
@@ -252,12 +238,12 @@
                         if( status == 1 ) {
                             $("#menuSetStatus" + userID).html('<i class="icon-user-check"></i> Unsuspend Employee');
                             $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-danger"' + reason + '>Suspended</span>');
-                            swal("Done!", name + " has been succesfully suspended!", "success");
+                            swal("Done!", name + " has been successfully suspended!", "success");
                         }
                         else {
                             $("#menuSetStatus" + userID).html('<i class="icon-user-block"></i> Suspend Employee');
                             $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-success"' + reason + '>Active</span>');
-                            swal("Done!", name + " has been succesfully unsuspended!", "success");
+                            swal("Done!", name + " has been successfully unsuspended!", "success");
                         }
                         Popups.init();
                         return;
@@ -298,7 +284,7 @@
                     }
                     else {
                         $("#row" + userID).fadeOut("slow");
-                        swal("Done!", name + " has been succesfully set to Resigned!", "success");
+                        swal("Done!", name + " has been successfully set to Resigned!", "success");
                         return;
                     }
                 }
@@ -308,52 +294,49 @@
         return false;
     }
 </script>
-<style>
-    .list-action-btns{float:right;}
-</style>
-<div class="panel panel-flat">
-    <div class="list-action-btns">
-        <ul class="icons-list">
-            <li>
-                <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
-                    <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <table class="table table-bordered employeeTable">
-        <thead>
-        <tr>
-            <th rowspan="2"></th>
-            <th rowspan="2">Employee ID</th>
-            <th colspan="3">HR Information</th>
-            <th colspan="3">Contact</th>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Status</th>
-            <th>E-mail</th>
-            <th>Mobile</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<div class="list-action-btns">
+    <ul class="icons-list">
+        <li>
+            <!-- BEGIN DYNAMIC BLOCK: addEmployeeBtn -->
+            <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
+                <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;
+            <!-- END DYNAMIC BLOCK: addEmployeeBtn -->
+            <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
+                <li class="divider"></li>
+                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
+            </ul>
+        </li>
+    </ul>
 </div>
+
+<table class="table table-hover employeeTable">
+    <thead>
+    <tr>
+        <th rowspan="2"></th>
+        <th rowspan="2">Employee ID</th>
+        <th colspan="3">HR Information</th>
+        <th colspan="3">Contact</th>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Employment Status</th>
+        <th>E-mail</th>
+        <th>Mobile</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 <div id="modalLoad" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

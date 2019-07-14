@@ -15,20 +15,14 @@ class Employee extends \DAO {
 
 
     /**
-     * Employee Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
     public function isFound( $eID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee WHERE eID = "' . (int)$eID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e
+                                   LEFT JOIN user u ON ( u.userID = e.userID )
+                                   WHERE eID = "' . (int)$eID . '" AND 
+                                         u.deleted <> "1" AND e.resigned <> "1"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -40,8 +34,36 @@ class Employee extends \DAO {
      * @return int
      */
     public function isFoundByUserID( $userID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee WHERE userID = "' . (int)$userID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e
+                                   LEFT JOIN user u ON ( u.userID = e.userID )
+                                   WHERE u.userID = "' . (int)$userID . '" AND
+                                         u.deleted <> "1" AND e.resigned <> "1"',
                                     __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCount( ) {
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountByDate( $endDate ) {
+        $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e 
+                                   WHERE endDate IS NOT NULL AND endDate <= "' . addslashes( $endDate ) . '"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -51,15 +73,20 @@ class Employee extends \DAO {
      * Retrieve a user list normally use for building select list
      * @return mixed
      */
-    public function getList( $q='' ) {
+    public function getList( $q='', $excludeUserID='' ) {
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR u.email1 LIKE "%' . $q . '%" )' : '';
+        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" )' : '';
+
+        $exclude = $excludeUserID ? 'AND u.userID NOT IN(' . addslashes( $excludeUserID ) . ')' : '';
 
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT u.userID, CONCAT(u.fname, " ", u.lname ) AS name FROM user u
+        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
+                                          d.title AS designation
+                                   FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND deleted <> "1" ' . $q . '
+                                   LEFT JOIN designation d ON ( e.designationID = d.dID )
+                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND u.deleted <> "1" ' . $q . ' ' . $exclude . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -79,7 +106,7 @@ class Employee extends \DAO {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1" AND e.resigned <> "1"',
-            __FILE__, __LINE__ );
+                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );
@@ -102,7 +129,7 @@ class Employee extends \DAO {
             $q = $q ? addslashes( $q ) : '';
             $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
                        OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
-                       OR c.type LIKE "%' . $q . '%" )' : '';
+                       OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
@@ -112,8 +139,8 @@ class Employee extends \DAO {
                                           ad.descript AS suspendReason
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN designation d ON ( d.dID = e.dID )
-                                   LEFT JOIN contract c ON ( c.cID = e.cID )
+                                   LEFT JOIN designation d ON ( d.dID = e.designationID )
+                                   LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
@@ -130,6 +157,34 @@ class Employee extends \DAO {
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getProcessInfo( $userID ) {
+        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
+                                          u.birthday, u.raceID, n.nationality, e.idnumber, 
+                                          d.title AS designation, c.type AS contractType, 
+                                          e.officeID, e.currency, e.salary, pt.title AS passType,
+                                          DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
+                                          DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
+                                          DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate
+                                   FROM employee e
+                                   LEFT JOIN user u ON ( u.userID = e.userID )
+                                   LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                   LEFT JOIN designation d ON ( d.dID = e.designationID )
+                                   LEFT JOIN contract c ON ( c.cID = e.contractID )
+                                   LEFT JOIN pass_type pt ON ( pt.ptID = e.passTypeID )
+                                   WHERE e.resigned <> "1" AND e.userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 

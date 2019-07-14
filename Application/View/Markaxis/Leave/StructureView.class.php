@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class StructureView extends AuroraView {
+class StructureView {
 
 
     // Properties
@@ -26,9 +26,8 @@ class StructureView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
@@ -38,24 +37,24 @@ class StructureView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAddType( ) {
         $vars = array_merge( $this->L10n->getContents( ),
                 array(  ) );
 
         $vars['dynamic']['structure'] = false;
-        return $this->render( 'markaxis/leave/structureForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/structureForm.tpl', $vars );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEditType( $ltID ) {
         $vars = array_merge( $this->L10n->getContents( ),
-            array(  ) );
+                array(  ) );
 
         $vars['dynamic']['structure'] = false;
 
@@ -70,7 +69,7 @@ class StructureView extends AuroraView {
                 $id++;
             }
         }
-        return $this->render( 'markaxis/leave/structureForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/structureForm.tpl', $vars );
     }
 }
 ?>

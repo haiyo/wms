@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\Component\CountryModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Component\CountryModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ChildCareView extends AuroraView {
+class ChildCareView {
 
 
     // Properties
@@ -26,19 +26,18 @@ class ChildCareView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        $this->ChildCareModel = ChildCareModel::getInstance( );;
+        $this->ChildCareModel = ChildCareModel::getInstance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAddType( ) {
         $SelectListView = new SelectListView( );
@@ -49,7 +48,6 @@ class ChildCareView extends AuroraView {
         for( $i=1; $i<=$maxAge; $i++ ) {
             $ageList[] = $i;
         }
-
         $CountryModel = CountryModel::getInstance( );
         $childCountryList = $SelectListView->build( 'childCountry', $CountryModel->getList( ), '', 'Select Country' );
         $childMaxAgeList = $SelectListView->build( 'childMaxAge', $i, '', 'Select Age' );
@@ -58,7 +56,7 @@ class ChildCareView extends AuroraView {
                 array( 'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
                        'TPL_CHILD_MAX_AGE_LIST' => $childMaxAgeList ) );
 
-        return $this->render( 'markaxis/leave/childCareForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/childCareForm.tpl', $vars );
     }
 }
 ?>

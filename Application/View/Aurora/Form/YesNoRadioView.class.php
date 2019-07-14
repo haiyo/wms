@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Form;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +9,7 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class YesNoRadioView extends AuroraView {
+class YesNoRadioView extends AdminView {
 
 
     // Properties
@@ -26,7 +26,7 @@ class YesNoRadioView extends AuroraView {
 
     /**
     * Return Yes/No Radio Buttons
-    * @return str
+    * @return string
     */
     public static function build( $name, $value ) {
         $RadioView = new RadioView( );

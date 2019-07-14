@@ -1,5 +1,6 @@
 <?php
 namespace Library\Util;
+use \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -43,6 +44,12 @@ class Uploader {
         if( $options ) {
             $this->options = array_replace_recursive( $this->options, $options );
         }
+
+        if( !$this->options['uploadDir'] ) {
+            $this->options['hashDir'] = MD5( date('Y-m-d') );
+            $this->options['uploadDir'] = UPLOAD_DIR . $this->options['hashDir'] . '/';
+            File::createDir( $this->options['uploadDir'] );
+        }
     }
     
     
@@ -57,7 +64,7 @@ class Uploader {
 
     /**
     * Rename filename which already exist in the server with an extension
-    * @return str
+    * @return string
     */
     protected function upCountName( $matches ) {
         $index = isset( $matches[1] ) ? (int)$matches[1] + 1 : 1;
@@ -68,7 +75,7 @@ class Uploader {
 
     /**
     * Normalize filename and prevent filename crashes
-    * @return str
+    * @return string
     */
     protected function trimFileName( $name, $type ) {
         // Remove path information and dots around the filename, to prevent uploading
@@ -139,6 +146,7 @@ class Uploader {
         }
 
         $this->fileInfo['name'] = $this->trimFileName( $this->fileInfo['name'], $this->fileInfo['type'] );
+        $this->fileInfo['hashDir'] = $this->options['hashDir'];
         $this->fileInfo['isImage'] = preg_match( '/([^\s]+(\.(?i)(jpg|png|gif|bmp))$)/', $this->fileInfo['name'] );
         File::createDir( $this->options['uploadDir'] . $this->options['tmpFolder'] );
         return true;
@@ -153,6 +161,7 @@ class Uploader {
         $filePath = $this->options['uploadDir'] . $this->options['tmpFolder'] . $this->fileInfo['name'];
         $appendFile = !$this->options['discardAbort'] && is_file( $filePath ) && $this->fileInfo['size'] > filesize( $filePath );
         clearstatcache( );
+
         if( $this->isUploadedFile ) {
             if( $appendFile ) {
                 file_put_contents( $filePath, fopen( $this->fileInfo['tmp_name'], 'r' ), FILE_APPEND );
@@ -170,9 +179,10 @@ class Uploader {
                 return false;
             }
             if( $fileSize == $this->fileInfo['size'] ) {
-                //$this->fileInfo['in'] = $fileSize . '==' . $this->fileInfo['size'];
                 $salt = uniqid( mt_rand( ), true );
                 $this->fileInfo['hashName'] = MD5( microtime( ) . $salt ) . '.' . pathinfo( $this->fileInfo['name'], PATHINFO_EXTENSION );
+
+
                 rename( $filePath, $this->options['uploadDir'] . $this->fileInfo['hashName'] );
                 File::removeDir( $this->options['uploadDir'] . $this->options['tmpFolder'] );
                 $this->fileInfo['success'] = 2;

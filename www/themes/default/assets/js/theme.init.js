@@ -24,7 +24,6 @@
 (function(theme, $) {
 
     'use strict';
-console.log(theme)
     if (typeof theme.Nav !== 'undefined') {
         theme.Nav.initialize();
     }

@@ -15,15 +15,6 @@ class TaxDesignation extends \DAO {
 
 
     /**
-     * TaxComputing Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -43,7 +34,7 @@ class TaxDesignation extends \DAO {
      */
     public function getByID( $trID, $tdID ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_designation td
-                                   LEFT JOIN designation d ON ( d.dID = td.designation ) 
+                                   LEFT JOIN designation d ON ( d.dID = td.designationID ) 
                                    WHERE trID = "' . (int)$trID . '" AND tdID = "' . (int)$tdID . '"',
             __FILE__, __LINE__ );
 
@@ -62,7 +53,7 @@ class TaxDesignation extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT * FROM tax_designation td
-                                   LEFT JOIN designation d ON ( d.dID = td.designation ) 
+                                   LEFT JOIN designation d ON ( d.dID = td.designationID ) 
                                    WHERE trID = "' . (int)$trID . '"',
                                    __FILE__, __LINE__ );
 

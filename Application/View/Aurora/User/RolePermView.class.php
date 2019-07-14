@@ -1,5 +1,7 @@
 <?php
 namespace Aurora\User;
+use \Aurora\Admin\AdminView;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -8,13 +10,14 @@ namespace Aurora\User;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RolePermView extends AuroraView {
+class RolePermView {
 
 
     // Properties
     protected $Registry;
     protected $HKEY_LOCAL;
     protected $L10n;
+    protected $View;
     protected $RolePermModel;
     protected $PermissionModel;
 
@@ -24,8 +27,7 @@ class RolePermView extends AuroraView {
     * @return void
     */
     function __construct( RolePermModel $RolePermModel, PermissionModel $PermissionModel ) {
-        parent::__construct();
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get( HKEY_LOCAL );
         $this->RolePermModel = $RolePermModel;
@@ -33,37 +35,29 @@ class RolePermView extends AuroraView {
 
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/RolePermRes');
-
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ) ) );
 	}
 
 
     /**
-     * Render main navigation
-     * @return str
-     */
-    public function renderMenu( $css ) {
-        $vars = array( 'TPLVAR_URL' => 'admin/rolePerm/list',
-                       'TPLVAR_CLASS_NAME' => $css,
-                       'LANG_LINK' => $this->L10n->getContents('LANG_ROLES_PERMISSIONS') );
+    * Render Role List
+    * @return mixed
+    */
+    public function renderSettings( ) {
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_HREF' => 'rolePermList',
+                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_ROLES_PERMISSIONS' ) ) );
 
-        /*
-        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
-        if( $Authorization->hasPermission( 'Aurora', 'change_logo' ) ) {
-            $vars['dynamic']['logoTools'][] = true;
-        }*/
-
-        return $this->render( 'aurora/menu/subLink.tpl', $vars );
+        return array( 'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/employee/roleList.tpl', $vars ) );
     }
 
 
     /**
-    * Render Role List
-    * @return str
-    */
-    public function renderList( ) {
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( ) );
+     * Render main navigation
+     * @return string
+     */
+    public function renderPerms( $roleID ) {
+        //$userInfo = $this->PayrollModel->getCalculateUserInfo( $roleID );
 
         $roleList = $this->RolePermModel->getAll( );
         $sizeof   = sizeof( $roleList );
@@ -77,16 +71,14 @@ class RolePermView extends AuroraView {
                                                         'TPLVAR_ROLE_DESCRIPT' => $roleList[$i]['descript'] );
             }
         }
-
         $vars['TPL_PERM_LIST'] = $this->renderPermList( );
-        $this->setBreadcrumbs( array( 'link' => '', 'text' => $this->L10n->getContents('LANG_ROLES_PERMISSIONS') ) );
-        return $this->render( 'aurora/role/list.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/roleList.tpl', $vars );
     }
 
 
     /**
     * Render Role List
-    * @return str
+    * @return string
     */
     public function renderPermList( ) {
         $permList = $this->PermissionModel->getAll( );
@@ -95,17 +87,19 @@ class RolePermView extends AuroraView {
 
         for( $i=0; $i<$sizeof; $i++ ) {
             $vars = array( 'TPLVAR_PERM_ID'       => $permList[$i]['permID'],
+                           'TPLVAR_PARENT_ID'     => $permList[$i]['parentID'],
                            'TPLVAR_PERM_TITLE'    => $permList[$i]['title'],
                            'TPLVAR_PERM_DESCRIPT' => $permList[$i]['descript'] );
 
-            if( !$permList[$i]['parentID'] ) {
-                $list[$permList[$i]['permID']] = $this->render( 'aurora/role/permGroup.tpl', $vars );
+            if( $permList[$i]['parentID'] == 0 ) {
+                $list[$permList[$i]['permID']] = $this->View->render( 'aurora/role/permGroup.tpl', $vars );
             }
             else {
-                $list[$permList[$i]['parentID']] .= $this->render( 'aurora/role/permList.tpl', $vars );
+                $list[$permList[$i]['parentID']] .= $this->View->render( 'aurora/role/permList.tpl', $vars );
             }
         }
-        return implode( '', array_values( $list ) );
+        $vars['TPL_PERM_LIST'] = implode( '', array_values( $list ) );
+        return $this->View->render( 'markaxis/employee/permList.tpl', $vars );
     }
 }
 ?>

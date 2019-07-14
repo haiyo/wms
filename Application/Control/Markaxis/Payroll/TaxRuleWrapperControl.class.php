@@ -13,6 +13,7 @@ class TaxRuleWrapperControl {
 
 
     // Properties
+    protected $TaxRuleWrapperModel;
     protected $TaxRuleWrapperView;
 
 
@@ -21,13 +22,14 @@ class TaxRuleWrapperControl {
      * @return void
      */
     function __construct( ) {
+        $this->TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
         $this->TaxRuleWrapperView = new TaxRuleWrapperView( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( $data ) {
         $vars = array( );
@@ -50,9 +52,9 @@ class TaxRuleWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function getAll( $data ) {
+    public function getAllTaxRules( $data ) {
         $taxRules = Control::getOutputArray( );
 
         if( isset( $data[1] ) && $data[1] == 'html' ) {
@@ -70,7 +72,26 @@ class TaxRuleWrapperControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxRuleWrapperModel->processTaxRules( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function saveTaxRule( ) {
         $vars['data'] = Control::getPostData( );

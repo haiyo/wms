@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Component;
-use \Library\IO\File;
+use \Library\Http\HttpResponse, \Library\IO\File;
 use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
@@ -72,7 +72,7 @@ class UploadModel extends \Model {
     public function view( $args ) {
         if( isset( $args[1] ) && isset( $args[2] ) ) {
             if( $fileInfo = $this->getByUIDHashName( $args[1], $args[2] ) ) {
-                $filename = ROOT . UPLOAD_DIR . '/' . $fileInfo['hashDir'] . '/' . $fileInfo['hashName'];
+                $filename = UPLOAD_DIR . $fileInfo['hashDir'] . '/' . $fileInfo['hashName'];
 
                 if( file_exists( $filename ) ) {
                     $mimeType = File::getType( $filename );

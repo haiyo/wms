@@ -1,6 +1,6 @@
 <?php
 namespace Library\IO;
-use \Library\Exception\FileNotFoundException;
+use \Library\Exception\Exceptions, \Library\Exception\FileNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,20 +26,30 @@ class File {
 
     /**
     * Create directory if not exist
-    * @return str
+    * @return string
     */
     public static function createDir( $dir ) {
-        if( !is_dir( $dir ) ) {
-            $old_umask = umask(0);
-            @mkdir( $dir );
-            umask( $old_umask );
+        try {
+            if( !is_dir( $dir ) ) {
+                $old_umask = umask(0);
+                @mkdir( $dir );
+                umask( $old_umask );
+
+                if( !is_dir( $dir ) ) {
+                    throw new Exceptions( 'Unable to create directory:' . $dir );
+                }
+            }
+        }
+        catch( Exceptions $e ) {
+            $e->record( );
+            return false;
         }
     }
 
 
     /**
     * Return file content
-    * @return str
+    * @return string
     */
     public static function read( $filePath ) {
         try {
@@ -92,7 +102,7 @@ class File {
     * @empty - Removes the given directory totally, but you can specify to just
     *          "empty" it instead by setting TRUE. In this case it deletes 
     *          everything inside the given directory and keeps the directory itself.
-	* @return void
+	* @return bool
     */
     public static function removeDir( $directory, $empty=false ) {
         // if the path has a slash at the end, remove it
@@ -192,7 +202,7 @@ class File {
     
     /**
     * Converts human readable file size (e.g. 10 MB, 200.20 GB) into bytes.
-    * @return str
+    * @return string
     
     public static function formatBytes( $bytes ) {
         if( $bytes < 1024 ) return $bytes.' B';
@@ -205,7 +215,7 @@ class File {
 
     /**
     * Returns file content type
-    * @return str
+    * @return string
     */
     public static function getType( $filename ) {
         if( function_exists( 'finfo_open' ) && function_exists( 'finfo_file' ) && function_exists( 'finfo_close' ) ) {

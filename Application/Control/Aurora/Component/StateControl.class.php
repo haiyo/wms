@@ -26,7 +26,7 @@ class StateControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function stateList( ) {
         $post = Control::getRequest( )->request( POST );

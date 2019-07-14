@@ -13,6 +13,7 @@ class DepartmentControl {
 
 
     // Properties
+    private $DepartmentModel;
 
 
     /**
@@ -20,46 +21,33 @@ class DepartmentControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->DepartmentModel = DepartmentModel::getInstance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
-     */
-    public function view( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
-     */
-    public function add( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
-     */
-    public function edit( $args ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
-        $post = Control::getPostData( );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $this->DepartmentModel->save( Control::getPostData( ) );
+        }
+    }
 
-        $DepartmentModel = DepartmentModel::getInstance( );
-        $DepartmentModel->save( $post );
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveDepartment( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $post = Control::getPostData( );
+            $this->DepartmentModel->saveDepartment( $post );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

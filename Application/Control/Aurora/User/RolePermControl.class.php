@@ -13,6 +13,9 @@ class RolePermControl {
 
 
     // Properties
+    private $RolePermModel;
+    private $PermissionModel;
+    private $RolePermView;
 
 
     /**
@@ -20,20 +23,18 @@ class RolePermControl {
     * @return void
     */
     function __construct( ) {
-        //
+        $this->RolePermModel = RolePermModel::getInstance( );
+        $this->PermissionModel = PermissionModel::getInstance( );
+        $this->RolePermView = new RolePermView( $this->RolePermModel, $this->PermissionModel );
     }
 
 
     /**
      * DashboardControl Main
-     * @return void
+     * @return string
      */
     public function getMenu( $css ) {
-        $RolePermModel = RolePermModel::getInstance( );
-        $PermissionModel = PermissionModel::getInstance( );
-
-        $RolePermView = new RolePermView( $RolePermModel, $PermissionModel );
-        return $RolePermView->renderMenu( $css );
+        return $this->RolePermView->renderMenu( $css );
     }
 
 
@@ -41,25 +42,44 @@ class RolePermControl {
     * Generate Role List Form
     * @return void
     */
-    public function list( ) {
-        $RolePermModel = RolePermModel::getInstance( );
-        $PermissionModel = PermissionModel::getInstance( );
-
-        $RolePermView = new RolePermView( $RolePermModel, $PermissionModel );
-        $RolePermView->printAll( $RolePermView->renderList( ) );
+    public function settings( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_role' ) ) {
+            Control::setOutputArrayAppend( $this->RolePermView->renderSettings( ) );
+        }
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function getRolePermResults( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->RolePermModel->getResults( $post ) );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function getPerms( ) {
         $post = Control::getRequest( )->request( POST );
-
-        $RolePermModel = RolePermModel::getInstance( );
-        echo json_encode( $RolePermModel->getByRoleID( $post['roleID'] ) );
+        echo json_encode( $this->RolePermModel->getByRoleID( $post['roleID'] ) );
         exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getPermList( $args ) {
+        if( isset( $args[1] ) ) {
+            echo $this->RolePermView->renderPermList( $args[1] );
+            exit;
+        }
     }
 
 
@@ -69,9 +89,10 @@ class RolePermControl {
     */
     public function savePerms( ) {
         $post = Control::getRequest( )->request( POST );
-
-        $RolePermModel = RolePermModel::getInstance( );
-        $RolePermModel->savePerms( $post );
+        $this->RolePermModel->savePerms( $post );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 
 
@@ -84,15 +105,13 @@ class RolePermControl {
         $vars['bool'] = 0;
         $post = Control::getRequest( )->request( POST );
 
-        $RolePermModel = RolePermModel::getInstance( );
-
-        if( !$RolePermModel->setInfo( $post ) ) {
-            $vars['errMsg'] = $RolePermModel->getErrMsg( );
+        if( !$this->RolePermModel->setInfo( $post ) ) {
+            $vars['errMsg'] = $this->RolePermModel->getErrMsg( );
         }
         else {
-            $RolePermModel->saveInfo( );
+            $this->RolePermModel->saveInfo( );
             $vars['bool'] = 1;
-            $vars = array_merge( $vars, $RolePermModel->getInfo( ) );
+            $vars = array_merge( $vars, $this->RolePermModel->getInfo( ) );
         }
         echo json_encode( $vars );
         exit;
@@ -107,10 +126,8 @@ class RolePermControl {
         $vars = array( );
         $vars['bool'] = 0;
         $post = Control::getRequest( )->request( POST, 'roleID' );
-
-        $RolePermModel = RolePermModel::getInstance( );
         
-        if( $RolePermModel->delete( $post ) ) {
+        if( $this->RolePermModel->delete( $post ) ) {
             $vars['bool'] = 1;
         }
         echo json_encode( $vars );

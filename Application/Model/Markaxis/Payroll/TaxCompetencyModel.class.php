@@ -49,6 +49,15 @@ class TaxCompetencyModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getBytrIDs( $trIDs ) {
+        return $this->TaxCompetency->getBytrIDs( $trIDs );
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function getAll( $taxRules ) {
@@ -75,6 +84,25 @@ class TaxCompetencyModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $data ) {
+        if( isset( $data['competency'] ) && isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+            $competencies = $this->getBytrIDs( $trIDs );
+
+            foreach( $competencies as $competency ) {
+                if( !in_array( $competency['competency'], $data['competency'] ) ) {
+                    unset( $data['taxRules'][$competency['trID']] );
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -88,7 +116,6 @@ class TaxCompetencyModel extends \Model {
                 return false;
             }
         };
-
         $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $sizeof = sizeof( $criteria );
         $competencies = array( 0 );

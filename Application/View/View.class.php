@@ -104,7 +104,7 @@ class View extends SingletonHelper {
 
     /**
     * Render Display View
-    * @return void
+    * @return string
     */
     public function render( $file, $vars=array( ) ) {
         $TPL = new HTMLHelper( $this->tplPath );
@@ -146,7 +146,7 @@ class View extends SingletonHelper {
 
     /**
     * Render header
-    * @return str
+    * @return string
     */
     public function renderHeaderFiles( ) {
         $vars = array( );
@@ -171,7 +171,7 @@ class View extends SingletonHelper {
 
     /**
     * Render header
-    * @return str
+    * @return string
     */
     public function renderHeader( ) {
         return $this->render( 'core/header.tpl', $this->renderHeaderFiles( ) );
@@ -180,7 +180,7 @@ class View extends SingletonHelper {
 
     /**
     * Render navigation
-    * @return str
+    * @return string
     */
     public function renderNav( ) {
         return $this->render( 'core/headerNav.tpl', array( ) );
@@ -189,7 +189,7 @@ class View extends SingletonHelper {
 
     /**
     * Render footer
-    * @return str
+    * @return string
     */
     public function renderFooter( ) {
         $vars = array( 'TPLVAR_AURORA_VERSION' => AURORA_VERSION );

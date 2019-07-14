@@ -1,25 +1,21 @@
 <script>
     $(document).ready(function( ) {
-        $(".payCalTable").DataTable({
+        var officeTable = $(".officeTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $(nRow).attr('id', 'row' + aData['userID']);
+                $(nRow).attr('id', 'officeTable-row' + aData['oID']);
             },
             ajax: {
                 url: Aurora.ROOT_URL + "admin/company/getOfficeResults",
                 type: "POST",
-                data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+                data: function ( d ) {
+                    d.ajaxCall = 1;
+                    d.csrfToken = Aurora.CSRF_TOKEN;
+                },
             },
             initComplete: function() {
-                Popups.init();
-                /*var api = this.api();
-                var that = this;
-                $('input').on('keyup change', function() {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });*/
+                //
             },
             autoWidth: false,
             mark: true,
@@ -27,50 +23,69 @@
                 targets: [0],
                 orderable: true,
                 width: '250px',
-                data: 'calName'
+                data: 'name'
             },{
                 targets: [1],
                 orderable: true,
-                width: '280px',
-                data: 'payPeriod'
+                width: '320px',
+                data: 'address'
+            },{
+                targets: [2],
+                orderable: true,
+                width: '220px',
+                data: 'country'
+            },{
+                targets: [3],
+                orderable: true,
+                width: '150px',
+                data: 'workDays'
             },{
                 targets: [4],
+                orderable: true,
+                width: '150px',
+                data: 'openTime',
+                className : "text-center",
+            },{
+                targets: [5],
+                orderable: true,
+                width: '150px',
+                data: 'closeTime',
+                className : "text-center",
+            },{
+                targets: [6],
+                orderable: true,
+                width: '150px',
+                data: 'empCount',
+                className : "text-center",
+            },{
+                targets: [7],
                 orderable: false,
                 searchable : false,
                 width: '100px',
                 className : "text-center",
-                data: 'pcID',
+                data: 'oID',
                 render: function(data, type, full, meta) {
-                    var name   = full["name"];
-                    var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
-
                     return '<div class="list-icons">' +
-                        '<div class="list-icons-item dropdown">' +
-                        '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
-                        '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                        '<i class="icon-user"></i> View Employee Info</a>' +
-                        '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
-                        '<i class="icon-history"></i> View History Log</a>' +
-                        '<div class="divider"></div>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-user-block"></i> ' + statusText + '</a>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-exit3"></i> Employee Resigned</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
+                            '<div class="list-icons-item dropdown">' +
+                            '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                            '<i class="icon-menu9"></i></a>' +
+                            '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                            '<a class="dropdown-item officeEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalOffice" ' +
+                            'data-backdrop="static" data-keyboard="false">' +
+                            '<i class="icon-pencil5"></i> Edit Office</a>' +
+                            '<div class="divider"></div>' +
+                            '<a class="dropdown-item officeDelete" data-id="' + data + '">' +
+                            '<i class="icon-bin"></i> Delete Office</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
             order: [],
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee',
+                searchPlaceholder: 'Search Office',
                 lengthMenu: '<span>Show:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
@@ -83,8 +98,10 @@
             }
         });
 
+        $(".office-list-action-btns").insertAfter("#officeList .dataTables_filter");
+
         // Alternative pagination
-        $('.datatable-pagination').DataTable({
+        $("#officeList .datatable-pagination").DataTable({
             pagingType: "simple",
             language: {
                 paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
@@ -92,123 +109,321 @@
         });
 
         // Datatable with saving state
-        $('.datatable-save-state').DataTable({
+        $("#officeList .datatable-save-state").DataTable({
             stateSave: true
         });
 
         // Scrollable datatable
-        $('.datatable-scroll-y').DataTable({
+        $("#officeList .datatable-scroll-y").DataTable({
             autoWidth: true,
             scrollY: 300
         });
 
         // Highlighting rows and columns on mouseover
         var lastIdx = null;
-        var table = $('.datatable').DataTable();
 
-        $('.datatable tbody').on('mouseover', 'td', function() {
-            var colIdx = table.cell(this).index().column;
+        $("#officeList .datatable tbody").on("mouseover", "td", function() {
+            if( typeof officeTable.cell(this).index() == "undefined" ) return;
+            var colIdx = officeTable.cell(this).index().column;
 
             if (colIdx !== lastIdx) {
-                $(table.cells().nodes()).removeClass('active');
-                $(table.column(colIdx).nodes()).addClass('active');
+                $(officeTable.cells().nodes()).removeClass("active");
+                $(officeTable.column(colIdx).nodes()).addClass("active");
             }
-        }).on('mouseleave', function() {
-            $(table.cells().nodes()).removeClass("active");
+        }).on("mouseleave", function() {
+            $(officeTable.cells().nodes()).removeClass("active");
         });
 
         // Enable Select2 select for the length option
-        $(".dataTables_length select").select2({
+        $("#officeList .dataTables_length select").select2({
             minimumResultsForSearch: Infinity,
             width: "auto"
+        });
+
+        $("#modalOffice").on("shown.bs.modal", function(e) {
+            $("#officeName").focus( );
+        });
+
+        $("#officeType").select2({minimumResultsForSearch: -1});
+        $("#workDayFrom").select2({minimumResultsForSearch: -1});
+        $("#workDayTo").select2({minimumResultsForSearch: -1});
+
+        var pickatimeSetting = {interval:5};
+        var openTime = $("#openTime").pickatime(pickatimeSetting).pickatime('picker');
+        var closeTime = $("#closeTime").pickatime(pickatimeSetting).pickatime('picker');
+
+        $("#modalOffice").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var oID = $invoker.attr("data-id");
+
+            if( oID ) {
+                var data = {
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#officeID").val( obj.data.oID );
+                            $("#officeName").val( obj.data.name );
+                            $("#officeAddress").val( obj.data.address );
+                            $("#officeCountry").val( obj.data.countryID ).trigger("change");
+                            $("#officeType").val( obj.data.officeTypeID ).trigger("change");
+                            $("#workDayFrom").val( obj.data.workDayFrom ).trigger("change");
+                            $("#workDayTo").val( obj.data.workDayTo ).trigger("change");
+
+                            if( obj.data.openTime ) {
+                                openTimeSplit = obj.data.openTime.split(":");
+                                openTime.set('select', [openTimeSplit[0],openTimeSplit[1]]);
+                            }
+                            if( obj.data.closeTime ) {
+                                closeTimeSplit = obj.data.closeTime.split(":");
+                                closeTime.set('select', [closeTimeSplit[0],closeTimeSplit[1]]);
+                            }
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/company/getOffice/" + oID, data );
+            }
+            else {
+                $("#officeID").val(0);
+                $("#officeName").val("");
+                $("#officeAddress").val("");
+                $("#officeCountry").val("").trigger("change");
+                $("#officeType").val("").trigger("change");
+                $("#workDayFrom").val("").trigger("change");
+                $("#workDayTo").val("").trigger("change");
+                $("#openTime").val("").trigger("change");
+                $("#closeTime").val("").trigger("change");
+            }
+        });
+
+        $("#saveOffice").validate({
+            rules: {
+                officeName: { required: true }
+            },
+            messages: {
+                officeName: "Please enter a Office Name."
+            },
+            highlight: function(element, errorClass) {
+                $(element).addClass("border-danger");
+            },
+            unhighlight: function(element, errorClass) {
+                $(element).removeClass("border-danger");
+                $(".modal-footer .error").remove();
+            },
+            // Different components require proper error label placement
+            errorPlacement: function(error, element) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append(error);
+            },
+            submitHandler: function( ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#saveOffice")
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(".officeTable").DataTable().ajax.reload();
+
+                            swal({
+                                title: $("#officeName").val( ) + " has been successfully created!",
+                                text: "What do you want to do next?",
+                                type: 'success',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false,
+                                showCancelButton: true,
+                                confirmButtonText: "Create Another Office",
+                                cancelButtonText: "Close Window",
+                                reverseButtons: true
+                            }, function( isConfirm ) {
+                                $("#officeID").val(0);
+                                $("#officeName").val("");
+                                $("#officeAddress").val("");
+                                $("#officeCountry").val("").trigger("change");
+                                $("#officeType").val("").trigger("change");
+                                $("#workDayFrom").val("").trigger("change");
+                                $("#workDayTo").val("").trigger("change");
+                                $("#openTime").val("").trigger("change");
+                                $("#closeTime").val("").trigger("change");
+
+                                if( isConfirm === false ) {
+                                    $("#modalOffice").modal("hide");
+                                }
+                                else {
+                                    setTimeout(function() {
+                                        $("#officeName").focus( );
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/company/saveOffice", data );
+            }
+        });
+
+        $(document).on("click", ".officeDelete", function ( ) {
+            var oID = $(this).attr("data-id");
+            var title = $("#officeTable-row" + oID).find("td").eq(1).text( );
+
+            swal({
+                title: "Are you sure you want to delete " + title + "?",
+                text: "This action cannot be undone once deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Delete",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function( isConfirm ) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        data: oID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            $(".officeTable").DataTable().ajax.reload();
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/company/deleteOffice", data);
+            });
+            return false;
         });
     });
 </script>
 
-<div class="tab-pane fade show active" id="addOffice">
-    <div class="panel-heading">
-        <h5 class="panel-title">&nbsp;<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-        <div class="heading-elements">
-            <ul class="icons-list">
-                <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled"
-                       data-toggle="modal" data-target="#modalAddPayrun">
-                        <b><i class="icon-file-plus2"></i></b> <?LANG_ADD_NEW_OFFICE?>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="tab-pane fade show active" id="officeList">
+    <div class="list-action-btns office-list-action-btns">
+        <ul class="icons-list">
+            <li>
+                <a type="button" class="btn bg-purple-400 btn-labeled"
+                   data-backdrop="static" data-keyboard="false"
+                   data-toggle="modal" data-target="#modalOffice">
+                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_OFFICE?>
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <table class="table table-hover datatable payCalTable">
+    <table class="table table-hover datatable officeTable">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Office Name</th>
             <th>Address</th>
             <th>Country</th>
+            <th>Work Days</th>
+            <th>Opening Hour</th>
+            <th>Closing Hour</th>
+            <th>Total Employee</th>
             <th>Actions</th>
         </tr>
         </thead>
     </table>
 </div>
-<div id="modalAddPayrun" class="modal fade">
-    <div class="modal-dialog modal-med">
+
+<div id="modalOffice" class="modal fade">
+    <div class="modal-dialog modal-med2">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Pay Run</h6>
+                <h6 class="modal-title">Create New Office</h6>
             </div>
 
-            <div class="modal-body overflow-y-visible">
-                <form id="savePayrun" name="savePayrun" method="post" action="">
-                    <input type="hidden" id="prID" name="prID" value="0" />
+            <form id="saveOffice" name="saveOffice" method="post" action="">
+                <input type="hidden" id="officeID" name="officeID" value="0" />
+                <div class="modal-body overflow-y-visible">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>How often will you pay your employees?</label>
-                                <?TPL_PAY_PERIOD_LIST?>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Pay Run Name:</label>
-                                <input type="text" name="payrunName" id="payrunName" class="form-control" value=""
-                                       placeholder="For e.g: Monthly Full-time Employee, Weekly Part-time Employee" />
+                                <label>Office Name:</label>
+                                <input type="text" name="officeName" id="officeName" class="form-control" value=""
+                                       placeholder="Enter Office Name" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Start Date:</label>
+                                <label>Office Address:</label>
+                                <input type="text" name="officeAddress" id="officeAddress" class="form-control" value=""
+                                       placeholder="Enter Office Address" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Office Country:</label>
+                                <?TPL_COUNTRY_LIST?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Office Type:</label>
+                                <?TPL_OFFICE_TYPE_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Working Day From:</label>
+                                <?TPL_WORK_DAY_FROM?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Working Day To:</label>
+                                <?TPL_WORK_DAY_TO?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Opening Hour:</label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
-                                    <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
+                                    <input type="text" class="form-control" id="openTime" name="openTime" placeholder="" />
                                 </div>
-                                <span class="help-block startDateHelp"></span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label>First Payment Date:</label>
+                            <label>Closing Hour:</label>
                             <div class="input-group">
                                 <span class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                </span>
-                                <input type="text" class="form-control pickadate-firstPayment" id="firstPayment" name="firstPayment" placeholder="" />
+                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                    </span>
+                                <input type="text" class="form-control" id="closeTime" name="closeTime" placeholder="" />
                             </div>
-                            <span class="help-block firstPaymentHelp"></span>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

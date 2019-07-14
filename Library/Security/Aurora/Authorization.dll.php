@@ -35,7 +35,7 @@ class Authorization {
 
     /**
     * Return the last requested operation
-    * @return str
+    * @return string
     */
     public function getLastOperation( ) {
         return 'Namespace: ' . $this->namespace . '; Operation: ' . $this->action . ';';
@@ -50,7 +50,19 @@ class Authorization {
         $this->UserRoleModel = new UserRoleModel( );
         $this->roleInfo = $this->UserRoleModel->getByUserID( $userID );
 
-        if( !in_array( 1, $this->roleInfo ) ) {
+        $this->RolePermModel = new RolePermModel( );
+
+        foreach( $this->roleInfo as $roleID ) {
+            $info = $this->RolePermModel->getByRoleID( $roleID );
+
+            if( sizeof( $info ) > 0 ) {
+                foreach( $info as $row ) {
+                    $this->rpInfo[$row['namespace']][] = $row['action'];
+                }
+            }
+        }
+
+        /*if( !in_array( 1, $this->roleInfo ) ) {
             $this->RolePermModel = new RolePermModel( );
 
             foreach( $this->roleInfo as $roleID ) {
@@ -62,7 +74,7 @@ class Authorization {
                     }
                 }
             }
-        }
+        }*/
     }
 
 
@@ -108,9 +120,11 @@ class Authorization {
         $this->namespace = $namespace;
         $this->action = $action;
 
-        if( $this->isAdmin( ) || ( isset( $this->rpInfo[$namespace] ) &&
-                                   in_array( $action, $this->rpInfo[$namespace] ) ) ) {
-            return true;
+        if( $namespace && $action ) {
+            if( isset( $this->rpInfo[$namespace] ) &&
+                in_array( $action, $this->rpInfo[$namespace] ) ) {
+                return true;
+            }
         }
         return false;
     }

@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +9,7 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PageTabView extends AuroraView {
+class PageTabView extends AdminView {
 
 
     // Properties
@@ -40,7 +40,7 @@ class PageTabView extends AuroraView {
 
     /**
     * Page Page Tab
-    * @return str
+    * @return string
     */
     public function renderTab( ) {
         $pages  = $this->PageModel->getAllPage( );

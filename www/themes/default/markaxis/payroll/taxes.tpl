@@ -5,12 +5,16 @@
         <div class="heading-elements">
             <ul class="icons-list">
                 <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled" data-toggle="modal" data-target="#modalTaxGroup">
+                    <a type="button" class="btn bg-purple-400 btn-labeled"
+                       data-backdrop="static" data-keyboard="false"
+                       data-toggle="modal" data-target="#modalTaxGroup">
                         <b><i class="icon-folder-plus"></i></b> Create New Tax Group
                     </a>
                 </li>
                 <li>
-                    <a type="button" class="btn bg-purple-400 btn-labeled" data-toggle="modal" data-target="#modalTaxRule">
+                    <a type="button" class="btn bg-purple-400 btn-labeled" data-toggle="modal"
+                       data-backdrop="static" data-keyboard="false"
+                       data-target="#modalTaxRule">
                         <b><i class="icon-library2"></i></b> Create New Tax Rule
                     </a>
                 </li>
@@ -18,10 +22,8 @@
         </div>
     </div>
 
-    <div class="content">
-
-
-        <div class="list-group list-group-root well">
+    <div class="taxGroupList">
+        <div class="list-group list-group-root border-top border-top-grey border-bottom border-bottom-grey mb-20">
             <!-- BEGIN DYNAMIC BLOCK: noGroup -->
             <div class="blankCanvasNotice">
                 <h6>Hooray! No Tax!</h6>
@@ -860,8 +862,8 @@
                 <h6 class="modal-title">Create New Tax Group</h6>
             </div>
 
-            <div class="modal-body">
-                <form id="saveTaxGroup" name="saveTaxGroup" method="post" action="">
+            <form id="saveTaxGroup" name="saveTaxGroup" method="post" action="">
+                <div class="modal-body">
                     <input type="hidden" id="tgID" name="tgID" value="0" />
                     <div class="row">
                         <div class="col-md-12">
@@ -883,259 +885,305 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Parent:</label>
-                                <select name="parent" id="parent" data-placeholder="" placeholder="" data-id=""
-                                        class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                <select name="parent" id="parent" data-placeholder="" data-id=""
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                 </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <div id="modalTaxRule" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    <div class="modal-dialog modal-xl overflow-y-visible">
+        <div class="modal-content overflow-y-visible">
+            <form id="saveTaxRule" name="saveTaxRule" method="post" action="">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h6 class="modal-title">Create New Tax Rule</h6>
             </div>
 
-            <div class="modal-body">
-                <form id="saveTaxRule" name="saveTaxRule" method="post" action="">
-                    <input type="hidden" id="trID" name="trID" value="0" />
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Tax Rule Title: <span class="text-danger-400">*</span></label>
-                                <input type="text" name="ruleTitle" id="ruleTitle" class="form-control" value=""
-                                       placeholder="Enter a title for this tax rule" />
+            <div class="modal-body overflow-y-visible">
+                <input type="hidden" id="trID" name="trID" value="0" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tax Rule Title: <span class="text-danger-400">*</span></label>
+                            <input type="text" name="ruleTitle" id="ruleTitle" class="form-control" value=""
+                                   placeholder="Enter a title for this tax rule" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Apply To Which Country: <span class="text-danger-400">*</span></label>
+                            <?TPL_COUNTRY_LIST?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Belong to Group:</label>
+                            <select name="group" id="group" data-placeholder="" data-id=""
+                                    class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div id="rulesWrapper" class="card-body" style="padding: 12px;">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
+                    <div id="criteriaTemplate" class="hide">
+                        <div id="criteriaRow_{id}" class="col-md-3 criteriaRow criteriaFirstCol">
                             <div class="form-group">
-                                <label>Belong to Group:</label>
-                                <select name="group" id="group" data-placeholder="" placeholder="" data-id=""
+                                <label>Select Criteria: <span class="text-danger-400">*</span></label>
+                                <select name="criteria_{id}" id="criteria_{id}" data-placeholder="" data-id="{id}"
                                         class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                    <option value=""></option>
+                                    <optgroup label="Computing Variables">
+                                        <option value="age">Age</option>
+                                        <option value="ordinary">Ordinary Wage</option>
+                                        <option value="payItem">Pay Item</option>
+                                        <option value="allPayItem">All Pay Item</option>
+                                        <option value="workforce">Total Workforce</option>
+                                    </optgroup>
+
+                                    <optgroup label="Other Employee Variables">
+                                        <option value="competency">Competency</option>
+                                        <option value="contract">Contract Type</option>
+                                        <option value="designation">Designation</option>
+                                        <option value="race">Race</option>
+                                        <option value="gender">Gender</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
+
+                    <div id="computingTemplate" class="hide">
+                        <div class="col-md-3">
+                            <input type="hidden" id="tcID_{id}" name="tcID_{id}" value="" />
                             <div class="form-group">
-                                <label>Select Country: <span class="text-danger-400">*</span></label>
-                                <?TPL_COUNTRY_LIST?>
+                                <label>Computing:</label>
+                                <select name="computing_{id}" id="computing_{id}" data-placeholder=""
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="lt">Less Than</option>
+                                    <option value="gt">Greater Than</option>
+                                    <option value="lte">Less Than Or Equal</option>
+                                    <option value="ltec">Less Than Or Equal And Capped At</option>
+                                    <option value="gte">Greater Than Or Equal</option>
+                                    <option value="eq">Equal</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Enter State (Optional):</label>
-                                <select name="state" data-placeholder="Select State" placeholder="Select State" id="state" class="form-control select ">
-                                    <option value="">Select State</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Enter City (Optional):</label>
-                                <select name="city" data-placeholder="Select City" placeholder="Select City" id="city" class="form-control select ">
-                                    <option value="">Select City</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="card">
-                                <div id="rulesWrapper" class="card-body" style="padding: 12px;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="criteriaTemplate" class="hide">
-                            <div id="criteriaRow_{id}" class="col-md-3 criteriaRow criteriaFirstCol">
-                                <div class="form-group">
-                                    <label>Select Criteria: <span class="text-danger-400">*</span></label>
-                                    <select name="criteria_{id}" id="criteria_{id}" data-placeholder="" placeholder="" data-id="{id}"
-                                            class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
-                                        <option value=""></option>
-                                        <optgroup label="Computing Variables">
-                                            <option value="age">Age</option>
-                                            <option value="salary">Salary</option>
-                                            <option value="workforce">Total Workforce</option>
-                                        </optgroup>
-
-                                        <optgroup label="Other Employee Variables">
-                                            <option value="competency">Competency</option>
-                                            <option value="contract">Contract Type</option>
-                                            <option value="designation">Designation</option>
-                                            <option value="gender">Gender</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div id="computingTemplate" class="hide">
-                            <div class="col-md-3">
-                                <input type="hidden" id="tcID_{id}" name="tcID_{id}" value="" />
-                                <div class="form-group">
-                                    <label>Computing:</label>
-                                    <select name="computing_{id}" id="computing_{id}" data-placeholder="" placeholder=""
-                                            class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                        <option value="lt">Less Than</option>
-                                        <option value="gt">Greater Than</option>
-                                        <option value="lte">Less Than Equal</option>
-                                        <option value="gte">Greater Than Equal</option>
-                                        <option value="eq">Equal</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Amount Type:</label>
-                                    <select name="valueType_{id}" id="valueType_{id}" data-placeholder="" placeholder=""
-                                            class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                        <option value="percentage">Percentage</option>
-                                        <option value="fixed" selected>Fixed / Integer</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div id="col_{id}" class="col-md-2">
-                                <div class="form-group">
-                                    <label>Value:</label>
-                                    <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-1 criteriaLastCol">
-                                <div class="form-group addCol">
-                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="competencyTemplate" class="hide">
-                            <div id="col_{id}" class="col-md-8">
-                                <input type="hidden" id="cID_{id}" name="cID_{id}" value="" />
-                                <div class="form-group">
-                                    <label>Enter Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
-                                                                         data-original-title="<?LANG_COMPETENCY_INFO?>"></i>
-                                        <span class="text-muted">(Type and press Enter to add new competency)</span></label>
-                                    <input type="text" id="competency{template}" name="competency{template}" class="form-control tokenfield-typeahead"
-                                           placeholder="Enter skillsets or knowledge"
-                                           value="" autocomplete="off" data-fouc />
-                                </div>
-                            </div>
-
-                            <div class="col-md-1 criteriaLastCol">
-                                <div class="form-group addCol">
-                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="contractTemplate" class="hide">
-                            <div id="col_{id}" class="col-md-8">
-                                <input type="hidden" id="contractID_{id}" name="contractID_{id}" value="" />
-                                <div class="form-group">
-                                    <label>Select Contract Type:</label>
-                                    <?TPL_CONTRACT_LIST?>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1 criteriaLastCol">
-                                <div class="form-group addCol">
-                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="designationTemplate" class="hide">
-                            <div id="col_{id}" class="col-md-8">
-                                <input type="hidden" id="designationID_{id}" name="designationID_{id}" value="" />
-                                <div class="form-group">
-                                    <label>Select Designation:</label>
-                                    <?TPL_DESIGNATION_LIST?>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1 criteriaLastCol">
-                                <div class="form-group addCol">
-                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="genderTemplate" class="hide">
-                            <div id="col_{id}" class="col-md-8">
-                                <input type="hidden" id="genderID_{id}" name="genderID_{id}" value="" />
-                                <div class="form-group">
-                                    <label>Select Gender:</label>
-                                    <div class="form-group p-8">
-                                        <?TPL_GENDER_RADIO?>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1 criteriaLastCol">
-                                <div class="form-group addCol">
-                                    <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div style="width:100%; margin:15px 0 15px 0;"></div>
-                        </div>
-
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label>Apply above criteria as:</label>
-                                <select name="applyType" id="applyType" data-placeholder="" placeholder=""
-                                        class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
-                                    <option value="salaryDeduction" selected>Deduction From Employee Salary</option>
-                                    <option value="employerContribution">Employer Contribution</option>
-                                    <option value="employerLevy">Employer Levy</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Type of Value:</label>
-                                <select name="applyValueType" id="applyValueType" data-placeholder="" placeholder=""
+                                <label>Amount Type:</label>
+                                <select name="valueType_{id}" id="valueType_{id}" data-placeholder=""
                                         class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                                     <option value="percentage">Percentage</option>
-                                    <option value="fixed" selected>Fixed Amount / Integer</option>
+                                    <option value="fixed" selected>Fixed / Integer</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+
+                        <div id="col_{id}" class="col-md-2">
                             <div class="form-group">
-                                <label>Value: <span class="text-danger-400">*</span></label>
-                                <input type="number" class="form-control" id="applyValue" name="applyValue" placeholder="" />
+                                <label>Value:</label>
+                                <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    <div id="payItemTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-3">
+                            <input type="hidden" id="tpiID_{id}" name="tpiID_{id}" value="" />
+                            <div class="form-group">
+                                <label>Select Pay Item:</label>
+                                <?TPL_PAY_ITEM_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Amount Type:</label>
+                                <select name="valueType_{id}" id="valueType_{id}" data-id="{id}" data-placeholder=""
+                                        class="form-control amtType select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="percentage">Percentage</option>
+                                    <option value="fixed" selected>Fixed / Integer</option>
+                                    <option value="formula">Custom Formula</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="col_{id}" class="col-md-2">
+                            <div class="form-group">
+                                <label>Value:</label>
+                                <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
                     </div>
-                </form>
+
+                    <div id="competencyTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-8 competency-col">
+                            <input type="hidden" id="cID_{id}" name="cID_{id}" value="" />
+                            <div class="form-group">
+                                <label>Enter Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
+                                                                     data-original-title="<?LANG_COMPETENCY_INFO?>"></i>
+                                    <span class="text-muted">(Type and press Enter to add new competency)</span></label>
+                                <input type="text" id="competency{template}" name="competency{template}" class="form-control tokenfield-typeahead"
+                                       placeholder="Enter skillsets or knowledge"
+                                       value="" autocomplete="off" data-fouc />
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contractTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-8">
+                            <input type="hidden" id="contractID_{id}" name="contractID_{id}" value="" />
+                            <div class="form-group">
+                                <label>Select Contract Type:</label>
+                                <?TPL_CONTRACT_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="designationTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-8">
+                            <input type="hidden" id="designationID_{id}" name="designationID_{id}" value="" />
+                            <div class="form-group">
+                                <label>Select Designation:</label>
+                                <?TPL_DESIGNATION_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="raceTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-8">
+                            <input type="hidden" id="raceID_{id}" name="raceID_{id}" value="" />
+                            <div class="form-group">
+                                <label>Select Race:</label>
+                                <?TPL_RACE_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="genderTemplate" class="hide">
+                        <div id="col_{id}" class="col-md-8">
+                            <input type="hidden" id="genderID_{id}" name="genderID_{id}" value="" />
+                            <div class="form-group">
+                                <label>Select Gender:</label>
+                                <div class="form-group p-8">
+                                    <?TPL_GENDER_RADIO?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div style="width:100%; margin:15px 0 15px 0;"></div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Apply above criteria as:</label>
+                            <select name="applyType" id="applyType" data-placeholder="" placeholder=""
+                                    class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
+                                <option value="deductionOR" selected>Deduction From Ordinary Wage</option>
+                                <option value="deductionAW">Deduction From Additional Wage</option>
+                                <option value="contribution">Employer Contribution</option>
+                                <option value="skillLevy">Skill Development Levy</option>
+                                <option value="foreignLevy">Foreign Worker Levy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Type of Value:</label>
+                            <select name="applyValueType" id="applyValueType" data-placeholder="" placeholder=""
+                                    class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                <option value="percentage">Percentage</option>
+                                <option value="fixed" selected>Fixed Amount / Integer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Value: <span class="text-danger-400">*</span></label>
+                            <input type="number" class="form-control" id="applyValue" name="applyValue" placeholder="" />
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -1154,26 +1202,35 @@
                 $.each( $(".taxRow"), function( key, value ) {
                     var parent = $(this).attr("data-parent");
 
-                    if( parent != 0 ) {
+                    if( parent !== 0 ) {
                         $("#expandIcon_" + parent).show( );
                         $(this).prependTo("#item-" + parent);
                     }
                 });
             }
         };
-        Aurora.WebService.AJAX("admin/payroll/getAll/html", data);
+        Aurora.WebService.AJAX("admin/payroll/getAllTaxRules/html", data);
 
-        function refreshGroupList( element ) {
+        function refreshGroupList( ) {
             var data = {
-                success: function (res) {
+                success: function( res ) {
                     var res = $.parseJSON(res);
 
-                    var data = $.map(res, function(obj) {
+                    groupList = $.map(res, function( obj ) {
                         return {id: obj.id, text: obj.text, level: obj.level};
                     });
 
-                    element.select2({
-                        data: data,
+                    $("#parent").select2({ data: groupList,
+                        formatSelection: function (item) {
+                            return item.text
+                        },
+                        formatResult: function (item) {
+                            return item.text
+                        },
+                        templateResult: formatResult,
+                    });
+
+                    $("#group").select2({ data: groupList,
                         formatSelection: function (item) {
                             return item.text
                         },
@@ -1184,22 +1241,29 @@
                     });
                 }
             };
-            Aurora.WebService.AJAX("admin/payroll/getSelectList", data);
+            Aurora.WebService.AJAX("admin/payroll/getGroupList", data);
         }
 
-        refreshGroupList( $("#parent") );
-        refreshGroupList( $("#group") );
+        refreshGroupList( );
 
         function formatResult(node) {
-            var $result = $('<span style="padding-left:' + (10 * node.level) + 'px;">' + node.text + '</span>');
-            return $result;
+            return $('<span style="padding-left:' + (10 * node.level) + 'px;">' + node.text + '</span>');
         }
 
-        $("#country").select2({allowClear: true});
-        $("#state").select2( );
-        $("#city").select2( );
+        $("#country").select2( );
         $("#applyType").select2({minimumResultsForSearch: Infinity});
         $("#applyValueType").select2({minimumResultsForSearch: Infinity});
+
+        $(document).on("change", ".amtType", function(e) {
+            var id = $(this).attr("data-id");
+
+            if( $(this).val( ) === "formula" ) {
+                $("#value_" + id).attr("type", "text");
+            }
+            else {
+                $("#value_" + id).attr("type", "number");
+            }
+        });
 
         $(document).on("change", ".criteria", function(e) {
             $(".modal-footer .error").remove( );
@@ -1208,26 +1272,26 @@
             if( $("#criteriaSet_" + id).length > 0 ) {
                 $("#criteriaSet_" + id).remove( );
             }
-
-            if( $(this).val( ) == "age" ) {
+            if( $(this).val( ) === "age" || $(this).val( ) === "ordinary" ||
+                $(this).val( ) === "workforce" || $(this).val( ) === "allPayItem" ) {
                 addComputing( $(this) );
             }
-            if( $(this).val( ) == "salary" ) {
-                addComputing( $(this) );
+            if( $(this).val( ) === "payItem" ) {
+                addPayItem( $(this) );
             }
-            if( $(this).val( ) == "workforce" ) {
-                addComputing( $(this) );
-            }
-            if( $(this).val( ) == "competency" ) {
+            if( $(this).val( ) === "competency" ) {
                 addCompetency( $(this) );
             }
-            if( $(this).val( ) == "contract" ) {
+            if( $(this).val( ) === "contract" ) {
                 addContract( $(this) );
             }
-            if( $(this).val( ) == "designation" ) {
+            if( $(this).val( ) === "designation" ) {
                 addDesignation( $(this) );
             }
-            if( $(this).val( ) == "gender" ) {
+            if( $(this).val( ) === "race" ) {
+                addRace( $(this) );
+            }
+            if( $(this).val( ) === "gender" ) {
                 addGender( $(this) );
             }
             var id = $("#rulesWrapper .criteriaRow").length-1;
@@ -1259,31 +1323,64 @@
             return false;
         });
 
+        function addPayItem( element ) {
+            var id = element.attr("data-id");
+            var html = $("#payItemTemplate").html( );
+            html = html.replace(/\{id\}/g, id );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#payItem_" + id).select2({minimumResultsForSearch:Infinity});
+            $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
+        }
+
         function addComputing( element ) {
             var id = element.attr("data-id");
             var html = $("#computingTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#computing_" + id).select2({minimumResultsForSearch: Infinity});
-            $("#valueType_" + id).select2({minimumResultsForSearch: Infinity});
+            $("#computing_" + id).select2({minimumResultsForSearch:Infinity});
+            $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
         }
 
         function addContract( element ) {
+            if( $("#contract").length > 0 ) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append( '<label id="ruleTitle-error" class="error">You already have one Contract rule.</label>' );
+                return false;
+            }
             var id = element.attr("data-id");
             var html = $("#contractTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#contract_" + id).select2( );
+            $("#contract").multiselect( );
         }
 
         function addDesignation( element ) {
+            if( $("#designation").length > 0 ) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append( '<label id="ruleTitle-error" class="error">You already have one Designation rule.</label>' );
+                return false;
+            }
             var id = element.attr("data-id");
             var html = $("#designationTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#designation_" + id).select2( );
+            $("#designation").multiselect( );
+        }
+
+        function addRace( element ) {
+            if( $("#race").length > 0 ) {
+                if( $(".modal-footer .error").length == 0 )
+                    $(".modal-footer").append( '<label id="ruleTitle-error" class="error">You already have one Race rule.</label>' );
+                return false;
+            }
+            var id = element.attr("data-id");
+            var html = $("#raceTemplate").html( );
+            html = html.replace(/\{id\}/g, id );
+            html = html.replace(/\{template\}/g, "" );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#race").multiselect( );
         }
 
         function addGender( element ) {
@@ -1292,7 +1389,6 @@
                     $(".modal-footer").prepend( '<label id="ruleTitle-error" class="error">You already have one Gender rule.</label>' );
                 return false;
             }
-
             var id = element.attr("data-id");
             var html = $("#genderTemplate").html( );
             html = html.replace(/\{id\}/g, id );
@@ -1307,7 +1403,6 @@
                     $(".modal-footer").prepend( '<label id="ruleTitle-error" class="error">You already have one Competency rule.</label>' );
                 return false;
             }
-
             var id = element.attr("data-id");
             var html = $("#competencyTemplate").html( );
             html = html.replace(/\{id\}/g, id );
@@ -1355,6 +1450,10 @@
             });
         }
 
+        $("#modalTaxGroup").on("shown.bs.modal", function(e) {
+            $("#groupTitle").focus( );
+        });
+
         $("#modalTaxGroup").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var tgID = $invoker.attr("data-id");
@@ -1366,14 +1465,14 @@
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if (obj.bool == 0) {
+                        if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
                         else {
                             $("#tgID").val( obj.data.tgID );
                             $("#groupTitle").val( obj.data.title );
-                            $("#groupDescription").val( obj.data.description );
+                            $("#groupDescription").val( obj.data.descript );
                             $("#parent").val( obj.data.parent ).trigger("change");
                         }
                     }
@@ -1393,8 +1492,6 @@
                 groupTitle: { required: true }
             },
             messages: {
-                //username: Aurora.i18n.LoginRes.LANG_ENTER_VALID_EMAIL,
-                //password: Aurora.i18n.LoginRes.LANG_ENTER_PASSWORD
                 groupTitle: "Please enter a Group Title."
             },
             submitHandler: function( ) {
@@ -1414,19 +1511,19 @@
                             return;
                         }
                         else {
-                            refreshGroupList($("#parent"));
-                            refreshGroupList($("#group"));
+                            refreshGroupList( );
 
                             if( tgID != 0 ) {
                                 $("#groupTitle_" + tgID).html( obj.data.title );
-                                $("#groupDescription_" + tgID).html( obj.data.description );
+                                $("#groupDescription_" + tgID).html( obj.data.descript );
                                 $("#group_" + tgID).appendTo( $("#item-" + obj.data.parent) );
-                                swal("Done!", obj.data.title + " has been succesfully updated!", "success");
+                                swal("Done!", obj.data.title + " has been successfully updated!", "success");
                             }
                             else {
                                 var data = {
                                     success: function(res) {
                                         var obj2 = $.parseJSON(res);
+
                                         if( obj2.bool == 0 ) {
                                             swal( "error", obj2.errMsg );
                                             return;
@@ -1435,13 +1532,14 @@
                                             $(".list-group-root").append( obj2.html );
                                         }
                                         else {
+
                                             $("#item-" + obj.data.parent).append( obj2.html );
                                             $("#expandIcon_" + obj.data.parent).show( );
                                         }
                                         $(".blankCanvasNotice").hide( );
 
                                         swal({
-                                            title: obj.data.title + " has been succesfully created!",
+                                            title: obj.data.title + " has been successfully created!",
                                             text: "What do you want to do next?",
                                             type: 'success',
                                             confirmButtonClass: 'btn btn-success',
@@ -1456,12 +1554,18 @@
                                                 $("#modalTaxGroup").modal('hide');
                                             }
                                             else {
-                                                $("#groupTitle").focus( );
+                                                $("#groupTitle").val("");
+                                                $("#groupDescription").val("");
+                                                $("#parent").val(0).trigger("change");
+
+                                                setTimeout(function() {
+                                                    $("#groupTitle").focus( );
+                                                }, 500);
                                             }
                                         });
                                     }
                                 }
-                                Aurora.WebService.AJAX("admin/payroll/getTaxGroup/" + obj.data.tgID, data);
+                                Aurora.WebService.AJAX("admin/payroll/getTaxGroup/" + obj.data.tgID + "/html", data);
                             }
                         }
                     }
@@ -1470,6 +1574,9 @@
             }
         });
 
+        $("#modalTaxRule").on("shown.bs.modal", function(e) {
+            $("#ruleTitle").focus( );
+        });
 
         $("#modalTaxRule").on("show.bs.modal", function(e) {
             if( $("#gender1").length > 0 ) {
@@ -1486,20 +1593,17 @@
                     bundle: {
                         trID: trID
                     },
-                    success: function (res) {
+                    success: function(res) {
                         var obj = $.parseJSON(res);
-                        if (obj.bool == 0) {
+                        if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
                         else {
-                            console.log(obj)
                             $("#trID").val( obj.data.trID );
                             $("#ruleTitle").val( obj.data.title );
                             $("#group").val( obj.data.tgID ).trigger("change");
-                            $("#country").val( obj.data.country ).trigger("change");
-                            $("#city").val( obj.data.city ).trigger("change");
-                            $("#state").val( obj.data.state ).trigger("change");
+                            $("#country").val( obj.data.countryID ).trigger("change");
                             $("#applyType").val( obj.data.applyType ).trigger("change");
                             $("#applyValueType").val( obj.data.applyValueType ).trigger("change");
                             $("#applyValue").val( obj.data.applyValue );
@@ -1520,7 +1624,20 @@
                                 }
                             }
 
-                            if( obj.data.competency.length > 0 ) {
+                            if( obj.data.payItem ) {
+                                for( var i=0; i<obj.data.payItem.length; i++ ) {
+                                    if( criteria > 0 ) {
+                                        addCriteria( );
+                                    }
+                                    $("#criteria_" + criteria).val( "payItem" ).trigger("change");
+                                    $("#payItem_" + criteria).val( obj.data.payItem[i]["piID"] ).trigger("change");
+                                    $("#valueType_" + criteria).val( obj.data.payItem[i]["valueType"] ).trigger("change");
+                                    $("#value_" + criteria).val( obj.data.payItem[i]["value"] );
+                                    criteria++;
+                                }
+                            }
+
+                            if( obj.data.competency && obj.data.competency.length > 0 ) {
                                 if( criteria > 0 ) {
                                     addCriteria( );
                                 }
@@ -1534,37 +1651,54 @@
                                 criteria++;
                             }
 
-                            if( obj.data.contract ) {
+                            if( obj.data.contract && obj.data.contract.length > 0 ) {
                                 for( var i=0; i<obj.data.contract.length; i++ ) {
                                     if( criteria > 0 ) {
                                         addCriteria( );
                                     }
                                     $("#criteria_" + criteria).val("contract").trigger("change");
-                                    $("#contractID_" + criteria).val( obj.data.contract[i]["tcID"] );
-                                    $("#contract_" + criteria).val( obj.data.contract[i]["contract"] ).trigger('change');
+
+                                    for( var i=0; i<obj.data.contract.length; i++ ) {
+                                        $("#contract").multiselect( "select", obj.data.contract[i]["contractID"] );
+                                    }
                                     criteria++;
                                 }
                             }
 
-                            if( obj.data.designation ) {
+                            if( obj.data.designation && obj.data.designation.length > 0 ) {
                                 for( var i=0; i<obj.data.designation.length; i++ ) {
                                     if( criteria > 0 ) {
                                         addCriteria( );
                                     }
                                     $("#criteria_" + criteria).val("designation").trigger("change");
-                                    $("#designationID_" + criteria).val( obj.data.designation[i]["tdID"] );
-                                    $("#designation_" + criteria).val( obj.data.designation[i]["designation"] ).trigger('change');
+
+                                    for( var i=0; i<obj.data.designation.length; i++ ) {
+                                        $("#designation").multiselect( "select", obj.data.designation[i]["designationID"] );
+                                    }
                                     criteria++;
                                 }
                             }
 
-                            if( obj.data.gender.length > 0 ) {
+                            if( obj.data.race && obj.data.race.length > 0 ) {
+                                if( criteria > 0 ) {
+                                    addCriteria( );
+                                }
+                                $("#criteria_" + criteria).val("race").trigger("change");
+
+                                for( var i=0; i<obj.data.race.length; i++ ) {
+                                    $("#race").multiselect( "select", obj.data.race[i]["raceID"] );
+                                }
+                                criteria++;
+                            }
+
+                            if( obj.data.gender && obj.data.gender.length > 0 ) {
                                 if( criteria > 0 ) {
                                     addCriteria( );
                                 }
                                 $("#criteria_" + criteria).val("gender").trigger("change");
                                 $("input[name=gender][value=" + obj.data.gender[0]["gender"] + "]").prop('checked', true);
                                 $.uniform.update("input[name=gender]");
+                                criteria++;
                             }
 
                             if( criteria > 0 ) {
@@ -1580,9 +1714,7 @@
                 $("#ruleTitle").val("");
                 $("#group").val(0).trigger("change");
                 $("#country").val("").trigger("change");
-                $("#city").val("").trigger("change");
-                $("#state").val("").trigger("change");
-                $("#applyType").val("salaryDeduction").trigger("change");
+                $("#applyType").val("deduction").trigger("change");
                 $("#applyValueType").val("percentage").trigger("change");
                 $("#applyValue").val("");
             }
@@ -1593,8 +1725,6 @@
                 ruleTitle: { required: true }
             },
             messages: {
-                //username: Aurora.i18n.LoginRes.LANG_ENTER_VALID_EMAIL,
-                //password: Aurora.i18n.LoginRes.LANG_ENTER_PASSWORD
                 ruleTitle: "Please enter a Rule Title."
             },
             highlight: function(element, errorClass) {
@@ -1607,7 +1737,7 @@
             // Different components require proper error label placement
             errorPlacement: function(error, element) {
                 if( $(".modal-footer .error").length == 0 )
-                    $(".modal-footer").prepend(error);
+                    $(".modal-footer").append(error);
             },
             submitHandler: function( ) {
                 var count = $(".criteria").length;
@@ -1645,6 +1775,13 @@
                                         }
                                         if( $("#trID").val( ) > 0 ) {
                                             $("#taxRow_" + $("#trID").val( )).replaceWith( obj2.html );
+
+                                            if( obj.data.group == 0 ) {
+                                                $("#taxRow_" + $("#trID").val( )).appendTo( $(".list-group-root") );
+                                            }
+                                            else {
+                                                $("#taxRow_" + $("#trID").val( )).appendTo( $("#item-" + obj.data.group) );
+                                            }
                                         }
                                         else {
                                             if( obj.data.group == 0 ) {
@@ -1658,7 +1795,7 @@
                                         }
 
                                         swal({
-                                            title: $("#ruleTitle").val( ) + " has been succesfully created!",
+                                            title: $("#ruleTitle").val( ) + " has been successfully created!",
                                             text: "What do you want to do next?",
                                             type: 'success',
                                             confirmButtonClass: 'btn btn-success',
@@ -1673,7 +1810,9 @@
                                                 $("#modalTaxRule").modal('hide');
                                             }
                                             else {
-                                                $("#ruleTitle").focus( );
+                                                setTimeout(function() {
+                                                    $("#ruleTitle").focus( );
+                                                }, 500);
                                             }
                                         });
                                     }

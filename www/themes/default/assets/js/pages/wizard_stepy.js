@@ -43,13 +43,13 @@ $(function() {
     // Stepy callbacks
     $(".stepy-callbacks").stepy({
         next: function(index) {
-            alert('Going to step: ' + index);
+            //
         },
         back: function(index) {
-            alert('Returning to step: ' + index);
+            //
         },
         finish: function() {
-            alert('Submit canceled.');
+            //
             return false;
         }
     });

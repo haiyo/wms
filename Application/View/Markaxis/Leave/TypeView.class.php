@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Markaxis\Form\DesignationListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Markaxis\Form\DesignationListView;
 use \Library\Helper\Aurora\GenderHelper, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
 use \Library\Helper\Aurora\YesNoHelper, \Aurora\Component\CountryModel, \Aurora\Component\OfficeModel;
 use \Library\Helper\Markaxis\ProRatedHelper, \Library\Helper\Markaxis\HalfDayHelper, \Library\Helper\Markaxis\PaidLeaveHelper;
@@ -15,7 +15,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TypeView extends AuroraView {
+class TypeView extends AdminView {
 
 
     // Properties
@@ -31,9 +31,8 @@ class TypeView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
@@ -43,19 +42,19 @@ class TypeView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $vars = array_merge( $this->L10n->getContents( ),
                 array( ) );
 
-        return $this->render( 'markaxis/leave/type.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/typeList.tpl', $vars );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAddType( ) {
         $this->info = $this->TypeModel->getInfo( );
@@ -65,7 +64,7 @@ class TypeView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEditType( $ltID ) {
         if( $this->info = $this->TypeModel->getByID( $ltID ) ) {
@@ -76,7 +75,7 @@ class TypeView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
@@ -156,7 +155,7 @@ class TypeView extends AuroraView {
                        'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
                        'TPL_CHILD_AGE_LIST' => $childAgeList ) );
 
-        return $this->render( 'markaxis/leave/typeForm.tpl', $vars );
+        return $this->View->render( 'markaxis/leave/typeForm.tpl', $vars );
     }
 }
 ?>

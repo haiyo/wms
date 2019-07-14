@@ -8,6 +8,9 @@
     .balance-chart pl-0 {
         padding-right:0px;
     }
+    .balance-chart .clear {
+        clear:left;
+    }
     .payroll-nav {
         display: -ms-flexbox;
         display: flex;
@@ -261,112 +264,109 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: '10px',
-                orderable: false,
-                searchable : false,
-                className: "text-center",
-                data: 'laID',
-                render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
-                width: '250px',
-                render: function (data, type, full, meta) {
+                width: '230px',
+                render: function(data, type, full, meta) {
                     return full["name"] + ' (' + full["code"] + ")";
                 }
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
                 width: '230px',
                 render: function (data, type, full, meta) {
                     return full["startDate"] + '&nbsp; &mdash; &nbsp;' + full["endDate"];
                 }
             },{
-                targets: [3],
+                targets: [2],
                 orderable: true,
                 width: '80px',
                 className: "text-center",
                 data: 'days'
             },{
-                targets: [4],
+                targets: [3],
                 orderable: true,
-                width: '280px',
+                width: '260px',
                 data: 'reason'
             },{
-                targets: [5],
+                targets: [4],
                 orderable: true,
                 width: '120px',
-                data: 'approved'
+                data: 'status',
+                className : "text-center",
+                render: function( data, type, full, meta ) {
+                    if( data == 0 ) {
+                        return '<span id="status' + full['piID'] + '" class="label label-pending">Pending Approval</span>';
+                    }
+                    else if( data == 1 ) {
+                        return '<span id="status' + full['piID'] + '" class="label label-success">Approved</span>';
+                    }
+                    else {
+                        return '<span id="status' + full['piID'] + '" class="label label-success">Unapproved</span>';
+                    }
+                }
             },{
-                targets: [6],
+                targets: [5],
                 orderable: false,
                 searchable : false,
                 width: '180px',
-                data: 'supervisors',
+                data: 'managers',
                 render: function(data, type, full, meta) {
                     //var name   = full["name"];
                     //var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
                     var length = data.length;
-                    var supervisors = "";
+                    var managers = "";
 
                     for( var i=0; i<length; i++ ) {
                         if( data[i]["approved"] == 0 ) {
-                            supervisors += '<i class="icon-watch2 text-grey-300 mr-3"></i>';
+                            managers += '<i class="icon-watch2 text-grey-300 mr-3"></i>';
                         }
                         else if( data[i]["approved"] == 1 ) {
-                            supervisors += '<i class="icon-checkmark4 text-green-800 mr-3"></i>';
+                            managers += '<i class="icon-checkmark4 text-green-800 mr-3"></i>';
                         }
                         else if( data[i]["approved"] == "-1" ) {
-                            supervisors += '<i class="icon-cross2 text-warning-800 mr-3"></i>';
+                            managers += '<i class="icon-cross2 text-warning-800 mr-3"></i>';
                         }
-                        supervisors += data[i]["name"] + "<br />";
+                        managers += data[i]["name"] + "<br />";
                     }
-                    return supervisors;
+                    return managers;
                 }
             },{
-                targets: [7],
+                targets: [6],
                 orderable: false,
                 searchable : false,
                 width: '100px',
                 className : "text-center",
                 data: 'laID',
                 render: function(data, type, full, meta) {
-                    //var name   = full["name"];
-                    //var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
-
-                    return '<div class="list-icons">' +
-                        '<div class="list-icons-item dropdown">' +
-                        '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
-                        '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                        /*'<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                        '<i class="icon-user"></i> View Employee Info</a>' +
-                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
-                        '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
-                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '">' +
-                        '<i class="icon-mail5"></i> Message Employee</a>' +
-                        '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
-                        '<i class="icon-history"></i> View History Log</a>' +
-                        '<div class="divider"></div>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-user-block"></i> ' + statusText + '</a>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-exit3"></i> Employee Resigned</a>' +*/
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
+                    console.log(full)
+                    if( full['cancelled'] == 0 && full['status'] != 1 ) {
+                        return '<div class="list-icons">' +
+                                '<div class="list-icons-item dropdown">' +
+                                '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                                '<i class="icon-menu9"></i></a>' +
+                                '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                                /*'<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
+                                '<i class="icon-user"></i> View Employee Info</a>' +
+                                '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
+                                '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
+                                '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '">' +
+                                '<i class="icon-mail5"></i> Message Employee</a>' +
+                                '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
+                                '<i class="icon-history"></i> View History Log</a>' +
+                                '<div class="divider"></div>' +
+                                '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')">' +
+                                '<i class="icon-user-block"></i> ' + statusText + '</a>' +
+                                '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
+                                '<i class="icon-exit3"></i> Employee Resigned</a>' +*/
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                    }
+                    return '';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
-            order: [],
+            order: [0,"desc"],
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             language: {
                 search: '',
@@ -439,51 +439,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#458AF2;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#c3d8f8;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Acrued So Far</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Annual Quota</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#458AF2;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#c3d8f8;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -496,51 +473,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#EC407A;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#fad0df;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Acrued So Far</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Annual Quota</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#EC407A;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#fad0df;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -553,51 +507,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ffaf23;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#fee8c8;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Acrued So Far</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Annual Quota</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ffaf23;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#fee8c8;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -610,51 +541,28 @@
 
                 <div class="row mt-20 mb-5 text-left">
 
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#70b754;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Available</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#d4f1c8;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Consumed</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>4.5 Days</div>
-                    </div>
-
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Acrued So Far</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>0 Days</div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>Annual Quota</div>
-                    </div>
-
-                    <div class="col-md-4 text-right">
-                        <div>14 Days</div>
-                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#70b754;"></div></td>
+                            <td>Available</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#d4f1c8;"></div></td>
+                            <td>Consumed</td>
+                            <td class="text-right">4.5 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Accrued</td>
+                            <td class="text-right">0 Days</td>
+                        </tr>
+                        <tr>
+                            <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
+                            <td>Entitled</td>
+                            <td class="text-right">14 Days</td>
+                        </tr>
+                    </table>
 
                 </div>
             </div>
@@ -662,8 +570,8 @@
     </div>
 
     <div class="col-md-3 pl-0">
-        <div class="col-md-12">
-            <div class="card card-body" style="height:329px;">
+        <div class="col-md-12 pl-0">
+            <div class="card card-body" style="height:340px;">
                 <h6 class="font-weight-semibold mb-0 mt-1">Leave Actions</h6>
 
                 <a href="#" class="button-next btn btn-primary btn-next mt-20">Apply Leave Now</a>
@@ -678,20 +586,17 @@
 </div>
 
 
-<div class="panel panel-flat leave-history">
-    <table class="table table-bordered leaveHistoryTable">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Leave Type (Code)</th>
-            <th>Period</th>
-            <th>Days</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Approved By</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+<table class="table table-bordered leaveHistoryTable">
+    <thead>
+    <tr>
+        <th>Leave Type (Code)</th>
+        <th>Period</th>
+        <th>Days</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Approved By</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>

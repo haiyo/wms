@@ -29,7 +29,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         return $this->QuestionView->renderMenu( $css );
@@ -38,7 +38,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( ) {
         echo $this->QuestionView->renderEdit( );
@@ -47,7 +47,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->QuestionView->renderAdd( ) ) );
@@ -56,7 +56,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -67,7 +67,7 @@ class QuestionControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $this->QuestionModel->save( Control::getPostData( ) );

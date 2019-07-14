@@ -15,15 +15,6 @@ class Tax extends \DAO {
 
 
     /**
-     * Payroll Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -43,13 +34,27 @@ class Tax extends \DAO {
     public function getByUserID( $userID, $column ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM employee_tax
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ', tg.title, tg.summary
+                                   FROM employee_tax et
+                                   LEFT JOIN tax_group tg ON ( tg.tgID = et.tgID )
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
+                $list['mainGroup'][$row['tgID']] = $row;
+
+                $sql2 = $this->DB->select( 'SELECT tgID, title, parent
+                                            FROM ( SELECT * FROM tax_group ORDER BY parent, tgID) tax_group,
+                                            ( SELECT @pv := "' . $row['tgID'] . '" ) initialisation
+                                            WHERE find_in_set( parent, @pv ) > 0
+                                             AND @pv := concat( @pv, ",", tgID )',
+                                            __FILE__, __LINE__ );
+
+                while( $child = $this->DB->fetch( $sql2 ) ) {
+                    $list[] = $child;
+                    $list['mainGroup'][$row['tgID']]['child'][] = $child['tgID'];
+                }
             }
         }
         return $list;

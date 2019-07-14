@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
+use \Aurora\Component\OfficeModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Library\Validator\Validator;
 
 /**
@@ -94,9 +94,9 @@ class TaxModel extends \Model {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_RULE_TITLE') );
             return false;
         }
-        $CountryModel = CountryModel::getInstance( );
-        if( $CountryModel->isFound( $data['country'] ) ) {
-            $this->info['country'] = (int)$data['country'];
+        $OfficeModel = OfficeModel::getInstance( );
+        if( $OfficeModel->isFound( $data['office'] ) ) {
+            $this->info['office'] = (int)$data['office'];
         }
         $StateModel = StateModel::getInstance( );
         if( isset( $data['state'] ) && $StateModel->isFound( $data['state'] ) ) {

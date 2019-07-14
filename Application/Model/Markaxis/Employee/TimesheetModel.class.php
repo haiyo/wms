@@ -26,7 +26,7 @@ class TimesheetModel extends \Model {
         $this->info['userID'] = $this->info['salary'] = 0;
         $this->info['idnumber'] = $this->info['currency'] =
         $this->info['bankNumber'] = $this->info['bankCode'] =
-        $this->info['branchCode'] = $this->info['bankHolderName'] = $this->info['swiftCode'] =
+        $this->info['bankBranchCode'] = $this->info['bankHolderName'] = $this->info['swiftCode'] =
         $this->info['branchName'] = $this->info['passNumber'] = $this->info['confirmDate'] =
         $this->info['startDate'] = $this->info['endDate'] = $this->info['passExpiryDate'] = '';
     }

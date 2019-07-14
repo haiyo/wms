@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Attendance;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use  \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use  \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class AttendanceView extends AuroraView {
+class AttendanceView extends AdminView {
 
 
     // Properties
@@ -37,7 +37,7 @@ class AttendanceView extends AuroraView {
 
     /**
     * Render main navigation
-    * @return str
+    * @return string
     */
     public function renderMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/alumni/list',

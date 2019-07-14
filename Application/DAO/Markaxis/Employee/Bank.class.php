@@ -15,11 +15,15 @@ class Bank extends \DAO {
 
 
     /**
-     * Bank Constructor
-     * @return void
+     * Return total count of records
+     * @return int
      */
-    function __construct( ) {
-        parent::__construct( );
+    public function isFoundByID( $ebID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(ebID) FROM employee_bank
+                                   WHERE ebID = "' . (int)$ebID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
     }
 
 
@@ -30,20 +34,21 @@ class Bank extends \DAO {
     public function isFoundByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT COUNT(ebID) FROM employee_bank
                                    WHERE userID = "' . (int)$userID . '"',
-                                   __FILE__, __LINE__ );
+                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
 
 
     /**
-     * Retrieve a user list normally use for building select list
+     * Retrieve all user roles
      * @return mixed
      */
-    public function getByUserID( $userID, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM employee_bank
+    public function getByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT * FROM employee_bank eb
+                                   LEFT JOIN bank b on b.bkID = eb.ebID
                                    WHERE userID = "' . (int)$userID . '"',
-                                   __FILE__, __LINE__ );
+            __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

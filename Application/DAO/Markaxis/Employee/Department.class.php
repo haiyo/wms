@@ -15,15 +15,6 @@ class Department extends \DAO {
 
 
     /**
-     * Department Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -43,8 +34,8 @@ class Department extends \DAO {
     public function isFoundByUserID( $userID, $dID ) {
         $sql = $this->DB->select( 'SELECT COUNT(edID) FROM employee_department 
                                    WHERE userID = "' . (int)$userID . '" AND
-                                         dID = "' . (int)$dID . '"',
-            __FILE__, __LINE__ );
+                                         departmentID = "' . (int)$dID . '"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
     }
@@ -55,14 +46,15 @@ class Department extends \DAO {
      * @return mixed
      */
     public function getByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT d.dID, d.name FROM employee_department ed
+                                   LEFT JOIN department d ON ( d.dID = ed.departmentID )
+                                   WHERE userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
         $list = array( );
-
-        $sql = $this->DB->select( 'SELECT dID FROM employee_department WHERE userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
-
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row['dID'];
+                $list[] = $row;
             }
         }
         return $list;
@@ -83,6 +75,22 @@ class Department extends \DAO {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Retrieve a user list normally use for building select list
+     * @return mixed
+     */
+    public function getListByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT GROUP_CONCAT(DISTINCT departmentID) AS dID FROM employee_department
+                                   WHERE userID = "' . (int)$userID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 }
 ?>

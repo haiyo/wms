@@ -27,7 +27,7 @@ class FinanceControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
 
     public function view( ) {
         $EmployeeView = new EmployeeView( );
@@ -37,7 +37,7 @@ class FinanceControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->FinanceView->renderAdd( ) ) );
@@ -46,18 +46,17 @@ class FinanceControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
         Control::setOutputArrayAppend( array( 'form' => $this->FinanceView->renderEdit( $userID ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $FinanceModel = FinanceModel::getInstance( );

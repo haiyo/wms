@@ -1,7 +1,7 @@
 <?php
-
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
+use \Library\Exception\RegistryException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -15,6 +15,7 @@ class Control {
 
     // Properties
     protected $Registry;
+
     protected static $HttpRequest;
     protected static $HttpResponse;
 
@@ -38,6 +39,21 @@ class Control {
 
 
     /**
+     * Return HttpRequest
+     * @return mixed
+     */
+    public static function hasPermission( $namespace, $action ) {
+        $Registry = Registry::getInstance( );
+        $Authorization = $Registry->get( HKEY_CLASS, 'Authorization' );
+
+        if( $Authorization->hasPermission( $namespace, $action ) ) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
     * Return HttpRequest
     * @return mixed
     */
@@ -57,7 +73,7 @@ class Control {
 
     /**
     * Return Output
-    * @return str
+    * @return string
     */
     public static function getOutput( ) {
         return self::$output;
@@ -119,7 +135,12 @@ class Control {
             $outputArray = self::$outputArray;
             foreach( $outputArray as $key => $value ) {
                 if( isset( $array[$key] ) && $value ) {
-                    self::$outputArray[$key] = $value . $array[$key];
+                    if( !is_array( $value )) {
+                        self::$outputArray[$key] = $value . $array[$key];
+                    }
+                    else {
+                        self::$outputArray[$key] = array_merge_recursive( $value, $array[$key] );
+                    }
                     unset( $array[$key] );
                 }
             }
@@ -136,7 +157,7 @@ class Control {
 
     /**
      * Set Info
-     * @return void
+     * @return mixed
      */
     public static function getDecodedArray( $info ) {
         if( is_array( $info ) ) {
@@ -165,7 +186,7 @@ class Control {
 
     /**
     * Return Save State
-    * @return void
+    * @return mixed
     */
     public static function getSaveState( ) {
         return self::$saveState;
@@ -183,7 +204,7 @@ class Control {
     
     /**
     * Get Post Data
-    * @return void
+    * @return array
     */
     public static function getPostData( ) {
         return self::$postData;

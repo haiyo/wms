@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Form;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +9,7 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CheckboxView extends AuroraView {
+class CheckboxView extends AdminView {
 
 
     // Properties
@@ -37,7 +37,7 @@ class CheckboxView extends AuroraView {
 
     /**
     * Build Checkbox
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='' ) {
         $label = 1;
@@ -66,7 +66,7 @@ class CheckboxView extends AuroraView {
 
     /**
     * Parse Checkbox Template
-    * @return str
+    * @return string
     */
     private function parseTPL( $checkbox ) {
         $vars['dynamic']['checkbox'] = $checkbox;

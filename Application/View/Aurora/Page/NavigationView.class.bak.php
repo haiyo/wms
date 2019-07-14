@@ -42,7 +42,7 @@ class NavigationView {
 
     /**
     * Get Navigation Class
-    * @return str
+    * @return string
     */
     public function getNavClass( $folder, $namespace, $className ) {
         static $nav;
@@ -58,7 +58,7 @@ class NavigationView {
 
     /**
     * Render account header
-    * @return str
+    * @return string
     */
     public function renderAcctHeader( ) {
         $menuSet = $this->NavigationModel->getMenu( );
@@ -105,7 +105,7 @@ class NavigationView {
 
     /**
     * Render Company Logo
-    * @return str
+    * @return string
     */
     public function renderLogo( ) {
         $Authenticator  = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
@@ -150,7 +150,7 @@ class NavigationView {
     
     /**
     * Render Search Box
-    * @return str
+    * @return string
     */
     public function renderSearch( ) {
         $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );

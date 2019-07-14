@@ -20,7 +20,7 @@ class RolePermRes extends Resource {
         
         $this->contents = array( );
         $this->contents['LANG_ROLES_PERMISSIONS'] = 'Roles &amp; Permissions';
-        $this->contents['LANG_ADD_NEW_ROLE'] = 'Add New Role';
+        $this->contents['LANG_CREATE_NEW_ROLE'] = 'Create New Role';
         $this->contents['LANG_DELETE_ROLE'] = 'Delete Role';
         $this->contents['LANG_CLOSE'] = 'Close';
         $this->contents['LANG_SAVE'] = 'Save Settings';

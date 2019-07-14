@@ -12,14 +12,5 @@ class Leave extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Leave Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

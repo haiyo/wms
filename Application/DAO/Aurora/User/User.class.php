@@ -13,15 +13,6 @@ class User extends \DAO {
 
     // Properties
 
-    
-    /**
-    * User Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
 
     /**
     * Return total count of records
@@ -127,12 +118,26 @@ class User extends \DAO {
     public function getFieldByName( $name, $column ) {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user 
                                    WHERE CONCAT(fname," ",lname) = "' . addslashes( $name ) . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );
         }
         return false;
+    }
+
+
+    /**
+     * Retrieve a user column by searching fname and lname
+     * @return mixed
+     */
+    public function getListValidCount( $userIDs ) {
+        $sql = $this->DB->select( 'SELECT COUNT(*) FROM user
+                                   WHERE userID IN(' . addslashes( $userIDs ) . ') AND
+                                         suspended <> "1" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
     }
 
 

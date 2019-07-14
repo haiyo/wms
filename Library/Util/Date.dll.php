@@ -64,20 +64,8 @@ class Date {
     * @param the file name
     * @returns void
     */
-    public static function getAge( $birthday, $z=8 ) {
-        if( preg_match( '/(\d{4})-(\d{2})-(\d{2})/', $birthday, $parts ) ) {
-            $yeardiff  = gmdate( 'Y', time( ) + $z*3600 ) - intval( $parts[1] );
-            $monthdiff = gmdate( 'm', time( ) + $z*3600 ) - intval( $parts[2] );
-            $daydiff   = gmdate( 'j', time( ) + $z*3600 ) - intval( $parts[3] );
-
-            if( $monthdiff < 0 || $monthdiff == 0 && $daydiff <= 0 ) {
-                $age = $yeardiff - 1;
-            }
-            else {
-                $age = $yeardiff;
-            }
-            return $age;
-        }
+    public static function getAge( $birthday ) {
+        return \DateTime::createFromFormat('Y-m-d', $birthday)->diff(new \DateTime('now'))->y;
     }
 
     
@@ -114,7 +102,7 @@ class Date {
 
     /**
     * Return the number of days from a date range
-    * @return array
+    * @return int
     */
     public static function daysDiff( \DateTime $startDate, \DateTime $endDate, $weekdays=false ) {
         $endDate->modify('+1 day');
@@ -230,12 +218,13 @@ class Date {
     * Output Since Time Ago Calculation
     * @param string $dateFrom
     * @param string $dateTo
-    * @return str
+    * @return string
     */
     public static function timeSince( $dateFrom, $format='', $dateTo=-1 ) {
         // Defaults and assume if 0 is passed in that
         // its an error rather than the epoch
         if( $dateTo == -1 ) { $dateTo = time( ); }
+        $dateFrom = strtotime( $dateFrom );
 
         // Calculate the difference in seconds betweeen
         // the two timestamps
@@ -271,7 +260,7 @@ class Date {
     * This full version include output of Weeks, Years and Months ago.
     * @param string $dateFrom
     * @param string $dateTo
-    * @return str
+    * @return string
     */
     public static function timeSinceFull( $dateFrom, $dateTo=-1 ) {
         // Defaults and assume if 0 is passed in that

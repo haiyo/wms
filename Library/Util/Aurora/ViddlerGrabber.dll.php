@@ -45,7 +45,7 @@ class ViddlerGrabber extends URLGrabber implements IURLGrabber {
 
     /**
     * Return embed code
-    * @return str
+    * @return string
     */
     public function getEmbedCode( ) {
         $load = @simplexml_load_file( 'http://lab.viddler.com/services/oembed/?url=' . $this->url, 'SimpleXMLElement', LIBXML_NOCDATA );

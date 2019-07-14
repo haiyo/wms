@@ -13,6 +13,7 @@ class UserRoleControl {
 
 
     // Properties
+    private $UserRoleModel;
 
 
     /**
@@ -20,46 +21,28 @@ class UserRoleControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->UserRoleModel = UserRoleModel::getInstance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function view( ) {
-        //
+    public function getCountList( $data ) {
+        if( isset( $data[1] ) && $data[1] == 'role' && isset( $data[2] ) ) {
+            Control::setOutputArrayAppend( array( 'list' => $this->UserRoleModel->getCountList( $data[2] ) ) );
+        }
     }
 
 
     /**
      * Render main navigation
-     * @return str
-     */
-    public function add( ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
-     */
-    public function edit( $args ) {
-        //
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getPostData( );
-
-        $UserRoleModel = UserRoleModel::getInstance( );
-        $UserRoleModel->save( $post );
+        $this->UserRoleModel->save( $post );
     }
 }
 ?>

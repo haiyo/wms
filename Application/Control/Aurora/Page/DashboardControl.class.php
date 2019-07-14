@@ -13,6 +13,7 @@ class DashboardControl {
 
 
     // Properties
+    private $DashboardView;
 
 
     /**
@@ -20,17 +21,16 @@ class DashboardControl {
     * @return void
     */
     function __construct( ) {
-        //
+        $this->DashboardView = new DashboardView( );
     }
 
 
     /**
     * DashboardControl Main
-    * @return void
+    * @return mixed
     */
     public function getMenu( $css ) {
-        $DashboardView = new DashboardView( );
-        return $DashboardView->renderMenu( $css );
+        return $this->DashboardView->renderMenu( $css );
     }
 
 
@@ -40,23 +40,23 @@ class DashboardControl {
      */
     public function dashboard( ) {
         $output = Control::getOutputArray( );
-
-        $DashboardView = new DashboardView( );
-        $DashboardView->printAll( $DashboardView->renderDashboard( $output ) );
+        $this->DashboardView->renderDashboard( $output );
     }
 
 
     /**
-     * DashboardControl Main
-     * @return void
+     * Render main navigation
+     * @return string
      */
-    public function test( ) {
-        $info['notifyUserIDs'] = array( 33 );
-        $info['notifyEvent'] = 'chatMessage';
-        $info['notifyType'] = 'normal';
-        $vars['data'] = $info;
-        echo json_encode( $vars );
-        exit;
+    public function getPendingAction( ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['pending'] ) ) {
+            $vars['bool'] = 1;
+            $vars['data'] = $this->DashboardView->renderPendingAction( $output['pending'] );
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

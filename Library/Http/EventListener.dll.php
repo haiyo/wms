@@ -21,7 +21,7 @@ class EventListener extends HttpRequest {
     * @return void
     */
     function __construct( $eventName, $callback, $args=NULL ) {
-    	parent::HttpRequest( );
+    	parent::__construct( );
         $this->eventName = $eventName;
     	$this->callback  = $callback;
         $this->monitor( $args );
@@ -35,8 +35,8 @@ class EventListener extends HttpRequest {
     * @return void
     */
     public function monitor( $args=NULL ) {
-        foreach( $this->source as $key => $val ) {
-            if( isset( $value[$this->eventName] ) ) {
+        foreach( $this->source as $val ) {
+            if( isset( $val[$this->eventName] ) ) {
                 if( !is_object( $this->callback[0] ) ) {
                     $Object = new $this->callback[0]( );
                     $Object->$this->callback[1]( $args );

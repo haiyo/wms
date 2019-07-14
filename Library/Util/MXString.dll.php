@@ -11,6 +11,9 @@ namespace Library\Util;
 class MXString {
 
 
+    private $maxLengthURL;
+
+
     /**
     * String Constructor
     * @return void
@@ -25,7 +28,7 @@ class MXString {
     * @param $string - Content
     * @param $start - str
     * @param $end - str
-    * @return str
+    * @return string
     */
     public static function extractTextStartingFrom( $string, $start, $end ) {
         $pos = stripos( $string, $start );
@@ -40,7 +43,7 @@ class MXString {
 
     /**
     * Crop filename
-    * @return str
+    * @return string
     */
     public static function cropFilename( $text, $length, $strTrail='...' ) {
         if( strlen( $text ) > $length ) {
@@ -53,7 +56,7 @@ class MXString {
 
     /**
     * Crop a word
-    * @return str
+    * @return string
     */
     public function cropWord( $text, $length, $strTrail='...' ) {
         if( strlen( $text ) > $length ) {
@@ -120,7 +123,8 @@ class MXString {
     * Scan through the whole text and create links
     * return str
     */
-    public function makeLink( $text ) {
+    public function makeLink( $text, $length=60 ) {
+        $this->maxLengthURL = (int)$length;
         $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
         return preg_replace_callback( $pattern, array( $this, 'makeLinkCallback' ), $text );
     }
@@ -131,13 +135,12 @@ class MXString {
     * return str
     */
     public function makeLinkCallback( $matches ) {
-        $maxUrlLength = 60;
         $maxDepthIfOverLength = 2;
         $ellipsis = '&hellip;';
         $urlFull  = $matches[0];
         $urlShort = '';
 
-        if( strlen( $urlFull ) > $maxUrlLength ) {
+        if( strlen( $urlFull ) > $this->maxLengthURL ) {
             $parts = parse_url( $urlFull );
 
             if( isset( $parts['scheme'] ) && isset( $parts['host'] ) ) {
@@ -158,14 +161,12 @@ class MXString {
             if( isset( $parts['fragment'] ) ) {
                 $urlString[] = '#' . $parts['fragment'];
             }
-
-            $sizeof = sizeof( $urlString );
             for( $i=0; $i<$urlString; $i++ ) {
                 $curr = $urlString[$i];
-                if( $i >= $maxDepthIfOverLength || strlen( $urlShort) + strlen( $curr ) > $maxUrlLength ) {
-                    if( $i == 0 && strlen( $urlShort ) < $maxUrlLength ) {
+                if( $i >= $maxDepthIfOverLength || strlen( $urlShort) + strlen( $curr ) > $this->maxLengthURL ) {
+                    if( $i == 0 && strlen( $urlShort ) < $this->maxLengthURL ) {
                         // Always show a portion of first directory
-                        $urlShort .= substr( $curr, 0, $maxUrlLength - strlen( $urlShort ) );
+                        $urlShort .= substr( $curr, 0, $this->maxLengthURL - strlen( $urlShort ) );
                     }
                     $urlShort .= $ellipsis;
                     break;
@@ -187,11 +188,14 @@ class MXString {
     * Scan through the whole text and highlight word(s)
     * return str
     */
-    public static function highlight( $string, $words_to_highlight, $delimiter=' ', $case=0, $left_string='<strong>', $right_string='</strong>' ) {
-        $list_of_words = eregi_replace( "[^-a-zA-Z0-9&']", " ", $words_to_highlight );
-        $list_array    = explode( ' ', $list_of_words );
+    public static function highlight( $string, $words_to_highlight, $delimiter=' ', $case=0,
+                                      $left_string='<strong>', $right_string='</strong>' ) {
 
-        for( $i=0; $i<sizeof($list_array); $i++ ) {
+        $list_of_words = preg_replace("[^-a-zA-Z0-9&']", ' ', $words_to_highlight );
+        $list_array    = explode( ' ', $list_of_words );
+        $sizeof = sizeof( $list_array );
+
+        for( $i=0; $i<$sizeof; $i++ ) {
         	if( strlen( $list_array[$i] ) == 1 ) {
         		$list_array[$i] = '';
         	}
@@ -206,7 +210,7 @@ class MXString {
             }
 
             $string = str_replace( $final, array_keys( $final ),$string );
-            $list_of_words_cp = eregi_replace( ' +', '|', $list_of_words_cp );
+            $list_of_words_cp = preg_replace( ' +', '|', $list_of_words_cp );
 
             if( $list_of_words_cp{0} == '|' ) {
             	$list_of_words_cp{0} = '';
@@ -219,12 +223,12 @@ class MXString {
             $list_of_words_cp = '(' . trim( $list_of_words_cp ) . ')';
 
             if( $case == 0 ) {
-            	$string = eregi_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
+            	$string = preg_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
                 $string = str_replace( array_keys( $final ), $final, $string );
                 return stripslashes( $string );
             }
             else {
-            	$string = ereg_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
+            	$string = preg_replace( "$list_of_words_cp", "$left_string"."\\1"."$right_string", $string );
                 $string = str_replace( array_keys( $final ), $final,$string );
                 return stripslashes( $string );
             }

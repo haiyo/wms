@@ -29,7 +29,7 @@ class CalendarControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->CalendarView->renderSettings( ) ) );
@@ -38,7 +38,7 @@ class CalendarControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getCalResults( ) {
         $post = Control::getRequest( )->request( POST );
@@ -50,7 +50,7 @@ class CalendarControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getEndDate( ) {
         $post = Control::getRequest( )->request( POST );
@@ -64,7 +64,7 @@ class CalendarControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getPaymentRecur( ) {
         $post = Control::getRequest( )->request( POST );
@@ -78,7 +78,7 @@ class CalendarControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function savePayrun( ) {
         $post = Control::getRequest( )->request( POST );

@@ -1,7 +1,8 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\LeaveBalanceModel, \Markaxis\Employee\EmployeeModel;
-use \Library\Util\Date;
+use \Aurora\Notification\NotificationModel;
+use \Library\Helper\Aurora\DayHelper, \Library\Util\Date;
 use \DateTime;
 
 /**
@@ -33,20 +34,20 @@ class LeaveApplyModel extends \Model {
 
 
     /**
-     * Set User Property Info
-     * @return bool
+     * Return total count of records
+     * @return mixed
      */
-    public function calculateBalance( array $balance ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-        $applied = $this->LeaveApply->getSidebarByUserID( $userInfo['userID'] );
+    public function getByUserID( $userID ) {
+        return $this->Claim->getByUserID( $userID );
+    }
 
-        foreach( $balance as $key => $value ) {
-            if( isset( $applied[$value['ltID']] ) && isset( $balance[$key]['balance'] ) ) {
-                $balance[$key]['balance'] -= $applied[$value['ltID']];
-            }
-        }
-        return $balance;
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getPendingAction( $userID ) {
+        return $this->LeaveApply->getPendingAction( $userID );
     }
 
 
@@ -57,7 +58,7 @@ class LeaveApplyModel extends \Model {
     public function getHistory( $post ) {
         $this->LeaveApply->setLimit( $post['start'], $post['length'] );
 
-        $order = 'lt.name';
+        $order = 'la.created';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
 
         if( isset( $post['order'][0]['column'] ) ) {
@@ -76,27 +77,7 @@ class LeaveApplyModel extends \Model {
                     break;
             }
         }
-
-        $results = array( );
-        if( $sql = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir ) ) {
-            while( $row = $this->LeaveApply->fetch( $sql ) ) {
-
-                if( $row['approved'] == 0 ) {
-                    $row['approved'] = $this->L10n->getContents('LANG_PENDING');
-                }
-                else if( $row['approved'] == 1 ) {
-                    $row['approved'] = $this->L10n->getContents('LANG_APPROVED');
-                }
-                else if( $row['approved'] == '-1' ) {
-                    $row['approved'] = $this->L10n->getContents('LANG_UNAPPROVED');
-                }
-                $results[] = $row;
-            }
-
-            $sql = $this->LeaveApply->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
-            $row = $this->LeaveApply->fetch( $sql );
-            $results['recordsTotal'] = $row['FOUND_ROWS()'];
-        }
+        $results = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
@@ -105,6 +86,61 @@ class LeaveApplyModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return int
+     */
+    public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
+        return Date::daysDiff( $startDate, $endDate, true );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function setStatus( $laID, $status ) {
+        $this->LeaveApply->update('leave_apply', array( 'status' => $status ),
+                                  'WHERE laID = "' . (int)$laID . '"' );
+    }
+
+
+    /**
+     * Set User Property Info
+     * @return mixed
+     */
+    public function calculateBalance( array $balance ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $applied = $this->LeaveApply->getSidebarByUserID( $userInfo['userID'] );
+
+        foreach( $balance as $key => $value ) {
+            if( isset( $applied[$value['ltID']] ) && isset( $balance[$key]['balance'] ) ) {
+                $balance[$key]['balance'] -= $applied[$value['ltID']];
+            }
+        }
+        return $balance;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $userID, $data ) {
+        /*$applyInfo = $this->getByuserID( $userID );
+
+        if( sizeof( $applyInfo ) > 0 ) {
+            foreach( $applyInfo as $value ) {
+                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
+                                                        'title' => $value['descript'],
+                                                        'amount' => $value['amount'] );
+            }
+        }
+        return $data;*/
     }
 
 
@@ -145,15 +181,15 @@ class LeaveApplyModel extends \Model {
                     $this->info['created'] = date( 'Y-m-d H:i:s' );
                     return true;
                 }
-                return false;
             }
         }
+        return false;
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function calculateDateDiff( $data ) {
         if( isset( $data['ltID'] ) && isset( $data['startDate'] ) && isset( $data['endDate'] ) &&
@@ -169,46 +205,79 @@ class LeaveApplyModel extends \Model {
                 // Get office time shift
                 $OfficeModel = OfficeModel::getInstance( );
 
-                if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['oID'] ) ) {
+                if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
                     $startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
                     $endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
                     $hoursDiff = $startTime->diff( $endTime )->h;
-                    //$hoursDiff -= $officeInfo['breakHours'];
 
-                    if( !$typeInfo['allowHalfDay'] && $hoursDiff < $officeInfo['workingHours'] ) {
+                    $openTime  = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
+                    $closeTime = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
+                    $workingHours = $openTime->diff( $closeTime )->h;
+
+                    if( !$typeInfo['allowHalfDay'] && $hoursDiff < $workingHours ) {
                         $startTime = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
                         $endTime   = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
 
                         $errMsg = $this->L10n->strReplace( 'startTime', $startTime->format('h:i A'), 'LANG_HALF_DAY_NOT_ALLOWED');
-                        $errMsg = $this->L10n->strReplace( 'endTime', $endTime->format('h:i A'), $errMsg);
+                        $errMsg = $this->L10n->strReplace( 'endTime', $endTime->format('h:i A'), $errMsg );
                         $this->setErrMsg( $errMsg );
                         return false;
                     }
 
-                    if( $hoursDiff == ($officeInfo['workingHours']+$officeInfo['breakHours']) ) {
+                    if( $hoursDiff == $workingHours ) {
                         $decimal = 1;
                     }
                     else {
                         // Note: 9am to 5pm && 9am to 6pm (above) equates to an hour because deduction of lunchtime!
-                        $decimal = $hoursDiff/$officeInfo['workingHours'];
+                        $decimal = $hoursDiff/$workingHours;
                     }
 
                     $startDate = DateTime::createFromFormat('d M Y h:i A', $data['startDate'] . ' ' . $data['startTime'] );
                     $endDate = DateTime::createFromFormat('d M Y h:i A', $data['endDate'] . ' ' . $data['endTime'] );
                     $daysDiff = $startDate->diff( $endDate )->d;
 
+                    // create an iterateable period of date (P1D equates to 1 day)
+                    $period = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
+                    $workDays = array( );
+                    $dayList = DayHelper::getList( );
+                    $started = false;
+
+                    foreach( $dayList as $day ) {
+                        if( $day == $officeInfo['workDayFrom'] ) {
+                            $workDays[$day] = $started = true;
+                        }
+                        if( $day == $officeInfo['workDayTo'] ) {
+                            $workDays[$day] = true;
+                            $started = false;
+                        }
+                        if( $started ) {
+                            $workDays[$day] = true;
+                        }
+                    }
+
+                    foreach( $period as $dt ) {
+                        $curr = strtolower( $dt->format('D') );
+
+                        // substract non working days
+                        if( !isset( $workDays[$curr] ) ) {
+                            $daysDiff--;
+                        }
+                        /*else if( in_array( $dt->format('Y-m-d'), $holidays ) ) {
+                            $daysDiff--;
+                        }*/
+                    }
+
                     $storing = $daysDiff+$decimal;
-                    echo $storing; exit;
+                    //echo $storing; exit;
 
                     $hours = $days = '';
 
-                    if( $hoursDiff == $officeInfo['workingHours']+$officeInfo['breakHours'] ) {
+                    if( $hoursDiff == $workingHours ) {
                         $daysDiff += 1;
                     }
                     else if( $hoursDiff ) {
                         $hours = $this->L10n->getText( 'LANG_APPLY_HOURS', $hoursDiff );
                     }
-
                     if( $daysDiff ) {
                         $days = $this->L10n->getText( 'LANG_APPLY_DAYS', $daysDiff );
                     }
@@ -224,19 +293,10 @@ class LeaveApplyModel extends \Model {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
-        return $this->info['laID'] = $this->LeaveApply->insert( 'leave_apply', $this->info );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return str
-     */
-    public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
-        return Date::daysDiff( $startDate, $endDate, true );
+        return $this->info['laID'] = $this->LeaveApply->insert('leave_apply', $this->info );
     }
 }
 ?>

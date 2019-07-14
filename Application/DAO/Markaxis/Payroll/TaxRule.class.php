@@ -15,15 +15,6 @@ class TaxRule extends \DAO {
 
 
     /**
-     * TaxRule Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -42,13 +33,14 @@ class TaxRule extends \DAO {
     public function getAll( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM tax_rule tr 
-                                   LEFT JOIN country c ON ( c.cID = tr.country )',
+        $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID ) ',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
+                $row['applyValue'] = (float)$row['applyValue'];
+                $list[$row['trID']] = $row;
             }
         }
         return $list;
@@ -61,13 +53,40 @@ class TaxRule extends \DAO {
      */
     public function getBytrID( $trID ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
-                                   LEFT JOIN country c ON ( c.cID = tr.country )
-                                   WHERE trID = "' . (int)$trID . '"', __FILE__, __LINE__ );
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID )
+                                   WHERE tr.trID = "' . (int)$trID . '"',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            $row = $this->DB->fetch( $sql );
+            $row['applyValue'] = (float)$row['applyValue'];
+            return $row;
         }
         return false;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBytgIDs( $tgIDs ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT tr.* FROM tax_rule tr
+                                   LEFT JOIN tax_group tg ON ( tg.tgID = tr.tgID )
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID )
+                                   LEFT JOIN tax_pay_item tpi ON ( tpi.trID = tr.trID ) 
+                                   WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ')',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $row['applyValue'] = (float)$row['applyValue'];
+                $list[$row['trID']] = $row;
+            }
+        }
+        return $list;
     }
 }
 ?>

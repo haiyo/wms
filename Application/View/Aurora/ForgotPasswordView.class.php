@@ -39,7 +39,7 @@ class ForgotPasswordView extends LoginView {
     
     /**
     * Render Login Page
-    * @return str
+    * @return string
     */
     public function renderChangePassword( $token ) {
         $vars = array_merge( $this->L10n->getContents( ),

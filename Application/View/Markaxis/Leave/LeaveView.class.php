@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\ApplyForHelper;
-use \Markaxis\Employee\SupervisorModel;
+use \Markaxis\Employee\ManagerModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveView extends AuroraView {
+class LeaveView {
 
 
     // Properties
@@ -28,21 +28,19 @@ class LeaveView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        $LeaveModel = LeaveModel::getInstance( );
-        $this->LeaveModel = $LeaveModel;
+        $this->LeaveModel = LeaveModel::getInstance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
-     */
+     * @return string
+
     public function renderApplyForm( ) {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
@@ -52,84 +50,87 @@ class LeaveView extends AuroraView {
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        $SupervisorModel = SupervisorModel::getInstance( );
-        $supervisors = $SupervisorModel->getNameByUserID( $userInfo['userID'] );
+        $ManagerModel = ManagerModel::getInstance( );
+        $managers = $ManagerModel->getSuggestToken( $userInfo['userID'] );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
                        'TPL_APPLY_FOR_LIST' => $applyForList,
-                       'TPLVAR_SUPERVISORS' => $supervisors['name'] ) );
+                       'TPLVAR_MANAGERS' => $managers['name'] ) );
 
         return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
                       'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
-    }
+    } */
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderBalance( ) {
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js',
-                                                                        'checkboxes.min.js',
-                                                                        'mark.min.js'),
-                                  'plugins/visualization/d3' => array( 'd3.min.js', 'd3_tooltip.js' ),
-                                  'jquery' => array( 'mark.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js',
+                                                                              'checkboxes.min.js',
+                                                                              'mark.min.js'),
+                                        'plugins/visualization/d3' => array( 'd3.min.js', 'd3_tooltip.js' ),
+                                        'jquery' => array( 'mark.min.js' ) ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'mi-schedule',
-                                      'text' => $this->L10n->getContents('LANG_BALANCE_STATUS') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'mi-schedule',
+                                            'text' => $this->L10n->getContents('LANG_LEAVE_BALANCE_STATUS') ) );
 
-        return $this->render( 'markaxis/leave/balance.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/leave/balance.tpl', $vars ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
 
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-cog2',
-                                      'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-cog2',
+                                            'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
 
-        return $this->render( 'markaxis/leave/settings.tpl', $vars );
+        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+
+        $this->View->printAll( $this->View->render( 'markaxis/leave/settings.tpl', $vars ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderTypeForm( $form, $ltID=0 ) {
-        $this->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ),
-                                  'plugins/forms/selects' => array( 'bootstrap_multiselect.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ),
+                                        'plugins/forms/selects' => array( 'bootstrap_multiselect.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_LEAVE_TYPE_ID' => $ltID,
                        'TPL_FORM' => $form ) );
 
-        $this->setBreadcrumbs( array( 'link' => 'settings',
-                                      'icon' => 'icon-cog2',
-                                      'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
+        $this->View->setBreadcrumbs( array( 'link' => 'settings',
+                                            'icon' => 'icon-cog2',
+                                            'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
 
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-file-plus2',
-                                      'text' => $this->L10n->getContents('LANG_CREATE_NEW_LEAVE_TYPE') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-file-plus2',
+                                            'text' => $this->L10n->getContents('LANG_CREATE_NEW_LEAVE_TYPE') ) );
 
-        return $this->render( 'markaxis/leave/typeFormWrapper.tpl', $vars );
+        $this->View->printAll( $this->View->render( 'markaxis/leave/typeFormWrapper.tpl', $vars ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return mixed
      */
     public function renderDateDiff( $data ) {
         if( isset( $data['startDate'] ) && isset( $data['endDate'] ) && $data['startDate'] && $data['endDate'] ) {

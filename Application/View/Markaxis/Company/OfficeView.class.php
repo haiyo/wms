@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Runtime\Registry, \Aurora\AuroraView;
+use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
+use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
+use \Library\Helper\Aurora\DayHelper;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,7 +11,7 @@ use \Library\Runtime\Registry, \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class OfficeView extends AuroraView {
+class OfficeView {
 
 
     // Properties
@@ -26,30 +28,40 @@ class OfficeView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/OfficeRes');
 
-        $this->OfficeModel = CompanyModel::getInstance( );
-
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                  'plugins/forms/' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js' ),
-                                  'pages' => 'wizard_stepy.js',
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+        $this->OfficeModel = OfficeModel::getInstance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return mixed
      */
     public function renderSettings( ) {
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( ) );
+        $SelectListView = new SelectListView( );
+        $CountryModel = CountryModel::getInstance( );
+        $countries = $CountryModel->getList( );
+        $countryList = $SelectListView->build( 'officeCountry', $countries, '', 'Select Country' );
 
-        return $this->render( 'markaxis/company/officeList.tpl', $vars );
+        $OfficeTypeModel = OfficeTypeModel::getInstance( );
+        $officeTypeList  = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
+        $workDayFromList = $SelectListView->build( 'workDayFrom', DayHelper::getL10nList( ), '', 'Select Work Day From' );
+        $workDayToList   = $SelectListView->build( 'workDayTo', DayHelper::getL10nList( ), '', 'Select Work Day To' );
+
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_HREF' => 'officeList',
+                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_OFFICE' ),
+                       'TPL_COUNTRY_LIST' => $countryList,
+                       'TPL_OFFICE_TYPE_LIST' => $officeTypeList,
+                       'TPL_WORK_DAY_FROM' => $workDayFromList,
+                       'TPL_WORK_DAY_TO' => $workDayToList ) );
+
+        return array( 'tab'  => $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'markaxis/company/officeList.tpl', $vars ) );
     }
 }
 ?>

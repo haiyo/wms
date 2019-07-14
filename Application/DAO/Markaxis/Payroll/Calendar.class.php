@@ -15,15 +15,6 @@ class Calendar extends \DAO {
 
 
     /**
-     * Calendar Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -61,7 +52,7 @@ class Calendar extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM pay_calendar pc',
-                                    __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

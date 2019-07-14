@@ -36,6 +36,15 @@ class DesignationModel extends \Model {
 
 
     /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getByID( $dID ) {
+        return $this->Designation->getByID( $dID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */
@@ -50,6 +59,15 @@ class DesignationModel extends \Model {
      */
     public function getIDList( ) {
         return $this->info = $this->Designation->getIDList( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return int
+     */
+    public function getListCount( $list ) {
+        return $this->Designation->getListCount( $list );
     }
 }
 ?>

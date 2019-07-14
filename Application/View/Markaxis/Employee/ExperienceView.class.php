@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Library\Helper\Aurora\MonthHelper, \Aurora\Form\SelectListView;
 use \Aurora\Component\UploadModel;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ExperienceView extends AuroraView {
+class ExperienceView {
 
 
     // Properties
@@ -28,9 +28,8 @@ class ExperienceView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
@@ -40,7 +39,7 @@ class ExperienceView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->ExperienceModel->getInfo( );
@@ -50,7 +49,7 @@ class ExperienceView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         $existInfo = $this->ExperienceModel->getByUserID( $userID, '*' );
@@ -61,7 +60,7 @@ class ExperienceView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $SelectListView = new SelectListView( );
@@ -122,7 +121,7 @@ class ExperienceView extends AuroraView {
                                                           'TPLVAR_INDEX' => $i );
             }
         }
-        return $this->render( 'markaxis/employee/experienceForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/experienceForm.tpl', $vars );
     }
 }
 ?>

@@ -42,5 +42,14 @@ class RaceModel extends \Model {
     public function getList( ) {
         return $this->Race->getList( );
     }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getListCount( $list ) {
+        return $this->Race->getListCount( $list );
+    }
 }
 ?>

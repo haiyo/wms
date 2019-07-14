@@ -65,7 +65,7 @@ class URLGrabber {
 
     /**
    * Convert relative URL to absolute
-   * @return str
+   * @return string
    */
     public function rel2abs( $rel, $base ) {
         // return if already absolute URL

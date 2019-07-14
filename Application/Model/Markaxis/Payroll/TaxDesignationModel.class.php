@@ -50,7 +50,7 @@ class TaxDesignationModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getBytrID( $trID ) {
         return $this->TaxDesignation->getBytrID( $trID );
@@ -78,56 +78,69 @@ class TaxDesignationModel extends \Model {
      * @return mixed
      */
     public function saveTaxRule( $data ) {
-        $preg = '/^criteria_(\d)+/';
-
-        $callback = function( $val ) use( $preg ) {
-            if( preg_match( $preg, $val, $match ) ) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
-        $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
-        $sizeof = sizeof( $criteria );
+        $cInfo = array( );
         $validID = array( 0 );
-
-        $cInfo = array();
         $cInfo['trID'] = (int)$data['trID'];
 
-        if( $sizeof > 0 ) {
-            foreach( $criteria as $key => $value ) {
-                preg_match( $preg, $key, $match );
+        if( isset( $data['designation'] ) && is_array( $data['designation'] ) ) {
+            // Make sure all sent in designationID are valid.
+            $designationCount = sizeof( $data['designation'] );
+            $designationList = implode( ',', $data['designation'] );
 
-                if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
-                    $id = $match[1];
+            $DesignationModel = DesignationModel::getInstance();
+            $dbCount = $DesignationModel->getListCount( $designationList );
 
-                    switch( $data['criteria_' . $id] ) {
-                        case 'designation' :
-                            $DesignationModel = DesignationModel::getInstance();
+            if( $designationCount != $dbCount ) {
+                return false;
+            }
+            $preg = '/^criteria_(\d)+/';
 
-                            if( $DesignationModel->isFound($data['designation_' . $id] ) ) {
-                                $cInfo['designation'] = (int)$data['designation_' . $id];
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+            $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
+            $sizeof = sizeof( $criteria );
 
-                                if( $data['designationID_' . $id] ) {
-                                    if( $ctInfo = $this->getByID($cInfo['trID'], $data['designationID_' . $id] ) ) {
-                                        $this->TaxDesignation->update('tax_designation', $cInfo,
-                                            'WHERE tdID = "' . (int)$data['designationID_' . $id] . '"');
+            if( $sizeof > 0 ) {
+                foreach( $criteria as $key => $value ) {
+                    preg_match( $preg, $key, $match );
 
-                                        array_push($validID, $data['designationID_' . $id]);
+                    if( isset( $match[1] ) && is_numeric( $match[1] ) ) {
+                        $id = $match[1];
+
+                        if( $data['criteria_' . $id] == 'designation' ) {
+                            if( $existing = $this->getBytrID( $cInfo['trID'] ) ) {
+                                $existingIDs = array_column( $existing, 'designationID' );
+
+                                foreach( $data['designation'] as $designationID ) {
+                                    if( !in_array( $designationID, $existingIDs ) ) {
+                                        $cInfo['designationID'] = $designationID;
+                                        $this->TaxDesignation->insert('tax_designation', $cInfo );
                                     }
-                                } else {
-                                    array_push($validID, $this->TaxDesignation->insert('tax_designation', $cInfo));
+                                    array_push($validID, $designationID );
+                                }
+                            }
+                            else {
+                                foreach( $data['designation'] as $designationID ) {
+                                    $cInfo['designationID'] = (int)$designationID;
+                                    $this->TaxDesignation->insert('tax_designation', $cInfo );
+                                    array_push($validID, $cInfo['designationID'] );
                                 }
                             }
                             break;
+                        }
                     }
                 }
             }
         }
         $designation = implode( ',', $validID );
-        $this->TaxDesignation->delete( 'tax_designation','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                                                tdID NOT IN(' . addslashes( $designation ) . ')' );
+        $this->TaxDesignation->delete( 'tax_designation',
+                                        'WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
+                                                     designationID NOT IN(' . addslashes( $designation ) . ')' );
     }
 }
 ?>

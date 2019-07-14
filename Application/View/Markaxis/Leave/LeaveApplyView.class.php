@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\User\UserModel;
-use \Library\Helper\Markaxis\ApplyForHelper;
-use \Markaxis\Employee\SupervisorModel;
+use \Markaxis\Company\OfficeModel, \Markaxis\Employee\EmployeeModel, \Markaxis\Employee\LeaveTypeModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel, \Aurora\User\UserImageModel;
+use \Library\Helper\Markaxis\ApplyForHelper, \Library\Util\Date;
 use \Library\Runtime\Registry;
 
 /**
@@ -12,7 +12,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LeaveApplyView extends AuroraView {
+class LeaveApplyView {
 
 
     // Properties
@@ -28,40 +28,93 @@ class LeaveApplyView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        $LeaveApplyModel = LeaveApplyModel::getInstance( );
-        $this->LeaveApplyModel = $LeaveApplyModel;
+        $this->LeaveApplyModel = LeaveApplyModel::getInstance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return mixed
      */
     public function renderApplyForm( ) {
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 
+        $LeaveTypeModel = LeaveTypeModel::getInstance( );
+
         $SelectListView = new SelectListView( );
-        $leaveTypeList = $SelectListView->build( 'ltID', $this->LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
+        $leaveTypeList = $SelectListView->build( 'ltID', $LeaveTypeModel->getListByUserID( $userInfo['userID'] ),
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        $SupervisorModel = SupervisorModel::getInstance( );
-        $supervisors = $SupervisorModel->getNameByUserID( $userInfo['userID'] );
-
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
-                       'TPL_APPLY_FOR_LIST' => $applyForList,
-                       'TPLVAR_SUPERVISORS' => $supervisors['name'] ) );
+                       'TPL_APPLY_FOR_LIST' => $applyForList ) );
 
-        return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
-                      'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        if( $empInfo['officeID'] ) {
+            $OfficeModel = OfficeModel::getInstance( );
+            $officeInfo  = $OfficeModel->getByoID( $empInfo['officeID'] );
+            $vars['TPLVAR_OPEN_TIME'] = $officeInfo['openTime'];
+            $vars['TPLVAR_CLOSE_TIME'] = $officeInfo['closeTime'];
+        }
+        return array( 'js' => array( 'markaxis' => array( 'usuggest.js', 'applyLeave.js' ) ),
+                      'content' => $this->View->render( 'markaxis/leave/applyForm.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderPendingAction( ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        $pendingAction = $this->LeaveApplyModel->getPendingAction( $userInfo['userID'] );
+
+        if( $pendingAction ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $pendingAction as $row ) {
+                $created = Date::timeSince( $row['created'] );
+
+                $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
+
+                if( $row['reason'] ) {
+                    $pdVars['dynamic']['reason'][] = array( 'TPLVAR_REASON' => $row['reason'] );
+                }
+                else {
+                    $pdVars['dynamic']['reason'] = false;
+                }
+                $pdVars['TPLVAR_START_DATE'] = $row['startDate'];
+                $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
+                $reason = $this->View->render( 'markaxis/leave/pending_description.tpl', $pdVars );
+
+                $UserImageModel = UserImageModel::getInstance( );
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $row['userID'] ),
+                                                    'TPLVAR_FNAME' => $row['fname'],
+                                                    'TPLVAR_LNAME' => $row['lname'],
+                                                    'TPLVAR_TIME_AGO' => $created,
+                                                    'TPLVAR_ID' => $row['laID'],
+                                                    'TPLVAR_GROUP_NAME' => 'leave',
+                                                    'TPLVAR_CLASS' => 'leaveAction',
+                                                    'TPLVAR_TITLE' => $row['name'] . ' (' . $row['code'] . ')',
+                                                    'TPLVAR_DESCRIPTION' => $reason,
+                                                    'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
+                                                    'TPLVAR_ATTACHMENT' => '' );
+
+                return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
+            }
+        }
     }
 }
 ?>

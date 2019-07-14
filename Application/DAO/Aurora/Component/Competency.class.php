@@ -15,20 +15,11 @@ class Competency extends \DAO {
 
 
     /**
-     * Component Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
     public function isFound( $cID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM competency WHERE ecID = "' . (int)$cID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(cID) FROM competency WHERE cID = "' . (int)$cID . '"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );

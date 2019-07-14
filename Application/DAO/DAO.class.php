@@ -33,13 +33,10 @@ class DAO {
     */
     public function setLimit( $start, $limit ) {
         if( $start > 0 && $limit > 0 ) {
-            //$start = $limit*$currPage-$limit;
             $this->limit = ' LIMIT ' . (int)$start . ', ' . (int)$limit;
-            return;
         }
-        if( $limit > 0 ) {
+        else if( $limit > 0 ) {
             $this->limit = ' LIMIT ' . (int)$limit;
-            return;
         }
     }
 

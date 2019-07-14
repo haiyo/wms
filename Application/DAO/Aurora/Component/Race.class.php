@@ -15,15 +15,6 @@ class Race extends \DAO {
 
 
     /**
-     * Race Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -49,6 +40,19 @@ class Race extends \DAO {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return int
+     */
+    public function getListCount( $list ) {
+        $sql = $this->DB->select( 'SELECT COUNT(rID) FROM race 
+                                   WHERE rID IN (' . addslashes( $list ) . ')',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
     }
 }
 ?>

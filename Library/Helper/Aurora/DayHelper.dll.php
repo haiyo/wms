@@ -29,7 +29,7 @@ class DayHelper implements IListHelper {
     * @return mixed
     */
     public static function getList( ) {
-        return array( '', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' );
+        return array( 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' );
 	}
 
 

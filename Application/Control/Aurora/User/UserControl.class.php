@@ -13,6 +13,8 @@ class UserControl {
 
 
     // Properties
+    private $UserModel;
+    private $UserView;
 
 
     /**
@@ -20,52 +22,47 @@ class UserControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->UserModel = new UserModel( );
+        $this->UserView = new UserView( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function add( ) {
-        $UserView = new UserView( );
-        Control::setOutputArrayAppend( array( 'form' => $UserView->renderAdd( ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->UserView->renderAdd( ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
-        $UserView = new UserView( );
-        Control::setOutputArrayAppend( array( 'form' => $UserView->renderEdit( $userID ) ) );
+        Control::setOutputArrayAppend( array( 'form' => $this->UserView->renderEdit( $userID ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        $UserModel = new UserModel( );
-
-        if( $UserModel->isValid( $post ) ) {
-            $post['userID'] = $UserModel->save( );
+        if( $this->UserModel->isValid( $post ) ) {
+            $post['userID'] = $this->UserModel->save( );
 
             $ChildrenModel = new ChildrenModel( );
             $ChildrenModel->save( $post );
-
             Control::setPostData( $post );
         }
         else {
             $vars['bool'] = 0;
-            $vars['errMsg'] = $UserModel->getErrMsg( );
+            $vars['errMsg'] = $this->UserModel->getErrMsg( );
             echo json_encode( $vars );
             exit;
         }
@@ -74,15 +71,13 @@ class UserControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function setSuspendStatus( ) {
         $post = Control::getRequest( )->request( POST );
 
-        $UserModel = UserModel::getInstance( );
-
         $vars = array( );
-        $vars['bool'] = $UserModel->setSuspendStatus( $post );
+        $vars['bool'] = $this->UserModel->setSuspendStatus( $post );
 
         echo json_encode( $vars );
         exit;

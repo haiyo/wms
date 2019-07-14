@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Employee;
 use \Control;
+use \Library\Http\HttpResponse;
+use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -29,11 +31,22 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
+     */
+    public function settings( ) {
+        $output = Control::getOutputArray( );
+        $this->EmployeeView->renderSettings( $output );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
      */
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
-            echo json_encode( $this->EmployeeModel->getList( $args[1] ) );
+            $includeOwn = isset( $args[2] ) ? true : false;
+            echo json_encode( $this->EmployeeModel->getList( $args[1], $includeOwn ) );
             exit;
         }
     }
@@ -41,16 +54,30 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
-    public function list( ) {
-        $this->EmployeeView->printAll( $this->EmployeeView->renderList( ) );
+    public function getCountList( $data ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['list'] ) ) {
+            echo $this->EmployeeView->renderCountList( $output['list'] );
+            exit;
+        }
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
+     */
+    public function list( ) {
+        $this->EmployeeView->renderList( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
      */
     public function view( ) {
         echo $this->EmployeeView->renderEdit( );
@@ -59,7 +86,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
     public function add( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->EmployeeView->renderAdd( ) ) );
@@ -68,22 +95,53 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
         Control::setOutputArrayAppend( array( 'form' => $this->EmployeeView->renderEdit( $userID ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function processPayroll( $args, $reprocess=false ) {
+        try {
+            if( isset( $args[1] ) && $empInfo = $this->EmployeeModel->getProcessInfo( $args[1] ) ) {
+                Control::setOutputArray( array( 'empInfo' => $empInfo ) );
+
+                if( !$reprocess ) {
+                    Control::setOutputArray( $this->EmployeeView->renderProcessForm( $empInfo ) );
+                }
+            }
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+            }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( $args ) {
+        $this->processPayroll( $args, true );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
      */
     public function save( ) {
         $post = Control::getPostData( );
-
         $post['eID'] = $this->EmployeeModel->save( $post );
         Control::setPostData( $post );
     }
@@ -91,18 +149,17 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
     public function log( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
         echo $this->EmployeeView->renderLog( $userID );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
     public function logResults( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -115,11 +172,10 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
     public function results( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->EmployeeModel->getResults( $post ) );
         exit;
     }
@@ -127,7 +183,7 @@ class EmployeeControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return void
      */
     public function setResignStatus( ) {
         $post = Control::getRequest( )->request( POST );

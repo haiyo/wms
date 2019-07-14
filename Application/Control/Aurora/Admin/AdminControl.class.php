@@ -6,6 +6,7 @@ use \Aurora\Page\PageModel;
 use \Markaxis\Company\CompanyModel;
 use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Exception\Aurora\PageNotFoundException;
+use \Library\Exception\Aurora\TaskNotFoundException;
 use \Library\Exception\Aurora\NoPermissionException;
 use \Library\Exception\Aurora\SiteCheckException;
 use \Library\Exception\InstantiationException;
@@ -63,7 +64,7 @@ class AdminControl extends Control {
             // Setup company profile if not already
             $CompanyModel = CompanyModel::getInstance( );
 
-            /*if( !$CompanyModel->loadInfo( ) ) {
+            if( !$CompanyModel->loadInfo( ) ) {
                 if( isset( $args[0] ) && $args[0] != 'company' ) {
                     // Redirect to setup page!
                     //header( 'location: ' . ROOT_URL . 'admin/company/setup' );
@@ -71,7 +72,7 @@ class AdminControl extends Control {
                 }
             }
             // If no event request, just redirect to main page
-            else */if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
+            else if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
                 // Redirect to default page if user is authenticated and tries to load admin/
                 header( 'location: ' . ROOT_URL . 'admin/dashboard' );
                 exit;
@@ -101,6 +102,7 @@ class AdminControl extends Control {
         $XMLElement = $XML->load( XML . 'Aurora/admin-no.xml' );
         $sizeof = sizeof( $XMLElement->task );
 
+        // If not admin task, override the default xmlTaskFile
         for( $i=0; $i<$sizeof; $i++ ) {
             if( $XMLElement->task[$i]['type'] == $task ) {
                 $this->xmlTaskFile = XML . 'Aurora/admin-no.xml';
@@ -149,8 +151,7 @@ class AdminControl extends Control {
             exit;
         }
         catch( NoPermissionException $e ) {
-            $vars['error'] = 'loginError';
-            die( json_encode( $vars ) );
+            die( $this->login( ) );
         }
         catch( SiteCheckException $e ) {
             $e->record( );
@@ -173,19 +174,35 @@ class AdminControl extends Control {
      */
     public function __call( $task, $args ) {
         try {
+            $cacheArgs = array( );
+
             // Remove extra array from magic call.
             if( isset( $args[0][0] ) ) {
                 array_shift( $args[0] );
-                $args = $args[0];
+                $args = $cacheArgs = $args[0];
             }
             $TaskManager = new TaskManager( );
-            $TaskManager->addTask( $this->xmlTaskFile, $task );
-            $TaskManager->escalate( $args );
+
+            do {
+                $secondaryTask = rtrim($task . '/' . implode('/', $args ),'/' );
+
+                if( $TaskManager->foundTask( $this->xmlTaskFile, $secondaryTask ) ) {
+                    $TaskManager->escalate( $cacheArgs );
+                    break;
+                }
+                // If no secondary task found, we will fallback to main task.
+                if( $TaskManager->foundTask( $this->xmlTaskFile, $task ) ) {
+                    $TaskManager->escalate( $cacheArgs );
+                    break;
+                }
+                array_pop($args );
+            }
+            while( sizeof( $args ) > 0 );
         }
         catch( InstantiationException $e ) {
             $e->record( );
         }
-        catch( PageNotFoundException $e ) {
+        catch( TaskNotFoundException $e ) {
             $e->record( );
             header( 'location: ' . ROOT_URL . 'admin/notFound' );
         }

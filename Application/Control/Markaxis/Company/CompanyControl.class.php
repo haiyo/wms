@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Markaxis\Employee\EmployeeView;
 use \Control;
 
 /**
@@ -13,6 +14,7 @@ class CompanyControl {
 
 
     // Properties
+    private $CompanyView;
 
 
     /**
@@ -20,37 +22,47 @@ class CompanyControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->CompanyView = new CompanyView( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function setup( ) {
-        $CompanyView = new CompanyView( );
-        //Control::setOutputArrayAppend( array( 'form' => $CompanyView->renderSetup( ) ) );
-        $CompanyView->printAll( $CompanyView->renderSetup( ), true );
+        $this->CompanyView->renderSetup( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-        $form = isset( $output['form'] ) ? $output['form'] : '';
-
-        $CompanyView = new CompanyView( );
-        $CompanyView->printAll( $CompanyView->renderSettings( $form ) );
+        $this->CompanyView->renderSettings( $output );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function getCountList( $data ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['list'] ) ) {
+            $EmployeeView = new EmployeeView( );
+            echo $EmployeeView->renderCountList( $output['list'] );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
@@ -62,7 +74,7 @@ class CompanyControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function save( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );

@@ -12,14 +12,5 @@ class Candidate extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Candidate Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 }
 ?>

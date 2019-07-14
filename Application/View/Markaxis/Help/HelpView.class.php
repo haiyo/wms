@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Help;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class HelpView extends AuroraView {
+class HelpView extends AdminView {
 
 
     // Properties
@@ -37,7 +37,7 @@ class HelpView extends AuroraView {
 
     /**
     * Render main navigation
-    * @return str
+    * @return string
     */
     public function renderMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/alumni/list',
@@ -51,7 +51,7 @@ class HelpView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderGuideMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/alumni/list',
@@ -65,7 +65,7 @@ class HelpView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderFAQMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/alumni/list',
@@ -79,7 +79,7 @@ class HelpView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderContactMenu( $css ) {
         $vars = array( 'TPLVAR_URL' => 'admin/alumni/list',

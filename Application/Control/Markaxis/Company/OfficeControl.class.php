@@ -13,6 +13,8 @@ class OfficeControl {
 
 
     // Properties
+    private $OfficeModel;
+    private $OfficeView;
 
 
     /**
@@ -20,56 +22,79 @@ class OfficeControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->OfficeModel = OfficeModel::getInstance( );
+        $this->OfficeView = new OfficeView( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
-        $OfficeView = new OfficeView( );
-        Control::setOutputArrayAppend( array( 'form' => $OfficeView->renderSettings( ) ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_office' ) ) {
+            Control::setOutputArrayAppend( $this->OfficeView->renderSettings( ) );
+        }
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getOfficeResults( ) {
         $post = Control::getRequest( )->request( POST );
-
-        $OfficeModel = OfficeModel::getInstance( );
-        echo json_encode( $OfficeModel->getResults( $post ) );
+        echo json_encode( $this->OfficeModel->getResults( $post ) );
         exit;
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function save( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
-
-        $UserModel = new UserModel( );
-
-        if( $UserModel->isValid( $post ) ) {
-            $post['userID'] = $UserModel->save( );
-
-            $ChildrenModel = new ChildrenModel( );
-            $ChildrenModel->save( $post );
-
-            Control::setPostData( $post );
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $UserModel->getErrMsg( );
+    public function getOffice( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->OfficeModel->getByoID( $data[1] );
+            $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveOffice( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $this->OfficeModel->isValid( $post ) ) {
+            $this->OfficeModel->save( );
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->OfficeModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteOffice( ) {
+        $oID = Control::getRequest( )->request( POST, 'data' );
+
+        $this->OfficeModel->delete( $oID );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

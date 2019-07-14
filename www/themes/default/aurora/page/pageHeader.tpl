@@ -17,7 +17,7 @@
 
     <div class="breadcrumb-line">
         <ul class="breadcrumb">
-            <li ><a href="<?TPLVAR_ROOT_URL?>"><i class="icon-home2 mr-2 position-left"></i> <?LANG_HOME?></a></li>
+            <li ><a href="<?TPLVAR_ROOT_URL?>admin"><i class="icon-home2 mr-2 position-left"></i> <?LANG_HOME?></a></li>
             <!-- BEGIN DYNAMIC BLOCK: breadcrumbs -->
             <li class="<?TPLVAR_ACTIVE?>"><a href="<?TPLVAR_LINK?>"><i class="<?TPLVAR_ICON?> mr-2 position-left"></i> <?LANG_TEXT?></a></li>
             <!-- END DYNAMIC BLOCK: breadcrumbs -->

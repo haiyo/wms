@@ -13,6 +13,7 @@ class LeaveControl {
 
 
     // Properties
+    private $LeaveView;
 
 
     /**
@@ -20,72 +21,64 @@ class LeaveControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->LeaveView = new LeaveView( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function dashboard( ) {
-        $LeaveView = new LeaveView( );
-        Control::setOutputArrayAppend( $LeaveView->renderApplyForm( ) );
+        //Control::setOutputArrayAppend( $this->LeaveView->renderApplyForm( ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function balance( ) {
         $output = Control::getOutputArray( );
-
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderBalance( ) );
+        $this->LeaveView->renderBalance( );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderSettings( $output['form'] ) );
+        $this->LeaveView->renderSettings( $output['form'] );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function addType( ) {
         $output = Control::getOutputArray( );
-
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderTypeForm( $output['form'] ) );
+        $this->LeaveView->renderTypeForm( $output['form'] );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function editType( $args ) {
         $output = Control::getOutputArray( );
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        $LeaveView  = new LeaveView( );
-        $LeaveView->printAll( $LeaveView->renderTypeForm( $output['form'], $ltID ) );
+        $this->LeaveView->renderTypeForm( $output['form'], $ltID );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveType( ) {;
         $post = Control::getPostData( );

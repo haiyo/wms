@@ -28,7 +28,7 @@ class Exceptions extends \Exception {
         $this->file = $file;
         $this->line = $line;
         $this->dateTime = date( 'd/M/Y H:i:s' );
-        $this->errorLogName = 'errorlog.php';
+        $this->errorLogName = 'error.php';
     }
 
 
@@ -58,7 +58,7 @@ class Exceptions extends \Exception {
     * Record error to log file
     * @returns void
     */
-    public function record( $errorLogFilename='errorlog.php' ) {
+    public function record( $errorLogFilename='error.php' ) {
         if( defined( 'LOG_DIR' ) ) {
             File::write( LOG_DIR . $errorLogFilename, $this->toString( ), FILE_APPEND );
         }

@@ -28,8 +28,7 @@ class NotFoundControl {
      * @return void
      */
     public function notFound( ) {
-        $NotFoundModel = NotFoundModel::getInstance( );
-        $NotFoundView = new NotFoundView( $NotFoundModel );
+        $NotFoundView = new NotFoundView( );
         $NotFoundView->printAll( $NotFoundView->renderPage( ) );
     }
 }

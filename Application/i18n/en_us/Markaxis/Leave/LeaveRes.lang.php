@@ -23,7 +23,7 @@ class LeaveRes extends Resource {
 
         $this->contents = array( );
         $this->contents['LANG_LEAVE_EVENTS'] = 'Leave &amp; Events';
-        $this->contents['LANG_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
+        $this->contents['LANG_LEAVE_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
         $this->contents['LANG_LEAVE_BALANCE'] = 'Leave Balance';
         $this->contents['LANG_LEAVE_SETTINGS'] = 'Leave Settings';
         $this->contents['LANG_CREATE_NEW_LEAVE_TYPE'] = 'Create New Leave Type';
@@ -85,6 +85,9 @@ class LeaveRes extends Resource {
         $this->contents['LANG_HALF_DAY_NOT_ALLOWED'] = 'You cannot apply less than a day for this leave type. Full day working hours is from {startTime} to {endTime}';
         $this->contents['LANG_CHOOSE_LEAVE_TYPE'] = 'Please choose a Leave Type.';
         $this->contents['LANG_INSUFFICIENT_LEAVE'] = 'You have insufficient leave for this request.';
+        $this->contents['LANG_PENDING_ROW_GROUP'] = 'Leave Request';
+        $this->contents['LANG_FROM'] = 'From';
+        $this->contents['LANG_TO'] = 'To';
     }
 }
 ?>

@@ -8,7 +8,7 @@ use Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LabelListView extends AuroraView {
+class LabelListView extends AdminView {
 
 
     // Properties
@@ -25,7 +25,7 @@ class LabelListView extends AuroraView {
     
     /**
     * Build Select List
-    * @return str
+    * @return string
     */
     public function getList( $name, $arrayList, $selected='' ) {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );

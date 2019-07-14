@@ -15,15 +15,6 @@ class TaxComputing extends \DAO {
 
 
     /**
-     * TaxComputing Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -46,7 +37,9 @@ class TaxComputing extends \DAO {
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $row = $this->DB->fetch( $sql );
+            $row = $this->DB->fetch( $sql );
+            $row['value'] = (float)$row['value'];
+            return $row;
         }
         return false;
     }
@@ -57,12 +50,33 @@ class TaxComputing extends \DAO {
      * @return mixed
      */
     public function getBytrID( $trID ) {
+        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID = "' . (int)$trID . '"',
+                                   __FILE__, __LINE__ );
+
         $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM tax_computing WHERE trID = "' . (int)$trID . '"', __FILE__, __LINE__ );
-
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['value'] = (float)$row['value'];
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBytrIDs( $trIDs ) {
+        $sql = $this->DB->select( 'SELECT * FROM tax_computing 
+                                   WHERE trID IN (' . addslashes( $trIDs ) . ')',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $row['value'] = (float)$row['value'];
                 $list[] = $row;
             }
         }

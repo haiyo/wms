@@ -172,7 +172,7 @@
 
             swal({
                 title: "Delete " + school + " from Education?",
-                text: "This action cannot be undone.",
+                text: "This action cannot be undone once deleted.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -375,7 +375,7 @@
 
             swal({
                 title: "Delete " + company + " from Experience?",
-                text: "This action cannot be undone.",
+                text: "This action cannot be undone once deleted.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -440,275 +440,6 @@
         });
 
         $(".form-check-input-styled").uniform();
-
-        // Override defaults
-        $.fn.stepy.defaults.legend = false;
-        $.fn.stepy.defaults.transition = 'fade';
-        $.fn.stepy.defaults.duration = 150;
-        $.fn.stepy.defaults.backLabel = '<i class="icon-arrow-left13 position-left"></i> Back';
-        $.fn.stepy.defaults.nextLabel = 'Next <i class="icon-arrow-right14 position-right"></i>';
-
-        $(".stepy").stepy({
-            titleClick: true,
-            validate: true,
-            focusInput: true,
-            //block: true,
-            next: function(index) {
-                $(".form-control").removeClass("border-danger");
-                $(".error").remove( );
-                $(".stepy").validate(validate)
-            },
-            finish: function( index ) {
-                if( $(".stepy").valid() )  {
-                    saveEmployeeForm();
-                    return false;
-                }
-            }
-        });
-
-        function saveEmployeeForm( ) {
-            $uploadCrop.croppie("result", {
-                type: "canvas",
-                size: "viewport"
-            }).then(function( resp ) {
-                var formData = Aurora.WebService.serializePost("#employeeForm");
-
-                var data = {
-                    bundle: {
-                        laddaClass: ".stepy-finish",
-                        data: formData,
-                        image: encodeURIComponent( resp )
-                    },
-                    success: function( res, ladda ) {
-                        ladda.stop( );
-
-                        var obj = $.parseJSON( res );
-                        if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
-                            return;
-                        }
-                        else {
-                            if( $("#userID").val( ) == 0 ) {
-                                title = "New Employee Added  Successfully";
-                                goToURL = Aurora.ROOT_URL + "admin/employee/add";
-                                backToURL = Aurora.ROOT_URL + "admin/employee/list";
-                                confirmButtonText = "Add Another Employee";
-                                cancelButtonText = "Go to Employee Listing";
-                            }
-                            else {
-                                title = "Employee Updated Successfully";
-                                cancelButtonText = "Continue Editing This Employee";
-                                goToURL = Aurora.ROOT_URL + "admin/employee/list";
-                                backToURL = Aurora.ROOT_URL + "admin/employee/edit/" + $("#userID").val( );
-                                confirmButtonText = "Go to Employee Listing";
-                            }
-
-                            swal({
-                                title: title,
-                                text: "What do you want to do next?",
-                                type: 'success',
-                                confirmButtonClass: 'btn btn-success',
-                                cancelButtonClass: 'btn btn-danger',
-                                buttonsStyling: false,
-                                showCancelButton: true,
-                                confirmButtonText: confirmButtonText,
-                                cancelButtonText: cancelButtonText,
-                                reverseButtons: true
-                            }, function( isConfirm ) {
-                                if( isConfirm === false ) {
-                                    window.location.href = backToURL;
-                                }
-                                else {
-                                    window.location.href = goToURL;
-                                }
-                            });
-                        }
-                    }
-                };
-                Aurora.WebService.AJAX( "admin/employee/save", data );
-            });
-        }
-
-        jQuery.validator.addMethod("validEmail", function(value, element) {
-            if(value == '')
-                return true;
-            var temp1;
-            temp1 = true;
-            var ind = value.indexOf('@');
-            var str2=value.substr(ind+1);
-            var str3=str2.substr(0,str2.indexOf('.'));
-            if(str3.lastIndexOf('-')==(str3.length-1)||(str3.indexOf('-')!=str3.lastIndexOf('-')))
-                return false;
-            var str1=value.substr(0,ind);
-            if((str1.lastIndexOf('_')==(str1.length-1))||(str1.lastIndexOf('.')==(str1.length-1))||(str1.lastIndexOf('-')==(str1.length-1)))
-                return false;
-            str = /(^[a-zA-Z0-9]+[\._-]{0,1})+([a-zA-Z0-9]+[_]{0,1})*@([a-zA-Z0-9]+[-]{0,1})+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,3})$/;
-            temp1 = str.test(value);
-            return temp1;
-        }, "Please enter valid email address.");
-
-
-        // Initialize validation
-        var validate = {
-            ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
-            successClass: 'validation-valid-label',
-            highlight: function(element, errorClass) {
-                $(element).addClass("border-danger");
-            },
-            unhighlight: function(element, errorClass) {
-                $(element).removeClass("border-danger");
-            },
-            // Different components require proper error label placement
-            errorPlacement: function(error, element) {
-                // Styled checkboxes, radios, bootstrap switch
-                if( element.parents('div').hasClass("checker") || element.parents('div').hasClass("choice") ||
-                    element.parent().hasClass('bootstrap-switch-container') ) {
-                    if(element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
-                        error.appendTo( element.parent().parent().parent().parent() );
-                    }
-                    else {
-                        error.appendTo( element.parent().parent().parent().parent().parent() );
-                    }
-                }
-
-                // Unstyled checkboxes, radios
-                else if (element.parents('div').hasClass('checkbox') || element.parents('div').hasClass('radio')) {
-                    error.appendTo( element.parent().parent().parent() );
-                }
-
-                // Input with icons and Select2
-                else if (element.parents('div').hasClass('has-feedback') || element.hasClass('select2-hidden-accessible')) {
-                    //error.appendTo( element.parent() );
-                    element.next().find(".select2-selection").addClass("border-danger");
-                }
-
-                // Inline checkboxes, radios
-                else if (element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
-                    error.appendTo( element.parent().parent() );
-                }
-
-                // Input group, styled file input
-                else if (element.parent().hasClass('uploader') || element.parents().hasClass('input-group')) {
-                    error.appendTo( element.parent().parent() );
-                }
-
-                else {
-                    if( $(".error").length == 0 )
-                        $(".stepy-navigator").prepend(error);
-                }
-            },
-            rules: {
-                fname : "required",
-                lname : "required",
-                idnumber : "required",
-                email1: {
-                    validEmail: true,
-                    required: true
-                }
-            }
-        }
-
-        //======== Supervisors =====
-
-        // Use Bloodhound engine
-        var engine1 = new Bloodhound({
-            remote: {
-                url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
-                wildcard: '%QUERY',
-                filter: function( response ) {
-                    var tokens = $(".supervisorList").tokenfield("getTokens");
-
-                    return $.map( response, function( d ) {
-                        if  ( engine1.valueCache.indexOf(d.name) === -1) {
-                            engine1.valueCache.push(d.name);
-                        }
-                        var exists = false;
-                        for( var i=0; i<tokens.length; i++ ) {
-                            if( d.name === tokens[i].label ) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        if( !exists ) {
-                            return {value: d.name, id: d.userID}
-                        }
-                    });
-                }
-            },
-            datumTokenizer: function(d) {
-                return Bloodhound.tokenizers.whitespace(d.value);
-            },
-            queryTokenizer: Bloodhound.tokenizers.whitespace
-        });
-
-        // Initialize engine
-        engine1.valueCache = [];
-        engine1.initialize();
-
-        // Initialize tokenfield
-        $(".supervisorList").tokenfield({
-            delimiter: ';',
-            typeahead: [null, {
-                displayKey: 'value',
-                highlight: true,
-                source: engine1.ttAdapter()
-            }]
-        });
-
-        $(".supervisorList").on("tokenfield:createtoken", function( event ) {
-            var exists = false;
-            $.each( engine1.valueCache, function(index, value) {
-                if( event.attrs.value === value ) {
-                    exists = true;
-                }
-            });
-            if( !exists ) {
-                event.preventDefault( );
-            }
-        });
-
-
-        //======== Supervisors =====
-
-        // Use Bloodhound engine
-        var engine = new Bloodhound({
-            remote: {
-                url: Aurora.ROOT_URL + 'admin/competency/getCompetency/%QUERY',
-                wildcard: '%QUERY',
-                filter: function (response) {
-                    var tokens = $(".tokenfield-typeahead").tokenfield("getTokens");
-
-                    return $.map( response, function( d ) {
-                        var exists = false;
-                        for( var i=0; i<tokens.length; i++ ) {
-                            if( d.competency === tokens[i].label ) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        if( !exists )
-                        return { value: d.competency, id: d.cID }
-                    });
-                }
-            },
-            datumTokenizer: function(d) {
-                return Bloodhound.tokenizers.whitespace(d.value);
-            },
-            queryTokenizer: Bloodhound.tokenizers.whitespace
-        });
-
-        // Initialize engine
-        engine.initialize();
-
-        // Initialize tokenfield
-        $(".tokenfield-typeahead").tokenfield({
-            delimiter: ';',
-            typeahead: [null, {
-                displayKey: 'value',
-                highlight: true,
-                source: engine.ttAdapter()
-            }]
-        });
 
         // Modal template
         var modalTemplate = '<div class="modal-dialog modal-lg" role="document">\n' +
@@ -783,9 +514,11 @@
             previewZoomButtonIcons: previewZoomButtonIcons,
             allowedFileExtensions: ['pdf', 'doc', 'docx'],
             previewSettings: previewSettings
+        }).on('fileuploaderror', function(event, data, msg) {
+            console.log('File uploaded', data.previewId, data.index, data.fileId, msg);
         }).on('filebatchuploadsuccess', function(event, data) {
+            console.log(data)
             uploadedFile = data.response;
-            $("#saveEduUpload").show( );
         });
 
         $("#eduSaveUploaded").on("click", function( ) {
@@ -823,7 +556,6 @@
                                 uploadedFile = false;
                                 $(".fileinput-remove").click( );
                                 $("#uploadEduModal").modal("hide");
-                                $("#saveEduUpload").hide( );
                             }
                         };
                         Aurora.WebService.AJAX( "admin/employee/updateCertificate", data );
@@ -838,7 +570,6 @@
                     uploadedFile = false;
                     $(".fileinput-remove").click( );
                     $("#uploadEduModal").modal("hide");
-                    $("#saveEduUpload").hide( );
                 }
             }
         });
@@ -888,7 +619,7 @@
                             $("#eduUploadCert_" + index).show( );
                             $("#eduDeleteCert_" + index).hide( );
                             $("#eduFileIcoWrapper_" + index).hide( );
-                            swal("Done!", fileName + " has been succesfully deleted!", "success");
+                            swal("Done!", fileName + " has been successfully deleted!", "success");
                             return;
                         }
                     }
@@ -1022,7 +753,7 @@
                             $("#expUploadTest_" + index).show( );
                             $("#expDeleteTest_" + index).hide( );
                             $("#expFileIcoWrapper_" + index).hide( );
-                            swal("Done!", fileName + " has been succesfully deleted!", "success");
+                            swal("Done!", fileName + " has been successfully deleted!", "success");
                             return;
                         }
                     }
@@ -1063,7 +794,7 @@
                         else {
                             $(".photo-wrap").remove( );
                             $(".defPhoto img").removeClass("hide");
-                            swal("Done!", $("#employeeName").text() + "'s photo has been succesfully deleted!", "success");
+                            swal("Done!", $("#employeeName").text() + "'s photo has been successfully deleted!", "success");
                             return;
                         }
                     }
@@ -1072,39 +803,6 @@
             });
         });
 
-        var $uploadCrop;
-
-        function readFile( input ) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $(".upload-demo-wrap").addClass('ready');
-                    $(".caption").addClass("mt-30");
-
-                    $uploadCrop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function(){
-                        console.log('jQuery bind complete');
-                    });
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-            else {
-                swal("Sorry - you're browser doesn't support the FileReader API");
-            }
-        }
-
-        $uploadCrop = $("#upload-demo").croppie({
-            viewport: {
-                width: 290,
-                height: 290,
-                type: "circle"
-            },
-            enableExif: true
-        });
-
-        $("#upload").on("change", function( ) { readFile(this); });
         /*$("#thumb").on("click", function( ev ) {
             $uploadCrop.croppie('result', {
                 type: "canvas",
@@ -1133,145 +831,77 @@
         });
     });
 </script>
-<style>
-    .file-btn input[type="file"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor:pointer;
-    }
-    #upload {
-        cursor:pointer;
-    }
-   .upload-demo-wrap,
-    .upload-demo .upload-result,
-    .upload-demo.ready .upload-msg {
-        display: none;
-       position: absolute;
-       top:0;
-    }
-    .ready {
-        display: block;
-    }
-    .upload-demo.ready .upload-result {
-        display: inline-block;
-    }
-    .upload-demo-wrap, .defPhoto {
-        width: 296px;
-        height: 322px;
-        margin: 0 auto;
-    }
-    .upload-cancel, .deletePhoto {
-        position: absolute;
-        top: -3px;
-        right: 12px;
-        z-index: 99;
-        color: #fff;
-        font-size: 29px;
-        opacity:.6;
-    }
-    .deletePhoto {
-        color:#666;
-    }
-    .upload-cancel:hover, .deletePhoto:hover {
-        opacity:1;
-        color: #000;
-    }
-    .photo-wrap {
-        width: 100%;
-        height: 322px;
-        margin: 0 auto;
-        position:absolute;
-        top:0;
-    }
-    .photo {
-        position:relative;
-        top:0;
-        width:290px;
-        height:290px;
-    }
-    .photo img {
-        margin-top: 16px;
-        margin-left: 2px;
-    }
-</style>
-<div class="panel panel-flat">
-    <div class="panel-body">
-        <div class="sidebar sidebar-secondary sidebar-default">
-            <div class="sidebar-content profile-content">
 
-                <!-- Sidebar search -->
-                <div class="sidebar-category">
+<div class="sidebar sidebar-secondary sidebar-default">
+    <div class="sidebar-content profile-content">
 
-                    <div class="thumbnail no-padding">
-                        <div id="thumb" class="thumb">
-                            <div class="defPhoto">
-                                <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/silhouette.png" class="<?TPLVAR_DEF_PHOTO?>" />
-                            </div>
-                            <div class="caption-overflow">
+        <!-- Sidebar search -->
+        <div class="sidebar-category">
+
+            <div class="thumbnail no-padding">
+                <div id="thumb" class="thumb">
+                    <div class="defPhoto">
+                        <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/silhouette.png" class="<?TPLVAR_DEF_PHOTO?>" />
+                    </div>
+                    <div class="caption-overflow">
                                 <span>
                                     <a href="" class="btn bg-success-400 btn-icon btn-xs file-btn">
                                         <i class="icon-plus2"></i>
                                         <input type="file" id="upload" value="Choose a file" accept="image/*" />
                                     </a>
                                 </span>
-                            </div>
-                            <!-- BEGIN DYNAMIC BLOCK: photo -->
-                            <div class="photo-wrap">
-                                <div class="photo">
-                                    <a href="#" class="deletePhoto"><i class="icon-bin"></i></a>
-                                    <img src="<?TPLVAR_ROOT_URL?>www/mars/user/photo/<?TPLVAR_PHOTO?>" />
-                                </div>
-                            </div>
-                            <!-- END DYNAMIC BLOCK: photo -->
-                            <div class="upload-demo-wrap">
-                                <a href="#" class="upload-cancel">&times;</a>
-                                <div id="upload-demo">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="caption text-center">
-                            <h5 class="text-semibold no-margin">
-                                <!-- BEGIN DYNAMIC BLOCK: name -->
-                                <span id="employeeName"><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></span>
-                                <!-- END DYNAMIC BLOCK: name -->
-                                <!-- BEGIN DYNAMIC BLOCK: designation -->
-                                <small class="display-block"><?TPLVAR_DESIGNATION?></small></h5>
-                                <!-- END DYNAMIC BLOCK: designation -->
-                        </div>
-
-                        <div class="text-center">
-                            <!-- BEGIN DYNAMIC BLOCK: phone -->
-                            <p><i class="icon-phone2"></i> <?TPLVAR_PHONE?></p>
-                            <!-- END DYNAMIC BLOCK: phone -->
-                            <!-- BEGIN DYNAMIC BLOCK: mobile -->
-                            <p><i class="icon-mobile"></i> <?TPLVAR_MOBILE?></p>
-                            <!-- END DYNAMIC BLOCK: mobile -->
-                            <!-- BEGIN DYNAMIC BLOCK: email -->
-                            <p><i class="icon-mail5"></i> <?TPLVAR_EMAIL?></p>
-                            <!-- END DYNAMIC BLOCK: email -->
+                    </div>
+                    <!-- BEGIN DYNAMIC BLOCK: photo -->
+                    <div class="photo-wrap">
+                        <div class="photo">
+                            <a href="#" class="deletePhoto"><i class="icon-bin"></i></a>
+                            <img src="<?TPLVAR_PHOTO?>" />
                         </div>
                     </div>
-
+                    <!-- END DYNAMIC BLOCK: photo -->
+                    <div class="upload-demo-wrap">
+                        <a href="#" class="upload-cancel">&times;</a>
+                        <div id="upload-demo">
+                        </div>
+                    </div>
                 </div>
-                <!-- /sidebar search -->
 
+                <div class="caption text-center">
+                    <h5 class="text-semibold no-margin">
+                        <!-- BEGIN DYNAMIC BLOCK: name -->
+                        <span id="employeeName"><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></span>
+                        <!-- END DYNAMIC BLOCK: name -->
+                        <!-- BEGIN DYNAMIC BLOCK: designation -->
+                        <small class="display-block"><?TPLVAR_DESIGNATION?></small></h5>
+                    <!-- END DYNAMIC BLOCK: designation -->
+                </div>
+
+                <div class="text-center">
+                    <!-- BEGIN DYNAMIC BLOCK: phone -->
+                    <p><i class="icon-phone2"></i> <?TPLVAR_PHONE?></p>
+                    <!-- END DYNAMIC BLOCK: phone -->
+                    <!-- BEGIN DYNAMIC BLOCK: mobile -->
+                    <p><i class="icon-mobile"></i> <?TPLVAR_MOBILE?></p>
+                    <!-- END DYNAMIC BLOCK: mobile -->
+                    <!-- BEGIN DYNAMIC BLOCK: email -->
+                    <p><i class="icon-mail5"></i> <?TPLVAR_EMAIL?></p>
+                    <!-- END DYNAMIC BLOCK: email -->
+                </div>
             </div>
-        </div>
 
-
-            <div class="side-content-wrapper rp">
-            <form id="employeeForm" class="stepy" action="#">
-                <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
-                <?TPL_FORM?>
-                <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
-                    <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
-                </button>
-            </form>
         </div>
+        <!-- /sidebar search -->
+
     </div>
+</div>
+
+
+<div class="side-content-wrapper rp">
+    <form id="employeeForm" class="stepy" action="#">
+        <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
+        <?TPL_FORM?>
+        <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
+            <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
+        </button>
+    </form>
 </div>

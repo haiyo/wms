@@ -12,15 +12,6 @@ class Label extends \DAO {
 
 
     // Properties
-    
-
-    /**
-    * Label Constructor
-    * @return void
-    */
-    function __construct( ) {
-        parent::__construct( );
-    }
 
 
     /**

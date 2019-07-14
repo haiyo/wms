@@ -1,9 +1,8 @@
 @font-face {
     font-family: 'material-icons';
-    src:
-            url('material-icons.ttf?rnn6yx') format('truetype'),
-            url('material-icons.woff?rnn6yx') format('woff'),
-            url('material-icons.svg?rnn6yx#material-icons') format('svg');
+    src: url('material-icons.ttf?rnn6yx') format('truetype'),
+         url('material-icons.woff?rnn6yx') format('woff'),
+         url('material-icons.svg?rnn6yx#material-icons') format('svg');
     font-weight: normal;
     font-style: normal;
 }

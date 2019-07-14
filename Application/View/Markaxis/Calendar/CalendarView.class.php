@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Calendar;
-use \Library\Runtime\Registry, \Aurora\AuroraView, \Aurora\Form\SelectListView, \Aurora\Form\CheckboxView;
+use \Library\Runtime\Registry, \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\CheckboxView;
 use \Aurora\DayIntListView, Aurora\YearListView, Aurora\MonthHelper, Aurora\TimeHelper;
 use \Aurora\RadioView, Aurora\PermListView, Aurora\YesNoRadioView, Aurora\UserAvatarView;
 use \Aurora\RoleListView;
@@ -13,7 +13,7 @@ use \Date, \Stringify;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarView extends AuroraView {
+class CalendarView extends AdminView {
 
 
     // Properties
@@ -46,15 +46,18 @@ class CalendarView extends AuroraView {
         $this->userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
-                                  'plugins/fullcalendar' => array( 'fullcalendar.js', 'gcal.js', 'locale-all.js') ) );
+                                  'plugins/fullcalendar' => array( 'core/main.js',
+                                                                   'daygrid/main.js',
+                                                                   'timegrid/main.js',
+                                                                   'interaction/main.js' ) ) );
 
-        $this->setStyle( array( 'fullcalendar' => array( 'fullcalendar' ) ) );
+        $this->setStyle( array( 'fullcalendar' => array( 'core/main', 'daygrid/main', 'timegrid/main' ) ) );
 	}
 
 
     /**
     * Render Tab
-    * @return str
+    * @return string
     */
     public function renderFormTab( ) {
         $html = '';
@@ -117,7 +120,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Event List
-    * @return str
+    * @return string
     */
     public function renderEventList( $info ) {
         $param['calID']     = $info[4];
@@ -258,7 +261,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Agenda
-    * @return str
+    * @return string
     */
     public function renderAgenda( ) {
         $eventInfo  = $this->CalendarModel->getInfo( );
@@ -315,7 +318,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Agenda Tab
-    * @return str
+    * @return string
     */
     public function renderAgendaTab( ) {
         $eventInfo = $this->CalendarModel->getInfo( );
@@ -330,7 +333,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Agenda Tab Data
-    * @return str
+    * @return string
     */
     public function renderAgendaTabData( ) {
         $eventInfo = $this->CalendarModel->getInfo( );
@@ -345,7 +348,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Event Form
-    * @return str
+    * @return string
     */
     public function renderEventForm( ) {
         $info = $this->CalendarModel->getInfo( );
@@ -444,7 +447,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render File List
-    * @return str
+    * @return string
     */
     public function getFileList( $list ) {
         $tpl = '';
@@ -468,7 +471,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Calendar Table
-    * @return str
+    * @return string
     */
     public function renderLabelForm( ) {
         $labels = $this->CalendarModel->getLabels( );
@@ -499,7 +502,7 @@ class CalendarView extends AuroraView {
 
     /**
     * Render Calendar Table
-    * @return str
+    * @return string
     */
     public function renderEventDeleted( ) {
         $vars = array( 'LANG_MSG' => $this->EventRes->getContents('LANG_EVENT_NOT_FOUND_MSG') );

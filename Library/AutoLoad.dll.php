@@ -80,7 +80,6 @@ class AutoLoad {
                     File::import( ROOT . $className . '.dll.php' );
                     return;
                 }
-
                 // If everything else failed...
                 if( is_file( DAO . $className . '.class.php' ) ) {
                     File::import( DAO . $className . '.class.php' );

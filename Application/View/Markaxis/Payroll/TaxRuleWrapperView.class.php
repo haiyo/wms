@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView, \Library\Helper\Aurora\GenderHelper;
+use \Aurora\Admin\AdminView, \Library\Helper\Aurora\GenderHelper;
+use \Aurora\Component\RaceModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxRuleWrapperView extends AuroraView {
+class TaxRuleWrapperView {
 
 
     // Properties
@@ -26,14 +27,12 @@ class TaxRuleWrapperView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/TaxRes');
 
-        $TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
-        $this->TaxRuleWrapperModel = $TaxRuleWrapperModel;
+        $this->TaxRuleWrapperModel = TaxRuleWrapperModel::getInstance( );
     }
 
 
@@ -42,24 +41,29 @@ class TaxRuleWrapperView extends AuroraView {
      * @return mixed
      */
     public function renderTaxRule( $taxRule ) {
-
         if( isset( $taxRule['trID'] ) ) {
             if( $taxRule['applyValueType'] == 'percentage' ) {
-                $applyAs = $taxRule['applyValue'] . '% ';
+                $applyAs = (float)$taxRule['applyValue'] . '% ';
             }
             else { // Fixed
-                $applyAs = $taxRule['currencyCode'] . $taxRule['currencySymbol'] . $taxRule['applyValue'] . ' ';
+                $applyAs = $taxRule['currencyCode'] . $taxRule['currencySymbol'] . (float)$taxRule['applyValue'] . ' ';
             }
 
-            if( $taxRule['applyType'] == 'salaryDeduction' ) {
-                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_EMPLOYEE_SALARY');
+            $badge = '';
+
+            if( $taxRule['applyType'] == 'deductionOR' ) {
+                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_ORDINARY_WAGE');
                 $badge = 'success';
             }
-            else if( $taxRule['applyType'] == 'employerContribution' ) {
+            else if( $taxRule['applyType'] == 'deductionAW' ) {
+                $applyAs .= $this->L10n->getContents('LANG_DEDUCTION_FROM_ADDITIONAL_WAGE');
+                $badge = 'warning';
+            }
+            else if( $taxRule['applyType'] == 'contribution' ) {
                 $applyAs .= $this->L10n->getContents('LANG_EMPLOYER_CONTRIBUTION');
                 $badge = 'warning';
             }
-            else if( $taxRule['applyType'] == 'employerLevy' ) {
+            else if( $taxRule['applyType'] == 'levy' ) {
                 $applyAs .= $this->L10n->getContents('LANG_EMPLOYER_LEVY');
                 $badge = 'warning';
             }
@@ -93,13 +97,21 @@ class TaxRuleWrapperView extends AuroraView {
                     $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $designation['title'] );
                 }
             }
+            if( isset( $taxRule['race'] ) ) {
+                //$RaceModel = RaceModel::getInstance( );
+                //$raceList = $RaceModel->getList( );
+
+                foreach( $taxRule['race'] as $race ) {
+                    $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $race );
+                }
+            }
             if( isset( $taxRule['gender'] ) ) {
                 foreach( $taxRule['gender'] as $gender ) {
                     $gender = GenderHelper::getL10nList( )[$gender['gender']];
                     $vars['dynamic']['criteria'][] = array( 'TPLVAR_CRITERIA' => $gender );
                 }
             }
-            return $this->render( 'markaxis/payroll/taxRule.tpl', $vars );
+            return $this->View->render( 'markaxis/payroll/taxRule.tpl', $vars );
         }
     }
 

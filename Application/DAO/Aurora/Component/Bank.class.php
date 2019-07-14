@@ -15,15 +15,6 @@ class Bank extends \DAO {
 
 
     /**
-     * Bank Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -32,6 +23,21 @@ class Bank extends \DAO {
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $bkID ) {
+        $sql = $this->DB->select( 'SELECT * FROM bank WHERE bkID = "' . (int)$bkID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 

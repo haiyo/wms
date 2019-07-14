@@ -30,7 +30,7 @@ class TaxGenderModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return bool
      */
     public function isFound( $trID, $cID ) {
         return $this->TaxGender->isFound( $trID, $cID );
@@ -39,7 +39,7 @@ class TaxGenderModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getBytrID( $trID ) {
         return $this->TaxGender->getBytrID( $trID );
@@ -48,7 +48,7 @@ class TaxGenderModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getAll( $taxRules ) {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {

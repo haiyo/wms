@@ -15,23 +15,30 @@ class Designation extends \DAO {
 
 
     /**
-     * Designation Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
     public function isFound( $dID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM designation WHERE dID = "' . (int)$dID . '"',
-                                    __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM designation 
+                                   WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user roles
+     * @return mixed
+     */
+    public function getByID( $dID ) {
+        $sql = $this->DB->select( 'SELECT * FROM designation WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -43,7 +50,6 @@ class Designation extends \DAO {
         $sql = $this->DB->select( 'SELECT e.dID AS parentID, r.dID AS id, r.title, r.parent
                                    FROM designation r
                                    LEFT JOIN designation e ON r.parent = e.dID
-                                   WHERE r.active <> "0"
                                    ORDER BY COALESCE(parentID, r.dID), r.dID', __FILE__, __LINE__ );
 
         $list = array( );
@@ -61,7 +67,7 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getIDList( ) {
-        $sql = $this->DB->select( 'SELECT dID FROM designation WHERE active <> "0"', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT dID FROM designation', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -70,6 +76,19 @@ class Designation extends \DAO {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return int
+     */
+    public function getListCount( $list ) {
+        $sql = $this->DB->select( 'SELECT COUNT(dID) FROM designation 
+                                   WHERE dID IN (' . addslashes( $list ) . ')',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
     }
 }
 ?>

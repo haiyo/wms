@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\User\UserModel;
+use \Aurora\Admin\AdminView, \Aurora\User\UserModel;
 use \Aurora\Component\DesignationModel;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class FormWrapperView extends AuroraView {
+class FormWrapperView {
 
 
     // Properties
@@ -28,54 +28,53 @@ class FormWrapperView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
         $this->EmployeeModel = EmployeeModel::getInstance( );
 
-        $this->setStyle( array( 'core' => 'croppie' ) );
+        $this->View->setStyle( array( 'core' => 'croppie' ) );
 
-        $this->setJScript( array( 'core' => 'aurora.uploader.js',
-                                  'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                            'input/typeahead.bundle.min.js' ),
-                                  'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                  'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
-                                  'markaxis' => array('employee.js' ) ) );
+        $this->View->setJScript( array( 'core' => 'aurora.uploader.js',
+                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                                                  'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
+                                        'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
+                                        'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'markaxis' => array( 'employee.js', 'usuggest.js', 'competency.js' ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( $form ) {
-        $this->setBreadcrumbs( array( 'link' => 'admin/employee/add',
-                                      'icon' => 'icon-user-plus',
-                                      'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
-        return $this->renderForm( $form );
+        $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/add',
+                                            'icon' => 'icon-user-plus',
+                                            'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
+        $this->View->printAll( $this->renderForm( $form ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $form, $userID, $photo ) {
-        $this->setBreadcrumbs( array( 'link' => '',
-                                      'icon' => 'icon-user-plus',
-                                      'text' => $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') ) );
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-user-plus',
+                                            'text' => $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') ) );
 
-        return $this->renderForm( $form, $userID, $photo );
+        $this->View->printAll( $this->renderForm( $form, $userID, $photo ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( $form, $userID=0, $photo='' ) {
         $UserModel = UserModel::getInstance( );
@@ -101,9 +100,9 @@ class FormWrapperView extends AuroraView {
             $vars['dynamic']['email'] = false;
         }
 
-        if( is_array( $photo ) ) {
+        if( $photo ) {
             $vars['TPLVAR_DEF_PHOTO'] = 'hide';
-            $vars['dynamic']['photo'][] = array( 'TPLVAR_PHOTO' => $photo['hashDir'] . $photo['hashName'] );
+            $vars['dynamic']['photo'][] = array( 'TPLVAR_PHOTO' => $photo );
         }
         else {
             $vars['dynamic']['photo'] = false;
@@ -137,7 +136,7 @@ class FormWrapperView extends AuroraView {
                 $vars['dynamic']['designation'][] = array( 'TPLVAR_DESIGNATION' => $dInfo[$key]['title'] );
             }
         }
-        return $this->render( 'markaxis/employee/formWrapper.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/formWrapper.tpl', $vars );
     }
 }
 ?>

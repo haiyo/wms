@@ -27,7 +27,7 @@ class TaxDesignationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( ) {
         $taxRule = Control::getOutputArray( );
@@ -40,9 +40,9 @@ class TaxDesignationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function getAll( ) {
+    public function getAllTaxRules( ) {
         $taxRules = Control::getOutputArray( );
         Control::setOutputArray( $this->TaxDesignationModel->getAll( $taxRules ) );
     }
@@ -50,7 +50,7 @@ class TaxDesignationControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function saveTaxRule( ) {
         $this->TaxDesignationModel->saveTaxRule( Control::getPostData( ) );

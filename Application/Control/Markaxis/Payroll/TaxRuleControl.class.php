@@ -27,7 +27,7 @@ class TaxRuleControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getTaxRule( $data ) {
         if( isset( $data[1] ) ) {
@@ -38,16 +38,35 @@ class TaxRuleControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
-    public function getAll( ) {
+    public function getAllTaxRules( ) {
         Control::setOutputArray( $this->TaxRuleModel->getAll( ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxRuleModel->getProcessTaxRules( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function saveTaxRule( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );

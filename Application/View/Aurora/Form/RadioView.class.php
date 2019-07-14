@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Form;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,10 +9,11 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class RadioView extends AuroraView {
+class RadioView {
 
 
     // Properties
+    protected $View;
 
 
     /**
@@ -20,13 +21,13 @@ class RadioView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 	}
 
 
     /**
     * Build Radio Buttons
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='', $class='' ) {
         $label = 1;
@@ -54,11 +55,11 @@ class RadioView extends AuroraView {
 
     /**
     * Parse Radio Buttons Template
-    * @return str
+    * @return string
     */
     private function parseTPL( $radio ) {
         $vars['dynamic']['radio'] = $radio;
-        return $this->render( 'aurora/form/radio.tpl', $vars );
+        return $this->View->render( 'aurora/form/radio.tpl', $vars );
     }
 }
 ?>

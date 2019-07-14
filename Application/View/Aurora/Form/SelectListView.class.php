@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Form;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -9,10 +9,11 @@ use \Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class SelectListView extends AuroraView {
+class SelectListView {
 
 
     // Properties
+    protected $View;
     protected $multiple;
     protected $disabled;
     protected $includeBlank;
@@ -24,7 +25,7 @@ class SelectListView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
         $this->multiple = false;
         $this->disabled = false;
         $this->includeBlank = true;
@@ -69,10 +70,9 @@ class SelectListView extends AuroraView {
 
     /**
     * Build Select List
-    * @return str
+    * @return string
     */
     public function build( $name, $arrayList, $selected='', $placeHolder='', $id=true ) {
-
         $vars = array( 'TPLVAR_NAME' => $name,
                        'TPLVAR_PLACEHOLDER' => $placeHolder,
                        'TPLVAR_CLASS'  => $this->class, );
@@ -112,7 +112,7 @@ class SelectListView extends AuroraView {
                                                   'TPLVAR_SELECT' => $select,
                                                   'TPLVAR_KEY'    => $key );
         }
-        return $this->render( 'aurora/form/selectList.tpl', $vars );
+        return $this->View->render( 'aurora/form/selectList.tpl', $vars );
     }
 }
 ?>

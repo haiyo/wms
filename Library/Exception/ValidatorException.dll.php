@@ -26,7 +26,7 @@ class ValidatorException extends Exceptions {
 
     /**
     * Return module name that causes error
-    * @return str
+    * @return string
     */
     public function getModuleName( ) {
         return $this->moduleName;

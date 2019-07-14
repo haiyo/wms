@@ -43,8 +43,24 @@ class UserImageModel extends \Model {
     * Return user data by userID
     * @return mixed
     */
-    public function getByUserID( $userID, $column ) {
-        return $this->UserImage->getByUserID( $userID, $column );
+    public function getByUserID( $userID ) {
+        return $this->UserImage->getByUserID( $userID );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getImgLinkByUserID( $userID ) {
+        if( $imgInfo = $this->UserImage->getByUserID( $userID ) ) {
+            $image = ROOT_URL . 'www/mars/user/photo/' . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
+        }
+        else {
+            // Default silhouette
+            $image = ROOT_URL . 'www/themes/default/assets/images/silhouette.png';
+        }
+        return $image;
     }
 
 
@@ -95,9 +111,9 @@ class UserImageModel extends \Model {
     * @return int
     */
     public function delete( $userID ) {
-        if( $uiInfo = $this->getByUserID( $userID, '*' ) ) {
+        if( $userInfo = $this->getByUserID( $userID, '*' ) ) {
             $UploadModel = new UploadModel( );
-            $UploadModel->deleteFile( $uiInfo['uID'], $uiInfo['hashName'], USER_PHOTO_DIR );
+            $UploadModel->deleteFile( $userInfo['uID'], $userInfo['hashName'], USER_PHOTO_DIR );
 
             return $this->UserImage->delete('user_image', 'WHERE userID="' . (int)$userID . '"');
         }

@@ -247,6 +247,7 @@
         var table = $('.datatable').DataTable();
 
         $('.datatable tbody').on('mouseover', 'td', function() {
+            if( typeof table.cell(this).index() == "undefined" ) return;
             var colIdx = table.cell(this).index().column;
 
             if (colIdx !== lastIdx) {

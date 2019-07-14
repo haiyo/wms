@@ -36,6 +36,15 @@ class PassTypeModel extends \Model {
 
 
     /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getByID( $ptID ) {
+        return $this->PassType->getByID( $ptID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

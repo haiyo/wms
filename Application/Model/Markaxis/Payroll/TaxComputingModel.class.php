@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -59,6 +60,15 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getBytrIDs( $trIDs ) {
+        return $this->TaxComputing->getBytrIDs( $trIDs );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getAll( $taxRules ) {
         if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
             foreach( $taxRules as $key => $taxRule ) {
@@ -72,12 +82,151 @@ class TaxComputingModel extends \Model {
 
 
     /**
+     * Test against computing criteria.
+     * @return bool
+     */
+    public function isEquality( $computing, $compare, $against ) {
+        if( $computing == 'lt' || $computing == 'lte' ) {
+            if( $compare > $against ) {
+                return false;
+            }
+        }
+        if( ( $computing == 'gt' && $compare <= $against ) ||
+            ( $computing == 'gte' && $compare < $against ) ) {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function filterAge( $data, $compInfo ) {
+        $age = 0;
+
+        if( $compInfo['criteria'] == 'age' ) {
+            if( !$age ) {
+                // If invalid age, break altogether.
+                if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
+                    unset( $data['taxRules'][$compInfo['trID']] );
+                    $unset[$compInfo['trID']] = 1;
+                }
+            }
+            if( !$this->isEquality( $compInfo['computing'], $age, $compInfo['value'] ) ) {
+                unset( $data['taxRules'][$compInfo['trID']] );
+                $unset[$compInfo['trID']] = 1;
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function filterOrdinary( $data, $compInfo ) {
+        if( $compInfo['criteria'] == 'ordinary' && $data['totalOrdinary'] ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
+                unset( $data['taxRules'][$compInfo['trID']] );
+                $unset[$compInfo['trID']] = 1;
+            }
+            if( isset( $data['taxRules'][$compInfo['trID']] ) &&
+                $compInfo['computing'] == 'ltec' && $data['totalOrdinary'] > $compInfo['value'] ) {
+                // Set the cap amount for later deduction.
+                $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
+                $data['totalOrdinaryAfterTax'] = $compInfo['value'];
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function filterAllPayItem( $data, $compInfo ) {
+        if( $compInfo['criteria'] == 'allPayItem' && $data['totalOrdinary'] ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
+                unset( $data['taxRules'][$compInfo['trID']] );
+                $unset[$compInfo['trID']] = 1;
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function filterInvalidRules( $data, $post=false ) {
+        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
+            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+            $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
+            $unset = array( );
+
+            if( sizeof( $compInfo ) > 0 ) {
+                if( isset( $post['postItems'] ) ) {
+                    foreach( $post['postItems'] as $postItems ) {
+                        if( isset( $data['ordinary'][$postItems['piID']] ) ) {
+                            $data['ordinary'][$postItems['piID']]['amount'] = $postItems['amount'];
+                        }
+                    }
+                }
+                $data['totalOrdinary'] = $data['totalOrdinaryAfterTax'] = 0;
+
+                // foreach is still the fastest compare to array_sum;
+                foreach( $data['ordinary'] as $ordinary ) {
+                    if( isset( $ordinary['amount'] ) ) {
+                        $data['totalOrdinary'] += $ordinary['amount'];
+                        $data['totalOrdinaryAfterTax'] += $ordinary['amount'];
+                        $data['gross'][] = array( 'amount' => $ordinary['amount'] );
+                    }
+                }
+                foreach( $compInfo as $row ) {
+                    // Multiple computing criteria can belong to one TaxRule.
+                    // If we have the main TaxRule already unset before, skip any compInfo related;
+                    if( isset( $unset[$row['trID']] ) ) {
+                        continue;
+                    }
+                    $data = $this->filterAge( $data, $row );
+                    $data = $this->filterOrdinary( $data, $row );
+                    $data = $this->filterAllPayItem( $data, $row );
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $data ) {
+        return $this->filterInvalidRules( $data );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function reprocessPayroll( $data, $post ) {
+        return $this->filterInvalidRules( $data, $post );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
     public function saveTaxRule( $data ) {
         $preg = '/^criteria_(\d)+/';
-
         $callback = function( $val ) use( $preg ) {
             if( preg_match( $preg, $val, $match ) ) {
                 return $match;
@@ -85,7 +234,6 @@ class TaxComputingModel extends \Model {
                 return false;
             }
         };
-
         $criteria = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $sizeof = sizeof( $criteria );
         $validID = array(0);
@@ -102,35 +250,37 @@ class TaxComputingModel extends \Model {
 
                     switch( $data['criteria_' . $id] ) {
                         case 'age' :
-                        case 'salary' :
+                        case 'ordinary' :
+                        case 'allPayItem' :
                         case 'workforce' :
-                            if( isset( $data['computing_' . $id] ) && isset($data['valueType_' . $id]) &&
+                            if( isset( $data['computing_' . $id] ) && isset( $data['valueType_' . $id] ) &&
                                 isset( $data['value_' . $id] ) ) {
 
                                 if( $data['computing_' . $id] == 'lt' || $data['computing_' . $id] == 'gt' ||
-                                    $data['computing_' . $id] == 'lte' || $data['computing_' . $id] == 'gte' ||
-                                    $data['computing_' . $id] == 'eq' ) {
+                                    $data['computing_' . $id] == 'lte' || $data['computing_' . $id] == 'ltec' ||
+                                    $data['computing_' . $id] == 'gte' || $data['computing_' . $id] == 'eq' ) {
                                     $computing = $data['computing_' . $id];
-                                }
-                                if( $data['valueType_' . $id] == 'fixed' || $data['valueType_' . $id] == 'percentage' ) {
-                                    $valueType = $data['valueType_' . $id];
-                                }
-                                $value = (int)$data['value_' . $id];
 
-                                $cInfo['criteria'] = $data['criteria_' . $id];
-                                $cInfo['computing'] = $computing;
-                                $cInfo['valueType'] = $valueType;
-                                $cInfo['value'] = $value;
-
-                                if( $data['tcID_' . $id] ) {
-                                    if( $this->isFound($cInfo['trID'], $data['tcID_' . $id] ) ) {
-                                        $this->TaxComputing->update('tax_computing', $cInfo,
-                                            'WHERE tcID = "' . (int)$data['tcID_' . $id] . '"' );
-
-                                        array_push($validID, $data['tcID_' . $id]);
+                                    if( $data['valueType_' . $id] == 'fixed' || $data['valueType_' . $id] == 'percentage' ) {
+                                        $valueType = $data['valueType_' . $id];
                                     }
-                                } else {
-                                    array_push($validID, $this->TaxComputing->insert('tax_computing', $cInfo));
+                                    $value = (float)$data['value_' . $id];
+
+                                    $cInfo['criteria'] = $data['criteria_' . $id];
+                                    $cInfo['computing'] = $computing;
+                                    $cInfo['valueType'] = $valueType;
+                                    $cInfo['value'] = $value;
+
+                                    if( $data['tcID_' . $id] ) {
+                                        if( $this->isFound( $cInfo['trID'], $data['tcID_' . $id] ) ) {
+                                            $this->TaxComputing->update('tax_computing', $cInfo,
+                                                                        'WHERE tcID = "' . (int)$data['tcID_' . $id] . '"' );
+
+                                            array_push($validID, $data['tcID_' . $id]);
+                                        }
+                                    } else {
+                                        array_push($validID, $this->TaxComputing->insert('tax_computing', $cInfo));
+                                    }
                                 }
                             }
                             break;
@@ -140,6 +290,6 @@ class TaxComputingModel extends \Model {
         }
         $computing = implode( ',', $validID );
         $this->TaxComputing->delete( 'tax_computing','WHERE trID = "' . (int)$cInfo['trID'] . '" AND 
-                                                        tcID NOT IN(' . addslashes( $computing ) . ')' );
+                                                                   tcID NOT IN(' . addslashes( $computing ) . ')' );
     }
 }

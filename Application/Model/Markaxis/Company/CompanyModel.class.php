@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Company;
-use \Library\Util\Date, \Library\Validator\Validator;
-use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
 
 /**
@@ -30,9 +30,9 @@ class CompanyModel extends \Model {
 
         $this->Company = new Company( );
 
-        $this->info['companyRegNo'] = $this->info['companyName'] = $this->info['companyAddress'] =
-        $this->info['companyEmail'] = $this->info['companyPhone'] = $this->info['companyWebsite'] =
-        $this->info['companyType'] = $this->info['companyCountry'] = '';
+        $this->info['regNo'] = $this->info['name'] = $this->info['address'] =
+        $this->info['email'] = $this->info['phone'] = $this->info['website'] =
+        $this->info['type'] = $this->info['country'] = '';
 	}
 
 

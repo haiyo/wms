@@ -26,7 +26,7 @@ class CandidateControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function getMenu( $css ) {
         $CandidateModel = CandidateModel::getInstance( );

@@ -1,7 +1,9 @@
 <?php
 namespace Library\Util\Aurora;
 use \Library\Util\TaskManager as DefTaskManager;
+use \Library\Http\HttpResponse;
 use \Library\Exception\InstantiationException;
+use \Library\Exception\Aurora\TaskNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -16,15 +18,6 @@ class TaskManager extends DefTaskManager {
     // Properties
     protected $args;
 
-    
-    /**
-    * TaskManager Constructor
-    * @return void
-    */
-    function __construct( ) {
-        //
-	}
-
 
     /**
     * Perform Task Escalation
@@ -33,9 +26,14 @@ class TaskManager extends DefTaskManager {
     public function escalate( $args ) {
         $this->args = $args;
 
-        // Need to do recursive, manually pass in the task;
-        $this->importClass( $this->tasks );
-        $this->invokeClass( $this->tasks );
+        if( $this->tasks ) {
+            // Need to do recursive, manually pass in the task;
+            $this->importClass( $this->tasks );
+            $this->invokeClass( $this->tasks );
+        }
+        else {
+            throw new TaskNotFoundException( HttpResponse::HTTP_BAD_REQUEST );
+        }
 	}
 
 
@@ -44,7 +42,7 @@ class TaskManager extends DefTaskManager {
     * @return void
     */
     private function importClass( $tasks ) {
-        foreach( $tasks as $classPath => $childPath ) {
+        foreach( $tasks as $childPath ) {
             if( sizeof( $childPath ) > 0 ) {
                 $this->importClass( $childPath );
             }

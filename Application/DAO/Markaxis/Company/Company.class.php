@@ -15,15 +15,6 @@ class Company extends \DAO {
 
 
     /**
-     * Company Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Retrieve a user column by userID
      * @return mixed
      */
@@ -31,12 +22,7 @@ class Company extends \DAO {
         $sql = $this->DB->select( 'SELECT * FROM company', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
-            }
-            return $list;
+            return $this->DB->fetch( $sql );
         }
         return false;
     }

@@ -15,15 +15,6 @@ class LeaveBalance extends \DAO {
 
 
     /**
-     * LeaveBalance Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -49,8 +40,8 @@ class LeaveBalance extends \DAO {
 
         $sql = $this->DB->select( 'SELECT lt.name, lb.balance FROM employee_leave_bal lb
                                    JOIN leave_type lt ON ( lt.ltID = lb.ltID )
-                                   WHERE lb.userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+                                   WHERE lb.userID = "' . (int)$userID . '"' . $this->limit,
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -71,7 +62,7 @@ class LeaveBalance extends \DAO {
         $sql = $this->DB->select( 'SELECT lt.ltID, lt.name FROM employee_leave_bal elb
                                    LEFT JOIN leave_type lt ON ( lt.ltID = elb.ltID )
                                    WHERE elb.userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -151,8 +142,8 @@ class LeaveBalance extends \DAO {
                                           ad.descript AS suspendReason
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN designation d ON ( d.dID = e.dID )
-                                   LEFT JOIN contract c ON ( c.cID = e.cID )
+                                   LEFT JOIN designation d ON ( d.dID = e.designationID )
+                                   LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID

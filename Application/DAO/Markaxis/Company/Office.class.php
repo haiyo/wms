@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Company;
+use \Library\Helper\Aurora\DayHelper;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -12,15 +13,6 @@ class Office extends \DAO {
 
 
     // Properties
-
-
-    /**
-     * Office Constructor
-     * @return void
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
 
 
     /**
@@ -54,18 +46,27 @@ class Office extends \DAO {
         $q = $q ? 'AND ( o.name LIKE "%' . $q . '%" OR o.address LIKE "%' . $q . '%" 
                        OR c.country LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS o.oID, o.name, o.address, c.name as country, e.empCount
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS o.oID, o.name, o.address, c.name as country, 
+                                          IFNULL( e.empCount, 0 ) AS empCount, o.workDayFrom, o.workDayTo,
+                                          TIME_FORMAT( openTime, "%l:%i %p" ) AS openTime, 
+                                          TIME_FORMAT( closeTime, "%l:%i %p" ) AS closeTime
                                    FROM office o
-                                   LEFT JOIN country c ON ( o.cID = c.cID )
-                                   LEFT JOIN ( SELECT oID, COUNT(eID) as empCount FROM employee e
+                                   LEFT JOIN country c ON ( o.countryID = c.cID )
+                                   LEFT JOIN ( SELECT officeID, COUNT(eID) as empCount FROM employee e
                                                LEFT JOIN user u ON e.userID = u.userID
-                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY e.eID ) e ON e.oID = o.oID
-                                   WHERE 1 = 1 ' . $q . '
+                                               WHERE u.deleted <> "1" AND e.resigned <> "1" GROUP BY officeID ) e ON e.officeID = o.oID
+                                   WHERE o.deleted <> "1" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['workDays'] = '';
+
+                if( $row['workDayFrom'] && $row['workDayTo'] ) {
+                    $row['workDays'] = DayHelper::getL10nList( )[$row['workDayFrom']] . ' - ' .
+                                       DayHelper::getL10nList( )[$row['workDayTo']];
+                }
                 $list[] = $row;
             }
         }

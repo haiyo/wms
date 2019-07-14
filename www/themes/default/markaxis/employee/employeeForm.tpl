@@ -8,8 +8,8 @@
         </div>
 
         <div class="col-md-4">
-            <label>Select Designation:</label>
-            <?TPL_DESIGNATION_LIST?>
+            <label>Select Department:</label>
+            <?TPL_DEPARTMENT_LIST?>
         </div>
 
         <div class="col-md-3">
@@ -25,43 +25,35 @@
 
     <div class="row">
         <div class="col-md-6">
-            <label>Select Department(s):</label>
-            <?TPL_DEPARTMENT_LIST?>
+            <label>Assign Designation:</label>
+            <?TPL_DESIGNATION_LIST?>
         </div>
 
         <div class="col-md-6">
-            <label>Select Supervisor (1st Approving, 2nd Approving, etc):</label>
-            <input type="text" name="supervisors" class="form-control tokenfield-typeahead supervisorList"
-                   placeholder="Enter Supervisor's Name"
-                   value="<?TPLVAR_SUPERVISORS?>"
-                   autocomplete="off" data-fouc />
+            <label>Assign Manager(s):</label>
+            <input type="text" name="managers" id="managers" class="form-control tokenfield-typeahead suggestList"
+                   placeholder="Enter Manager's Name"
+                   value="" autocomplete="off" data-fouc />
         </div>
     </div>
 
     <div class="row">
 
         <div class="col-md-6">
-            <label>Select Role(s):</label>
+            <label>Assign Role(s):</label>
             <?TPL_ROLE_LIST?>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
-                <label>Select Currency:</label>
-                <?TPL_CURRENCY_LIST?>
+                <label>Basic Salary:</label>
+                <input type="text" name="salary" placeholder="5000" class="form-control amountInput" value="<?TPLVAR_SALARY?>" />
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
-                <label>Salary / Rate:</label>
-                <input type="number" name="salary" placeholder="5000" class="form-control" value="<?TPLVAR_SALARY?>" />
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>Salary Rate Type:</label>
+                <label>Salary Type:</label>
                 <?TPL_SALARY_TYPE?>
             </div>
         </div>
@@ -139,14 +131,13 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 competency-tt-menu">
                 <label>Add Employee Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
                                                      data-original-title="<?LANG_COMPETENCY_INFO?>"></i>
                     <span class="text-muted">(Type and press Enter to add new competency)</span></label>
-                <input type="text" name="competency" class="form-control tokenfield-typeahead"
+                <input type="text" name="competency" id="competency" class="form-control tokenfield-typeahead competencyList"
                        placeholder="Enter skillsets or knowledge"
-                       value="<?TPLVAR_COMPETENCY?>"
-                       autocomplete="off" data-fouc />
+                       value="" autocomplete="off" data-fouc />
         </div>
 
     </div>

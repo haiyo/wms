@@ -1,5 +1,12 @@
 <?php
 namespace Markaxis\Leave;
+use \Library\Helper\Markaxis\PaidLeaveHelper;
+use \Library\Helper\Markaxis\HalfDayHelper;
+use \Library\Helper\Markaxis\AppliedHelper;
+use \Library\Helper\Markaxis\LeavePeriodHelper;
+use \Library\Helper\Markaxis\ProRatedHelper;
+use \Library\Helper\Markaxis\UnusedLeaveHelper;
+use \Library\Helper\Markaxis\CarryPeriodHelper;
 use \Library\Validator\Validator;
 
 /**
@@ -83,6 +90,61 @@ class TypeModel extends \Model {
      */
     public function getFullList( ) {
         return $this->info = $this->Type->getFullList( );
+    }
+
+
+    /**
+     * Get File Information
+     * @return mixed
+     */
+    public function getResults( $post ) {
+        $this->Type->setLimit( $post['start'], $post['length'] );
+
+        $order = 'lt.name';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        if( isset( $post['order'][0]['column'] ) ) {
+            switch( $post['order'][0]['column'] ) {
+                case 1:
+                    $order = 'lt.name';
+                    break;
+                case 2:
+                    $order = 'lt.code';
+                    break;
+                case 3:
+                    $order = 'lt.paidLeave';
+                    break;
+                case 4:
+                    $order = 'lt.allowHalfDay';
+                    break;
+                case 5:
+                    $order = 'lt.applied';
+                    break;
+                case 6:
+                    $order = 'lt.unused';
+                    break;
+            }
+        }
+        $results = $this->Type->getResults( $post['search']['value'], $order . $dir );
+
+        if( sizeof( $results ) ) {
+            foreach( $results as $key => $row ) {
+                if( isset( $row['applied'] ) ) {
+                    $results[$key]['applied'] = AppliedHelper::getL10nList( )[$row['applied']];
+                }
+                if( isset( $row['unused'] ) ) {
+                    $results[$key]['unused'] = UnusedLeaveHelper::getL10nList( )[$row['unused']];
+                }
+            }
+        }
+
+        $total = $results['recordsTotal'];
+        unset( $results['recordsTotal'] );
+
+        return array( 'draw' => (int)$post['draw'],
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
     }
 
 

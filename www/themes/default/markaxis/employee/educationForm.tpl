@@ -37,8 +37,6 @@
                             <input type="number" id="eduFromYear" name="eduFromYear" class="form-control" placeholder="Year" value="<?TPLVAR_EDU_FROM_YEAR?>" />
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -59,7 +57,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-md-6">
                 <label>Specialization:</label>
@@ -69,36 +66,35 @@
             <div class="col-md-6">
                 <label class="display-block">Certificate:</label>
                 <div class="input-group">
-                    <input type="text" id="eduCertificate" name="eduCertificate" class="form-control" readonly="readonly" />
+                    <input type="text" id="eduCertificate" name="eduCertificate" class="form-control upload-control" readonly="readonly" />
                     <input type="hidden" id="eduUID" name="eduUID" class="form-control" />
                     <input type="hidden" id="eduHashName" name="eduHashName" class="form-control" />
                     <input type="hidden" id="eduIndex" name="eduIndex" value="" />
                     <span class="input-group-append">
-                            <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
-                                Upload &nbsp;<i class="icon-file-plus"></i>
-                            </button>
-                        </span>
+                        <button class="btn btn-light" type="button" data-toggle="modal" data-target="#uploadEduModal">
+                            Upload &nbsp;<i class="icon-file-plus"></i>
+                        </button>
+                    </span>
                 </div>
             </div>
         </div>
 
-        <div id="uploadEduModal" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg">
+        <div id="uploadEduModal" class="modal fade">
+            <div class="modal-dialog modal-med">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-info">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h6 class="modal-title">Upload Certificate</h6>
-                        <button type="button" class="close" data-dismiss="modal">×</button>
                     </div>
 
-                    <div class="modal-body">
+                    <div class="modal-body overflow-y-visible">
                         <div class="col-lg-12">
                             <input type="file" class="eduFileInput" multiple="multiple" data-fouc />
                             <span class="help-block">Accepted formats: pdf, doc. Max file size <?TPLVAR_MAX_ALLOWED?></span>
                         </div>
                     </div>
-
                     <div class="modal-footer">
-                        <div id="saveEduUpload" class="col-lg-12" style="margin-top: 30px;display:none;">
+                        <div class="modal-footer-btn">
                             <input type="hidden" id="eduIDModal" name="eduIDModal" value="" />
                             <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                             <button type="button" class="btn bg-primary" id="eduSaveUploaded">Save changes</button>
@@ -110,7 +106,7 @@
 
         <div class="row" id="appendEdu">
             <div class="col-md-6">
-                <a href="#" class="btn bg-blue" id="addMoreEdu">Add More Education <i class="icon-arrow-right14 ml-2"></i></a>
+                <a href="#" class="btn bg-blue" id="addMoreEdu">Add More Education <i class="icon-plus22 ml-2"></i></a>
             </div>
         </div>
 

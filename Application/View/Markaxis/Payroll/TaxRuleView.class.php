@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxRuleView extends AuroraView {
+class TaxRuleView {
 
 
     // Properties
@@ -26,14 +26,12 @@ class TaxRuleView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $TaxRuleModel = TaxRuleModel::getInstance( );
-        $this->TaxRuleModel = $TaxRuleModel;
+        $this->TaxRuleModel = TaxRuleModel::getInstance( );
     }
 }
 ?>

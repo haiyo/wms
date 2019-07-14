@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView, \Aurora\Form\SelectListView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\RecurHelper;
 use \Library\Runtime\Registry;
 
@@ -11,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class CalendarView extends AuroraView {
+class CalendarView {
 
 
     // Properties
@@ -27,22 +27,19 @@ class CalendarView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $CalendarModel = CalendarModel::getInstance( );
-        $this->CalendarModel = $CalendarModel;
-
-        $this->setJScript( array( ) );
+        $this->CalendarModel = CalendarModel::getInstance( );
+        $this->View->setJScript( array( ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $SelectListView = new SelectListView( );
@@ -56,13 +53,13 @@ class CalendarView extends AuroraView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_PAY_PERIOD_LIST' => $periodList ) );
 
-        return $this->render( 'markaxis/payroll/calendar.tpl', $vars );
+        return $this->View->render( 'markaxis/payroll/calendar.tpl', $vars );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEndDate( $data ) {
         if( $DateTime = $this->CalendarModel->getEndDate( $data ) ) {
@@ -76,7 +73,7 @@ class CalendarView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderPaymentRecur( $data ) {
         if( $range = $this->CalendarModel->getPaymentRecur( $data ) ) {

@@ -43,100 +43,96 @@ var MarkaxisApplyLeave = (function( ) {
                 disable:datesToDisable,
                 format:"dd mmm yyyy"
             });
+
             $(".pickadate-end").pickadate({
                 showMonthsShort: true,
                 ///disable:datesToDisable,
                 format:"dd mmm yyyy"
             });
-            $('.form-check-input-styled').uniform();
-            $("#startTime").pickatime({interval:60, min: [9,0], max: [18,0]});
-            $("#endTime").pickatime({interval:60, min: [9,0], max: [18,0]});
 
-            // Use Bloodhound engine
-            var engine = new Bloodhound({
-                remote: {
-                    url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY',
-                    wildcard: '%QUERY',
-                    filter: function( response ) {
-                        var tokens = $(".supervisorList").tokenfield("getTokens");
+            $(".form-check-input-styled").uniform( );
 
-                        return $.map( response, function( d ) {
-                            if  ( engine.valueCache.indexOf(d.name) === -1) {
-                                engine.valueCache.push(d.name);
-                            }
-                            var exists = false;
-                            for( var i=0; i<tokens.length; i++ ) {
-                                if( d.name === tokens[i].label ) {
-                                    exists = true;
-                                    break;
-                                }
-                            }
-                            if( !exists )
-                                return { value: d.name, id: d.userID }
-                        });
-                    }
-                },
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d.value);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace
-            });
+            var pickatimeSetting = {interval:5};
+            var openTime = $("#openTime").val( );
+            var closeTime = $("#closeTime").val( );
 
-            // Initialize engine
-            engine.valueCache = [];
-            engine.initialize();
+            if( openTime && closeTime ) {
+                openTime  = openTime.split(":");
+                closeTime = closeTime.split(":");
+                pickatimeSetting["min"] = [openTime[0], openTime[1]];
+                pickatimeSetting["max"] = [closeTime[0], closeTime[1]];
+            }
 
-            // Initialize tokenfield
-            $(".supervisorList").tokenfield({
-                delimiter: ';',
-                typeahead: [null, {
-                    displayKey: 'value',
-                    highlight: true,
-                    source: engine.ttAdapter()
-                }]
-            });
+            var startTime = $("#startTime").pickatime(pickatimeSetting).pickatime('picker');
+            var endTime = $("#endTime").pickatime({min:[9,0],max:[18,0],interval:5}).pickatime('picker');
 
-            $(".supervisorList").on("tokenfield:createtoken", function( event ) {
-                var exists = false;
-                $.each( engine.valueCache, function(index, value) {
-                    if( event.attrs.value === value ) {
-                        exists = true;
-                        $("#supUserIDs").val( event.attrs.id + "," + $("#supUserIDs").val() );
-                    }
-                });
-                if( !exists ) {
-                    event.preventDefault( );
-                }
-            });
+            if( openTime && closeTime ) {
+                startTime.set('select', [openTime[0],openTime[1]]);
+                endTime.set('select', [closeTime[0], closeTime[1]]);
+            }
 
-            $("#startDate").change(function() {
+            $("#startDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
-            $("#endDate").change(function() {
+            $("#endDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
-            $("#startTime").change(function() {
+            $("#startTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
-            $("#endTime").change(function() {
+            $("#endTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
             });
-
             $("#saveApplyLeave").on("click", function ( ) {
-                that.saveApplyLeave();
+                that.saveApplyLeave( );
                 return false;
             });
+
+            $("#modalApplyLeave").on("shown.bs.modal", function(e) {
+                markaxisUSuggest = new MarkaxisUSuggest( false );
+                markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
+            });
+
+            $(document).on("click", ".leaveAction", function ( ) {
+                that.setLeaveAction( $(this).attr("data-id"), $(this).hasClass("approve") ? 1 : "-1" );
+                return false;
+            });
+        },
+
+        setLeaveAction: function( laID, approved ) {
+            var data = {
+                bundle: {
+                    laID: laID,
+                    approved: approved
+                },
+                success: function( res   ) {
+                    var obj = $.parseJSON( res );
+
+                    if( obj.bool == 1 ) {
+                        $("#list-" + laID).fadeOut("slow", function( ) {
+                            $(this).remove( );
+
+                            if( $(".pendingList").length == 0 ) {
+                                $("#tableRequest").remove( );
+                                $("#noPendingAction").show( );
+                            }
+                            else if( $(".leaveAction").length == 0 ) {
+                                $("#group-leave").remove( );
+                            }
+                            return;
+                        });
+                    }
+                }
+            };
+            Aurora.WebService.AJAX( "admin/leave/setLeaveAction", data );
         },
 
         getDaysDiff: function( ) {
@@ -183,7 +179,6 @@ var MarkaxisApplyLeave = (function( ) {
                     data: formData
                 },
                 success: function( res, ladda ) {
-                    console.log(res)
                     ladda.stop( );
 
                     var obj = $.parseJSON( res );
@@ -192,18 +187,16 @@ var MarkaxisApplyLeave = (function( ) {
                         return;
                     }
                     else {
-                        var ltID = $("#ltID").val();
-                        console.log(ltID)
-                        var count = parseInt( $("#ltID" + ltID).text() );
+                        var ltID = $("#ltID").val( );
+                        var count = parseInt( $("#ltID" + ltID).text( ) );
                         $("#ltID" + ltID).text( count-obj.data.days );
 
                         if( obj.data.hasSup ) {
-                            text = "Your leave application is not confirm yet and is subject to Supervisor(s) approval.";
+                            text = "Your leave application is not confirm yet and is subject to Manager(s) approval.";
                         }
                         else {
                             text = "";
                         }
-
                         swal({
                             title: "Leave Applied Successfully",
                             text: text,

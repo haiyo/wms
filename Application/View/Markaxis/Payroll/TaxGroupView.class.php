@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
+use \Library\Util\MXString;
 use \Library\Runtime\Registry;
 
 /**
@@ -10,7 +11,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class TaxGroupView extends AuroraView {
+class TaxGroupView {
 
 
     // Properties
@@ -26,16 +27,14 @@ class TaxGroupView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $TaxGroupModel = TaxGroupModel::getInstance( );
-        $this->TaxGroupModel = $TaxGroupModel;
+        $this->TaxGroupModel = TaxGroupModel::getInstance( );
 
-        $this->setJScript( array( ) );
+        $this->View->setJScript( array( ) );
     }
 
 
@@ -46,18 +45,18 @@ class TaxGroupView extends AuroraView {
     public function buildGroupTree( array $elements, $parentID=0 ) {
         $html = '';
 
+        $MXString = new MXString( );
+
         foreach( $elements as $value ) {
             if( $value['parent'] == $parentID ) {
                 $children = $this->buildGroupTree( $elements, $value['tgID'] );
 
                 $vars = array( 'TPLVAR_GID' => $value['tgID'],
                                'TPLVAR_GROUP_TITLE' => $value['title'],
-                               'TPLVAR_DESCRIPTION' => $value['description'],
+                               'TPLVAR_DESCRIPTION' => $MXString->makeLink( $value['descript'] ),
                                'TPL_GROUP_CHILD' => $children );
 
-                $vars['TPLVAR_EXPAND_ICON'] = $children ? '' : 'none';
-
-                $html .= $this->render( 'markaxis/payroll/group.tpl', $vars );
+                $html .= $this->View->render( 'markaxis/payroll/group.tpl', $vars );
             }
         }
         return $html;
@@ -66,7 +65,7 @@ class TaxGroupView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderTaxGroup( $tgID ) {
         $elements = array( );
@@ -80,7 +79,7 @@ class TaxGroupView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderSettings( ) {
         $list = $this->TaxGroupModel->getAll( );

@@ -1,33 +1,56 @@
 var express = require("express")();
-var http = require("http").Server(express);
+//var httpProxy = require("http-proxy");
+var http = require("http");
+var app = http.Server(express);
 
-http.listen(5000, function(){
+/*
+//create proxy template object with websockets enabled
+var proxy = httpProxy.createProxyServer({ws: true});
+
+//create node server on port 80 and proxy to ports accordingly
+http.createServer(function (req, res) {
+    proxy.web(req, res, { target: 'http://localhost:5000' });
+}).listen(5000, function(){
+    console.log("listening on *:5000");
+});*/
+
+
+app.listen(5000, function(){
     console.log("listening on *:5000");
 });
 
-var io = require("socket.io")(http);
-var clients = {};
+var io = require("socket.io")(app);
+    io.set( 'origins', '*localhost:80' );
 
-io.on("connection", function( socket ){
+var clients = {};
+var rooms = {};
+
+io.on("connection", function( socket ) {
+    var address = socket.handshake.address;
+    console.log(address)
+
     socket.on( "subscribe", function( userID ) {
-        clients[userID] = socket.id;
+        clients[userID] = socket;
+        console.log(userID + " Subscribed!")
     });
 
     socket.on("notify", function( data ) {
         var obj = JSON.parse( data );
+        var from = clients[obj.data.from];
 
-        for( var i=0; i<obj.data.notifyUserIDs.length; i++ ) {
-            var to = clients[obj.data.notifyUserIDs[i]];
+        for( var i=0; i<obj.data.to.length; i++ ) {
+            var to = clients[obj.data.to[i]];
 
             if( to ) {
-                if( obj.data.notifyType == "broadcast" ) {
-                    // Broadcast to everyone else except for the socket that starts it.
-                    socket.broadcast.emit( obj.data.notifyEvent, data );
+                if( !rooms.hasOwnProperty( obj.data.crID ) ) {
+                    console.log(to.id + " join room " + obj.data.crID);
+                    console.log("event " + obj.data.event);
+
+                    rooms[obj.data.crID] = 1;
+                    from.join( obj.data.crID );
+                    to.join( obj.data.crID );
                 }
-                else {
-                    // Normal request to individual
-                    io.sockets.socket(to).emit( obj.data.notifyEvent, data );
-                }
+                io.to( obj.data.crID).emit( obj.data.event, data );
             }
         }
     });

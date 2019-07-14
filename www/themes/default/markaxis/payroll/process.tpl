@@ -2,7 +2,7 @@
 <script>
     $(document).ready(function( ) {
         var start = moment().startOf('month');
-        var end = moment().endOf('month');;
+        var end = moment().endOf('month');
 
         $(".daterange").daterangepicker({
             //timePicker: true,
@@ -12,7 +12,7 @@
             applyClass: 'bg-slate-600',
             cancelClass: 'btn-light',
             locale: {
-                format: 'MMMM DD, YYYY'
+                format: 'MMM DD, YYYY'
             }
         });
 
@@ -100,7 +100,7 @@
             }
         }
 
-        $(".employeeTable").DataTable({
+        var dt = $(".employeeTable").DataTable({
             "processing": true,
             "serverSide": true,
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
@@ -112,7 +112,6 @@
                 data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
             },
             initComplete: function() {
-                Popups.init();
                 /*var api = this.api();
                 var that = this;
                 $('input').on('keyup change', function() {
@@ -124,53 +123,33 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: '10px',
-                orderable: false,
-                searchable : false,
-                data: 'userID',
-                render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
                 width: '150px',
                 data: 'idnumber'
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
-                width: '280px',
+                width: '200px',
                 data: 'name'
             },{
-                targets: [3],
+                targets: [2],
                 orderable: true,
-                width: '260px',
-                data: 'position'
+                width: '180px',
+                data: 'designation'
             },{
-                targets: [4],
+                targets: [3],
                 orderable: true,
                 width: '220px',
                 data: 'type'
             },{
-                targets: [5],
-                orderable: true,
-                width: '150px',
-                data: 'salary',
-                render: function (data, type, full, meta) {
-                    return $.fn.dataTable.render.number(',', '.', 2, full['currency']).display( full['salary'] );
-                }
-            },{
-                targets: [6],
+                targets: [4],
                 searchable : false,
                 data: 'status',
                 width: '130px',
                 className : "text-center",
                 render: function(data, type, full, meta) {
-                    var reason = full['suspendReason'] ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
+                    var reason = full['suspendReason'] ? ' title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
 
                     if( full['suspended'] == 1 ) {
                         return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>Suspended</span>';
@@ -178,7 +157,7 @@
                     else {
                         if( full['endDate'] ) {
                             if( dateDiff( full['endDate'] ) <= 30 ) {
-                                reason = ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="Expire on ' + full['endDate'] + '"'
+                                reason = ' title="" data-placement="bottom" data-original-title="Expire on ' + full['endDate'] + '"'
                                 return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>Expired Soon</span>';
                             }
                         }
@@ -186,7 +165,7 @@
                     }
                 }
             },{
-                targets: [7],
+                targets: [5],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -196,63 +175,86 @@
                     var name   = full["name"];
                     var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
 
+                    return '<a data-id="' +  + full['userID'] + '" data-toggle="modal" data-target="#modalCalPayroll">Process</a>';
+
                     return '<div class="list-icons">' +
-                        '<div class="list-icons-item dropdown">' +
-                        '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
-                        '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
-                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
-                        '<i class="icon-user"></i> View Employee Info</a>' +
-                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
-                        '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
-                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '">' +
-                        '<i class="icon-mail5"></i> Message Employee</a>' +
-                        '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
-                        '<i class="icon-history"></i> View History Log</a>' +
-                        '<div class="divider"></div>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-user-block"></i> ' + statusText + '</a>' +
-                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
-                        '<i class="icon-exit3"></i> Employee Resigned</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
-
-                    /*return '<ul class="action icons-list">\n' +
-                        '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-                        '<i class="icon-menu9"></i>\n' +
-                        '</a>\n' +
-                        '<ul class="dropdown-menu dropdown-menu-right">\n' +
-                        '<li><a><i class="icon-user"></i> View Employee Info</a></li>\n' +
-
-                        '<li><a href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '"><i class="icon-pencil5"></i> Edit Employee Info</a></li>\n' +
-                        '<li><a data-href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '"><i class="icon-mail5"></i> Message Employee</a></li>\n' +
-                        '<li><a data-title="View ' + name + ' History Log" data-href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '" data-toggle="modal" data-target="#modalLoad"><i class="icon-history"></i> View History Log</a></li>\n' +
-                        '<li class="divider"></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')"><i class="icon-user-block"></i> ' + statusText + '</a></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')"><i class="icon-exit3"></i> Employee Resigned</a></li>\n' +
-                        '</ul>\n' +
-                        '</li>\n' +
-                        '</ul>'*/
+                                '<div class="list-icons-item dropdown">' +
+                                    '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
+                                        '<i class="icon-menu9"></i></a>' +
+                                    '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
+                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view\' + data + \'">' +
+                                            '<i class="icon-user"></i> Calculate Payroll</a>' +
+                                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
+                                            '<i class="icon-pencil5"></i> Unprocess Payroll</a>' +
+                                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '">' +
+                                            '<i class="icon-mail5"></i> Message Employee</a>' +
+                                        '<a class="dropdown-item" data-title="View ' + name + ' History Log" href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '">' +
+                                            '<i class="icon-history"></i> View History Log</a>' +
+                                        '<div class="divider"></div>' +
+                                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')">' +
+                                        '<i class="icon-user-block"></i> ' + statusText + '</a>' +
+                                        '<a class="dropdown-item" id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')">' +
+                                        '<i class="icon-exit3"></i> Employee Resigned</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
                 }
             }],
-            select: {
-                'style': 'multi'
-            },
             order: [],
-            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee',
-                lengthMenu: '<span>Show:</span> _MENU_',
+                searchPlaceholder: 'Search Employee, Designation or Contract Type',
+                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
             drawCallback: function () {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                Popups.init();
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+            }
+        });
+
+        $("#modalCalPayroll").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+
+            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                                              $invoker.attr("data-id") + "/" + $("#processDate").val( ), function() {
+                $(".itemType").select2( );
+
+                var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+                var icon = iconWrapper.find(".icon")
+
+                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
+                icon.parent().attr( "class", "addItem" );
+            });
+        });
+
+        // Array to track the ids of the details displayed rows
+        var detailRows = [];
+
+        $(document).on("click", ".addRow", function () {
+            var userID = $(this).attr("data-id");
+            var tr = $(this).closest('tr');
+            var row = dt.row( tr );
+            var idx = $.inArray( tr.attr('id'), detailRows );
+
+            if ( row.child.isShown() ) {
+                tr.removeClass( 'details' );
+                row.child.hide();
+
+                // Remove from the 'open' array
+                detailRows.splice( idx, 1 );
+            }
+            else {
+                tr.addClass( 'details' );
+                row.child( format( row.data() ) ).show();
+
+                // Add to the 'open' array
+                if ( idx === -1 ) {
+                    detailRows.push( tr.attr('id') );
+                }
             }
         });
 
@@ -280,14 +282,15 @@
         var table = $('.datatable').DataTable();
 
         $('.datatable tbody').on('mouseover', 'td', function() {
+            if( typeof table.cell(this).index() == "undefined" ) return;
             var colIdx = table.cell(this).index().column;
 
-            if (colIdx !== lastIdx) {
-                $(table.cells().nodes()).removeClass('active');
-                $(table.column(colIdx).nodes()).addClass('active');
+            if( colIdx !== lastIdx ) {
+                $(table.cells( ).nodes( )).removeClass('active');
+                $(table.column(colIdx).nodes( )).addClass('active');
             }
         }).on('mouseleave', function() {
-            $(table.cells().nodes()).removeClass("active");
+            $(table.cells( ).nodes( )).removeClass("active");
         });
 
         // Enable Select2 select for the length option
@@ -302,6 +305,127 @@
             var secondDate = new Date( date[0], (date[1]-1), date[2] );
             return Math.round( ( secondDate-firstDate ) / (1000*60*60*24 ) );
         }
+
+        $(".payroll-range").insertAfter(".dataTables_filter");
+        $(".officeFilter").insertAfter(".dataTables_filter");
+        $("#office").select2( );
+        $(".select").select2({minimumResultsForSearch: -1});
+
+        var itemAdded = 0;
+
+        $(document).on("click", ".addItem", function ( ) {
+            itemAdded = addItem( false );
+            return false;
+        });
+
+        $(document).on("click", ".removeItem", function ( ) {
+            var id = $(this).attr("href");
+            $("#childRowWrapper_" + id).addClass("childRow").html("").hide();
+
+            if( $("#childWrapper .childRow").length == 0 ) {
+                $("#children2").click( );
+                $.uniform.update( );
+            }
+            return false;
+        });
+
+        $(document).on("blur", ".amountInput", function(e) {
+            if( itemAdded ) {
+                var data = {
+                    bundle: {
+                        itemType: $("#itemType_" + itemAdded).val( ),
+                        amountInput: $(this).val( ),
+                        data: Aurora.WebService.serializePost("#processForm")
+                    },
+                    success: function( res ) {
+                        if( res ) {
+                            var obj = $.parseJSON( res );
+
+                            if( obj.bool === 0 ) {
+                                swal( "error", obj.errMsg );
+                                return;
+                            }
+                            else {
+                                if( obj.data.addItem && obj.data.addItem.length > 0 ) {
+                                    var deduction = false;
+
+                                    for( var i=0; i<obj.data.addItem.length; i++ ) {
+                                        if( obj.data.addItem[i]['deduction'] === 1 ) {
+                                            deduction = true;
+                                        }
+
+                                        var id = addItem( deduction );
+                                        itemAdded--;
+
+                                        $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
+                                        $("#amount_" + id).val( Aurora.String.formatMoney( obj.data.addItem[i]['amount'] + "" ) );
+                                        $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
+                                    }
+                                    if( deduction ) {
+                                        $(".deduction").remove( );
+                                        $(".deduction1").removeClass("deduction1").addClass("deduction");
+                                    }
+                                }
+                                $("#processSummary").html( obj.summary );
+                            }
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
+            }
+        });
+
+        $("#savePayroll").click(function () {
+            if( itemAdded ) {
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#processForm")
+                    },
+                    success: function( res ) {
+                        if( res ) {
+                            var obj = $.parseJSON( res );
+
+                            if( obj.bool === 0 ) {
+                                swal( "error", obj.errMsg );
+                                return;
+                            }
+                            else {
+                                //
+                            }
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/payroll/savePayroll/", data );
+            }
+        });
+
+        function addItem( deduction ) {
+            var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+            var icon = iconWrapper.find(".icon")
+
+            icon.removeClass("icon-plus-circle2").addClass("icon-minus-circle2");
+            icon.parent().attr( "class", "removeItem" );
+
+            var length = $(".itemRow").length;
+            var item = $("#itemTemplate").html( );
+            item = item.replace(/\{id\}/g, length );
+
+            if( deduction ) {
+                item = item.replace(/\{deduction\}/g, "deduction1" );
+            }
+            else {
+                item = item.replace(/\{deduction\}/g, "" );
+            }
+
+            $("#itemWrapper").append( item );
+
+            $("#itemRowWrapper_" + length).find(".select2").remove( );
+            $("#itemType_" + length).select2( );
+
+            var itemWrapper = $("#itemWrapper");
+            itemWrapper.animate({ scrollTop: itemWrapper.prop("scrollHeight") - itemWrapper.height() }, 300);
+            return length;
+        }
     });
 </script>
 <style>
@@ -311,51 +435,8 @@
     .payroll-employee .payroll-range input{font-size:17px;}
     .payroll-employee .payroll-range .input-group-text{font-size:16px;padding:5px 14px;}
     .payroll-employee .payroll-range .input-group-text i{margin-right:10px;}
-</style>
-    <div class="panel panel-flat">
-        <div class="panel panel-flat payroll-employee">
+    .payroll-range{float:right;width:355px;}
 
-                <form id="employeeForm" class="stepy" action="#">
-                    <fieldset>
-                        <legend class="text-semibold">Select Employee to Pay</legend>
-                        <div class="panel-heading">
-                            <div class="col-md-6">
-                                <h5 class="panel-title"></h5>
-                            </div>
-                            <div class="col-md-6 no-padding-right">
-                                <div class="input-group payroll-range">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i> Process Period</span>
-                                    </span>
-                                    <input type="text" class="form-control daterange" >
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <table class="table table-hover datatable employeeTable">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Employee ID</th>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Contract Type</th>
-                                <th>Salary</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                        </table>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend class="text-semibold">Select Pay Items</legend>
-
-
-
-
-<style>
     .employee-nav {
         display: -ms-flexbox;
         display: flex;
@@ -386,7 +467,6 @@
         padding: 9px 38px !important;
         position: relative;
         transition: all ease-in-out .15s;
-        font-size:16px;
     }
     .nav-link.active {
         font-weight:500;
@@ -431,60 +511,125 @@
         -ms-flex-pack: center!important;
         justify-content: center!important;
     }
+    .payItems .row {
+        border-bottom:1px solid #ccc;
+        padding-bottom:10px;
+        margin-bottom: 10px;
+    }
+    .payItems .row:first-child {
+        margin-top:20px;
+        padding-bottom:10px;
+    }
+    .font-weight-semibold {
+        font-weight:bold;
+    }
+    .payItems .text-height {
+        line-height:30px;
+    }
+    #processForm .row {
+        margin-top:12px;
+        margin-bottom: 0px;
+    }
+    #processForm .sm-addrm {
+        width:5%;
+    }
+    #processForm .modal-footer {
+        margin-top: 20px;
+    }
+    #itemWrapper .row:last-child {
+        border-bottom:none !important;
+    }
+    .prePopulateTxt {
+        position:absolute;
+        top:-118px;
+    }
+    .tipsIco{float: left;margin-right: 7px;color:orange}
+    .tipsTxt{float: left;width: 90%;}
+    .useTemplate{margin-left:23px;margin-top: 10px;}
 </style>
+<div id="modalCalPayroll" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title">Process Payroll</h6>
+            </div>
 
-                                <ul class="nav nav-tabs nav-tabs-highlight employee-nav justify-content-center">
-                                    <li class="nav-item"><a href="#monthly" class="nav-link active" data-toggle="tab">Monthly Payment / Deduction</a></li>
-                                    <li class="nav-item"><a href="#adhoc" class="nav-link" data-toggle="tab">Ad Hoc Payment / Deduction</a></li>
-                                    <li class="nav-item"><a href="#hourly" class="nav-link" data-toggle="tab">Hourly / Daily Attendance</a></li>
-                                </ul>
+            <div class="modal-body overflow-y-visible">
 
-                                <div class="tab-content">
-
-                                </div>
-
-
-
-
-
-                    </fieldset>
-
-                    <fieldset>
-                        <legend class="text-semibold">View Summary</legend>
-
-                        <div class="panel-body">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">Employee List<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-                                <div class="heading-elements">
-                                    <ul class="icons-list">
-                                        <li>
-                                            <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
-                                                <b><i class="icon-user-plus"></i></b> Add New Employee</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
-                                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
-                                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
-                                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </fieldset>
-                    <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
-                        <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
-                    </button>
-                </form>
-
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                    <button id="createTeam" type="submit" class="btn btn-primary">Save Payroll</button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+<form id="employeeForm" class="stepy" action="#">
+    <input type="hidden" id="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
+    <fieldset>
+        <legend class="text-semibold">Select Employee to Pay</legend>
+
+        <div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>
+
+        <div class="input-group payroll-range">
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="icon-calendar22"></i> &nbsp;&nbsp;Process Period
+                </span>
+            </span>
+            <input type="text" class="form-control daterange" >
+        </div>
+
+        <table class="table table-hover datatable employeeTable">
+            <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Contract Type</th>
+                <th>Employment Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+        </table>
+    </fieldset>
+
+    <fieldset>
+        <legend class="text-semibold">View Summary</legend>
+
+        <div class="panel-body">
+            <div class="panel-heading">
+                <h5 class="panel-title">Employee List<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li>
+                            <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
+                                <b><i class="icon-user-plus"></i></b> Add New Employee</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
+                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
+                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
+                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
+                                <li class="divider"></li>
+                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+    </fieldset>
+    <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
+        <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
+    </button>
+</form>

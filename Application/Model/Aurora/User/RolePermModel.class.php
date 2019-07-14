@@ -1,8 +1,5 @@
 <?php
 namespace Aurora\User;
-use \Library\Validator\Validator;
-use \Library\Validator\ValidatorModule\IsEmpty;
-use \Library\Exception\ValidatorException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -62,75 +59,62 @@ class RolePermModel extends \Model {
 
 
     /**
+     * Get File Information
+     * @return mixed
+     */
+    public function getResults( $post ) {
+        $this->RolePerm->setLimit( $post['start'], $post['length'] );
+
+        $order = 'r.title';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        if( isset( $post['order'][0]['column'] ) ) {
+            switch( $post['order'][0]['column'] ) {
+                case 1:
+                    $order = 'r.title';
+                    break;
+            }
+        }
+        $results = $this->RolePerm->getResults( $post['search']['value'], $order . $dir );
+
+        $total = $results['recordsTotal'];
+        unset( $results['recordsTotal'] );
+
+        return array( 'draw' => (int)$post['draw'],
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
+    }
+
+
+    /**
     * Save Role Permissions
     * @return void
     */
     public function savePerms( $data ) {
-        if( $data['roleID'] > 1 ) {
-            if( isset( $data['perms'] ) && is_array( $data['perms'] ) &&
-                isset( $data['roleID'] ) && $data['roleID'] > 1 ) {
+        $RoleModel = new RoleModel( );
 
-                $RoleModel = new RoleModel( );
+        if( isset( $data['roleID'] ) && $RoleModel->isFound( $data['roleID'] ) ) {
+            if( isset( $data['perms'] ) && is_array( $data['perms'] ) ) {
+                $validpID  = array( );
 
                 foreach( $data['perms'] as $permID ) {
-                    if( $RoleModel->isFound( $data['roleID'] ) && !$this->isFound( $data['roleID'], $permID ) ) {
+                    if( !$this->isFound( $data['roleID'], $permID ) ) {
                         $permSet = array( );
                         $permSet['roleID'] = (int)$data['roleID'];
                         $permSet['permID'] = (int)$permID;
                         $this->RolePerm->insert( 'role_perm', $permSet );
                     }
+                    array_push( $validpID, $permID );
                 }
-                $this->RolePerm->delete( 'role_perm', 'WHERE roleID = "' . (int)$data['roleID'] . '" AND 
-                                    permID NOT IN(' . addslashes( implode( ',', $data['department'] ) ) . ')' );
+                $permIDs = implode( ',', $validpID );
+                $this->RolePerm->delete('role_perm','WHERE roleID = "' . (int)$data['roleID'] . '" AND 
+                                                           permID NOT IN(' . addslashes( $permIDs ) . ')' );
+            }
+            else {
+                $this->RolePerm->delete('role_perm','WHERE roleID = "' . (int)$data['roleID'] . '"' );
             }
         }
-    }
-
-
-    /**
-    * Set Role Info
-    * @return bool
-    */
-    public function setInfo( $info ) {
-        $Validator = new Validator( );
-        $this->info['roleID']   = (int)$info['roleID'];
-        $this->info['title']    = Validator::htmlTrim( $info['title'] );
-        $this->info['descript'] = Validator::htmlTrim( $info['descript'] );
-        $Validator->addModule( 'title', new IsEmpty( $this->info['title'] ) );
-
-        try {
-            $Validator->validate( );
-        }
-        catch( ValidatorException $e ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_ROLE_TITLE_EMPTY') );
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-    * Save Role Permissions
-    * @return void
-    */
-    public function saveInfo( ) {
-        if( $this->info['roleID'] == 0 ) {
-            unset( $this->info['roleID'] );
-            $this->info['created'] = date( 'Y-m-d H:i:s' );
-            $this->info['roleID'] = $this->Role->insert( 'role', $this->info );
-        }
-        else {
-            $this->Role->update( 'role', $this->info, 'WHERE roleID="' . (int)$this->info['roleID'] . '"' );
-        }
-    }
-
-
-    /**
-    * Delete Role
-    * @return void
-    */
-    public function delete( $roleID ) {
-        return $this->Role->delete( 'role', 'WHERE roleID="' . (int)$roleID . '"' );
     }
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
 namespace Aurora;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -9,7 +10,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LoginView extends AuroraView {
+class LoginView extends AdminView {
 
 
     // Properties
@@ -39,11 +40,11 @@ class LoginView extends AuroraView {
     
     /**
     * Render Login Page
-    * @return str
+    * @return string
     */
     public function renderLogin( ) {
         $websiteName = $this->HKEY_LOCAL['websiteName'];
-        $title = $this->L10n->strReplace( 'WEBSITE_NAME', $websiteName, 'LANG_LOGIN_TITLE');
+        $title = $this->L10n->strReplace( 'WEBSITE_NAME', $websiteName, 'LANG_LOGIN_TITLE' );
 
         $this->setTitle( $title );
         $vars = array_merge( $this->L10n->getContents( ) );
@@ -54,10 +55,9 @@ class LoginView extends AuroraView {
 
     /**
      * Render header
-     * @return str
+     * @return string
      */
     public function renderNavBar( ) {
-
         return $this->render( 'aurora/login/navBar.tpl', array( ) );
     }
 

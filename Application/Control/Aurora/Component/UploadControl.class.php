@@ -26,7 +26,7 @@ class UploadControl {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function view( $args ) {
         $UploadModel = new UploadModel( );

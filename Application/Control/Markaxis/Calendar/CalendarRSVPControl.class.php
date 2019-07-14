@@ -27,7 +27,7 @@ class CalendarRSVPControl {
 
     /**
     * Get Notification
-    * @return str
+    * @return string
     */
     public function getNotification( $info ) {
         $CalendarRSVPModel = CalendarRSVPModel::getInstance( );

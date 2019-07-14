@@ -30,8 +30,17 @@ class DepartmentModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $id ) {
-        return $this->Department->isFound( $id );
+    public function isFoundByID( $dID ) {
+        return $this->Department->isFound( $dID );
+    }
+
+
+    /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getByID( $dID ) {
+        return $this->Department->getByID( $dID );
     }
 
 

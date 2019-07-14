@@ -25,7 +25,7 @@ class RoleSelectListView extends SelectListView {
 
     /**
     * Return Role List
-    * @return str
+    * @return string
     */
     public function getList( $roleList='', $withAdmin=false, $withHeader=false, $id='roles' ) {
         $Role = new Role( );

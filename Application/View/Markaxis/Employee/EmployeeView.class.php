@@ -1,13 +1,12 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\AuroraView, \Aurora\Component\DesignationModel, \Aurora\Form\SelectGroupListView;
+use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel, \Aurora\Form\SelectGroupListView;
 use \Aurora\Form\DayIntListView, \Aurora\Form\SelectListView;
 use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\SalaryTypeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel;
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
 use \Aurora\Component\DepartmentModel as A_DepartmentModel;
-use \Markaxis\Employee\DepartmentModel as M_DepartmentModel;
-use \Library\Runtime\Registry;
+use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -16,7 +15,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class EmployeeView extends AuroraView {
+class EmployeeView {
 
 
     // Properties
@@ -33,48 +32,93 @@ class EmployeeView extends AuroraView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
-
-        $this->Registry = Registry::getInstance();
+        $this->View = AdminView::getInstance( );
+        $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/EmployeeRes');
 
-        $this->EmployeeModel = EmployeeModel::getInstance( );
+        // Get new instance!
+        $this->EmployeeModel = new EmployeeModel( );
 
-        $this->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
-                                  'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
+                                        'plugins/scrollto' => 'jquery.scrollTo.min.js',
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function renderSettings( $data ) {
+        if( isset( $data['tab'] ) && isset( $data['form'] ) ) {
+            $this->View->setBreadcrumbs( array( 'link' => '',
+                                                'icon' => 'icon-cog3',
+                                                'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
+
+            $vars = array( 'TPL_TAB' => $data['tab'], 'TPL_FORM' => $data['form'] );
+            $this->View->printAll( $this->View->render( 'markaxis/employee/settings.tpl', $vars ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function renderList( ) {
-        $this->setBreadcrumbs( array( 'link' => 'admin/employee/list',
-                                      'icon' => 'icon-users4',
-                                      'text' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') ) );
+        $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/list',
+                                            'icon' => 'icon-users4',
+                                            'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') ) );
+        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
-        return $this->render( 'markaxis/employee/list.tpl', $vars );
+        $vars['dynamic']['addEmployeeBtn'][] = false;
+        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
+        if( $Authorization->hasPermission( 'Markaxis', 'add_modify_employee' ) ) {
+            $vars['dynamic']['addEmployeeBtn'][] = true;
+        }
+
+        $this->View->printAll( $this->View->render( 'markaxis/employee/list.tpl', $vars ) );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
+     */
+    public function renderCountList( $list ) {
+        if( is_array( $list ) ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $list as $key => $value ) {
+                $vars['dynamic']['list'][] = array( 'TPLVAR_IMAGE' => $value['image'],
+                                                    'TPLVAR_FNAME' => $value['fname'],
+                                                    'TPLVAR_LNAME' => $value['lname'],
+                                                    'TPLVAR_EMAIL' => $value['email1'],
+                                                    'TPLVAR_IDNUMBER' => $value['idnumber'],
+                                                    'TPLVAR_DEPARTMENT' => $value['department'],
+                                                    'TPLVAR_DESIGNATION' => $value['designation'] );
+            }
+            return $this->View->render( 'markaxis/employee/countList.tpl', $vars );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function renderView( ) {
-        $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_STAFF_DIRECTORY') );
+        $vars = array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') );
 
-        return $this->render( 'markaxis/employee/view.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/view.tpl', $vars );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderAdd( ) {
         $this->info = $this->EmployeeModel->getInfo( );
@@ -84,7 +128,7 @@ class EmployeeView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderEdit( $userID ) {
         if( $this->info = $this->EmployeeModel->getFieldByUserID( $userID, '*' ) ) {
@@ -95,7 +139,7 @@ class EmployeeView extends AuroraView {
 
     /**
      * Render main navigation
-     * @return str
+     * @return string
      */
     public function renderForm( ) {
         $DayIntListView = new DayIntListView( );
@@ -105,88 +149,88 @@ class EmployeeView extends AuroraView {
         $endDay = $endMonth = $endYear = $passExpiryDay = $passExpiryMonth = $passExpiryYear = '';
 
         if( $this->info['confirmDate'] ) {
-            $confirmDate = explode( '-', $this->info['confirmDate'] );
+            $confirmDate = explode('-', $this->info['confirmDate'] );
             $confirmDay   = $confirmDate[2];
             $confirmMonth = $confirmDate[1];
             $confirmYear  = $confirmDate[0];
         }
-
         if( $this->info['startDate'] ) {
-            $startDate = explode( '-', $this->info['startDate'] );
+            $startDate = explode('-', $this->info['startDate'] );
             $startDay   = $startDate[2];
             $startMonth = $startDate[1];
             $startYear  = $startDate[0];
         }
-
         if( $this->info['endDate'] ) {
-            $endDate = explode( '-', $this->info['endDate'] );
+            $endDate = explode('-', $this->info['endDate'] );
             $endDay   = $endDate[2];
             $endMonth = $endDate[1];
             $endYear  = $endDate[0];
         }
-
         if( $this->info['passExpiryDate'] ) {
-            $passExpiry = explode( '-', $this->info['passExpiryDate'] );
+            $passExpiry = explode('-', $this->info['passExpiryDate'] );
             $passExpiryDay = $passExpiry[2];
             $passExpiryMonth = $passExpiry[1];
             $passExpiryYear  = $passExpiry[0];
         }
-
         $DesignationModel = DesignationModel::getInstance( );
-
         $SelectGroupListView = new SelectGroupListView( );
-        $pID = isset( $this->info['pID'] ) ? $this->info['pID'] : '';
-        $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $pID, 'Select Designation' );
+        $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
+        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getList( ), $designationID,'Select Designation' );
 
-        $confirmDayList   = $DayIntListView->getList( 'confirmDay', $confirmDay, 'Day' );
-        $confirmMonthList = $SelectListView->build( 'confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );
+        $confirmDayList = $DayIntListView->getList('confirmDay', $confirmDay,'Day' );
+        $confirmMonthList = $SelectListView->build('confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );
 
-        $startDayList   = $DayIntListView->getList( 'startDay', $startDay, 'Day' );
-        $startMonthList = $SelectListView->build( 'startMonth', MonthHelper::getL10nList( ), $startMonth, 'Month' );
+        $startDayList = $DayIntListView->getList('startDay', $startDay,'Day' );
+        $startMonthList = $SelectListView->build('startMonth', MonthHelper::getL10nList( ), $startMonth, 'Month' );
 
-        $endDayList   = $DayIntListView->getList( 'endDay', $endDay, 'Day' );
-        $endMonthList = $SelectListView->build( 'endMonth', MonthHelper::getL10nList( ), $endMonth, 'Month' );
+        $endDayList = $DayIntListView->getList('endDay', $endDay,'Day' );
+        $endMonthList = $SelectListView->build('endMonth', MonthHelper::getL10nList( ), $endMonth, 'Month' );
 
-        $passExpiryDayList   = $DayIntListView->getList( 'passExpiryDay', $passExpiryDay, 'Day' );
-        $passExpiryMonthList = $SelectListView->build( 'passExpiryMonth', MonthHelper::getL10nList( ), $passExpiryMonth, 'Month' );
-
-        $currencyList = $SelectListView->build( 'currency', CurrencyHelper::getL10nList( ), $this->info['currency'], 'Currency' );
+        $passExpiryDayList = $DayIntListView->getList('passExpiryDay', $passExpiryDay, 'Day' );
+        $passExpiryMonthList = $SelectListView->build('passExpiryMonth', MonthHelper::getL10nList( ), $passExpiryMonth,'Month' );
+        $currencyList = $SelectListView->build('currency', CurrencyHelper::getL10nList( ), $this->info['currency'],'Currency' );
 
         $SalaryTypeModel = SalaryTypeModel::getInstance( );
-        $stID = isset( $this->info['stID'] ) ? $this->info['stID'] : '';
+        $salaryTypeID = isset( $this->info['salaryTypeID'] ) ? $this->info['salaryTypeID'] : '';
         $SelectListView->setClass( 'salaryTypeList' );
-        $salaryTypeList = $SelectListView->build( 'salaryType',  $SalaryTypeModel->getList( ), $stID, 'Salary Rate Type' );
+        $salaryTypeList = $SelectListView->build('salaryType',  $SalaryTypeModel->getList( ), $salaryTypeID,'Salary Type' );
 
         $OfficeModel = OfficeModel::getInstance( );
-        $oID = isset( $this->info['oID'] ) ? $this->info['oID'] : '';
-        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $oID, 'Select Office (Location)' );
+
+        if( isset( $this->info['officeID'] ) ) {
+            $officeID = $this->info['officeID'];
+            $officeInfo = $OfficeModel->getByoID( $officeID );
+        }
+        else {
+            $officeID = '';
+            $officeInfo = $OfficeModel->getMainOffice( );
+        }
+        $officeList = $SelectListView->build('office', $OfficeModel->getList( ), $officeID,'Select Office / Location' );
 
         $ContractModel = ContractModel::getInstance( );
-        $cID = isset( $this->info['cID'] ) ? $this->info['cID'] : '';
-        $contractList = $SelectListView->build( 'contractType',  $ContractModel->getList( ), $cID, 'Select Contract Type' );
+        $contractID = isset( $this->info['contractID'] ) ? $this->info['contractID'] : '';
+        $contractList = $SelectListView->build('contractType', $ContractModel->getList( ), $contractID,'Select Contract Type' );
 
         $PassTypeModel = PassTypeModel::getInstance( );
-        $ptID = isset( $this->info['ptID'] ) ? $this->info['ptID'] : '';
-        $passTypeList = $SelectGroupListView->build( 'passType',  $PassTypeModel->getList( ), $ptID, 'Select Pass Type' );
+        $passTypeID = isset( $this->info['passTypeID'] ) ? $this->info['passTypeID'] : '';
+        $passTypeList = $SelectGroupListView->build('passType', $PassTypeModel->getList( ), $passTypeID,'Select Pass Type' );
+
+        // === MULTI LIST LEVEL BELOW ===
+        $SelectListView->isMultiple(true );
+        $SelectListView->includeBlank(false);
 
         $UserRoleModel = UserRoleModel::getInstance( );
         $RoleModel = RoleModel::getInstance( );
-        $SelectListView->isMultiple( true );
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
-        $roleList = $SelectListView->build( 'role',  $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
+        $roleList = $SelectListView->build('role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
 
-        $SupervisorModel = SupervisorModel::getInstance( );
-        $supervisors = $this->info['userID'] ? $SupervisorModel->getNameByUserID( $this->info['userID'] ) : '';
+        $A_DepartmentModel = A_DepartmentModel::getInstance( );
+        $DepartmentModel = DepartmentModel::getInstance( );
 
-        $ComponentDepartmentModel = A_DepartmentModel::getInstance( );
-
-        $DepartmentModel = M_DepartmentModel::getInstance( );
-
-        $departmentList = $SelectListView->build( 'department',  $ComponentDepartmentModel->getList( ),
-                                                    $DepartmentModel->getByUserID( $this->info['userID'] ), 'Select Department' );
-
-        $CompetencyModel = CompetencyModel::getInstance( );
-        $competencyList = $CompetencyModel->getByUserID( $this->info['userID'] );
+        $SelectListView->setClass( '' );
+        $departments = isset( $this->info['userID'] ) ? $DepartmentModel->getListByUserID( $this->info['userID'] ) : '';
+        $departments = isset( $departments['dID'] ) ? explode(',', $departments['dID'] ) : '';
+        $departmentList = $SelectListView->build( 'department',  $A_DepartmentModel->getList( ), $departments,'Select Department(s)' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],
@@ -194,10 +238,10 @@ class EmployeeView extends AuroraView {
                        'TPLVAR_START_YEAR' => $startYear,
                        'TPLVAR_END_YEAR' => $endYear,
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
-                       'TPLVAR_SALARY' => $this->info['salary'],
+                       'TPLVAR_SALARY' => $officeInfo['currencyCode'] .
+                                          $officeInfo['currencySymbol'] .
+                                          number_format( $this->info['salary'],2 ),
                        'TPLVAR_PASS_NUMBER' => $this->info['passNumber'],
-                       'TPLVAR_SUPERVISORS' => isset( $supervisors['name'] ) ? $supervisors['name'] : '',
-                       'TPLVAR_COMPETENCY' => $competencyList['competency'],
                        'TPL_OFFICE_LIST' => $officeList,
                        'TPL_DEPARTMENT_LIST' => $departmentList,
                        'TPL_DESIGNATION_LIST' => $designationList,
@@ -215,17 +259,80 @@ class EmployeeView extends AuroraView {
                        'TPL_PASS_EXPIRY_MONTH_LIST' => $passExpiryMonthList,
                        'TPL_PASS_EXPIRY_DAY_LIST' => $passExpiryDayList ) );
 
-        return $this->render( 'markaxis/employee/employeeForm.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/employeeForm.tpl', $vars );
     }
 
 
     /**
      * Render main navigation
-     * @return str
+     * @return mixed
+     */
+    public function renderProcessForm( $empInfo ) {
+        if( $empInfo ) {
+            $titleValue = $empInfo['name'];
+
+            if( $empInfo['birthday'] ) {
+                $titleValue .= ' (' . Date::getAge( $empInfo['birthday'] ) . ')';
+            }
+            $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_TITLE_KEY' => $this->L10n->getContents('LANG_EMPLOYEE'),
+                       'TPLVAR_TITLE_VALUE' => $titleValue ) );
+
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_DESIGNATION'),
+                                                'TPLVAR_VALUE' => $empInfo['designation'] );
+
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_CONTRACT_TYPE'),
+                                                'TPLVAR_VALUE' => $empInfo['contractType'] );
+
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_WORK_PASS'),
+                                                'TPLVAR_VALUE' => $empInfo['passType'] ? $empInfo['passType'] : $empInfo['nationality'] );
+
+            $col_1 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
+
+            $vars = array_merge( $this->L10n->getContents( ),
+                    array( 'TPLVAR_TITLE_KEY' => $this->L10n->getContents('LANG_EMPLOYEE_ID'),
+                           'TPLVAR_TITLE_VALUE' => $empInfo['idnumber'] ) );
+            $duration = '';
+            if( $empInfo['startDate'] ) {
+                $duration = ' (';
+                $dateDiff = \DateTime::createFromFormat('jS M Y',
+                            $empInfo['startDate'] )->diff( new \DateTime('now') );
+
+                if( $dateDiff->y ) {
+                    $duration .= $dateDiff->y . $this->L10n->getContents('LANG_DIFF_YEAR') . ' ';
+                }
+                if( $dateDiff->m ) {
+                    $duration .= $dateDiff->m . $this->L10n->getContents('LANG_DIFF_MONTH') . ' ';
+                }
+                if( $dateDiff->d ) {
+                    $duration .= $dateDiff->d . $this->L10n->getContents('LANG_DIFF_DAY');
+                }
+                $duration .= ')';
+            }
+
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_START_DATE'),
+                                                'TPLVAR_VALUE' => $empInfo['startDate'] ? $empInfo['startDate'] . $duration : '--' );
+
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_END_DATE'),
+                                                'TPLVAR_VALUE' => $empInfo['endDate'] ? $empInfo['endDate'] : '--' );
+
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_CONFIRM_DATE'),
+                                                'TPLVAR_VALUE' => $empInfo['confirmDate'] ? $empInfo['confirmDate'] : '--' );
+
+            $col_2 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
+
+            return array( 'col_1' => $col_1, 'col_2' => $col_2 );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
      */
     public function renderLog( $userID ) {
         $vars = array( 'TPLVAR_USERID' => $userID );
-        return $this->render( 'markaxis/employee/log.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/log.tpl', $vars );
     }
 }
 ?>

@@ -1,0 +1,36 @@
+@font-face {
+    font-family:"HelveticaforAurora";
+    src: url("HelveticaforAurora-Light.ttf") format('truetype'),
+         url("HelveticaforAurora-Light.woff") format('woff'),
+         url("HelveticaforAurora-Light.svg") format('svg');
+}
+@font-face {
+    font-family:"HelveticaforAurora-Bold";
+    src: url("HelveticaforAurora-Bold.ttf") format('truetype'),
+    url("HelveticaforAurora-Bold.woff") format('woff'),
+    url("HelveticaforAurora-Bold.svg") format('svg');
+}
+@font-face {
+    font-family:"HelveticaNeueLT Std Lt";
+    src: url("HelveticaNeue-Light.ttf") format('truetype'),
+    url("HelveticaNeue-Light.woff") format('woff'),
+    url("HelveticaNeue-Light.svg") format('svg');
+}
+@font-face {
+    font-family:"HelveticaNeue LT 65 Medium";
+    src: url("HelveticaNeue-Medium.ttf") format('truetype'),
+    url("HelveticaNeue-Medium.woff") format('woff'),
+    url("HelveticaNeue-Medium.svg") format('svg');
+}
+@font-face {
+    font-family:"HelveticaNeueLT Std";
+    src: url("HelveticaNeue-Regular.ttf") format('truetype'),
+    url("HelveticaNeue-Regular.woff") format('woff'),
+    url("HelveticaNeue-Regular.svg") format('svg');
+}
+@font-face {
+    font-family:"HelveticaNeueLT Std Thin";
+    src: url("HelveticaNeue-Thin.ttf") format('truetype'),
+    url("HelveticaNeue-Thin.woff") format('woff'),
+    url("HelveticaNeue-Thin.svg") format('svg');
+}

@@ -1,4 +1,4 @@
-<tr>
+<tr class="permRow-<?TPLVAR_PARENT_ID?> hide">
     <td><?TPLVAR_PERM_TITLE?></td>
     <td><?TPLVAR_PERM_DESCRIPT?></td>
     <td class="text-center">

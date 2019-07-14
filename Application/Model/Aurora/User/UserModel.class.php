@@ -1,9 +1,9 @@
 <?php
 namespace Aurora\User;
-use \Library\Helper\Aurora\NationalityHelper, \Library\Helper\Aurora\MaritalHelper;
+use \Library\Helper\Aurora\MaritalHelper;
 use \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
-use \Aurora\Component\AuditLogModel;
+use \Aurora\Component\AuditLogModel, \Aurora\Component\NationalityModel;
 use \Library\Util\Date;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
@@ -32,10 +32,10 @@ class UserModel extends \Model {
 
         $this->info['fname'] = $this->info['lname'] = $this->info['email1'] =
         $this->info['email2'] = $this->info['gender'] = $this->info['birthday'] =
-        $this->info['country'] = $this->info['address1'] = $this->info['address2'] =
+        $this->info['countryID'] = $this->info['address1'] = $this->info['address2'] =
         $this->info['postal'] = $this->info['city'] = $this->info['state'] =
         $this->info['phone'] = $this->info['mobile'] = $this->info['nric'] =
-        $this->info['marital'] = $this->info['nationality'] = $this->info['username'] =
+        $this->info['marital'] = $this->info['nationalityID'] = $this->info['username'] =
         $this->info['image'] = '';
 
         $this->info['userID'] = $this->info['suspended'] = $this->info['deleted'] =
@@ -112,6 +112,15 @@ class UserModel extends \Model {
 
 
     /**
+     * Search name
+     * @return mixed
+     */
+    public function getListValidCount( $userIDs ) {
+        return $this->User->getListValidCount( $userIDs );
+    }
+
+
+    /**
     * Set User Property Info
     * @return bool
     */
@@ -171,10 +180,6 @@ class UserModel extends \Model {
             $this->info['gender'] = '';
         }
 
-        if( in_array( $data['nationality'], NationalityHelper::getL10nList( ) ) ) {
-            $this->info['nationality'] = $data['nationality'];
-        }
-
         if( isset( $data['religion'] ) ) {
             $ReligionModel = ReligionModel::getInstance( );
             if( $ReligionModel->isFound( $data['religion'] ) ) {
@@ -209,7 +214,12 @@ class UserModel extends \Model {
 
         $CountryModel = CountryModel::getInstance( );
         if( $CountryModel->isFound( $data['country'] ) ) {
-            $this->info['country'] = (int)$data['country'];
+            $this->info['countryID'] = (int)$data['country'];
+        }
+
+        $NationalityModel = NationalityModel::getInstance( );
+        if( $NationalityModel->isFound( $data['nationality'] ) ) {
+            $this->info['nationalityID'] = (int)$data['nationality'];
         }
 
         $StateModel = StateModel::getInstance( );
@@ -221,7 +231,6 @@ class UserModel extends \Model {
         if( $CityModel->isFound( $data['city'] ) ) {
             $this->info['city'] = (int)$data['city'];
         }
-
         return true;
     }
 
@@ -231,10 +240,8 @@ class UserModel extends \Model {
     * @return int
     */
     public function save( ) {
-        $userID = $this->info['userID'];
-        unset( $this->info['userID'] );
-
-        if( $userID == 0 ) {
+        if( !$this->info['userID'] ) {
+            unset( $this->info['userID'] );
             $this->info['created'] = date( 'Y-m-d H:i:s' );
             $this->info['userID'] = $this->User->insert( 'user', $this->info );
 
@@ -243,8 +250,7 @@ class UserModel extends \Model {
         }
         else {
             $this->info['lastUpdate'] = date( 'Y-m-d H:i:s' );
-            $this->User->update( 'user', $this->info, 'WHERE userID="' . (int)$userID . '"' );
-            $this->info['userID'] = $userID;
+            $this->User->update( 'user', $this->info, 'WHERE userID = "' . (int)$this->info['userID'] . '"' );
 
             $this->info['updateCurrent'] = false;
             $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
@@ -263,7 +269,9 @@ class UserModel extends \Model {
     * @return int
     */
     public function delete( $userID ) {
-        return $this->User->delete( 'user', 'WHERE userID="' . (int)$userID . '"' );
+        $info = array( );
+        $info['deleted'] = 1;
+        $this->User->update( 'user', $info, 'WHERE userID = "' . (int)$userID . '"' );
     }
 
 
