@@ -234,6 +234,11 @@ class ItemModel extends \Model {
             return false;
         }
 
+        $this->info['ordinary'] = 0;
+        $this->info['deduction'] = 0;
+        $this->info['deductionAW'] = 0;
+        $this->info['additional'] = 0;
+
         if( $data['payItemType'] == 'ordinary' ) {
             $this->info['ordinary'] = 1;
         }
@@ -245,12 +250,6 @@ class ItemModel extends \Model {
         }
         else if( $data['payItemType'] == 'additional' ) {
             $this->info['additional'] = 1;
-        }
-        else if( $data['payItemType'] == 'none' ) {
-            $this->info['ordinary'] = 0;
-            $this->info['deduction'] = 0;
-            $this->info['deductionAW'] = 0;
-            $this->info['additional'] = 0;
         }
         return true;
     }
