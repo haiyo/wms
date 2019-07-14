@@ -23,18 +23,5 @@ class ItemTaxControl {
     function __construct( ) {
         $this->ItemTaxModel = ItemTaxModel::getInstance( );
     }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function savePayItem( ) {
-        $this->ItemTaxModel->save( Control::getPostData( ) );
-
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
-    }
 }
 ?>

@@ -129,6 +129,9 @@
     <task type="payroll/getItemResults">
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
     </task>
+    <task type="payroll/deletePayItem">
+        <observer controller="Markaxis/Payroll/ItemControl"></observer>
+    </task>
     <task type="payroll/getCalResults">
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
     </task>

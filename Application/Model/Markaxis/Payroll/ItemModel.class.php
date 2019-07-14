@@ -117,7 +117,7 @@ class ItemModel extends \Model {
      * Get Table Results
      * @return mixed
      */
-    public function getItemResults( $data ) {
+    public function getResults( $data ) {
         $this->Item->setLimit( $data['start'], $data['length'] );
 
         $order = 'pi.title';
@@ -142,7 +142,7 @@ class ItemModel extends \Model {
                     break;
             }
         }
-        $results = $this->Item->getItemResults( $data['search']['value'], $order . $dir );
+        $results = $this->Item->getResults( $data['search']['value'], $order . $dir );
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 

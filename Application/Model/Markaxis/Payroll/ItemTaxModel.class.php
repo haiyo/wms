@@ -55,20 +55,6 @@ class ItemTaxModel extends \Model {
 
 
     /**
-     * Get File Information
-     * @return mixed
-     */
-    public function getItemResults( $list ) {
-        if( isset( $list['data'] ) ) {
-            foreach( $list['data'] as $key => $value ) {
-                $list['data'][$key]['taxGroups'] = $this->ItemTax->getBypiID( $value['piID'] );
-            }
-        }
-        return $list;
-    }
-
-
-    /**
      * Return a list of all users
      * @return mixed
      */
