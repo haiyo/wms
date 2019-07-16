@@ -110,7 +110,7 @@ class PayrollControl {
      */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        var_dump($data);
+        $this->PayrollModel->save( $data );
         exit;
     }
 

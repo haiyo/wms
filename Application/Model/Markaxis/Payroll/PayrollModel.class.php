@@ -121,5 +121,24 @@ class PayrollModel extends \Model {
         $this->errMsg = $this->L10n->getContents( 'LANG_VERIFICATION_FAILED' );
         return false;
     }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function save( $data ) {
+        var_dump($data['items']); exit;
+        if( isset( $data['items'] ) && sizeof( $data['items'] ) ) {
+            foreach( $data['items'] as $item ) {
+                $info = array( );
+                $info['userID'] = $data['empInfo']['userID'];
+                $info['piID'] = $item['piID'];
+                $info['amount'] = $item['amount'];
+                $info['remark'] = $item['remark'];
+                $this->Payroll->insert( 'payroll_user_item', $info );
+            }
+        }
+    }
 }
 ?>
