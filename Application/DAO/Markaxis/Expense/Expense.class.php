@@ -19,7 +19,8 @@ class Expense extends \DAO {
      * @return int
      */
     public function isFound( $eiID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(prID) FROM expense_item WHERE eiID = "' . (int)$eiID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(eiID) FROM expense_item 
+                                   WHERE eiID = "' . (int)$eiID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );

@@ -128,7 +128,6 @@ class PayrollModel extends \Model {
      * @return int
      */
     public function save( $data ) {
-        var_dump($data['items']); exit;
         if( isset( $data['items'] ) && sizeof( $data['items'] ) ) {
             foreach( $data['items'] as $item ) {
                 $info = array( );
