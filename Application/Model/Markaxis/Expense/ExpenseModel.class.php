@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Expense;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,6 +27,15 @@ class ExpenseModel extends \Model {
         $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->Expense = new Expense( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $eiID ) {
+        return $this->Expense->isFound( $eiID );
     }
 
 
@@ -67,6 +77,66 @@ class ExpenseModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function reprocessPayroll( $data, $post ) {
+        if( isset( $post['data'] ) ) {
+            $preg = '/^itemType_(\d)+/';
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return $match;
+                } else {
+                    return false;
+                }
+            };
+            $criteria = array_filter( $post['data'], $callback,ARRAY_FILTER_USE_KEY );
+            $post['postItems'] = array( );
+
+            foreach( $criteria as $key => $item ) {
+                preg_match( $preg, $key, $match );
+
+                if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'e-' ) ) {
+                    $id   = $match[1];
+                    $eiID = str_replace('e-', '', $item );
+
+                    if( $this->isFound( $eiID ) && isset( $post['data']['amount_' . $id] ) ) {
+                        $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
+                        $amount = (int)str_replace(',', '', $amount );
+                        $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
+
+                        if( $amount > 0 ) {
+                            $post['postItems'][] = array( 'eiID' => $eiID, 'amount' => $amount, 'remark' => $remark );
+                        }
+                    }
+                }
+            }
+            return $post;
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        $post = $this->reprocessPayroll( $data, $post );
+
+        if( sizeof( $post['postItems'] ) ) {
+            foreach( $post['postItems'] as $item ) {
+                $info = array( );
+                $info['userID'] = $data['empInfo']['userID'];
+                $info['eiID'] = $item['eiID'];
+                $info['amount'] = $item['amount'];
+                $info['remark'] = $item['remark'];
+                $this->Expense->insert( 'payroll_user_expense', $info );
+            }
+        }
     }
 }
 ?>
