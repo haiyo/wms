@@ -38,7 +38,7 @@ class DesignationListView extends SelectGroupListView {
         for( $i=0; $i<$size; $i++ ) {
             if( isset( $arrayList[$i]['parent'] ) && $arrayList[$i]['parent'] == 0 ) {
                 if( $isParsed ) {
-                    $list .= $this->render( 'aurora/form/optGroupList.tpl', $vars );
+                    $list .= $this->View->render( 'aurora/form/optGroupList.tpl', $vars );
                     $vars = array( );
                 }
 
@@ -59,7 +59,7 @@ class DesignationListView extends SelectGroupListView {
                 $isParsed = true;
 
                 if( $i == ($size-1) ) {
-                    $list .= $this->render( 'aurora/form/optGroupList.tpl', $vars );
+                    $list .= $this->View->render( 'aurora/form/optGroupList.tpl', $vars );
                 }
             }
         }
@@ -82,7 +82,7 @@ class DesignationListView extends SelectGroupListView {
         }
 
         $vars['TPL_GROUP_LIST'] = $list;
-        return $this->render( 'aurora/form/groupList.tpl', $vars );
+        return $this->View->render( 'aurora/form/groupList.tpl', $vars );
     }
 }
 ?>
