@@ -34,22 +34,42 @@ class DayHelper implements IListHelper {
 
 
     /**
-    * Return List with Translation
-    * @static
-    * @return mixed
-    */
+     * Return List with Translation
+     * @static
+     * @return mixed
+     */
     public static function getL10nList( ) {
         $Registry = Registry::getInstance( );
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
         $L10n = $i18n->loadLanguage('Aurora/Helper/CalendarRes');
 
         return array( 'sun' => $L10n->getContents('LANG_SUNDAY'),
-                      'mon' => $L10n->getContents('LANG_MONDAY'),
-                      'tue' => $L10n->getContents('LANG_TUESDAY'),
-                      'wed' => $L10n->getContents('LANG_WEDNESDAY'),
-                      'thu' => $L10n->getContents('LANG_THURSDAY'),
-                      'fri' => $L10n->getContents('LANG_FRIDAY'),
-                      'sat' => $L10n->getContents('LANG_SATURDAY') );
+            'mon' => $L10n->getContents('LANG_MONDAY'),
+            'tue' => $L10n->getContents('LANG_TUESDAY'),
+            'wed' => $L10n->getContents('LANG_WEDNESDAY'),
+            'thu' => $L10n->getContents('LANG_THURSDAY'),
+            'fri' => $L10n->getContents('LANG_FRIDAY'),
+            'sat' => $L10n->getContents('LANG_SATURDAY') );
+    }
+
+
+    /**
+    * Return List with Translation
+    * @static
+    * @return mixed
+    */
+    public static function getL10nNumericValueList( ) {
+        $Registry = Registry::getInstance( );
+        $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
+        $L10n = $i18n->loadLanguage('Aurora/Helper/CalendarRes');
+
+        return array( 1 => $L10n->getContents('LANG_MONDAY'),
+                      2 => $L10n->getContents('LANG_TUESDAY'),
+                      3 => $L10n->getContents('LANG_WEDNESDAY'),
+                      4 => $L10n->getContents('LANG_THURSDAY'),
+                      5 => $L10n->getContents('LANG_FRIDAY'),
+                      6 => $L10n->getContents('LANG_SATURDAY'),
+                      7 => $L10n->getContents('LANG_SUNDAY') );
 	}
 }
 ?>
