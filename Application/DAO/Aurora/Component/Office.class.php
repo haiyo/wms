@@ -33,7 +33,7 @@ class Office extends \DAO {
      * @return mixed
      */
     public function getByoID( $oID ) {
-        $sql = $this->DB->select( 'SELECT * FROM office o
+        $sql = $this->DB->select( 'SELECT *, o.name AS officeName FROM office o
                                    LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
                                    LEFT JOIN country c ON ( c.cID = o.countryID )
                                    WHERE oID = "' . (int)$oID . '" AND
@@ -52,7 +52,7 @@ class Office extends \DAO {
      * @return mixed
      */
     public function getMainOffice( ) {
-        $sql = $this->DB->select( 'SELECT * FROM office o
+        $sql = $this->DB->select( 'SELECT *, o.name AS officeName FROM office o
                                    LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
                                    LEFT JOIN country c ON ( c.cID = o.countryID )
                                    WHERE main = "1" AND

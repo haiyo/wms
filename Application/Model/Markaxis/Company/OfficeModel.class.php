@@ -160,8 +160,9 @@ class OfficeModel extends \Model {
                 $this->info['workDayTo'] = $data['workDayTo'];
             }
 
-            $this->info['openTime'] = DateTime::createFromFormat('h:i A', $data['openTime'] )->format('H:i');
-            $this->info['closeTime'] = DateTime::createFromFormat('h:i A', $data['closeTime'] )->format('H:i');
+            if( isset( $data['halfDay'] ) ) {
+                $this->info['halfDay'] = 1;
+            }
         }
         catch( ValidatorException $e ) {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
