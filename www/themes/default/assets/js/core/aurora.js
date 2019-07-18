@@ -27,6 +27,8 @@ $(document).ready( function( ) {
                 $(".nav-tabs li:first-child a").click( );
             }
 
+            $(".check-input").uniform();
+
             $(document).on("focus", ".amountInput", function(e) {
                 $(this).val( Aurora.String.unFormatMoney( $(this).val( ) ) );
             });
