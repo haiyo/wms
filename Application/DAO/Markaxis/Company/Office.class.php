@@ -20,13 +20,10 @@ class Office extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT * FROM office', __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
-            $list = array( );
-
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['ctID']] = $row['type'];
             }
@@ -64,8 +61,8 @@ class Office extends \DAO {
                 $row['workDays'] = '';
 
                 if( $row['workDayFrom'] && $row['workDayTo'] ) {
-                    $row['workDays'] = DayHelper::getL10nList( )[$row['workDayFrom']] . ' - ' .
-                                       DayHelper::getL10nList( )[$row['workDayTo']];
+                    $row['workDays'] = DayHelper::getL10nNumericValueList( )[$row['workDayFrom']] . ' - ' .
+                                       DayHelper::getL10nNumericValueList( )[$row['workDayTo']];
                 }
                 $list[] = $row;
             }

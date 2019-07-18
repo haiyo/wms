@@ -374,7 +374,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group text-right">
-                                <label>Last day of the week is half day: &nbsp;</label>
+                                <label>Last day is half day: &nbsp;</label>
                                 <input type="checkbox" class="dt-checkboxes check-input" id="halfDay" name="halfDay" value="1" />
                             </div>
                         </div>
