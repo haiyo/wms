@@ -175,7 +175,7 @@
         <observer controller="Markaxis/Expense/ExpenseControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="payroll/getTaxGroup">
+    <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
     </task>
     <task type="payroll/getPayItem,payroll/savePayItem">

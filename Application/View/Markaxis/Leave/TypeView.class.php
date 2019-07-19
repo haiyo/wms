@@ -82,7 +82,6 @@ class TypeView extends AdminView {
         $proRated = $RadioView->build( 'proRated', ProRatedHelper::getL10nList( ), $this->info['proRated'] );
         $allowHalfDayRadio = $RadioView->build( 'allowHalfDay', HalfDayHelper::getL10nList( ), $this->info['allowHalfDay'] );
         $paidLeave = $RadioView->build( 'paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
-        $childCare = $RadioView->build( 'childCare', YesNoHelper::getL10nList( ), 0 );
 
         $SelectListView = new SelectListView( );
 
@@ -94,29 +93,10 @@ class TypeView extends AdminView {
         $cPeriodList = $SelectListView->build( 'cPeriodType', CarryPeriodHelper::getL10nList( ), $this->info['cPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
         $usedPeriodList  = $SelectListView->build( 'usedType', LeavePeriodHelper::getL10nList( ), $this->info['uPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
 
-        $SelectListView->isDisabled( false );
-        $SelectListView->isMultiple( true );
-        $SelectListView->includeBlank( false );
-        $gender = $this->info['gender'] == 'all' ? $this->info['gender'] : explode(',', $this->info['gender'] );
-        $genderList = $SelectListView->build( 'gender', GenderHelper::getL10nList( ), $gender );
-
         $SelectGroupListView = new DesignationListView( );
         $SelectGroupListView->isMultiple( true );
 
-        $DesignationModel = DesignationModel::getInstance( );
-        $designation = $this->info['designation'] == 'all' ? $this->info['designation'] : explode(',', $this->info['designation'] );
-        $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $designation );
-
-        $ContractModel = ContractModel::getInstance( );
-        $contract = $this->info['contract'] == 'all' ? $this->info['contract'] : explode(',', $this->info['contract'] );
-
-        $contractList = $SelectListView->build( 'contractType',  $ContractModel->getList( ), $contract );
-        //$childrenList = $SelectListView->build( 'haveChild', YesNoHelper::getL10nList( ), $this->info['haveChild'] );
         $childrenList = $RadioView->build( 'haveChild', YesNoHelper::getL10nList( ), $this->info['haveChild'] );
-
-        $OfficeModel = OfficeModel::getInstance( );
-        $office = $this->info['office'] == 'all' ? $this->info['office'] : explode(',', $this->info['office'] );
-        $officeList = $SelectListView->build( 'office',  $OfficeModel->getList( ), $office );
 
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
@@ -140,17 +120,12 @@ class TypeView extends AdminView {
                        'TPLVAR_UPERIOD' => $this->info['uPeriod'],
                        'TPL_PRO_RATED_RADIO' => $proRated,
                        'TPL_ALLOW_HALF_DAY_RADIO' => $allowHalfDayRadio,
-                       'TPL_CHILD_CARE_RADIO' => $childCare,
                        'TPL_PAID_LEAVE' => $paidLeave,
                        'TPL_APPLIED_LIST' => $appliedList,
                        'TPL_UNUSED_LIST' => $unusedList,
                        'TPL_PPERIOD_LIST' => $pPeriodList,
                        'TPL_CPERIOD_LIST' => $cPeriodList,
                        'TPL_USED_PERIOD_LIST' => $usedPeriodList,
-                       'TPL_GENDER_LIST' => $genderList,
-                       'TPL_OFFICE_LIST' => $officeList,
-                       'TPL_DESIGNATION_LIST' => $designationList,
-                       'TPL_CONTRACT_LIST' => $contractList,
                        'TPL_CHILDREN_LIST' => $childrenList,
                        'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
                        'TPL_CHILD_AGE_LIST' => $childAgeList ) );

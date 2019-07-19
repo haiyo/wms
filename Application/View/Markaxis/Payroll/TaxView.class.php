@@ -53,7 +53,7 @@ class TaxView {
 
         $ItemModel = ItemModel::getInstance( );
         $payItemList = $SelectListView->build('payItem_{id}',
-                                               $ItemModel->getList( ), '', 'Select Pay Item' );
+            $ItemModel->getList( ), '', 'Select Pay Item' );
 
         $SelectListView->includeBlank( false );
         $SelectListView->isMultiple( true );

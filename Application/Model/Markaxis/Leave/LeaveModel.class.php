@@ -2,7 +2,6 @@
 namespace Markaxis\Leave;
 use \Aurora\User\ChildrenModel;
 use \Markaxis\Employee\LeaveBalanceModel;
-use \Library\IO\File;
 use \Library\Util\Date;
 
 /**
@@ -60,30 +59,6 @@ class LeaveModel extends \Model {
             $empInfo = $EmployeeModel->getFieldByUserID( $userInfo['userID'], 'oID, dID, cID, confirmDate, startDate, endDate' );
 
             foreach( $leaveType as $key => $type ) {
-                $genderType = array_flip( explode( ',', $type['gender'] ) );
-
-                if( !isset( $genderType[$userInfo['gender']] ) ) {
-                    continue;
-                }
-
-                $officeType = array_flip( explode( ',', $type['office'] ) );
-
-                if( !isset( $officeType[$empInfo['oID']] ) ) {
-                    continue;
-                }
-
-                $designationType = array_flip( explode( ',', $type['designation'] ) );
-
-                if( !isset( $designationType[$empInfo['dID']] ) ) {
-                    continue;
-                }
-
-                $contractType = array_flip( explode( ',', $type['contract'] ) );
-
-                if( !isset( $contractType[$empInfo['cID']] ) ) {
-                    continue;
-                }
-
                 // If leave type is childcare leave (must have children...)
                 if( $type['haveChild'] && $userInfo['children'] ) {
 
