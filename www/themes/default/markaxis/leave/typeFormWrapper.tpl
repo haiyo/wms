@@ -1,7 +1,5 @@
-
 <script>
     $(function() {
-
         // Override defaults
         $.fn.stepy.defaults.legend = false;
         $.fn.stepy.defaults.transition = 'fade';
@@ -26,25 +24,24 @@
                 }
             }
         });
-
         // Apply "Back" and "Next" button styling
         $('.stepy-step').find('.button-next').addClass('btn btn-primary btn-next');
         $('.stepy-step').find('.button-back').addClass('btn btn-default');
 
-        $("#applied").select2({minimumResultsForSearch: Infinity});
-        $("#unused").select2({minimumResultsForSearch: Infinity});
-        $("#pPeriodType").select2({minimumResultsForSearch: Infinity});
-        $("#cPeriodType").select2({minimumResultsForSearch: Infinity});
-        $("#usedType").select2({minimumResultsForSearch: Infinity});
+        $("#applied").select2({minimumResultsForSearch:Infinity});
+        $("#unused").select2({minimumResultsForSearch:Infinity});
+        $("#pPeriodType").select2({minimumResultsForSearch:Infinity});
+        $("#cPeriodType").select2({minimumResultsForSearch:Infinity});
+        $("#usedType").select2({minimumResultsForSearch:Infinity});
         $("#childBorn").select2({allowClear:true});
         $("#childAge").select2({minimumResultsForSearch:Infinity,allowClear:true});
 
         $(".styled").uniform({radioClass:"choice"});
-
-        $("#gender").multiselect({includeSelectAllOption: true});
-        $("#office").multiselect({includeSelectAllOption: true});
-        $("#designation").multiselect({includeSelectAllOption: true});
-        $("#contractType").multiselect({includeSelectAllOption: true});
+        $("#designation").multiselect({
+            //enableFiltering: true,
+            includeSelectAllOption: true,
+            dropUp : false
+        });
 
         $("#applied").change(function( ) {
             if( $(this).val( ) == "probation" ) {
@@ -79,12 +76,12 @@
             addStructure( );
         }
 
-        $(document).on( "click", ".addStructure", function ( ) {
+        $(document).on("click", ".addStructure", function( ) {
             addStructure( );
             return false;
         });
 
-        $(document).on( "click", ".removeStructure", function ( ) {
+        $(document).on("click", ".removeStructure", function( ) {
             var id = $(this).attr("href");
             $("#structureRowWrapper_" + id).addClass("structureRow").html("").hide();
             return false;
@@ -100,6 +97,12 @@
             $("#plus_" + id).attr( "class", "icon-minus-circle2" );
             $("#plus_" + id).parent().attr( "class", "removeStructure" );
         }
+
+        $("#saveLeaveGroup").on("click", function() {
+            var formData = Aurora.WebService.serializePost("#leaveTypeForm");
+            console.log(formData);
+            return false;
+        });
 
         function saveLeaveTypeForm( ) {
             var formData = Aurora.WebService.serializePost("#leaveTypeForm");

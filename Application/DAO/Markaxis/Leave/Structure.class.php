@@ -45,5 +45,24 @@ class Structure extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBydesignationID( $ldID ) {
+        $sql = $this->DB->select( 'SELECT * FROM leave_structure WHERE ldID = "' . (int)$ldID . '"
+                                   ORDER BY lsID DESC',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

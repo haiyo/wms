@@ -31,15 +31,18 @@ class Designation extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function getByID( $ltID ) {
+    public function getByltID( $ltID ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT * FROM leave_designation WHERE ltID = "' . (int)$ltID . '"',
+        $sql = $this->DB->select( 'SELECT ld.*, GROUP_CONCAT( d.title ) AS designations
+                                   FROM leave_designation ld
+                                   LEFT JOIN designation d ON ( d.dID = ld.dID )
+                                   WHERE ltID = "' . (int)$ltID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row['dID'];
+                $list[] = $row;
             }
         }
         return $list;

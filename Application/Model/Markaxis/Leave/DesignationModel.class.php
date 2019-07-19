@@ -43,8 +43,8 @@ class DesignationModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getByID( $ltID ) {
-        return $this->Designation->getByID( $ltID );
+    public function getByltID( $ltID ) {
+        return $this->Designation->getByltID( $ltID );
     }
 
 

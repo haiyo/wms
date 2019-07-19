@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="taxGroupList">
+    <div class="groupList">
         <div class="list-group list-group-root border-top border-top-grey border-bottom border-bottom-grey mb-20">
             <!-- BEGIN DYNAMIC BLOCK: noGroup -->
             <div class="blankCanvasNotice">

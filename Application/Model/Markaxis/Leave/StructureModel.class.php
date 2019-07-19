@@ -41,8 +41,8 @@ class StructureModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getByID( $ltID ) {
-        return $this->Structure->getByID( $ltID );
+    public function getBydesignationID( $ldID ) {
+        return $this->Structure->getBydesignationID( $ldID );
     }
 
 
@@ -60,7 +60,6 @@ class StructureModel extends \Model {
                 return false;
             }
         };
-
         $structure = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $sizeof = sizeof( $structure );
         $validIDs = array(0);
