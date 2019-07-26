@@ -41,6 +41,15 @@ class StructureModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getBylgID( $lgID ) {
+        return $this->Structure->getBylgID( $lgID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getBydesignationID( $ldID ) {
         return $this->Structure->getBydesignationID( $ldID );
     }
@@ -50,6 +59,32 @@ class StructureModel extends \Model {
      * Get File Information
      * @return mixed
      */
+    public function save( $data ) {
+        if( isset( $data['leaveGroups'] ) && is_array( $data['leaveGroups'] ) ) {
+            foreach( $data['leaveGroups'] as $groupObj ) {
+                if( isset( $groupObj->structures ) && is_array( $groupObj->structures ) ) {
+                    foreach( $groupObj->structures as $structure ) {
+                        if( $this->isFound( $structure ) ) {
+                            // Group is not unset here, so its safe
+                            $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+
+                            $info = array( );
+                            $info['lgID'] = $data['lgID'];
+                            $info['dID'] = $structure;
+                            $this->Structure->insert( 'leave_designation', $info );
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Get File Information
+     * @return mixed
+
     public function save( $data ) {
         $preg = '/^start_(\d)+/';
 
@@ -94,6 +129,6 @@ class StructureModel extends \Model {
             $this->Structure->delete('leave_structure', 'WHERE ltID = "' . (int)$data['ltID'] . '" AND 
                                                             lsID NOT IN(' . addslashes( $validIDs ) . ')');
         }
-    }
+    } */
 }
 ?>

@@ -33,7 +33,8 @@
                     </div>
                     <div class="header-elements">
                         <div class="list-icons tax-icons">
-                            <a data-id="<?TPLVAR_GID?>" class="list-icons-item" data-toggle="modal" data-target="#modalLeaveGroup">
+                            <a data-id="<?TPLVAR_GID?>" data-index="<?TPLVAR_INDEX?>" class="list-icons-item"
+                               data-toggle="modal" data-target="#modalLeaveGroup">
                                 <i class="icon-pencil5"></i>
                             </a>
                             <a data-id="<?TPLVAR_GID?>" class="list-icons-item"><i class="icon-bin"></i></a>
@@ -46,25 +47,25 @@
                 </div>
             </div>
             <!-- END DYNAMIC BLOCK: group -->
+            <input type="hidden" name="leaveGroups" id="leaveGroups" value="" />
         </div>
     </div>
 
     <div id="structureTemplate" class="hide">
-        <input type="hidden" id="lsID_{id}" name="lsID_{id}" value="" />
         <div class="row structureRow">
             <div class="col-md-4">
                 <label><?LANG_EMPLOYEE_START_MONTH?>:</label>
-                <input type="text" name="start_{id}" id="start_{id}" class="form-control" value=""
+                <input type="text" name="start_{id}" id="start_{id}" class="form-control start" value=""
                        placeholder="0" />
             </div>
             <div class="col-md-4">
                 <label><?LANG_EMPLOYEE_END_MONTH?>:</label>
-                <input type="text" name="end_{id}" id="end_{id}" class="form-control" value=""
+                <input type="text" name="end_{id}" id="end_{id}" class="form-control end" value=""
                        placeholder="3" />
             </div>
             <div class="col-md-3">
                 <label><?LANG_ELIGIBLE_DAYS_LEAVES?>:</label>
-                <input type="text" name="days_{id}" id="days_{id}" class="form-control" value=""
+                <input type="text" name="days_{id}" id="days_{id}" class="form-control days" value=""
                        placeholder="2" />
             </div>
             <div class="col-md-1">
@@ -84,19 +85,27 @@
                 </div>
 
                 <div class="modal-body overflow-y-visible">
-                    <div class="row col-md-12">
-                        <h5><?LANG_SELECT_DESIGNATION_HEADER?></h5>
-                    </div>
-                    <input type="hidden" id="tgID" name="tgID" value="0" />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <?TPL_DESIGNATION_LIST?>
-                            </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Leave Group Title:</label>
+                            <input type="hidden" name="lgIndex" id="lgIndex" class="form-control" value="" />
+                            <input type="hidden" name="lgID" id="lgID" class="form-control" value="" />
+                            <input type="text" name="groupTitle" id="groupTitle" class="form-control" value="" />
                         </div>
                     </div>
 
-                    <div id="structureWrapper" style="max-height:300px;overflow-y:auto;">
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group">
+                            <label>Assign Designation:</label>
+                            <?TPL_DESIGNATION_LIST?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                    <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px">
+                    </div>
                     </div>
 
                 </div>

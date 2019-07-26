@@ -72,10 +72,6 @@
         $("#applied").trigger("change");
         $("#unused").trigger("change");
 
-        if( $("#structureWrapper .structureRow").length == 0 ) {
-            addStructure( );
-        }
-
         $(document).on("click", ".addStructure", function( ) {
             addStructure( );
             return false;
@@ -87,21 +83,125 @@
             return false;
         });
 
-        function addStructure( ) {
+        function addStructure( list ) {
             var length = $("#structureWrapper .structureRow").length;
             var structure = $("#structureTemplate").html( );
             structure = structure.replace(/\{id\}/g, length );
             $("#structureWrapper").append( '<div id="structureRowWrapper_' + length + '">' + structure + "</div>" );
 
+            if( list ) {
+                $("#start_" + length).val( list["start"] );
+                $("#end_" + length).val( list["end"] );
+                $("#days_" + length).val( list["days"] );
+            }
+
             var id = $("#structureWrapper .structureRow").length-2;
             $("#plus_" + id).attr( "class", "icon-minus-circle2" );
             $("#plus_" + id).parent().attr( "class", "removeStructure" );
+
+            setTimeout(function() {
+                var structureWrapper = $("#structureWrapper");
+                structureWrapper.animate({ scrollTop: structureWrapper.prop("scrollHeight")-structureWrapper.height() }, 300);
+            }, 200);
         }
 
         $("#saveLeaveGroup").on("click", function() {
-            var formData = Aurora.WebService.serializePost("#leaveTypeForm");
-            console.log(formData);
+            var lgIndex = $("#lgIndex").val( );
+
+            var leaveGroups = {
+                "lgIndex": lgIndex,
+                "lgID": $("#lgID").val( ),
+                "groupTitle": $("#groupTitle").val( ),
+                "designations": $("#designation").val( ),
+                "structures": []
+            };
+
+            $("#structureWrapper .structureRow").each(function() {
+                leaveGroups.structures.push({
+                    "start": $(this).find(".start").val(),
+                    "end": $(this).find(".end").val(),
+                    "days": $(this).find(".days").val()
+                });
+            });
+
+            var editedGroups = [];
+
+            if( $("#leaveGroups").val( ) != "" ) {
+                existingGroups = JSON.parse( $("#leaveGroups").val( ) );
+
+                for( var i=0; i<existingGroups.length; i++ ) {
+                    editedGroups.push( existingGroups[i] );
+                }
+            }
+            editedGroups.push( leaveGroups );
+
+            $("#leaveGroups").val( JSON.stringify( editedGroups ) );
             return false;
+        });
+
+        $("#modalLeaveGroup").on("hidden.bs.modal", function() {
+            $("#lgID").val(0);
+            $("#lgIndex").val("");
+            $("#groupTitle").val("");
+
+            var designation = $("#designation");
+            designation.multiselect("clearSelection");
+            designation.multiselect("refresh");
+            $("#structureWrapper").html("");
+        });
+
+        $("#modalLeaveGroup").on("shown.bs.modal", function(e) {
+            $("#groupTitle").focus( );
+        });
+
+        $("#modalLeaveGroup").on("show.bs.modal", function(e) {
+            var $invoker = $(e.relatedTarget);
+            var lgID = $invoker.attr("data-id");
+            var lgIndex = $invoker.attr("data-index");
+            $("#lgIndex").val( lgIndex );
+
+            if( lgID ) {
+                var data = {
+                    bundle: {
+                        lgID: lgID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $("#lgID").val( obj.data.group.lgID );
+                            $("#groupTitle").val( obj.data.group.title );
+
+                            var designation = $("#designation");
+
+                            if( obj.data.designations.length > 0 ) {
+                                for( var i=0; i<obj.data.designations.length; i++ ) {
+                                    designation.multiselect("select", obj.data.designations[i]["dID"] );
+                                }
+                                designation.multiselect("refresh");
+                            }
+
+                            if( obj.data.structure.length > 0 ) {
+                                for( var i=0; i<obj.data.structure.length; i++ ) {
+                                    addStructure( obj.data.structure[i] );
+                                }
+                            }
+                            else {
+                                // Just populate 3 blank structure
+                                addStructure( );
+                            }
+                        }
+                    }
+                }
+                Aurora.WebService.AJAX( "admin/leave/getGroup", data );
+            }
+            else {
+                // Just populate 3 blank structure
+                addStructure( );
+            }
         });
 
         function saveLeaveTypeForm( ) {

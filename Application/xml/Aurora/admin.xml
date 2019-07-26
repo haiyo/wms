@@ -224,17 +224,20 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="leave">
+    <task type="leave/getGroup">
+        <observer controller="Markaxis/Leave/GroupControl"></observer>
+        <observer controller="Markaxis/Leave/DesignationControl"></observer>
+        <observer controller="Markaxis/Leave/StructureControl"></observer>
+    </task>
+    <task type="leave/getTypeResults,leave/addType,leave/editType,leave/saveType,leave/balance,leave/getHistory,leave/settings">
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/TypeControl"></observer>
-        <observer controller="Markaxis/Leave/GenderControl"></observer>
-        <observer controller="Markaxis/Leave/OfficeControl"></observer>
-        <observer controller="Markaxis/Leave/DesignationControl"></observer>
-        <observer controller="Markaxis/Leave/ContractControl"></observer>
         <observer controller="Markaxis/Leave/HaveChildControl"></observer>
         <observer controller="Markaxis/Leave/ChildBornControl"></observer>
         <observer controller="Markaxis/Leave/ChildAgeControl"></observer>
+        <observer controller="Markaxis/Leave/GroupControl"></observer>
+        <observer controller="Markaxis/Leave/DesignationControl"></observer>
         <observer controller="Markaxis/Leave/StructureControl"></observer>
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
     </task>

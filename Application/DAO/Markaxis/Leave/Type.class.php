@@ -32,22 +32,10 @@ class Type extends \DAO {
      * @return int
      */
     public function getByID( $ltID ) {
-        $sql = $this->DB->select( 'SELECT lt.*, GROUP_CONCAT(DISTINCT lg.gender) AS gender, 
-                                          GROUP_CONCAT(DISTINCT lo.oID) AS office,
-                                          GROUP_CONCAT(DISTINCT ld.dID) AS designation,
-                                          GROUP_CONCAT(DISTINCT lc.cID) AS contract,
-                                          GROUP_CONCAT(DISTINCT ls.start) AS start,
-                                          GROUP_CONCAT(DISTINCT ls.end) AS end,
-                                          GROUP_CONCAT(DISTINCT ls.days) AS days,
-                                          GROUP_CONCAT(DISTINCT lhc.haveChild) AS haveChild,
+        $sql = $this->DB->select( 'SELECT lt.*, GROUP_CONCAT(DISTINCT lhc.haveChild) AS haveChild,
                                           GROUP_CONCAT(DISTINCT lcb.cID) AS childBorn,
                                           GROUP_CONCAT(DISTINCT lca.age) AS childAge
                                     FROM `leave_type` lt
-                                    LEFT OUTER JOIN leave_gender lg ON (lg.ltID = lt.ltID)
-                                    LEFT OUTER JOIN leave_office lo ON (lo.ltID = lt.ltID)
-                                    LEFT OUTER JOIN leave_designation ld ON (ld.ltID = lt.ltID)
-                                    LEFT OUTER JOIN leave_contract lc ON (lc.ltID = lt.ltID)
-                                    LEFT OUTER JOIN leave_structure ls ON (ls.ltID = lt.ltID)
                                     LEFT OUTER JOIN leave_have_child lhc ON (lhc.ltID = lt.ltID)
                                     LEFT OUTER JOIN leave_child_born lcb ON (lcb.ltID = lt.ltID)
                                     LEFT OUTER JOIN leave_child_age lca ON (lca.ltID = lt.ltID)
