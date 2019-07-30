@@ -6,7 +6,7 @@
             <ul class="icons-list">
                 <li>
                     <a type="button" class="btn bg-purple-400 btn-labeled"
-                       data-backdrop="static" data-keyboard="false"
+                       data-backdrop="static" data-keyboard="false" data-id="0" data-index=""
                        data-toggle="modal" data-target="#modalLeaveGroup">
                         <b><i class="icon-folder-plus"></i></b> Create New Leave Group
                     </a>
@@ -18,18 +18,18 @@
     <div class="row"></div>
 
     <div class="groupList">
-        <div class="list-group list-group-root border-top border-top-grey border-bottom border-bottom-grey mb-20">
+        <div id="groupWrapper" class="list-group list-group-root border-top border-top-grey border-bottom border-bottom-grey mb-20">
             <!-- BEGIN DYNAMIC BLOCK: noGroup -->
             <div style="padding:0 20px 20px 20px; text-align: center;font-size:20px;">
                 There is no leave group currently
             </div>
             <!-- END DYNAMIC BLOCK: noGroup -->
             <!-- BEGIN DYNAMIC BLOCK: group -->
-            <div id="group_<?TPLVAR_GID?>">
+            <div id="group_<?TPLVAR_GID?>" class="groupRow">
                 <div class="header-elements-inline">
                     <div href="#item-<?TPLVAR_GID?>" class="list-group-item" data-toggle="collapse">
                         <i class="glyphicon glyphicon-chevron-right" id="expandIcon_<?TPLVAR_GID?>"></i>
-                        <span id="groupTitle_<?TPLVAR_GID?>" class="title"><?TPLVAR_GROUP_TITLE?></span>
+                        <span id="groupTitle_<?TPLVAR_INDEX?>" class="title"><?TPLVAR_GROUP_TITLE?></span>
                     </div>
                     <div class="header-elements">
                         <div class="list-icons tax-icons">
@@ -76,6 +76,28 @@
         </div>
     </div>
 
+    <div id="groupTemplate" class="hide groupRow">
+        <div class="header-elements-inline">
+            <div href="#item-{index}" class="list-group-item" data-toggle="collapse">
+                <i class="glyphicon glyphicon-chevron-right" id="expandIcon_{index}"></i>
+                <span id="groupTitle_{index}" class="title">{groupTitle}</span>
+            </div>
+            <div class="header-elements">
+                <div class="list-icons tax-icons">
+                    <a data-id="0" data-index="{index}" class="list-icons-item"
+                       data-toggle="modal" data-target="#modalLeaveGroup">
+                        <i class="icon-pencil5"></i>
+                    </a>
+                    <a data-id="{index}" class="list-icons-item"><i class="icon-bin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="item-{lgID}" class="list-group collapse">
+            <?TPL_GROUP_CHILD?>
+        </div>
+    </div>
+
     <div id="modalLeaveGroup" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -103,16 +125,15 @@
                     </div>
 
                     <div class="row">
-
-                    <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px">
-                    </div>
+                        <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px">
+                        </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
                         <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="button" class="btn btn-primary" id="saveLeaveGroup">Save changes</button>
+                        <button type="button" class="btn btn-primary" id="saveLeaveGroup">Create Group</button>
                     </div>
                 </div>
             </div>

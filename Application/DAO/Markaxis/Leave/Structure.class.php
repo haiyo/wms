@@ -18,9 +18,9 @@ class Structure extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $ltID ) {
+    public function isFoundByGroup( $lgID ) {
         $sql = $this->DB->select( 'SELECT COUNT(lsID) FROM leave_structure
-                                   WHERE ltID = "' . (int)$ltID . '"',
+                                   WHERE lgID = "' . (int)$lgID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );

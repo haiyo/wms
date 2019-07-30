@@ -105,37 +105,76 @@
             }, 200);
         }
 
-        $("#saveLeaveGroup").on("click", function() {
-            var lgIndex = $("#lgIndex").val( );
+        $("#saveLeaveGroup").on("click", function( ) {
+            var groupTitle = $.trim( $("#groupTitle").val( ) );
 
-            var leaveGroups = {
-                "lgIndex": lgIndex,
-                "lgID": $("#lgID").val( ),
-                "groupTitle": $("#groupTitle").val( ),
-                "designations": $("#designation").val( ),
-                "structures": []
-            };
-
-            $("#structureWrapper .structureRow").each(function() {
-                leaveGroups.structures.push({
-                    "start": $(this).find(".start").val(),
-                    "end": $(this).find(".end").val(),
-                    "days": $(this).find(".days").val()
-                });
-            });
-
-            var editedGroups = [];
-
-            if( $("#leaveGroups").val( ) != "" ) {
-                existingGroups = JSON.parse( $("#leaveGroups").val( ) );
-
-                for( var i=0; i<existingGroups.length; i++ ) {
-                    editedGroups.push( existingGroups[i] );
-                }
+            if( !groupTitle ) {
+                //
             }
-            editedGroups.push( leaveGroups );
+            else {
+                var lgIndex;
+                var editedGroups = [];
+                var existingGroup = false;
+                var existingSaved = false;
 
-            $("#leaveGroups").val( JSON.stringify( editedGroups ) );
+                // Edit existing
+                if( $("#lgIndex").val( ) != "" ) {
+                    lgIndex = $("#lgIndex").val( );
+                    existingGroup = true;
+                }
+                else {
+                    // Create new
+                    lgIndex = $("#groupWrapper .groupRow").length;
+                }
+
+                // If there are saved groups...
+                if( $("#leaveGroups").val( ) != "" ) {
+                    var existingGroups = JSON.parse( $("#leaveGroups").val( ) );
+
+                    for( var i=0; i<existingGroups.length; i++ ) {
+                        if( existingGroups[i].lgIndex == lgIndex ) {
+                            existingGroups[i].groupTitle = groupTitle;
+                            editedGroups.push( existingGroups[i] );
+                            existingSaved = true;
+                            continue;
+                        }
+                    }
+                }
+                if( !existingSaved ) {
+                    var leaveGroups = {
+                        "lgIndex": lgIndex,
+                        "lgID": $("#lgID").val( ),
+                        "groupTitle": groupTitle,
+                        "designations": $("#designation").val( ),
+                        "structures": []
+                    };
+
+                    $("#structureWrapper .structureRow").each(function() {
+                        leaveGroups.structures.push({
+                            "start": $(this).find(".start").val(),
+                            "end": $(this).find(".end").val(),
+                            "days": $(this).find(".days").val()
+                        });
+                    });
+
+                    editedGroups.push( leaveGroups );
+                }
+
+                if( !existingGroup ) {
+                    var group = $("#groupTemplate").html( );
+                    group = group.replace(/\{index\}/g, lgIndex );
+                    group = group.replace(/\{groupTitle\}/g, groupTitle );
+                    $("#groupWrapper").append( '<div id="groupRowWrapper_' + length + '">' + group + "</div>" );
+                }
+                else {
+                    $("#groupTitle_" + lgIndex).text( groupTitle );
+                }
+
+                $("#leaveGroups").val( JSON.stringify( editedGroups ) );
+                console.log( $("#leaveGroups").val( ))
+                swal("Done!", $("#groupTitle").val( ) + " has been successfully created! Remember to click on Submit to save changes!", "success");
+                $("#modalLeaveGroup").modal('hide');
+            }
             return false;
         });
 
@@ -155,12 +194,41 @@
         });
 
         $("#modalLeaveGroup").on("show.bs.modal", function(e) {
+            var editSaved = false;
             var $invoker = $(e.relatedTarget);
             var lgID = $invoker.attr("data-id");
             var lgIndex = $invoker.attr("data-index");
             $("#lgIndex").val( lgIndex );
 
-            if( lgID ) {
+            if( $("#leaveGroups").val( ) != "" ) {
+                var leaveGroups = JSON.parse( $("#leaveGroups").val( ) );
+
+                for( var i=0; i<leaveGroups.length; i++ ) {
+                    if( leaveGroups[i].lgIndex == lgIndex ) {
+                        editSaved = true;
+                        $("#groupTitle").val( leaveGroups[i]["groupTitle"] );
+
+                        var designation = $("#designation");
+
+                        if( leaveGroups[i].designations.length > 0 ) {
+                            for( var j=0; j<leaveGroups[i].designations.length; j++ ) {
+                                designation.multiselect("select", leaveGroups[i].designations[j] );
+                            }
+                            designation.multiselect("refresh");
+                        }
+                        if( leaveGroups[i].structures.length > 0 ) {
+                            for( var j=0; j<leaveGroups[i].structures.length; j++ ) {
+                                if( leaveGroups[i].structures[j].start != "" ||
+                                    leaveGroups[i].structures[j].end != "" ||
+                                    leaveGroups[i].structures[j].days != "" ) {
+                                    addStructure( leaveGroups[i].structures[j] );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if( !editSaved && lgID > 0 ) {
                 var data = {
                     bundle: {
                         lgID: lgID
@@ -190,7 +258,6 @@
                                 }
                             }
                             else {
-                                // Just populate 3 blank structure
                                 addStructure( );
                             }
                         }
@@ -199,7 +266,6 @@
                 Aurora.WebService.AJAX( "admin/leave/getGroup", data );
             }
             else {
-                // Just populate 3 blank structure
                 addStructure( );
             }
         });

@@ -66,14 +66,20 @@ class GroupModel extends \Model {
             $data['leaveGroups'] = json_decode( $data['leaveGroups'] );
 
             foreach( $data['leaveGroups'] as $key => $groupObj ) {
-                if( isset( $groupObj->lgID ) && $grpInfo = $this->getByID( $groupObj->lgID ) ) {
-                    $groupTitle = Validator::stripTrim( $groupObj->groupTitle );
+                if( isset( $groupObj->lgID ) ) {
+                    $info = array( );
+                    $info['ltID'] = $data['ltID'];
+                    $info['title'] = Validator::stripTrim( $groupObj->groupTitle );
 
-                    if( $groupTitle != $grpInfo['title'] ) {
-                        $info = array( );
-                        $info['title'] = $groupTitle;
-                        $this->Group->update('leave_group', $info,
-                                            'WHERE lgID = "' . (int)$grpInfo['lgID'] . '"' );
+                    if( $groupObj->lgID > 0 && $grpInfo = $this->getByID( $groupObj->lgID ) ) {
+                        if( $info['title'] != $grpInfo['title'] ) {
+                            $this->Group->update('leave_group', $info,
+                                                'WHERE lgID = "' . (int)$grpInfo['lgID'] . '"' );
+                        }
+                    }
+                    else {
+                        $lgID = $this->Group->insert('leave_group', $info );
+                        $data['leaveGroups'][$key]->lgID = $lgID;
                     }
                 }
                 else {

@@ -64,7 +64,7 @@ class DesignationModel extends \Model {
                             $this->Designation->delete('leave_designation', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
 
                             $info = array( );
-                            $info['lgID'] = $data['lgID'];
+                            $info['lgID'] = $groupObj->lgID;
                             $info['dID'] = $designation;
                             $this->Designation->insert( 'leave_designation', $info );
 
