@@ -31,6 +31,24 @@ class StructureControl {
      * Render main navigation
      * @return string
      */
+    public function getGroup( ) {
+        $vars = array( );
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['group'] ) )  {
+            $data['structure'] = $this->StructureModel->getBylgID( $data['group']['lgID'] );
+            $vars['data'] = $data;
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function addType( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->StructureView->renderAddType( ) ) );
     }

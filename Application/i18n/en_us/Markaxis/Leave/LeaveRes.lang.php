@@ -72,6 +72,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_CHILD_MAX_AGE'] = 'Child Maximum Age';
         $this->contents['LANG_ENTITLEMENT_STRUCTURE'] = 'Entitlement Structure';
         $this->contents['LANG_LEAVE_STRUCTURE_HEADER'] = 'Define the leave entitlement structure based on Employee\'s number of completed months service.';
+        $this->contents['LANG_SELECT_DESIGNATION_HEADER'] = 'Select the type of Designation(s) you want to assign to this Leave Group.';
         $this->contents['LANG_EMPLOYEE_START_MONTH'] = 'Employee Start Month';
         $this->contents['LANG_EMPLOYEE_END_MONTH'] = 'Employee End Month';
         $this->contents['LANG_ELIGIBLE_DAYS_LEAVES'] = 'Eligible Day(s) of Leaves';

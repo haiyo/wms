@@ -42,7 +42,7 @@ class TypeControl {
      * Render main navigation
      * @return string
      */
-    public function getLeaveTypeResults( ) {
+    public function getTypeResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->TypeModel->getResults( $post ) );
         exit;
@@ -75,7 +75,7 @@ class TypeControl {
      * Render main navigation
      * @return string
      */
-    public function saveType( ) {;
+    public function saveType( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
         if( $post['ltID'] = $this->TypeModel->save( $post ) ) {

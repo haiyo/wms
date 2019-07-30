@@ -18,9 +18,9 @@ class Structure extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $ltID ) {
+    public function isFoundByGroup( $lgID ) {
         $sql = $this->DB->select( 'SELECT COUNT(lsID) FROM leave_structure
-                                   WHERE ltID = "' . (int)$ltID . '"',
+                                   WHERE lgID = "' . (int)$lgID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -38,6 +38,45 @@ class Structure extends \DAO {
                                    ORDER BY lsID DESC',
                                    __FILE__, __LINE__ );
 
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBylgID( $lgID ) {
+        $list = array( );
+
+        $sql = $this->DB->select( 'SELECT * FROM leave_structure WHERE lgID = "' . (int)$lgID . '"
+                                   ORDER BY lsID DESC',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBydesignationID( $ldID ) {
+        $sql = $this->DB->select( 'SELECT * FROM leave_structure WHERE ldID = "' . (int)$ldID . '"
+                                   ORDER BY lsID DESC',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;

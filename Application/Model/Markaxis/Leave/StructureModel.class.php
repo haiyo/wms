@@ -32,8 +32,8 @@ class StructureModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $ltID ) {
-        return $this->Structure->isFound( $ltID );
+    public function isFoundByGroup( $lgID ) {
+        return $this->Structure->isFoundByGroup( $lgID );
     }
 
 
@@ -41,8 +41,17 @@ class StructureModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getByID( $ltID ) {
-        return $this->Structure->getByID( $ltID );
+    public function getBylgID( $lgID ) {
+        return $this->Structure->getBylgID( $lgID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBydesignationID( $ldID ) {
+        return $this->Structure->getBydesignationID( $ldID );
     }
 
 
@@ -50,6 +59,35 @@ class StructureModel extends \Model {
      * Get File Information
      * @return mixed
      */
+    public function save( $data ) {
+        if( isset( $data['leaveGroups'] ) && is_array( $data['leaveGroups'] ) ) {
+            foreach( $data['leaveGroups'] as $groupObj ) {
+                if( isset( $groupObj->structures ) && is_array( $groupObj->structures ) ) {
+                    foreach( $groupObj->structures as $structure ) {
+
+                        if( isset( $structure->start ) && isset( $structure->end ) && isset( $structure->days ) &&
+                            is_numeric( $structure->start ) && is_numeric( $structure->end ) && is_numeric( $structure->days ) ) {
+                            $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+
+                            $info = array( );
+                            $info['lgID'] = $groupObj->lgID;
+                            $info['start'] = (int)$structure->start;
+                            $info['end'] = (int)$structure->end;
+                            $info['days'] = (int)$structure->days;
+                            $this->Structure->insert( 'leave_structure', $info );
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Get File Information
+     * @return mixed
+
     public function save( $data ) {
         $preg = '/^start_(\d)+/';
 
@@ -60,7 +98,6 @@ class StructureModel extends \Model {
                 return false;
             }
         };
-
         $structure = array_filter( $data, $callback, ARRAY_FILTER_USE_KEY );
         $sizeof = sizeof( $structure );
         $validIDs = array(0);
@@ -95,6 +132,6 @@ class StructureModel extends \Model {
             $this->Structure->delete('leave_structure', 'WHERE ltID = "' . (int)$data['ltID'] . '" AND 
                                                             lsID NOT IN(' . addslashes( $validIDs ) . ')');
         }
-    }
+    } */
 }
 ?>

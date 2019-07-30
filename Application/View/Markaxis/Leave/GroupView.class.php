@@ -8,11 +8,11 @@ use \Library\Runtime\Registry;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
- * @version $Id: StructureView.class.php, v 2.0 Exp $
+ * @version $Id: GroupView.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class StructureView {
+class GroupView {
 
 
     // Properties
@@ -26,7 +26,7 @@ class StructureView {
 
 
     /**
-    * StructureView Constructor
+    * GroupView Constructor
     * @return void
     */
     function __construct( ) {
@@ -101,7 +101,6 @@ class StructureView {
                 }*/
                 // Group
                 $vars['dynamic']['group'][] = array( 'TPLVAR_GID' => $group['lgID'],
-                                                     'TPLVAR_INDEX' => $groupID,
                                                      'TPLVAR_GROUP_TITLE' => $group['title'],
                                                      'TPL_GROUP_CHILD' => '' );
 

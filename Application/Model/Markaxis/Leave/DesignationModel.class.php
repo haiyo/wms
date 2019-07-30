@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\Component\DesignationModel AS AuroraDesignation;
+use \Aurora\Component\DesignationModel AS A_Designation;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -43,8 +43,8 @@ class DesignationModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getByID( $ltID ) {
-        return $this->Designation->getByID( $ltID );
+    public function getBylgID( $lgID ) {
+        return $this->Designation->getBylgID( $lgID );
     }
 
 
@@ -53,24 +53,25 @@ class DesignationModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        if( isset( $data['designation'] ) && is_array( $data['designation'] ) ) {
-            $DesignationModel = AuroraDesignation::getInstance( );
-            $designation = $DesignationModel->getIDList( );
+        if( isset( $data['leaveGroups'] ) && is_array( $data['leaveGroups'] ) ) {
+            $DesignationModel = A_Designation::getInstance( );
 
-            foreach( $data['designation'] as $value ) {
-                if( !isset( $designation[$value] ) ) {
-                    return false;
+            foreach( $data['leaveGroups'] as $groupObj ) {
+                if( isset( $groupObj->designations ) && is_array( $groupObj->designations ) ) {
+                    foreach( $groupObj->designations as $designation ) {
+                        if( $DesignationModel->isFound( $designation ) ) {
+                            // Group is not unset here, so its safe
+                            $this->Designation->delete('leave_designation', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+
+                            $info = array( );
+                            $info['lgID'] = $groupObj->lgID;
+                            $info['dID'] = $designation;
+                            $this->Designation->insert( 'leave_designation', $info );
+
+                        }
+                    }
+
                 }
-            }
-            if( $this->isFound( $data['ltID'] ) ) {
-                $this->Designation->delete('leave_designation', 'WHERE ltID = "' . (int)$data['ltID'] . '"');
-            }
-            $info = array( );
-            $info['ltID'] = (int)$data['ltID'];
-
-            foreach( $data['designation'] as $value ) {
-                $info['dID'] = $value;
-                $this->Designation->insert( 'leave_designation', $info );
             }
         }
     }
