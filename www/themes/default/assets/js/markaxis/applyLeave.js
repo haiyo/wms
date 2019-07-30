@@ -52,7 +52,7 @@ var MarkaxisApplyLeave = (function( ) {
 
             $(".form-check-input-styled").uniform( );
 
-            var pickatimeSetting = {interval:5};
+            /*var pickatimeSetting = {interval:5};
             var openTime = $("#openTime").val( );
             var closeTime = $("#closeTime").val( );
 
@@ -69,7 +69,7 @@ var MarkaxisApplyLeave = (function( ) {
             if( openTime && closeTime ) {
                 startTime.set('select', [openTime[0],openTime[1]]);
                 endTime.set('select', [closeTime[0], closeTime[1]]);
-            }
+            }*/
 
             $("#startDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
@@ -81,7 +81,13 @@ var MarkaxisApplyLeave = (function( ) {
                     that.getDaysDiff( );
                 }
             });
-            $("#startTime").change(function( ) {
+            $("#firstHalf").change(function( ) {
+                that.getDaysDiff( );
+            });
+            $("#secondHalf").change(function( ) {
+                that.getDaysDiff( );
+            });
+            /*$("#startTime").change(function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
@@ -90,14 +96,14 @@ var MarkaxisApplyLeave = (function( ) {
                 if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
                     that.getDaysDiff( );
                 }
-            });
+            });*/
             $("#saveApplyLeave").on("click", function ( ) {
                 that.saveApplyLeave( );
                 return false;
             });
 
             $("#modalApplyLeave").on("shown.bs.modal", function(e) {
-                markaxisUSuggest = new MarkaxisUSuggest( false );
+                var markaxisUSuggest = new MarkaxisUSuggest( false );
                 markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
             });
 
@@ -148,8 +154,10 @@ var MarkaxisApplyLeave = (function( ) {
                     ltID: $("#ltID").val( ),
                     startDate: $("#startDate").val( ),
                     endDate: $("#endDate").val( ),
-                    startTime: $("#startTime").val( ),
-                    endTime: $("#endTime").val( )
+                    firstHalf: $("#firstHalf").val( ),
+                    secondHalf: $("#secondHalf").val( ),
+                    //startTime: $("#startTime").val( ),
+                    //endTime: $("#endTime").val( )
                 },
                 success: function( res   ) {
                     var obj = $.parseJSON( res );

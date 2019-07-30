@@ -116,6 +116,7 @@
                 var editedGroups = [];
                 var existingGroup = false;
                 var existingSaved = false;
+                var leaveGroupsInput = $("#leaveGroups");
 
                 // Edit existing
                 if( $("#lgIndex").val( ) != "" ) {
@@ -128,8 +129,8 @@
                 }
 
                 // If there are saved groups...
-                if( $("#leaveGroups").val( ) != "" ) {
-                    var existingGroups = JSON.parse( $("#leaveGroups").val( ) );
+                if( leaveGroupsInput.val( ) != "" ) {
+                    var existingGroups = JSON.parse( leaveGroupsInput.val( ) );
 
                     for( var i=0; i<existingGroups.length; i++ ) {
                         if( existingGroups[i].lgIndex == lgIndex ) {
@@ -170,8 +171,7 @@
                     $("#groupTitle_" + lgIndex).text( groupTitle );
                 }
 
-                $("#leaveGroups").val( JSON.stringify( editedGroups ) );
-                console.log( $("#leaveGroups").val( ))
+                leaveGroupsInput.val( JSON.stringify( editedGroups ) );
                 swal("Done!", $("#groupTitle").val( ) + " has been successfully created! Remember to click on Submit to save changes!", "success");
                 $("#modalLeaveGroup").modal('hide');
             }

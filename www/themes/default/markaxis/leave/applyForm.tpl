@@ -33,11 +33,11 @@
                                     </span>
                                     <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
 
-                                    <span class="input-group-prepend ml-10">
+                                    <!--<span class="input-group-prepend ml-10">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
                                     <input type="text" class="form-control" id="startTime" name="startTime" placeholder="" />
-                                    <input type="hidden" id="openTime" value="<?TPLVAR_OPEN_TIME?>" />
+                                    <input type="hidden" id="openTime" value="<?TPLVAR_OPEN_TIME?>" />-->
                                 </div>
                             </div>
                         </div>
@@ -50,12 +50,24 @@
                                 </span>
                                 <input type="text" class="form-control pickadate-end" id="endDate" name="endDate" placeholder="" />
 
-                                <span class="input-group-prepend ml-10">
+                                <!--<span class="input-group-prepend ml-10">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
                                 <input type="text" class="form-control" id="endTime" name="endTime" placeholder="" />
-                                <input type="hidden" id="closeTime" value="<?TPLVAR_CLOSE_TIME?>" />
+                                <input type="hidden" id="closeTime" value="<?TPLVAR_CLOSE_TIME?>" />-->
                             </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="checkbox" class="dt-checkboxes check-input" id="firstHalf" name="firstHalf" value="1" />
+                                <label for="firstHalf" class="ml-5">Half day on first day (PM)</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <input type="checkbox" class="dt-checkboxes check-input" id="secondHalf" name="secondHalf" value="1" />
+                            <label for="secondHalf" class="ml-5">Half day on last day (AM)</label>
                         </div>
 
                         <!--<div class="col-md-12 mt-20 mb-20">
