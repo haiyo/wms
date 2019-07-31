@@ -2,7 +2,7 @@
 namespace Markaxis\Company;
 use \Aurora\Component\OfficeModel AS A_OfficeModel;
 use \Aurora\Component\CountryModel, \Library\Helper\Aurora\DayHelper;
-use \Library\Validator\Validator;
+use \Library\Util\Date, \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
 use \DateTime;
@@ -124,24 +124,11 @@ class OfficeModel extends \Model {
      * Set Pay Item Info
      * @return int
      */
-    public function getWorkingDaysByRange( $from, $to ) {
+    public function getWorkingDaysByRange( $startDate, $endDate ) {
         $workDays = $this->getWorkingDays( );
-        $holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
-
-        $from = new DateTime( $from );
-        $to = new DateTime( $to );
-        $to->modify('+1 day');
-        $interval = new \DateInterval('P1D');
-        $periods = new \DatePeriod( $from, $interval, $to );
-
-        $days = 0;
-        foreach( $periods as $period ) {
-            if( !in_array( $period->format('N'), $workDays ) ) continue;
-            if(  in_array( $period->format('Y-m-d'), $holidayDays ) ) continue;
-            if(  in_array( $period->format('*-m-d'), $holidayDays ) ) continue;
-            $days++;
-        }
-        return $days;
+        $startDate = new DateTime( $startDate );
+        $endDate = new DateTime( $endDate );
+        return Date::daysDiff( $startDate, $endDate, $workDays );
     }
 
 

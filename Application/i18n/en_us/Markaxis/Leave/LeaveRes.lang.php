@@ -79,11 +79,11 @@ class LeaveRes extends Resource {
         $this->contents['LANG_OFFICE_LOCATION'] = 'Office Location';
         $this->contents['LANG_FULL_DAY'] = 'Full Day';
         $this->contents['LANG_HALF_DAY'] = 'Half Day';
-        $this->contents['LANG_INVALID_DATE_RANGE'] = 'Please select a valid date range for your leave application   .';
-        $this->contents['LANG_APPLYING'] = 'You are applying {days} {hours} of leave (Excluding Weekends and Public Holidays).';
+        $this->contents['LANG_INVALID_DATE_RANGE'] = 'Please select a valid date range for your leave application.';
+        $this->contents['LANG_APPLYING'] = 'You are applying {days} of leave (Excluding Weekends and Public Holidays).';
         $this->contents['LANG_APPLY_DAYS'] = '{n} day|days';
         $this->contents['LANG_APPLY_HOURS'] = '{n} hour|hours';
-        $this->contents['LANG_HALF_DAY_NOT_ALLOWED'] = 'You cannot apply less than a day for this leave type. Full day working hours is from {startTime} to {endTime}';
+        $this->contents['LANG_HALF_DAY_NOT_ALLOWED'] = 'You cannot apply half day for this leave type.';
         $this->contents['LANG_CHOOSE_LEAVE_TYPE'] = 'Please choose a Leave Type.';
         $this->contents['LANG_INSUFFICIENT_LEAVE'] = 'You have insufficient leave for this request.';
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Leave Request';

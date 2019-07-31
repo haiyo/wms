@@ -104,24 +104,20 @@ class Date {
     * Return the number of days from a date range
     * @return int
     */
-    public static function daysDiff( \DateTime $startDate, \DateTime $endDate, $weekdays=false ) {
+    public static function daysDiff( \DateTime $startDate, \DateTime $endDate, $skipDates=false ) {
         $endDate->modify('+1 day');
         $interval = $startDate->diff( $endDate );
         $days = $interval->days;
 
-        // create an iterateable period of date (P1D equates to 1 day)
-        $period = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
-        $holidays = array('2012-09-07');
+        // $holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
+        if( is_array( $skipDates ) ) {
+            // create an iterateable period of date (P1D equates to 1 day)
+            $period = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
 
-        foreach( $period as $dt ) {
-            $curr = $dt->format('D');
-
-            // substract if Saturday or Sunday
-            if ($curr == 'Sat' || $curr == 'Sun') {
-                $days--;
-            }
-            elseif (in_array($dt->format('Y-m-d'), $holidays)) {
-                $days--;
+            foreach( $period as $dt ) {
+                if( in_array( $dt->format('Y-m-d'), $skipDates ) ) {
+                    $days--;
+                }
             }
         }
         return $days;

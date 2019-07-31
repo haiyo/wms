@@ -44,9 +44,9 @@ class LeaveApplyControl {
     public function getDateDiff( ) {
         $post = Control::getRequest( )->request( POST );
 
-        if( $diff = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
+        if( $days = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
             $vars['bool'] = 1;
-            $vars['text'] = $diff['text'];
+            $vars['text'] = $this->LeaveApplyView->renderBalText( $days );
         }
         else {
             $vars['bool'] = 0;

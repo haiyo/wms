@@ -32,12 +32,6 @@
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                     </span>
                                     <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
-
-                                    <!--<span class="input-group-prepend ml-10">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                    <input type="text" class="form-control" id="startTime" name="startTime" placeholder="" />
-                                    <input type="hidden" id="openTime" value="<?TPLVAR_OPEN_TIME?>" />-->
                                 </div>
                             </div>
                         </div>
@@ -49,17 +43,11 @@
                                     <span class="input-group-text"><i class="icon-calendar22"></i></span>
                                 </span>
                                 <input type="text" class="form-control pickadate-end" id="endDate" name="endDate" placeholder="" />
-
-                                <!--<span class="input-group-prepend ml-10">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                <input type="text" class="form-control" id="endTime" name="endTime" placeholder="" />
-                                <input type="hidden" id="closeTime" value="<?TPLVAR_CLOSE_TIME?>" />-->
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-checkbox-group">
                                 <input type="checkbox" class="dt-checkboxes check-input" id="firstHalf" name="firstHalf" value="1" />
                                 <label for="firstHalf" class="ml-5">Half day on first day (PM)</label>
                             </div>
@@ -70,13 +58,6 @@
                             <label for="secondHalf" class="ml-5">Half day on last day (AM)</label>
                         </div>
 
-                        <!--<div class="col-md-12 mt-20 mb-20">
-                            <div class="input-group">
-                                <label>Does this period consist of half day leave?</label>
-                                <input type="checkbox" id="halfDay" name="halfDay" class="form-check-input-styled" />
-                            </div>
-                        </div>-->
-
                         <div id="dateHelpWrapper" class="col-md-12 hide">
                             <div class="form-group">
                                 <span id="daysHelp" class="help-block"></span>
@@ -84,12 +65,10 @@
                         </div>
 
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Approving Manager(s):</label>
-                                <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
-                                       placeholder="Enter Manager's Name"
-                                       value="" autocomplete="off" data-fouc />
-                            </div>
+                            <label>Approving Manager(s):</label>
+                            <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
+                                   placeholder="Enter Manager's Name"
+                                   value="" autocomplete="off" data-fouc />
                         </div>
                     </div>
                 </div>
