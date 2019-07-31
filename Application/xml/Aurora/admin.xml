@@ -224,6 +224,10 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
+    <task type="leave/getDateDiff,leave/apply">
+        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Leave/ManagerControl"></observer>
+    </task>
     <task type="leave/getGroup">
         <observer controller="Markaxis/Leave/GroupControl"></observer>
         <observer controller="Markaxis/Leave/DesignationControl"></observer>

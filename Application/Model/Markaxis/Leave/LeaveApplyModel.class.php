@@ -90,15 +90,6 @@ class LeaveApplyModel extends \Model {
 
 
     /**
-     * Render main navigation
-     * @return int
-     */
-    public function getDateDiff( DateTime $startDate, DateTime $endDate ) {
-        return Date::daysDiff( $startDate, $endDate, true );
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -163,7 +154,7 @@ class LeaveApplyModel extends \Model {
                 $startDate = DateTime::createFromFormat('d M Y', $data['startDate'] );
                 $endDate = DateTime::createFromFormat('d M Y', $data['endDate'] );
 
-                if( !$startDate || !$endDate || !$days = $this->getDateDiff( $startDate, $endDate ) ) {
+                if( !$startDate || !$endDate || !$days = $this->calculateDateDiff( $data ) ) {
                     $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );
                     return false;
                 }
@@ -192,100 +183,66 @@ class LeaveApplyModel extends \Model {
      * @return string
      */
     public function calculateDateDiff( $data ) {
-        if( isset( $data['ltID'] ) && isset( $data['startDate'] ) && isset( $data['endDate'] ) &&
-            $data['startDate'] && $data['endDate'] && $data['startTime'] && $data['endTime'] ) {
+        $firstHalf  = ( isset( $data['firstHalf']  ) && $data['firstHalf']  ) ? 1 : 0;
+        $secondHalf = ( isset( $data['secondHalf'] ) && $data['secondHalf'] ) ? 1 : 0;
 
-            // Get leave type to check if half day allowed
-            $TypeModel = TypeModel::getInstance( );
+        if( !$data['ltID'] ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
+            return false;
+        }
+        if( !$data['startDate'] || !$data['endDate'] ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );
+            return false;
+        }
 
-            if( $typeInfo = $TypeModel->getByID( $data['ltID'] ) ) {
-                $EmployeeModel = EmployeeModel::getInstance( );
-                $empInfo = $EmployeeModel->getInfo( );
+        // Get leave type to check if half day allowed
+        $TypeModel = TypeModel::getInstance( );
 
-                // Get office time shift
-                $OfficeModel = OfficeModel::getInstance( );
+        if( $typeInfo = $TypeModel->getByID( $data['ltID'] ) ) {
+            if( !$typeInfo['allowHalfDay'] && ( $data['firstHalf']  == 1 || $data['secondHalf'] == 1 ) ) {
+                $this->setErrMsg( $this->L10n->getContents('LANG_HALF_DAY_NOT_ALLOWED') );
+                return false;
+            }
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $empInfo = $EmployeeModel->getInfo( );
 
-                if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                    $startTime = DateTime::createFromFormat('h:i A', $data['startTime'] );
-                    $endTime   = DateTime::createFromFormat('h:i A', $data['endTime'] );
-                    $hoursDiff = $startTime->diff( $endTime )->h;
+            // Get office time shift
+            $OfficeModel = OfficeModel::getInstance( );
 
-                    $openTime  = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
-                    $closeTime = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
-                    $workingHours = $openTime->diff( $closeTime )->h;
+            if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
+                $startDate  = DateTime::createFromFormat('d M Y', $data['startDate'] );
+                $endDate    = DateTime::createFromFormat('d M Y', $data['endDate'] );
+                $daysDiff   = Date::daysDiff( $startDate, $endDate );
 
-                    if( !$typeInfo['allowHalfDay'] && $hoursDiff < $workingHours ) {
-                        $startTime = DateTime::createFromFormat('H:i:s', $officeInfo['openTime'] );
-                        $endTime   = DateTime::createFromFormat('H:i:s', $officeInfo['closeTime'] );
+                // Create an iterateable period of date (P1D equates to 1 day)
+                $period   = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
+                $workDays = array( );
+                $dayList  = DayHelper::getL10nNumericValueList( );
+                $started  = false;
 
-                        $errMsg = $this->L10n->strReplace( 'startTime', $startTime->format('h:i A'), 'LANG_HALF_DAY_NOT_ALLOWED');
-                        $errMsg = $this->L10n->strReplace( 'endTime', $endTime->format('h:i A'), $errMsg );
-                        $this->setErrMsg( $errMsg );
-                        return false;
+                foreach( $dayList as $dayNumberic => $day ) {
+                    if( $dayNumberic == $officeInfo['workDayFrom'] ) {
+                        $workDays[$dayNumberic] = $started = true;
                     }
-
-                    if( $hoursDiff == $workingHours ) {
-                        $decimal = 1;
+                    if( $dayNumberic == $officeInfo['workDayTo'] ) {
+                        $workDays[$dayNumberic] = true;
+                        $started = false;
                     }
-                    else {
-                        // Note: 9am to 5pm && 9am to 6pm (above) equates to an hour because deduction of lunchtime!
-                        $decimal = $hoursDiff/$workingHours;
+                    if( $started ) {
+                        $workDays[$dayNumberic] = true;
                     }
-
-                    $startDate = DateTime::createFromFormat('d M Y h:i A', $data['startDate'] . ' ' . $data['startTime'] );
-                    $endDate = DateTime::createFromFormat('d M Y h:i A', $data['endDate'] . ' ' . $data['endTime'] );
-                    $daysDiff = $startDate->diff( $endDate )->d;
-
-                    // create an iterateable period of date (P1D equates to 1 day)
-                    $period = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
-                    $workDays = array( );
-                    $dayList = DayHelper::getList( );
-                    $started = false;
-
-                    foreach( $dayList as $day ) {
-                        if( $day == $officeInfo['workDayFrom'] ) {
-                            $workDays[$day] = $started = true;
-                        }
-                        if( $day == $officeInfo['workDayTo'] ) {
-                            $workDays[$day] = true;
-                            $started = false;
-                        }
-                        if( $started ) {
-                            $workDays[$day] = true;
-                        }
-                    }
-
-                    foreach( $period as $dt ) {
-                        $curr = strtolower( $dt->format('D') );
-
-                        // substract non working days
-                        if( !isset( $workDays[$curr] ) ) {
-                            $daysDiff--;
-                        }
-                        /*else if( in_array( $dt->format('Y-m-d'), $holidays ) ) {
-                            $daysDiff--;
-                        }*/
-                    }
-
-                    $storing = $daysDiff+$decimal;
-                    //echo $storing; exit;
-
-                    $hours = $days = '';
-
-                    if( $hoursDiff == $workingHours ) {
-                        $daysDiff += 1;
-                    }
-                    else if( $hoursDiff ) {
-                        $hours = $this->L10n->getText( 'LANG_APPLY_HOURS', $hoursDiff );
-                    }
-                    if( $daysDiff ) {
-                        $days = $this->L10n->getText( 'LANG_APPLY_DAYS', $daysDiff );
-                    }
-                    $text = $this->L10n->strReplace( 'days', $days, 'LANG_APPLYING' );
-                    $text = $this->L10n->strReplace( 'hours', $hours, $text );
-
-                    return array( 'text' => $text );
                 }
+                foreach( $period as $dt ) {
+                    $curr = strtolower( $dt->format('N') );
+
+                    // substract non working days
+                    if( !isset( $workDays[$curr] ) ) {
+                        $daysDiff--;
+                    }
+                }
+                if( $firstHalf  ) { $daysDiff -= .5; }
+                if( $secondHalf ) { $daysDiff -= .5; }
+                return $daysDiff;
             }
         }
     }
