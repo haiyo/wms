@@ -125,7 +125,18 @@
                     </div>
 
                     <div class="row">
-                        <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px">
+                        <div class="col-md-12">
+                            <label class="display-block"><?LANG_IS_THIS_PRO_RATED?></label>
+                            <?TPL_PRO_RATED_RADIO?>
+                        </div>
+                    </div>
+
+                    <div id="structureRow" class="row">
+                        <span class="mb-0 ml-10 font-weight-bold">Leave Entitlement Structure:</span>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px"></div>
+                            </div>
                         </div>
                     </div>
 

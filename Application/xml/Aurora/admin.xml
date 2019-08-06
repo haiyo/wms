@@ -99,9 +99,9 @@
         <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Employee/ManagerControl"></observer>
         <observer controller="Markaxis/Employee/FinanceControl"></observer>
-        <!--<observer controller="Markaxis/Employee/EducationControl"></observer>
-        <observer controller="Markaxis/Employee/ExperienceControl"></observer>
-        <observer controller="Markaxis/Employee/AdditionalControl"></observer>-->
+        <!--<observer controller="Markaxis/Employee/EducationControl"></observer>-->
+        <!--<observer controller="Markaxis/Employee/ExperienceControl"></observer>-->
+        <!--<observer controller="Markaxis/Employee/AdditionalControl"></observer>-->
         <observer controller="Markaxis/Employee/EContactControl"></observer>
         <observer controller="Markaxis/Employee/TimeSheetControl"></observer>
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>

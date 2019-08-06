@@ -148,7 +148,9 @@ class Control {
             // If it isn't so, assign the "leftover" as new key(s)
             if( sizeof( $array ) > 0 ) {
                 foreach( $array as $key => $value ) {
-                    self::$outputArray[$key] = $value;
+                    if( !isset( self::$outputArray[$key] ) ) {
+                        self::$outputArray[$key] = $value;
+                    }
                 }
             }
         }

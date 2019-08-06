@@ -1,6 +1,6 @@
 <?php
 namespace Aurora\Page;
-use \Library\Util\Uploader, \Library\Util\ImageManipulation;
+use \Library\IO\File, \Library\Util\Uploader, \Library\Util\ImageManipulation;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

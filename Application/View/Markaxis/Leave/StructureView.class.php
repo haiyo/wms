@@ -1,9 +1,9 @@
 <?php
 namespace Markaxis\Leave;
-use \Markaxis\Leave\DesignationModel AS M_DesignationModel;
 use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel AS A_DesignationModel;
-use \Aurora\Form\SelectGroupListView;
-use \Library\Runtime\Registry;
+use \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
+use Library\Helper\Aurora\YesNoHelper;
+use \Library\Helper\Markaxis\ProRatedHelper, \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -65,11 +65,15 @@ class StructureView {
      * @return string
      */
     public function renderEditType( $ltID ) {
+        $RadioView = new RadioView( );
+        $proRated = $RadioView->build( 'proRated', YesNoHelper::getL10nList( ), 0 );
+
         $designationList = $this->SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
                                                              '','Select Designation' );
 
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_DESIGNATION_LIST' => $designationList ) );
+                array( 'TPL_PRO_RATED_RADIO' => $proRated,
+                       'TPL_DESIGNATION_LIST' => $designationList ) );
 
         $vars['dynamic']['noGroup'] = false;
         $vars['dynamic']['group'] = false;

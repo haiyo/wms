@@ -189,6 +189,15 @@
             $("#structureWrapper").html("");
         });
 
+        $('input:radio[name="proRated"]').change(function( ) {
+            if( $(this).val( ) == 1 ) {
+                $("#structureRow").addClass("hide");
+            }
+            else {
+                $("#structureRow").removeClass("hide");
+            }
+        });
+
         $("#modalLeaveGroup").on("shown.bs.modal", function(e) {
             $("#groupTitle").focus( );
         });
@@ -207,6 +216,14 @@
                     if( leaveGroups[i].lgIndex == lgIndex ) {
                         editSaved = true;
                         $("#groupTitle").val( leaveGroups[i]["groupTitle"] );
+
+                        if( leaveGroups[i].proRated == 1 ) {
+                            $("#children1").click( );
+                            $.uniform.update( );
+                        }
+                        else {
+                            $("#children2").click( );
+                        }
 
                         var designation = $("#designation");
 
