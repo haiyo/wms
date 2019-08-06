@@ -62,22 +62,26 @@ class StructureModel extends \Model {
     public function save( $data ) {
         if( isset( $data['leaveGroups'] ) && is_array( $data['leaveGroups'] ) ) {
             foreach( $data['leaveGroups'] as $groupObj ) {
-                if( isset( $groupObj->structures ) && is_array( $groupObj->structures ) ) {
-                    foreach( $groupObj->structures as $structure ) {
+                if( $groupObj->proRated == 1 ) {
+                    $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+                }
+                else if( isset( $groupObj->structures ) && is_array( $groupObj->structures ) ) {
+                    $success = array( );
 
+                    foreach( $groupObj->structures as $structure ) {
                         if( isset( $structure->start ) && isset( $structure->end ) && isset( $structure->days ) &&
                             is_numeric( $structure->start ) && is_numeric( $structure->end ) && is_numeric( $structure->days ) ) {
-                            $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
-
                             $info = array( );
                             $info['lgID'] = $groupObj->lgID;
                             $info['start'] = (int)$structure->start;
                             $info['end'] = (int)$structure->end;
                             $info['days'] = (int)$structure->days;
-                            $this->Structure->insert( 'leave_structure', $info );
+                            array_push( $success, $this->Structure->insert( 'leave_structure', $info ) );
                         }
                     }
-
+                    if( sizeof( $success ) > 0 ) {
+                        $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+                    }
                 }
             }
         }

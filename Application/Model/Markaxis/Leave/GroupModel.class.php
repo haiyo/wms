@@ -70,6 +70,7 @@ class GroupModel extends \Model {
                     $info = array( );
                     $info['ltID'] = $data['ltID'];
                     $info['title'] = Validator::stripTrim( $groupObj->groupTitle );
+                    $info['proRated'] = $groupObj->proRated == 1 ? 1 : 0;
 
                     if( $groupObj->lgID > 0 && $grpInfo = $this->getByID( $groupObj->lgID ) ) {
                         if( $info['title'] != $grpInfo['title'] ) {

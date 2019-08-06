@@ -147,6 +147,7 @@
                         "lgID": $("#lgID").val( ),
                         "groupTitle": groupTitle,
                         "designations": $("#designation").val( ),
+                        "proRated": $("#proRated2").is(":checked") ? 0 : 1,
                         "structures": []
                     };
 
@@ -157,7 +158,6 @@
                             "days": $(this).find(".days").val()
                         });
                     });
-
                     editedGroups.push( leaveGroups );
                 }
 
