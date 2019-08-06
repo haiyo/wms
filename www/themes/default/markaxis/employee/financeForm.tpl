@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-        <h6 class="mb-0 ml-10 font-weight-bold">Employee Payment Details:</h6>
+        <span class="mb-0 ml-10 font-weight-bold">Employee Payment Details:</span>
         <div class="card">
             <div class="card-body">
                 <div class="col-md-3">

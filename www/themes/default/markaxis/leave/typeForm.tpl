@@ -41,11 +41,6 @@
             <label>&nbsp;</label>
             <?TPL_PPERIOD_LIST?>
         </div>
-
-        <div class="col-md-3">
-            <label class="display-block"><?LANG_MONTHLY_BASIS?></label>
-            <?TPL_PRO_RATED_RADIO?>
-        </div>
     </div>
 
     <div class="row">
@@ -78,7 +73,7 @@
 
 
     <div class="row">
-        <h6 class="mb-0 ml-10 font-weight-bold"><?LANG_APPLICABLE_TO?>:</h6>
+        <span class="mb-0 ml-10 font-weight-bold"><?LANG_APPLICABLE_TO?>:</span>
         <div class="card">
             <div class="card-body">
 
