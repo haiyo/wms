@@ -50,6 +50,25 @@ class Type extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByIDs( $ltIDs ) {
+        $sql = $this->DB->select( 'SELECT lt.* FROM `leave_type` lt
+                                   WHERE lt.ltID IN (' . implode(',', $ltIDs ) . ')',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['ltID']] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */

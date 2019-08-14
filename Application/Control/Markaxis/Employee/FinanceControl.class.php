@@ -58,7 +58,7 @@ class FinanceControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         $FinanceModel = FinanceModel::getInstance( );
         $FinanceModel->save( Control::getPostData( ) );
     }

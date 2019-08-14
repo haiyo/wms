@@ -44,11 +44,30 @@ class Group extends \DAO {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getByltID( $ltID ) {
         $sql = $this->DB->select( 'SELECT * FROM leave_group
                                    WHERE ltID = "' . (int)$ltID . '"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByltIDs( $ltIDs ) {
+        $sql = $this->DB->select( 'SELECT * FROM leave_group
+                                   WHERE ltIDs IN (' . implode(',', $ltID ) . ')',
                                    __FILE__, __LINE__ );
 
         $list = array( );

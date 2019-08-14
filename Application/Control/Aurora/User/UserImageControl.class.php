@@ -51,7 +51,7 @@ class UserImageControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         $data  = Control::getPostData( );
         $image = Control::getRequest( )->request( POST, 'image' );
 

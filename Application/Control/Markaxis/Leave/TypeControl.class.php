@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
 use \Control;
 
 /**
@@ -24,6 +25,19 @@ class TypeControl {
     function __construct( ) {
         $this->TypeModel = TypeModel::getInstance( );
         $this->TypeView = new TypeView( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function globalInit( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['ltIDs'] ) && is_array( $data['ltIDs'] ) && sizeof( $data['ltIDs'] ) > 0 ) {
+            Control::setOutputArrayAppend( array( 'leaveTypes' => $this->TypeModel->getByIDs( $data['ltIDs'] ) ) );
+        }
     }
 
 
@@ -88,6 +102,16 @@ class TypeControl {
             echo json_encode( $vars );
             exit;
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveEmployee( ) {
+        $FinanceModel = FinanceModel::getInstance( );
+        $FinanceModel->save( Control::getPostData( ) );
     }
 }
 ?>

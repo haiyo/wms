@@ -38,7 +38,52 @@ class LeaveApplyModel extends \Model {
      * @return mixed
      */
     public function getByUserID( $userID ) {
-        return $this->Claim->getByUserID( $userID );
+        return $this->LeaveApply->getByUserID( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getByUserLeaveTypeCurrYear( $userID, $leaveTypes ) {
+        foreach( $leaveTypes as $key => $type ) {
+            $leaveApplied = $this->LeaveApply->getByUserLeaveTypeCurrYear( $userID, $type['ltID'] );
+
+            if( sizeof( $leaveApplied ) > 0 ) {
+                //$currYear = date('Y');
+                $leaveTypes[$key]['totalApplied'] = 0;
+
+                foreach( $leaveApplied as $applied ) {
+                    $leaveTypes[$key]['totalApplied'] += $applied['days'];
+
+                    /* $endDate = \DateTime::createFromFormat('Y-m-d', $applied['endDate'] );
+
+                    if( $endDate->format('Y') == $currYear ) {
+                        $leaveTypes[$key]['totalApplied'] += $applied['days'];
+                    }
+                    // Leave applied endDate overlap to next year
+                    else if( $endDate->format('Y') > $currYear ) {
+                        $startDate = \DateTime::createFromFormat('Y-m-d', $applied['startDate'] );
+                        $period = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
+                        $leaveTypes[$key]['totalApplied'] = 0;
+
+                        foreach( $period as $dt ) {
+                            if( $dt->format('Y') == $currYear ) {
+                                $leaveTypes[$key]['totalApplied']++;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        if( $applied['firstHalf'] ) {
+                            $leaveTypes[$key]['totalApplied'] -= .5;
+                        }
+                    }*/
+                }
+            }
+        }
+        return $leaveTypes;
     }
 
 
@@ -100,24 +145,6 @@ class LeaveApplyModel extends \Model {
 
 
     /**
-     * Set User Property Info
-     * @return mixed
-     */
-    public function calculateBalance( array $balance ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-        $applied = $this->LeaveApply->getSidebarByUserID( $userInfo['userID'] );
-
-        foreach( $balance as $key => $value ) {
-            if( isset( $applied[$value['ltID']] ) && isset( $balance[$key]['balance'] ) ) {
-                $balance[$key]['balance'] -= $applied[$value['ltID']];
-            }
-        }
-        return $balance;
-    }
-
-
-    /**
      * Return total count of records
      * @return int
      */
@@ -163,11 +190,16 @@ class LeaveApplyModel extends \Model {
                         $this->setErrMsg( $this->L10n->getContents('LANG_INSUFFICIENT_LEAVE') );
                         return false;
                     }
+                    $firstHalf  = ( isset( $data['firstHalf']  ) && $data['firstHalf']  ) ? 1 : 0;
+                    $secondHalf = ( isset( $data['secondHalf'] ) && $data['secondHalf'] ) ? 1 : 0;
+
                     $this->info['userID'] = $userInfo['userID'];
                     $this->info['ltID'] = $data['ltID'];
                     $this->info['reason'] = $data['reason'];
                     $this->info['startDate'] = $startDate->format('Y-m-d');
                     $this->info['endDate'] = $endDate->format('Y-m-d');
+                    $this->info['firstHalf'] = $firstHalf;
+                    $this->info['secondHalf'] = $secondHalf;
                     $this->info['days'] = $days;
                     $this->info['created'] = date( 'Y-m-d H:i:s' );
                     return true;

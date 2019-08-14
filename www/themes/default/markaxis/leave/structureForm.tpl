@@ -125,17 +125,39 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6 pr-0">
+                            <div class="form-group">
+                                <label>Assign Contract:</label>
+                                <?TPL_CONTRACT_LIST?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <label class="display-block"><?LANG_IS_THIS_PRO_RATED?></label>
                             <?TPL_PRO_RATED_RADIO?>
                         </div>
                     </div>
 
-                    <div id="structureRow" class="row">
+                    <div id="structureRow" class="row hide">
                         <span class="mb-0 ml-10 font-weight-bold">Leave Entitlement Structure:</span>
                         <div class="card">
                             <div class="card-body">
                                 <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="entitledRow" class="row hide">
+                        <span class="mb-0 ml-10 font-weight-bold">Leave Entitlement Structure:</span>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="structureWrapper" style="float:left;width:100%;max-height:300px;overflow-y:auto;padding:10px">
+                                    <div class="row structureRow">
+                                        <div class="col-md-5">
+                                            <label>Total No. of Leaves Entitled For the Year:</label>
+                                            <input type="text" name="entitledLeaves" id="entitledLeaves" class="form-control start" value="" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

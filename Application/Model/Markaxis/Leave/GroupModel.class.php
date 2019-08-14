@@ -44,7 +44,12 @@ class GroupModel extends \Model {
      * @return mixed
      */
     public function getByID( $lgID ) {
-        return $this->Group->getByID( $lgID );
+        $groupInfo = $this->Group->getByID( $lgID );
+
+        if( $groupInfo ) {
+            $groupInfo['entitledLeaves'] = (float)$groupInfo['entitledLeaves'];
+        }
+        return $groupInfo;
     }
 
 
@@ -54,6 +59,18 @@ class GroupModel extends \Model {
      */
     public function getByltID( $ltID ) {
         return $this->Group->getByltID( $ltID );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getByLeaveTypes( $leaveTypes ) {
+        foreach( $leaveTypes as $key => $type ) {
+            $leaveTypes[$key]['group'] = $this->Group->getByltID( $type['ltID'] );
+        }
+        return $leaveTypes;
     }
 
 
@@ -71,12 +88,11 @@ class GroupModel extends \Model {
                     $info['ltID'] = $data['ltID'];
                     $info['title'] = Validator::stripTrim( $groupObj->groupTitle );
                     $info['proRated'] = $groupObj->proRated == 1 ? 1 : 0;
+                    $info['entitledLeaves'] = (float)$groupObj->entitledLeaves;
 
                     if( $groupObj->lgID > 0 && $grpInfo = $this->getByID( $groupObj->lgID ) ) {
-                        if( $info['title'] != $grpInfo['title'] ) {
-                            $this->Group->update('leave_group', $info,
-                                                'WHERE lgID = "' . (int)$grpInfo['lgID'] . '"' );
-                        }
+                        $this->Group->update('leave_group', $info,
+                                            'WHERE lgID = "' . (int)$grpInfo['lgID'] . '"' );
                     }
                     else {
                         $lgID = $this->Group->insert('leave_group', $info );

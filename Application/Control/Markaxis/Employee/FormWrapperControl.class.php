@@ -56,7 +56,7 @@ class FormWrapperControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;

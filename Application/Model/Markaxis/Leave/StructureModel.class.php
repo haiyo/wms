@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -42,7 +43,14 @@ class StructureModel extends \Model {
      * @return int
      */
     public function getBylgID( $lgID ) {
-        return $this->Structure->getBylgID( $lgID );
+        $structureInfo = $this->Structure->getBylgID( $lgID );
+
+        if( $structureInfo ) {
+            foreach( $structureInfo as $key => $structure ) {
+                $structureInfo[$key]['days'] = (float)$structure['days'];
+            }
+        }
+        return $structureInfo;
     }
 
 
@@ -56,6 +64,52 @@ class StructureModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getByGroups( $leaveTypes ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        if( sizeof( $empInfo ) > 0 ) {
+            $months = $EmployeeModel->getCurrYearWorkMonth( );
+
+            foreach( $leaveTypes as $key => $type ) {
+                if( sizeof( $type['group'] ) > 0 ) {
+                    foreach( $type['group'] as $group ) {
+
+                        if( ( isset( $group['designation'] ) && isset( $empInfo['designationID'] ) &&
+                              isset( $group['designation'][$empInfo['designationID']] ) && sizeof( $group['designation'] ) > 0 ) ||
+                            ( isset( $group['contract'] ) && isset( $empInfo['contractID'] ) &&
+                                isset( $group['contract'][$empInfo['contractID']] ) && sizeof( $group['contract'] ) > 0 ) ) {
+
+                            if( $group['proRated'] && $group['entitledLeaves'] ) {
+                                $leaveTypes[$key]['totalLeaves'] = round($months/12*$group['entitledLeaves'] );
+                            }
+                            else {
+                                $structures = $this->Structure->getBylgID( $group['lgID'] );
+
+                                if( sizeof( $structures ) > 0 ) {
+                                    // Reverse order structure to check from the max first.
+                                    $structures = array_reverse( $structures );
+
+                                    foreach( $structures as $structure ) {
+                                        if( ( $structure['start'] <= $months ) && ( $months <= $structure['end'] ) ) {
+                                            $leaveTypes[$key]['totalLeaves'] = $structure['days'];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $leaveTypes;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -65,7 +119,7 @@ class StructureModel extends \Model {
                 if( $groupObj->proRated == 1 ) {
                     $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
                 }
-                else if( isset( $groupObj->structures ) && is_array( $groupObj->structures ) ) {
+                else if( isset( $groupObj->structures ) && is_array( $groupObj->structures ) && sizeof( $groupObj->structures ) > 0 ) {
                     $success = array( );
 
                     foreach( $groupObj->structures as $structure ) {
@@ -80,8 +134,12 @@ class StructureModel extends \Model {
                         }
                     }
                     if( sizeof( $success ) > 0 ) {
-                        $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+                        $this->Structure->delete('leave_structure', 'WHERE lsID NOT IN(' . implode(',', $success) . ') AND 
+                                                                           lgID = "' . (int)$groupObj->lgID . '"');
                     }
+                }
+                else {
+                    $this->Structure->delete('leave_structure', 'WHERE lgID = "' . (int)$groupObj->lgID . '"');
                 }
             }
         }

@@ -346,7 +346,7 @@ var MarkaxisEmployee = (function( ) {
         },
 
         getUserManager: function( ) {
-            this.markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken/" + $("#userID").val( ));
+            this.markaxisUSuggest.getSuggestToken("admin/user/getSuggestToken/" + $("#userID").val( ));
         },
 
 
@@ -382,16 +382,16 @@ var MarkaxisEmployee = (function( ) {
                         else {
                             if( $("#userID").val( ) === 0 ) {
                                 title = "New Employee Added  Successfully";
-                                goToURL = Aurora.ROOT_URL + "admin/employee/add";
-                                backToURL = Aurora.ROOT_URL + "admin/employee/list";
+                                goToURL = Aurora.ROOT_URL + "admin/user/add";
+                                backToURL = Aurora.ROOT_URL + "admin/user/list";
                                 confirmButtonText = "Add Another Employee";
                                 cancelButtonText = "Go to Employee Listing";
                             }
                             else {
                                 title = "Employee Updated Successfully";
                                 cancelButtonText = "Continue Editing This Employee";
-                                goToURL = Aurora.ROOT_URL + "admin/employee/list";
-                                backToURL = Aurora.ROOT_URL + "admin/employee/edit/" + $("#userID").val( );
+                                goToURL = Aurora.ROOT_URL + "admin/user/list";
+                                backToURL = Aurora.ROOT_URL + "admin/user/edit/" + $("#userID").val( );
                                 confirmButtonText = "Go to Employee Listing";
                             }
                             swal({
@@ -416,7 +416,7 @@ var MarkaxisEmployee = (function( ) {
                         }
                     }
                 };
-                Aurora.WebService.AJAX( "admin/employee/save", data );
+                Aurora.WebService.AJAX( "admin/user/saveUser", data );
             });
         }
     }

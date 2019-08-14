@@ -31,6 +31,19 @@ class GroupControl {
      * Render main navigation
      * @return string
      */
+    public function globalInit( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) && sizeof( $data['leaveTypes'] ) > 0 ) {
+            Control::setOutputArray( array( 'leaveTypes' => $this->GroupModel->getByLeaveTypes( $data['leaveTypes'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getGroup( ) {
         $post = Control::getRequest( )->request( POST );
 

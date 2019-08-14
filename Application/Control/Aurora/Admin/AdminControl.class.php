@@ -60,6 +60,7 @@ class AdminControl extends Control {
                 $this->setXMLTasks( $args[0] );
             }
             $this->checkGateway( );
+            $this->global( array( 'global', 'globalInit' ) );
 
             // Setup company profile if not already
             $CompanyModel = CompanyModel::getInstance( );
