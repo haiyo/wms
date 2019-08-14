@@ -44,7 +44,7 @@ class ManagerControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         $post = Control::getPostData( );
 
         $ManagerModel = ManagerModel::getInstance( );

@@ -42,6 +42,11 @@
             includeSelectAllOption: true,
             dropUp : false
         });
+        $("#contractType").multiselect({
+            //enableFiltering: true,
+            includeSelectAllOption: true,
+            dropUp : false
+        });
 
         $("#applied").change(function( ) {
             if( $(this).val( ) == "probation" ) {
@@ -135,10 +140,12 @@
                     for( var i=0; i<existingGroups.length; i++ ) {
                         if( existingGroups[i].lgIndex == lgIndex ) {
                             existingGroups[i].groupTitle = groupTitle;
+                            existingGroups[i].entitledLeaves = $("#entitledLeaves").val( );
                             editedGroups.push( existingGroups[i] );
                             existingSaved = true;
                             continue;
                         }
+                        editedGroups.push( existingGroups[i] );
                     }
                 }
                 if( !existingSaved ) {
@@ -146,7 +153,10 @@
                         "lgIndex": lgIndex,
                         "lgID": $("#lgID").val( ),
                         "groupTitle": groupTitle,
-                        "designations": $("#designation").val( ),
+                        "entitledLeaves": $("#entitledLeaves").val( ),
+                        "designation": $("#designation").val( ),
+                        "contractType": $("#contractType").val( ),
+                        "proRated": $("#proRated2").is(":checked") ? 0 : 1,
                         "structures": []
                     };
 
@@ -157,7 +167,6 @@
                             "days": $(this).find(".days").val()
                         });
                     });
-
                     editedGroups.push( leaveGroups );
                 }
 
@@ -192,9 +201,11 @@
         $('input:radio[name="proRated"]').change(function( ) {
             if( $(this).val( ) == 1 ) {
                 $("#structureRow").addClass("hide");
+                $("#entitledRow").removeClass("hide");
             }
             else {
                 $("#structureRow").removeClass("hide");
+                $("#entitledRow").addClass("hide");
             }
         });
 
@@ -216,23 +227,34 @@
                     if( leaveGroups[i].lgIndex == lgIndex ) {
                         editSaved = true;
                         $("#groupTitle").val( leaveGroups[i]["groupTitle"] );
+                        $("#entitledLeaves").val( leaveGroups[i]["entitledLeaves"] );
 
                         if( leaveGroups[i].proRated == 1 ) {
-                            $("#children1").click( );
-                            $.uniform.update( );
+                            $("#proRated1").click( );
                         }
                         else {
-                            $("#children2").click( );
+                            $("#proRated2").click( );
                         }
+                        $.uniform.update();
 
                         var designation = $("#designation");
 
-                        if( leaveGroups[i].designations.length > 0 ) {
-                            for( var j=0; j<leaveGroups[i].designations.length; j++ ) {
-                                designation.multiselect("select", leaveGroups[i].designations[j] );
+                        if( leaveGroups[i].designation.length > 0 ) {
+                            for( var j=0; j<leaveGroups[i].designation.length; j++ ) {
+                                designation.multiselect("select", leaveGroups[i].designation[j] );
                             }
                             designation.multiselect("refresh");
                         }
+
+                        var contractType = $("#contractType");
+
+                        if( leaveGroups[i].contract.length > 0 ) {
+                            for( var j=0; j<leaveGroups[i].contract.length; j++ ) {
+                                contractType.multiselect("select", leaveGroups[i].contract[j] );
+                            }
+                            contractType.multiselect("refresh");
+                        }
+
                         if( leaveGroups[i].structures.length > 0 ) {
                             for( var j=0; j<leaveGroups[i].structures.length; j++ ) {
                                 if( leaveGroups[i].structures[j].start != "" ||
@@ -259,14 +281,32 @@
                         else {
                             $("#lgID").val( obj.data.group.lgID );
                             $("#groupTitle").val( obj.data.group.title );
+                            $("#entitledLeaves").val( obj.data.group.entitledLeaves );
+
+                            if( obj.data.group.proRated == "1" ) {
+                                $("#proRated1").click( );
+                            }
+                            else {
+                                $("#proRated2").click( );
+                            }
+                            $.uniform.update();
 
                             var designation = $("#designation");
 
-                            if( obj.data.designations.length > 0 ) {
-                                for( var i=0; i<obj.data.designations.length; i++ ) {
-                                    designation.multiselect("select", obj.data.designations[i]["dID"] );
+                            if( obj.data.designation.length > 0 ) {
+                                for( var i=0; i<obj.data.designation.length; i++ ) {
+                                    designation.multiselect("select", obj.data.designation[i]["dID"] );
                                 }
                                 designation.multiselect("refresh");
+                            }
+
+                            var contractType = $("#contractType");
+
+                            if( obj.data.contract.length > 0 ) {
+                                for( var i=0; i<obj.data.contract.length; i++ ) {
+                                    contractType.multiselect("select", obj.data.contract[i]["cID"] );
+                                }
+                                contractType.multiselect("refresh");
                             }
 
                             if( obj.data.structure.length > 0 ) {
@@ -283,7 +323,10 @@
                 Aurora.WebService.AJAX( "admin/leave/getGroup", data );
             }
             else {
+                $("#structureRow").removeClass("hide");
                 addStructure( );
+                $("#proRated2").click( );
+                $.uniform.update();
             }
         });
 

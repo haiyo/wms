@@ -50,7 +50,7 @@ class UserControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
         if( $this->UserModel->isValid( $post ) ) {

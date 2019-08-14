@@ -15,6 +15,19 @@ class LeaveBalance extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByltID( $ltID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(elbID) FROM employee_leave_bal
+                                   WHERE ltID = "' . (int)$ltID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -36,13 +49,12 @@ class LeaveBalance extends \DAO {
      * @return mixed
      */
     public function getByUserID( $userID ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT lt.name, lb.balance FROM employee_leave_bal lb
                                    JOIN leave_type lt ON ( lt.ltID = lb.ltID )
                                    WHERE lb.userID = "' . (int)$userID . '"' . $this->limit,
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
@@ -57,13 +69,12 @@ class LeaveBalance extends \DAO {
      * @return mixed
      */
     public function getTypeListByUserID( $userID ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT lt.ltID, lt.name FROM employee_leave_bal elb
                                    LEFT JOIN leave_type lt ON ( lt.ltID = elb.ltID )
                                    WHERE elb.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['ltID']] = $row['name'];
@@ -78,13 +89,13 @@ class LeaveBalance extends \DAO {
      * @return mixed
      */
     public function getSidebarByUserID( $userID ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT lt.ltID, lt.name, elb.balance FROM employee_leave_bal elb
                                    LEFT JOIN leave_type lt ON ( lt.ltID = elb.ltID )
-                                   WHERE elb.userID = "' . (int)$userID . '" AND elb.sidebar = "1"',
+                                   WHERE elb.userID = "' . (int)$userID . '" ORDER BY elbID ASC' .
+                                   $this->limit,
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
@@ -107,7 +118,8 @@ class LeaveBalance extends \DAO {
         $sql = $this->DB->select( 'SELECT u.userID, CONCAT(u.fname, " ", u.lname ) AS name FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    WHERE e.resigned <> "1" AND u.suspended <> "1" AND deleted <> "1" ' . $q . '
-                                   ORDER BY name ASC', __FILE__, __LINE__ );
+                                   ORDER BY name ASC',
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -123,8 +135,6 @@ class LeaveBalance extends \DAO {
      * @return mixed
      */
     public function getResults( $q='', $order='name ASC' ) {
-        $list = array( );
-
         if( $q == 'active' ) {
             $q = 'AND u.suspended = "0"';
         }
@@ -151,6 +161,7 @@ class LeaveBalance extends \DAO {
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
+        $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;

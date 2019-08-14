@@ -1,9 +1,10 @@
 <?php
 namespace Markaxis\Leave;
 use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel AS A_DesignationModel;
-use \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
-use Library\Helper\Aurora\YesNoHelper;
-use \Library\Helper\Markaxis\ProRatedHelper, \Library\Runtime\Registry;
+use \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
+use \Aurora\Component\ContractModel AS A_ContractModel;
+use \Library\Helper\Aurora\YesNoHelper;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -22,6 +23,7 @@ class StructureView {
     protected $View;
     protected $StructureModel;
     protected $A_DesignationModel;
+    protected $A_ContractModel;
     protected $SelectGroupListView;
 
 
@@ -36,7 +38,9 @@ class StructureView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
         $this->A_DesignationModel = A_DesignationModel::getInstance( );
+        $this->A_ContractModel = A_ContractModel::getInstance( );
         $this->StructureModel = StructureModel::getInstance( );
+
         $this->SelectGroupListView = new SelectGroupListView( );
         $this->SelectGroupListView->includeBlank( false );
         $this->SelectGroupListView->isMultiple(true);
@@ -66,14 +70,21 @@ class StructureView {
      */
     public function renderEditType( $ltID ) {
         $RadioView = new RadioView( );
-        $proRated = $RadioView->build( 'proRated', YesNoHelper::getL10nList( ), 0 );
+        $proRated = $RadioView->build( 'proRated', YesNoHelper::getL10nList( ), '' );
 
         $designationList = $this->SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
                                                              '','Select Designation' );
 
+        $SelectListView = new SelectListView( );
+        $SelectListView->isMultiple(true );
+        $SelectListView->includeBlank(false);
+        $contractList = $SelectListView->build('contractType', $this->A_ContractModel->getList( ),
+                                               '', 'Select Contract Type' );
+
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_PRO_RATED_RADIO' => $proRated,
-                       'TPL_DESIGNATION_LIST' => $designationList ) );
+                       'TPL_DESIGNATION_LIST' => $designationList,
+                       'TPL_CONTRACT_LIST' => $contractList ) );
 
         $vars['dynamic']['noGroup'] = false;
         $vars['dynamic']['group'] = false;

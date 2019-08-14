@@ -41,7 +41,7 @@ class LeaveTypeModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getByUserID( $userID, $column ) {
+    public function getByUserID( $userID, $column='*' ) {
         return $this->LeaveType->getByUserID( $userID, $column );
     }
 
@@ -70,6 +70,18 @@ class LeaveTypeModel extends \Model {
      */
     public function existByLTIDs( $ltIDs ) {
         return (int)$this->LeaveType->existByLTIDs( $ltIDs );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function globalInit( ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        //var_dump($empInfo);
     }
 
 

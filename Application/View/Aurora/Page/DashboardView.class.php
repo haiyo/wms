@@ -73,13 +73,12 @@ class DashboardView {
             $sizeof = sizeof( $output['balance'] );
 
             if( $sizeof > 0 ) {
-                $vars = array_merge( $this->L10n->getContents( ),
-                    array( ) );
+                $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
                 for( $i=0; $i<$sizeof; $i++ ) {
                     $vars['TPLVAR_LEAVE_LTID_' . $i] = $output['balance'][$i]['ltID'];
                     $vars['TPLVAR_LEAVE_TYPE_NAME_' . $i] = $output['balance'][$i]['name'];
-                    $vars['TPLVAR_LEAVE_BAL_' . $i] = $output['balance'][$i]['balance'];
+                    $vars['TPLVAR_LEAVE_BAL_' . $i] = (float)$output['balance'][$i]['balance'];
                 }
                 return $this->View->render( 'aurora/page/searchBox.tpl', $vars );
             }

@@ -41,7 +41,7 @@ class Designation extends \DAO {
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
+                $list[$row['dID']] = $row;
             }
         }
         return $list;

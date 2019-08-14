@@ -117,7 +117,7 @@ class Control {
     public static function setOutputArray( $array ) {
         if( is_array( $array ) ) {
             foreach( $array as $key => $value ) {
-                self::$outputArray[$key] = $array[$key];
+                self::$outputArray[$key] = $value;
             }
         }
     }

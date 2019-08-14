@@ -72,6 +72,15 @@ class TypeModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByIDs( $ltIDs ) {
+        return $this->Type->getByIDs( $ltIDs );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

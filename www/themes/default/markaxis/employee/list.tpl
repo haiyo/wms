@@ -102,9 +102,9 @@
                                     '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                                         '<i class="icon-menu9"></i></a>' +
                                     '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
-                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view/' + data + '">' +
+                                        '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/user/view/' + data + '">' +
                                             '<i class="icon-user"></i> View Employee Info</a>' +
-                                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '">' +
+                                        '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/user/edit/' + data + '">' +
                                             '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
                                         '<a class="dropdown-item" href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '">' +
                                             '<i class="icon-mail5"></i> Message Employee</a>' +

@@ -234,7 +234,7 @@
                             </a>
                         </div>
                         <div class="box-content">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/employee/list"><i class="icon-people"></i><h4>Staff Directory</h4>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/user/list"><i class="icon-people"></i><h4>Staff Directory</h4>
                                 <div class="box-content-descript">Search for coworkers and their contact information</div>
                             </a>
                         </div>

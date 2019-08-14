@@ -29,7 +29,7 @@ class DepartmentControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
             $this->DepartmentModel->save( Control::getPostData( ) );
         }

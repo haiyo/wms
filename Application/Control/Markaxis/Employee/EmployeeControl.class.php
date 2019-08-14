@@ -149,7 +149,7 @@ class EmployeeControl {
      * Render main navigation
      * @return void
      */
-    public function save( ) {
+    public function saveUser( ) {
         $post = Control::getPostData( );
         $post['eID'] = $this->EmployeeModel->save( $post );
         Control::setPostData( $post );

@@ -123,16 +123,16 @@ class FormWrapperView {
         }
 
         $EmployeeModel = EmployeeModel::getInstance( );
-        $eInfo = $EmployeeModel->getInfo( );
+        $empInfo = $EmployeeModel->getInfo( );
 
         $vars['dynamic']['designation'] = false;
 
-        if( isset( $eInfo['dID'] ) ) {
+        if( isset( $empInfo['dID'] ) ) {
             $DesignationModel = DesignationModel::getInstance( );
             $dInfo = $DesignationModel->getInfo( );
-            $key = array_search( $eInfo['dID'], array_column( $dInfo, 'id') );
+            $key = array_search( $empInfo['dID'], array_column( $dInfo, 'id') );
 
-            if( $eInfo['dID'] ) {
+            if( $empInfo['dID'] ) {
                 $vars['dynamic']['designation'][] = array( 'TPLVAR_DESIGNATION' => $dInfo[$key]['title'] );
             }
         }

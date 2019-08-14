@@ -186,7 +186,7 @@
         $("#modalPermission").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
 
-            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/employee/getPermList/' + $invoker.attr("data-id"), function() {
+            $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/user/getPermList/' + $invoker.attr("data-id"), function() {
                 $(".switch").bootstrapSwitch('disabled',false);
                 $(".switch").bootstrapSwitch('state', false);
                 getPerms( $invoker.attr("data-id") );

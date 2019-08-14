@@ -40,7 +40,7 @@ class UserRoleControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
+    public function saveUser( ) {
         $post = Control::getPostData( );
         $this->UserRoleModel->save( $post );
     }

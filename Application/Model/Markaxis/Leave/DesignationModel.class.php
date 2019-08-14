@@ -49,6 +49,22 @@ class DesignationModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getByGroups( $leaveTypes ) {
+        foreach( $leaveTypes as $key => $type ) {
+            if( sizeof( $type['group'] ) > 0 ) {
+                foreach( $type['group'] as $groupKey => $group ) {
+                    $leaveTypes[$key]['group'][$groupKey]['designation'] = $this->Designation->getBylgID( $group['lgID'] );
+                }
+            }
+        }
+        return $leaveTypes;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -56,22 +72,26 @@ class DesignationModel extends \Model {
         if( isset( $data['leaveGroups'] ) && is_array( $data['leaveGroups'] ) ) {
             $DesignationModel = A_Designation::getInstance( );
 
-            foreach( $data['leaveGroups'] as $groupObj ) {
-                if( isset( $groupObj->designations ) && is_array( $groupObj->designations ) ) {
-                    foreach( $groupObj->designations as $designation ) {
-                        if( $DesignationModel->isFound( $designation ) ) {
-                            // Group is not unset here, so its safe
-                            $this->Designation->delete('leave_designation', 'WHERE lgID = "' . (int)$data['lgID'] . '"');
+            $success = array( );
 
+            foreach( $data['leaveGroups'] as $groupObj ) {
+                if( isset( $groupObj->designation ) && is_array( $groupObj->designation ) && sizeof( $groupObj->designation ) > 0 ) {
+                    foreach( $groupObj->designation as $designation ) {
+                        if( $DesignationModel->isFound( $designation ) ) {
                             $info = array( );
                             $info['lgID'] = $groupObj->lgID;
                             $info['dID'] = $designation;
-                            $this->Designation->insert( 'leave_designation', $info );
-
+                            array_push( $success, $this->Designation->insert( 'leave_designation', $info ) );
                         }
                     }
-
                 }
+                else {
+                    $this->Designation->delete('leave_designation', 'WHERE lgID = "' . (int)$groupObj->lgID . '"');
+                }
+            }
+            if( sizeof( $success ) > 0 ) {
+                $this->Designation->delete('leave_designation', 'WHERE ldID NOT IN(' . implode(',', $success) . ') 
+                                                                                AND lgID = "' . (int)$groupObj->lgID . '"');
             }
         }
     }

@@ -49,7 +49,7 @@ class Structure extends \DAO {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getBylgID( $lgID ) {
         $list = array( );

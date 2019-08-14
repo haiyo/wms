@@ -56,6 +56,30 @@ class EmployeeModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCurrYearWorkMonth( ) {
+        $diffMonth = 0;
+
+        if( isset( $this->info['startDate'] ) ) {
+            $this->info['startDate'] = '2014-10-01';
+
+            $startDate = \DateTime::createFromFormat('Y-m-d', $this->info['startDate'] );
+
+            if( $startDate->format('Y') == date('Y') ) {
+                $diffMonth = $startDate->diff(new \DateTime('now'))->m;
+            }
+            else {
+                // Employee has work for more than 1 year
+                $diffMonth = date('m')-1;
+            }
+        }
+        return $diffMonth;
+    }
+
+
+    /**
      * Return a list of all users
      * @return mixed
      */

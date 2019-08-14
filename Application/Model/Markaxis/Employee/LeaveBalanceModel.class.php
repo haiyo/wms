@@ -30,6 +30,15 @@ class LeaveBalanceModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function isFoundByltID( $ltID ) {
+        return $this->LeaveBalance->isFoundByltID( $ltID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getByUserID( $userID, $limit=false ) {
         if( $limit ) {
             $this->LeaveBalance->setLimit( 0, $limit );
@@ -48,15 +57,6 @@ class LeaveBalanceModel extends \Model {
 
 
     /**
-     * Return a list of all users
-     * @return mixed
-     */
-    public function getList( $q='' ) {
-        return $this->Employee->getList( $q );
-    }
-
-
-    /**
      * Return user data by userID
      * @return mixed
      */
@@ -70,55 +70,39 @@ class LeaveBalanceModel extends \Model {
      * @return mixed
      */
     public function getSidebar( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
 
-        $this->info = $this->LeaveBalance->getSidebarByUserID( $userInfo['userID'] );
+        $this->info = $this->LeaveBalance->getSidebarByUserID( $empInfo['userID'] );
         return $this->info;
     }
 
 
     /**
-     * Get File Information
+     * Return user data by userID
      * @return mixed
      */
-    public function getResults( $post ) {
-        $this->Employee->setLimit( $post['start'], $post['length'] );
+    public function updateUserBalance( $userID, $leaveTypes ) {
+        foreach( $leaveTypes as $type ) {
+            $totalApplied = isset( $type['totalApplied'] ) ? $type['totalApplied'] : 0;
+            $totalLeaves  = isset( $type['totalLeaves']  ) ? $type['totalLeaves']  : 0;
 
-        $order = 'name';
-        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+            $info = array( );
+            $info['totalLeaves'] = (float)$totalLeaves;
+            $info['totalApplied'] = (float)$totalApplied;
+            $info['balance'] = $info['totalLeaves']-$info['totalApplied'];
 
-        if( isset( $post['order'][0]['column'] ) ) {
-            switch( $post['order'][0]['column'] ) {
-                case 1:
-                    $order = 'e.idnumber';
-                    break;
-                case 2:
-                    $order = 'name';
-                    break;
-                case 3:
-                    $order = 'd.title';
-                    break;
-                case 4:
-                    $order = 'e.email1';
-                    break;
-                case 5:
-                    $order = 'u.mobile';
-                    break;
-                case 6:
-                    $order = 'u.suspended';
-                    break;
+            if( !$this->getByltIDUserID( $type['ltID'], $userID ) ) {
+                $info['ltID'] = $type['ltID'];
+                $info['userID'] = (int)$userID;
+                $this->LeaveBalance->insert( 'employee_leave_bal', $info );
+            }
+            else {
+                $this->LeaveBalance->update('employee_leave_bal', $info,
+                                            'WHERE ltID = "' . (int)$type['ltID'] . '" AND
+                                                          userID = "' . (int)$userID . '"' );
             }
         }
-        $results = $this->Employee->getResults( $post['search']['value'], $order . $dir );
-
-        $total = $results['recordsTotal'];
-        unset( $results['recordsTotal'] );
-
-        return array( 'draw' => (int)$post['draw'],
-                      'recordsFiltered' => $total,
-                      'recordsTotal' => $total,
-                      'data' => $results );
     }
 }
 ?>
