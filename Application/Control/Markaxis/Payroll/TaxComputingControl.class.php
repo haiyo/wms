@@ -80,6 +80,15 @@ class TaxComputingControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $this->reprocessPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
         $this->TaxComputingModel->saveTaxRule( $post );

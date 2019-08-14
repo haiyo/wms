@@ -7,7 +7,7 @@
                 $(nRow).attr('id', 'leaveTypeTable-row' + aData['ltID']);
             },
             ajax: {
-                url: Aurora.ROOT_URL + "admin/leave/getLeaveTypeResults",
+                url: Aurora.ROOT_URL + "admin/leave/getTypeResults",
                 type: "POST",
                 data: function (d) {
                     d.ajaxCall = 1;

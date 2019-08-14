@@ -200,17 +200,38 @@ class ItemModel extends \Model {
                     $id   = $match[1];
                     $piID = str_replace('p-', '', $item );
 
-                    if( isset( $post['data']['amount_' . $id] ) ) {
+                    if( $this->isFound( $piID ) && isset( $post['data']['amount_' . $id] ) ) {
                         $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
                         $amount = (int)str_replace(',', '', $amount );
+                        $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
 
                         if( $amount > 0 ) {
-                            $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount );
+                            $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
                         }
                     }
                 }
             }
             return $post;
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        $post = $this->reprocessPayroll( $data, $post );
+
+        if( sizeof( $post['postItems'] ) ) {
+            foreach( $post['postItems'] as $item ) {
+                $info = array( );
+                $info['userID'] = $data['empInfo']['userID'];
+                $info['piID'] = $item['piID'];
+                $info['amount'] = $item['amount'];
+                $info['remark'] = $item['remark'];
+                $this->Item->insert( 'payroll_user_item', $info );
+            }
         }
     }
 

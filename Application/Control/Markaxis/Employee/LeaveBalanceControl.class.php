@@ -13,6 +13,7 @@ class LeaveBalanceControl {
 
 
     // Properties
+    protected $LeaveBalanceModel;
 
 
     /**
@@ -20,7 +21,7 @@ class LeaveBalanceControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->LeaveBalanceModel = new LeaveBalanceModel( );
     }
 
 
@@ -29,8 +30,23 @@ class LeaveBalanceControl {
      * @return string
      */
     public function dashboard( ) {
-        $LeaveBalanceModel = new LeaveBalanceModel( );
-        Control::setOutputArray( array( 'balance' => $LeaveBalanceModel->getSidebar( ) ) );
+        Control::setOutputArray( array( 'balance' => $this->LeaveBalanceModel->getSidebar( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function globalInit( ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+        $data = Control::getOutputArray( );
+
+        if( sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
+            sizeof( $data['leaveTypes'] ) > 0 ) {
+            $this->LeaveBalanceModel->updateUserBalance( $empInfo['userID'], $data['leaveTypes'] );
+        }
     }
 }
 ?>

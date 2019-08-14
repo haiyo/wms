@@ -13,6 +13,7 @@ class DesignationControl {
 
 
     // Properties
+    protected $DesignationModel;
 
 
     /**
@@ -20,7 +21,33 @@ class DesignationControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->DesignationModel = DesignationModel::getInstance( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function globalInit( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) && sizeof( $data['leaveTypes'] ) > 0 ) {
+            Control::setOutputArray( array( 'leaveTypes' => $this->DesignationModel->getByGroups( $data['leaveTypes'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getGroup( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['group'] ) ) {
+            Control::setOutputArrayAppend( array( 'designation' => $this->DesignationModel->getBylgID( $data['group']['lgID'] ) ) );
+        }
     }
 
 
@@ -31,8 +58,7 @@ class DesignationControl {
     public function saveType( ) {
         $post = Control::getPostData( );
 
-        $DesignationModel = DesignationModel::getInstance( );
-        $DesignationModel->save( $post );
+        $this->DesignationModel->save( $post );
         Control::setPostData( $post );
     }
 }

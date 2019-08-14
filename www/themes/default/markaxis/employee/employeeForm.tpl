@@ -143,7 +143,7 @@
     </div>
 
     <div class="row">
-        <h6 class="mb-0 ml-10 font-weight-bold">For Foreigner:</h6>
+        <span class="mb-0 ml-10 font-weight-bold">For Foreigner:</span>
         <div class="card">
             <div class="card-body">
                 <div class="col-md-4">

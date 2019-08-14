@@ -41,10 +41,6 @@ class TypeModel extends \Model {
         $this->info['paidLeave'] = 1;
         $this->info['applied'] = 'hired';
         $this->info['unused'] = 'forfeit';
-        $this->info['gender'] = 'all';
-        $this->info['office'] = 'all';
-        $this->info['designation'] = 'all';
-        $this->info['contract'] = 'all';
         $this->info['haveChild'] = 0;
         $this->info['childBorn'] = '';
         $this->info['childAge'] = '';
@@ -72,6 +68,15 @@ class TypeModel extends \Model {
      */
     public function getByID( $ltID ) {
         return $this->info = $this->Type->getByID( $ltID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByIDs( $ltIDs ) {
+        return $this->Type->getByIDs( $ltIDs );
     }
 
 

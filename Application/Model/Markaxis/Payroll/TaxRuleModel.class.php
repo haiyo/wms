@@ -62,9 +62,17 @@ class TaxRuleModel extends \Model {
      * @return int
      */
     public function getProcessTaxRules( $data ) {
-        if( $data['taxGroups'] ) {
-            $tgIDs = implode(', ', array_column( $data['taxGroups'], 'tgID' ) );
-            $data['taxRules'] = $this->TaxRule->getBytgIDs( $tgIDs );
+        if( isset( $data['taxGroups']['mainGroup'] ) ) {
+            $tgIDs = array( );
+
+            foreach( $data['taxGroups']['mainGroup'] as $mainGroup ) {
+                $tgIDs[] = $mainGroup['tgID'];
+
+                if( isset( $mainGroup['child'] ) ) {
+                    $tgIDs[] = implode(', ', $mainGroup['child'] );
+                }
+            }
+            $data['taxRules'] = $this->TaxRule->getBytgIDs( implode(', ', $tgIDs ) );
         }
         return $data;
     }

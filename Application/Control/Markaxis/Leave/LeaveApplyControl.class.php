@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
 use \Control;
 
 /**
@@ -31,6 +32,22 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
+    public function globalInit( ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+        $data = Control::getOutputArray( );
+
+        if( sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
+            sizeof( $data['leaveTypes'] ) > 0 ) {
+            Control::setOutputArray( array( 'leaveTypes' => $this->LeaveApplyModel->getByUserLeaveTypeCurrYear( $empInfo['userID'], $data['leaveTypes'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getHistory( ) {
         $post = Control::getRequest( )->request( POST );
         Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
@@ -44,9 +61,9 @@ class LeaveApplyControl {
     public function getDateDiff( ) {
         $post = Control::getRequest( )->request( POST );
 
-        if( $diff = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
+        if( $days = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
             $vars['bool'] = 1;
-            $vars['text'] = $diff['text'];
+            $vars['text'] = $this->LeaveApplyView->renderBalText( $days );
         }
         else {
             $vars['bool'] = 0;
@@ -71,11 +88,6 @@ class LeaveApplyControl {
      * @return string
      */
     public function dashboard( ) {
-        $output = Control::getOutputArray( );
-
-        if( isset( $output['balance'] ) ) {
-            Control::setOutputArray( array( 'balance' => $this->LeaveApplyModel->calculateBalance( $output['balance'] ) ) );
-        }
         Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
     }
 

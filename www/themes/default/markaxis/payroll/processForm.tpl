@@ -21,7 +21,7 @@
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
-    <div id="itemWrapper" style="min-height:243px;max-height:166px;margin-bottom: 11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
+    <div id="itemWrapper" style="min-height:160px;max-height:160px;margin-bottom:11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
         <!-- BEGIN DYNAMIC BLOCK: item -->
         <div id="itemRowWrapper_<?TPLVAR_ID?>" class="row itemRow <?TPLVAR_DEDUCTION?>" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
             <div class="col-md-4">
@@ -30,7 +30,7 @@
 
             <div class="col-md-3 amount">
                 <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control amountInput"
-                       value="<?TPLVAR_AMOUNT?>" placeholder="" disabled="disabled" />
+                       value="<?TPLVAR_AMOUNT?>" placeholder="" />
             </div>
 
             <div class="col-md-4 remark">

@@ -28,9 +28,6 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#"><i class="icon-undo"></i> Quick reply</a></li>
-                    <li><a href="#"><i class="icon-history"></i> Full history</a></li>
-                    <li class="divider"></li>
                     <li><a href="#" data-id="<?TPLVAR_ID?>" class="<?TPLVAR_CLASS?> approve"><i class="icon-checkmark3 text-success"></i> Approve</a></li>
                     <li><a href="#" data-id="<?TPLVAR_ID?>" class="<?TPLVAR_CLASS?> disapprove"><i class="icon-cross2 text-danger"></i> Disapprove</a></li>
                 </ul>

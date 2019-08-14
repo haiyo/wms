@@ -77,8 +77,8 @@ class PayrollView {
             $year      = $datetime->format('Y');
             $lastDay   = $datetime->format('t');
             $ymd       = $datetime->format('Y-m-d');
-            $workDays  = $OfficeModel->getWorkingDays( $datetime->format('Y-m-') . '01',
-                                                       $datetime->format('Y-m-') . $lastDay );
+            $workDays  = $OfficeModel->getWorkingDaysByRange( $datetime->format('Y-m-') . '01',
+                                                              $datetime->format('Y-m-') . $lastDay );
 
             if( isset( $processed[$index]['completed'] ) && $processed[$index]['completed'] ) {
                 $dataID    = 'complete';
@@ -226,7 +226,6 @@ class PayrollView {
             }
 
             $SelectGroupListView = new SelectGroupListView( );
-            $SelectGroupListView->isDisabled(true );
             $SelectGroupListView->includeBlank(false );
             $SelectGroupListView->setClass("itemType");
             $vars['dynamic']['item'] = false;
@@ -288,7 +287,6 @@ class PayrollView {
                     }
                 }
             }
-            $SelectGroupListView->isDisabled( false );
             $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
             $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
 

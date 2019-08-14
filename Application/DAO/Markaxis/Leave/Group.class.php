@@ -4,11 +4,11 @@ namespace Markaxis\Leave;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: Structure.class.php, v 2.0 Exp $
+ * @version $Id: Group.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class Structure extends \DAO {
+class Group extends \DAO {
 
 
     // Properties
@@ -18,9 +18,9 @@ class Structure extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFoundByGroup( $lgID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(lsID) FROM leave_structure
-                                   WHERE lgID = "' . (int)$lgID . '"',
+    public function isFound( $lgID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(lgID) FROM leave_group
+                                   WHERE ltID = "' . (int)$lgID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -31,19 +31,14 @@ class Structure extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function getByID( $ltID ) {
-        $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM leave_structure WHERE ltID = "' . (int)$ltID . '"
-                                   ORDER BY lsID DESC',
+    public function getByID( $lgID ) {
+        $sql = $this->DB->select( 'SELECT * FROM leave_group WHERE lgID = "' . (int)$lgID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
-            }
+            return $this->DB->fetch( $sql );
         }
-        return $list;
+        return false;
     }
 
 
@@ -51,13 +46,12 @@ class Structure extends \DAO {
      * Return total count of records
      * @return mixed
      */
-    public function getBylgID( $lgID ) {
+    public function getByltID( $ltID ) {
+        $sql = $this->DB->select( 'SELECT * FROM leave_group
+                                   WHERE ltID = "' . (int)$ltID . '"',
+                                   __FILE__, __LINE__ );
+
         $list = array( );
-
-        $sql = $this->DB->select( 'SELECT * FROM leave_structure WHERE lgID = "' . (int)$lgID . '"
-                                   ORDER BY lsID DESC',
-                                    __FILE__, __LINE__ );
-
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
@@ -71,9 +65,9 @@ class Structure extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function getBydesignationID( $ldID ) {
-        $sql = $this->DB->select( 'SELECT * FROM leave_structure WHERE ldID = "' . (int)$ldID . '"
-                                   ORDER BY lsID DESC',
+    public function getByltIDs( $ltIDs ) {
+        $sql = $this->DB->select( 'SELECT * FROM leave_group
+                                   WHERE ltIDs IN (' . implode(',', $ltID ) . ')',
                                    __FILE__, __LINE__ );
 
         $list = array( );

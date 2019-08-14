@@ -49,8 +49,11 @@ class OfficeView {
 
         $OfficeTypeModel = OfficeTypeModel::getInstance( );
         $officeTypeList  = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
-        $workDayFromList = $SelectListView->build( 'workDayFrom', DayHelper::getL10nList( ), '', 'Select Work Day From' );
-        $workDayToList   = $SelectListView->build( 'workDayTo', DayHelper::getL10nList( ), '', 'Select Work Day To' );
+
+        $nList = DayHelper::getL10nNumericValueList( );
+        $workDayToList   = $SelectListView->build( 'workDayTo', $nList, '', 'Select Work Day To' );
+        $SelectListView->isDisabled(true);
+        $workDayFromList = $SelectListView->build( 'workDayFrom', $nList, '', 'Select Work Day From' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_HREF' => 'officeList',

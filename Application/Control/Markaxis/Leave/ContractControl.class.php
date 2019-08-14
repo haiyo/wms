@@ -13,6 +13,7 @@ class ContractControl {
 
 
     // Properties
+    protected $ContractModel;
 
 
     /**
@@ -20,7 +21,33 @@ class ContractControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->ContractModel = ContractModel::getInstance( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function globalInit( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) && sizeof( $data['leaveTypes'] ) > 0 ) {
+            Control::setOutputArray( array( 'leaveTypes' => $this->ContractModel->getByGroups( $data['leaveTypes'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getGroup( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['group'] ) ) {
+            Control::setOutputArrayAppend( array( 'contract' => $this->ContractModel->getBylgID( $data['group']['lgID'] ) ) );
+        }
     }
 
 

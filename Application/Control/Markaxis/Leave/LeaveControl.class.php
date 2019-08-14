@@ -29,15 +29,6 @@ class LeaveControl {
      * Render main navigation
      * @return string
      */
-    public function dashboard( ) {
-        //Control::setOutputArrayAppend( $this->LeaveView->renderApplyForm( ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function balance( ) {
         $output = Control::getOutputArray( );
         $this->LeaveView->renderBalance( );

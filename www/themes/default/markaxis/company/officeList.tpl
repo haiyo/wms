@@ -43,22 +43,10 @@
                 targets: [4],
                 orderable: true,
                 width: '150px',
-                data: 'openTime',
-                className : "text-center",
-            },{
-                targets: [5],
-                orderable: true,
-                width: '150px',
-                data: 'closeTime',
-                className : "text-center",
-            },{
-                targets: [6],
-                orderable: true,
-                width: '150px',
                 data: 'empCount',
                 className : "text-center",
             },{
-                targets: [7],
+                targets: [5],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -148,10 +136,6 @@
         $("#workDayFrom").select2({minimumResultsForSearch: -1});
         $("#workDayTo").select2({minimumResultsForSearch: -1});
 
-        var pickatimeSetting = {interval:5};
-        var openTime = $("#openTime").pickatime(pickatimeSetting).pickatime('picker');
-        var closeTime = $("#closeTime").pickatime(pickatimeSetting).pickatime('picker');
-
         $("#modalOffice").on("show.bs.modal", function(e) {
             var $invoker = $(e.relatedTarget);
             var oID = $invoker.attr("data-id");
@@ -166,20 +150,16 @@
                         }
                         else {
                             $("#officeID").val( obj.data.oID );
-                            $("#officeName").val( obj.data.name );
+                            $("#officeName").val( obj.data.officeName );
                             $("#officeAddress").val( obj.data.address );
                             $("#officeCountry").val( obj.data.countryID ).trigger("change");
                             $("#officeType").val( obj.data.officeTypeID ).trigger("change");
                             $("#workDayFrom").val( obj.data.workDayFrom ).trigger("change");
                             $("#workDayTo").val( obj.data.workDayTo ).trigger("change");
 
-                            if( obj.data.openTime ) {
-                                openTimeSplit = obj.data.openTime.split(":");
-                                openTime.set('select', [openTimeSplit[0],openTimeSplit[1]]);
-                            }
-                            if( obj.data.closeTime ) {
-                                closeTimeSplit = obj.data.closeTime.split(":");
-                                closeTime.set('select', [closeTimeSplit[0],closeTimeSplit[1]]);
+                            if( obj.data.halfDay == 1 ) {
+                                $("#halfDay").prop("checked", true);
+                                $.uniform.update('#halfDay');
                             }
                         }
                     }
@@ -194,8 +174,8 @@
                 $("#officeType").val("").trigger("change");
                 $("#workDayFrom").val("").trigger("change");
                 $("#workDayTo").val("").trigger("change");
-                $("#openTime").val("").trigger("change");
-                $("#closeTime").val("").trigger("change");
+                $("#halfDay").prop("checked", false);
+                $.uniform.update('#halfDay');
             }
         });
 
@@ -251,8 +231,8 @@
                                 $("#officeType").val("").trigger("change");
                                 $("#workDayFrom").val("").trigger("change");
                                 $("#workDayTo").val("").trigger("change");
-                                $("#openTime").val("").trigger("change");
-                                $("#closeTime").val("").trigger("change");
+                                $("#halfDay").prop("checked", false);
+                                $.uniform.update('#halfDay');
 
                                 if( isConfirm === false ) {
                                     $("#modalOffice").modal("hide");
@@ -330,8 +310,6 @@
             <th>Address</th>
             <th>Country</th>
             <th>Work Days</th>
-            <th>Opening Hour</th>
-            <th>Closing Hour</th>
             <th>Total Employee</th>
             <th>Actions</th>
         </tr>
@@ -394,27 +372,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Opening Hour:</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                    <input type="text" class="form-control" id="openTime" name="openTime" placeholder="" />
-                                </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-right">
+                                <label>Last day is half day: &nbsp;</label>
+                                <input type="checkbox" class="dt-checkboxes check-input" id="halfDay" name="halfDay" value="1" />
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label>Closing Hour:</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                    </span>
-                                <input type="text" class="form-control" id="closeTime" name="closeTime" placeholder="" />
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

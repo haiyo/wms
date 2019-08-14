@@ -137,7 +137,7 @@ class TaxComputingModel extends \Model {
                 $compInfo['computing'] == 'ltec' && $data['totalOrdinary'] > $compInfo['value'] ) {
                 // Set the cap amount for later deduction.
                 $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
-                $data['totalOrdinaryAfterTax'] = $compInfo['value'];
+                $data['totalOrdinaryNett'] = $compInfo['value'];
             }
         }
         return $data;
@@ -177,13 +177,13 @@ class TaxComputingModel extends \Model {
                         }
                     }
                 }
-                $data['totalOrdinary'] = $data['totalOrdinaryAfterTax'] = 0;
+                $data['totalOrdinary'] = $data['totalOrdinaryNett'] = 0;
 
                 // foreach is still the fastest compare to array_sum;
                 foreach( $data['ordinary'] as $ordinary ) {
                     if( isset( $ordinary['amount'] ) ) {
                         $data['totalOrdinary'] += $ordinary['amount'];
-                        $data['totalOrdinaryAfterTax'] += $ordinary['amount'];
+                        $data['totalOrdinaryNett'] += $ordinary['amount'];
                         $data['gross'][] = array( 'amount' => $ordinary['amount'] );
                     }
                 }

@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\Component\DesignationModel AS AuroraDesignation;
+use \Aurora\Component\DesignationModel AS A_Designation;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -43,8 +43,24 @@ class DesignationModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getByID( $ltID ) {
-        return $this->Designation->getByID( $ltID );
+    public function getBylgID( $lgID ) {
+        return $this->Designation->getBylgID( $lgID );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getByGroups( $leaveTypes ) {
+        foreach( $leaveTypes as $key => $type ) {
+            if( sizeof( $type['group'] ) > 0 ) {
+                foreach( $type['group'] as $groupKey => $group ) {
+                    $leaveTypes[$key]['group'][$groupKey]['designation'] = $this->Designation->getBylgID( $group['lgID'] );
+                }
+            }
+        }
+        return $leaveTypes;
     }
 
 
@@ -53,24 +69,29 @@ class DesignationModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        if( isset( $data['designation'] ) && is_array( $data['designation'] ) ) {
-            $DesignationModel = AuroraDesignation::getInstance( );
-            $designation = $DesignationModel->getIDList( );
+        if( isset( $data['leaveGroups'] ) && is_array( $data['leaveGroups'] ) ) {
+            $DesignationModel = A_Designation::getInstance( );
 
-            foreach( $data['designation'] as $value ) {
-                if( !isset( $designation[$value] ) ) {
-                    return false;
+            $success = array( );
+
+            foreach( $data['leaveGroups'] as $groupObj ) {
+                if( isset( $groupObj->designation ) && is_array( $groupObj->designation ) && sizeof( $groupObj->designation ) > 0 ) {
+                    foreach( $groupObj->designation as $designation ) {
+                        if( $DesignationModel->isFound( $designation ) ) {
+                            $info = array( );
+                            $info['lgID'] = $groupObj->lgID;
+                            $info['dID'] = $designation;
+                            array_push( $success, $this->Designation->insert( 'leave_designation', $info ) );
+                        }
+                    }
+                }
+                else {
+                    $this->Designation->delete('leave_designation', 'WHERE lgID = "' . (int)$groupObj->lgID . '"');
                 }
             }
-            if( $this->isFound( $data['ltID'] ) ) {
-                $this->Designation->delete('leave_designation', 'WHERE ltID = "' . (int)$data['ltID'] . '"');
-            }
-            $info = array( );
-            $info['ltID'] = (int)$data['ltID'];
-
-            foreach( $data['designation'] as $value ) {
-                $info['dID'] = $value;
-                $this->Designation->insert( 'leave_designation', $info );
+            if( sizeof( $success ) > 0 ) {
+                $this->Designation->delete('leave_designation', 'WHERE ldID NOT IN(' . implode(',', $success) . ') 
+                                                                                AND lgID = "' . (int)$groupObj->lgID . '"');
             }
         }
     }

@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
 use \Control;
 
 /**
@@ -31,6 +32,19 @@ class TypeControl {
      * Render main navigation
      * @return string
      */
+    public function globalInit( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['ltIDs'] ) && is_array( $data['ltIDs'] ) && sizeof( $data['ltIDs'] ) > 0 ) {
+            Control::setOutputArrayAppend( array( 'leaveTypes' => $this->TypeModel->getByIDs( $data['ltIDs'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function settings( ) {
         $output = Control::getOutputArray( );
 
@@ -42,7 +56,7 @@ class TypeControl {
      * Render main navigation
      * @return string
      */
-    public function getLeaveTypeResults( ) {
+    public function getTypeResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->TypeModel->getResults( $post ) );
         exit;
@@ -75,7 +89,7 @@ class TypeControl {
      * Render main navigation
      * @return string
      */
-    public function saveType( ) {;
+    public function saveType( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
         if( $post['ltID'] = $this->TypeModel->save( $post ) ) {
@@ -88,6 +102,16 @@ class TypeControl {
             echo json_encode( $vars );
             exit;
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveEmployee( ) {
+        $FinanceModel = FinanceModel::getInstance( );
+        $FinanceModel->save( Control::getPostData( ) );
     }
 }
 ?>

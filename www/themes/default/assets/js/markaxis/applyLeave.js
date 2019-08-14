@@ -52,25 +52,9 @@ var MarkaxisApplyLeave = (function( ) {
 
             $(".form-check-input-styled").uniform( );
 
-            var pickatimeSetting = {interval:5};
-            var openTime = $("#openTime").val( );
-            var closeTime = $("#closeTime").val( );
-
-            if( openTime && closeTime ) {
-                openTime  = openTime.split(":");
-                closeTime = closeTime.split(":");
-                pickatimeSetting["min"] = [openTime[0], openTime[1]];
-                pickatimeSetting["max"] = [closeTime[0], closeTime[1]];
-            }
-
-            var startTime = $("#startTime").pickatime(pickatimeSetting).pickatime('picker');
-            var endTime = $("#endTime").pickatime({min:[9,0],max:[18,0],interval:5}).pickatime('picker');
-
-            if( openTime && closeTime ) {
-                startTime.set('select', [openTime[0],openTime[1]]);
-                endTime.set('select', [closeTime[0], closeTime[1]]);
-            }
-
+            $("#ltID").change(function( ) {
+                that.getDaysDiff( );
+            });
             $("#startDate").change(function( ) {
                 if( $.trim( $("#startDate").val( ) ) != "" && $.trim( $("#endDate").val( ) ) != "" ) {
                     that.getDaysDiff( );
@@ -81,23 +65,20 @@ var MarkaxisApplyLeave = (function( ) {
                     that.getDaysDiff( );
                 }
             });
-            $("#startTime").change(function( ) {
-                if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
-                    that.getDaysDiff( );
-                }
+            $("#firstHalf").change(function( ) {
+                that.getDaysDiff( );
             });
-            $("#endTime").change(function( ) {
-                if( $.trim( $("#startTime").val( ) ) != "" && $.trim( $("#endTime").val( ) ) != "" ) {
-                    that.getDaysDiff( );
-                }
+            $("#secondHalf").change(function( ) {
+                that.getDaysDiff( );
             });
+
             $("#saveApplyLeave").on("click", function ( ) {
                 that.saveApplyLeave( );
                 return false;
             });
 
             $("#modalApplyLeave").on("shown.bs.modal", function(e) {
-                markaxisUSuggest = new MarkaxisUSuggest( false );
+                var markaxisUSuggest = new MarkaxisUSuggest( false );
                 markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
             });
 
@@ -148,8 +129,8 @@ var MarkaxisApplyLeave = (function( ) {
                     ltID: $("#ltID").val( ),
                     startDate: $("#startDate").val( ),
                     endDate: $("#endDate").val( ),
-                    startTime: $("#startTime").val( ),
-                    endTime: $("#endTime").val( )
+                    firstHalf: $("#firstHalf").is(':checked') ? 1 : 0,
+                    secondHalf: $("#secondHalf").is(':checked') ? 1 : 0
                 },
                 success: function( res   ) {
                     var obj = $.parseJSON( res );

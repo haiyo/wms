@@ -108,6 +108,17 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->PayrollModel->save( $data );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function settings( ) {
         $output = Control::getOutputArray( );
         $this->PayrollView->renderSettings( $output['form'] );

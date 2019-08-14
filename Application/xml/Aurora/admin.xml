@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <admin>
-    <task type="page">
-        <observer controller="Aurora/Page/NavigationControl"></observer>
-        <observer controller="Aurora/Page/MenuControl"></observer>
-        <observer controller="Aurora/Page/PageControl"></observer>
-        <observer controller="Aurora/Page/PageWrapperControl"></observer>
+    <task type="global">
+        <observer controller="Markaxis/Employee/LeaveTypeControl"></observer>
+        <observer controller="Markaxis/Leave/TypeControl"></observer>
+        <observer controller="Markaxis/Leave/GroupControl"></observer>
+        <observer controller="Markaxis/Leave/DesignationControl"></observer>
+        <observer controller="Markaxis/Leave/ContractControl"></observer>
+        <observer controller="Markaxis/Leave/StructureControl"></observer>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
     </task>
     <task type="dashboard">
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
@@ -87,24 +91,53 @@
     <task type="competency">
         <observer controller="Aurora/Component/CompetencyControl"></observer>
     </task>
-    <task type="employee">
+    <task type="user/add,user/edit,user/saveUser,user/getSuggestToken">
         <observer controller="Aurora/User/UserControl"></observer>
-        <observer controller="Aurora/User/RolePermControl"></observer>
         <observer controller="Aurora/User/UserRoleControl"></observer>
         <observer controller="Aurora/User/UserImageControl"></observer>
-        <observer controller="Markaxis/Employee/ContractControl"></observer>
-        <observer controller="Markaxis/Employee/DesignationControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Employee/FinanceControl"></observer>
+        <!--<observer controller="Markaxis/Employee/EducationControl"></observer>-->
+        <!--<observer controller="Markaxis/Employee/ExperienceControl"></observer>-->
+        <!--<observer controller="Markaxis/Employee/AdditionalControl"></observer>-->
         <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Employee/ManagerControl"></observer>
+        <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
+    </task>
+
+    <task type="user/list,employee/getList">
+        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+    </task>
+
+    <task type="user/deletePhoto">
+        <observer controller="Aurora/User/UserImageControl"></observer>
+    </task>
+
+    <!--<task type="user">
+        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Employee/FinanceControl"></observer>
+        <observer controller="Markaxis/Leave/TypeControl"></observer>
         <observer controller="Markaxis/Employee/EducationControl"></observer>
         <observer controller="Markaxis/Employee/ExperienceControl"></observer>
         <observer controller="Markaxis/Employee/AdditionalControl"></observer>
         <observer controller="Markaxis/Employee/EContactControl"></observer>
         <observer controller="Markaxis/Employee/TimeSheetControl"></observer>
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
+    </task>-->
+
+    <task type="employee/settings,role/roleForm,employee/getRolePermResults,
+                employee/getDesignationResults,employee/getContractResults">
+        <observer controller="Aurora/User/RolePermControl"></observer>
+        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
+        <observer controller="Markaxis/Employee/ContractControl"></observer>
+        <observer controller="Markaxis/Employee/DesignationControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+    </task>
+
+    <task type="employee/getCompetency,employee/getCompetencyResults,employee/getCompetencyToken,
+                employee/getCountList,employee/saveCompetency,employee/deleteCompetency">
+        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
     </task>
     <task type="employee/results">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
@@ -161,7 +194,7 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="payroll/reprocessPayroll">
+    <task type="payroll/reprocessPayroll,payroll/savePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/TaxControl"></observer>
@@ -175,7 +208,7 @@
         <observer controller="Markaxis/Expense/ExpenseControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="payroll/getTaxGroup">
+    <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
     </task>
     <task type="payroll/getPayItem,payroll/savePayItem">
@@ -224,17 +257,27 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="leave">
+    <task type="leave/getDateDiff,leave/apply,leave/setLeaveAction">
+        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Leave/ManagerControl"></observer>
+    </task>
+    <task type="leave/getGroup">
+        <observer controller="Markaxis/Leave/GroupControl"></observer>
+        <observer controller="Markaxis/Leave/DesignationControl"></observer>
+        <observer controller="Markaxis/Leave/ContractControl"></observer>
+        <observer controller="Markaxis/Leave/StructureControl"></observer>
+    </task>
+    <task type="leave/getTypeResults,leave/addType,leave/editType,leave/saveType,
+                leave/balance,leave/getHistory,leave/settings">
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/TypeControl"></observer>
-        <observer controller="Markaxis/Leave/GenderControl"></observer>
-        <observer controller="Markaxis/Leave/OfficeControl"></observer>
-        <observer controller="Markaxis/Leave/DesignationControl"></observer>
-        <observer controller="Markaxis/Leave/ContractControl"></observer>
         <observer controller="Markaxis/Leave/HaveChildControl"></observer>
         <observer controller="Markaxis/Leave/ChildBornControl"></observer>
         <observer controller="Markaxis/Leave/ChildAgeControl"></observer>
+        <observer controller="Markaxis/Leave/GroupControl"></observer>
+        <observer controller="Markaxis/Leave/DesignationControl"></observer>
+        <observer controller="Markaxis/Leave/ContractControl"></observer>
         <observer controller="Markaxis/Leave/StructureControl"></observer>
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
     </task>
@@ -250,7 +293,7 @@
     <task type="userRole">
         <observer controller="Aurora/User/UserRoleControl"></observer>
     </task>
-    <task type="role">
+    <task type="role/saveRole,role/deleteRole">
         <observer controller="Aurora/User/RoleControl"></observer>
     </task>
     <task type="positionRoleList">
@@ -259,7 +302,7 @@
     <task type="userAvatar">
         <observer controller="Aurora/User/UserAvatarControl"></observer>
     </task>
-    <task type="rolePerm">
+    <task type="rolePerm/getPerms,user/getPermList">
         <observer controller="Aurora/User/RolePermControl"></observer>
     </task>
     <task type="logout">

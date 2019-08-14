@@ -1,7 +1,7 @@
 <div class="row col-md-12">
 
     <div class="col-md-4">
-        <div class="row">
+        <!--<div class="row">
             <div class="tipsIco"><strong><i class="mi-lightbulb-outline"></i></strong></div>
             <div class="tipsTxt">
                 <strong>Tips:</strong>
@@ -9,7 +9,7 @@
                 template. This saves you time to re-enter the same set of data every month.
             </div>
         </div>
-        <button id="useTemplate" type="submit" class="btn btn-primary useTemplate">Use Previous Month Template</button>
+        <button id="useTemplate" type="submit" class="btn btn-primary useTemplate">Use Previous Month Template</button>-->
     </div>
 
     <div class="col-md-4">

@@ -449,7 +449,7 @@
             initialCaption: 'No file selected',
             previewZoomButtonClasses: previewZoomButtonClasses,
             previewZoomButtonIcons: previewZoomButtonIcons,
-            allowedFileExtensions: ['pdf', 'doc', 'docx'],
+            allowedFileExtensions: ['jpg', 'pdf', 'doc', 'docx'],
             previewSettings: previewSettings
         }).on('fileuploaderror', function(event, data, msg) {
             console.log('File uploaded', data.previewId, data.index, data.fileId, msg);

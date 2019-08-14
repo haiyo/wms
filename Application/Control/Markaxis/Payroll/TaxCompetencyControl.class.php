@@ -71,6 +71,15 @@ class TaxCompetencyControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $this->reprocessPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveTaxRule( ) {
         $post = Control::getPostData( );
         $this->TaxCompetencyModel->saveTaxRule( $post );

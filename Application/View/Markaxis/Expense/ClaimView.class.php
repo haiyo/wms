@@ -104,7 +104,7 @@ class ClaimView {
                                                     'TPLVAR_CLASS' => 'claimAction',
                                                     'TPLVAR_TITLE' => $row['itemTitle'],
                                                     'TPLVAR_DESCRIPTION' => $row['descript'],
-                                                    'TPLVAR_VALUE' => $row['code'] . $row['symbol'] . $row['amount'],
+                                                    'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
                                                     'TPLVAR_ATTACHMENT' => $attachment );
 
                 return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );

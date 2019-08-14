@@ -41,11 +41,6 @@
             <label>&nbsp;</label>
             <?TPL_PPERIOD_LIST?>
         </div>
-
-        <div class="col-md-3">
-            <label class="display-block"><?LANG_MONTHLY_BASIS?></label>
-            <?TPL_PRO_RATED_RADIO?>
-        </div>
     </div>
 
     <div class="row">
@@ -78,43 +73,9 @@
 
 
     <div class="row">
-        <h6 class="mb-0 ml-10 font-weight-bold"><?LANG_APPLICABLE_TO?>:</h6>
+        <span class="mb-0 ml-10 font-weight-bold"><?LANG_APPLICABLE_TO?>:</span>
         <div class="card">
             <div class="card-body">
-
-                <div class="col-md-3 genderCol">
-                    <label class="display-block"><?LANG_GENDER?>:</label>
-                    <?TPL_GENDER_LIST?>
-                </div>
-
-                <div class="col-md-3 designationCol">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_OFFICE_LOCATION?>:</label>
-                        <?TPL_OFFICE_LIST?>
-                    </div>
-                </div>
-
-                <div class="col-md-3 designationCol">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_DESIGNATION?>:</label>
-                        <?TPL_DESIGNATION_LIST?>
-                    </div>
-                </div>
-
-                <div class="col-md-3 contractCol">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_CONTRACT_TYPE?>:</label>
-                        <?TPL_CONTRACT_LIST?>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_MUST_HAVE_CHILDREN?>:</label>
-                        <?TPL_CHILDREN_LIST?>
-                    </div>
-                </div>
 
                 <div class="col-md-3">
                     <div class="form-group">

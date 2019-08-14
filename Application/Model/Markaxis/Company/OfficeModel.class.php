@@ -2,7 +2,7 @@
 namespace Markaxis\Company;
 use \Aurora\Component\OfficeModel AS A_OfficeModel;
 use \Aurora\Component\CountryModel, \Library\Helper\Aurora\DayHelper;
-use \Library\Validator\Validator;
+use \Library\Util\Date, \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
 use \DateTime;
@@ -99,24 +99,36 @@ class OfficeModel extends \Model {
     }
 
 
-    function getWorkingDays( $from, $to ) {
-        $workingDays = [1, 2, 3, 4, 5]; # date format = N (1 = Monday, ...)
-        $holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getWorkingDays( ) {
+        $A_OfficeModel = A_OfficeModel::getInstance( );
+        $mainOfficeInfo = $A_OfficeModel->getMainOffice( );
+        $officeInfo = $this->getByoID( $mainOfficeInfo['oID'] );
+        $workDays = array( );
 
-        $from = new DateTime($from);
-        $to = new DateTime($to);
-        $to->modify('+1 day');
-        $interval = new \DateInterval('P1D');
-        $periods = new \DatePeriod($from, $interval, $to);
+        if( $officeInfo['workDayFrom'] && $officeInfo['workDayTo'] ) {
+            $workDay = array( (int)$officeInfo['workDayFrom'], (int)$officeInfo['workDayTo'] );
 
-        $days = 0;
-        foreach ($periods as $period) {
-            if (!in_array($period->format('N'), $workingDays)) continue;
-            if (in_array($period->format('Y-m-d'), $holidayDays)) continue;
-            if (in_array($period->format('*-m-d'), $holidayDays)) continue;
-            $days++;
+            for( $i=$workDay[0]; $i<=$workDay[1]; $i++ ) {
+                $workDays[] = $i;
+            }
         }
-        return $days;
+        return $workDays;
+    }
+
+
+    /**
+     * Set Pay Item Info
+     * @return int
+     */
+    public function getWorkingDaysByRange( $startDate, $endDate ) {
+        $workDays = $this->getWorkingDays( );
+        $startDate = new DateTime( $startDate );
+        $endDate = new DateTime( $endDate );
+        return Date::daysDiff( $startDate, $endDate, $workDays );
     }
 
 
@@ -145,19 +157,25 @@ class OfficeModel extends \Model {
 
         try {
             $Validator->validate( );
-
-            $DayHelper = DayHelper::getL10nList( );
-
-            if( isset( $DayHelper[$data['workDayFrom']] ) ) {
-                $this->info['workDayFrom'] = $data['workDayFrom'];
-            }
+            $DayHelper = DayHelper::getL10nNumericValueList( );
+            $this->info['days'] = 0;
+            $this->info['workDayFrom'] = 1;
 
             if( isset( $DayHelper[$data['workDayTo']] ) ) {
                 $this->info['workDayTo'] = $data['workDayTo'];
             }
 
-            $this->info['openTime'] = DateTime::createFromFormat('h:i A', $data['openTime'] )->format('H:i');
-            $this->info['closeTime'] = DateTime::createFromFormat('h:i A', $data['closeTime'] )->format('H:i');
+            for( $i=$this->info['workDayFrom']; $i<$this->info['workDayTo']; $i++ ) {
+                $this->info['days']++;
+            }
+
+            if( isset( $data['halfDay'] ) ) {
+                $this->info['halfDay'] = 1;
+                $this->info['days'] += .5;
+            }
+            else {
+                $this->info['days']++;
+            }
         }
         catch( ValidatorException $e ) {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );

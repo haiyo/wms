@@ -799,7 +799,7 @@
                         }
                     }
                 };
-                Aurora.WebService.AJAX( "admin/employee/deletePhoto", data );
+                Aurora.WebService.AJAX( "admin/user/deletePhoto", data );
             });
         });
 

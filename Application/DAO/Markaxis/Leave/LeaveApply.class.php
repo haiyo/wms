@@ -97,5 +97,30 @@ class LeaveApply extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getByUserLeaveTypeCurrYear( $userID, $ltID ) {
+        $sql = $this->DB->select( 'SELECT la.* FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   WHERE YEAR( la.startDate ) = YEAR( CURDATE( ) ) AND
+                                         la.ltID = "' . (int)$ltID . '" AND
+                                         la.userID = "' . (int)$userID . '" AND 
+                                         ( la.status = "1" OR la.status = "0" ) AND
+                                         la.cancelled = "0" AND
+                                         lt.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

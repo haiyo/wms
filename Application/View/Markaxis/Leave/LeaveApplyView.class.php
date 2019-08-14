@@ -41,23 +41,33 @@ class LeaveApplyView {
      * Render main navigation
      * @return mixed
      */
+    public function renderBalText( $days ) {
+        if( $days ) {
+            $days = $this->L10n->getText( 'LANG_APPLY_DAYS', $days );
+            return $this->L10n->strReplace( 'days', $days, 'LANG_APPLYING' );
+        }
+        return false;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
     public function renderApplyForm( ) {
-        $UserModel = UserModel::getInstance( );
-        $userInfo = $UserModel->getInfo( );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
 
         $LeaveTypeModel = LeaveTypeModel::getInstance( );
 
         $SelectListView = new SelectListView( );
-        $leaveTypeList = $SelectListView->build( 'ltID', $LeaveTypeModel->getListByUserID( $userInfo['userID'] ),
+        $leaveTypeList = $SelectListView->build( 'ltID', $LeaveTypeModel->getListByUserID( $empInfo['userID'] ),
                                                 '', 'Select Leave Type' );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
                        'TPL_APPLY_FOR_LIST' => $applyForList ) );
-
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getInfo( );
 
         if( $empInfo['officeID'] ) {
             $OfficeModel = OfficeModel::getInstance( );
