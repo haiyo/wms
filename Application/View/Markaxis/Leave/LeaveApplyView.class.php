@@ -41,19 +41,6 @@ class LeaveApplyView {
      * Render main navigation
      * @return mixed
      */
-    public function renderBalText( $days ) {
-        if( $days ) {
-            $days = $this->L10n->getText( 'LANG_APPLY_DAYS', $days );
-            return $this->L10n->strReplace( 'days', $days, 'LANG_APPLYING' );
-        }
-        return false;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return mixed
-     */
     public function renderApplyForm( ) {
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getInfo( );

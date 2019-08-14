@@ -1,8 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Markaxis\Employee\LeaveBalanceModel, \Markaxis\Employee\EmployeeModel;
-use \Aurora\Notification\NotificationModel;
-use \Library\Helper\Aurora\DayHelper, \Library\Util\Date;
 use \DateTime;
 
 /**
@@ -163,128 +160,22 @@ class LeaveApplyModel extends \Model {
 
 
     /**
-     * Set User Property Info
-     * @return bool
-     */
-    public function applyIsValid( $data ) {
-        if( !$data['ltID'] ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
-            return false;
-        }
-        $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
-
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-
-        if( $balInfo = $LeaveBalanceModel->getByltIDUserID( $data['ltID'], $userInfo['userID'] ) ) {
-            if( isset( $data['startDate'] ) && isset( $data['endDate'] ) ) {
-                $startDate = DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $endDate = DateTime::createFromFormat('d M Y', $data['endDate'] );
-
-                if( !$startDate || !$endDate || !$days = $this->calculateDateDiff( $data ) ) {
-                    $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );
-                    return false;
-                }
-                else {
-                    if( $days > $balInfo['balance'] ) {
-                        $this->setErrMsg( $this->L10n->getContents('LANG_INSUFFICIENT_LEAVE') );
-                        return false;
-                    }
-                    $firstHalf  = ( isset( $data['firstHalf']  ) && $data['firstHalf']  ) ? 1 : 0;
-                    $secondHalf = ( isset( $data['secondHalf'] ) && $data['secondHalf'] ) ? 1 : 0;
-
-                    $this->info['userID'] = $userInfo['userID'];
-                    $this->info['ltID'] = $data['ltID'];
-                    $this->info['reason'] = $data['reason'];
-                    $this->info['startDate'] = $startDate->format('Y-m-d');
-                    $this->info['endDate'] = $endDate->format('Y-m-d');
-                    $this->info['firstHalf'] = $firstHalf;
-                    $this->info['secondHalf'] = $secondHalf;
-                    $this->info['days'] = $days;
-                    $this->info['created'] = date( 'Y-m-d H:i:s' );
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    /**
      * Render main navigation
      * @return string
      */
-    public function calculateDateDiff( $data ) {
+    public function save( $data ) {
         $firstHalf  = ( isset( $data['firstHalf']  ) && $data['firstHalf']  ) ? 1 : 0;
         $secondHalf = ( isset( $data['secondHalf'] ) && $data['secondHalf'] ) ? 1 : 0;
 
-        if( !$data['ltID'] ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
-            return false;
-        }
-        if( !$data['startDate'] || !$data['endDate'] ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );
-            return false;
-        }
-
-        // Get leave type to check if half day allowed
-        $TypeModel = TypeModel::getInstance( );
-
-        if( $typeInfo = $TypeModel->getByID( $data['ltID'] ) ) {
-            if( !$typeInfo['allowHalfDay'] && ( $data['firstHalf']  == 1 || $data['secondHalf'] == 1 ) ) {
-                $this->setErrMsg( $this->L10n->getContents('LANG_HALF_DAY_NOT_ALLOWED') );
-                return false;
-            }
-            $EmployeeModel = EmployeeModel::getInstance( );
-            $empInfo = $EmployeeModel->getInfo( );
-
-            // Get office time shift
-            $OfficeModel = OfficeModel::getInstance( );
-
-            if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                $startDate  = DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $endDate    = DateTime::createFromFormat('d M Y', $data['endDate'] );
-                $daysDiff   = Date::daysDiff( $startDate, $endDate );
-
-                // Create an iterateable period of date (P1D equates to 1 day)
-                $period   = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
-                $workDays = array( );
-                $dayList  = DayHelper::getL10nNumericValueList( );
-                $started  = false;
-
-                foreach( $dayList as $dayNumberic => $day ) {
-                    if( $dayNumberic == $officeInfo['workDayFrom'] ) {
-                        $workDays[$dayNumberic] = $started = true;
-                    }
-                    if( $dayNumberic == $officeInfo['workDayTo'] ) {
-                        $workDays[$dayNumberic] = true;
-                        $started = false;
-                    }
-                    if( $started ) {
-                        $workDays[$dayNumberic] = true;
-                    }
-                }
-                foreach( $period as $dt ) {
-                    $curr = strtolower( $dt->format('N') );
-
-                    // substract non working days
-                    if( !isset( $workDays[$curr] ) ) {
-                        $daysDiff--;
-                    }
-                }
-                if( $firstHalf  ) { $daysDiff -= .5; }
-                if( $secondHalf ) { $daysDiff -= .5; }
-                return $daysDiff;
-            }
-        }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function save( ) {
+        $this->info['userID'] = $data['userID'];
+        $this->info['ltID'] = $data['ltID'];
+        $this->info['reason'] = $data['reason'];
+        $this->info['startDate'] = $data['startDate']->format('Y-m-d');
+        $this->info['endDate'] = $data['endDate']->format('Y-m-d');
+        $this->info['firstHalf'] = $firstHalf;
+        $this->info['secondHalf'] = $secondHalf;
+        $this->info['days'] = $data['days'];
+        $this->info['created'] = date( 'Y-m-d H:i:s' );
         return $this->info['laID'] = $this->LeaveApply->insert('leave_apply', $this->info );
     }
 }

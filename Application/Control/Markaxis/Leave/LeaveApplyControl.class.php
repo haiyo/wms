@@ -58,26 +58,6 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
-    public function getDateDiff( ) {
-        $post = Control::getRequest( )->request( POST );
-
-        if( $days = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
-            $vars['bool'] = 1;
-            $vars['text'] = $this->LeaveApplyView->renderBalText( $days );
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function getPendingAction( ) {
         Control::setOutputArrayAppend( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
     }
@@ -97,18 +77,9 @@ class LeaveApplyControl {
      * @return string
      */
     public function apply( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
-
-        if( $this->LeaveApplyModel->applyIsValid( $post ) ) {
-            $this->LeaveApplyModel->save( );
-            Control::setPostData( array_merge( $post, $this->LeaveApplyModel->getInfo( ) ) );
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
-        }
+        $post = Control::getPostData( );
+        $this->LeaveApplyModel->save( $post );
+        Control::setPostData( array_merge( $post, $this->LeaveApplyModel->getInfo( ) ) );
     }
 
 
