@@ -169,8 +169,7 @@ var MarkaxisApplyLeave = (function( ) {
                     }
                     else {
                         var ltID = $("#ltID").val( );
-                        var count = parseInt( $("#ltID" + ltID).text( ) );
-                        $("#ltID" + ltID).text( count-obj.data.days );
+                        $("#ltID" + ltID).text( obj.data.balance );
 
                         if( obj.data.hasSup ) {
                             text = "Your leave application is not confirm yet and is subject to Manager(s) approval.";

@@ -105,27 +105,12 @@
         <observer controller="Markaxis/Employee/ManagerControl"></observer>
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
     </task>
-
     <task type="user/list,employee/getList">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
     </task>
-
     <task type="user/deletePhoto">
         <observer controller="Aurora/User/UserImageControl"></observer>
     </task>
-
-    <!--<task type="user">
-        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
-        <observer controller="Markaxis/Employee/FinanceControl"></observer>
-        <observer controller="Markaxis/Leave/TypeControl"></observer>
-        <observer controller="Markaxis/Employee/EducationControl"></observer>
-        <observer controller="Markaxis/Employee/ExperienceControl"></observer>
-        <observer controller="Markaxis/Employee/AdditionalControl"></observer>
-        <observer controller="Markaxis/Employee/EContactControl"></observer>
-        <observer controller="Markaxis/Employee/TimeSheetControl"></observer>
-        <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
-    </task>-->
-
     <task type="employee/settings,role/roleForm,employee/getRolePermResults,
                 employee/getDesignationResults,employee/getContractResults">
         <observer controller="Aurora/User/RolePermControl"></observer>
@@ -134,7 +119,6 @@
         <observer controller="Markaxis/Employee/DesignationControl"></observer>
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
     </task>
-
     <task type="employee/getCompetency,employee/getCompetencyResults,employee/getCompetencyToken,
                 employee/getCountList,employee/saveCompetency,employee/deleteCompetency">
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
@@ -258,6 +242,7 @@
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="leave/getDateDiff,leave/apply,leave/setLeaveAction">
+        <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
     </task>

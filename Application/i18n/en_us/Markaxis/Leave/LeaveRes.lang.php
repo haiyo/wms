@@ -80,6 +80,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_OFFICE_LOCATION'] = 'Office Location';
         $this->contents['LANG_FULL_DAY'] = 'Full Day';
         $this->contents['LANG_HALF_DAY'] = 'Half Day';
+        $this->contents['LANG_INVALID_BALANCE'] = 'Invalid Leave Balance.';
         $this->contents['LANG_INVALID_DATE_RANGE'] = 'Please select a valid date range for your leave application.';
         $this->contents['LANG_APPLYING'] = 'You are applying {days} of leave (Excluding Weekends and Public Holidays).';
         $this->contents['LANG_APPLY_DAYS'] = '{n} day|days';
