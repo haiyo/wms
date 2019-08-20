@@ -61,6 +61,8 @@ class LeaveRes extends Resource {
         $this->contents['LANG_UNUSED_LIST'] = 'Unused Leave';
         $this->contents['LANG_CARRY_OVER_LIMIT'] = 'Carry Over Limit';
         $this->contents['LANG_TO_BE_USED_WITHIN'] = 'To Be Used Up Within';
+        $this->contents['LANG_PAYROLL_PROCESS_AS'] = 'Payroll Process As';
+        $this->contents['LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE'] = 'Payroll Formula For UnPaid Leave';
         $this->contents['LANG_APPLICABLE_TO'] = 'Applicable To';
         $this->contents['LANG_GENDER'] = 'Gender';
         $this->contents['LANG_DESIGNATION'] = 'Designation';
@@ -69,7 +71,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_NATIONALITY'] = 'Nationality';
         $this->contents['LANG_MARITAL_STATUS'] = 'Marital Status';
         $this->contents['LANG_MUST_HAVE_CHILDREN'] = 'Must Have Children';
-        $this->contents['LANG_CHILD_BORN_IN'] = 'Child Born In';
+        $this->contents['LANG_CHILD_MUST_BE_BORN_IN'] = 'Child Must Be Born In';
         $this->contents['LANG_CHILD_MAX_AGE'] = 'Child Maximum Age';
         $this->contents['LANG_ENTITLEMENT_STRUCTURE'] = 'Entitlement Structure';
         $this->contents['LANG_LEAVE_STRUCTURE_HEADER'] = 'Define the leave entitlement structure based on Employee\'s number of completed months service.';

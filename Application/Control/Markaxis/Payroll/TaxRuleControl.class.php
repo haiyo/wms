@@ -41,7 +41,7 @@ class TaxRuleControl {
      * @return string
      */
     public function getAllTaxRules( ) {
-        Control::setOutputArray( $this->TaxRuleModel->getAll( ) );
+        Control::setOutputArray( array( 'taxRules' => $this->TaxRuleModel->getAll( ) ) );
     }
 
 

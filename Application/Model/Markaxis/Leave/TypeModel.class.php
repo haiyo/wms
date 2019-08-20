@@ -162,13 +162,13 @@ class TypeModel extends \Model {
         $this->info['name'] = Validator::stripTrim( $data['leaveTypeName'] );
         $this->info['code'] = Validator::stripTrim( $data['leaveCode'] );
 
-        if( isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
+        if( isset( $data['paidLeave'] ) && isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
             $this->info['paidLeave'] = $data['paidLeave'];
         }
-        if( isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
+        if( isset( $data['allowHalfDay'] ) && isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
             $this->info['allowHalfDay'] = $data['allowHalfDay'];
         }
-        if( isset( AppliedHelper::getL10nList( )[$data['applied']] ) ) {
+        /*if( isset( AppliedHelper::getL10nList( )[$data['applied']] ) ) {
             $this->info['applied'] = $data['applied'];
 
             if( $this->info['applied'] == 'probation' ) {
@@ -183,8 +183,7 @@ class TypeModel extends \Model {
 
         if( isset( ProRatedHelper::getL10nList( )[$data['proRated']] ) ) {
             $this->info['proRated'] = $data['proRated'];
-        }
-
+        }*/
         if( isset( UnusedLeaveHelper::getL10nList( )[$data['unused']] ) ) {
             $this->info['unused'] = $data['unused'];
 

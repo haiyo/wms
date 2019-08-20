@@ -48,6 +48,7 @@ class LeaveBalanceControl {
         if( sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
             sizeof( $data['leaveTypes'] ) > 0 ) {
             $this->LeaveBalanceModel->updateUserBalance( $empInfo['userID'], $data['leaveTypes'] );
+            Control::clearOutput( );
         }
     }
 

@@ -49,7 +49,7 @@ class StructureControl {
         $data = Control::getOutputArray( );
 
         if( isset( $data['group'] ) )  {
-            $data['structure'] = $this->StructureModel->getBylgID( $data['group']['lgID'] );
+            $data['group']['structure'] = $this->StructureModel->getBylgID( $data['group']['lgID'] );
             $vars['data'] = $data;
             $vars['bool'] = 1;
             echo json_encode( $vars );

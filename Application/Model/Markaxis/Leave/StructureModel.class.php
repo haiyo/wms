@@ -94,7 +94,7 @@ class StructureModel extends \Model {
                                     $structures = array_reverse( $structures );
 
                                     foreach( $structures as $structure ) {
-                                        if( ( $structure['start'] <= $months ) && ( $months <= $structure['end'] ) ) {
+                                        if( ( $months >= $structure['start'] ) && ( $months >= $structure['end'] ) ) {
                                             $leaveTypes[$key]['totalLeaves'] = $structure['days'];
                                         }
                                     }

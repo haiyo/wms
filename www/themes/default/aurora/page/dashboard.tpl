@@ -20,7 +20,7 @@
 
             <?TPL_SIDEBAR_CARDS?>
 
-            <div class="card">
+            <!--<div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
                     <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">My Team Members (3) &nbsp;-&nbsp;
                         <a href="#" class="" data-toggle="modal" data-target="#modalNewTeam">Create New Team</a> &nbsp;|&nbsp;
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <!-- Online users -->
             <div class="card">

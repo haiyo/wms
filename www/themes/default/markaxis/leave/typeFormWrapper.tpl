@@ -28,6 +28,7 @@
         $('.stepy-step').find('.button-next').addClass('btn btn-primary btn-next');
         $('.stepy-step').find('.button-back').addClass('btn btn-default');
 
+        $("#paidLeave").select2({minimumResultsForSearch:Infinity});
         $("#applied").select2({minimumResultsForSearch:Infinity});
         $("#unused").select2({minimumResultsForSearch:Infinity});
         $("#pPeriodType").select2({minimumResultsForSearch:Infinity});
@@ -181,6 +182,7 @@
                 }
 
                 leaveGroupsInput.val( JSON.stringify( editedGroups ) );
+                $("#noGroup").remove( );
                 swal("Done!", $("#groupTitle").val( ) + " has been successfully created! Remember to click on Submit to save changes!", "success");
                 $("#modalLeaveGroup").modal('hide');
             }
@@ -292,26 +294,28 @@
                             $.uniform.update();
 
                             var designation = $("#designation");
+                            var designationObj = obj.data.group.designation;
 
-                            if( obj.data.designation.length > 0 ) {
-                                for( var i=0; i<obj.data.designation.length; i++ ) {
-                                    designation.multiselect("select", obj.data.designation[i]["dID"] );
+                            for( var d in designationObj ){
+                                if( designationObj.hasOwnProperty( c ) ) {
+                                    designation.multiselect("select", designationObj[d].dID );
                                 }
-                                designation.multiselect("refresh");
                             }
+                            designation.multiselect("refresh");
 
                             var contractType = $("#contractType");
+                            var contractObj = obj.data.group.contract;
 
-                            if( obj.data.contract.length > 0 ) {
-                                for( var i=0; i<obj.data.contract.length; i++ ) {
-                                    contractType.multiselect("select", obj.data.contract[i]["cID"] );
+                            for( var c in contractObj ){
+                                if( contractObj.hasOwnProperty( c ) ) {
+                                    contractType.multiselect("select", contractObj[c].cID );
                                 }
-                                contractType.multiselect("refresh");
                             }
+                            contractType.multiselect("refresh");
 
-                            if( obj.data.structure.length > 0 ) {
-                                for( var i=0; i<obj.data.structure.length; i++ ) {
-                                    addStructure( obj.data.structure[i] );
+                            if( obj.data.group.structure.length > 0 ) {
+                                for( var i=0; i<obj.data.group.structure.length; i++ ) {
+                                    addStructure( obj.data.group.structure[i] );
                                 }
                             }
                             else {
