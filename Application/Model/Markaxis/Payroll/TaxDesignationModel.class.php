@@ -61,14 +61,14 @@ class TaxDesignationModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getAll( $taxRules ) {
-        if( is_array( $taxRules ) && sizeof( $taxRules ) > 0 ) {
-            foreach( $taxRules as $key => $taxRule ) {
+    public function getAll( $data ) {
+        if( isset( $data['taxRules'] ) && is_array( $data['taxRules'] ) ) {
+            foreach( $data['taxRules'] as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['designation'] = $cInfo;
+                    $data['taxRules'][$key]['designation'] = $cInfo;
                 }
             }
-            return $taxRules;
+            return $data['taxRules'];
         }
     }
 

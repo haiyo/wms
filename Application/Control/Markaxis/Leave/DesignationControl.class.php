@@ -46,7 +46,8 @@ class DesignationControl {
         $data = Control::getOutputArray( );
 
         if( isset( $data['group'] ) ) {
-            Control::setOutputArrayAppend( array( 'designation' => $this->DesignationModel->getBylgID( $data['group']['lgID'] ) ) );
+            $data['group']['designation'] = $this->DesignationModel->getBylgID( $data['group']['lgID'] );
+            Control::setOutputArray( $data );
         }
     }
 

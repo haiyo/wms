@@ -20,7 +20,7 @@
     <div class="groupList">
         <div id="groupWrapper" class="list-group list-group-root border-top border-top-grey border-bottom border-bottom-grey mb-20">
             <!-- BEGIN DYNAMIC BLOCK: noGroup -->
-            <div style="padding:0 20px 20px 20px; text-align: center;font-size:20px;">
+            <div id="noGroup" style="padding:0 20px 20px 20px; text-align: center;font-size:20px;">
                 There is no leave group currently
             </div>
             <!-- END DYNAMIC BLOCK: noGroup -->

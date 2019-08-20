@@ -43,8 +43,8 @@ class TaxContractControl {
      * @return string
      */
     public function getAllTaxRules( ) {
-        $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxContractModel->getAll( $taxRules ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxContractModel->getAll( $data ) );
     }
 
 

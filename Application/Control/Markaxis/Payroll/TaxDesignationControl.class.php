@@ -43,8 +43,8 @@ class TaxDesignationControl {
      * @return string
      */
     public function getAllTaxRules( ) {
-        $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxDesignationModel->getAll( $taxRules ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'taxDesignation' => $this->TaxDesignationModel->getAll( $data ) ) );
     }
 
 
