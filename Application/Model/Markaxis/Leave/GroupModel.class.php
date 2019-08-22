@@ -79,7 +79,7 @@ class GroupModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
-        if( isset( $data['ltID'] ) && isset( $data['leaveGroups'] ) ) {
+        if( isset( $data['ltID'] ) && isset( $data['leaveGroups'] ) && $data['leaveGroups'] ) {
             $data['leaveGroups'] = json_decode( $data['leaveGroups'] );
 
             foreach( $data['leaveGroups'] as $key => $groupObj ) {

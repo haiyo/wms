@@ -246,17 +246,16 @@ class PayrollView {
                 $id++;
             }
             if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
-                foreach( $data['items'] as $items ) {
-                    if( isset( $items['piID'] ) &&
+                foreach( $data['items'] as $item ) {
+                    if( isset( $item['piID'] ) /*&&
                         $items['piID'] != $data['deduction']['piID'] &&
-                        $items['piID'] != $data['deductionAW']['piID']
-                        ) {
-                        $selected  = 'p-' . $items['piID'];
+                        $items['piID'] != $data['deductionAW']['piID'] */) {
+
+                        $selected  = 'p-' . $item['piID'];
                         $deduction = '';
 
-                        if( $items['piID'] == $data['deduction']['piID'] || $items['piID'] == $data['deductionAW']['piID'] ) {
+                        if( $item['piID'] == $data['deduction']['piID'] || $item['piID'] == $data['deductionAW']['piID'] ) {
                             $deduction = 'deduction';
-
                         }
 
                         $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected,
@@ -265,9 +264,9 @@ class PayrollView {
                         $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                             'TPLVAR_DEDUCTION' => $deduction,
                                                             'TPLVAR_AMOUNT' => $userInfo['currency'] .
-                                                                                number_format( $items['amount'],2 ),
+                                                                                number_format( $item['amount'],2 ),
                                                             'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                            'TPLVAR_REMARK' => $items['remark'] );
+                                                            'TPLVAR_REMARK' => $item['remark'] );
                         $id++;
                     }
                 }
@@ -335,7 +334,7 @@ class PayrollView {
 
                     foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroups ) {
                         if( $taxGroups['summary'] ) {
-                            if( in_array( $items['tgID'], $taxGroups['child'] ) ) {
+                            if( isset( $items['tgID'] ) && in_array( $items['tgID'], $taxGroups['child'] ) ) {
 
                                 $itemGroups[$key]['title'] = $taxGroups['title'];
 
