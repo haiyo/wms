@@ -258,7 +258,6 @@ class PayrollView {
                         if( $item['piID'] == $data['deduction']['piID'] || $item['piID'] == $data['deductionAW']['piID'] ) {
                             $deduction = 'deduction';
                         }
-
                         $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected,
                                                                 'Select Payroll Item' );
 
