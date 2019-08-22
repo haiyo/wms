@@ -163,7 +163,7 @@ class LeaveApplyModel extends \Model {
             $daysWorked = ($workDays-$totalApplied);
 
             foreach( $applyInfo as $value ) {
-                //{salary}*{daysWorkOfMonth}/{workDaysOfMonth}
+                //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
                 $formula = str_replace('{salary}', $empInfo['salary'], $value['formula'] );
                 $formula = str_replace('{workDaysOfMonth}', $workDays, $formula );
                 $formula = str_replace('{daysWorkedInMonth}', $daysWorked, $formula );

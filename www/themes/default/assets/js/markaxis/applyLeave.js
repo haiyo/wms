@@ -79,7 +79,7 @@ var MarkaxisApplyLeave = (function( ) {
 
             $("#modalApplyLeave").on("shown.bs.modal", function(e) {
                 var markaxisUSuggest = new MarkaxisUSuggest( false );
-                markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
+                markaxisUSuggest.getSuggestToken("admin/user/getSuggestToken" );
             });
 
             $(document).on("click", ".leaveAction", function ( ) {
@@ -120,6 +120,9 @@ var MarkaxisApplyLeave = (function( ) {
             var startDate = new Date( $("#startDate").val( ) );
             var endDate = new Date( $("#endDate").val( ) );
 
+            if( startDate == "Invalid Date" || endDate == "Invalid Date" ) {
+                return;
+            }
             if( startDate > endDate ) {
                 swal("Error!", "Invalid date range selected", "error");
                 return false;
