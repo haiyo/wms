@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Leave;
-use \DateTime;
+use \Markaxis\Employee\EmployeeModel;
+use \Markaxis\Company\OfficeModel;
+use \Library\Util\Formula;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -34,8 +36,8 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getByUserID( $userID ) {
-        return $this->LeaveApply->getByUserID( $userID );
+    public function getUnPaidByUserID( $userID ) {
+        return $this->LeaveApply->getUnPaidByUserID( $userID );
     }
 
 
@@ -145,17 +147,39 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $data ) {
-        /*$applyInfo = $this->getByuserID( $userID );
+    public function processPayroll( $userID, $processDate, $data ) {
+        $applyInfo    = $this->getUnPaidByUserID( $userID );
+        $totalApplied = sizeof( $applyInfo );
+        $processDate  = \DateTime::createFromFormat('Y-m-d', $processDate );
 
-        if( sizeof( $applyInfo ) > 0 ) {
+        if( $totalApplied > 0 ) {
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'salary' );
+
+            $OfficeModel = OfficeModel::getInstance( );
+            $workDays  = $OfficeModel->getWorkingDaysByRange( $processDate->format('Y-m-') . '01',
+                                                              $processDate->format('Y-m-') . $processDate->format('t') );
+
+            $daysWorked = ($workDays-$totalApplied);
+
             foreach( $applyInfo as $value ) {
-                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
-                                                        'title' => $value['descript'],
-                                                        'amount' => $value['amount'] );
+                //{salary}*{daysWorkOfMonth}/{workDaysOfMonth}
+                $formula = str_replace('{salary}', $empInfo['salary'], $value['formula'] );
+                $formula = str_replace('{workDaysOfMonth}', $workDays, $formula );
+                $formula = str_replace('{daysWorkedInMonth}', $daysWorked, $formula );
+
+                // AW Ceiling
+                $Formula = new Formula( );
+                $salary = round( $Formula->calculate( $formula ) );
+                $amount = $empInfo['salary']-$salary;
+                $remark = $value['name'];
+
+                $data['items'][] = array( 'piID' => $data['deduction']['piID'],
+                                          'remark' => $remark,
+                                          'amount' => $amount );
             }
         }
-        return $data;*/
+        return $data;
     }
 
 

@@ -74,7 +74,7 @@
 
         <div class="col-md-4">
             <label><?LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE?>:</label>
-            <input type="text" name="payrollFormula" id="payrollFormula" class="form-control" value="<?TPLVAR_PAYROLL_FORMULA?>" placeholder="" disabled="disabled" />
+            <input type="text" name="formula" id="formula" class="form-control" value="<?TPLVAR_PAYROLL_FORMULA?>" placeholder="" disabled="disabled" />
         </div>
     </div>
 

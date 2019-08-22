@@ -88,8 +88,10 @@ class LeaveApplyControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $data ) );
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            $data = Control::getOutputArray( );
+            Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $args[2], $data ) );
+        }
     }
 }
 ?>

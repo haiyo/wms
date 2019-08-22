@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Company\FinancialYearModel;
 use \Library\Util\Formula;
 
 /**

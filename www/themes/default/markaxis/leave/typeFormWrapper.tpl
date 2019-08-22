@@ -51,8 +51,8 @@
 
         $("#applied").change(function( ) {
             if( $(this).val( ) == "probation" ) {
-                $("#pPeriodValue").removeAttr("disabled");
-                $("#pPeriodType").removeAttr("disabled");
+                $("#pPeriodValue").prop("disabled", false);
+                $("#pPeriodType").prop("disabled", false);
             }
             else {
                 $("#pPeriodValue").prop("disabled", true);
@@ -62,10 +62,10 @@
 
         $("#unused").change(function( ) {
             if( $(this).val( ) == "carry" ) {
-                $("#cPeriodValue").removeAttr("disabled");
-                $("#cPeriodType").removeAttr("disabled");
-                $("#usedValue").removeAttr("disabled");
-                $("#usedType").removeAttr("disabled");
+                $("#cPeriodValue").prop("disabled", false);
+                $("#cPeriodType").prop("disabled", false);
+                $("#usedValue").prop("disabled", false);
+                $("#usedType").prop("disabled", false);
             }
             else {
                 $("#cPeriodValue").prop("disabled", true);
@@ -198,6 +198,19 @@
             designation.multiselect("clearSelection");
             designation.multiselect("refresh");
             $("#structureWrapper").html("");
+        });
+
+        if( $("#paidLeave").val( ) == 0 ) {
+            $("#formula").prop("disabled", false);
+        }
+
+        $("#paidLeave").change(function( ) {
+            if( $(this).val( ) == 0 ) {
+                $("#formula").prop("disabled", false);
+            }
+            else {
+                $("#formula").prop("disabled", true);
+            }
         });
 
         $('input:radio[name="proRated"]').change(function( ) {
