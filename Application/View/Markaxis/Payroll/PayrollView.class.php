@@ -247,7 +247,8 @@ class PayrollView {
             }
             if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
                 foreach( $data['items'] as $item ) {
-                    if( isset( $item['piID'] ) /*&&
+                    // We don't want tax groups to show in item list.
+                    if( !isset( $item['tgID'] ) && isset( $item['piID'] ) /*&&
                         $items['piID'] != $data['deduction']['piID'] &&
                         $items['piID'] != $data['deductionAW']['piID'] */) {
 
@@ -347,7 +348,6 @@ class PayrollView {
                             }
                         }
                     }
-
                 }
             }
             foreach( $itemGroups as $groups ) {

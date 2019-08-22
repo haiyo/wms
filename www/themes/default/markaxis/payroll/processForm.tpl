@@ -21,7 +21,7 @@
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
-    <div id="itemWrapper" style="min-height:160px;max-height:160px;margin-bottom:11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
+    <div id="itemWrapper" style="min-height:189px;max-height:189px;margin-bottom:11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
         <!-- BEGIN DYNAMIC BLOCK: item -->
         <div id="itemRowWrapper_<?TPLVAR_ID?>" class="row itemRow <?TPLVAR_DEDUCTION?>" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
             <div class="col-md-4">

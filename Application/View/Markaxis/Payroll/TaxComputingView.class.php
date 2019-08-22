@@ -87,10 +87,8 @@ class TaxComputingView {
                     array_push($criteriaSet, $txt );
                 }
             }
-
             $criteriaSet = $this->renderPayTags('Ordinary wage ', $ordinary, $criteriaSet, $taxRule );
-            $criteriaSet = $this->renderPayTags('All pay items ', $allPayItem, $criteriaSet, $taxRule );
-            return $criteriaSet;
+            return $this->renderPayTags('All pay items ', $allPayItem, $criteriaSet, $taxRule );
         }
     }
 

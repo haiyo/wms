@@ -46,6 +46,8 @@ class TaxRuleWrapperModel extends \Model {
         }
         // Parse all passes to items
         foreach( $data['taxRules'] as $rules ) {
+            $remark = '';
+            $amount = 0;
 
             if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] && isset( $data['totalOrdinary'] ) ) {
                 if( $rules['applyValueType'] == 'percentage' ) {
@@ -70,7 +72,6 @@ class TaxRuleWrapperModel extends \Model {
                                           'remark' => $rules['title'] . $remark,
                                           'amount' => $amount );
             }
-
             if( $rules['applyType'] == 'skillLevy' && $rules['applyValueType'] ) {
                 if( $rules['applyValueType'] == 'fixed' ) {
                     $amount = $rules['applyValue'];
