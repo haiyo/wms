@@ -79,17 +79,13 @@ class TypeView extends AdminView {
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
-        $proRated = $RadioView->build( 'proRated', ProRatedHelper::getL10nList( ), $this->info['proRated'] );
         $allowHalfDayRadio = $RadioView->build( 'allowHalfDay', HalfDayHelper::getL10nList( ), $this->info['allowHalfDay'] );
-        //$paidLeave = $RadioView->build( 'paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
 
         $SelectListView = new SelectListView( );
         $paidLeaveList  = $SelectListView->build( 'paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
-        $appliedList    = $SelectListView->build( 'applied', AppliedHelper::getL10nList( ), $this->info['applied'] );
         $unusedList     = $SelectListView->build( 'unused', UnusedLeaveHelper::getL10nList( ), $this->info['unused'] );
 
         $SelectListView->isDisabled( true );
-        $pPeriodList = $SelectListView->build( 'pPeriodType', LeavePeriodHelper::getL10nList( ), $this->info['pPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
         $cPeriodList = $SelectListView->build( 'cPeriodType', CarryPeriodHelper::getL10nList( ), $this->info['cPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
         $usedPeriodList  = $SelectListView->build( 'usedType', LeavePeriodHelper::getL10nList( ), $this->info['uPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
 
@@ -115,16 +111,12 @@ class TypeView extends AdminView {
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_LEAVE_TYPE_NAME' => $this->info['name'],
                        'TPLVAR_LEAVE_TYPE_CODE' => $this->info['code'],
-                       'TPLVAR_PPERIOD' => $this->info['pPeriod'],
                        'TPLVAR_CPERIOD' => $this->info['cPeriod'],
                        'TPLVAR_UPERIOD' => $this->info['uPeriod'],
-                       'TPLVAR_PAYROLL_FORMULA' => '',
-                       'TPL_PRO_RATED_RADIO' => $proRated,
+                       'TPLVAR_PAYROLL_FORMULA' => $this->info['formula'],
                        'TPL_ALLOW_HALF_DAY_RADIO' => $allowHalfDayRadio,
                        'TPL_PAID_LEAVE' => $paidLeaveList,
-                       'TPL_APPLIED_LIST' => $appliedList,
                        'TPL_UNUSED_LIST' => $unusedList,
-                       'TPL_PPERIOD_LIST' => $pPeriodList,
                        'TPL_CPERIOD_LIST' => $cPeriodList,
                        'TPL_USED_PERIOD_LIST' => $usedPeriodList,
                        'TPL_CHILDREN_LIST' => $childrenList,

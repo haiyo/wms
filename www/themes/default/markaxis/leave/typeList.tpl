@@ -85,14 +85,9 @@
                 targets: [5],
                 orderable: true,
                 width: '100px',
-                data: 'applied',
-            },{
-                targets: [6],
-                orderable: true,
-                width: '100px',
                 data: 'unused',
             },{
-                targets: [7],
+                targets: [6],
                 orderable: false,
                 searchable: false,
                 width: '100px',
@@ -199,7 +194,6 @@
             <th>Paid Leave</th>
             <th>Allow Half Day</th>
             <th>Pro Rated</th>
-            <th>Can Be Applied</th>
             <th>Unused Leave</th>
             <th>Actions</th>
         </tr>

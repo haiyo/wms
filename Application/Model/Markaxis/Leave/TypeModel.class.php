@@ -161,6 +161,7 @@ class TypeModel extends \Model {
         $this->info = array( );
         $this->info['name'] = Validator::stripTrim( $data['leaveTypeName'] );
         $this->info['code'] = Validator::stripTrim( $data['leaveCode'] );
+        $this->info['formula'] = Validator::stripTrim( $data['formula'] );
 
         if( isset( $data['paidLeave'] ) && isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
             $this->info['paidLeave'] = $data['paidLeave'];
@@ -202,14 +203,13 @@ class TypeModel extends \Model {
                 }
             }
         }
-        $Type = new Type( );
 
         if( $data['ltID'] && $this->isFound( $data['ltID'] ) ) {
             $ltID = (int)$data['ltID'];
-            $Type->update( 'leave_type', $this->info, 'WHERE ltID = "' . $ltID . '"' );
+            $this->Type->update( 'leave_type', $this->info, 'WHERE ltID = "' . $ltID . '"' );
         }
         else {
-            $ltID = $Type->insert('leave_type', $this->info);
+            $ltID = $this->Type->insert('leave_type', $this->info);
         }
         return $ltID;
     }

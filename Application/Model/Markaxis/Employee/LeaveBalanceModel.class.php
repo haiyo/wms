@@ -132,7 +132,7 @@ class LeaveBalanceModel extends \Model {
         $TypeModel = TypeModel::getInstance( );
 
         if( $typeInfo = $TypeModel->getByID( $data['ltID'] ) ) {
-            if( !$typeInfo['allowHalfDay'] && ( $data['firstHalf']  == 1 || $data['secondHalf'] == 1 ) ) {
+            if( !$typeInfo['allowHalfDay'] && ( $firstHalf  == 1 || $secondHalf == 1 ) ) {
                 $this->setErrMsg( $this->L10n->getContents('LANG_HALF_DAY_NOT_ALLOWED') );
                 return false;
             }
@@ -205,6 +205,10 @@ class LeaveBalanceModel extends \Model {
                     return false;
                 }
                 else {
+                    if( $balInfo['groupCount'] == 0 ) {
+                        $this->info['balance'] = 0;
+                        return true;
+                    }
                     if( $this->info['days'] > $balInfo['balance'] ) {
                         $this->setErrMsg( $this->L10n->getContents('LANG_INSUFFICIENT_LEAVE') );
                         return false;
