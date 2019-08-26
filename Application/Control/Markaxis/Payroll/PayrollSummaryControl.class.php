@@ -5,23 +5,23 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: PayrollUserItemControl.class.php, v 2.0 Exp $
+ * @version $Id: PayrollSummaryControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollUserItemControl {
+class PayrollSummaryControl {
 
 
     // Properties
-    protected $PayrollUserItemModel;
+    protected $PayrollSummaryModel;
 
 
     /**
-     * PayrollUserControl Constructor
+     * PayrollSummaryControl Constructor
      * @return void
      */
     function __construct( ) {
-        $this->PayrollUserItemModel = PayrollUserItemModel::getInstance( );
+        $this->PayrollSummaryModel = PayrollSummaryModel::getInstance( );
     }
 
 
@@ -31,8 +31,7 @@ class PayrollUserItemControl {
      */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setOutputArray( $this->PayrollUserItemModel->savePayroll( $data, $post ) );
+        $this->PayrollSummaryModel->savePayroll( $data );
     }
 }
 ?>

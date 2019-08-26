@@ -193,6 +193,9 @@
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollUserItemControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
     <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>

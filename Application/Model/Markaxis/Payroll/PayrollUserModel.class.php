@@ -41,25 +41,15 @@ class PayrollUserModel extends \Model {
      * @return int
      */
     public function savePayroll( $data ) {
-        if( isset( $data['pID'] ) ) {
-            $info = array( );
-            $info['pID'] = $data['pID'];
-            $info['userID'] = $data['empInfo']['userID'];
-            $info['gross'] = $data['summary']['gross'];
-            $info['deduction'] = $data['summary']['deduction'];
-            $info['net'] = $data['summary']['net'];
-            $info['claim'] = $data['summary']['claim'];
-            $info['fwl'] = $data['summary']['fwl'];
-            $info['sdl'] = $data['summary']['sdl'];
-            $info['levy'] = $data['summary']['levy'];
-            $info['contribution'] = $data['summary']['contribution'];
-
+        if( isset( $data['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
             if( $payrollUserInfo = $this->getUserPayroll( $data['pID'], $data['empInfo']['userID'] ) ) {
-                $this->PayrollUser->update( 'payroll_user', $info, 'WHERE puID = "' . (int)$payrollUserInfo['puID'] . '"' );
                 return $payrollUserInfo['puID'];
             }
             else {
-                return $this->PayrollUser->insert( 'payroll_user', $info );
+                $info = array( );
+                $info['pID'] = $data['pID'];
+                $info['userID'] = $data['empInfo']['userID'];
+                return $this->PayrollUser->insert('payroll_user', $info );
             }
         }
     }

@@ -5,15 +5,15 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: PayrollUserItemControl.class.php, v 2.0 Exp $
+ * @version $Id: PayrollLevyControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollUserItemControl {
+class PayrollLevyControl {
 
 
     // Properties
-    protected $PayrollUserItemModel;
+    protected $PayrollLevyModel;
 
 
     /**
@@ -21,7 +21,7 @@ class PayrollUserItemControl {
      * @return void
      */
     function __construct( ) {
-        $this->PayrollUserItemModel = PayrollUserItemModel::getInstance( );
+        $this->PayrollLevyModel = PayrollLevyModel::getInstance( );
     }
 
 
@@ -31,8 +31,7 @@ class PayrollUserItemControl {
      */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setOutputArray( $this->PayrollUserItemModel->savePayroll( $data, $post ) );
+        $this->PayrollLevyModel->savePayroll( $data );
     }
 }
 ?>

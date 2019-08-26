@@ -154,7 +154,7 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function processSummary( $data, $post  ) {
+    public function processSummary( $data ) {
         $summary['gross'] = $summary['deduction'] = $summary['net'] = $summary['claim'] =
         $summary['fwl'] = $summary['sdl'] = $summary['levy'] = $summary['contribution'] = 0;
 
@@ -198,8 +198,8 @@ class PayrollModel extends \Model {
             $summary['levy'] += (float)$data['foreignLevy']['amount'];
         }
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-            foreach( $data['contribution'] as $contri ) {
-                $summary['contribution'] += (float)$contri['amount'];
+            foreach( $data['contribution'] as $contribution ) {
+                $summary['contribution'] += (float)$contribution['amount'];
             }
         }
         return $summary;
@@ -210,7 +210,7 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function savePayroll( $data, $post ) {
+    public function savePayroll( $post ) {
         if( $processInfo = $this->getProcessByDate( $post['data']['processDate'],0 ) ) {
             return $processInfo['pID'];
         }

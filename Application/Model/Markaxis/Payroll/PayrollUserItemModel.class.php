@@ -81,18 +81,23 @@ class PayrollUserItemModel extends \Model {
                         $info['amount'] = $amount;
                         $info['remark'] = $postData['remark_' . $id];
                         array_push($success, $this->PayrollUserItem->insert('payroll_user_item', $info ) );
+
+                        if( $data['deduction']['piID'] == $piID && isset( $data['summary']['deduction'] ) ) {
+                            $data['summary']['deduction'] += $amount;
+                        }
                     }
                 }
-                if( sizeof( $success ) > 0 ) {
-                    $this->PayrollUserItem->delete('payroll_user_item',
-                                                   'WHERE puiID NOT IN(' . implode(',', $success ) . ') AND 
-                                                                 puID = "' . (int)$data['puID'] . '"');
-                }
-            }
-            else {
-                $this->PayrollUserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['puID'] . '"');
             }
         }
+        if( sizeof( $success ) > 0 ) {
+            $this->PayrollUserItem->delete('payroll_user_item',
+                                           'WHERE puiID NOT IN(' . implode(',', $success ) . ') AND 
+                                                        puID = "' . (int)$data['puID'] . '"');
+        }
+        else {
+            $this->PayrollUserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['puID'] . '"');
+        }
+        return $data;
     }
 }
 ?>
