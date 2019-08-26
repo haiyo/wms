@@ -51,7 +51,7 @@
 
         <div class="col-md-12 text-light" style="">
             <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Total Employer Contribution:</strong>
+                <strong>Total Contribution:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
                 <?TPLVAR_CURRENCY?><?TPLVAR_TOTAL_CONTRIBUTION?>

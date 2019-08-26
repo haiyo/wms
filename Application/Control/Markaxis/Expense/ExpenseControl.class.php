@@ -55,7 +55,6 @@ class ExpenseControl {
         $data = Control::getOutputArray( );
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $this->ExpenseModel->savePayroll( $data, $post );
-        exit;
     }
 }
 ?>

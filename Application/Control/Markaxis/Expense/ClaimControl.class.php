@@ -98,6 +98,15 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function savePayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveClaim( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
