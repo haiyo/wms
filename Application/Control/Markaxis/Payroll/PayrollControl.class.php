@@ -111,8 +111,8 @@ class PayrollControl {
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setOutputArray( array( 'pID' => $this->PayrollModel->savePayroll( $data, $post ),
-                                        'summary' => $this->PayrollModel->processSummary( $data, $post ) ) );
+        Control::setOutputArray( array( 'pID' => $this->PayrollModel->savePayroll( $post ),
+                                        'summary' => $this->PayrollModel->processSummary( $data ) ) );
     }
 
 
