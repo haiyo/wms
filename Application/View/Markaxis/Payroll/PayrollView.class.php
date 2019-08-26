@@ -181,7 +181,7 @@ class PayrollView {
 
             $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
                            'TPLVAR_USERID' => $userID,
-                           'TPLVAR_CURRENCY' => $data['empInfo']['currency'] );
+                           'TPLVAR_PROCESS_DATE' => $processDate );
 
             /*$vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
                            'TPLVAR_FNAME' => $userInfo['fname'],
@@ -373,13 +373,13 @@ class PayrollView {
             $vars['TPLVAR_TOTAL_LEVY'] += (float)$data['foreignLevy']['amount'];
         }
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-            $contriAmount = 0;
+            $contributionAmount = 0;
 
-            foreach( $data['contribution'] as $contri ) {
-                $contriAmount += $contri['amount'];
-                $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$contri['amount'];
+            foreach( $data['contribution'] as $contribution ) {
+                $contributionAmount += $contribution['amount'];
+                $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$contribution['amount'];
             }
-            $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contriAmount,2 );
+            $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contributionAmount,2 );
         }
 
         $vars['TPLVAR_CURRENCY'] = $data['empInfo']['currency'];

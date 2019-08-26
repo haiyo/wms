@@ -104,6 +104,7 @@ class TaxPayItemModel extends \Model {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $payItemRules = $this->getBytrIDs( $trIDs );
+            $piIDs = array( );
 
             // Firstly do we have items coming in?
             if( isset( $data['items'] ) ) {
@@ -127,8 +128,10 @@ class TaxPayItemModel extends \Model {
      * @return mixed
     */
     public function reprocessPayroll( $data, $post ) {
+        $data = $this->processPayroll( $data );
+
         if( !isset( $post['postItems'] ) ) {
-            return;
+            return $data;
         }
         $data['totalPostAW'] = 0;
 
@@ -138,7 +141,6 @@ class TaxPayItemModel extends \Model {
                 $data['gross'][] = array( 'amount' => $postItems['amount'] );
             }
         }
-
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $itemInfo = $this->getBytrIDs( $trIDs );

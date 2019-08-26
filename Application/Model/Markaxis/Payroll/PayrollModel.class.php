@@ -62,6 +62,15 @@ class PayrollModel extends \Model {
 
     /**
      * Return total count of records
+     * @return int
+     */
+    public function getProcessByDate( $processDate, $completed ) {
+        return $this->Payroll->getUserProcessByDate( $processDate, $completed );
+    }
+
+
+    /**
+     * Return total count of records
      * @return mixed
      */
     public function calculateCurrYearOrdinary( $userID, $cappedLimit=false ) {
@@ -127,16 +136,86 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function save( $data ) {
-        if( isset( $data['items'] ) && sizeof( $data['items'] ) ) {
-            foreach( $data['items'] as $item ) {
-                $info = array( );
-                $info['userID'] = $data['empInfo']['userID'];
-                $info['piID'] = $item['piID'];
-                $info['amount'] = $item['amount'];
-                $info['remark'] = $item['remark'];
-                $this->Payroll->insert( 'payroll_user_item', $info );
+    public function createPayroll( $startDate ) {
+        $DateTime = \DateTime::createFromFormat('Y-m-d', $startDate );
+
+        if( $DateTime ) {
+            $info = array( );
+            $info['startDate'] = $startDate;
+            $info['endDate'] = $DateTime->format('Y-m-') . $DateTime->format('t');
+            $info['created'] = date( 'Y-m-d H:i:s' );
+            return $this->Payroll->insert( 'payroll', $info );
+        }
+        return false;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function processSummary( $data, $post  ) {
+        $summary['gross'] = $summary['deduction'] = $summary['net'] = $summary['claim'] =
+        $summary['fwl'] = $summary['sdl'] = $summary['levy'] = $summary['contribution'] = 0;
+
+        if( isset( $data['gross'] ) ) {
+            foreach( $data['gross'] as $gross ) {
+                if( isset( $gross['amount'] ) ) {
+                    $summary['gross'] += (float)$gross['amount'];
+                    $summary['net'] += (float)$gross['amount'];
+                }
             }
+        }
+        if( isset( $data['net'] ) ) {
+            foreach( $data['net'] as $net ) {
+                if( isset( $net['amount'] ) ) {
+                    $summary['net'] += (float)$net['amount'];
+                }
+            }
+        }
+        if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
+            foreach( $data['items'] as $items ) {
+                if( isset( $data['deduction'] ) ) {
+                    $summary['deduction'] += (float)$items['amount'];
+                    $summary['net'] -= (float)$items['amount'];
+                }
+            }
+        }
+        if( isset( $data['claims'] ) ) {
+            foreach( $data['claims'] as $claims ) {
+                if( isset( $claims['eiID'] ) ) {
+                    $summary['claim'] += (float)$claims['amount'];
+                    $summary['net'] += (float)$claims['amount'];
+                }
+            }
+        }
+        if( isset( $data['skillLevy'] ) ) {
+            $summary['sdl'] += (float)$data['skillLevy']['amount'];
+            $summary['levy'] += (float)$data['skillLevy']['amount'];
+        }
+        if( isset( $data['foreignLevy'] ) ) {
+            $summary['fwl'] += (float)$data['foreignLevy']['amount'];
+            $summary['levy'] += (float)$data['foreignLevy']['amount'];
+        }
+        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
+            foreach( $data['contribution'] as $contri ) {
+                $summary['contribution'] += (float)$contri['amount'];
+            }
+        }
+        return $summary;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        if( $processInfo = $this->getProcessByDate( $post['data']['processDate'],0 ) ) {
+            return $processInfo['pID'];
+        }
+        else {
+            return $this->createPayroll( $post['data']['processDate'] );
         }
     }
 }

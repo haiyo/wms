@@ -102,5 +102,22 @@ class Payroll extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getUserProcessByDate( $processDate, $completed ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll p 
+                                   WHERE startDate = "' . addslashes( $processDate ) . '" AND
+                                         completed = "' . (int)$completed . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
 }
 ?>
