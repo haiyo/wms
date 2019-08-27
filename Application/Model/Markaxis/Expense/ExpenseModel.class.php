@@ -43,6 +43,15 @@ class ExpenseModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
+    public function getByUserID( $userID ) {
+        return $this->Expense->getByUserID( $userID );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
     public function getList( ) {
         return $this->Expense->getList( );
     }
@@ -123,7 +132,7 @@ class ExpenseModel extends \Model {
     /**
      * Return total count of records
      * @return int
-     */
+
     public function savePayroll( $data, $post ) {
         $post = $this->reprocessPayroll( $data, $post );
 
@@ -137,6 +146,6 @@ class ExpenseModel extends \Model {
                 $this->Expense->insert( 'payroll_user_expense', $info );
             }
         }
-    }
+    } */
 }
 ?>

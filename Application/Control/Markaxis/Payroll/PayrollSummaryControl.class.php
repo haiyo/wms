@@ -14,6 +14,7 @@ class PayrollSummaryControl {
 
     // Properties
     protected $PayrollSummaryModel;
+    protected $PayrollSummaryView;
 
 
     /**
@@ -22,6 +23,28 @@ class PayrollSummaryControl {
      */
     function __construct( ) {
         $this->PayrollSummaryModel = PayrollSummaryModel::getInstance( );
+        $this->PayrollSummaryView = new PayrollSummaryView( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function processPayroll( $args ) {
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            $PayrollModel = PayrollModel::getInstance( );
+
+            if( $payrollInfo = $PayrollModel->getProcessByDate( $args[2] ) ) {
+                $PayrollUserModel = PayrollUserModel::getInstance( );
+
+                if( $payrollUserInfo = $PayrollUserModel->getUserPayroll( $payrollInfo['pID'], $args[1] ) ) {
+                    $data = Control::getOutputArray( );
+                    echo $this->PayrollSummaryView->renderProcessForm( $payrollUserInfo['puID'], $args[1], $args[2], $data );
+                    exit;
+                }
+            }
+        }
     }
 
 

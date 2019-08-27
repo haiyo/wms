@@ -50,11 +50,11 @@ class ExpenseControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $this->ExpenseModel->savePayroll( $data, $post );
-    }
+    } */
 }
 ?>

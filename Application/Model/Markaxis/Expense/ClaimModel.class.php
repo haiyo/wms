@@ -53,8 +53,8 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getByUserID( $userID ) {
-        return $this->Claim->getByUserID( $userID );
+    public function getApprovedByUserID( $userID ) {
+        return $this->Claim->getApprovedByUserID( $userID );
     }
 
 
@@ -117,7 +117,7 @@ class ClaimModel extends \Model {
      * @return int
      */
     public function processPayroll( $data ) {
-        $claimInfo = $this->getByUserID( $data['empInfo']['userID'] );
+        $claimInfo = $this->getApprovedByUserID( $data['empInfo']['userID'] );
 
         if( sizeof( $claimInfo ) > 0 ) {
             foreach( $claimInfo as $value ) {
@@ -127,6 +127,16 @@ class ClaimModel extends \Model {
             }
         }
         return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( ) {
+        $this->Claim->update('expense_claim', array( 'status' => $status ),
+            'WHERE ecID = "' . (int)$ecID . '"' );
     }
 
 

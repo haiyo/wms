@@ -31,8 +31,8 @@ class PayrollUserItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getUserPayroll( $pID, $userID ) {
-        return $this->PayrollUserItem->getUserPayroll( $pID, $userID );
+    public function getByPuID( $puID ) {
+        return $this->PayrollUserItem->getByPuID( $puID );
     }
 
 
@@ -43,16 +43,6 @@ class PayrollUserItemModel extends \Model {
     public function savePayroll( $data, $post ) {
         $success = array( );
 
-        if( isset( $data['items'] ) && sizeof( $data['items'] ) ) {
-            foreach( $data['items'] as $item ) {
-                $info = array( );
-                $info['puID'] = $data['puID'];
-                $info['piID'] = $item['piID'];
-                $info['amount'] = $item['amount'];
-                $info['remark'] = $item['remark'];
-                array_push($success, $this->PayrollUserItem->insert( 'payroll_user_item', $info ) );
-            }
-        }
         if( isset( $post['data'] ) && sizeof( $post['data'] ) ) {
             $postData = array_reverse( $post['data'] );
             $preg = '/^itemType_(\d)+/';

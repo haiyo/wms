@@ -155,10 +155,13 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getUserProcessByDate( $processDate, $completed ) {
+    public function getProcessByDate( $processDate, $completed ) {
+        if( is_numeric( $completed ) ) {
+            $completed = ' AND completed = "' . (int)$completed . '"';
+        }
         $sql = $this->DB->select( 'SELECT * FROM payroll p 
-                                   WHERE startDate = "' . addslashes( $processDate ) . '" AND
-                                         completed = "' . (int)$completed . '"',
+                                   WHERE startDate = "' . addslashes( $processDate ) . '"' .
+                                         $completed,
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

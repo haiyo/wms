@@ -99,7 +99,7 @@ class ClaimControl {
      * @return string
      */
     public function savePayroll( ) {
-        $this->processPayroll( );
+        $this->ClaimModel->savePayroll( );
     }
 
 
