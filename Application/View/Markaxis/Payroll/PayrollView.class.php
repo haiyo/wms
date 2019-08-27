@@ -366,14 +366,17 @@ class PayrollView {
         }
         if( isset( $data['levy'] ) ) {
             foreach( $data['levy'] as $levy ) {
-                //$vars['TPLVAR_SDL_AMOUNT'] = (float)$data['skillLevy']['amount'];
                 $vars['TPLVAR_TOTAL_LEVY'] += (float)$levy['amount'];
+
+                if( $levy['levyType'] == 'skillLevy' ) {
+                    $vars['TPLVAR_SDL_AMOUNT'] = (float)$levy['amount'];
+                }
+                else {
+                    $vars['TPLVAR_FWL_AMOUNT'] = (float)$levy['amount'];
+                }
             }
         }
-        /*if( isset( $data['foreignLevy'] ) ) {
-            $vars['TPLVAR_FWL_AMOUNT'] = (float)$data['foreignLevy']['amount'];
-            $vars['TPLVAR_TOTAL_LEVY'] += (float)$data['foreignLevy']['amount'];
-        }*/
+
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
             $contributionAmount = 0;
 
@@ -391,6 +394,7 @@ class PayrollView {
         $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'],2 );
         $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'],2 );
         $vars['TPLVAR_SDL_AMOUNT'] = number_format( $vars['TPLVAR_SDL_AMOUNT'],2 );
+        $vars['TPLVAR_FWL_AMOUNT'] = number_format( $vars['TPLVAR_FWL_AMOUNT'],2 );
 
         return $this->View->render('markaxis/payroll/processSummary.tpl', $vars );
     }
