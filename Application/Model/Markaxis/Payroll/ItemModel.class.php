@@ -217,26 +217,6 @@ class ItemModel extends \Model {
 
 
     /**
-     * Return total count of records
-     * @return int
-     */
-    public function savePayroll( $data, $post ) {
-        $post = $this->reprocessPayroll( $data, $post );
-
-        if( sizeof( $post['postItems'] ) ) {
-            foreach( $post['postItems'] as $item ) {
-                $info = array( );
-                $info['userID'] = $data['empInfo']['userID'];
-                $info['piID'] = $item['piID'];
-                $info['amount'] = $item['amount'];
-                $info['remark'] = $item['remark'];
-                $this->Item->insert( 'payroll_user_item', $info );
-            }
-        }
-    }
-
-
-    /**
      * Set Pay Item Info
      * @return bool
      */

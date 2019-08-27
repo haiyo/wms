@@ -108,8 +108,8 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getProcessByDate( $processDate, $completed ) {
-        return $this->Payroll->getUserProcessByDate( $processDate, $completed );
+    public function getProcessByDate( $processDate, $completed='' ) {
+        return $this->Payroll->getProcessByDate( $processDate, $completed );
     }
 
 

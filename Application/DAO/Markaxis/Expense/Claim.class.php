@@ -48,7 +48,7 @@ class Claim extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByUserID( $userID ) {
+    public function getApprovedByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
@@ -106,7 +106,7 @@ class Claim extends \DAO {
      * @return mixed
      */
     public function getPendingAction( $userID ) {
-        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.fname, u.lname, 
+        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.userID, u.fname, u.lname, 
                                           up.name AS uploadName, up.hashName, c.currencyCode, c.currencySymbol
                                    FROM expense_claim ec
                                    LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
