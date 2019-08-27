@@ -84,6 +84,7 @@ class PayrollUserItemModel extends \Model {
 
                         if( $data['deduction']['piID'] == $piID && isset( $data['summary']['deduction'] ) ) {
                             $data['summary']['deduction'] += $amount;
+                            $data['summary']['net'] -= $amount;
                         }
                     }
                 }

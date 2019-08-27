@@ -47,6 +47,17 @@ class PayrollControl {
 
     /**
      * Render main navigation
+     * @return void
+     */
+    public function employee( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->PayrollModel->getResults( $post ) );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
      * @return string
      */
     public function getProcessPass( ) {

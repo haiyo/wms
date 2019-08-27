@@ -158,6 +158,9 @@
     <task type="payroll/getProcessPass">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
+    <task type="payroll/employee">
+        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+    </task>
     <task type="payroll/processPayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>

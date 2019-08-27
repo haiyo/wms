@@ -32,6 +32,10 @@ class PayrollSummaryControl {
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $this->PayrollSummaryModel->savePayroll( $data );
+        $vars['data'] = $data;
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

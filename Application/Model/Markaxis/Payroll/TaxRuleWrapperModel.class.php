@@ -80,6 +80,20 @@ class TaxRuleWrapperModel extends \Model {
                 if( $rules['applyValueType'] == 'percentage' ) {
                     $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
                 }
+
+                foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroups ) {
+                    var_dump($taxGroups);
+                    //echo $taxGroups[$rules['tgID']]['title']; exit;
+                    if( $taxGroups['summary'] ) {
+                        if( in_array( $rules['tgID'], $taxGroups['child'] ) ||
+                            isset( $taxGroups[$rules['tgID']]['title'] ) ) {
+
+                            echo $taxGroups[$rules['tgID']]['title']; exit;
+                        }
+                    }
+                }
+
+
                 $data['levy'][] = array( 'title' => $rules['title'],
                                          'amount' => $amount );
             }
