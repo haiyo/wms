@@ -108,6 +108,53 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
+    public function getResults( $q='', $order='name ASC' ) {
+        $list = array( );
+
+        if( $q == 'active' ) {
+            $q = 'AND u.suspended = "0"';
+        }
+        else {
+            $q = $q ? addslashes( $q ) : '';
+            $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
+                       OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
+                       OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
+        }
+
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
+                                          u.email1, u.mobile,
+                                          u.suspended, e.startdate, d.title AS designation, e.currency,
+                                          e.idnumber, e.salary, e.endDate, c.type,
+                                          ad.descript AS suspendReason, COUNT(puID) AS puCount
+                                   FROM user u
+                                   LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN designation d ON ( d.dID = e.designationID )
+                                   LEFT JOIN contract c ON ( c.cID = e.contractID )
+                                   LEFT JOIN payroll_user pu ON pu.userID = u.userID
+                                   LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
+                                               WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
+                                               ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
+                                   WHERE u.deleted <> "1" AND e.resigned <> "1" ' . $q . '
+                                   GROUP BY u.userID
+                                   ORDER BY ' . $order . $this->limit,
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
+        $row = $this->DB->fetch( $sql );
+        $list['recordsTotal'] = $row['FOUND_ROWS()'];
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
     public function getUserProcessByDate( $processDate, $completed ) {
         $sql = $this->DB->select( 'SELECT * FROM payroll p 
                                    WHERE startDate = "' . addslashes( $processDate ) . '" AND

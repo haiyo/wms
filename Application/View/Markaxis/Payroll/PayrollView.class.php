@@ -364,14 +364,16 @@ class PayrollView {
                 }
             }
         }
-        if( isset( $data['skillLevy'] ) ) {
-            $vars['TPLVAR_SDL_AMOUNT'] = (float)$data['skillLevy']['amount'];
-            $vars['TPLVAR_TOTAL_LEVY'] += (float)$data['skillLevy']['amount'];
+        if( isset( $data['levy'] ) ) {
+            foreach( $data['levy'] as $levy ) {
+                //$vars['TPLVAR_SDL_AMOUNT'] = (float)$data['skillLevy']['amount'];
+                $vars['TPLVAR_TOTAL_LEVY'] += (float)$levy['amount'];
+            }
         }
-        if( isset( $data['foreignLevy'] ) ) {
+        /*if( isset( $data['foreignLevy'] ) ) {
             $vars['TPLVAR_FWL_AMOUNT'] = (float)$data['foreignLevy']['amount'];
             $vars['TPLVAR_TOTAL_LEVY'] += (float)$data['foreignLevy']['amount'];
-        }
+        }*/
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
             $contributionAmount = 0;
 
