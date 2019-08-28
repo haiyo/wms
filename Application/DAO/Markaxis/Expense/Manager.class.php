@@ -46,7 +46,7 @@ class Manager extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByecID( $ecID ) {
+    public function getByEcID( $ecID ) {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT ecm.managerID, ecm.approved, CONCAT( u.fname, \' \', u.lname ) AS name

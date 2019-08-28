@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Expense;
-use \Aurora\User\UserModel, \Aurora\Component\CurrencyModel;
+use \Aurora\User\UserModel;
 use \Aurora\Component\UploadModel;
 use \Library\Util\Uploader, \Library\Validator\Validator;
 
@@ -44,8 +44,17 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getByecID( $ecID ) {
-        return $this->Claim->getByecID( $ecID );
+    public function isFoundByEcIDUserID( $ecID, $userID, $status ) {
+        return $this->Claim->isFoundByEcIDUserID( $ecID, $userID, $status );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getByEcID( $ecID ) {
+        return $this->Claim->getByEcID( $ecID );
     }
 
 
@@ -54,7 +63,16 @@ class ClaimModel extends \Model {
      * @return mixed
      */
     public function getApprovedByUserID( $userID ) {
-        return $this->Claim->getApprovedByUserID( $userID );
+        return $this->Claim->getByUserIDStatus( $userID, 1 );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getProcessedByUserID( $userID ) {
+        return $this->Claim->getByUserIDStatus( $userID, 2 );
     }
 
 
@@ -121,7 +139,8 @@ class ClaimModel extends \Model {
 
         if( sizeof( $claimInfo ) > 0 ) {
             foreach( $claimInfo as $value ) {
-                $data['claims'][] = array( 'eiID' => $value['eiID'],
+                $data['claims'][] = array( 'ecID' => $value['ecID'],
+                                           'eiID' => $value['eiID'],
                                            'remark' => $value['descript'],
                                            'amount' => $value['amount'] );
             }
@@ -134,9 +153,36 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function savePayroll( ) {
-        $this->Claim->update('expense_claim', array( 'status' => $status ),
-            'WHERE ecID = "' . (int)$ecID . '"' );
+    public function savePayroll( $data, $post ) {
+        if( isset( $data['empInfo'] ) && isset( $post['data']['claim'] ) && is_array( $post['data']['claim'] ) ) {
+            foreach( $post['data']['claim'] as $ecID ) {
+                if( $this->isFoundByEcIDUserID( $ecID, $data['empInfo']['userID'],1 ) ) {
+                    $this->Claim->update('expense_claim', array( 'status' => 2 ),
+                                         'WHERE ecID = "' . (int)$ecID . '"' );
+
+                    $claimInfo = $this->getByEcID( $ecID );
+
+                    $data['claims'][] = array( 'ecID' => $claimInfo['ecID'],
+                                               'eiID' => $claimInfo['eiID'],
+                                               'remark' => $claimInfo['descript'],
+                                               'amount' => $claimInfo['amount'] );
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['empInfo']['userID'] ) && $this->getProcessedByUserID( $data['empInfo']['userID'] ) ) {
+            $this->Claim->update('expense_claim', array( 'status' => 1 ),
+                                 'WHERE userID = "' . (int)$data['empInfo']['userID'] . '" AND
+                                               status = "2"' );
+        }
     }
 
 

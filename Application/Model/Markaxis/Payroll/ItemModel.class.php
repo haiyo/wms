@@ -16,6 +16,7 @@ class ItemModel extends \Model {
 
     // Properties
     protected $Item;
+    private $itemList;
 
 
 
@@ -46,7 +47,10 @@ class ItemModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        return $this->Item->getList( );
+        if( $this->itemList ) {
+            return $this->itemList;
+        }
+        return $this->itemList = $this->Item->getList( );
     }
 
 

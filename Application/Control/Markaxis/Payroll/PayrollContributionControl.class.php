@@ -33,5 +33,15 @@ class PayrollContributionControl {
         $data = Control::getOutputArray( );
         $this->PayrollContributionModel->savePayroll( $data );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->PayrollContributionModel->deletePayroll( $data );
+    }
 }
 ?>

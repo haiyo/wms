@@ -33,5 +33,15 @@ class PayrollUserTaxControl {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->PayrollUserTaxModel->savePayroll( $data ) );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->PayrollUserTaxModel->deletePayroll( $data );
+    }
 }
 ?>

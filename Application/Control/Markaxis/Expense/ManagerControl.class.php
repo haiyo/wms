@@ -42,7 +42,7 @@ class ManagerControl {
      */
     public function getClaim( $data ) {
         $data = Control::getOutputArray( );
-        $data['data']['managers'] = $this->ManagerModel->getByecID( $data['data']['ecID'] );
+        $data['data']['managers'] = $this->ManagerModel->getByEcID( $data['data']['ecID'] );
 
         $vars = array( );
         $vars['data'] = $data['data'];

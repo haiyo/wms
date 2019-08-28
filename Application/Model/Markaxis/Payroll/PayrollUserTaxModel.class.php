@@ -31,8 +31,8 @@ class PayrollUserTaxModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getUserPayroll( $pID, $userID ) {
-        return $this->PayrollUserTax->getUserPayroll( $pID, $userID );
+    public function getByPuID( $puID ) {
+        return $this->PayrollUserTax->getByPuID( $puID );
     }
 
 
@@ -59,9 +59,20 @@ class PayrollUserTaxModel extends \Model {
                                                         puID = "' . (int)$data['puID'] . '"');
         }
         else {
-            $this->PayrollUserTax->delete('payroll_user_tax','WHERE puID = "' . (int)$data['puID'] . '"');
+            $this->deletePayroll( $data );
         }
         return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['puID'] ) ) {
+            $this->PayrollUserTax->delete('payroll_user_tax','WHERE puID = "' . (int)$data['puID'] . '"');
+        }
     }
 }
 ?>

@@ -33,5 +33,15 @@ class PayrollLevyControl {
         $data = Control::getOutputArray( );
         $this->PayrollLevyModel->savePayroll( $data );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->PayrollLevyModel->deletePayroll( $data );
+    }
 }
 ?>
