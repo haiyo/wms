@@ -60,5 +60,16 @@ class PayrollSummaryModel extends \Model {
             }
         }
     }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['puID'] ) ) {
+            $this->PayrollSummary->delete('payroll_summary','WHERE puID = "' . (int)$data['puID'] . '"');
+        }
+    }
 }
 ?>

@@ -1,7 +1,8 @@
 <form id="processForm" name="processForm" method="post" action="">
     <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
+    <input type="hidden" id="userName" name="userName" value="<?TPLVAR_FNAME?> <?TPLVAR_LNAME?>" />
     <input type="hidden" id="processDate" name="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
-    <input type="hidden" id="currency" name="currency" value="<?TPLVAR_CURRENCY?>" />
+
     <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;padding-bottom:11px;">
         <div class="col-md-1" style="width: 10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
         <div class="col-md-4" style="width:29%;border-right: 1px solid #ccc;">
@@ -35,16 +36,20 @@
             </div>
 
             <div class="col-md-4 remark">
-                <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark"
+                       value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">
                 <div class="mt-5 iconWrapper">
-                    <a href="#" class="removeItem"><i id="plus_<?TPLVAR_ID?>" class="icon icon-minus-circle2"></i></a>
+                    <a href="<?TPLVAR_ID?>" id="<?TPLVAR_HIDDEN_ID?>" class="removeItem"><i id="plus_<?TPLVAR_ID?>" class="icon icon-minus-circle2"></i></a>
                 </div>
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: item -->
+        <!-- BEGIN DYNAMIC BLOCK: hiddenField -->
+        <input type="hidden" id="<?TPLVAR_HIDDEN_ID?>" name="<?TPLVAR_HIDDEN_NAME?>" value="<?TPLVAR_VALUE?>" />
+        <!-- END DYNAMIC BLOCK: hiddenField -->
     </div>
 
     <div id="processSummary">

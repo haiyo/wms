@@ -192,7 +192,6 @@
         <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
         <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
-        <!--<observer controller="Markaxis/Expense/ExpenseControl"></observer>-->
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
@@ -202,6 +201,20 @@
         <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
+
+    <task type="payroll/deletePayroll">
+        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollUserItemControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
+    </task>
+
     <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
     </task>

@@ -93,5 +93,26 @@ class LeaveApplyControl {
             Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $args[2], $data ) );
         }
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $data = Control::getOutputArray( );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        $this->LeaveApplyModel->savePayroll( $data, $post );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->LeaveApplyModel->deletePayroll( $data );
+    }
 }
 ?>

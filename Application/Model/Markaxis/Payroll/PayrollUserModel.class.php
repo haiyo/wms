@@ -53,5 +53,19 @@ class PayrollUserModel extends \Model {
             }
         }
     }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
+            if( $payrollUserInfo = $this->getUserPayroll( $data['pID'], $data['empInfo']['userID'] ) ) {
+                $this->PayrollUser->delete('payroll_user', 'WHERE pID = "' . (int)$data['pID'] . '"' );
+                return $payrollUserInfo['puID'];
+            }
+        }
+    }
 }
 ?>

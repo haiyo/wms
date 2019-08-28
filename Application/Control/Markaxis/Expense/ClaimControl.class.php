@@ -60,7 +60,7 @@ class ClaimControl {
      */
     public function getClaim( $data ) {
         if( isset( $data[1] ) ) {
-            Control::setOutputArray( array( 'data' => $this->ClaimModel->getByecID( $data[1] ) ) );
+            Control::setOutputArray( array( 'data' => $this->ClaimModel->getByEcID( $data[1] ) ) );
         }
     }
 
@@ -99,7 +99,19 @@ class ClaimControl {
      * @return string
      */
     public function savePayroll( ) {
-        $this->ClaimModel->savePayroll( );
+        $data = Control::getOutputArray( );
+        $post = Control::getRequest( )->request( POST );
+        Control::setOutputArray( $this->ClaimModel->savePayroll( $data, $post ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->ClaimModel->deletePayroll( $data );
     }
 
 

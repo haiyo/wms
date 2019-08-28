@@ -1,9 +1,8 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Expense\ExpenseModel, \Markaxis\Company\OfficeModel AS M_OfficeModel;
-use \Markaxis\Employee\EmployeeModel, \Aurora\User\UserImageModel;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Aurora\Form\SelectGroupListView, \Aurora\Component\OfficeModel;
+use \Markaxis\Expense\ExpenseModel, \Markaxis\Expense\ClaimModel;
+use \Aurora\User\UserImageModel;
+use \Aurora\Admin\AdminView;
 use \Library\Runtime\Registry;
 
 /**
@@ -44,10 +43,15 @@ class PayrollSummaryView {
      * @return string
      */
     public function renderProcessForm( $puID, $userID, $processDate, $data ) {
+        $PayrollModel = PayrollModel::getInstance( );
+        $userInfo = $PayrollModel->getCalculateUserInfo( $userID );
+
         $UserImageModel = UserImageModel::getInstance( );
 
         $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
                        'TPLVAR_USERID' => $userID,
+                       'TPLVAR_FNAME' => $userInfo['fname'],
+                       'TPLVAR_LNAME' => $userInfo['lname'],
                        'TPLVAR_PROCESS_DATE' => $processDate );
 
         $PayrollUserItemModel = PayrollUserItemModel::getInstance( );
@@ -65,23 +69,26 @@ class PayrollSummaryView {
                                                                        number_format( $item['amount'],2 ),
                                                     'TPLVAR_REMARK' => $item['remark'] );
             }
-            /*if( isset( $data['claims'] ) ) {
-                foreach( $data['claims'] as $claims ) {
-                    if( isset( $claims['eiID'] ) ) {
-                        $selected = 'e-' . $claims['eiID'];
-                        $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
-                        $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $id,
-                                                            'TPLVAR_AMOUNT' => $userInfo['currency'] .
-                                                                               number_format( $claims['amount'],2 ),
-                                                            'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                            'TPLVAR_REMARK' => $claims['remark'] );
-                        $id++;
-                    }
+            $ClaimModel = ClaimModel::getInstance( );
+            $claimList = $ClaimModel->getProcessedByUserID( $data['empInfo']['userID'] );
+            $totalClaim = 0;
+
+            if( isset( $claimList ) ) {
+                $ExpenseModel = ExpenseModel::getInstance( );
+                $expenseList = $ExpenseModel->getList( );
+
+                foreach( $claimList as $claim ) {
+                    $totalClaim += $claim['amount'];
+
+                    $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $expenseList[$claim['eiID']],
+                                                        'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
+                                                                            number_format( $claim['amount'],2 ),
+                                                        'TPLVAR_REMARK' => $claim['descript'] );
                 }
-            }*/
+            }
         }
-        //$vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
+        $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $puID, $data, $totalClaim );
 
         if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
         if( isset( $data['col_2'] ) ) $vars['TPL_COL_2'] = $data['col_2'];
@@ -94,100 +101,69 @@ class PayrollSummaryView {
      * Render main navigation
      * @return string
      */
-    public function renderProcessSummary( $data ) {
-        $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
-        $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
-        $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
-        $vars['TPLVAR_TOTAL_LEVY'] = $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
+    public function renderProcessSummary( $puID, $data, $totalClaim ) {
+        $summary = $this->PayrollSummaryModel->getByPuID( $puID );
 
-        if( isset( $data['gross'] ) ) {
-            foreach( $data['gross'] as $gross ) {
-                if( isset( $gross['amount'] ) ) {
-                    $vars['TPLVAR_GROSS_AMOUNT'] += (float)$gross['amount'];
-                    $vars['TPLVAR_NET_AMOUNT'] += (float)$gross['amount'];
-                }
-            }
-        }
-        if( isset( $data['net'] ) ) {
-            foreach( $data['net'] as $net ) {
-                if( isset( $net['amount'] ) ) {
-                    $vars['TPLVAR_NET_AMOUNT'] += (float)$net['amount'];
-                }
+        $PayrollLevyModel = PayrollLevyModel::getInstance( );
+        $levyInfo = $PayrollLevyModel->getByPuID( $puID );
+
+        $vars['dynamic']['employerItem'] = $vars['dynamic']['deductionSummary'] = false;
+        $totalLevy = $totalContribution = 0;
+
+        if( sizeof( $levyInfo ) ) {
+            foreach( $levyInfo as $levy ) {
+                $totalLevy += $levy['amount'];
+
+                $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $levy['title'],
+                                                            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                            'TPLVAR_AMOUNT' => number_format( $levy['amount'],2 ) );
             }
         }
 
-        $vars['dynamic']['deductionSummary'] = false;
-        $itemGroups = array( );
-
-        if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
-            foreach( $data['items'] as $items ) {
-                if( isset( $data['deduction'] ) ) {
-                    $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$items['amount'];
-                    $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
-
-                    foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroups ) {
-                        if( $taxGroups['summary'] ) {
-                            if( isset( $items['tgID'] ) && in_array( $items['tgID'], $taxGroups['child'] ) ) {
-
-                                $itemGroups[$key]['title'] = $taxGroups['title'];
-
-                                if( isset( $itemGroups[$key]['amount'] ) ) {
-                                    $itemGroups[$key]['amount'] += (float)$items['amount'];
-                                }
-                                else {
-                                    $itemGroups[$key]['amount'] = (float)$items['amount'];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            foreach( $itemGroups as $groups ) {
-                $vars['dynamic']['deductionSummary'][] =
-                    array( 'TPLVAR_TITLE' => $groups['title'],
-                           'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                           'TPLVAR_DEDUCTION_AMOUNT' => number_format( $groups['amount'],2 ) );
-            }
+        if( $totalLevy ) {
+            $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_LEVY'),
+                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                        'TPLVAR_AMOUNT' => number_format( $totalLevy,2 ) );
         }
-        if( isset( $data['claims'] ) ) {
-            foreach( $data['claims'] as $claims ) {
-                if( isset( $claims['eiID'] ) ) {
-                    $vars['TPLVAR_CLAIM_AMOUNT'] += (float)$claims['amount'];
-                    $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
-                }
-            }
-        }
-        if( isset( $data['levy'] ) ) {
-            foreach( $data['levy'] as $levy ) {
-                $vars['TPLVAR_TOTAL_LEVY'] += (float)$levy['amount'];
 
-                if( $levy['levyType'] == 'skillLevy' ) {
-                    $vars['TPLVAR_SDL_AMOUNT'] = (float)$levy['amount'];
-                }
-                else {
-                    $vars['TPLVAR_FWL_AMOUNT'] = (float)$levy['amount'];
-                }
+        $PayrollContributionModel = PayrollContributionModel::getInstance( );
+        $contriInfo = $PayrollContributionModel->getByPuID( $puID );
+
+        if( sizeof( $contriInfo ) ) {
+            foreach( $contriInfo as $contribution ) {
+                $totalContribution += $contribution['amount'];
+
+                $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $contribution['title'],
+                                                            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                            'TPLVAR_AMOUNT' => number_format( $contribution['amount'],2 ) );
             }
         }
 
-        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-            $contributionAmount = 0;
+        if( $totalContribution ) {
+            $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_CONTRIBUTION'),
+                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                        'TPLVAR_AMOUNT' => number_format( $totalContribution,2 ) );
+        }
 
-            foreach( $data['contribution'] as $contribution ) {
-                $contributionAmount += $contribution['amount'];
-                $vars['TPLVAR_TOTAL_CONTRIBUTION'] += (float)$contribution['amount'];
+        $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                        'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+
+        $PayrollUserTaxModel = PayrollUserTaxModel::getInstance( );
+        $userTaxInfo = $PayrollUserTaxModel->getByPuID( $puID );
+
+        if( sizeof( $userTaxInfo ) ) {
+            foreach( $userTaxInfo as $userTax ) {
+                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $userTax['remark'],
+                                                                'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                                'TPLVAR_AMOUNT' => number_format( $userTax['amount'],2 ) );
             }
-            $vars['TPLVAR_CONTRIBUTION_AMOUNT'] = number_format( $contributionAmount,2 );
         }
 
         $vars['TPLVAR_CURRENCY'] = $data['empInfo']['currency'];
-        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $vars['TPLVAR_GROSS_AMOUNT'],2 );
-        $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $vars['TPLVAR_CLAIM_AMOUNT'],2 );
-        $vars['TPLVAR_DEDUCTION_AMOUNT'] = number_format( $vars['TPLVAR_DEDUCTION_AMOUNT'],2 );
-        $vars['TPLVAR_NET_AMOUNT'] = number_format( $vars['TPLVAR_NET_AMOUNT'],2 );
-        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = number_format( $vars['TPLVAR_TOTAL_CONTRIBUTION'],2 );
-        $vars['TPLVAR_SDL_AMOUNT'] = number_format( $vars['TPLVAR_SDL_AMOUNT'],2 );
-        $vars['TPLVAR_FWL_AMOUNT'] = number_format( $vars['TPLVAR_FWL_AMOUNT'],2 );
+        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $summary['gross'],2 );
+        $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $summary['claim'],2 );
+        $vars['TPLVAR_NET_AMOUNT'] = number_format( $summary['net'],2 );
 
         return $this->View->render('markaxis/payroll/processSummary.tpl', $vars );
     }

@@ -51,12 +51,12 @@ class TaxContract extends \DAO {
      * @return mixed
      */
     public function getBytrID( $trID ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT * FROM tax_contract tc
                                    LEFT JOIN contract c ON ( c.cID = tc.contractID ) 
                                    WHERE trID = "' . (int)$trID . '"',
                                    __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

@@ -172,14 +172,14 @@
                 className : "text-center",
                 data: 'userID',
                 render: function(data, type, full, meta) {
-                    console.log(full["puCount"])
                     if( full["puCount"] > 0 ) {
-                        text = "Saved";
+                        return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="1" ' +
+                               'data-toggle="modal" data-target="#modalCalPayroll">Saved</a>';
                     }
                     else {
-                        text = "Process";
+                        return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="0" ' +
+                               'data-toggle="modal" data-target="#modalCalPayroll">Process</a>';
                     }
-                    return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-toggle="modal" data-target="#modalCalPayroll">' + text + '</a>';
                 }
             }],
             order: [],
@@ -210,6 +210,15 @@
 
                 icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
                 icon.parent().attr( "class", "addItem" );
+
+                if( $invoker.attr("data-saved") == 1 ) {
+                    $(".processBtn").attr("id", "reprocessPayroll");
+                    $(".processBtn").text("Reprocess Payroll");
+                }
+                else {
+                    $(".processBtn").attr("id", "savePayroll");
+                    $(".processBtn").text("Save Payroll");
+                }
             });
         });
 
@@ -293,23 +302,25 @@
         $("#office").select2( );
         $(".select").select2({minimumResultsForSearch: -1});
 
+        var itemAdded = false;
+
         $(document).on("click", ".addItem", function ( ) {
             itemAdded = addItem( false );
             return false;
         });
 
         $(document).on("click", ".removeItem", function ( ) {
-            var id = $(this).attr("href");
-            $("#childRowWrapper_" + id).addClass("childRow").html("").hide();
-
-            if( $("#childWrapper .childRow").length == 0 ) {
-                $("#children2").click( );
-                $.uniform.update( );
-            }
+            var href = $(this).attr("href");
+            var id = $(this).attr("id");
+            $("#itemRowWrapper_" + href).remove();
+            $("#" + id).remove();
             return false;
         });
 
         $(document).on("blur", ".amountInput", function(e) {
+            if( !itemAdded ) {
+                return;
+            }
             var data = {
                 bundle: {
                     itemType: $("#itemType_" + itemAdded).val( ),
@@ -353,7 +364,7 @@
             Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
         });
 
-        $("#savePayroll").click(function () {
+        $(document).on("click", "#savePayroll", function ( ) {
             var data = {
                 bundle: {
                     data: Aurora.WebService.serializePost("#processForm")
@@ -373,6 +384,7 @@
                                 type: 'success'
                             }, function( isConfirm ) {
                                 $("#process" + obj.data.empInfo.userID).text("Saved");
+                                $("#process" + obj.data.empInfo.userID).attr("data-saved", 1);
                                 $("#modalCalPayroll").modal('hide');
                             });
                         }
@@ -380,6 +392,53 @@
                 }
             }
             Aurora.WebService.AJAX( "admin/payroll/savePayroll/" + $("#userID").val( ) + "/" + $("#processDate").val( ), data );
+        });
+
+        $(document).on("click", "#reprocessPayroll", function ( ) {
+            swal({
+                title: "Are you sure you want to reprocess " + $("#userName").val( ) + "'s payroll?",
+                text: "This action is irreversible and all permission settings related to this role will be lost!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Confirm Reprocess",
+                closeOnConfirm: false
+            }, function( isConfirm ) {
+                if( !isConfirm ) return;
+
+                var data = {
+                    bundle: {
+                        data: Aurora.WebService.serializePost("#processForm")
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool === 0 ) {
+                            alert(obj.errMsg);
+                            return;
+                        }
+                        else {
+                            $(document).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                                $("#userID").val( ) + "/" + $("#processDate").val( ), function() {
+                                $(".itemType").select2( );
+
+                                var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+                                var icon = iconWrapper.find(".icon")
+
+                                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
+                                icon.parent().attr( "class", "addItem" );
+
+                                $("#process" + $("#userID").val( ) ).attr("data-saved", 0);
+                                $("#process" + $("#userID").val( ) ).text("Process");
+                                $(".processBtn").attr("id", "savePayroll");
+                                $(".processBtn").text("Save Payroll");
+                                swal.close()
+                            });
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/payroll/deletePayroll/" + $("#userID").val( ), data);
+            });
+            return false;
         });
 
         function addItem( deduction ) {
@@ -544,7 +603,7 @@
             <div class="modal-footer">
                 <div class="modal-footer-btn">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button id="savePayroll" type="submit" class="btn btn-primary">Save Payroll</button>
+                    <button id="savePayroll" type="submit" class="btn btn-primary processBtn">Save Payroll</button>
                 </div>
             </div>
         </div>

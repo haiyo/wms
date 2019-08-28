@@ -27,10 +27,25 @@ class Claim extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByEcIDUserID( $ecID, $userID, $status ) {
+        $sql = $this->DB->select( 'SELECT COUNT(ecID) FROM expense_claim 
+                                   WHERE ecID = "' . (int)$ecID . '" AND
+                                         userID = "' . (int)$userID . '" AND
+                                         status = "' . (int)$status . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByecID( $ecID ) {
+    public function getByEcID( $ecID ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
@@ -48,12 +63,12 @@ class Claim extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getApprovedByUserID( $userID ) {
+    public function getByUserIDStatus( $userID, $status ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
                                    WHERE ec.userID = "' . (int)$userID . '" AND 
-                                         ec.status = "1" AND
+                                         ec.status = "' . (int)$status . '" AND
                                          ec.cancelled <> "1"',
                                    __FILE__, __LINE__ );
 

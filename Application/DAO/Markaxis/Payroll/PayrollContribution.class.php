@@ -17,17 +17,20 @@ class PayrollContribution extends \DAO {
     /**
      * Retrieve all user by name and role
      * @return mixed
-
-    public function getUserPayroll( $pID, $userID ) {
-        $sql = $this->DB->select( 'SELECT * FROM payroll_user 
-                                   WHERE userID = "' . (int)$userID . '" AND
-                                         pID = "' . (int)$pID . '"',
+     */
+    public function getByPuID( $puID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll_contribution 
+                                   WHERE puID = "' . (int)$puID . '"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
+
         if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
         }
-        return false;
-    } */
+        return $list;
+    }
 }
 ?>

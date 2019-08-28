@@ -132,7 +132,7 @@ class EmployeeControl {
      * @return string
      */
     public function reprocessPayroll( $args ) {
-        $this->processPayroll( $args, true );
+        $this->processPayroll( $args,true );
     }
 
 
@@ -141,7 +141,16 @@ class EmployeeControl {
      * @return string
      */
     public function savePayroll( $args ) {
-        $this->reprocessPayroll( $args );
+        $this->processPayroll( $args,true );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( $args ) {
+        $this->processPayroll( $args,true );
     }
 
 

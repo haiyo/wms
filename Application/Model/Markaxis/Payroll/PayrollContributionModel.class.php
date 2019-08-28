@@ -29,10 +29,10 @@ class PayrollContributionModel extends \Model {
     /**
      * Return total count of records
      * @return int
-
-    public function getUserPayroll( $pID, $userID ) {
-        return $this->PayrollLevy->getUserPayroll( $pID, $userID );
-    } */
+     */
+    public function getByPuID( $puID ) {
+        return $this->PayrollContribution->getByPuID( $puID );
+    }
 
 
     /**
@@ -58,6 +58,17 @@ class PayrollContributionModel extends \Model {
                                                     puID = "' . (int)$data['puID'] . '"');
         }
         else {
+            $this->deletePayroll( $data );
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['puID'] ) ) {
             $this->PayrollContribution->delete('payroll_contribution','WHERE puID = "' . (int)$data['puID'] . '"');
         }
     }

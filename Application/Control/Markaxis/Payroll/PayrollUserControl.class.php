@@ -33,5 +33,15 @@ class PayrollUserControl {
         $data = Control::getOutputArray( );
         Control::setOutputArray( array( 'puID' => $this->PayrollUserModel->savePayroll( $data ) ) );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'puID' => $this->PayrollUserModel->deletePayroll( $data ) ) );
+    }
 }
 ?>

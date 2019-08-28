@@ -14,7 +14,7 @@ class ExpenseModel extends \Model {
 
     // Properties
     protected $Expense;
-
+    private $expenseList;
 
 
     /**
@@ -53,7 +53,10 @@ class ExpenseModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        return $this->Expense->getList( );
+        if( $this->expenseList ) {
+            return $this->expenseList;
+        }
+        return $this->expenseList = $this->Expense->getList( );
     }
 
 

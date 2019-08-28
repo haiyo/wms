@@ -36,6 +36,24 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return mixed
      */
+    public function isFoundByLaIDUserID( $laID, $userID, $status ) {
+        return $this->LeaveApply->isFoundByLaIDUserID( $laID, $userID, $status );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function isFoundByUserID( $userID, $status ) {
+        return $this->LeaveApply->isFoundByUserID( $userID, $status );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
     public function getUnPaidByUserID( $userID ) {
         return $this->LeaveApply->getUnPaidByUserID( $userID );
     }
@@ -174,7 +192,10 @@ class LeaveApplyModel extends \Model {
                 $amount = $empInfo['salary']-$salary;
                 $remark = $value['name'];
 
-                $data['items'][] = array( 'piID' => $data['deduction']['piID'],
+                $data['items'][] = array( 'hiddenName' => 'leaveApply[]',
+                                          'hiddenValue' => $value['laID'],
+                                          'hiddenID' => 'leaveApply' . $value['laID'],
+                                          'piID' => $data['deduction']['piID'],
                                           'remark' => $remark,
                                           'amount' => $amount );
             }
@@ -201,6 +222,35 @@ class LeaveApplyModel extends \Model {
         $this->info['days'] = $data['days'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return $this->info['laID'] = $this->LeaveApply->insert('leave_apply', $this->info );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        if( isset( $data['empInfo'] ) && isset( $post['data']['leaveApply'] ) && is_array( $post['data']['leaveApply'] ) ) {
+            foreach( $post['data']['leaveApply'] as $laID ) {
+                if( $this->isFoundByLaIDUserID( $laID, $data['empInfo']['userID'],1 ) ) {
+                    $this->LeaveApply->update('leave_apply', array( 'status' => 2 ),
+                                              'WHERE laID = "' . (int)$laID . '"' );
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['empInfo']['userID'] ) && $this->isFoundByUserID( $data['empInfo']['userID'],2 ) ) {
+            $this->LeaveApply->update('leave_apply', array( 'status' => 1 ),
+                                      'WHERE userID = "' . (int)$data['empInfo']['userID'] . '" AND
+                                                    status = "2"' );
+        }
     }
 }
 ?>

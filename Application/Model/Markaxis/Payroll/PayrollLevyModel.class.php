@@ -29,10 +29,10 @@ class PayrollLevyModel extends \Model {
     /**
      * Return total count of records
      * @return int
-
-    public function getUserPayroll( $pID, $userID ) {
-        return $this->PayrollLevy->getUserPayroll( $pID, $userID );
-    } */
+     */
+    public function getByPuID( $puID ) {
+        return $this->PayrollLevy->getByPuID( $puID );
+    }
 
 
     /**
@@ -57,6 +57,17 @@ class PayrollLevyModel extends \Model {
                                                     puID = "' . (int)$data['puID'] . '"');
         }
         else {
+            $this->deletePayroll( $data );
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['puID'] ) ) {
             $this->PayrollLevy->delete('payroll_levy','WHERE puID = "' . (int)$data['puID'] . '"');
         }
     }

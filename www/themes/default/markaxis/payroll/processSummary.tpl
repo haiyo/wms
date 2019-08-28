@@ -13,50 +13,17 @@
     </div>
 
     <div class="col-md-4">
+
+        <!-- BEGIN DYNAMIC BLOCK: employerItem -->
         <div class="col-md-12 text-light" style="border-bottom:1px solid #ccc;">
             <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Employer CPF Contribution:</strong>
+                <strong><?TPLVAR_TITLE?>:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_CONTRIBUTION_AMOUNT?>
+                <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
             </div>
         </div>
-
-        <div class="col-md-12 text-light" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Foreign Worker Levy (FWL):</strong>
-            </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_FWL_AMOUNT?>
-            </div>
-        </div>
-
-        <div class="col-md-12 text-light" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Skill Development Levy (SDL):</strong>
-            </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_SDL_AMOUNT?>
-            </div>
-        </div>
-
-        <div class="col-md-12 text-light" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Total Employer Levy:</strong>
-            </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_TOTAL_LEVY?>
-            </div>
-        </div>
-
-        <div class="col-md-12 text-light" style="">
-            <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Total Contribution:</strong>
-            </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_TOTAL_CONTRIBUTION?>
-            </div>
-        </div>
+        <!-- END DYNAMIC BLOCK: employerItem -->
     </div>
 
     <div class="col-md-4">
@@ -69,22 +36,13 @@
             </div>
         </div>
 
-        <div class="col-md-12" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
-                <strong>Total Claim:</strong>
-            </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_CLAIM_AMOUNT?>
-            </div>
-        </div>
-
         <!-- BEGIN DYNAMIC BLOCK: deductionSummary -->
         <div class="col-md-12" style="border-bottom:1px solid #ccc;">
             <div class="col-md-8 text-right" style="padding:5px;">
                 <strong><?TPLVAR_TITLE?>:</strong>
             </div>
             <div class="col-md-4 text-right" style="padding:5px;">
-                <?TPLVAR_CURRENCY?><?TPLVAR_DEDUCTION_AMOUNT?>
+                <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: deductionSummary -->

@@ -60,5 +60,18 @@ class PayrollSummaryControl {
         echo json_encode( $vars );
         exit;
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->PayrollSummaryModel->deletePayroll( $data );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

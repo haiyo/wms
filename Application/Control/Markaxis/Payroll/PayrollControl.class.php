@@ -77,9 +77,9 @@ class PayrollControl {
 
 
     /**
- * Render main navigation
- * @return string
- */
+     * Render main navigation
+     * @return string
+     */
     public function process( $args ) {
         if( isset( $args[1] ) ) {
             $this->PayrollView->renderProcess( $args[1] );
@@ -124,6 +124,16 @@ class PayrollControl {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         Control::setOutputArray( array( 'pID' => $this->PayrollModel->savePayroll( $post ),
                                         'summary' => $this->PayrollModel->processSummary( $data ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        Control::setOutputArray( array( 'pID' => $this->PayrollModel->savePayroll( $post ) ) );
     }
 
 

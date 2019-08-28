@@ -86,9 +86,20 @@ class PayrollUserItemModel extends \Model {
                                                         puID = "' . (int)$data['puID'] . '"');
         }
         else {
-            $this->PayrollUserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['puID'] . '"');
+            $this->deletePayroll( $data );
         }
         return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['puID'] ) ) {
+            $this->PayrollUserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['puID'] . '"');
+        }
     }
 }
 ?>

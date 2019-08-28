@@ -34,5 +34,15 @@ class PayrollUserItemControl {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         Control::setOutputArray( $this->PayrollUserItemModel->savePayroll( $data, $post ) );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->PayrollUserItemModel->deletePayroll( $data );
+    }
 }
 ?>

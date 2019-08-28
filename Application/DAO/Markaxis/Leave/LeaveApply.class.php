@@ -15,6 +15,35 @@ class LeaveApply extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByLaIDUserID( $laID, $userID, $status ) {
+        $sql = $this->DB->select( 'SELECT COUNT(laID) FROM leave_apply 
+                                   WHERE laID = "' . (int)$laID . '" AND
+                                         userID = "' . (int)$userID . '" AND
+                                         status = "' . (int)$status . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByUserID( $userID, $status ) {
+        $sql = $this->DB->select( 'SELECT COUNT(laID) FROM leave_apply 
+                                   WHERE userID = "' . (int)$userID . '" AND
+                                         status = "' . (int)$status . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */
