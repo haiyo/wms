@@ -1,20 +1,10 @@
 
 <script>
     $(document).ready(function( ) {
-        var start = moment().startOf('month');
-        var end = moment().endOf('month');
-
-        $(".daterange").daterangepicker({
-            //timePicker: true,
-            startDate: start,
-            endDate: end,
-            opens: 'left',
-            applyClass: 'bg-slate-600',
-            cancelClass: 'btn-light',
-            locale: {
-                format: 'MMM DD, YYYY'
-            }
-        });
+        var processDate = $("#processDate").val( );
+        var startDate = moment( processDate ).format("MMM Do YYYY");
+        var endDate = moment( processDate ).endOf('month').format("MMM Do YYYY");
+        $(".daterange").val( startDate + " - " + endDate );
 
         var ids = [];
 
@@ -583,7 +573,7 @@
     .payroll-employee .payroll-range input{font-size:17px;}
     .payroll-employee .payroll-range .input-group-text{font-size:16px;padding:5px 14px;}
     .payroll-employee .payroll-range .input-group-text i{margin-right:10px;}
-    .payroll-range{float:right;width:355px;}
+    .payroll-range{float:right;width:380px;}
 
     .employee-nav {
         display: -ms-flexbox;
@@ -720,7 +710,7 @@
     <fieldset>
         <legend class="text-semibold">Select Employee to Pay</legend>
 
-        <div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>
+        <!--<div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>-->
 
         <div class="input-group payroll-range">
             <span class="input-group-prepend">
@@ -728,7 +718,7 @@
                     <i class="icon-calendar22"></i> &nbsp;&nbsp;Process Period
                 </span>
             </span>
-            <input type="text" class="form-control daterange" />
+            <input type="text" class="form-control daterange" readonly />
         </div>
 
         <table class="table table-hover datatable employeeTable">
