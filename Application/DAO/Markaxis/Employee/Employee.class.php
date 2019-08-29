@@ -168,12 +168,14 @@ class Employee extends \DAO {
         $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
                                           u.birthday, u.raceID, n.nationality, e.idnumber, 
                                           d.title AS designation, c.type AS contractType, 
-                                          e.officeID, e.currency, e.salary, pt.title AS passType,
+                                          e.officeID, e.salary, pt.title AS passType,
+                                          CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency,
                                           DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
                                           DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate
                                    FROM employee e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
+                                   LEFT JOIN country cty ON ( cty.cID = u.countryID )
                                    LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
                                    LEFT JOIN designation d ON ( d.dID = e.designationID )
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
