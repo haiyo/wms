@@ -29,5 +29,51 @@ class PayrollSummary extends \DAO {
         }
         return false;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getResults( $processDate, $q='', $order='name ASC' ) {
+        if( $q == 'active' ) {
+            $q = 'AND u.suspended = "0"';
+        }
+        else {
+            $q = $q ? addslashes( $q ) : '';
+            $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
+                       OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
+                       OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
+        }
+
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
+                                          ps.gross, ps.deduction, ps.net, ps.claim, pl.levies, pc.contributions
+                                   FROM payroll_user pu
+                                   LEFT JOIN payroll p ON (p.pID = pu.pID)
+                                   LEFT JOIN payroll_summary ps ON (ps.puID = pu.puID)
+                                   LEFT JOIN ( SELECT puID, SUM(amount) AS levies 
+                                                FROM payroll_levy 
+                                                GROUP BY puID ) pl ON (pl.puID = pu.puID)
+                                   LEFT JOIN ( SELECT puID, SUM(amount) AS contributions 
+                                                FROM payroll_contribution 
+                                                GROUP BY puID ) pc ON (pc.puID = pu.puID)
+                                   LEFT JOIN user u ON (u.userID = pu.userID)
+                                   LEFT JOIN employee e ON (e.userID = u.userID)
+                                   WHERE p.startDate = "' . addslashes( $processDate ) . '" ' . $q . '
+                                   GROUP BY u.userID
+                                   ORDER BY ' . $order . $this->limit,
+                                   __FILE__, __LINE__ );
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
+        $row = $this->DB->fetch( $sql );
+        $list['recordsTotal'] = $row['FOUND_ROWS()'];
+        return $list;
+    }
 }
 ?>

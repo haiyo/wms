@@ -29,6 +29,19 @@ class PayrollSummaryControl {
 
     /**
      * Render main navigation
+     * @return string
+     */
+    public function getAllProcessed( $args ) {
+        if( isset( $args[1] ) ) {
+            $post = Control::getRequest( )->request( POST );
+            echo json_encode( $this->PayrollSummaryModel->getResults( $post, $args[1] ) );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
      * @return void
      */
     public function processPayroll( $args ) {

@@ -86,6 +86,9 @@ class TaxComputingModel extends \Model {
      * @return bool
      */
     public function isEquality( $computing, $compare, $against ) {
+        if( !$compare ) {
+            return false;
+        }
         if( $computing == 'lt' || $computing == 'lte' ) {
             if( $compare > $against ) {
                 return false;
@@ -128,7 +131,7 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterOrdinary( $data, $compInfo ) {
-        if( $compInfo['criteria'] == 'ordinary' && $data['totalOrdinary'] ) {
+        if( $compInfo['criteria'] == 'ordinary' && isset( $data['totalOrdinary'] ) ) {
             if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $unset[$compInfo['trID']] = 1;
@@ -149,7 +152,7 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterAllPayItem( $data, $compInfo ) {
-        if( $compInfo['criteria'] == 'allPayItem' && $data['totalOrdinary'] ) {
+        if( $compInfo['criteria'] == 'allPayItem' && isset( $data['totalOrdinary'] ) ) {
             if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $unset[$compInfo['trID']] = 1;

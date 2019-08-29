@@ -4,7 +4,7 @@
     <input type="hidden" id="processDate" name="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
 
     <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;padding-bottom:11px;">
-        <div class="col-md-1" style="width: 10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
+        <div class="col-md-1" style="width:10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
         <div class="col-md-4" style="width:29%;border-right: 1px solid #ccc;">
             <?TPL_COL_1?>
         </div>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="row font-weight-semibold" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;margin-bottom:0;">
+    <div class="row font-weight-semibold processColHeader">
         <div class="col-md-4">Item Type:</div>
         <div class="col-md-3 amount">Amount:</div>
         <div class="col-md-4 remark">Remark</div>

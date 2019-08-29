@@ -50,29 +50,7 @@
             validate: true,
             block: true,
             next: function(index) {
-                $(".stepy").validate( validate );
-
-                if( index == 2 ) {
-                    if( ids.length > 0 ) {
-                        var data = {
-                            bundle: {
-                                ids: ids
-                            },
-                            success: function( res ) {
-                                var obj = $.parseJSON( res );
-                                if( obj.bool == 0 ) {
-                                    swal("Error!", obj.errMsg, "error");
-                                    return;
-                                }
-                                else {
-                                    $(".tab-content").html( obj.html );
-                                    return true;
-                                }
-                            }
-                        };
-                        Aurora.WebService.AJAX( "admin/payroll/getAllByID", data );
-                    }
-                }
+                pt.ajax.reload();
             },
             finish: function( index ) {
                 if( $(".stepy").valid() )  {
@@ -82,23 +60,9 @@
             }
         });
 
-        var validate = {
-            highlight: function(element, errorClass) {
-                //
-            },
-            errorPlacement: function(error, element) {
-                swal({
-                    type: 'error',
-                    title: 'Oops...',
-                    text: 'Please select one more more employees to continue.'
-                });
-            },
-            rules: {
-                "id[]" : {
-                    required : true
-                }
-            }
-        }
+        var stepy = $(".stepy-step");
+        stepy.find(".button-next").addClass("btn btn-primary btn-next");
+        stepy.find(".button-back").addClass("btn btn-default");
 
         var dt = $(".employeeTable").DataTable({
             "processing": true,
@@ -195,6 +159,148 @@
             },
             preDrawCallback: function() {
                 $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+            }
+        });
+
+        var pt = $(".processedTable").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                $(nRow).attr('id', 'row' + aData['userID']);
+            },
+            ajax: {
+                url: Aurora.ROOT_URL + "admin/payroll/getAllProcessed/" + $("#processDate").val( ),
+                type: "POST",
+                data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+            },
+            initComplete: function() {
+                /*var api = this.api();
+                var that = this;
+                $('input').on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });*/
+            },
+            autoWidth: false,
+            mark: true,
+            columnDefs: [{
+                targets: [0],
+                orderable: true,
+                width: '150px',
+                data: 'name'
+            },{
+                targets: [1],
+                orderable: true,
+                width: '220px',
+                data: 'gross',
+                render: function( data ) {
+                    if( typeof data !== 'string' ) {
+                        data = "0";
+                    }
+                    return Aurora.String.formatMoney( data );
+                }
+            },{
+                targets: [2],
+                orderable: true,
+                width: '220px',
+                data: 'net',
+                render: function( data ) {
+                    if( typeof data !== 'string' ) {
+                        data = "0";
+                    }
+                    return Aurora.String.formatMoney( data );
+                }
+            },{
+                targets: [3],
+                orderable: true,
+                width: '220px',
+                data: 'claim',
+                render: function( data ) {
+                    if( typeof data !== 'string' ) {
+                        data = "0";
+                    }
+                    return Aurora.String.formatMoney( data );
+                }
+            },{
+                targets: [4],
+                orderable: true,
+                width: '220px',
+                data: 'levies',
+                render: function( data ) {
+                    if( typeof data !== 'string' ) {
+                        data = "0";
+                    }
+                    return Aurora.String.formatMoney( data );
+                }
+            },{
+                targets: [5],
+                orderable: true,
+                width: '220px',
+                data: 'contributions',
+                render: function( data ) {
+                    if( typeof data !== 'string' ) {
+                        data = "0";
+                    }
+                    return Aurora.String.formatMoney( data );
+                }
+            }],
+            order: [],
+            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
+            language: {
+                search: '',
+                searchPlaceholder: 'Search Employee, Designation or Contract Type',
+                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
+                paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+            },
+            drawCallback: function () {
+                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+            },
+            preDrawCallback: function() {
+                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+            },
+            footerCallback: function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ? i : 0;
+                };
+
+                // Total over all pages
+                /*total = api.column( 4 ).data().reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );*/
+
+                // Total over this page
+                var grossTotal = api.column(1, {page:"current"} ).data().reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                var netTotal = api.column(2, {page:"current"} ).data().reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                var claimTotal = api.column(3, {page:"current"} ).data().reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                var levyTotal = api.column(4, {page:"current"} ).data().reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                var contriTotal = api.column(5, {page:"current"} ).data().reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+                // Update footer
+                $(api.column(1).footer( )).html( Aurora.String.formatMoney( grossTotal.toString( ) ) );
+                $(api.column(2).footer( )).html( Aurora.String.formatMoney( netTotal.toString( ) ) );
+                $(api.column(3).footer( )).html( Aurora.String.formatMoney( claimTotal.toString( ) ) );
+                $(api.column(4).footer( )).html( Aurora.String.formatMoney( levyTotal.toString( ) ) );
+                $(api.column(5).footer( )).html( Aurora.String.formatMoney( contriTotal.toString( ) ) );
             }
         });
 
@@ -622,7 +728,7 @@
                     <i class="icon-calendar22"></i> &nbsp;&nbsp;Process Period
                 </span>
             </span>
-            <input type="text" class="form-control daterange" >
+            <input type="text" class="form-control daterange" />
         </div>
 
         <table class="table table-hover datatable employeeTable">
@@ -642,35 +748,30 @@
     <fieldset>
         <legend class="text-semibold">View Summary</legend>
 
-        <div class="panel-body">
-            <div class="panel-heading">
-                <h5 class="panel-title">Employee List<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-                <div class="heading-elements">
-                    <ul class="icons-list">
-                        <li>
-                            <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
-                                <b><i class="icon-user-plus"></i></b> Add New Employee</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <b><i class="icon-reading"></i></b> Bulk Action <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
-                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
-                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
-                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
-                                <li class="divider"></li>
-                                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-
-        </div>
+        <table class="table table-hover datatable processedTable">
+            <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Gross</th>
+                <th>Net</th>
+                <th>Claims</th>
+                <th>Levies</th>
+                <th>Contributions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Total</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            </tfoot>
+        </table>
     </fieldset>
+
     <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
         <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
     </button>
