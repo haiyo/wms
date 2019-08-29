@@ -201,7 +201,6 @@
         <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
-
     <task type="payroll/deletePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
@@ -214,7 +213,9 @@
         <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
-
+    <task type="payroll/getAllProcessed">
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
+    </task>
     <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
     </task>

@@ -37,6 +37,50 @@ class PayrollSummaryModel extends \Model {
 
 
     /**
+     * Get File Information
+     * @return mixed
+     */
+    public function getResults( $post, $processDate ) {
+        $this->PayrollSummary->setLimit( $post['start'], $post['length'] );
+
+        $order = 'name';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        if( isset( $post['order'][0]['column'] ) ) {
+            switch( $post['order'][0]['column'] ) {
+                case 1:
+                    $order = 'e.idnumber';
+                    break;
+                case 2:
+                    $order = 'name';
+                    break;
+                case 3:
+                    $order = 'd.title';
+                    break;
+                case 4:
+                    $order = 'e.email1';
+                    break;
+                case 5:
+                    $order = 'u.mobile';
+                    break;
+                case 6:
+                    $order = 'u.suspended';
+                    break;
+            }
+        }
+        $results = $this->PayrollSummary->getResults( $processDate, $post['search']['value'], $order . $dir );
+
+        $total = $results['recordsTotal'];
+        unset( $results['recordsTotal'] );
+
+        return array( 'draw' => (int)$post['draw'],
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
+    }
+
+
+    /**
      * Return total count of records
      * @return int
      */

@@ -15,11 +15,11 @@
     <div class="col-md-4">
 
         <!-- BEGIN DYNAMIC BLOCK: employerItem -->
-        <div class="col-md-12 text-light" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
+        <div class="col-md-12 text-light summaryItem">
+            <div class="col-md-8 text-right p-5">
                 <strong><?TPLVAR_TITLE?>:</strong>
             </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
             </div>
         </div>
@@ -27,31 +27,31 @@
     </div>
 
     <div class="col-md-4">
-        <div class="col-md-12" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
+        <div class="col-md-12 summaryItem">
+            <div class="col-md-8 text-right p-5">
                 <strong>Total Gross:</strong>
             </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_GROSS_AMOUNT?>
             </div>
         </div>
 
         <!-- BEGIN DYNAMIC BLOCK: deductionSummary -->
-        <div class="col-md-12" style="border-bottom:1px solid #ccc;">
-            <div class="col-md-8 text-right" style="padding:5px;">
+        <div class="col-md-12 summaryItem">
+            <div class="col-md-8 text-right p-5">
                 <strong><?TPLVAR_TITLE?>:</strong>
             </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: deductionSummary -->
 
-        <div class="col-md-12" style="">
-            <div class="col-md-8 text-right" style="padding:5px;">
+        <div class="col-md-12">
+            <div class="col-md-8 text-right p-5">
                 <strong>Total Net Payable:</strong>
             </div>
-            <div class="col-md-4 text-right" style="padding:5px;">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_NET_AMOUNT?>
             </div>
         </div>

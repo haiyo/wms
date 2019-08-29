@@ -58,6 +58,7 @@ class PayrollSummaryView {
         $itemInfo = $PayrollUserItemModel->getByPuID( $puID );
 
         $vars['dynamic']['item'] = false;
+        $totalClaim = 0;
 
         if( sizeof( $itemInfo ) > 0 ) {
             $ItemModel = ItemModel::getInstance( );
@@ -72,7 +73,6 @@ class PayrollSummaryView {
 
             $ClaimModel = ClaimModel::getInstance( );
             $claimList = $ClaimModel->getProcessedByUserID( $data['empInfo']['userID'] );
-            $totalClaim = 0;
 
             if( isset( $claimList ) ) {
                 $ExpenseModel = ExpenseModel::getInstance( );

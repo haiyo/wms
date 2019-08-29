@@ -62,7 +62,8 @@ class PayrollUserModel extends \Model {
     public function deletePayroll( $data ) {
         if( isset( $data['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
             if( $payrollUserInfo = $this->getUserPayroll( $data['pID'], $data['empInfo']['userID'] ) ) {
-                $this->PayrollUser->delete('payroll_user', 'WHERE pID = "' . (int)$data['pID'] . '"' );
+                $this->PayrollUser->delete('payroll_user', 'WHERE pID = "' . (int)$data['pID'] . '" AND
+                                                                             userID = "' . (int)$data['empInfo']['userID'] . '"' );
                 return $payrollUserInfo['puID'];
             }
         }
