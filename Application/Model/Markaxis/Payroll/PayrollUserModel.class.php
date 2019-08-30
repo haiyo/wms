@@ -31,6 +31,18 @@ class PayrollUserModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function isFound( $data ) {
+        if( isset( $data['pID'] ) ) {
+            return $this->PayrollUser->isFound( $data['pID'] );
+        }
+        return 0;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getUserPayroll( $pID, $userID ) {
         return $this->PayrollUser->getUserPayroll( $pID, $userID );
     }

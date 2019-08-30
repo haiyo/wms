@@ -36,14 +36,9 @@ class PayrollSummary extends \DAO {
      * @return mixed
      */
     public function getResults( $processDate, $q='', $order='name ASC' ) {
-        if( $q == 'active' ) {
-            $q = 'AND u.suspended = "0"';
-        }
-        else {
+        if( $q ) {
             $q = $q ? addslashes( $q ) : '';
-            $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
-                       OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
-                       OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
+            $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" )' : '';
         }
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
