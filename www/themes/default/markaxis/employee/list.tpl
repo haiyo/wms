@@ -28,34 +28,25 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: '10px',
-                orderable: false,
-                searchable : false,
-                data: 'userID',
-                render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
                 width: '150px',
                 data: 'idnumber'
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
                 width: '270px',
-                data: 'name'
+                data: 'name',
+                render: function(data, type, full, meta) {
+                    return '<img src="' + full['photo'] + '" width="32" height="32" style="margin-right:10px" />' + data;
+                }
             },{
-                targets: [3],
+                targets: [2],
                 orderable: true,
                 width: '260px',
                 data: 'designation'
             },{
-                targets: [4],
+                targets: [3],
                 searchable : false,
                 data: 'status',
                 width: '190px',
@@ -77,17 +68,17 @@
                     }
                 }
             },{
-                targets: [5],
+                targets: [4],
                 orderable: true,
                 width: '220px',
                 data: 'email1'
             },{
-                targets: [6],
+                targets: [5],
                 orderable: true,
                 width: '150px',
                 data: 'mobile'
             },{
-                targets: [7],
+                targets: [6],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -321,7 +312,6 @@
 <table class="table table-hover employeeTable">
     <thead>
     <tr>
-        <th rowspan="2"></th>
         <th rowspan="2">Employee ID</th>
         <th colspan="3">HR Information</th>
         <th colspan="3">Contact</th>

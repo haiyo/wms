@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\User\UserImageModel;
 use \Library\Security\Aurora\LockMethod;
 use \Library\Validator\Validator;
 use \Library\Exception\Aurora\AuthLoginException;
@@ -17,7 +18,6 @@ class PayrollModel extends \Model {
     // Properties
     protected $Payroll;
     private $totalOrdinary;
-
 
 
     /**
@@ -93,6 +93,16 @@ class PayrollModel extends \Model {
             }
         }
         $results = $this->Payroll->getResults( $post['search']['value'], $order . $dir );
+
+        if( $results ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $results as $key => $row ) {
+                if( isset( $row['userID'] ) ) {
+                    $results[$key]['photo'] = $UserImageModel->getImgLinkByUserID( $row['userID'] );
+                }
+            }
+        }
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );

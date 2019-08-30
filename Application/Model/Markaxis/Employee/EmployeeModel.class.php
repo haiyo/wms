@@ -167,6 +167,16 @@ class EmployeeModel extends \Model {
         }
         $results = $this->Employee->getResults( $post['search']['value'], $order . $dir );
 
+        if( $results ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $results as $key => $row ) {
+                if( isset( $row['userID'] ) ) {
+                    $results[$key]['photo'] = $UserImageModel->getImgLinkByUserID( $row['userID'] );
+                }
+            }
+        }
+
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
