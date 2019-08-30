@@ -19,7 +19,7 @@
 
         <!-- Footer -->
         <div class="footer text-muted">
-          Copyright &copy; 2018 All Rights Reserved. HRMS System by <a href="#">Markaxis</a>
+          Copyright &copy; 2019 All Rights Reserved. HRMS System by <a href="https://www.markaxis.com">Markaxis</a>
         </div>
         <!-- /footer -->
 

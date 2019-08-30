@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\User\UserImageModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -13,7 +14,6 @@ class PayrollSummaryModel extends \Model {
 
     // Properties
     protected $PayrollSummary;
-
 
 
     /**
@@ -69,6 +69,16 @@ class PayrollSummaryModel extends \Model {
             }
         }
         $results = $this->PayrollSummary->getResults( $processDate, $post['search']['value'], $order . $dir );
+
+        if( $results ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $results as $key => $row ) {
+                if( isset( $row['userID'] ) ) {
+                    $results[$key]['photo'] = $UserImageModel->getImgLinkByUserID( $row['userID'] );
+                }
+            }
+        }
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );

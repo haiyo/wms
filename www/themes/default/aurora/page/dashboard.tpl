@@ -279,13 +279,11 @@
         <div id="pendingAction"></div>
 
 
-        <div class="bg-transparent header-elements-inline">
+        <!--<div class="bg-transparent header-elements-inline">
             <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">What's Happening at Markaxis?</span>
         </div>
 
-        <!-- My messages -->
         <div class="card">
-            <!-- Numbers -->
             <div class="card-body py-0">
                 <div class="text-center">
                     <div class="col-md-4">
@@ -310,15 +308,9 @@
                     </div>
                 </div>
             </div>
-            <!-- /numbers -->
 
-
-            <!-- Area chart -->
             <div id="messages-stats"></div>
-            <!-- /area chart -->
 
-
-            <!-- Tabs -->
             <ul class="nav nav-tabs nav-tabs-solid nav-justified bg-purple-400 border-x-0 border-bottom-0 border-top-indigo-300 mb-0">
                 <li class="nav-item">
                     <a href="#messages-tue" class="nav-link font-size-sm text-uppercase active" data-toggle="tab">
@@ -338,10 +330,7 @@
                     </a>
                 </li>
             </ul>
-            <!-- /tabs -->
 
-
-            <!-- Tabs content -->
             <div class="tab-content card-body">
                 <div class="tab-pane active fade show" id="messages-tue">
                     <ul class="media-list">
@@ -582,161 +571,9 @@
                     </ul>
                 </div>
             </div>
-            <!-- /tabs content -->
-        </div>
-
+        </div>-->
     </div>
-    <style>
-        #modalChat {
-            position:absolute;
-            padding:0 !important;
-            display:none;
-            z-index:9;
-        }
-        .chat-dialog {
-            margin:0;
-        }
-        .search input {
-            outline: 0;
-            width: 100%;
-            height: 36px;
-            padding: 7px 12px;
-            font-size: 13px;
-            line-height: 1.5384616;
-            color: #333;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-        }
-        .search>label:after {
-            content: "\e98e";
-            font-family: icomoon;
-            font-size: 12px;
-            display: inline-block;
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            margin-top: -6px;
-            color: #999;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        .search>label {
-            display: block;
-            margin-bottom: 0;
-            position: relative;
-        }
-        .chat-body {
-            padding:0;
-            height:650px;
-        }
-        .chat-body .room-list {
-            padding:0;
-            height: 100%;
-            border-right: 1px solid #efefef;
-            -webkit-box-shadow:1px 0 5px -2px rgba(0,0,0,.5);
-            box-shadow:1px 0 5px -2px rgba(0,0,0,.5);
-        }
-        .chat-body .right-window {
-            position:relative;
-            padding-right:0;
-            height:100%;
-        }
-        .chat-body .textfield-wrapper {
-            position:absolute;
-            width:100%;
-            bottom:0;
-            right:0;
-            padding:10px;
-            border-top: 1px solid rgba(0,0,0,.125);
-        }
-        .chat-body input {
-            width:100%;
-        }
-        .search {
-            padding:10px;
-            background-color:#efefef;
-        }
-        .no-history {
-            margin-top:50px;
-            padding:10px;
-            color:#999;
-            text-align:center;
-            display:none;
-        }
-        .room {
-            position:relative;
-            display:block;
-            float:left;
-            width:100%;
-            padding:10px;
-            border-bottom:1px solid rgba(0,0,0,.125);
-            color:inherit;
-        }
-        .room:hover {
-            color:#666;
-            background-color:#efefef;
-        }
-        .contact-name {
-            padding:0;
-            font-size:16px;
-            font-weight:bold;
-            margin-top:2px;
-        }
-        .contact-position {
-            font-size:12px;
-            font-weight:normal;
-        }
-        .read {
-            color:#999;
-        }
-        .room .badge-float {
-            position: absolute;
-            right:1em;
-            top:3em;
-        }
-        .room .badge-pill {
-            padding-right:.5em;
-            padding-left:.5em;
-        }
-        .right-window .textfield, .right-window .send {
-            float:left;
-        }
-        .right-window .textfield {
-            margin-right:10px;
-            width:90%;
-        }
-        #modalChat .form-control {
-            height:38px
-        }
-        .typing {
-            font-size:13px;
-            font-style:italic;
-            color:#999;
-            position:absolute;
-            bottom:64px;
-        }
-        .message-wrapper {
-            position:relative;
-            width:99%;
-            height:84%;
-            margin-top:10px;
-            padding:10px;
-            overflow:hidden;
-            overflow-y:auto;
-        }
-        .message {
-            padding:9px;
-        }
-        .message .name {
-            font-weight: bold;
-        }
-        .message .datetime {
-            font-size: 13px;
-            margin-left: 5px;
-        }
-    </style>
+
     <div id="modalChat" class="modal-dialog chat-dialog modal-xl ">
         <div class="modal-content">
             <div class="modal-header chat-header bg-info">
@@ -1029,3 +866,4 @@
             </div>
         </div>
     </div>
+</div>
