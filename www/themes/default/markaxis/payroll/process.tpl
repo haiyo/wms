@@ -1,20 +1,11 @@
 
 <script>
     $(document).ready(function( ) {
-        var start = moment().startOf('month');
-        var end = moment().endOf('month');
-
-        $(".daterange").daterangepicker({
-            //timePicker: true,
-            startDate: start,
-            endDate: end,
-            opens: 'left',
-            applyClass: 'bg-slate-600',
-            cancelClass: 'btn-light',
-            locale: {
-                format: 'MMM DD, YYYY'
-            }
-        });
+        var haveSaved = false;
+        var processDate = $("#processDate").val( );
+        var startDate = moment( processDate ).format("MMM Do YYYY");
+        var endDate = moment( processDate ).endOf('month').format("MMM Do YYYY");
+        $(".daterange").val( startDate + " - " + endDate );
 
         var ids = [];
 
@@ -50,6 +41,9 @@
             validate: true,
             block: true,
             next: function(index) {
+                if( !haveSaved ) {
+                    return false;
+                }
                 pt.ajax.reload();
             },
             finish: function( index ) {
@@ -63,6 +57,13 @@
         var stepy = $(".stepy-step");
         stepy.find(".button-next").addClass("btn btn-primary btn-next");
         stepy.find(".button-back").addClass("btn btn-default");
+
+        $("#employeeForm-step-0 .stepy-navigator a")
+            .attr("disabled", true)
+            .html('Complete Process <i class="icon-arrow-right14 position-right"></i>');
+
+        $("#employeeForm-step-1 .stepy-navigator button span")
+            .html('Confirm &amp; Payment <i class="icon-check position-right"></i>');
 
         var dt = $(".employeeTable").DataTable({
             "processing": true,
@@ -137,6 +138,9 @@
                 data: 'userID',
                 render: function(data, type, full, meta) {
                     if( full["puCount"] > 0 ) {
+                        haveSaved = true;
+                        $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", false);
+
                         return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="1" ' +
                                'data-toggle="modal" data-target="#modalCalPayroll">Saved</a>';
                     }
@@ -249,7 +253,7 @@
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
                 search: '',
-                searchPlaceholder: 'Search Employee, Designation or Contract Type',
+                searchPlaceholder: 'Search Employee Name',
                 lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
             },
@@ -396,6 +400,26 @@
             width: "auto"
         });
 
+        var processedTable = $('.processedTable').DataTable();
+
+        $('.processedTable tbody').on('mouseover', 'td', function() {
+            if( typeof processedTable.cell(this).index() == "undefined" ) return;
+            var colIdx = processedTable.cell(this).index().column;
+
+            if( colIdx !== lastIdx ) {
+                $(processedTable.cells( ).nodes( )).removeClass('active');
+                $(processedTable.column(colIdx).nodes( )).addClass('active');
+            }
+        }).on('mouseleave', function() {
+            $(processedTable.cells( ).nodes( )).removeClass("active");
+        });
+
+        // Enable Select2 select for the length option
+        $(".dataTables_length select").select2({
+            minimumResultsForSearch: Infinity,
+            width: "auto"
+        });
+
         function dateDiff( date ) {
             var date = date.split('-');
             var firstDate = new Date( );
@@ -405,6 +429,9 @@
 
         $(".payroll-range").insertAfter(".dataTables_filter");
         $(".officeFilter").insertAfter(".dataTables_filter");
+        $("#employeeForm-step-0 .stepy-navigator").insertAfter("#employeeForm-step-0 .dataTables_filter");
+        $("#employeeForm-step-1 .stepy-navigator").insertAfter("#employeeForm-step-1 .dataTables_filter");
+
         $("#office").select2( );
         $(".select").select2({minimumResultsForSearch: -1});
 
@@ -486,11 +513,13 @@
                         else {
                             swal({
                                 title: "Payroll Saved",
-                                text: "",
+                                text: "Note: This payroll is not finalised until confirmed and payment is made. You may still reprocess the payroll at anytime.",
                                 type: 'success'
                             }, function( isConfirm ) {
                                 $("#process" + obj.data.empInfo.userID).text("Saved");
                                 $("#process" + obj.data.empInfo.userID).attr("data-saved", 1);
+                                haveSaved = true;
+                                $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", false);
                                 $("#modalCalPayroll").modal('hide');
                             });
                         }
@@ -503,7 +532,7 @@
         $(document).on("click", "#reprocessPayroll", function ( ) {
             swal({
                 title: "Are you sure you want to reprocess " + $("#userName").val( ) + "'s payroll?",
-                text: "This action is irreversible and all permission settings related to this role will be lost!",
+                text: "This action is irreversible and all item types will be reset!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -537,6 +566,12 @@
                                 $("#process" + $("#userID").val( ) ).text("Process");
                                 $(".processBtn").attr("id", "savePayroll");
                                 $(".processBtn").text("Save Payroll");
+
+                                if( obj.data.userProcessCount == 0 ) {
+                                    haveSaved = false;
+                                    $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", true);
+                                }
+
                                 swal.close()
                             });
                         }
@@ -583,7 +618,9 @@
     .payroll-employee .payroll-range input{font-size:17px;}
     .payroll-employee .payroll-range .input-group-text{font-size:16px;padding:5px 14px;}
     .payroll-employee .payroll-range .input-group-text i{margin-right:10px;}
-    .payroll-range{float:right;width:355px;}
+    .payroll-range{float:right;width:400px;}
+    .daterange{margin-right:10px}
+    .processEmployee .stepy-navigator{float:right}
 
     .employee-nav {
         display: -ms-flexbox;
@@ -715,12 +752,12 @@
         </div>
     </div>
 </div>
-<form id="employeeForm" class="stepy" action="#">
+<form id="employeeForm" class="stepy processEmployee" action="#">
     <input type="hidden" id="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
     <fieldset>
         <legend class="text-semibold">Select Employee to Pay</legend>
 
-        <div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>
+        <!--<div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>-->
 
         <div class="input-group payroll-range">
             <span class="input-group-prepend">
@@ -728,7 +765,7 @@
                     <i class="icon-calendar22"></i> &nbsp;&nbsp;Process Period
                 </span>
             </span>
-            <input type="text" class="form-control daterange" />
+            <input type="text" class="form-control daterange" readonly />
         </div>
 
         <table class="table table-hover datatable employeeTable">

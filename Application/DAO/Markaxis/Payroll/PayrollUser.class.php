@@ -15,6 +15,18 @@ class PayrollUser extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $pID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(puID) FROM payroll_user WHERE pID = "' . (int)$pID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

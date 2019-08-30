@@ -41,7 +41,8 @@ class PayrollUserControl {
      */
     public function deletePayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'puID' => $this->PayrollUserModel->deletePayroll( $data ) ) );
+        Control::setOutputArray( array( 'puID' => $this->PayrollUserModel->deletePayroll( $data ),
+                                        'userProcessCount' => $this->PayrollUserModel->isFound( $data ) ) );
     }
 }
 ?>

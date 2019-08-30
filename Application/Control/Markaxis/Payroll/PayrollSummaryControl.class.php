@@ -82,6 +82,7 @@ class PayrollSummaryControl {
     public function deletePayroll( ) {
         $data = Control::getOutputArray( );
         $this->PayrollSummaryModel->deletePayroll( $data );
+        $vars['data'] = $data;
         $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;
