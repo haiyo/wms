@@ -76,7 +76,7 @@ class PayrollSummaryView {
             foreach( $itemInfo as $item ) {
                 $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $itemList[$item['piID']],
                     'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
-                        number_format( $item['amount'],2 ),
+                                        number_format( $item['amount'],2 ),
                     'TPLVAR_REMARK' => $item['remark'] );
             }
 
@@ -92,7 +92,7 @@ class PayrollSummaryView {
 
                     $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $expenseList[$claim['eiID']],
                         'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
-                            number_format( $claim['amount'],2 ),
+                                            number_format( $claim['amount'],2 ),
                         'TPLVAR_REMARK' => $claim['descript'] );
                 }
             }
@@ -127,7 +127,7 @@ class PayrollSummaryView {
         require_once LIB . 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML( $html );
-        $mpdf->Output();
+        $mpdf->Output('payslip-' . $processDate . '.pdf','I' );
     }
 
 

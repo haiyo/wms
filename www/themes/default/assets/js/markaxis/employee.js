@@ -1068,17 +1068,6 @@ var MarkaxisEmployee = (function( ) {
                 });
             });
 
-            /*$("#thumb").on("click", function( ev ) {
-                that.uploadCrop.croppie('result', {
-                    type: "canvas",
-                    size: "viewport"
-                }).then(function (resp) {
-                    popupResult({
-                        src: resp
-                    });
-                });
-            });*/
-
             $(".upload-cancel").on("click", function( ev ) {
                 $(".upload-demo-wrap").removeClass('ready');
                 $(".caption").removeClass("mt-30");

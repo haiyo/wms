@@ -40,7 +40,7 @@ class CompanyView {
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
                                                                   'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
-                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
+                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js', 'jscolor.js' ),
                                         'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
                                         'pages' => 'wizard_stepy.js',
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
@@ -87,10 +87,16 @@ class CompanyView {
                        'TPLVAR_EMAIL' => $companyInfo['email'],
                        'TPLVAR_PHONE' => $companyInfo['phone'],
                        'TPLVAR_WEBSITE' => $companyInfo['website'],
+                       'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
+                       'TPLVAR_NAVIGATION_COLOR' => $companyInfo['navigationColor'],
+                       'TPLVAR_NAVIGATION_TEXT_COLOR' => $companyInfo['navigationTextColor'],
+                       'TPLVAR_NAVIGATION_TEXT_HOVER_COLOR' => $companyInfo['navigationTextHoverColor'],
+                       'TPLVAR_DASHBG_COLOR' => $companyInfo['dashboardBgColor'],
+                       'TPLVAR_BUTTON_COLOR' => $companyInfo['buttonColor'],
+                       'TPLVAR_BUTTON_HOVER_COLOR' => $companyInfo['buttonHoverColor'],
+                       'TPLVAR_BUTTON_FOCUS_COLOR' => $companyInfo['buttonFocusColor'],
                        'TPL_COMPANY_TYPE_LIST' => $companyTypeList,
                        'TPL_COUNTRY_LIST' => $countryList ) );
-
-
 
         if( $companyInfo['company_uID'] ) {
             $vars['TPLVAR_DEF_COMPANY_LOGO'] = 'hide';
