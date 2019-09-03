@@ -32,7 +32,8 @@ class LeaveBalance extends \DAO {
      * @return mixed
      */
     public function getByltIDUserID( $ltID, $userID ) {
-        $sql = $this->DB->select( 'SELECT lb.balance, COUNT(lg.lgID) AS groupCount FROM employee_leave_bal lb
+        $sql = $this->DB->select( 'SELECT lb.*, COUNT(lg.lgID) AS groupCount 
+                                   FROM employee_leave_bal lb
                                    LEFT JOIN leave_group lg ON lg.ltID = lb.ltID
                                    WHERE lb.ltID = "' . (int)$ltID . '" AND
                                          lb.userID = "' . (int)$userID . '"',

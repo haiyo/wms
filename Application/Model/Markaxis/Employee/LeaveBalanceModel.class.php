@@ -190,7 +190,6 @@ class LeaveBalanceModel extends \Model {
             $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
             return false;
         }
-
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getInfo( );
         $this->info['userID'] = $empInfo['userID'];
