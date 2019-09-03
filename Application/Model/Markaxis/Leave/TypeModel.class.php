@@ -39,6 +39,7 @@ class TypeModel extends \Model {
         $this->info['proRated'] = 0;
         $this->info['allowHalfDay'] = 0;
         $this->info['paidLeave'] = 1;
+        $this->info['formula'] = '';
         $this->info['applied'] = 'hired';
         $this->info['unused'] = 'forfeit';
         $this->info['haveChild'] = 0;

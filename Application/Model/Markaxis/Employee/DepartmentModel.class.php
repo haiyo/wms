@@ -50,8 +50,8 @@ class DepartmentModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getListByUserID( $userID ) {
-        return $this->info = $this->Department->getListByUserID( $userID );
+    public function getList( ) {
+        return $this->Department->getList( );
     }
 
 

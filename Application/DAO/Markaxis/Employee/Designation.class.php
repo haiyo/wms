@@ -19,9 +19,9 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT * FROM designation WHERE deleted <> "1"', __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -37,11 +37,11 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getGroupList( ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT * FROM designation WHERE parent = 0 AND deleted <> "1"
                                    ORDER BY title',
                                    __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

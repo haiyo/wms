@@ -256,7 +256,7 @@ $(document).ready( function( ) {
                     }
                 },
                 error: function( jqXHR, textStatus, errorThrown ) {
-                    console.log( jqXHR );
+                    console.log( jqXHR, textStatus, errorThrown );
                 },
                 success: function( res ) {
                     if( res == "login" ) {

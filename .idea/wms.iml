@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/apiclient" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/apiclient-services" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/guzzlehttp/promises" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/mpdf/mpdf" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/phpseclib/phpseclib" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/setasign/fpdi" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

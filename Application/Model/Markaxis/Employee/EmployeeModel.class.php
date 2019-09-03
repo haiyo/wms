@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
-use \Aurora\Component\DesignationModel;
+use \Aurora\Component\DesignationModel, \Aurora\Component\DepartmentModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
@@ -290,6 +290,13 @@ class EmployeeModel extends \Model {
             $DesignationModel = DesignationModel::getInstance( );
             if( $DesignationModel->isFound( $data['designation'] ) ) {
                 $saveInfo['designationID'] = (int)$data['designation'];
+            }
+        }
+
+        if( isset( $data['department'] ) ) {
+            $DepartmentModel = DepartmentModel::getInstance( );
+            if( $DepartmentModel->isFound( $data['department'] ) ) {
+                $saveInfo['departmentID'] = (int)$data['department'];
             }
         }
 

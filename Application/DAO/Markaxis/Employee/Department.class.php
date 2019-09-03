@@ -52,6 +52,7 @@ class Department extends \DAO {
                                    __FILE__, __LINE__ );
 
         $list = array( );
+
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
@@ -66,31 +67,16 @@ class Department extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM employee_department', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM department WHERE deleted <> "1"', __FILE__, __LINE__ );
 
         $list = array( );
+
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
+                $list[$row['dID']] = $row['name'];
             }
         }
         return $list;
-    }
-
-
-    /**
-     * Retrieve a user list normally use for building select list
-     * @return mixed
-     */
-    public function getListByUserID( $userID ) {
-        $sql = $this->DB->select( 'SELECT GROUP_CONCAT(DISTINCT departmentID) AS dID FROM employee_department
-                                   WHERE userID = "' . (int)$userID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
     }
 }
 ?>

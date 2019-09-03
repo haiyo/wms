@@ -145,8 +145,7 @@ class ExperienceModel extends \Model {
 
                 if( $expInfo['uID'] ) {
                     $UploadModel = new UploadModel( );
-                    $fileInfo = $UploadModel->getByUID( $expInfo['uID'] );
-                    $UploadModel->deleteFile( $fileInfo['uID'], $fileInfo['hashName'] );
+                    $UploadModel->deleteFile( $expInfo['uID'], self::USER_EXP_DIR );
                 }
                 return true;
             }
@@ -164,7 +163,7 @@ class ExperienceModel extends \Model {
         $this->fileInfo['hashDir'] = MD5( date('Y-m-d') );
         $this->fileInfo['dir'] = $this->fileInfo['hashDir'] . '/';
 
-        File::createDir( self::USER_EXP_DIR . $this->fileInfo['dir'] );
+        File::createDir(self::USER_EXP_DIR . $this->fileInfo['dir'] );
 
         $Uploader = new Uploader( array( 'uploadDir' => self::USER_EXP_DIR . $this->fileInfo['dir'] ) );
 
