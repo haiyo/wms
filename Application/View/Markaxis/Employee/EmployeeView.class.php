@@ -178,6 +178,10 @@ class EmployeeView {
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
         $designationList = $SelectGroupListView->build('designation', $DesignationModel->getList( ), $designationID,'Select Designation' );
 
+        $DepartmentModel = DepartmentModel::getInstance( );
+        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
+        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Select Department(s)' );
+
         $confirmDayList = $DayIntListView->getList('confirmDay', $confirmDay,'Day' );
         $confirmMonthList = $SelectListView->build('confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );
 
@@ -224,14 +228,6 @@ class EmployeeView {
         $RoleModel = RoleModel::getInstance( );
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
         $roleList = $SelectListView->build('role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
-
-        $A_DepartmentModel = A_DepartmentModel::getInstance( );
-        $DepartmentModel = DepartmentModel::getInstance( );
-
-        $SelectListView->setClass( '' );
-        $departments = isset( $this->info['userID'] ) ? $DepartmentModel->getListByUserID( $this->info['userID'] ) : '';
-        $departments = isset( $departments['dID'] ) ? explode(',', $departments['dID'] ) : '';
-        $departmentList = $SelectListView->build( 'department',  $A_DepartmentModel->getList( ), $departments,'Select Department(s)' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],

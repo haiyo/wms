@@ -61,11 +61,13 @@
                 <th>Claims</th>
                 <th>Levies</th>
                 <th>Contributions</th>
+                <th>Payslips</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
                 <th>Total</th>
+                <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>

@@ -143,11 +143,11 @@ $(document).ready(function( ) {
                     $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", false);
 
                     return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="1" ' +
-                        'data-toggle="modal" data-target="#modalCalPayroll">Saved</a>';
+                            'data-toggle="modal" data-target="#modalCalPayroll">Saved</a>';
                 }
                 else {
                     return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="0" ' +
-                        'data-toggle="modal" data-target="#modalCalPayroll">Process</a>';
+                            'data-toggle="modal" data-target="#modalCalPayroll">Process</a>';
                 }
             }
         }],
@@ -251,6 +251,16 @@ $(document).ready(function( ) {
                     data = "0";
                 }
                 return Aurora.String.formatMoney( data );
+            }
+        },{
+            targets: [6],
+            orderable: true,
+            width: '100px',
+            className : "text-center",
+            data: 'userID',
+            render: function( data ) {
+                return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
+                        $("#processDate").val( ) + '/slip" target="_blank">View</a>';
             }
         }],
         order: [],

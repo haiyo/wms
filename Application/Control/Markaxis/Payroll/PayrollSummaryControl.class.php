@@ -53,6 +53,11 @@ class PayrollSummaryControl {
 
                 if( $payrollUserInfo = $PayrollUserModel->getUserPayroll( $payrollInfo['pID'], $args[1] ) ) {
                     $data = Control::getOutputArray( );
+
+                    if( isset( $args[3] ) && $args[3] == 'slip' ) {
+                        $this->PayrollSummaryView->renderSlip( $payrollUserInfo['puID'], $args[1], $args[2], $data );
+                        exit;
+                    }
                     echo $this->PayrollSummaryView->renderProcessForm( $payrollUserInfo['puID'], $args[1], $args[2], $data );
                     exit;
                 }

@@ -38,15 +38,6 @@ class PayrollControl {
 
     /**
      * Render main navigation
-     * @return string
-     */
-    public function slips( ) {
-        $this->PayrollView->renderSlips( );
-    }
-
-
-    /**
-     * Render main navigation
      * @return void
      */
     public function employee( ) {

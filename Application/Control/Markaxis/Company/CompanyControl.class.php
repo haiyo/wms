@@ -14,6 +14,7 @@ class CompanyControl {
 
 
     // Properties
+    private $CompanyModel;
     private $CompanyView;
 
 
@@ -22,6 +23,7 @@ class CompanyControl {
      * @return void
      */
     function __construct( ) {
+        $this->CompanyModel = CompanyModel::getInstance( );
         $this->CompanyView = new CompanyView( );
     }
 
@@ -64,11 +66,12 @@ class CompanyControl {
      * Render main navigation
      * @return string
      */
-    public function edit( $args ) {
-        $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-
-        $UserView = new UserView( );
-        Control::setOutputArrayAppend( array( 'form' => $UserView->renderEdit( $userID ) ) );
+    public function saveCompanySettings( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        $this->CompanyModel->save( $post );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 
 
@@ -76,25 +79,20 @@ class CompanyControl {
      * Render main navigation
      * @return string
      */
-    public function save( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+    public function deleteLogo( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        $UserModel = new UserModel( );
-
-        if( $UserModel->isValid( $post ) ) {
-            $post['userID'] = $UserModel->save( );
-
-            $ChildrenModel = new ChildrenModel( );
-            $ChildrenModel->save( $post );
-
-            Control::setPostData( $post );
+        if( $post['logo'] == 'Company' ) {
+            $field = 'company_uID';
         }
         else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $UserModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
+            $field = 'slip_uID';
         }
+
+        $this->CompanyModel->deleteLogo( $field, true );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

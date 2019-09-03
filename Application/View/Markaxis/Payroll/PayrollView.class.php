@@ -44,8 +44,7 @@ class PayrollView {
                                                                   'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ),
-                                        'markaxis' => 'process.js' ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
     }
 
 
@@ -122,21 +121,6 @@ class PayrollView {
      * Render main navigation
      * @return string
      */
-    public function renderSlips( ) {
-        $this->View->setBreadcrumbs( array( 'link' => 'admin/payroll/slips',
-                                            'icon' => 'icon-cash3',
-                                            'text' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
-
-        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_MY_PAYSLIPS') ) );
-
-        return $this->View->render( 'markaxis/payroll/slips.tpl', $vars );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
 
@@ -165,6 +149,8 @@ class PayrollView {
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-calculator2',
                                             'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
+
+        $this->View->setJScript( array( 'markaxis' => 'process.js' ) );
 
         return $this->View->printAll( $this->View->render( 'markaxis/payroll/process.tpl', $vars ) );
     }

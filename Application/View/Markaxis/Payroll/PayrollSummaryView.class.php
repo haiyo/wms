@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Company\CompanyModel;
 use \Markaxis\Expense\ExpenseModel, \Markaxis\Expense\ClaimModel;
 use \Aurora\User\UserImageModel;
 use \Aurora\Admin\AdminView;
@@ -35,6 +36,98 @@ class PayrollSummaryView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->PayrollSummaryModel = PayrollSummaryModel::getInstance( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderSlip( $puID, $userID, $processDate, $data ) {
+        $PayrollModel = PayrollModel::getInstance( );
+        $userInfo = $PayrollModel->getCalculateUserInfo( $userID );
+
+        $CompanyModel = new CompanyModel( );
+
+        $UserImageModel = UserImageModel::getInstance( );
+
+        $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID'),
+                       'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
+                       'TPLVAR_USERID' => $userID,
+                       'TPLVAR_FNAME' => $userInfo['fname'],
+                       'TPLVAR_LNAME' => $userInfo['lname'],
+                       'TPLVAR_PROCESS_DATE' => $processDate,
+                       'TPLVAR_DEPARTMENT' => $data['empInfo']['department'],
+                       'TPLVAR_DESIGNATION' => $data['empInfo']['designation'],
+                       'TPLVAR_START_DATE' => $data['empInfo']['startDate'],
+                       'TPLVAR_CONTRACT_TYPE' => $data['empInfo']['contractType'],
+                       'TPLVAR_PAY_PERIOD' => $processDate );
+
+        $PayrollUserItemModel = PayrollUserItemModel::getInstance( );
+        $itemInfo = $PayrollUserItemModel->getByPuID( $puID );
+
+        $vars['dynamic']['item'] = false;
+        $totalClaim = 0;
+
+        if( sizeof( $itemInfo ) > 0 ) {
+            $ItemModel = ItemModel::getInstance( );
+            $itemList = $ItemModel->getList( );
+
+            foreach( $itemInfo as $item ) {
+                $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $itemList[$item['piID']],
+                    'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
+                        number_format( $item['amount'],2 ),
+                    'TPLVAR_REMARK' => $item['remark'] );
+            }
+
+            $ClaimModel = ClaimModel::getInstance( );
+            $claimList = $ClaimModel->getProcessedByUserID( $data['empInfo']['userID'] );
+
+            if( isset( $claimList ) ) {
+                $ExpenseModel = ExpenseModel::getInstance( );
+                $expenseList = $ExpenseModel->getList( );
+
+                foreach( $claimList as $claim ) {
+                    $totalClaim += $claim['amount'];
+
+                    $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $expenseList[$claim['eiID']],
+                        'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
+                            number_format( $claim['amount'],2 ),
+                        'TPLVAR_REMARK' => $claim['descript'] );
+                }
+            }
+        }
+        $summary = $this->PayrollSummaryModel->getByPuID( $puID );
+
+        $vars['dynamic']['deductionSummary'] = false;
+
+        $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+            'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+
+        $PayrollUserTaxModel = PayrollUserTaxModel::getInstance( );
+        $userTaxInfo = $PayrollUserTaxModel->getByPuID( $puID );
+
+        if( sizeof( $userTaxInfo ) ) {
+            foreach( $userTaxInfo as $userTax ) {
+                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $userTax['remark'],
+                    'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                    'TPLVAR_AMOUNT' => number_format( $userTax['amount'],2 ) );
+            }
+        }
+
+        $vars['TPLVAR_CURRENCY'] = $data['empInfo']['currency'];
+        $vars['TPLVAR_GROSS_AMOUNT'] = number_format( $summary['gross'],2 );
+        $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $summary['claim'],2 );
+        $vars['TPLVAR_NET_AMOUNT'] = number_format( $summary['net'],2 );
+
+        $html = $this->View->renderHeader( );
+        $html .= $this->View->render( 'markaxis/payroll/slip.tpl', $vars );
+
+        require_once LIB . 'vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML( $html );
+        $mpdf->Output();
     }
 
 

@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/Library/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/Library/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/Library/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/Library/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/Library/vendor/mpdf/mpdf" />
+      <path value="$PROJECT_DIR$/Library/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/Library/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/Library/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/Library/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/apiclient" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/Library/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/Library/vendor/setasign/fpdi" />
+      <path value="$PROJECT_DIR$/Library/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/Library/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/Library/vendor/composer" />
+    </include_path>
+  </component>
 </project>

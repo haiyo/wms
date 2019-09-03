@@ -113,7 +113,7 @@ class UserImageModel extends \Model {
     public function delete( $userID ) {
         if( $userInfo = $this->getByUserID( $userID, '*' ) ) {
             $UploadModel = new UploadModel( );
-            $UploadModel->deleteFile( $userInfo['uID'], $userInfo['hashName'], USER_PHOTO_DIR );
+            $UploadModel->deleteFile( $userInfo['uID'],USER_PHOTO_DIR );
 
             return $this->UserImage->delete('user_image', 'WHERE userID="' . (int)$userID . '"');
         }

@@ -2,6 +2,7 @@
 namespace Markaxis\Company;
 use \Library\Runtime\Registry, \Aurora\Admin\AdminView;
 use \Aurora\Component\CountryModel, \Aurora\Form\SelectListView;
+use \Aurora\Component\UploadModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -34,10 +35,13 @@ class CompanyView {
 
         $this->CompanyModel = CompanyModel::getInstance( );
 
+        $this->View->setStyle( array( 'core' => 'croppie' ) );
+
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
                                                                   'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
+                                        'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
                                         'pages' => 'wizard_stepy.js',
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
@@ -61,9 +65,55 @@ class CompanyView {
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-cog3',
                                             'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );
+
+        $companyInfo = $this->CompanyModel->loadInfo( );
+
+        $CountryModel = CountryModel::getInstance( );
+        $countries = $CountryModel->getList( );
+
+        $SelectListView = new SelectListView( );
+        $countryList = $SelectListView->build( 'country', $countries, $companyInfo['countryID'], 'Select Country' );
+
+        $CompanyTypeModel = CompanyTypeModel::getInstance( );
+        $companyType = $CompanyTypeModel->getList( );
+        $companyTypeList = $SelectListView->build( 'companyType', $companyType, $companyInfo['companyTypeID'], 'Select Company Type' );
+
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_HREF' => 'company',
+                       'LANG_TEXT' => $this->L10n->getContents('LANG_COMPANY'),
+                       'TPLVAR_REG_NUMBER' => $companyInfo['regNumber'],
+                       'TPLVAR_NAME' => $companyInfo['name'],
+                       'TPLVAR_ADDRESS' => $companyInfo['address'],
+                       'TPLVAR_EMAIL' => $companyInfo['email'],
+                       'TPLVAR_PHONE' => $companyInfo['phone'],
+                       'TPLVAR_WEBSITE' => $companyInfo['website'],
+                       'TPL_COMPANY_TYPE_LIST' => $companyTypeList,
+                       'TPL_COUNTRY_LIST' => $countryList ) );
+
+
+
+        if( $companyInfo['company_uID'] ) {
+            $vars['TPLVAR_DEF_COMPANY_LOGO'] = 'hide';
+            $vars['dynamic']['companyLogo'][] = array( 'TPLVAR_COMPANY_LOGO' => $this->CompanyModel->getLogo( 'company_uID' ) );
+        }
+        else {
+            $vars['dynamic']['companyLogo'] = false;
+        }
+
+        if( $companyInfo['slip_uID'] ) {
+            $vars['TPLVAR_DEF_SLIP_LOGO'] = 'hide';
+            $vars['dynamic']['slipLogo'][] = array( 'TPLVAR_SLIP_LOGO' => $this->CompanyModel->getLogo( 'slip_uID' ) );
+        }
+        else {
+            $vars['dynamic']['slipLogo'] = false;
+        }
+
+        $tab = $this->View->render( 'aurora/core/tab.tpl', $vars );
+        $form = $this->View->render( 'markaxis/company/companyForm.tpl', $vars );
+
         $vars = array( );
-        $vars['TPL_TAB'] = $data['tab'];
-        $vars['TPL_FORM'] = $data['form'];
+        $vars['TPL_TAB'] = $tab . $data['tab'];
+        $vars['TPL_FORM'] = $form . $data['form'];
 
         if( isset( $data['js'] ) ) {
             $this->View->setJScript( $data['js'] );

@@ -155,6 +155,7 @@ var MarkaxisEmployee = (function( ) {
             $("#country").select2( );
             $("#state").select2( );
             $("#city").select2( );
+            $("#department").select2( );
             $("#designation").select2( );
             $("#currency").select2( );
             $("#confirmMonth").select2( );
@@ -181,7 +182,6 @@ var MarkaxisEmployee = (function( ) {
             $("#pcID").select2( );
             $("#tgID").multiselect({includeSelectAllOption: true});
             $("#ltID").multiselect({includeSelectAllOption: true});
-            $("#department").multiselect({includeSelectAllOption: true});
 
             if( $("#userID").val( ) != 0 ) {
                 this.getUserManager( );
@@ -1082,15 +1082,12 @@ var MarkaxisEmployee = (function( ) {
             $(".upload-cancel").on("click", function( ev ) {
                 $(".upload-demo-wrap").removeClass('ready');
                 $(".caption").removeClass("mt-30");
-                that.uploadCrop.croppie("destroy");
+                $("#upload").val("");
 
-                that.uploadCrop = $("#upload-demo").croppie({
-                    viewport: {
-                        width: 290,
-                        height: 290,
-                        type: "circle"
-                    },
-                    enableExif: true
+                that.uploadCrop.croppie('bind', {
+                    url : ''
+                }).then(function () {
+                    console.log('reset complete');
                 });
                 return false;
             });

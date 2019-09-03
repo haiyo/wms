@@ -55,6 +55,7 @@ class FormWrapperView {
         $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/add',
                                             'icon' => 'icon-user-plus',
                                             'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
+
         $this->View->printAll( $this->renderForm( $form ) );
     }
 
@@ -122,8 +123,7 @@ class FormWrapperView {
             $vars['dynamic']['mobile'] = false;
         }
 
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getInfo( );
+        $empInfo = $this->EmployeeModel->getInfo( );
 
         $vars['dynamic']['designation'] = false;
 

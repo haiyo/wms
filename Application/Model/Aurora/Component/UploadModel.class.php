@@ -115,15 +115,15 @@ class UploadModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function deleteFile( $uID, $hashName, $dir ) {
-        if( $fileInfo = $this->getByUIDHashName( $uID, $hashName ) ) {
-            unlink( $dir . $fileInfo['hashDir'] . $fileInfo['hashName'] );
+    public function deleteFile( $uID, $dir ) {
+        if( $fileInfo = $this->getByUID( $uID ) ) {
+            unlink($dir . $fileInfo['hashDir'] . $fileInfo['hashName'] );
 
-            if( File::dirIsEmpty( $dir . $fileInfo['hashDir'] ) ) {
-                File::removeDir( $dir . $fileInfo['hashDir'] );
+            if( File::dirIsEmpty($dir . $fileInfo['hashDir'] ) ) {
+                File::removeDir($dir . $fileInfo['hashDir'] );
             }
 
-            $this->Upload->delete( 'upload', 'WHERE uID = "' . (int)$uID . '"' );
+            $this->Upload->delete('upload', 'WHERE uID = "' . (int)$uID . '"' );
             return true;
         }
         return false;
