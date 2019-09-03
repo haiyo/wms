@@ -33,7 +33,10 @@ class CompanyModel extends \Model {
         $this->info['company_uID'] = $this->info['slip_uID'] = 0;
         $this->info['regNumber'] = $this->info['name'] =
         $this->info['address'] = $this->info['email'] = $this->info['phone'] =
-        $this->info['website'] = $this->info['companyTypeID'] = $this->info['countryID'] = '';
+        $this->info['website'] = $this->info['companyTypeID'] = $this->info['countryID'] =
+        $this->info['mainColor'] = $this->info['navigationColor'] = $this->info['navigationTextColor'] =
+        $this->info['dashboardBgColor'] = $this->info['buttonColor'] = $this->info['buttonHoverColor'] =
+        $this->info['buttonFocusColor'] = '';
 	}
 
 
@@ -85,6 +88,14 @@ class CompanyModel extends \Model {
             $this->info['website'] = Validator::stripTrim( $post['data']['website'] );
             $this->info['companyTypeID'] = (int)$post['data']['companyType'];
             $this->info['countryID'] = (int)$post['data']['country'];
+            $this->info['mainColor'] = Validator::stripTrim( $post['data']['mainColor'] );
+            $this->info['navigationColor'] = Validator::stripTrim( $post['data']['navigationColor'] );
+            $this->info['navigationTextColor'] = Validator::stripTrim( $post['data']['navigationTextColor'] );
+            $this->info['navigationTextHoverColor'] = Validator::stripTrim( $post['data']['navigationTextHoverColor'] );
+            $this->info['dashboardBgColor'] = Validator::stripTrim( $post['data']['dashboardBgColor'] );
+            $this->info['buttonColor'] = Validator::stripTrim( $post['data']['buttonColor'] );
+            $this->info['buttonHoverColor'] = Validator::stripTrim( $post['data']['buttonHoverColor'] );
+            $this->info['buttonFocusColor'] = Validator::stripTrim( $post['data']['buttonFocusColor'] );
             $this->Company->update('company', $this->info,'' );
         }
     }

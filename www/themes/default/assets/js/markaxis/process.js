@@ -260,7 +260,7 @@ $(document).ready(function( ) {
             data: 'userID',
             render: function( data ) {
                 return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
-                        $("#processDate").val( ) + '/slip" target="_blank">View</a>';
+                        $("#processDate").val( ) + '/slip" target="_blank">View PDF</a>';
             }
         }],
         order: [],

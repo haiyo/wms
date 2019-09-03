@@ -41,7 +41,14 @@
                     uploader.croppie("bind", {
                         url: e.target.result
                     }).then(function(){
-                        //console.log('jQuery bind complete');
+                        if( wrapper == "upload-company-wrap" ) {
+                            $(".companyLogoBG").removeClass("hide");
+                            $(".defCompanyLogo").hide( );
+                        }
+                        else {
+                            $(".payslipLogoBG").removeClass("hide");
+                            $(".defPayslipLogo").hide( );
+                        }
                     });
                 }
                 reader.readAsDataURL( input.files[0] );
@@ -61,10 +68,14 @@
 
             if( uploader == "uploadCompany" ) {
                 uploader = uploadPortal;
+                $(".companyLogoBG").addClass("hide");
+                $(".defCompanyLogo").show( );
             }
             else {
                 uploader = uploadSlip;
                 $(".d-md-flex .sidebar").css("height", "");
+                $(".payslipLogoBG").addClass("hide");
+                $(".defPayslipLogo").show( );
             }
 
             uploader.croppie("bind", {
@@ -86,23 +97,7 @@
                             companyLogo: encodeURIComponent( respond )
                         },
                         success: function( res, ladda ) {
-                            //ladda.stop( );
-                            console.log(res)
-                            return;
-                            var obj = $.parseJSON( res );
-                            if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
-                                return;
-                            }
-                            else {
-                                swal({
-                                    title: "Company Updated Successfully",
-                                    text: "",
-                                    type: 'success'
-                                }, function( isConfirm ) {
-                                    swal.close();
-                                });
-                            }
+                            //
                         }
                     };
                     Aurora.WebService.AJAX( "admin/company/saveCompanySettings", data );
@@ -119,23 +114,7 @@
                             slipLogo: encodeURIComponent( respond )
                         },
                         success: function( res, ladda ) {
-                            //ladda.stop( );
-                            console.log(res)
-                            return;
-                            var obj = $.parseJSON( res );
-                            if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
-                                return;
-                            }
-                            else {
-                                swal({
-                                    title: "Company Updated Successfully",
-                                    text: "",
-                                    type: 'success'
-                                }, function( isConfirm ) {
-                                    swal.close();
-                                });
-                            }
+                            //
                         }
                     };
                     Aurora.WebService.AJAX( "admin/company/saveCompanySettings", data );
@@ -157,10 +136,10 @@
                     else {
                         swal({
                             title: "Company Updated Successfully",
-                            text: "",
+                            text: "Please hold while the page is being refresh.",
                             type: 'success'
                         }, function( isConfirm ) {
-                            swal.close();
+                            window.location.href = Aurora.ROOT_URL + "admin/company/settings";
                         });
                     }
                 }
@@ -186,7 +165,7 @@
             }, function (isConfirm) {
                 if (isConfirm === false) return;
 
-                $(".icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
+                $("." + dataText + " .icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
 
                 var data = {
                     bundle: {
@@ -228,6 +207,9 @@
                         <span class="text-uppercase font-size-sm font-weight-semibold">Main Portal Logo (425px by 116px Preferred)</span>
 
                         <div id="thumb" class="thumb">
+                            <div class="hide companyLogoBG">
+                                <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/logo-bg.png" />
+                            </div>
                             <div class="defCompanyLogo">
                                 <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/logo.png" class="<?TPLVAR_DEF_COMPANY_LOGO?>" />
                             </div>
@@ -260,6 +242,9 @@
                     <div class="card-body card-slip">
                         <span class="text-uppercase font-size-sm font-weight-semibold"> Payslip Logo (425px by 116px Preferred)</span>
                         <div id="thumb" class="thumb">
+                            <div class="hide payslipLogoBG">
+                                <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/logo-bg.png" />
+                            </div>
                             <div class="defPayslipLogo">
                                 <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/logo.png" class="<?TPLVAR_DEF_SLIP_LOGO?>" />
                             </div>
@@ -355,6 +340,51 @@
                         <div class="col-md-3">
                             <label>Main Operation Country:</label>
                             <?TPL_COUNTRY_LIST?>
+                        </div>
+                    </div>
+
+                    <div class="row p-20 mb-0">
+                        <div class="col-md-3">
+                            <label>Main Theme Color:</label>
+                            <input type="text" id="mainColor" name="mainColor" class="form-control jscolor" value="<?TPLVAR_MAIN_COLOR?>" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Navigation Color:</label>
+                            <input type="text" id="navigationColor" name="navigationColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_COLOR?>" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Navigation Text Color:</label>
+                            <input type="text" id="navigationTextColor" name="navigationTextColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_TEXT_COLOR?>" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Navigation Text Hover Color:</label>
+                            <input type="text" id="navigationTextHoverColor" name="navigationTextHoverColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_TEXT_HOVER_COLOR?>" />
+                        </div>
+
+                    </div>
+
+                    <div class="row p-20 mb-0">
+                        <div class="col-md-3">
+                            <label>Dashboard Background Color:</label>
+                            <input type="text" id="dashboardBgColor" name="dashboardBgColor" class="form-control jscolor" value="<?TPLVAR_DASHBG_COLOR?>" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Buttons Color:</label>
+                            <input type="text" id="buttonColor" name="buttonColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_COLOR?>" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Buttons Hover Color:</label>
+                            <input type="text" id="buttonHoverColor" name="buttonHoverColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_HOVER_COLOR?>" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Buttons Focus Color:</label>
+                            <input type="text" id="buttonFocusColor" name="buttonFocusColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_FOCUS_COLOR?>" />
                         </div>
                     </div>
 
