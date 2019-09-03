@@ -1,5 +1,7 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
+use \Markaxis\Employee\LeaveBalanceModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\ApplyForHelper;
 use \Markaxis\Employee\ManagerModel;
@@ -79,6 +81,26 @@ class LeaveView {
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'mi-schedule',
                                             'text' => $this->L10n->getContents('LANG_LEAVE_BALANCE_STATUS') ) );
+
+        $vars['dynamic']['balChart'] = false;
+
+        $TypeModel = TypeModel::getInstance( );
+        $chartList = $TypeModel->getByChart( );
+
+        $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        foreach( $chartList as $ltID => $name ) {
+            $balInfo = $LeaveBalanceModel->getByltIDUserID( $ltID, $empInfo['userID'] );
+
+            if( $balInfo ) {
+                $vars['dynamic']['balChart'][] = array( 'TPLVAR_LEAVE_NAME' => $name,
+                    'TPLVAR_BALANCE' => $balInfo['balance'],
+                    'TPLVAR_TOTAL_APPLIED' => $balInfo['totalApplied'],
+                    'TPLVAR_TOTAL_LEAVES' => $balInfo['totalLeaves'] );
+            }
+        }
 
         $this->View->printAll( $this->View->render( 'markaxis/leave/balance.tpl', $vars ) );
     }

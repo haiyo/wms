@@ -432,9 +432,11 @@
 <div class="row mt-10 balance-chart">
 
     <div class="col-md-9">
+
+        <!-- BEGIN DYNAMIC BLOCK: balChart -->
         <div class="col-md-3">
             <div class="card card-body text-center">
-                <h6 class="font-weight-semibold mb-0 mt-1 mb-10">Annual Leave</h6>
+                <h6 class="font-weight-semibold mb-0 mt-1 mb-10"><?TPLVAR_LEAVE_NAME?></h6>
                 <div class="svg-center" id="rounded_progress_single"></div>
 
                 <div class="row mt-20 mb-5 text-left">
@@ -443,12 +445,12 @@
                         <tr>
                             <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#458AF2;"></div></td>
                             <td>Available</td>
-                            <td class="text-right">4.5 Days</td>
+                            <td class="text-right"><?TPLVAR_BALANCE?> Days</td>
                         </tr>
                         <tr>
                             <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#c3d8f8;"></div></td>
                             <td>Consumed</td>
-                            <td class="text-right">4.5 Days</td>
+                            <td class="text-right"><?TPLVAR_TOTAL_APPLIED?> Days</td>
                         </tr>
                         <tr>
                             <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
@@ -458,15 +460,16 @@
                         <tr>
                             <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
                             <td>Entitled</td>
-                            <td class="text-right">14 Days</td>
+                            <td class="text-right"><?TPLVAR_TOTAL_LEAVES?> Days</td>
                         </tr>
                     </table>
 
                 </div>
             </div>
         </div>
+        <!-- END DYNAMIC BLOCK: balChart -->
 
-        <div class="col-md-3">
+        <!--<div class="col-md-3">
             <div class="card card-body text-center">
                 <h6 class="font-weight-semibold mb-0 mt-1 mb-10">Sick Leave</h6>
                 <div class="svg-center" id="rounded_progress_single1"></div>
@@ -566,12 +569,12 @@
 
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <div class="col-md-3 pl-0">
         <div class="col-md-12 pl-0">
-            <div class="card card-body" style="height:340px;">
+            <div class="card card-body" style="height:330px;">
                 <h6 class="font-weight-semibold mb-0 mt-1">Leave Actions</h6>
 
                 <a href="#" class="button-next btn btn-primary btn-next mt-20">Apply Leave Now</a>

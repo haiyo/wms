@@ -94,6 +94,16 @@ class TypeModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
+    public function getByChart( ) {
+        $this->Type->setLimit( 0, 4 );
+        return $this->Type->getByChart( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
     public function getFullList( ) {
         return $this->info = $this->Type->getFullList( );
     }

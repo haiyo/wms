@@ -89,6 +89,26 @@ class Type extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
+    public function getByChart( ) {
+        $sql = $this->DB->select( 'SELECT ltID, name FROM leave_type
+                                   WHERE showChart = "1" ORDER BY ltID' .
+                                   $this->limit,
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['ltID']] = $row['name'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
     public function getFullList( ) {
         $sql = $this->DB->select( 'SELECT lt.*, GROUP_CONCAT(DISTINCT lg.gender) AS gender, 
                                           GROUP_CONCAT(DISTINCT lo.oID) AS office,
