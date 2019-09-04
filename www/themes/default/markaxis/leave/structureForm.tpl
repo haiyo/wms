@@ -18,10 +18,10 @@
     <div class="row"></div>
 
     <div class="groupList">
-        <div id="groupWrapper" class="list-group list-group-root border-top border-top-grey border-bottom border-bottom-grey mb-20">
+        <div id="groupWrapper" class="list-group list-group-root mb-20">
             <!-- BEGIN DYNAMIC BLOCK: noGroup -->
             <div id="noGroup" style="padding:0 20px 20px 20px; text-align: center;font-size:20px;">
-                There is no leave group currently
+                There is no leave group
             </div>
             <!-- END DYNAMIC BLOCK: noGroup -->
             <!-- BEGIN DYNAMIC BLOCK: group -->
@@ -47,8 +47,8 @@
                 </div>
             </div>
             <!-- END DYNAMIC BLOCK: group -->
-            <input type="hidden" name="leaveGroups" id="leaveGroups" value="" />
         </div>
+        <input type="hidden" name="leaveGroups" id="leaveGroups" value="" />
     </div>
 
     <div id="structureTemplate" class="hide">
@@ -76,30 +76,28 @@
         </div>
     </div>
 
-    <div id="groupTemplate" class="hide groupRow">
-        <div class="header-elements-inline">
-            <div href="#item-{index}" class="list-group-item" data-toggle="collapse">
-                <i class="glyphicon glyphicon-chevron-right" id="expandIcon_{index}"></i>
-                <span id="groupTitle_{index}" class="title">{groupTitle}</span>
-            </div>
-            <div class="header-elements">
-                <div class="list-icons tax-icons">
-                    <a data-id="0" data-index="{index}" class="list-icons-item"
-                       data-toggle="modal" data-target="#modalLeaveGroup">
-                        <i class="icon-pencil5"></i>
-                    </a>
-                    <a data-id="{index}" class="list-icons-item"><i class="icon-bin"></i></a>
+    <div id="groupTemplate" class="hide">
+        <div class="groupRow">
+            <div class="header-elements-inline">
+                <div href="#item-{index}" class="list-group-item" data-toggle="collapse">
+                    <i class="glyphicon glyphicon-chevron-right" id="expandIcon_{index}"></i>
+                    <span id="groupTitle_{index}" class="title">{groupTitle}</span>
+                </div>
+                <div class="header-elements">
+                    <div class="list-icons tax-icons">
+                        <a data-id="0" data-index="{index}" class="list-icons-item"
+                           data-toggle="modal" data-target="#modalLeaveGroup">
+                            <i class="icon-pencil5"></i>
+                        </a>
+                        <a data-id="{index}" class="list-icons-item"><i class="icon-bin"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div id="item-{lgID}" class="list-group collapse">
-            <?TPL_GROUP_CHILD?>
         </div>
     </div>
 
     <div id="modalLeaveGroup" class="modal fade">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg2">
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -135,6 +133,35 @@
                         <div class="col-md-6">
                             <label class="display-block"><?LANG_IS_THIS_PRO_RATED?></label>
                             <?TPL_PRO_RATED_RADIO?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <span class="mb-0 ml-10 font-weight-bold"><?LANG_IS_CHILD_CARE_LEAVE?>:</span>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="display-block"><?LANG_CHILD_BORN_IN?>:</label>
+                                        <?TPL_CHILD_COUNTRY_LIST?>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="display-block"><?LANG_CHILD_NOT_BORN_IN?>:</label>
+                                        <?TPL_CHILD_NOT_COUNTRY_LIST?>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="display-block"><?LANG_CHILD_MAX_AGE?>:</label>
+                                        <?TPL_CHILD_AGE_LIST?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

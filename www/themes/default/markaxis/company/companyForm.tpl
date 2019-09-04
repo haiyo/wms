@@ -204,8 +204,7 @@
                     </div>
 
                     <div class="card-body">
-                        <span class="text-uppercase font-size-sm font-weight-semibold">Main Portal Logo (425px by 116px Preferred)</span>
-
+                        <div class="text-uppercase font-size-sm font-weight-semibold mb-10">Main Portal Logo (425px by 116px Preferred)</div>
                         <div id="thumb" class="thumb">
                             <div class="hide companyLogoBG">
                                 <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/logo-bg.png" />
@@ -223,7 +222,7 @@
                             </div>
                             <!-- BEGIN DYNAMIC BLOCK: companyLogo -->
                             <div class="photo-wrap photo-wrap-Company">
-                                <div class="photo company-logo">
+                                <div class="photo company-logo checkered">
                                     <a href="#" data-text="Company" class="deletePhoto deleteLogo"><i class="icon-bin"></i></a>
                                     <img src="<?TPLVAR_COMPANY_LOGO?>" />
                                 </div>
@@ -240,7 +239,7 @@
 
 
                     <div class="card-body card-slip">
-                        <span class="text-uppercase font-size-sm font-weight-semibold"> Payslip Logo (425px by 116px Preferred)</span>
+                        <div class="text-uppercase font-size-sm font-weight-semibold mb-10"> Payslip Logo (425px by 116px Preferred)</div>
                         <div id="thumb" class="thumb">
                             <div class="hide payslipLogoBG">
                                 <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/logo-bg.png" />
@@ -258,7 +257,7 @@
                             </div>
                             <!-- BEGIN DYNAMIC BLOCK: slipLogo -->
                             <div class="photo-wrap photo-wrap-Payslip">
-                                <div class="photo payslip-logo">
+                                <div class="photo payslip-logo checkered">
                                     <a href="#" data-text="Payslip" class="deletePhoto deleteLogo"><i class="icon-bin"></i></a>
                                     <img src="<?TPLVAR_SLIP_LOGO?>" />
                                 </div>

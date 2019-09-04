@@ -1,8 +1,8 @@
 <?php
 namespace Markaxis\Leave;
-use \Markaxis\Leave\DesignationModel AS M_DesignationModel;
 use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel AS A_DesignationModel;
-use \Aurora\Form\SelectGroupListView;
+use \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
+use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -22,7 +22,6 @@ class GroupView {
     protected $View;
     protected $StructureModel;
     protected $A_DesignationModel;
-    protected $SelectGroupListView;
 
 
     /**
@@ -37,9 +36,33 @@ class GroupView {
 
         $this->A_DesignationModel = A_DesignationModel::getInstance( );
         $this->StructureModel = StructureModel::getInstance( );
-        $this->SelectGroupListView = new SelectGroupListView( );
-        $this->SelectGroupListView->includeBlank( false );
-        $this->SelectGroupListView->isMultiple(true);
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderFormVars( ) {
+        $SelectGroupListView = new SelectGroupListView( );
+        $SelectGroupListView->includeBlank(false );
+        $SelectGroupListView->isMultiple(true);
+
+        $designationList = $this->SelectGroupListView->build( 'designation', $this->A_DesignationModel->getList( ),
+                                                              '','Select Designation' );
+
+        $SelectListView = new SelectListView( );
+        $SelectListView->isMultiple(true );
+        $SelectListView->includeBlank(false);
+        $contractList = $SelectListView->build('contractType', $this->A_ContractModel->getList( ),
+                                                       '', 'Select Contract Type' );
+
+        $RadioView = new RadioView( );
+        $proRated = $RadioView->build( 'proRated', YesNoHelper::getL10nList( ), '' );
+
+        return array( 'TPL_DESIGNATION_LIST' => $designationList,
+                      'TPL_CONTRACT_LIST' => $contractList,
+                      'TPL_PRO_RATED_RADIO' => $proRated );
     }
 
 
@@ -48,11 +71,7 @@ class GroupView {
      * @return string
      */
     public function renderAddType( ) {
-        $designationList = $this->SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
-                                                             '','Select Designation' );
-
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_DESIGNATION_LIST' => $designationList ) );
+        $vars = array_merge( $this->L10n->getContents( ), $this->renderFormVars( ) );
 
         $vars['dynamic']['noGroup'] = true;
         $vars['dynamic']['structure'] = false;
@@ -65,11 +84,7 @@ class GroupView {
      * @return string
      */
     public function renderEditType( $ltID ) {
-        $designationList = $this->SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
-                                                             '','Select Designation' );
-
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_DESIGNATION_LIST' => $designationList ) );
+        $vars = array_merge( $this->L10n->getContents( ), $this->renderFormVars( ) );
 
         $vars['dynamic']['noGroup'] = false;
         $vars['dynamic']['group'] = false;

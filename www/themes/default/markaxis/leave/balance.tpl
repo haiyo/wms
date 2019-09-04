@@ -94,16 +94,6 @@
 
             // Initialize chart only if element exists in the DOM
             if( element ) {
-                // Add random data
-                /*var dataset = function () {
-                    return [{percentage: Math.random() * 100}];
-                };*/
-
-                var dataset = [
-                    { totalLeaves: 14, balance: 5, percentage: 5*100/14 }
-                ];
-
-                // Main variables
                 var d3Container = d3.select(element),
                     padding = 2,
                     strokeWidth = 16,
@@ -111,9 +101,13 @@
                     height = size,
                     twoPi = 2 * Math.PI;
 
-                // Add svg element
                 var container = d3Container.append("svg");
                 var goal = $(element).attr("data-goal");
+                var balance = $(element).attr("data-balance");
+
+                var dataset = [
+                    { totalLeaves: goal, balance: balance, percentage: balance*100/goal }
+                ];
 
                 // Add SVG group
                 var svg = container
@@ -207,7 +201,9 @@
                         .tween("text", function(d) {
                             var i = d3.interpolate(this.textContent, d.percentage);
                             return function(t) {
-                                this.textContent = Math.floor(d.percentage/100 * goal) + " days";
+                                var days = Math.floor(d.percentage/100 * goal);
+                                    days = isNaN( days ) ? 0 : days;
+                                this.textContent = days + " days";
                             };
                         });
 
@@ -428,7 +424,7 @@
         <div class="col-md-3">
             <div class="card card-body text-center">
                 <h6 class="font-weight-semibold mb-0 mt-1 mb-10"><?TPLVAR_LEAVE_NAME?></h6>
-                <div class="svg-center" data-goal="<?TPLVAR_TOTAL_LEAVES?>" id="rounded_progress_single<?TPLVAR_ID?>">
+                <div class="svg-center" data-goal="<?TPLVAR_TOTAL_LEAVES?>" data-balance="<?TPLVAR_BALANCE?>" id="rounded_progress_single<?TPLVAR_ID?>">
 
                 </div>
 
@@ -447,8 +443,8 @@
                         </tr>
                         <tr>
                             <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>
-                            <td>Accrued</td>
-                            <td class="text-right">0 Days</td>
+                            <td>Pending</td>
+                            <td class="text-right"><?TPLVAR_TOTAL_PENDING?> Days</td>
                         </tr>
                         <tr>
                             <td><div style="width:10px;height:10px;margin-top: 5px;background-color:#ccc;"></div></td>

@@ -101,11 +101,12 @@ class LeaveView {
         foreach( $chartList as $ltID => $name ) {
             $balInfo = $LeaveBalanceModel->getByltIDUserID( $ltID, $empInfo['userID'] );
 
-            if( $balInfo ) {
+            if( $balInfo['elbID'] ) {
                 $vars['dynamic']['balChart'][] = array( 'TPLVAR_ID' => $id,
                                                         'TPLVAR_LEAVE_NAME' => $name,
                                                         'TPLVAR_BALANCE' => (float)$balInfo['balance'],
-                                                        'TPLVAR_TOTAL_APPLIED' => (float)$balInfo['totalApplied'],
+                                                        'TPLVAR_TOTAL_APPLIED' => (float)$balInfo['totalConsumed'],
+                                                        'TPLVAR_TOTAL_PENDING' => (float)$balInfo['totalPending'],
                                                         'TPLVAR_TOTAL_LEAVES' => (float)$balInfo['totalLeaves'],
                                                         'TPLVAR_COLOR_1' => $colors[0][0],
                                                         'TPLVAR_COLOR_2' => $colors[0][1] );
