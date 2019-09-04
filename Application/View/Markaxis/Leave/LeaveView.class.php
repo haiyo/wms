@@ -90,15 +90,27 @@ class LeaveView {
         $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getInfo( );
+        $id = 0;
+
+        $colors = array( );
+        $colors[] = array( '458AF2', 'c3d8f8' );
+        $colors[] = array( 'EC407A', 'fad0df' );
+        $colors[] = array( 'ffaf23', 'fee8c8' );
+        $colors[] = array( '70b754', 'd4f1c8' );
 
         foreach( $chartList as $ltID => $name ) {
             $balInfo = $LeaveBalanceModel->getByltIDUserID( $ltID, $empInfo['userID'] );
 
             if( $balInfo ) {
-                $vars['dynamic']['balChart'][] = array( 'TPLVAR_LEAVE_NAME' => $name,
-                    'TPLVAR_BALANCE' => $balInfo['balance'],
-                    'TPLVAR_TOTAL_APPLIED' => $balInfo['totalApplied'],
-                    'TPLVAR_TOTAL_LEAVES' => $balInfo['totalLeaves'] );
+                $vars['dynamic']['balChart'][] = array( 'TPLVAR_ID' => $id,
+                                                        'TPLVAR_LEAVE_NAME' => $name,
+                                                        'TPLVAR_BALANCE' => (float)$balInfo['balance'],
+                                                        'TPLVAR_TOTAL_APPLIED' => (float)$balInfo['totalApplied'],
+                                                        'TPLVAR_TOTAL_LEAVES' => (float)$balInfo['totalLeaves'],
+                                                        'TPLVAR_COLOR_1' => $colors[0][0],
+                                                        'TPLVAR_COLOR_2' => $colors[0][1] );
+                array_shift($colors);
+                $id++;
             }
         }
 
