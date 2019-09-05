@@ -223,17 +223,10 @@
             contractType.multiselect("clearSelection");
             contractType.multiselect("refresh");
 
-            var childBorn = $("#childBorn");
-            childBorn.multiselect("clearSelection");
-            childBorn.multiselect("refresh");
+            $("#childBorn").val("").trigger("change");
+            $("#childNotBorn").val("").trigger("change");
+            $("#childAge").val("").trigger("change");
 
-            var childNotBorn = $("#childNotBorn");
-            childNotBorn.multiselect("clearSelection");
-            childNotBorn.multiselect("refresh");
-
-            var childAge = $("#childAge");
-            childAge.multiselect("clearSelection");
-            childAge.multiselect("refresh");
             $("#structureWrapper").html("");
         });
 
@@ -272,7 +265,7 @@
             var lgIndex = $invoker.attr("data-index");
             $("#lgIndex").val( lgIndex );
 
-            if( $("#leaveGroups").val( ) != "" ) {
+            if( lgIndex != "" && $("#leaveGroups").val( ) != "" ) {
                 var leaveGroups = JSON.parse( $("#leaveGroups").val( ) );
 
                 for( var i=0; i<leaveGroups.length; i++ ) {
@@ -308,9 +301,9 @@
 
                         var contractType = $("#contractType");
 
-                        if( leaveGroups[i].contract.length > 0 ) {
-                            for( var j=0; j<leaveGroups[i].contract.length; j++ ) {
-                                contractType.multiselect("select", leaveGroups[i].contract[j] );
+                        if( leaveGroups[i].contractType.length > 0 ) {
+                            for( var j=0; j<leaveGroups[i].contractType.length; j++ ) {
+                                contractType.multiselect("select", leaveGroups[i].contractType[j] );
                             }
                             contractType.multiselect("refresh");
                         }

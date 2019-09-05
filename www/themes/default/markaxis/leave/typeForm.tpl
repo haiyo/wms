@@ -21,23 +21,6 @@
         </div>
     </div>
 
-    <!--<div class="row">
-        <div class="col-md-4">
-            <label><?LANG_LEAVE_CAN_BE_APPLIED?>:</label>
-            <?TPL_APPLIED_LIST?>
-        </div>
-
-        <div class="col-md-2">
-            <label><?LANG_PROBATION_PERIOD?>:</label>
-            <input type="text" name="pPeriodValue" id="pPeriodValue" class="form-control" value="<?TPLVAR_PPERIOD?>" placeholder="3" disabled="disabled" />
-        </div>
-
-        <div class="col-md-2">
-            <label>&nbsp;</label>
-            <?TPL_PPERIOD_LIST?>
-        </div>
-    </div>-->
-
     <div class="row">
         <div class="col-md-4">
             <label><?LANG_UNUSED_LIST?>:</label>
@@ -75,6 +58,11 @@
         <div class="col-md-4">
             <label><?LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE?>:</label>
             <input type="text" name="formula" id="formula" class="form-control" value="<?TPLVAR_PAYROLL_FORMULA?>" placeholder="" disabled="disabled" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="display-block"><?LANG_SHOW_CHART_LEAVE_BALANCE?></label>
+            <?TPL_SHOW_CHART_RADIO?>
         </div>
     </div>
 
