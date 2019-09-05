@@ -7,8 +7,8 @@
 
             <div class="thumbnail no-padding">
                 <div id="thumb" class="thumb">
-                    <div class="defPhoto">
-                        <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/silhouette.png" class="<?TPLVAR_DEF_PHOTO?>" />
+                    <div class="defPhoto <?TPLVAR_DEF_PHOTO?>">
+                        <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/silhouette.png" />
                     </div>
                     <div class="caption-overflow">
                                 <span>

@@ -35,7 +35,24 @@
         $("#cPeriodType").select2({minimumResultsForSearch:Infinity});
         $("#usedType").select2({minimumResultsForSearch:Infinity});
         $("#childBorn").select2({allowClear:true});
+        $("#childNotBorn").select2({allowClear:true});
         $("#childAge").select2({minimumResultsForSearch:Infinity,allowClear:true});
+
+        if( $("#childCare1").is(":checked") ) {
+            $("#childcareWrapper").removeClass("hide");
+        }
+        else if( $("#childCare2").is(":checked") ) {
+            $("#childcareWrapper").addClass("hide");
+        }
+
+        $('input:radio[name="childCare"]').change(function( ) {
+            if( $(this).val( ) == 1 ) {
+                $("#childcareWrapper").removeClass("hide");
+            }
+            else {
+                $("#childcareWrapper").addClass("hide");
+            }
+        });
 
         $(".styled").uniform({radioClass:"choice"});
         $("#designation").multiselect({

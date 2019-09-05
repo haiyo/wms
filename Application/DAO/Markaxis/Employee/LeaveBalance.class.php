@@ -32,9 +32,17 @@ class LeaveBalance extends \DAO {
      * @return mixed
      */
     public function getByltIDUserID( $ltID, $userID ) {
-        $sql = $this->DB->select( 'SELECT lb.*, COUNT(lg.lgID) AS groupCount 
+        $sql = $this->DB->select( 'SELECT lb.*, la.totalPending, la2.totalConsumed, COUNT(lg.lgID) AS groupCount 
                                    FROM employee_leave_bal lb
                                    LEFT JOIN leave_group lg ON lg.ltID = lb.ltID
+                                   LEFT JOIN (SELECT ltID, SUM(days) AS totalPending FROM leave_apply 
+                                              WHERE ltID = "' . (int)$ltID . '" AND 
+                                                    userID = "' . (int)$userID . '" AND
+                                                    status = "0") la ON la.ltID = lb.ltID
+                                   LEFT JOIN (SELECT ltID, SUM(days) AS totalConsumed FROM leave_apply 
+                                              WHERE ltID = "' . (int)$ltID . '" AND 
+                                                    userID = "' . (int)$userID . '" AND
+                                                    status = "1") la2 ON la2.ltID = lb.ltID
                                    WHERE lb.ltID = "' . (int)$ltID . '" AND
                                          lb.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );

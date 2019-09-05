@@ -95,7 +95,7 @@ class TypeModel extends \Model {
      * @return mixed
      */
     public function getByChart( ) {
-        $this->Type->setLimit( 0, 4 );
+        $this->Type->setLimit(0,4 );
         return $this->Type->getByChart( );
     }
 
@@ -172,7 +172,10 @@ class TypeModel extends \Model {
         $this->info = array( );
         $this->info['name'] = Validator::stripTrim( $data['leaveTypeName'] );
         $this->info['code'] = Validator::stripTrim( $data['leaveCode'] );
-        $this->info['formula'] = Validator::stripTrim( $data['formula'] );
+
+        if( isset( $data['formula'] ) ) {
+            $this->info['formula'] = Validator::stripTrim( $data['formula'] );
+        }
 
         if( isset( $data['paidLeave'] ) && isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
             $this->info['paidLeave'] = $data['paidLeave'];

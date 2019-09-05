@@ -78,27 +78,4 @@
         </div>
     </div>
 
-
-    <div class="row">
-        <span class="mb-0 ml-10 font-weight-bold"><?LANG_APPLICABLE_TO?>:</span>
-        <div class="card">
-            <div class="card-body">
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_CHILD_MUST_BE_BORN_IN?>:</label>
-                        <?TPL_CHILD_COUNTRY_LIST?>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_CHILD_MAX_AGE?>:</label>
-                        <?TPL_CHILD_AGE_LIST?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </fieldset>

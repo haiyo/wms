@@ -71,20 +71,19 @@ class LeaveApply extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getHistory( $q='', $order='la.created DESC' ) {
-        $list = array( );
-
+    public function getHistory( $userID, $q='', $order='la.created DESC' ) {
         $q = '';
-
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, la.cancelled,
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate,
                                           la.days, la.status, la.created, lt.name, lt.code
                                    FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
-                                   WHERE 1 = 1 ' . $q . '
+                                   WHERE la.userID = "' . (int)$userID . '" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

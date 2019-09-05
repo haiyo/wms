@@ -139,7 +139,9 @@ class LeaveApplyModel extends \Model {
                     break;
             }
         }
-        $results = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+        $results = $this->LeaveApply->getHistory( $empInfo['userID'], $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );

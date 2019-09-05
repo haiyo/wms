@@ -97,15 +97,17 @@ class LeaveBalanceModel extends \Model {
             $info['totalApplied'] = (float)$totalApplied;
             $info['balance'] = $info['totalLeaves']-$info['totalApplied'];
 
-            if( !$this->getByltIDUserID( $type['ltID'], $userID ) ) {
+            $balInfo = $this->getByltIDUserID( $type['ltID'], $userID );
+
+            if( !$balInfo['elbID'] ) {
                 $info['ltID'] = $type['ltID'];
                 $info['userID'] = (int)$userID;
-                $this->LeaveBalance->insert( 'employee_leave_bal', $info );
+                $this->LeaveBalance->insert('employee_leave_bal', $info );
             }
             else {
                 $this->LeaveBalance->update('employee_leave_bal', $info,
                                             'WHERE ltID = "' . (int)$type['ltID'] . '" AND
-                                                          userID = "' . (int)$userID . '"' );
+                                                         userID = "' . (int)$userID . '"' );
             }
         }
     }
