@@ -130,14 +130,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label class="display-block"><?LANG_IS_THIS_PRO_RATED?></label>
                             <?TPL_PRO_RATED_RADIO?>
                         </div>
+
+                        <div class="col-md-3">
+                            <label class="display-block"><?LANG_IS_CHILD_CARE_LEAVE?></label>
+                            <?TPL_CHILD_CARE_RADIO?>
+                        </div>
                     </div>
 
-                    <div class="row">
-                        <span class="mb-0 ml-10 font-weight-bold"><?LANG_IS_CHILD_CARE_LEAVE?>:</span>
+                    <div id="childcareWrapper" class="row hide">
                         <div class="card">
                             <div class="card-body">
 
@@ -182,6 +186,10 @@
                                         <div class="col-md-5">
                                             <label>Total No. of Leaves Entitled For the Year:</label>
                                             <input type="text" name="entitledLeaves" id="entitledLeaves" class="form-control start" value="" placeholder="0">
+                                        </div>
+                                        <div class="col-md-7">
+                                            <br /><strong>Calculation:</strong>
+                                            Pro-rated using this formula: (No. of completed months of service / 12 months) x Leaves Entitled For the Year
                                         </div>
                                     </div>
                                 </div>

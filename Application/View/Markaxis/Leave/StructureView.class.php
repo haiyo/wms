@@ -60,14 +60,15 @@ class StructureView {
                                                '', 'Select Contract Type' );
 
         $RadioView = new RadioView( );
-        $proRated = $RadioView->build('proRated', YesNoHelper::getL10nList( ), '' );
+        $proRatedRadio = $RadioView->build('proRated', YesNoHelper::getL10nList( ), '' );
+        $childCareRadio = $RadioView->build('childCare', YesNoHelper::getL10nList( ), '0' );
 
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
 
         $SelectListView = new SelectListView( );
         $childCountryList = $SelectListView->build( 'childBorn', $countries, '', 'Select a Country' );
-        $childNotCountryList = $SelectListView->build( 'childBorn', $countries, '', 'Select a Country' );
+        $childNotCountryList = $SelectListView->build( 'childNotBorn', $countries, '', 'Select a Country' );
 
         $maxAge = 10;
         $ageList = array( );
@@ -79,7 +80,8 @@ class StructureView {
 
         return array( 'TPL_DESIGNATION_LIST' => $designationList,
                       'TPL_CONTRACT_LIST' => $contractList,
-                      'TPL_PRO_RATED_RADIO' => $proRated,
+                      'TPL_PRO_RATED_RADIO' => $proRatedRadio,
+                      'TPL_CHILD_CARE_RADIO' => $childCareRadio,
                       'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
                       'TPL_CHILD_NOT_COUNTRY_LIST' => $childNotCountryList,
                       'TPL_CHILD_AGE_LIST' => $childAgeList );

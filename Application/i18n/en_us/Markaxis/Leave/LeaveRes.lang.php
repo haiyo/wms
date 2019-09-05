@@ -57,13 +57,13 @@ class LeaveRes extends Resource {
         $this->contents['LANG_LEAVE_CAN_BE_APPLIED'] = 'Leave Can Be Applied';
         $this->contents['LANG_PROBATION_PERIOD'] = 'Probation Period';
         $this->contents['LANG_MONTHLY_BASIS'] = 'Monthly Basis';
-        $this->contents['LANG_IS_THIS_PRO_RATED'] = 'Is this leave type pro-rated?';
+        $this->contents['LANG_IS_THIS_PRO_RATED'] = 'Is Pro-Rated?';
+        $this->contents['LANG_IS_CHILD_CARE_LEAVE'] = 'Is Child Care Leave?';
         $this->contents['LANG_UNUSED_LIST'] = 'Unused Leave';
         $this->contents['LANG_CARRY_OVER_LIMIT'] = 'Carry Over Limit';
         $this->contents['LANG_TO_BE_USED_WITHIN'] = 'To Be Used Up Within';
         $this->contents['LANG_PAYROLL_PROCESS_AS'] = 'Payroll Process As';
         $this->contents['LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE'] = 'Payroll Formula For UnPaid Leave';
-        $this->contents['LANG_IS_CHILD_CARE_LEAVE'] = 'If this is a Childcare Leave';
         $this->contents['LANG_GENDER'] = 'Gender';
         $this->contents['LANG_DESIGNATION'] = 'Designation';
         $this->contents['LANG_CONTRACT_TYPE'] = 'Contract Type';
