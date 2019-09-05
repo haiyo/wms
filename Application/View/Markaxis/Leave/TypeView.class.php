@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Markaxis\Form\DesignationListView;
-use \Library\Helper\Aurora\YesNoHelper, \Aurora\Component\CountryModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView;
+use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Helper\Markaxis\HalfDayHelper, \Library\Helper\Markaxis\PaidLeaveHelper;
 use \Library\Helper\Markaxis\UnusedLeaveHelper;
 use \Library\Helper\Markaxis\LeavePeriodHelper, \Library\Helper\Markaxis\CarryPeriodHelper;
@@ -79,6 +79,7 @@ class TypeView extends AdminView {
     public function renderForm( ) {
         $RadioView = new RadioView( );
         $allowHalfDayRadio = $RadioView->build('allowHalfDay', HalfDayHelper::getL10nList( ), $this->info['allowHalfDay'] );
+        $showChartRadio = $RadioView->build('showChart', YesNoHelper::getL10nList( ), $this->info['showChart'] );
 
         $SelectListView = new SelectListView( );
         $paidLeaveList  = $SelectListView->build('paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
@@ -95,6 +96,7 @@ class TypeView extends AdminView {
                        'TPLVAR_UPERIOD' => $this->info['uPeriod'],
                        'TPLVAR_PAYROLL_FORMULA' => $this->info['formula'],
                        'TPL_ALLOW_HALF_DAY_RADIO' => $allowHalfDayRadio,
+                       'TPL_SHOW_CHART_RADIO' => $showChartRadio,
                        'TPL_PAID_LEAVE' => $paidLeaveList,
                        'TPL_UNUSED_LIST' => $unusedList,
                        'TPL_CPERIOD_LIST' => $cPeriodList,

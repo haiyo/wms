@@ -64,6 +64,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_TO_BE_USED_WITHIN'] = 'To Be Used Up Within';
         $this->contents['LANG_PAYROLL_PROCESS_AS'] = 'Payroll Process As';
         $this->contents['LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE'] = 'Payroll Formula For UnPaid Leave';
+        $this->contents['LANG_SHOW_CHART_LEAVE_BALANCE'] = 'Show Chart in Leave Balance';
         $this->contents['LANG_GENDER'] = 'Gender';
         $this->contents['LANG_DESIGNATION'] = 'Designation';
         $this->contents['LANG_CONTRACT_TYPE'] = 'Contract Type';

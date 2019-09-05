@@ -4,9 +4,9 @@ use \Library\Helper\Markaxis\PaidLeaveHelper;
 use \Library\Helper\Markaxis\HalfDayHelper;
 use \Library\Helper\Markaxis\AppliedHelper;
 use \Library\Helper\Markaxis\LeavePeriodHelper;
-use \Library\Helper\Markaxis\ProRatedHelper;
 use \Library\Helper\Markaxis\UnusedLeaveHelper;
 use \Library\Helper\Markaxis\CarryPeriodHelper;
+use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Validator\Validator;
 
 /**
@@ -42,9 +42,7 @@ class TypeModel extends \Model {
         $this->info['formula'] = '';
         $this->info['applied'] = 'hired';
         $this->info['unused'] = 'forfeit';
-        /*$this->info['haveChild'] = 0;
-        $this->info['childBorn'] = '';
-        $this->info['childAge'] = '';*/
+        $this->info['showChart'] = 0;
         $this->info['pPeriod'] = '';
         $this->info['cPeriod'] = '';
         $this->info['uPeriod'] = '';
@@ -178,10 +176,13 @@ class TypeModel extends \Model {
         }
 
         if( isset( $data['paidLeave'] ) && isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
-            $this->info['paidLeave'] = $data['paidLeave'];
+            $this->info['paidLeave'] = (int)$data['paidLeave'];
         }
         if( isset( $data['allowHalfDay'] ) && isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
-            $this->info['allowHalfDay'] = $data['allowHalfDay'];
+            $this->info['allowHalfDay'] = (int)$data['allowHalfDay'];
+        }
+        if( isset( $data['showChart'] ) && isset( YesNoHelper::getL10nList( )[$data['showChart']] ) ) {
+            $this->info['showChart'] = (int)$data['showChart'];
         }
 
         if( isset( UnusedLeaveHelper::getL10nList( )[$data['unused']] ) ) {
