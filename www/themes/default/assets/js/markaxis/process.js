@@ -60,6 +60,10 @@ $(document).ready(function( ) {
         .attr("disabled", true)
         .html('Complete Process <i class="icon-arrow-right14 position-right"></i>');
 
+    $("#employeeForm-step-1 .stepy-navigator button")
+        .removeClass("bg-purple-400")
+        .addClass("bg-warning-400")
+
     $("#employeeForm-step-1 .stepy-navigator button span")
         .html('Confirm &amp; Payment <i class="icon-check position-right"></i>');
 

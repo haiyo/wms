@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Leave;
+use \Aurora\Component\CountryModel;
 use \Library\Validator\Validator;
 
 /**
@@ -88,7 +89,23 @@ class GroupModel extends \Model {
                     $info['ltID'] = $data['ltID'];
                     $info['title'] = Validator::stripTrim( $groupObj->groupTitle );
                     $info['proRated'] = $groupObj->proRated == 1 ? 1 : 0;
+                    $info['childCare'] = $groupObj->childCare == 1 ? 1 : 0;
+                    $info['childBorn'] = (int)$groupObj->childBorn;
+                    $info['childNotBorn'] = (int)$groupObj->childNotBorn;
+                    $info['childAge'] = (int)$groupObj->childAge;
                     $info['entitledLeaves'] = (float)$groupObj->entitledLeaves;
+
+                    if( $info['childCare'] ) {
+                        $CountryModel = CountryModel::getInstance( );
+                        $countryInfo = $CountryModel->getList( );
+
+                        if( $info['childBorn'] && isset( $countryInfo[$info['childBorn']] ) ) {
+                            $this->info['childBorn'] = (int)$info['childBorn'];
+                        }
+                        if( $info['childNotBorn'] && isset( $countryInfo[$info['childNotBorn']] ) ) {
+                            $this->info['childNotBorn'] = (int)$info['childNotBorn'];
+                        }
+                    }
 
                     if( $groupObj->lgID > 0 && $grpInfo = $this->getByID( $groupObj->lgID ) ) {
                         $this->Group->update('leave_group', $info,

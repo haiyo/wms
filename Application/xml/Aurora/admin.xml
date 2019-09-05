@@ -281,9 +281,9 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/TypeControl"></observer>
-        <observer controller="Markaxis/Leave/HaveChildControl"></observer>
+        <!--<observer controller="Markaxis/Leave/HaveChildControl"></observer>
         <observer controller="Markaxis/Leave/ChildBornControl"></observer>
-        <observer controller="Markaxis/Leave/ChildAgeControl"></observer>
+        <observer controller="Markaxis/Leave/ChildAgeControl"></observer>-->
         <observer controller="Markaxis/Leave/GroupControl"></observer>
         <observer controller="Markaxis/Leave/DesignationControl"></observer>
         <observer controller="Markaxis/Leave/ContractControl"></observer>

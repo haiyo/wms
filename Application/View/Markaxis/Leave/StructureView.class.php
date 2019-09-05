@@ -67,8 +67,8 @@ class StructureView {
         $countries = $CountryModel->getList( );
 
         $SelectListView = new SelectListView( );
-        $childCountryList = $SelectListView->build( 'childBorn', $countries, '', 'Select a Country' );
-        $childNotCountryList = $SelectListView->build( 'childNotBorn', $countries, '', 'Select a Country' );
+        $childCountryList = $SelectListView->build('childBorn', $countries, '', 'Select a Country' );
+        $childNotCountryList = $SelectListView->build('childNotBorn', $countries, '', 'Select a Country' );
 
         $maxAge = 10;
         $ageList = array( );
@@ -76,7 +76,7 @@ class StructureView {
         for( $i=1; $i<=$maxAge; $i++ ) {
             $ageList[$i] = $i;
         }
-        $childAgeList = $SelectListView->build( 'childAge', $ageList, '', 'Select Child Age' );
+        $childAgeList = $SelectListView->build('childAge', $ageList, '', 'Select Child Age' );
 
         return array( 'TPL_DESIGNATION_LIST' => $designationList,
                       'TPL_CONTRACT_LIST' => $contractList,

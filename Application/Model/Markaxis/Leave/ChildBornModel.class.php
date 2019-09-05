@@ -60,7 +60,6 @@ class ChildBornModel extends \Model {
             if( !isset( $countries[$data['childBorn']] ) ) {
                 return false;
             }
-
             $info = array( );
             $info['ltID'] = (int)$data['ltID'];
             $info['cID'] = (int)$data['childBorn'];

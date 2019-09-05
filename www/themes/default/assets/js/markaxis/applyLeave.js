@@ -150,7 +150,7 @@ var MarkaxisApplyLeave = (function( ) {
                     }
                 }
             };
-            Aurora.WebService.AJAX( "admin/leave/getDateDiff", data );
+            Aurora.WebService.AJAX("admin/leave/getDateDiff", data );
         },
 
 

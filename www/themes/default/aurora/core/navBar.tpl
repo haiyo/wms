@@ -31,6 +31,14 @@
         left: 100%;
         margin-top: -.5625rem;
     }
+    .dropdown-menu>li>a {
+        color: #333 !important;
+    }
+    .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+        text-decoration: none;
+        color: #333 !important;
+        background-color: #f5f5f5;
+    }
     .btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary {
         background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important;
         border-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important;
