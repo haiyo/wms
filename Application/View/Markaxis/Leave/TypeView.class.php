@@ -78,34 +78,15 @@ class TypeView extends AdminView {
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
-        $allowHalfDayRadio = $RadioView->build( 'allowHalfDay', HalfDayHelper::getL10nList( ), $this->info['allowHalfDay'] );
+        $allowHalfDayRadio = $RadioView->build('allowHalfDay', HalfDayHelper::getL10nList( ), $this->info['allowHalfDay'] );
 
         $SelectListView = new SelectListView( );
-        $paidLeaveList  = $SelectListView->build( 'paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
-        $unusedList     = $SelectListView->build( 'unused', UnusedLeaveHelper::getL10nList( ), $this->info['unused'] );
+        $paidLeaveList  = $SelectListView->build('paidLeave', PaidLeaveHelper::getL10nList( ), $this->info['paidLeave'] );
+        $unusedList     = $SelectListView->build('unused', UnusedLeaveHelper::getL10nList( ), $this->info['unused'] );
 
         $SelectListView->isDisabled( true );
-        $cPeriodList = $SelectListView->build( 'cPeriodType', CarryPeriodHelper::getL10nList( ), $this->info['cPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
-        $usedPeriodList  = $SelectListView->build( 'usedType', LeavePeriodHelper::getL10nList( ), $this->info['uPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
-
-        $SelectGroupListView = new DesignationListView( );
-        $SelectGroupListView->isMultiple( true );
-
-        $childrenList = $RadioView->build( 'haveChild', YesNoHelper::getL10nList( ), $this->info['haveChild'] );
-
-        $CountryModel = CountryModel::getInstance( );
-        $countries = $CountryModel->getList( );
-
-        $SelectListView = new SelectListView( );
-        $childCountryList = $SelectListView->build( 'childBorn', $countries, $this->info['childBorn'], 'Select a Country' );
-
-        $maxAge = 10;
-        $ageList = array( );
-
-        for( $i=1; $i<=$maxAge; $i++ ) {
-            $ageList[$i] = $i;
-        }
-        $childAgeList = $SelectListView->build( 'childAge', $ageList, $this->info['childAge'], 'Select Child Age' );
+        $cPeriodList = $SelectListView->build('cPeriodType', CarryPeriodHelper::getL10nList( ), $this->info['cPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
+        $usedPeriodList  = $SelectListView->build('usedType', LeavePeriodHelper::getL10nList( ), $this->info['uPeriodType'], $this->L10n->getContents('LANG_SELECT_PERIOD') );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_LEAVE_TYPE_NAME' => $this->info['name'],
@@ -117,10 +98,7 @@ class TypeView extends AdminView {
                        'TPL_PAID_LEAVE' => $paidLeaveList,
                        'TPL_UNUSED_LIST' => $unusedList,
                        'TPL_CPERIOD_LIST' => $cPeriodList,
-                       'TPL_USED_PERIOD_LIST' => $usedPeriodList,
-                       'TPL_CHILDREN_LIST' => $childrenList,
-                       'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
-                       'TPL_CHILD_AGE_LIST' => $childAgeList ) );
+                       'TPL_USED_PERIOD_LIST' => $usedPeriodList ) );
 
         return $this->View->render( 'markaxis/leave/typeForm.tpl', $vars );
     }

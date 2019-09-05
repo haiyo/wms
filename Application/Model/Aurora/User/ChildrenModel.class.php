@@ -14,6 +14,20 @@ class ChildrenModel extends \Model {
 
 
     // Properties
+    protected $Children;
+
+
+    /**
+     * StructureModel Constructor
+     * @return void
+     */
+    function __construct( ) {
+        parent::__construct( );
+        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
+        $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
+
+        $this->Children = new Children( );
+    }
 
 
     /**
@@ -21,8 +35,7 @@ class ChildrenModel extends \Model {
      * @return int
      */
     public function isFoundByID( $userID, $ucID ) {
-        $Children = new Children( );
-        return $Children->isFoundByID( $userID, $ucID );
+        return $this->Children->isFoundByID( $userID, $ucID );
     }
 
 
@@ -31,8 +44,16 @@ class ChildrenModel extends \Model {
      * @return int
      */
     public function getByUserID( $userID ) {
-        $Children = new Children( );
-        return $Children->getByUserID( $userID );
+        return $this->Children->getByUserID( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getYoungestByUserID( $userID ) {
+        return $this->Children->getYoungestByUserID( $userID );
     }
 
 
@@ -58,11 +79,9 @@ class ChildrenModel extends \Model {
         $ucInfo = array( );
         $ucInfo['userID'] = (int)$data['userID'];
 
-        $Children = new Children( );
-
         if( $size == 0 ) {
             // Delete any orphans if children = No
-            $Children->delete( 'user_children', 'WHERE userID = "' . (int)$data['userID'] . '"' );
+            $this->Children->delete( 'user_children', 'WHERE userID = "' . (int)$data['userID'] . '"' );
         }
         else {
             $saveInfo = array( );
@@ -87,10 +106,10 @@ class ChildrenModel extends \Model {
 
                     if( !$data['ucID_' . $i] ) {
                         $saveInfo['userID'] = $data['userID'];
-                        array_push( $validIDs, $Children->insert( 'user_children', $saveInfo ) );
+                        array_push( $validIDs, $this->Children->insert( 'user_children', $saveInfo ) );
                     }
                     else if( $this->isFoundByID( $data['userID'], $data['ucID_' . $i] ) ) {
-                        $Children->update( 'user_children', $saveInfo, 'WHERE userID = "' . (int)$data['userID'] . '" 
+                        $this->Children->update( 'user_children', $saveInfo, 'WHERE userID = "' . (int)$data['userID'] . '" 
                                                                             AND ucID = "' . (int)$data['ucID_' . $i] . '"' );
 
                         array_push($validIDs, $data['ucID_' . $i] );
@@ -98,7 +117,7 @@ class ChildrenModel extends \Model {
                 }
             }
             $validIDs = implode(',', $validIDs );
-            $Children->delete('user_children', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
+            $this->Children->delete('user_children','WHERE userID = "' . (int)$data['userID'] . '" AND 
                                                             ucID NOT IN(' . addslashes( $validIDs ) . ')');
         }
     }

@@ -175,6 +175,10 @@
                         "designation": $("#designation").val( ),
                         "contractType": $("#contractType").val( ),
                         "proRated": $("#proRated2").is(":checked") ? 0 : 1,
+                        "childCare": $("#childCare2").is(":checked") ? 0 : 1,
+                        "childBorn": $("#childBorn").val( ),
+                        "childNotBorn": $("#childNotBorn").val( ),
+                        "childAge": $("#childAge").val( ),
                         "structures": []
                     };
 
@@ -214,6 +218,22 @@
             var designation = $("#designation");
             designation.multiselect("clearSelection");
             designation.multiselect("refresh");
+
+            var contractType = $("#contractType");
+            contractType.multiselect("clearSelection");
+            contractType.multiselect("refresh");
+
+            var childBorn = $("#childBorn");
+            childBorn.multiselect("clearSelection");
+            childBorn.multiselect("refresh");
+
+            var childNotBorn = $("#childNotBorn");
+            childNotBorn.multiselect("clearSelection");
+            childNotBorn.multiselect("refresh");
+
+            var childAge = $("#childAge");
+            childAge.multiselect("clearSelection");
+            childAge.multiselect("refresh");
             $("#structureWrapper").html("");
         });
 
@@ -269,6 +289,14 @@
                         }
                         $.uniform.update();
 
+                        if( leaveGroups[i].childCare == 1 ) {
+                            $("#childCare1").click( );
+                        }
+                        else {
+                            $("#childCare2").click( );
+                        }
+                        $.uniform.update();
+
                         var designation = $("#designation");
 
                         if( leaveGroups[i].designation.length > 0 ) {
@@ -304,22 +332,34 @@
                     bundle: {
                         lgID: lgID
                     },
-                    success: function (res) {
+                    success: function(res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
                         else {
+                            console.log(obj)
                             $("#lgID").val( obj.data.group.lgID );
                             $("#groupTitle").val( obj.data.group.title );
                             $("#entitledLeaves").val( obj.data.group.entitledLeaves );
+                            $("#childBorn").val( obj.data.group.childBorn ).trigger("change");
+                            $("#childNotBorn").val( obj.data.group.childNotBorn ).trigger("change");
+                            $("#childAge").val( obj.data.group.childAge ).trigger("change");
 
                             if( obj.data.group.proRated == "1" ) {
                                 $("#proRated1").click( );
                             }
                             else {
                                 $("#proRated2").click( );
+                            }
+                            $.uniform.update();
+
+                            if( obj.data.group.childCare == "1" ) {
+                                $("#childCare1").click( );
+                            }
+                            else {
+                                $("#childCare2").click( );
                             }
                             $.uniform.update();
 

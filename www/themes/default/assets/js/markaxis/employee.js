@@ -236,7 +236,7 @@ var MarkaxisEmployee = (function( ) {
 
             if( $(".childRow").length > 0 ) {
                 $(".childSelect").select2( );
-                that.addChildren( );
+                //that.addChildren( );
             }
 
             $(document).on("click", ".addChildren", function ( ) {

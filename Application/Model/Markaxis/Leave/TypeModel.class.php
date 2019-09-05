@@ -42,9 +42,9 @@ class TypeModel extends \Model {
         $this->info['formula'] = '';
         $this->info['applied'] = 'hired';
         $this->info['unused'] = 'forfeit';
-        $this->info['haveChild'] = 0;
+        /*$this->info['haveChild'] = 0;
         $this->info['childBorn'] = '';
-        $this->info['childAge'] = '';
+        $this->info['childAge'] = '';*/
         $this->info['pPeriod'] = '';
         $this->info['cPeriod'] = '';
         $this->info['uPeriod'] = '';
@@ -183,22 +183,7 @@ class TypeModel extends \Model {
         if( isset( $data['allowHalfDay'] ) && isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
             $this->info['allowHalfDay'] = $data['allowHalfDay'];
         }
-        /*if( isset( AppliedHelper::getL10nList( )[$data['applied']] ) ) {
-            $this->info['applied'] = $data['applied'];
 
-            if( $this->info['applied'] == 'probation' ) {
-                $pPeriodValue = (int)$data['pPeriodValue'];
-
-                if( $pPeriodValue > 0 && isset( LeavePeriodHelper::getL10nList( )[$data['pPeriodType']] ) ) {
-                    $this->info['pPeriod'] = $pPeriodValue ;
-                    $this->info['pPeriodType'] = $data['pPeriodType'];
-                }
-            }
-        }
-
-        if( isset( ProRatedHelper::getL10nList( )[$data['proRated']] ) ) {
-            $this->info['proRated'] = $data['proRated'];
-        }*/
         if( isset( UnusedLeaveHelper::getL10nList( )[$data['unused']] ) ) {
             $this->info['unused'] = $data['unused'];
 
