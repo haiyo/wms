@@ -2,7 +2,7 @@
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
 use \Markaxis\Company\OfficeModel;
-use \Library\Util\Formula;
+use \Library\Util\Date, \Library\Util\Formula;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -110,6 +110,26 @@ class LeaveApplyModel extends \Model {
      */
     public function getPendingAction( $userID ) {
         return $this->LeaveApply->getPendingAction( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getEvents( $post ) {
+        $eventList = array( );
+
+        if( isset( $post['start'] ) && isset( $post['end'] ) ) {
+            $startDate = Date::parseDateTime( $post['start'] );
+            $endDate = Date::parseDateTime( $post['end'] );
+            $eventList = $this->LeaveApply->getEvents( $startDate, $endDate );
+
+            foreach( $eventList as $key => $event ) {
+                $eventList[$key]['title'] = $event['name'] . ' - ' . $event['title'];
+            }
+        }
+        return $eventList;
     }
 
 
