@@ -46,17 +46,17 @@ class CronControl extends Control {
     public function init( $argv ) {
         try {
             if( isset( $argv[1] ) && isset( $argv[2] ) ) {
-                parse_str($argv[1], $username);
-                parse_str($argv[2], $password);
+                parse_str( $argv[1], $username );
+                parse_str( $argv[2], $password );
 
-                if (!isset($username['u']) && !isset($username['p'])) {
+                if( !isset( $username['u'] ) || !isset( $password['p'] ) ) {
                     die("Error: No username and password supplied\n\n");
                 }
 
-                $username = trim($username['u']);
-                $password = trim($password['p']);
+                $username = trim( $username['u'] ) ;
+                $password = trim( $password['p'] );
 
-                if (!$username && !$password) {
+                if( !$username && !$password ) {
                     throw new Exceptions("Error: Please supply a valid username and password\n\n");
                 }
                 // Initialize Database Access Point
@@ -82,14 +82,14 @@ class CronControl extends Control {
                 $Scheduler = new Scheduler( );
                 $Scheduler->raw('ps aux | grep httpd');
                 var_dump($Scheduler->run( ));
-
+                exit;
                 // Load tasks
             }
             else {
                 throw new Exceptions("Error: No username and password supplied.\n\n");
             }
         }
-        catch( Exception $e ) {
+        catch( Exceptions $e ) {
             $e->record( );
             $e->toString( );
         }
