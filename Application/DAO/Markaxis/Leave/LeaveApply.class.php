@@ -173,5 +173,32 @@ class LeaveApply extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getEvents( $startDate, $endDate ) {
+        $sql = $this->DB->select( 'SELECT CONCAT( u.fname, " ", u.lname ) AS name,
+                                          la.*, la.startDate AS start, la.endDate AS end,
+                                          lt.name AS title FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   LEFT JOIN user u ON ( u.userID = la.userID )
+                                   WHERE la.startDate BETWEEN "' . addslashes( $startDate ) . '" AND 
+                                                              "' . addslashes( $endDate ) . '" AND
+                                         la.status = "1" AND
+                                         la.cancelled = "0" AND
+                                         lt.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
 }
 ?>

@@ -276,11 +276,17 @@
         <observer controller="Markaxis/Leave/ContractControl"></observer>
         <observer controller="Markaxis/Leave/StructureControl"></observer>
     </task>
+    <task type="leave/getEvents">
+        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Leave/HolidayControl"></observer>
+        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
+    </task>
     <task type="leave/getTypeResults,leave/addType,leave/editType,leave/saveType,
-                leave/balance,leave/getHistory,leave/settings">
+                leave/balance,leave/getHistory,leave/settings,leave/getHolidayResults">
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/TypeControl"></observer>
+        <observer controller="Markaxis/Leave/HolidayControl"></observer>
         <!--<observer controller="Markaxis/Leave/HaveChildControl"></observer>
         <observer controller="Markaxis/Leave/ChildBornControl"></observer>
         <observer controller="Markaxis/Leave/ChildAgeControl"></observer>-->

@@ -95,6 +95,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Leave Request';
         $this->contents['LANG_FROM'] = 'From';
         $this->contents['LANG_TO'] = 'To';
+        $this->contents['LANG_CREATE_CUSTOM_HOLIDAY'] = 'Create Custom Holiday';
     }
 }
 ?>
