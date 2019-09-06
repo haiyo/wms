@@ -230,7 +230,7 @@
                         </div>
                         <div class="box-content right">
                             <a href="<?TPLVAR_ROOT_URL?>admin/calendar"><i class="mi-event-note mr-3 mi-2x"></i><h4>My Calendar</h4>
-                                <div class="box-content-descript">Search for coworkers and their contact information</div>
+                                <div class="box-content-descript">Find out any events or planned leaves</div>
                             </a>
                         </div>
                         <div class="box-content">

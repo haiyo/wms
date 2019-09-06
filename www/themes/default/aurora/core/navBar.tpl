@@ -90,13 +90,13 @@
                 <?TPL_NOTIFICATION_WINDOW?>
             </li>
 
-            <li class="dropdown">
+            <!--<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-bubbles4"></i>
                     <span class="badge bg-warning-400"></span>
                 </a>
                 <?TPL_CHAT_LIST?>
-            </li>
+            </li>-->
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
