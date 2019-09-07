@@ -48,6 +48,15 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
+    public function dashboard( ) {
+        Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getHistory( ) {
         $post = Control::getRequest( )->request( POST );
         Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
@@ -73,15 +82,6 @@ class LeaveApplyControl {
         if( $eventInfo = $this->LeaveApplyModel->getEvents( $post ) ) {
             Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
         }
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function dashboard( ) {
-        Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
     }
 
 
