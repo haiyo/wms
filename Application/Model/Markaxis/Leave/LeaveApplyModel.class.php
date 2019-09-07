@@ -114,6 +114,15 @@ class LeaveApplyModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getWhosOnLeave( $date ) {
+        return $this->LeaveApply->getWhosOnLeave( $date );
+    }
+
+
+    /**
      * Return total count of records
      * @return int
      */
@@ -194,11 +203,12 @@ class LeaveApplyModel extends \Model {
 
         if( $totalApplied > 0 ) {
             $EmployeeModel = EmployeeModel::getInstance( );
-            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'salary' );
+            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, salary' );
 
             $OfficeModel = OfficeModel::getInstance( );
             $workDays  = $OfficeModel->getWorkingDaysByRange( $processDate->format('Y-m-') . '01',
-                                                              $processDate->format('Y-m-') . $processDate->format('t') );
+                                                              $processDate->format('Y-m-') . $processDate->format('t'),
+                                                              $empInfo['officeID'] );
 
             $daysWorked = ($workDays-$totalApplied);
 

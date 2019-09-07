@@ -29,15 +29,6 @@ class LeaveControl {
      * Render main navigation
      * @return string
      */
-    public function dashboard( ) {
-        Control::setOutputArrayAppend( array( 'sidebarCards' => $this->LeaveView->getSidebar( ) ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function balance( ) {
         $this->LeaveView->renderBalance( );
     }

@@ -153,13 +153,39 @@ class LeaveApply extends \DAO {
 
 
     /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
+ * Retrieve a user column by userID
+ * @return mixed
+ */
     public function getUnPaidByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT la.*, lt.name, lt.formula FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
                                    WHERE la.userID = "' . (int)$userID . '" AND 
+                                         la.status = "1" AND
+                                         la.cancelled = "0" AND
+                                         lt.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getWhosOnLeave( $date ) {
+        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name
+                                   FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   LEFT JOIN user u ON ( u.userID = la.userID )
+                                   WHERE la.startDate <= "' . addslashes( $date ) . '" AND
+                                         la.endDate >= "' . addslashes( $date ) . '" AND
                                          la.status = "1" AND
                                          la.cancelled = "0" AND
                                          lt.deleted = "0"',

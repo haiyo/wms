@@ -89,6 +89,11 @@ class StructureModel extends \Model {
 
                             if( $group['childCare'] && $empInfo['children'] ) {
                                 $userChild = $ChildrenModel->getYoungestByUserID( $empInfo['userID'] );
+
+                                if( !$userChild['birthday'] ) {
+                                    continue;
+                                }
+
                                 $childAge = Date::getAge( $userChild['birthday'] );
 
                                 if( $group['childBorn'] && $userChild['country'] != $group['childBorn'] ) {

@@ -63,7 +63,73 @@ class LeaveApplyView {
             $vars['TPLVAR_CLOSE_TIME'] = $officeInfo['closeTime'];
         }
         return array( 'js' => array( 'markaxis' => array( 'usuggest.js', 'applyLeave.js' ) ),
+                      'sidebarCards' => $this->renderOnLeave( ),
                       'content' => $this->View->render( 'markaxis/leave/applyForm.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render Tab
+     * @return string
+     */
+    public function renderOnLeave( ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        // Get office time shift
+        $OfficeModel = OfficeModel::getInstance( );
+        $officeInfo = $OfficeModel->getWorkingDaysByOfficeID( $empInfo['officeID'] );
+
+        $vars['dynamic']['noUserToday'] = true;
+        $vars['dynamic']['userToday'] = false;
+
+        if( $officeInfo && !in_array( date('N'), $officeInfo ) ) {
+            $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_ITS_HOLIDAY');
+        }
+        else {
+            $today = $this->LeaveApplyModel->getWhosOnLeave( date('Y-m-d') );
+            $vars['TPLVAR_TODAY_COUNT'] = sizeof( $today );
+
+            if( $vars['TPLVAR_TODAY_COUNT'] ) {
+                $vars['dynamic']['noUserToday'] = false;
+
+                $UserImageModel = UserImageModel::getInstance( );
+
+                foreach( $today as $user ) {
+                    $vars['dynamic']['userToday'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $user['userID'] ) );
+                }
+            }
+            else {
+                $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_NO_ONE_ON_LEAVE_TODAY');
+            }
+        }
+        
+        $vars['dynamic']['noUserTomorrow'] = true;
+        $vars['dynamic']['userTomorrow'] = false;
+        $tomorrowDay = date('N')+1;
+
+        if( $officeInfo && !in_array( $tomorrowDay == 8 ? 1 : $tomorrowDay, $officeInfo ) ) {
+            $vars['LANG_NOT_TOMORROW'] = $this->L10n->getContents('LANG_ITS_HOLIDAY');
+        }
+        else {
+            $tomorrow = $this->LeaveApplyModel->getWhosOnLeave( date('Y-m-d', strtotime('+1 day') ) );
+
+            $vars['TPLVAR_TOMORROW_COUNT'] = sizeof( $tomorrow );
+
+            if( $vars['TPLVAR_TOMORROW_COUNT'] ) {
+                $vars['dynamic']['noUserTomorrow'] = false;
+
+                $UserImageModel = UserImageModel::getInstance( );
+
+                foreach( $tomorrow as $user ) {
+                    $vars['dynamic']['userTomorrow'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $user['userID'] ) );
+                }
+            }
+            else {
+                $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_NO_ONE_ON_LEAVE_TOMORROW');
+            }
+        }
+        return $this->View->render( 'markaxis/leave/whosOnLeave.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
     }
 
 

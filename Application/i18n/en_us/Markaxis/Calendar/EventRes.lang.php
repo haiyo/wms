@@ -28,7 +28,7 @@ class EventRes extends Resource {
         $this->contents['LANG_NEW_EVENTS'] = 'Posting of New Events';
         $this->contents['LANG_APPROVING_OFFICERS'] = 'Approving Officer(s)';
         $this->contents['LANG_ADMIN_DEFAULT'] = 'Note: The Administrator is by default the approving officer.';
-        $this->contents['LANG_NO_UPCOMING_EVENT'] = 'There are no upcoming event.';
+        $this->contents['LANG_NO_UPCOMING_EVENT'] = 'There is no upcoming event.';
         $this->contents['LANG_EVENT_INFORMATION'] = 'Event Information';
         $this->contents['LANG_AGENDA'] = 'Agenda';
         $this->contents['LANG_AGENDA_LIST'] = 'Agenda List';

@@ -103,10 +103,17 @@ class OfficeModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getWorkingDays( ) {
+    public function getWorkingDaysByOfficeID( $oID ) {
         $A_OfficeModel = A_OfficeModel::getInstance( );
-        $mainOfficeInfo = $A_OfficeModel->getMainOffice( );
-        $officeInfo = $this->getByoID( $mainOfficeInfo['oID'] );
+
+        if( $oID ) {
+            $info = $this->getByoID( $oID );
+        }
+        else {
+            $info = $A_OfficeModel->getMainOffice( );
+        }
+
+        $officeInfo = $this->getByoID( $info['oID'] );
         $workDays = array( );
 
         if( $officeInfo['workDayFrom'] && $officeInfo['workDayTo'] ) {
@@ -124,8 +131,8 @@ class OfficeModel extends \Model {
      * Set Pay Item Info
      * @return int
      */
-    public function getWorkingDaysByRange( $startDate, $endDate ) {
-        $workDays = $this->getWorkingDays( );
+    public function getWorkingDaysByRange( $startDate, $endDate, $oID ) {
+        $workDays = $this->getWorkingDaysByOfficeID( $oID );
         $startDate = new DateTime( $startDate );
         $endDate = new DateTime( $endDate );
         return Date::daysDiff( $startDate, $endDate, $workDays );

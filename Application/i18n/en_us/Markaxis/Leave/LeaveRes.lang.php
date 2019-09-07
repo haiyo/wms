@@ -23,6 +23,12 @@ class LeaveRes extends Resource {
 
         $this->contents = array( );
         $this->contents['LANG_LEAVE_EVENTS'] = 'Leave &amp; Events';
+        $this->contents['LANG_TODAY'] = 'Today';
+        $this->contents['LANG_TOMORROW'] = 'Tomorrow';
+        $this->contents['LANG_WHOS_ON_LEAVE'] = 'Who\'s On Leave';
+        $this->contents['LANG_NO_ONE_ON_LEAVE_TODAY'] = 'No one is on leave today.';
+        $this->contents['LANG_NO_ONE_ON_LEAVE_TOMORROW'] = 'No one is on leave tomorrow.';
+        $this->contents['LANG_ITS_HOLIDAY'] = 'It\'s Holiday!';
         $this->contents['LANG_LEAVE_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
         $this->contents['LANG_LEAVE_BALANCE'] = 'Leave Balance';
         $this->contents['LANG_LEAVE_SETTINGS'] = 'Leave Settings';

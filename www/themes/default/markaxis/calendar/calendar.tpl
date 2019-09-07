@@ -243,7 +243,6 @@
             </div>
             <!-- /sidebar search -->
 
-
             <!-- Sub navigation -->
             <div class="card mb-2">
                 <div class="card-header bg-transparent header-elements-inline">
@@ -288,13 +287,9 @@
                 </div>
             </div>
             <!-- /sub navigation -->
-
         </div>
         <!-- /sidebar content -->
 
     </div>
-
-
     <div id="calendar"></div>
-
 </div>

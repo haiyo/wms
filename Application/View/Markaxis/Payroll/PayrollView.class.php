@@ -78,7 +78,8 @@ class PayrollView {
             $lastDay   = $datetime->format('t');
             $ymd       = $datetime->format('Y-m-d');
             $workDays  = $OfficeModel->getWorkingDaysByRange( $datetime->format('Y-m-') . '01',
-                                                              $datetime->format('Y-m-') . $lastDay );
+                                                              $datetime->format('Y-m-') . $lastDay,
+                                                              0 );
 
             if( isset( $processed[$index]['completed'] ) && $processed[$index]['completed'] ) {
                 $dataID    = 'complete';

@@ -40,16 +40,6 @@ class LeaveView {
 
 
     /**
-     * Render Tab
-     * @return string
-     */
-    public function getSidebar( ) {
-        $vars = array_merge( $this->L10n->getContents( ), array( ) );
-        return $this->View->render( 'markaxis/leave/whosOnLeave.tpl', $vars );;
-    }
-
-
-    /**
      * Render main navigation
      * @return string
      */
