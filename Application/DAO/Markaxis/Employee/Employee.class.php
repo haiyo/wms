@@ -131,7 +131,6 @@ class Employee extends \DAO {
                        OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
                        OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
-
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
                                           u.email1, u.mobile,
                                           u.suspended, e.startdate, d.title AS designation, e.currency,

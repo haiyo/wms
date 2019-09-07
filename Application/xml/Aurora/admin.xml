@@ -15,6 +15,7 @@
         <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
+        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
         <observer controller="Aurora/Page/DashboardControl"></observer>
     </task>
     <task type="notification">
@@ -277,6 +278,7 @@
         <observer controller="Markaxis/Leave/StructureControl"></observer>
     </task>
     <task type="leave/getEvents">
+        <observer controller="Aurora/User/UserControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/HolidayControl"></observer>
         <observer controller="Markaxis/Calendar/CalendarControl"></observer>

@@ -142,6 +142,30 @@ class User extends \DAO {
 
 
     /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getEvents( $startDate, $endDate ) {
+        $sql = $this->DB->select( 'SELECT CONCAT( u.fname, " ", u.lname ) AS name,
+                                          CONCAT( YEAR( "' . addslashes( $startDate ) . '" ), "", 
+                                                  DATE_FORMAT( u.birthday, "-%m-%d" ) ) AS start
+                                   FROM user u 
+                                   WHERE MONTH( u.birthday ) >= MONTH( "' . addslashes( $startDate ) . '" ) AND 
+                                         MONTH( u.birthday ) <= MONTH( "' . addslashes( $endDate ) . '" ) AND
+                                         u.suspended <> "1" AND u.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve a user column by searching fname and lname
      * @return mixed
      */

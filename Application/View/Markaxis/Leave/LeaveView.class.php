@@ -40,29 +40,13 @@ class LeaveView {
 
 
     /**
-     * Render main navigation
+     * Render Tab
      * @return string
-
-    public function renderApplyForm( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-
-        $SelectListView = new SelectListView( );
-        $leaveTypeList = $SelectListView->build( 'ltID', $this->LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
-                                                '', 'Select Leave Type' );
-        $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
-
-        $ManagerModel = ManagerModel::getInstance( );
-        $managers = $ManagerModel->getSuggestToken( $userInfo['userID'] );
-
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
-                       'TPL_APPLY_FOR_LIST' => $applyForList,
-                       'TPLVAR_MANAGERS' => $managers['name'] ) );
-
-        return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
-                      'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
-    } */
+     */
+    public function getSidebar( ) {
+        $vars = array_merge( $this->L10n->getContents( ), array( ) );
+        return $this->View->render( 'markaxis/leave/whosOnLeave.tpl', $vars );;
+    }
 
 
     /**
