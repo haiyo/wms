@@ -26,6 +26,15 @@ class CalendarControl {
         $this->CalendarView = new CalendarView( );
 	}
 
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function dashboard( ) {
+        Control::setOutputArrayAppend( array( 'sidebarCards' => $this->CalendarView->getSidebar( ) ) );
+    }
+
     
     /**
     * Show Calendar

@@ -21,6 +21,7 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
             defaultView: 'dayGridMonth',
+            selectable: true,
             editable: true,
             eventLimit: true,
             eventTimeFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true },
@@ -36,6 +37,9 @@
                     ajaxCall: 1,
                     csrfToken: Aurora.CSRF_TOKEN
                 },
+            },
+            select: function(info) {
+                alert('selected ' + info.startStr + ' to ' + info.endStr);
             }
         });
         calendar.render( );
@@ -208,11 +212,7 @@
         margin-top:20px;
     }
 </style>
-<script>
-    $(document).ready(function( ) {
-        //$('.form-control-datepicker').datepicker();
-    });
-</script>
+
 <div class="d-md-flex">
     <div class="sidebar sidebar-light sidebar-component sidebar-component-left sidebar-expand-md">
 
@@ -265,7 +265,7 @@
                             <a href="#" class="nav-link">
                                 <i class="icon-file-plus"></i>
                                 Colleague Events
-                                <span class="badge bg-dark badge-pill ml-auto">28</span>
+                                <span class="badge bg-dark badge-pill mt-3 ml-5">28</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -275,7 +275,7 @@
                             <a href="#" class="nav-link">
                                 <i class="icon-reading"></i>
                                 Include Holidays
-                                <span class="badge bg-info badge-pill ml-auto">86</span>
+                                <span class="badge bg-info badge-pill mt-3 ml-5">86</span>
                             </a>
                         </li>
                         <li class="nav-item">

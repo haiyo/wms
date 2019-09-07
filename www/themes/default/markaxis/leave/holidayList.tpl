@@ -21,28 +21,16 @@
             mark: true,
             columnDefs: [{
                 targets: [0],
-                checkboxes: {
-                    selectRow: true
-                },
-                width: '10px',
-                orderable: false,
-                searchable: false,
-                data: 'hID',
-                render: function( data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="hID[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
                 orderable: true,
                 width: '900px',
                 data: 'title'
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
                 width: '200px',
                 data: 'date',
             },{
-                targets: [3],
+                targets: [2],
                 orderable: false,
                 searchable: false,
                 width: '10px',
@@ -144,7 +132,6 @@
     <table class="table table-hover datatable holidayTable">
         <thead>
         <tr>
-            <th></th>
             <th>Title</th>
             <th>Date</th>
             <th>Actions</th>
