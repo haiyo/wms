@@ -32,10 +32,10 @@ class CalendarControl {
      * @return string
      */
     public function dashboard( ) {
-        Control::setOutputArrayAppend( array( 'sidebarCards' => $this->CalendarView->getSidebar( ) ) );
+        Control::setOutputArrayAppend( array( 'sidebarCards' => $this->CalendarView->renderUpcomingEvents( ) ) );
     }
 
-    
+
     /**
     * Show Calendar
     * @return void
@@ -135,7 +135,7 @@ class CalendarControl {
 
         $CalendarModel = CalendarModel::getInstance( );
         $info = $CalendarModel->getRecurs( $post );
-        
+
         if( sizeof( $info ) > 0 ) {
             $vars['bool'] = 1;
             $vars['data'] = $info;

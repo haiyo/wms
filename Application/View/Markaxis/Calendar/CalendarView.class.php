@@ -56,9 +56,13 @@ class CalendarView extends AdminView {
      * Render Tab
      * @return string
      */
-    public function getSidebar( ) {
-        $vars = array_merge( $this->CalendarRes->getContents( ), array( ) );
-        return $this->View->render( 'markaxis/calendar/upcomingEvent.tpl', $vars );;
+    public function renderUpcomingEvents( ) {
+        $vars = array_merge( $this->EventRes->getContents( ), array( ) );
+
+        $vars['dynamic']['noEvent'] = true;
+        $vars['dynamic']['event'] = false;
+
+        return $this->View->render( 'markaxis/calendar/upcomingEvent.tpl', $vars );
     }
 
 
