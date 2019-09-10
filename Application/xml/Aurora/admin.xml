@@ -181,6 +181,9 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
+    <task type="payroll/payment">
+        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+    </task>
     <task type="payroll/reprocessPayroll,payroll/savePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
