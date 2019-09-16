@@ -266,17 +266,7 @@ $(document).ready(function( ) {
                 return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
                         $("#processDate").val( ) + '/slip" target="_blank">View PDF</a>';
             }
-        }/*,{
-            targets: [7],
-            orderable: true,
-            width: '150px',
-            className : "text-center",
-            data: 'method',
-            render: function( data, type, full, meta ) {
-                return '<a href="#" data-userid="' + full['userID'] + '" data-toggle="modal" data-target="#modalPayment" ' +
-                            'data-backdrop="static" data-keyboard="false">' + data + '</a>';
-            }
-        }*/],
+        }],
         order: [],
         dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
         language: {
@@ -334,16 +324,6 @@ $(document).ready(function( ) {
             $(api.column(4).footer( )).html( Aurora.String.formatMoney( levyTotal.toString( ) ) );
             $(api.column(5).footer( )).html( Aurora.String.formatMoney( contriTotal.toString( ) ) );
         }
-    });
-
-    $("#modalPayment").on("show.bs.modal", function(e) {
-        //window.location.href = "https://www.dbs.com/sandbox/api/sg/v1/oauth/authorize?client_id=6d5acb58-5d68-4309-bc57-8486089dcbc5&redirect_uri=http%3A%2F%2Flocalhost%2Fwms%2Fadmin%2Fpayroll%2Fpayment%2F&scope=Read&response_type=code&state=0399";
-        /*var $invoker = $(e.relatedTarget);
-
-        $(this).find(".modal-payment").load( Aurora.ROOT_URL + 'admin/payroll/payment/' + $invoker.attr("data-userid") + '/' +
-            $("#processDate").val( ), function() {
-            //
-        });*/
     });
 
     $("#modalCalPayroll").on("show.bs.modal", function(e) {
