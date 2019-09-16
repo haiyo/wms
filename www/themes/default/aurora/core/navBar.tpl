@@ -90,14 +90,6 @@
                 <?TPL_NOTIFICATION_WINDOW?>
             </li>
 
-            <!--<li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-bubbles4"></i>
-                    <span class="badge bg-warning-400"></span>
-                </a>
-                <?TPL_CHAT_LIST?>
-            </li>-->
-
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <img src="<?TPLVAR_ROOT_URL?>themes/<?TPLVAR_THEME?>/assets/images/face11.jpg" alt="">
@@ -107,8 +99,6 @@
 
                 <ul class="dropdown-menu dropdown-menu-right width-200">
                     <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><span class="badge bg-purple-400 pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
-                    <li class="divider"></li>
                     <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
                     <li><a href="<?TPLVAR_ROOT_URL?>admin/logout"><i class="icon-switch2"></i> Logout</a></li>
                 </ul>
