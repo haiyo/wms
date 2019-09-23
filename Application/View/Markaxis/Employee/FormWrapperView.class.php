@@ -101,7 +101,7 @@ class FormWrapperView {
             $vars['dynamic']['email'] = false;
         }
 
-        if( $photo ) {
+        if( !strstr( $photo, 'silhouette' ) ) {
             $vars['TPLVAR_DEF_PHOTO'] = 'hide';
             $vars['dynamic']['photo'][] = array( 'TPLVAR_PHOTO' => $photo );
         }

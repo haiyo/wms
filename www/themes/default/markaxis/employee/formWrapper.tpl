@@ -2,13 +2,12 @@
 <div class="sidebar sidebar-secondary sidebar-default">
     <div class="sidebar-content profile-content">
 
-        <!-- Sidebar search -->
         <div class="sidebar-category">
 
             <div class="thumbnail no-padding">
                 <div id="thumb" class="thumb">
                     <div class="defPhoto <?TPLVAR_DEF_PHOTO?>">
-                        <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/silhouette.png" />
+                        <img src="<?TPLVAR_ROOT_URL?>themes/default/assets/images/silhouette.jpg" />
                     </div>
                     <div class="caption-overflow">
                                 <span>
@@ -57,8 +56,6 @@
             </div>
 
         </div>
-        <!-- /sidebar search -->
-
     </div>
 </div>
 

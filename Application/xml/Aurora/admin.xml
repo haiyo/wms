@@ -109,6 +109,9 @@
     <task type="user/list,employee/getList">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
     </task>
+    <task type="user/search">
+        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+    </task>
     <task type="user/deletePhoto">
         <observer controller="Aurora/User/UserImageControl"></observer>
     </task>

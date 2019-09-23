@@ -58,7 +58,7 @@ class UserImageModel extends \Model {
         }
         else {
             // Default silhouette
-            $image = ROOT_URL . 'www/themes/default/assets/images/silhouette.png';
+            $image = ROOT_URL . 'www/themes/default/assets/images/silhouette.jpg';
         }
         return $image;
     }
