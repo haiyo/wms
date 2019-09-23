@@ -6,6 +6,7 @@
         max-width: 25%;
     }
     .img-fluid {
+        width:100%;
         max-width: 100%;
         height: auto;
     }
@@ -16,14 +17,16 @@
     }
     .userCard {
         min-height:390px;
-        max-height:390px;
         margin-bottom: 18px;
     }
     .noUser {
-        padding:50px 0;
+        padding: 100px 0 50px;
         text-align:center;
         font-size:28px;
         font-weight:bold;
+    }
+    .contactText {
+        font-size:14px;
     }
 </style>
 <div class="tab-pane fade show" id="employeeList">
