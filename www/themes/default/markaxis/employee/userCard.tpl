@@ -7,10 +7,10 @@
 
                 <div class="card-body text-center">
                     <h6 class="font-weight-semibold mb-0"><?TPLVAR_NAME?></h6>
-                    <div class="d-block text-muted text-wrap"><?TPLVAR_DEPARTMENT?></div>
-                    <div class="d-block text-muted text-wrap"><?TPLVAR_DESIGNATION?></div>
-                    <div class="d-block text-muted text-wrap"><?TPLVAR_EMAIL?></div>
-                    <div class="d-block text-muted text-wrap"><?TPLVAR_MOBILE?></div>
+                    <div class="d-block text-muted text-wrap contactText"><?TPLVAR_DEPARTMENT?></div>
+                    <div class="d-block text-muted text-wrap contactText"><?TPLVAR_DESIGNATION?></div>
+                    <div class="d-block text-muted text-wrap contactText"><?TPLVAR_EMAIL?></div>
+                    <div class="d-block text-muted text-wrap contactText"><?TPLVAR_MOBILE?></div>
                 </div>
             </div>
         </div>

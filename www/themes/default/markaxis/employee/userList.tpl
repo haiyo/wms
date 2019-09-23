@@ -25,6 +25,9 @@
         font-size:28px;
         font-weight:bold;
     }
+    .contactText {
+        font-size:14px;
+    }
 </style>
 <div class="tab-pane fade show" id="employeeList">
 
