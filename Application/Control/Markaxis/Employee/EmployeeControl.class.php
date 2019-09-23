@@ -71,7 +71,23 @@ class EmployeeControl {
      * @return void
      */
     public function list( ) {
-        $this->EmployeeView->renderList( );
+        $this->EmployeeView->renderUserList( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function search( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        $vars = array( );
+        $vars['bool'] = 1;
+        $vars['html'] = $this->EmployeeView->renderUserCard( $post['q'], $post['department'], $post['designation'] );
+
+        echo json_encode( $vars );
+        exit;
     }
 
 

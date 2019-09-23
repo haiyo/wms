@@ -83,14 +83,14 @@ class EmployeeModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getList( $q='', $includeOwn=false ) {
+    public function getList( $q='', $departmentID, $designationID, $includeOwn=false ) {
         $exclude = '';
 
         if( !$includeOwn ) {
             $userInfo = UserModel::getInstance( )->getInfo( );
             $exclude = $userInfo['userID'];
         }
-        $row = $this->Employee->getList( $q, $exclude );
+        $row = $this->Employee->getList( $q, $departmentID, $designationID, $exclude );
 
         if( sizeof( $row ) > 0 ) {
             $UserImageModel = UserImageModel::getInstance( );

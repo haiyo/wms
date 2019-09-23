@@ -257,9 +257,9 @@ var MarkaxisEmployee = (function( ) {
 
             this.uploadCrop = $("#upload-demo").croppie({
                 viewport: {
-                    width: 290,
-                    height: 290,
-                    type: "circle"
+                    width: 306,
+                    height: 306,
+                    //type: "circle"
                 },
                 enableExif: true
             });
@@ -1058,7 +1058,7 @@ var MarkaxisEmployee = (function( ) {
                             }
                             else {
                                 $(".photo-wrap").remove( );
-                                $(".defPhoto img").removeClass("hide");
+                                $(".defPhoto").removeClass("hide");
                                 swal("Done!", $("#employeeName").text() + "'s photo has been successfully deleted!", "success");
                                 return;
                             }
