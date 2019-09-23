@@ -1,37 +1,4 @@
 
-<style>
-    .col-xl-3 {
-        -ms-flex: 0 0 25%;
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-    .img-fluid {
-        width:100%;
-        max-width: 100%;
-        height: auto;
-    }
-    .text-wrap {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .userCard {
-        min-height:390px;
-        margin-bottom: 18px;
-    }
-    .noUser {
-        padding: 100px 0 50px;
-        text-align:center;
-        font-size:28px;
-        font-weight:bold;
-    }
-    .contactText {
-        font-size:14px;
-    }
-    .content {
-        position: relative !important;
-    }
-</style>
 <div class="tab-pane fade show" id="employeeList">
 
     <div class="row">
