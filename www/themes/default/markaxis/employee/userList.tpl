@@ -3,17 +3,15 @@
 
     <div class="row">
         <div class="list-action-btns">
-            <div id="DataTables_Table_0_filter" class="dataTables_filter" style="margin:0 10px 0">
-                <label>
-                    <input type="search" id="searchUser" placeholder="Search Name or Email" style="width: 365px;">
-                </label>
+            <div class="dataTables_filter">
+                <input type="search" id="searchUser" placeholder="Search Name or Email" style="width:100%;">
             </div>
 
-            <div class="dataTables_length" id="DataTables_Table_1_length" style="width:300px;">
+            <div class="dataTables_filter">
                 <?TPL_DEPARTMENT_LIST?>
             </div>
 
-            <div class="dataTables_length" id="DataTables_Table_1_length" style="width:300px;">
+            <div class="dataTables_filter">
                 <?TPL_DESIGNATION_LIST?>
             </div>
         </div>

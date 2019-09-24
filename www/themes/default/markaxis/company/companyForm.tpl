@@ -1,11 +1,13 @@
 <style>
-    .defPhoto, .upload-demo-wrap,
-    .company-logo {
+    .defPhoto, .upload-demo-wrap    {
         width: 424px;
         height: 116px;
     }
     .card-slip {
         margin-top:20px;
+    }
+    #companyForm .p-10 {
+        padding: 10px 0 !important;
     }
 </style>
 <script>
@@ -274,16 +276,6 @@
                 </div>
             </div>
 
-            <!--<div class="sidebar-content">
-                <div class="card slip-card">
-                    <div class="card-header bg-transparent header-elements-inline">
-                        <span class="text-uppercase font-size-sm font-weight-semibold">Upload Payslip Logo</span>
-                    </div>
-
-
-                </div>
-            </div>-->
-
         </div>
 
         <div class="company-panel panel-flat">
@@ -291,99 +283,131 @@
                 <form id="companyForm" class="stepy" action="#">
                     <input type="hidden" id="companyLogoField" name="companyLogoField" />
                     <input type="hidden" id="slipLogoField" name="slipLogoField" />
-                    <div class="row p-20 mb-0">
+                    <div class="row p-10 mb-0">
                         <div class="col-md-3">
-                            <label>Company Registration Number: <span class="text-danger-400">*</span></label>
-                            <input type="text" name="regNumber" id="regNumber" placeholder="Official registration number"
-                                   class="form-control" value="<?TPLVAR_REG_NUMBER?>" />
+                            <div class="form-group">
+                                <label>Company Registration Number: <span class="text-danger-400">*</span></label>
+                                <input type="text" name="regNumber" id="regNumber" placeholder="Official registration number"
+                                       class="form-control" value="<?TPLVAR_REG_NUMBER?>" />
+                            </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label>Company Name:</label>
-                            <input type="text" name="name" id="name" placeholder="Example Corporation"
-                                   class="form-control" value="<?TPLVAR_NAME?>" />
+                            <div class="form-group">
+                                <label>Company Name:</label>
+                                <input type="text" name="name" id="name" placeholder="Example Corporation"
+                                       class="form-control" value="<?TPLVAR_NAME?>" />
+                            </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label>Company Address:</label>
-                            <input type="text" name="address" id="address" placeholder="111 San Francisco, CA 94110"
-                                   class="form-control" value="<?TPLVAR_ADDRESS?>" />
+                            <div class="form-group">
+                                <label>Company Address:</label>
+                                <input type="text" name="address" id="address" placeholder="111 San Francisco, CA 94110"
+                                       class="form-control" value="<?TPLVAR_ADDRESS?>" />
+                            </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label>Company Email:</label>
-                            <input type="text" name="email" id="email" placeholder="example@company.com"
-                                   class="form-control" value="<?TPLVAR_EMAIL?>" />
-                        </div>
-
-                    </div>
-
-                    <div class="row p-20 mb-0">
-                        <div class="col-md-3">
-                            <label>Company Phone:</label>
-                            <input type="text" name="phone" id="phone" placeholder="+65 111 1111"
-                                   class="form-control" value="<?TPLVAR_PHONE?>" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Company Website:</label>
-                            <input type="text" name="website" id="website" class="form-control"
-                                   placeholder="http://www.example.com" value="<?TPLVAR_WEBSITE?>" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Company Type:</label>
-                            <?TPL_COMPANY_TYPE_LIST?>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Main Operation Country:</label>
-                            <?TPL_COUNTRY_LIST?>
-                        </div>
-                    </div>
-
-                    <div class="row p-20 mb-0">
-                        <div class="col-md-3">
-                            <label>Main Theme Color:</label>
-                            <input type="text" id="mainColor" name="mainColor" class="form-control jscolor" value="<?TPLVAR_MAIN_COLOR?>" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Navigation Color:</label>
-                            <input type="text" id="navigationColor" name="navigationColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_COLOR?>" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Navigation Text Color:</label>
-                            <input type="text" id="navigationTextColor" name="navigationTextColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_TEXT_COLOR?>" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label>Navigation Text Hover Color:</label>
-                            <input type="text" id="navigationTextHoverColor" name="navigationTextHoverColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_TEXT_HOVER_COLOR?>" />
+                            <div class="form-group">
+                                <label>Company Email:</label>
+                                <input type="text" name="email" id="email" placeholder="example@company.com"
+                                       class="form-control" value="<?TPLVAR_EMAIL?>" />
+                            </div>
                         </div>
 
                     </div>
 
-                    <div class="row p-20 mb-0">
+                    <div class="row p-10 mb-0">
                         <div class="col-md-3">
-                            <label>Dashboard Background Color:</label>
-                            <input type="text" id="dashboardBgColor" name="dashboardBgColor" class="form-control jscolor" value="<?TPLVAR_DASHBG_COLOR?>" />
+                            <div class="form-group">
+                                <label>Company Phone:</label>
+                                <input type="text" name="phone" id="phone" placeholder="+65 111 1111"
+                                       class="form-control" value="<?TPLVAR_PHONE?>" />
+                            </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label>Buttons Color:</label>
-                            <input type="text" id="buttonColor" name="buttonColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_COLOR?>" />
+                            <div class="form-group">
+                                <label>Company Website:</label>
+                                <input type="text" name="website" id="website" class="form-control"
+                                       placeholder="http://www.example.com" value="<?TPLVAR_WEBSITE?>" />
+                            </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label>Buttons Hover Color:</label>
-                            <input type="text" id="buttonHoverColor" name="buttonHoverColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_HOVER_COLOR?>" />
+                            <div class="form-group">
+                                <label>Company Type:</label>
+                                <?TPL_COMPANY_TYPE_LIST?>
+                            </div>
                         </div>
 
                         <div class="col-md-3">
-                            <label>Buttons Focus Color:</label>
-                            <input type="text" id="buttonFocusColor" name="buttonFocusColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_FOCUS_COLOR?>" />
+                            <div class="form-group">
+                                <label>Main Operation Country:</label>
+                                <?TPL_COUNTRY_LIST?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row p-10 mb-0">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Main Theme Color:</label>
+                                <input type="text" id="mainColor" name="mainColor" class="form-control jscolor" value="<?TPLVAR_MAIN_COLOR?>" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Navigation Color:</label>
+                                <input type="text" id="navigationColor" name="navigationColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_COLOR?>" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Navigation Text Color:</label>
+                                <input type="text" id="navigationTextColor" name="navigationTextColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_TEXT_COLOR?>" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Navigation Text Hover Color:</label>
+                                <input type="text" id="navigationTextHoverColor" name="navigationTextHoverColor" class="form-control jscolor" value="<?TPLVAR_NAVIGATION_TEXT_HOVER_COLOR?>" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row p-10 mb-0">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Dashboard Background Color:</label>
+                                <input type="text" id="dashboardBgColor" name="dashboardBgColor" class="form-control jscolor" value="<?TPLVAR_DASHBG_COLOR?>" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Buttons Color:</label>
+                                <input type="text" id="buttonColor" name="buttonColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_COLOR?>" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Buttons Hover Color:</label>
+                                <input type="text" id="buttonHoverColor" name="buttonHoverColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_HOVER_COLOR?>" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Buttons Focus Color:</label>
+                                <input type="text" id="buttonFocusColor" name="buttonFocusColor" class="form-control jscolor" value="<?TPLVAR_BUTTON_FOCUS_COLOR?>" />
+                            </div>
                         </div>
                     </div>
 
