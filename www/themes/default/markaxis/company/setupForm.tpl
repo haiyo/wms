@@ -6,7 +6,6 @@
         <div class="sidebar sidebar-secondary sidebar-default">
             <div class="sidebar-content profile-content">
 
-                <!-- Sidebar search -->
                 <div class="sidebar-category">
 
                     <div class="thumbnail no-padding">
@@ -40,7 +39,6 @@
                     </div>
 
                 </div>
-                <!-- /sidebar search -->
 
             </div>
         </div>
