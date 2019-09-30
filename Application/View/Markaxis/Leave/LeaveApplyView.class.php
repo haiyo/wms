@@ -126,7 +126,7 @@ class LeaveApplyView {
                 }
             }
             else {
-                $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_NO_ONE_ON_LEAVE_TOMORROW');
+                $vars['LANG_NOT_TOMORROW'] = $this->L10n->getContents('LANG_NO_ONE_ON_LEAVE_TOMORROW');
             }
         }
         return $this->View->render( 'markaxis/leave/whosOnLeave.tpl', array_merge( $this->L10n->getContents( ), $vars ) );

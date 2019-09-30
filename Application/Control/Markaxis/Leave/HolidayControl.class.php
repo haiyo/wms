@@ -63,33 +63,33 @@ class HolidayControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function addType( ) {
         $output = Control::getOutputArray( );
-        $this->LeaveView->renderTypeForm( $output['form'] );
-    }
+        $this->HolidayView->renderTypeForm( $output['form'] );
+    } */
 
 
     /**
      * Render main navigation
      * @return string
-     */
+
     public function editType( $args ) {
         $output = Control::getOutputArray( );
         $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-        $this->LeaveView->renderTypeForm( $output['form'], $ltID );
-    }
+        $this->HolidayView->renderTypeForm( $output['form'], $ltID );
+    } */
 
 
     /**
      * Render main navigation
      * @return string
-     */
-    public function saveType( ) {;
+    /
+    public function saveType( ) {
         $post = Control::getPostData( );
         echo json_encode( $post );
         exit;
-    }
+    } */
 }
 ?>

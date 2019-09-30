@@ -162,6 +162,7 @@ class LeaveApply extends \DAO {
                                    WHERE la.userID = "' . (int)$userID . '" AND 
                                          la.status = "1" AND
                                          la.cancelled = "0" AND
+                                         lt.paidLeave = "0" AND
                                          lt.deleted = "0"',
                                    __FILE__, __LINE__ );
 
