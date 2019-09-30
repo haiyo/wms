@@ -47,10 +47,10 @@
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: item -->
-        <!-- BEGIN DYNAMIC BLOCK: hiddenField -->
-        <input type="hidden" id="<?TPLVAR_HIDDEN_ID?>" name="<?TPLVAR_HIDDEN_NAME?>" value="<?TPLVAR_VALUE?>" />
-        <!-- END DYNAMIC BLOCK: hiddenField -->
     </div>
+    <!-- BEGIN DYNAMIC BLOCK: hiddenField -->
+    <input type="hidden" id="<?TPLVAR_HIDDEN_ID?>" name="<?TPLVAR_HIDDEN_NAME?>" value="<?TPLVAR_VALUE?>" />
+    <!-- END DYNAMIC BLOCK: hiddenField -->
 
     <div id="processSummary">
         <?TPL_PROCESS_SUMMARY?>

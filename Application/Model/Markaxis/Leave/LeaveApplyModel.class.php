@@ -206,9 +206,9 @@ class LeaveApplyModel extends \Model {
             $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, salary' );
 
             $OfficeModel = OfficeModel::getInstance( );
-            $workDays  = $OfficeModel->getWorkingDaysByRange( $processDate->format('Y-m-') . '01',
-                                                              $processDate->format('Y-m-') . $processDate->format('t'),
-                                                              $empInfo['officeID'] );
+            $workDays = $OfficeModel->getWorkingDaysByRange( $processDate->format('Y-m-') . '01',
+                                                             $processDate->format('Y-m-') . $processDate->format('t'),
+                                                             $empInfo['officeID'] );
 
             $daysWorked = ($workDays-$totalApplied);
 
