@@ -41,19 +41,45 @@ class NewsAnnouncementModel extends \Model {
 
 
     /**
-     * Add new notification
-     * @return int
+     * Get File Information
+     * @return mixed
      */
-    public function notify( IObservable $object ) {
-        $this->info = $object->getInfo( );
+    public function getResults( $post ) {
+        $this->NewsAnnouncement->setLimit( $post['start'], $post['length'] );
 
-        if( isset( $this->info['userID'] ) && isset( $this->info['toUserID'] ) &&
-            isset( $this->info['message'] ) && isset( $this->info['url'] ) ) {
-            if( isset( $this->info['userID'] ) || !$this->info['ceated'] ) {
-                $this->info['created'] = date( 'Y-m-d H:i:s' );
+        $order = 'title';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        if( isset( $post['order'][0]['column'] ) ) {
+            switch( $post['order'][0]['column'] ) {
+                case 1:
+                    $order = 'title';
+                    break;
+                case 2:
+                    $order = 'name';
+                    break;
+                case 3:
+                    $order = 'd.title';
+                    break;
+                case 4:
+                    $order = 'e.email1';
+                    break;
+                case 5:
+                    $order = 'u.mobile';
+                    break;
+                case 6:
+                    $order = 'u.suspended';
+                    break;
             }
-            $this->create( );
         }
+        $results = $this->NewsAnnouncement->getResults( $post['search']['value'], $order . $dir );
+        $total = $results['recordsTotal'];
+        unset( $results['recordsTotal'] );
+
+        return array( 'draw' => (int)$post['draw'],
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
     }
 
 

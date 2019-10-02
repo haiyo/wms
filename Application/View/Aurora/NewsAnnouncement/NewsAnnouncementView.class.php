@@ -69,6 +69,8 @@ class NewsAnnouncementView {
                                             'icon' => 'mi-description',
                                             'text' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
 
+        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js') ) );
+
         $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
 
         $vars['dynamic']['addEmployeeBtn'] = false;

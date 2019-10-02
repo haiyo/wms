@@ -79,6 +79,17 @@ class EmployeeControl {
      * Render main navigation
      * @return void
      */
+    public function results( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->EmployeeModel->getResults( $post ) );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
     public function search( ) {
         $post = Control::getRequest( )->request( POST );
 
@@ -200,17 +211,6 @@ class EmployeeControl {
         $post = Control::getRequest( )->request( POST );
 
         echo json_encode( $this->EmployeeModel->getLogsByUserID( $post, $userID ) );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return void
-     */
-    public function results( ) {
-        $post = Control::getRequest( )->request( POST );
-        echo json_encode( $this->EmployeeModel->getResults( $post ) );
         exit;
     }
 
