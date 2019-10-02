@@ -13,6 +13,7 @@ class NewsAnnouncementControl {
 
 
     // Properties
+    private $NewsAnnouncementModel;
     private $NewsAnnouncementView;
 
 
@@ -21,6 +22,7 @@ class NewsAnnouncementControl {
      * @return void
      */
     function __construct( ) {
+        $this->NewsAnnouncementModel = NewsAnnouncementModel::getInstance( );
         $this->NewsAnnouncementView = new NewsAnnouncementView( );
     }
 
@@ -40,6 +42,17 @@ class NewsAnnouncementControl {
      */
     public function list( ) {
         $this->NewsAnnouncementView->renderList( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function results( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->NewsAnnouncementModel->getResults( $post ) );
+        exit;
     }
 }
 ?>
