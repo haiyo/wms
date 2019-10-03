@@ -36,7 +36,15 @@
                 targets: [1],
                 orderable: true,
                 width: '260px',
-                data: 'contentType'
+                data: 'isNews',
+                render: function(data, type, full, meta) {
+                    if( data == 0 ) {
+                        return Aurora.i18n.NewsAnnouncement.LANG_NEWS;
+                    }
+                    else {
+                        return Aurora.i18n.NewsAnnouncement.LANG_ANNOUNCEMENT;
+                    }
+                }
             },{
                 targets: [2],
                 orderable: true,
@@ -71,9 +79,6 @@
                         '</div>';
                 }
             }],
-            select: {
-                "style": "multi"
-            },
             order: [],
             dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
             language: {
