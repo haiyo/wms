@@ -47,7 +47,8 @@ class NewsAnnouncement extends \DAO {
                    OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
                    OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS na.*, u.userID, CONCAT( u.fname, \' \', u.lname ) AS createdBy
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS na.*, DATE_FORMAT(na.created, "%D %b %Y") AS created,
+                                          u.userID, CONCAT( u.fname, \' \', u.lname ) AS createdBy
                                    FROM news_annoucement na
                                    LEFT JOIN user u ON ( u.userID = na.userID )
                                    WHERE 1 = 1 ' . $q . '

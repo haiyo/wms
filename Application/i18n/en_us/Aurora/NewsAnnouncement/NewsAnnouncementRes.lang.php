@@ -22,6 +22,8 @@ class NewsAnnouncementRes extends Resource {
         $this->contents['LANG_NO_NEWS_OR_ANNOUNCEMENT'] = 'There are currently no news and announcement.';
         $this->contents['LANG_NEWS_ANNOUNCEMENT'] = 'News &amp; Announcement';
         $this->contents['LANG_ADD_NEW_CONTENT'] = 'Add New Content';
+        $this->contents['LANG_ANNOUNCEMENT'] = 'Announcement';
+        $this->contents['LANG_NEWS'] = 'News';
 	}
 }
 ?>
