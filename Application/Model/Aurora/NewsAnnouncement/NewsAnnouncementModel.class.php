@@ -1,7 +1,9 @@
 <?php
 namespace Aurora\NewsAnnouncement;
 use \Aurora\User\UserModel;
-use \Library\Interfaces\IObservable, \Library\Helper\HTMLHelper;
+use \Library\Validator\Validator;
+use \Library\Validator\ValidatorModule\IsEmpty;
+use \Library\Exception\ValidatorException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -31,6 +33,15 @@ class NewsAnnouncementModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBynaID( $naID ) {
+        return $this->NewsAnnouncement->getBynaID( $naID );
+    }
+
+
+    /**
      * Return list by userID
      * @return mixed
      */
@@ -47,7 +58,7 @@ class NewsAnnouncementModel extends \Model {
     public function getResults( $post ) {
         $this->NewsAnnouncement->setLimit( $post['start'], $post['length'] );
 
-        $order = 'title';
+        $order = 'created';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
 
         if( isset( $post['order'][0]['column'] ) ) {
@@ -56,19 +67,13 @@ class NewsAnnouncementModel extends \Model {
                     $order = 'title';
                     break;
                 case 2:
-                    $order = 'name';
+                    $order = 'contentType';
                     break;
                 case 3:
                     $order = 'd.title';
                     break;
                 case 4:
-                    $order = 'e.email1';
-                    break;
-                case 5:
-                    $order = 'u.mobile';
-                    break;
-                case 6:
-                    $order = 'u.suspended';
+                    $order = 'created';
                     break;
             }
         }
@@ -84,31 +89,50 @@ class NewsAnnouncementModel extends \Model {
 
 
     /**
-     * Add new notification
+     * Set Content Info
+     * @return bool
+     */
+    public function isValid( $data ) {
+        $Validator = new Validator( );
+
+        $this->info['naID'] = (int)$data['naID'];
+        $this->info['title'] = Validator::stripTrim( $data['naTitle'] );
+        $this->info['content'] = Validator::stripTrimSelectedTags( $data['naContent'], array( 'script' ) );
+
+        $Validator->addModule('contentType', new IsEmpty( $data['contentType'] ) );
+        $Validator->addModule('title', new IsEmpty( $this->info['title'] ) );
+        $Validator->addModule('content', new IsEmpty( $this->info['content'] ) );
+
+        $userInfo = UserModel::getInstance( )->getInfo( );
+
+        $this->info['userID'] = $userInfo['userID'];
+        $this->info['isNews'] = $data['contentType'] == 'news' ? 1 : 0;
+        $this->info['created'] = date( 'Y-m-d H:i:s' );
+
+        try {
+            $Validator->validate( );
+        }
+        catch( ValidatorException $e ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Save Content information
      * @return int
      */
-    public function create( ) {
-        $info = array( );
-        $info['message'] = $this->info['message'];
-        $info['url'] = $this->info['url'];
-        $info['created'] = $this->info['created'];
-
-        $HTMLHelper = new HTMLHelper( );
-        $vars = array( );
-        $vars['TPLVAR_FNAME'] = $this->userInfo['fname'];
-        $vars['TPLVAR_LNAME'] = $this->userInfo['lname'];
-        $info['message'] = $HTMLHelper->parseTemplate( $this->info['message'], $vars );
-        $nID = $this->Notification->insert( 'notification', $info );
-
-        if( is_array( $this->info['toUserID'] ) ) {
-            foreach( $this->info['toUserID'] as $toUserID ) {
-                $info = array( );
-                $info['nID'] = (int)$nID;
-                $info['userID'] = (int)$this->info['userID'];
-                $info['toUserID'] = (int)$toUserID;
-                $this->Notification->insert( 'notification_user', $info );
-            }
+    public function save( ) {
+        if( !$this->info['naID'] ) {
+            unset( $this->info['naID'] );
+            $this->info['naID'] = $this->NewsAnnouncement->insert( 'news_annoucement', $this->info );
         }
+        else {
+            $this->NewsAnnouncement->update( 'news_annoucement', $this->info, 'WHERE naID = "' . (int)$this->info['naID'] . '"' );
+        }
+        return $this->info['naID'];
     }
 }
 ?>

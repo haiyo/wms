@@ -74,7 +74,7 @@ class Validator {
     * stripSelectedTags( '<b>Person:</b> <strong>Salavert</strong>', array( 'b', 'strong' ) );
     * @return string
     */
-    public function stripSelectedTags( $text, $tags=array( ) ) {
+    public static function stripTrimSelectedTags( $text, $tags=array( ) ) {
         $args = func_get_args( );
         $text = array_shift( $args );
         $tags = func_num_args( ) > 2 ? array_diff( $args,array( $text ) )  : (array)$tags;
@@ -84,7 +84,7 @@ class Validator {
                 $text = str_replace( $found[0], $found[1], $text );
             }
         }
-        return $text;
+        return trim( $text );
     }
 }
 ?>

@@ -274,7 +274,12 @@
                 targets: [3],
                 orderable: true,
                 width: '260px',
-                data: 'reason'
+                data: 'reason',
+                render: function (data, type, full, meta) {
+                    if( data == "" ) {
+                        return '&nbsp; &mdash; &nbsp;';
+                    }
+                }
             },{
                 targets: [4],
                 orderable: true,

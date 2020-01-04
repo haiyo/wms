@@ -60,12 +60,13 @@ $(document).ready(function( ) {
         .attr("disabled", true)
         .html('Complete Process <i class="icon-arrow-right14 position-right"></i>');
 
-    $("#employeeForm-step-1 .stepy-navigator button")
+    $("#employeeForm-step-1 .stepy-navigator a:nth-child(2)")
         .removeClass("bg-purple-400")
         .addClass("bg-warning-400")
+        .html('Confirm &amp; Finalize <i class="icon-check position-right"></i>');
 
-    $("#employeeForm-step-1 .stepy-navigator button span")
-        .html('Confirm &amp; Payment <i class="icon-check position-right"></i>');
+    $("#employeeForm-step-2 .stepy-navigator button span")
+        .html('Download CPF File <i class="icon-check position-right"></i>');
 
     var dt = $(".employeeTable").DataTable({
         "processing": true,
@@ -216,7 +217,7 @@ $(document).ready(function( ) {
             targets: [2],
             orderable: true,
             width: '220px',
-            data: 'net',
+            data: 'claim',
             render: function( data ) {
                 if( typeof data !== 'string' ) {
                     data = "0";
@@ -227,7 +228,7 @@ $(document).ready(function( ) {
             targets: [3],
             orderable: true,
             width: '220px',
-            data: 'claim',
+            data: 'levies',
             render: function( data ) {
                 if( typeof data !== 'string' ) {
                     data = "0";
@@ -238,7 +239,7 @@ $(document).ready(function( ) {
             targets: [4],
             orderable: true,
             width: '220px',
-            data: 'levies',
+            data: 'contributions',
             render: function( data ) {
                 if( typeof data !== 'string' ) {
                     data = "0";
@@ -249,7 +250,7 @@ $(document).ready(function( ) {
             targets: [5],
             orderable: true,
             width: '220px',
-            data: 'contributions',
+            data: 'net',
             render: function( data ) {
                 if( typeof data !== 'string' ) {
                     data = "0";
@@ -325,6 +326,131 @@ $(document).ready(function( ) {
             $(api.column(5).footer( )).html( Aurora.String.formatMoney( contriTotal.toString( ) ) );
         }
     });
+
+
+    var ft = $(".finalizedTable").DataTable({
+        "processing": true,
+        "serverSide": true,
+        "fnCreatedRow": function (nRow, aData, iDataIndex) {
+            $(nRow).attr('id', 'row' + aData['userID']);
+        },
+        ajax: {
+            url: Aurora.ROOT_URL + "admin/payroll/getAllFinalized/" + $("#processDate").val( ),
+            type: "POST",
+            data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+        },
+        initComplete: function() {
+            /*var api = this.api();
+            var that = this;
+            $('input').on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });*/
+        },
+        autoWidth: false,
+        mark: true,
+        columnDefs: [{
+            targets: [0],
+            orderable: true,
+            width: '200px',
+            data: 'name',
+            render: function(data, type, full, meta) {
+                return '<img src="' + full['photo'] + '" width="32" height="32" style="margin-right:10px" />' + data;
+            }
+        },{
+            targets: [1],
+            orderable: true,
+            width: '220px',
+            data: 'method'
+        },{
+            targets: [2],
+            orderable: true,
+            width: '220px',
+            data: 'bankName'
+        },{
+            targets: [3],
+            orderable: true,
+            width: '220px',
+            data: 'number'
+        },{
+            targets: [4],
+            orderable: true,
+            width: '220px',
+            data: 'net',
+            render: function( data ) {
+                if( typeof data !== 'string' ) {
+                    data = "0";
+                }
+                return Aurora.String.formatMoney( data );
+            }
+        },{
+            targets: [5],
+            orderable: true,
+            width: '100px',
+            className : "text-center",
+            data: 'userID',
+            render: function( data ) {
+                return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
+                    $("#processDate").val( ) + '/slip" target="_blank">View PDF</a>';
+            }
+        }],
+        order: [],
+        dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
+        language: {
+            search: '',
+            searchPlaceholder: 'Search Employee Name',
+            lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
+            paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+        },
+        drawCallback: function () {
+            $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+        },
+        preDrawCallback: function() {
+            $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+        },
+        /*footerCallback: function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ? i : 0;
+            };
+
+            // Total over this page
+            var grossTotal = api.column(1, {page:"current"} ).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+            var netTotal = api.column(2, {page:"current"} ).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+            var claimTotal = api.column(3, {page:"current"} ).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+            var levyTotal = api.column(4, {page:"current"} ).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+            var contriTotal = api.column(5, {page:"current"} ).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+            // Update footer
+            $(api.column(1).footer( )).html( Aurora.String.formatMoney( grossTotal.toString( ) ) );
+            $(api.column(2).footer( )).html( Aurora.String.formatMoney( netTotal.toString( ) ) );
+            $(api.column(3).footer( )).html( Aurora.String.formatMoney( claimTotal.toString( ) ) );
+            $(api.column(4).footer( )).html( Aurora.String.formatMoney( levyTotal.toString( ) ) );
+            $(api.column(5).footer( )).html( Aurora.String.formatMoney( contriTotal.toString( ) ) );
+        }*/
+    });
+
+
+
 
     $("#modalCalPayroll").on("show.bs.modal", function(e) {
         var $invoker = $(e.relatedTarget);
@@ -449,6 +575,7 @@ $(document).ready(function( ) {
     $(".officeFilter").insertAfter(".dataTables_filter");
     $("#employeeForm-step-0 .stepy-navigator").insertAfter("#employeeForm-step-0 .dataTables_filter");
     $("#employeeForm-step-1 .stepy-navigator").insertAfter("#employeeForm-step-1 .dataTables_filter");
+    $("#employeeForm-step-2 .stepy-navigator").insertAfter("#employeeForm-step-2 .dataTables_filter");
 
     $("#office").select2( );
     $(".select").select2({minimumResultsForSearch: -1});

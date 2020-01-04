@@ -34,7 +34,7 @@ class NotificationModel extends \Model {
      * Return list by userID
      * @return mixed
      */
-    public function getByUserID( $curPage=0, $pageLimit=10 ) {
+    public function getByUserID( $curPage=0, $pageLimit=5 ) {
         $this->Notification->setLimit( $curPage, $pageLimit );
         return $this->Notification->getByUserID( $this->userInfo['userID'] );
     }

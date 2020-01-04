@@ -81,8 +81,10 @@
     right: 0;
 }
 .dashboard-side-header {
-    padding:17px 0px 0 14px;
+    padding:12px 0px 0 14px;
     color: #fff;
+    margin: 0 0 0 80px;
+    width:330px;
 }
 .dashboard-side-role {
     width:100%;
@@ -243,12 +245,10 @@
 .header-inline {
     background-color: #705790;
 }
-.header-inline div {
-    float:left;
-}
 .header-inline .avatar {
     margin-top: -11px;
     margin-left: -18px;
+    float:left;
 }
 .header-inline img {
     max-height:95px;

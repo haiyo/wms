@@ -77,10 +77,10 @@
             <tr>
                 <th>Employee</th>
                 <th>Gross</th>
-                <th>Net</th>
                 <th>Claims</th>
                 <th>Levies</th>
                 <th>Contributions</th>
+                <th>Net</th>
                 <th>Payslips</th>
             </tr>
             </thead>
@@ -95,6 +95,24 @@
                 <th>&nbsp;</th>
             </tr>
             </tfoot>
+        </table>
+    </fieldset>
+
+    <fieldset>
+        <legend class="text-semibold">Confirm &amp; Finalize</legend>
+
+        <table class="table table-hover datatable finalizedTable">
+            <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Payment Method</th>
+                <th>Bank Name</th>
+                <th>Account Details</th>
+                <th>Net</th>
+                <th>Payslips</th>
+            </tr>
+            </thead>
+
         </table>
     </fieldset>
 

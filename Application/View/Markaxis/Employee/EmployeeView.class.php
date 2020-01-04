@@ -73,12 +73,7 @@ class EmployeeView {
      * @return string
      */
     public function renderList( ) {
-        $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/list',
-                                            'icon' => 'icon-users4',
-                                            'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
-
-        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
-
+        $vars = array( );
         $vars['dynamic']['addEmployeeBtn'] = false;
 
         $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
@@ -86,7 +81,7 @@ class EmployeeView {
             $vars['dynamic']['addEmployeeBtn'] = true;
         }
 
-        return $this->View->render( 'markaxis/employee/list.tpl', $vars );
+        return $this->View->render( 'markaxis/employee/list.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
     }
 
 

@@ -46,7 +46,7 @@ class EmployeeControl {
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
             $includeOwn = isset( $args[2] ) ? true : false;
-            echo json_encode( $this->EmployeeModel->getList( $args[1], $includeOwn ) );
+            echo json_encode( $this->EmployeeModel->getList( $args[1], 0, 0, $includeOwn ) );
             exit;
         }
     }

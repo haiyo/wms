@@ -81,17 +81,20 @@
             <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Pending Your Action</span>
         </div>
 
-        <div id="noPendingAction">
-            <div class="card">
-                <div class="card-body">
-                    <div class="no-notification text-center">
-                        <i class="icon-pulse2 mr-3 icon-3x"></i>
-                        <span>You have no pending action at the moment...</span>
+        <div class="actions" style="margin-bottom: 120px;">
+            <div id="noPendingAction">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="no-notification text-center">
+                            <i class="icon-pulse2 mr-3 icon-3x"></i>
+                            <span>You have no pending action at the moment...</span>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div id="pendingAction"></div>
         </div>
-        <div id="pendingAction"></div>
+
 
     </div>
 

@@ -22,7 +22,7 @@
 
                 <div class="media-body">
                     <div class="d-flex justify-content-between"><?TPLVAR_DATE?></div>
-                    <a href="#"><?TPLVAR_TITLE?></a>
+                    <a data-id="<?TPLVAR_NAID?>" data-toggle="modal" data-target="#modalContent"><?TPLVAR_TITLE?></a>
                 </div>
             </li>
             <!-- END DYNAMIC BLOCK: list -->

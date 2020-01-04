@@ -49,13 +49,13 @@
                         <div class="col-md-6">
                             <div class="form-checkbox-group">
                                 <input type="checkbox" class="dt-checkboxes check-input" id="firstHalf" name="firstHalf" value="1" />
-                                <label for="firstHalf" class="ml-5">Half day on first day (PM)</label>
+                                <label for="firstHalf" class="ml-5">Half day on first day</label>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <input type="checkbox" class="dt-checkboxes check-input" id="secondHalf" name="secondHalf" value="1" />
-                            <label for="secondHalf" class="ml-5">Half day on last day (AM)</label>
+                            <label for="secondHalf" class="ml-5">Half day on last day</label>
                         </div>
 
                         <div id="dateHelpWrapper" class="col-md-12 hide">

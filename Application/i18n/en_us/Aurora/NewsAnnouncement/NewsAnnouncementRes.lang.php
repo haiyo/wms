@@ -24,6 +24,12 @@ class NewsAnnouncementRes extends Resource {
         $this->contents['LANG_ADD_NEW_CONTENT'] = 'Add New Content';
         $this->contents['LANG_ANNOUNCEMENT'] = 'Announcement';
         $this->contents['LANG_NEWS'] = 'News';
+        $this->contents['LANG_CREATE_NEW_CONTENT'] = 'Create New Content';
+        $this->contents['LANG_SELECT_CONTENT_TYPE'] = 'Select Content Type';
+        $this->contents['LANG_TITLE'] = 'Title';
+        $this->contents['LANG_PLEASE_SELECT_CONTENT_TYPE'] = 'Please select a Content Type';
+        $this->contents['LANG_PLEASE_ENTER_TITLE'] = 'Please enter title';
+        $this->contents['LANG_PLEASE_ENTER_CONTENT'] = 'Please enter content';
 	}
 }
 ?>

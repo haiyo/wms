@@ -32,7 +32,28 @@ class NewsAnnouncementControl {
      * @return string
      */
     public function dashboard( ) {
-        Control::setOutputArrayAppend( array( 'sidebarCards' => $this->NewsAnnouncementView->renderNewsAnnouncement( ) ) );
+        Control::setOutputArrayAppend( $this->NewsAnnouncementView->renderNewsAnnouncement( ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getContent( $data ) {
+        $vars = array( );
+        $naID = isset( $data[1] ) ? $data[1] : $data;
+
+        if( $naID && $info = $this->NewsAnnouncementModel->getBynaID( $naID ) ) {
+            $vars['data'] = $info;
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 1;
+            $vars['errMsg'] = $this->NewsAnnouncementModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
     }
 
 
@@ -53,6 +74,28 @@ class NewsAnnouncementControl {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->NewsAnnouncementModel->getResults( $post ) );
         exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function save( ) {
+        if( Control::hasPermission( 'Aurora', 'add_modify_news' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+            if( $this->NewsAnnouncementModel->isValid( $post ) ) {
+                $this->NewsAnnouncementModel->save( );
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->NewsAnnouncementModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>
