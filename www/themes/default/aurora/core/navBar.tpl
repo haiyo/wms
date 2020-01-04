@@ -98,8 +98,8 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right width-200">
-                    <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/profile"><i class="icon-user-plus"></i> My profile</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/settings"><i class="icon-cog5"></i> Account settings</a></li>
                     <li><a href="<?TPLVAR_ROOT_URL?>admin/logout"><i class="icon-switch2"></i> Logout</a></li>
                 </ul>
             </li>

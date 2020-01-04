@@ -129,7 +129,11 @@
     </task>
     <task type="employee/getCompetency,employee/getCompetencyResults,employee/getCompetencyToken,
                 employee/getCountList,employee/saveCompetency,employee/deleteCompetency">
+        <observer controller="Aurora/User/UserRoleControl"></observer>
+        <observer controller="Markaxis/Employee/DesignationControl"></observer>
+        <observer controller="Markaxis/Employee/ContractControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
     </task>
     <task type="employee/results">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
@@ -227,6 +231,9 @@
     <task type="payroll/getAllProcessed">
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
+    <task type="payroll/getAllFinalized">
+        <observer controller="Markaxis/Payroll/PayrollFinalizedControl"></observer>
+    </task>
     <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
     </task>
@@ -316,6 +323,9 @@
     </task>
     <task type="positionList">
         <observer controller="Markaxis/Employee/PositionControl"></observer>
+    </task>
+    <task type="user/profile,user/settings">
+        <observer controller="Aurora/User/UserControl"></observer>
     </task>
     <task type="userRole">
         <observer controller="Aurora/User/UserRoleControl"></observer>

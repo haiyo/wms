@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\NewsAnnouncement;
-use \Aurora\Admin\AdminView;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
+use \Library\Helper\Aurora\NewsAnnouncementHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -38,7 +39,7 @@ class NewsAnnouncementView {
 
     /**
      * Render Tab
-     * @return string
+     * @return mixed
      */
     public function renderNewsAnnouncement( ) {
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
@@ -52,11 +53,14 @@ class NewsAnnouncementView {
                 $ico = $row['isNews'] ? 'description' : 'announcement';
 
                 $vars['dynamic']['list'][] = array( 'TPLVAR_ICO' => $ico,
+                                                    'TPLVAR_NAID' => $row['naID'],
                                                     'TPLVAR_TITLE' => $row['title'],
                                                     'TPLVAR_DATE' => $row['created'] );
             }
         }
-        return $this->View->render( 'aurora/newsAnnouncement/sideCard.tpl', $vars );
+        return array( 'js' => array( 'aurora' => array( 'newsAnnouncement.js' ) ),
+                      'sidebarCards' => $this->View->render( 'aurora/newsAnnouncement/sideCard.tpl', $vars ),
+                      'content' => $this->View->render( 'aurora/newsAnnouncement/modalContent.tpl', $vars ) );
     }
 
 
@@ -70,9 +74,16 @@ class NewsAnnouncementView {
                                             'text' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
 
         $this->View->setJScript( array( 'locale' => $this->L10n->getL10n( ),
-                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js') ) );
+                                        'jquery' => array( 'jquery.validate.min.js' ),
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js' ),
+                                        'plugins/editors' => array( 'ckeditor/ckeditor.js' ) ) );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
+        $SelectListView = new SelectListView( );
+        $contentTypeList  = $SelectListView->build( 'contentType', NewsAnnouncementHelper::getL10nList( ),'', 'Select Content Type' );
+
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'LANG_LINK' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT'),
+                       'TPLVAR_CONTENT_TYPE_LIST' => $contentTypeList ) );
 
         $vars['dynamic']['addEmployeeBtn'] = false;
 

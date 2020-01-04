@@ -5,7 +5,9 @@
 
     <div class="card-body">
         <div class="row">
-            <div class="col-md-12 on-leave-header"><?LANG_TODAY?> <span class="badge bg-dark count-pill ml-5"><?TPLVAR_TODAY_COUNT?></span></div>
+            <div class="col-md-12 on-leave-header"><?LANG_TODAY?> <?TPLVAR_DAY?>
+                <span class="badge bg-dark count-pill ml-5"><?TPLVAR_TODAY_COUNT?></span>
+            </div>
             <div class="col-md-12">
                 <ul class="media-list">
                     <!-- BEGIN DYNAMIC BLOCK: noUserToday -->
@@ -27,7 +29,9 @@
 
 
         <div class="row">
-            <div class="col-md-12 on-leave-header"><?LANG_TOMORROW?> <span class="badge bg-dark count-pill ml-5"><?TPLVAR_TOMORROW_COUNT?></span></div>
+            <div class="col-md-12 on-leave-header"><?LANG_TOMORROW?> <?TPLVAR_TOMORROW_DAY?>
+                <span class="badge bg-dark count-pill ml-5"><?TPLVAR_TOMORROW_COUNT?></span>
+            </div>
             <div class="col-md-12">
                 <ul class="media-list">
                     <!-- BEGIN DYNAMIC BLOCK: noUserTomorrow -->

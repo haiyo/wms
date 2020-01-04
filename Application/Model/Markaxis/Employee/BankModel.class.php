@@ -78,7 +78,7 @@ class BankModel extends \Model {
             }
         }
 
-        if( $this->isFoundByUserID( $data ) ) {
+        if( $this->isFoundByUserID( $data['userID'] ) ) {
             $this->Bank->update( 'employee_bank', $saveInfo, 'WHERE userID = "' . (int)$data['userID'] . '"' );
         }
         else {

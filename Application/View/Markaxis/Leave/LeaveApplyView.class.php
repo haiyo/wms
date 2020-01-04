@@ -83,6 +83,8 @@ class LeaveApplyView {
         $vars['dynamic']['noUserToday'] = true;
         $vars['dynamic']['userToday'] = false;
 
+        $vars['TPLVAR_DAY'] = date('l' );
+
         if( $officeInfo && !in_array( date('N'), $officeInfo ) ) {
             $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_ITS_HOLIDAY');
         }
@@ -106,13 +108,16 @@ class LeaveApplyView {
         
         $vars['dynamic']['noUserTomorrow'] = true;
         $vars['dynamic']['userTomorrow'] = false;
-        $tomorrowDay = date('N')+1;
 
-        if( $officeInfo && !in_array( $tomorrowDay == 8 ? 1 : $tomorrowDay, $officeInfo ) ) {
+        $tomorrowTime = strtotime('+1 day');
+        $tomorrowNum  = date('N')+1;
+        $vars['TPLVAR_TOMORROW_DAY'] = date('l', $tomorrowTime );
+
+        if( $officeInfo && !in_array( $tomorrowNum == 8 ? 1 : $tomorrowNum, $officeInfo ) ) {
             $vars['LANG_NOT_TOMORROW'] = $this->L10n->getContents('LANG_ITS_HOLIDAY');
         }
         else {
-            $tomorrow = $this->LeaveApplyModel->getWhosOnLeave( date('Y-m-d', strtotime('+1 day') ) );
+            $tomorrow = $this->LeaveApplyModel->getWhosOnLeave( date('Y-m-d', $tomorrowTime ) );
 
             $vars['TPLVAR_TOMORROW_COUNT'] = sizeof( $tomorrow );
 
