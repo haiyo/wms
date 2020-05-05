@@ -16,30 +16,6 @@
     <!-- BEGIN DYNAMIC BLOCK: jsRow -->
     <script type="text/javascript" src="<?TPLVAR_ROOT_URL?>www/themes/<?TPLVAR_THEME?>/assets/js/<?TPLVAR_JNAME?>"></script>
     <!-- END DYNAMIC BLOCK: jsRow -->
-
-    <!-- <script src="http://services.markaxis.com:5000/socket.io/socket.io.js"></script> -->
-    <!-- <script src="http://localhost/ws/socket.io/socket.io.js"></script> -->
-    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
-    <script>
-        //socket = io.connect('http://services.markaxis.com:5000');
-        socket = io.connect('http://localhost:5000');
-
-        socket.on("connect", function(e) {
-            socket.emit("subscribe", Aurora.USERID);
-
-            socket.on("chatMessage", function(e) {
-                var obj = $.parseJSON(e);
-                console.log( obj )
-
-                var selected = $(".selected");
-                selected.attr("data-room", obj.data.crID);
-                $("#message").val("");
-                $(".message-wrapper").append( $(obj.html) );
-                var height = $(".message-wrapper").prop("scrollHeight");
-                $(".message-wrapper").scrollTop( height );
-            });
-        });
-    </script>
 </head>
 <body class="navbar-top">
 

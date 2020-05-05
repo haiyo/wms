@@ -92,7 +92,7 @@ class PayrollModel extends \Model {
                     break;
             }
         }
-        $results = $this->Payroll->getResults( $post['search']['value'], $order . $dir );
+        $results = $this->Payroll->getResults( $post['processDate'], $post['search']['value'], $order . $dir );
 
         if( $results ) {
             $UserImageModel = UserImageModel::getInstance( );
@@ -120,6 +120,21 @@ class PayrollModel extends \Model {
      */
     public function getProcessByDate( $processDate, $completed='' ) {
         return $this->Payroll->getProcessByDate( $processDate, $completed );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function setCompleted( $post ) {
+        if( isset( $post['processDate'] ) ) {
+            $info = array( );
+            $info['completed'] = 1;
+            $this->Payroll->update('payroll', $info, 'WHERE startDate = "' . addslashes( $post['processDate'] ) . '"');
+            return true;
+        }
+        return false;
     }
 
 

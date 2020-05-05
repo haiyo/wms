@@ -108,7 +108,7 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $q='', $order='name ASC' ) {
+    public function getResults( $processDate, $q='', $order='name ASC' ) {
         $list = array( );
 
         if( $q == 'active' ) {
@@ -125,12 +125,15 @@ class Payroll extends \DAO {
                                           u.email1, u.mobile,
                                           u.suspended, e.startdate, d.title AS designation, e.currency,
                                           e.idnumber, e.salary, e.endDate, c.type,
-                                          ad.descript AS suspendReason, COUNT(puID) AS puCount
+                                          ad.descript AS suspendReason, pu.puCount
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    LEFT JOIN designation d ON ( d.dID = e.designationID )
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
-                                   LEFT JOIN payroll_user pu ON pu.userID = u.userID
+                                   LEFT JOIN ( SELECT pu.userID, COUNT(pu.puID) AS puCount FROM payroll_user pu
+                                               LEFT JOIN payroll p ON ( p.pID = pu.pID )
+                                               WHERE p.startDate = "' . addslashes( $processDate ) . '" 
+                                               GROUP BY pu.userID ) pu ON pu.userID = u.userID
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID

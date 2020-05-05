@@ -208,7 +208,7 @@
         <ul class="nav nav-pills">
             <!-- BEGIN DYNAMIC BLOCK: tab -->
             <li>
-                <a class="tab <?TPLVAR_STATUS_TAB?> <?TPLVAR_MONTH?>" href="#<?TPLVAR_MONTH?>Month" data-id="<?TPLVAR_MONTH?>" data-toggle="tab">
+                <a class="tab <?TPLVAR_STATUS_TAB?> <?TPLVAR_MONTH?>" href="#<?TPLVAR_MONTH?>Month" data-id="<?TPLVAR_MONTH?>" data-date="<?TPLVAR_DATA_DATE?>" data-toggle="tab">
                     <h4><?TPLVAR_MONTH?></h4>
                     <div><?TPLVAR_YEAR?></div>
                     <div class="status"><?TPLVAR_STATUS?></div>
@@ -244,8 +244,9 @@
                     </div>
 
                     <div class="col-lg-3">
-                        <div class="font-weight-semibold">WORKING DAYS</div>
-                        <h2><?TPLVAR_WORK_DAYS?></h2>
+                        <a type="button" class="btn btn-lg bg-purple-400 btn-labeled mt-10" data-date="<?TPLVAR_DATE?>"
+                           data-toggle="modal" data-target="#modalEnterPassword">
+                            <b><i class="icon-checkmark"></i></b> View Finalized Payroll</a>
                     </div>
 
                 </div>
@@ -349,9 +350,11 @@
 
         $(".tab").on("click", function( ) {
             var dataID = $(this).attr("data-id");
+            var dataDate = $(this).attr("data-date");
 
             setTimeout(function( ) {
-                initEChart( dataID + "Chart" );
+                getChartData( dataID, dataDate )
+                //initEChart( dataID, [] );
             }, 100);
         });
 
@@ -363,9 +366,49 @@
         $(".may").trigger( "click" );
     }, 1500);*/
 
-    function initEChart( chart ) {
-        var chart = document.getElementById( chart );
+    function getChartData( dataID, date ) {
+        var data = {
+            bundle: {
+                date: date
+            },
+            success: function( res ) {
+                console.log(res)
+                var obj = $.parseJSON( res );
+                if( obj.bool == 0 ) {
+                    return;
+                }
+                else {
+                    initEChart( dataID, obj.data );
+                }
+            }
+        };
+        Aurora.WebService.AJAX( "admin/payroll/getChart", data );
+        return false;
+    }
+
+    function initEChart( dataID, data ) {
+        var chart = document.getElementById( dataID + "Chart" );
         var columns_basic = echarts.init( chart );
+        var dataLength = data.length;
+        var salaries = [];
+        var claims = [];
+
+        if( dataLength > 0 ) {
+            for( var i=0; i<dataLength; i++ ) {
+                if( !data[i].salaries ) {
+                    salaries.push( 0 );
+                }
+                else {
+                    salaries.push( parseInt( data[i].salaries ) );
+                }
+                if( !data[i].claims.length > 0 ) {
+                    claims.push( 0 );
+                }
+                else {
+                    claims.push( parseInt( data[i].claim ) );
+                }
+            }
+        }
 
         columns_basic.setOption({
 
@@ -470,7 +513,7 @@
                 {
                     name: 'Total Salaries',
                     type: 'bar',
-                    data: [20000, 18000, 18000, 18000, 17500, 17500, 19000, 0, 0, 0, 0, 0],
+                    data: data.salaries,
                     itemStyle: {
                         normal: {
                             label: {
@@ -489,7 +532,7 @@
                 {
                     name: 'Total Claims',
                     type: 'bar',
-                    data: [3000, 3200, 2060.40, 3640, 4500, 3300, 5000, 0, 0, 0, 0, 0],
+                    data: data.claims,
                     itemStyle: {
                         normal: {
                             label: {

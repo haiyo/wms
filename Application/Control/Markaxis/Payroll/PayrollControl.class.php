@@ -71,6 +71,24 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
+    public function setCompleted( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( $this->PayrollModel->setCompleted( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function process( $args ) {
         if( isset( $args[1] ) ) {
             $this->PayrollView->renderProcess( $args[1] );

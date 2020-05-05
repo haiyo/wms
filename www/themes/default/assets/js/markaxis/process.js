@@ -36,19 +36,19 @@ $(document).ready(function( ) {
 
     $(".stepy").stepy({
         titleClick: true,
-        validate: true,
+        validate: false,
         block: true,
         next: function(index) {
-            if( !haveSaved ) {
-                return false;
+            if( $("#completed").val( ) == 0 ) {
+                if( !haveSaved ) {
+                    return false;
+                }
             }
             pt.ajax.reload();
         },
         finish: function( index ) {
-            if( $(".stepy").valid() )  {
-                //saveEmployeeForm();
-                return false;
-            }
+            confirmFinalize();
+            return false;
         }
     });
 
@@ -56,14 +56,23 @@ $(document).ready(function( ) {
     stepy.find(".button-next").addClass("btn btn-primary btn-next");
     stepy.find(".button-back").addClass("btn btn-default");
 
-    $("#employeeForm-step-0 .stepy-navigator a")
-        .attr("disabled", true)
-        .html('Complete Process <i class="icon-arrow-right14 position-right"></i>');
+    if( $("#completed").val( ) == 1 ) {
+        $(".stepy-finish").remove( );
 
-    $("#employeeForm-step-1 .stepy-navigator a:nth-child(2)")
-        .removeClass("bg-purple-400")
-        .addClass("bg-warning-400")
-        .html('Confirm &amp; Finalize <i class="icon-check position-right"></i>');
+        $("#employeeForm-step-0 .stepy-navigator a")
+            .html('View Account Details <i class="icon-arrow-right14 position-right"></i>');
+    }
+    else {
+        $("#employeeForm-step-0 .stepy-navigator a")
+            .attr("disabled", true)
+            .html('Complete Process <i class="icon-arrow-right14 position-right"></i>');
+
+        $(".stepy-finish")
+            .removeClass("bg-purple-400")
+            .addClass("bg-warning-400")
+            .attr("id", "confirm")
+            .html('Confirm &amp; Finalize <i class="icon-check position-right"></i>');
+    }
 
     $("#employeeForm-step-2 .stepy-navigator button span")
         .html('Download CPF File <i class="icon-check position-right"></i>');
@@ -77,7 +86,11 @@ $(document).ready(function( ) {
         ajax: {
             url: Aurora.ROOT_URL + "admin/payroll/employee",
             type: "POST",
-            data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
+            data: function ( d ) {
+                d.ajaxCall = 1;
+                d.csrfToken = Aurora.CSRF_TOKEN;
+                d.processDate = $("#processDate").val( );
+            },
         },
         initComplete: function() {
             /*var api = this.api();
@@ -449,9 +462,6 @@ $(document).ready(function( ) {
         }*/
     });
 
-
-
-
     $("#modalCalPayroll").on("show.bs.modal", function(e) {
         var $invoker = $(e.relatedTarget);
 
@@ -544,7 +554,7 @@ $(document).ready(function( ) {
         width: "auto"
     });
 
-    var processedTable = $('.processedTable').DataTable();
+    var processedTable = $(".processedTable").DataTable( );
 
     $('.processedTable tbody').on('mouseover', 'td', function() {
         if( typeof processedTable.cell(this).index() == "undefined" ) return;
@@ -728,6 +738,37 @@ $(document).ready(function( ) {
         });
         return false;
     });
+
+    function confirmFinalize( ) {
+        swal({
+            title: "Are you sure everything is finalized?",
+            text: "Once confirmed, there will be no more changes to be made.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirm",
+            closeOnConfirm: true,
+            showLoaderOnConfirm: true
+        }, function (isConfirm) {
+            if (isConfirm === false) return;
+
+            var data = {
+                bundle: {
+                    processDate:  $("#processDate").val( )
+                },
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+
+                    if( obj.bool === 0 ) {
+                        alert(obj.errMsg);
+                        return;
+                    }
+                    window.location.reload(true);
+                }
+            };
+            Aurora.WebService.AJAX("admin/payroll/setCompleted", data);
+        });
+    }
 
     function addItem( deduction ) {
         var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");

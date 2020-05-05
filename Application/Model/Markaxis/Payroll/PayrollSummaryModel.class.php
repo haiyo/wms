@@ -97,6 +97,7 @@ class PayrollSummaryModel extends \Model {
     public function savePayroll( $data ) {
         if( isset( $data['puID'] ) ) {
             $info = array( );
+            $info['pID'] = $data['pID'];
             $info['puID'] = $data['puID'];
             $info['gross'] = $data['summary']['gross'];
             $info['deduction'] = $data['summary']['deduction'];

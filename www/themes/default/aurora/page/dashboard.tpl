@@ -2,10 +2,8 @@
 <div class="d-md-flex">
     <div class="sidebar sidebar-light sidebar-component sidebar-component-left sidebar-expand-md">
 
-        <!-- Sidebar content -->
         <div class="sidebar-content">
 
-            <!-- Sidebar search -->
             <div class="card">
                 <div class="header-inline">
                     <div class="avatar"><img src="<?TPLVAR_PHOTO?>" width="95" height="95" /></div>
@@ -21,7 +19,6 @@
             <?TPL_SIDEBAR_CARDS?>
 
         </div>
-        <!-- /sidebar content -->
     </div>
 
     <div class="dashboard-panel panel-flat">

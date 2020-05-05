@@ -30,7 +30,7 @@
 
         <!-- Footer -->
         <div class="footer text-muted">
-          Copyright &copy; 2018 All Rights Reserved. HRMS System by <a href="#">Markaxis</a>
+          Copyright &copy; 2020 All Rights Reserved. HRMS System by <a href="#">Markaxis</a>
         </div>
         <!-- /footer -->
 

@@ -88,42 +88,5 @@ class PayrollFinalizedModel extends \Model {
                       'recordsTotal' => $total,
                       'data' => $results );
     }
-
-
-    /**
-     * Return total count of records
-     * @return int
-
-    public function savePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $info = array( );
-            $info['puID'] = $data['puID'];
-            $info['gross'] = $data['summary']['gross'];
-            $info['deduction'] = $data['summary']['deduction'];
-            $info['net'] = $data['summary']['net'];
-            $info['claim'] = $data['summary']['claim'];
-
-            if( $summaryInfo = $this->getByPuID( $data['puID'] ) ) {
-                $this->PayrollSummary->update( 'payroll_summary', $info,
-                                               'WHERE psID = "' . (int)$summaryInfo['psID'] . '"' );
-
-                return $summaryInfo['psID'];
-            }
-            else {
-                return $this->PayrollSummary->insert('payroll_summary', $info );
-            }
-        }
-    } */
-
-
-    /**
-     * Return total count of records
-     * @return int
-
-    public function deletePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $this->PayrollSummary->delete('payroll_summary','WHERE puID = "' . (int)$data['puID'] . '"');
-        }
-    } */
 }
 ?>

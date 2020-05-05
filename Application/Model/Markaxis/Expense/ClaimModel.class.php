@@ -122,6 +122,15 @@ class ClaimModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getChart( $date ) {
+        return array( 'claims' => $this->Claim->getChart( $date ) );
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function setStatus( $ecID, $status ) {

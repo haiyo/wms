@@ -13,7 +13,7 @@ use \Library\Runtime\Registry;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollView {
+class PayslipView {
 
 
     // Properties
@@ -21,11 +21,11 @@ class PayrollView {
     protected $i18n;
     protected $L10n;
     protected $View;
-    protected $PayrollModel;
+    protected $PayslipModel;
 
 
     /**
-    * PayrollView Constructor
+    * PayslipView Constructor
     * @return void
     */
     function __construct( ) {
@@ -35,7 +35,7 @@ class PayrollView {
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
-        $this->PayrollModel = PayrollModel::getInstance( );
+        $this->PayslipModel = PayslipModel::getInstance( );
 
         $this->View->setJScript( array( 'plugins/visualization' => 'echarts/echarts.min.js',
                                         'plugins/moment' => 'moment.min.js',
@@ -116,6 +116,21 @@ class PayrollView {
         $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ) ) );
         $vars = array_merge( $this->L10n->getContents( ), $vars );
         $this->View->printAll( $this->View->render( 'markaxis/payroll/overview.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderPayslipList( ) {
+        $this->View->setBreadcrumbs( array( 'link' => '',
+            'icon' => 'icon-download',
+            'text' => $this->L10n->getContents('LANG_VIEW_DOWNLOAD_PAYSLIPS') ) );
+
+        $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+        $this->View->printAll( $this->View->render( 'markaxis/payroll/payslipList.tpl', $vars ) );
     }
 
 
