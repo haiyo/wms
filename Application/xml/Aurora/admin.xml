@@ -167,11 +167,18 @@
     <task type="payroll/overview">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
+    <task type="payroll/getChart">
+        <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Payroll/ChartControl"></observer>
+    </task>
     <task type="payroll/getProcessPass">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/employee">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+    </task>
+    <task type="payroll/view,payroll/getPayslipResults">
+        <observer controller="Markaxis/Payroll/PayslipControl"></observer>
     </task>
     <task type="payroll/processPayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
@@ -192,7 +199,7 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="payroll/payment">
+    <task type="payroll/payment,payroll/setCompleted">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/reprocessPayroll,payroll/savePayroll">

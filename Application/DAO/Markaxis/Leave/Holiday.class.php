@@ -14,52 +14,18 @@ class Holiday extends \DAO {
     // Properties
 
 
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function isFound( $ltID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(ltID) FROM leave_type 
-                                   WHERE ltID = "' . (int)$ltID . '"',
-                                   __FILE__, __LINE__ );
-
-        return $this->DB->resultData( $sql );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function getByID( $ltID ) {
-        $sql = $this->DB->select( 'SELECT lt.*, GROUP_CONCAT(DISTINCT lhc.haveChild) AS haveChild,
-                                          GROUP_CONCAT(DISTINCT lcb.cID) AS childBorn,
-                                          GROUP_CONCAT(DISTINCT lca.age) AS childAge
-                                    FROM `leave_type` lt
-                                    LEFT OUTER JOIN leave_have_child lhc ON (lhc.ltID = lt.ltID)
-                                    LEFT OUTER JOIN leave_child_born lcb ON (lcb.ltID = lt.ltID)
-                                    LEFT OUTER JOIN leave_child_age lca ON (lca.ltID = lt.ltID)
-                                    WHERE lt.ltID = "' . (int)$ltID . '"',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
-    }
-
 
     /**
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getList( ) {
-        $sql = $this->DB->select( 'SELECT ltID, name FROM leave_type', __FILE__, __LINE__ );
+    public function getAll( ) {
+        $sql = $this->DB->select( 'SELECT * FROM holiday', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['ltID']] = $row['name'];
+                $list[] = $row;
             }
         }
         return $list;
@@ -91,26 +57,6 @@ class Holiday extends \DAO {
         $sql = $this->DB->select( 'SELECT FOUND_ROWS()', __FILE__, __LINE__ );
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
-        return $list;
-    }
-
-
-    /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
-    public function getEvents( $startDate, $endDate ) {
-        $sql = $this->DB->select( 'SELECT h.*, h.date AS start FROM holiday h
-                                   WHERE h.date BETWEEN "' . addslashes( $startDate ) . '" AND 
-                                                        "' . addslashes( $endDate ) . '"',
-                                   __FILE__, __LINE__ );
-
-        $list = array( );
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = $row;
-            }
-        }
         return $list;
     }
 }

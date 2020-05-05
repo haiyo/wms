@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Company;
 use \Aurora\Component\OfficeModel AS A_OfficeModel;
+use \Markaxis\Leave\HolidayModel;
 use \Aurora\Component\CountryModel, \Library\Helper\Aurora\DayHelper;
 use \Library\Util\Date, \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
@@ -131,11 +132,32 @@ class OfficeModel extends \Model {
      * Set Pay Item Info
      * @return int
      */
-    public function getWorkingDaysByRange( $startDate, $endDate, $oID ) {
+    public function getWorkingDaysByRange( $oID, $startDate, $endDate ) {
         $workDays = $this->getWorkingDaysByOfficeID( $oID );
-        $startDate = new DateTime( $startDate );
-        $endDate = new DateTime( $endDate );
-        return Date::daysDiff( $startDate, $endDate, $workDays );
+        //$workingDays = [1, 2, 3, 4, 5]; # date format = N (1 = Monday, ...)
+        //$holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
+        $HolidayModel = new HolidayModel( );
+        $holidayInfo = $HolidayModel->getAll( );
+        $holidayDays = [];
+
+        if( sizeof( $holidayInfo ) > 0 ) {
+            $holidayDays = array_column( $holidayInfo, 'date' );
+        }
+
+        $from = new DateTime( $startDate );
+        $to = new DateTime( $endDate );
+        $to->modify('+1 day');
+        $interval = new \DateInterval('P1D');
+        $periods = new \DatePeriod($from, $interval, $to);
+
+        $days = 0;
+        foreach( $periods as $period ) {
+            if( !in_array( $period->format('N'), $workDays ) ) continue;
+            if(  in_array( $period->format('Y-m-d'), $holidayDays ) ) continue;
+            if(  in_array( $period->format('*-m-d'), $holidayDays ) ) continue;
+            $days++;
+        }
+        return $days;
     }
 
 

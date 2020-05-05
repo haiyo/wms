@@ -11,7 +11,7 @@
 
         <div class="footer text-muted">
           <div class="footerTxt">
-            Copyright &copy; 2019 All Rights Reserved. HRMS System by <a href="https://www.markaxis.com">Markaxis</a>
+            Copyright &copy; 2020 All Rights Reserved. HRMS System by <a href="https://www.markaxis.com">Markaxis</a>
           </div>
         </div>
       </div>

@@ -40,6 +40,21 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function getChart( ) {
+        $vars = array( );
+        $post = Control::getRequest( )->request( POST );
+
+        if( isset( $post['date'] ) ) {
+            $vars['bool'] = 1;
+            Control::setOutputArrayAppend( array( 'data' => $this->ClaimModel->getChart( $post['date'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function claim( ) {
         $this->ClaimView->renderClaimList( );
     }

@@ -41,19 +41,21 @@
 </div>
 <form id="employeeForm" class="stepy processEmployee" action="#">
     <input type="hidden" id="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
-    <fieldset>
-        <legend class="text-semibold">Select Employee to Process Payroll</legend>
+    <input type="hidden" id="completed" value="<?TPLVAR_COMPLETED?>" />
 
-        <!--<div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>-->
-
-        <div class="input-group payroll-range">
+    <div class="input-group payroll-range">
             <span class="input-group-prepend">
                 <span class="input-group-text">
                     <i class="icon-calendar22"></i> &nbsp;&nbsp;Process Period
                 </span>
             </span>
-            <input type="text" class="form-control daterange" readonly />
-        </div>
+        <input type="text" class="form-control daterange" readonly />
+    </div>
+    <!-- BEGIN DYNAMIC BLOCK: selectEmployee -->
+    <fieldset>
+        <legend class="text-semibold">Select Employee to Process Payroll</legend>
+
+        <!--<div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>-->
 
         <table class="table table-hover datatable employeeTable">
             <thead>
@@ -68,20 +70,20 @@
             </thead>
         </table>
     </fieldset>
-
+    <!-- END DYNAMIC BLOCK: selectEmployee -->
     <fieldset>
-        <legend class="text-semibold">View Summary</legend>
+        <legend class="text-semibold">Summary</legend>
 
         <table class="table table-hover datatable processedTable">
             <thead>
             <tr>
                 <th>Employee</th>
                 <th>Gross</th>
-                <th>Claims</th>
-                <th>Levies</th>
-                <th>Contributions</th>
+                <th>Claim</th>
+                <th>Levy</th>
+                <th>Contribution</th>
                 <th>Net</th>
-                <th>Payslips</th>
+                <th>Payslip</th>
             </tr>
             </thead>
             <tfoot>
@@ -97,9 +99,9 @@
             </tfoot>
         </table>
     </fieldset>
-
+    <!-- BEGIN DYNAMIC BLOCK: accountDetails -->
     <fieldset>
-        <legend class="text-semibold">Confirm &amp; Finalize</legend>
+        <legend class="text-semibold">Account Details</legend>
 
         <table class="table table-hover datatable finalizedTable">
             <thead>
@@ -107,15 +109,14 @@
                 <th>Employee</th>
                 <th>Payment Method</th>
                 <th>Bank Name</th>
-                <th>Account Details</th>
-                <th>Net</th>
-                <th>Payslips</th>
+                <th>Account Detail</th>
+                <th>Transfer Amount</th>
+                <th>Payslip</th>
             </tr>
             </thead>
-
         </table>
     </fieldset>
-
+    <!-- END DYNAMIC BLOCK: accountDetails -->
     <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
         <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
     </button>
