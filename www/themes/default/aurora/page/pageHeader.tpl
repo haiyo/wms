@@ -6,13 +6,13 @@
             <h3><i class="<?TPLVAR_ICON?> position-left"></i> <?LANG_TEXT?></h3>
         </div>
 
-        <div class="heading-elements header-links">
+        <!--<div class="heading-elements header-links">
             <div class="heading-btn-group">
                 <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
                 <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
                 <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <div class="breadcrumb-line">
@@ -23,7 +23,7 @@
             <!-- END DYNAMIC BLOCK: breadcrumbs -->
         </ul>
 
-        <ul class="breadcrumb-elements">
+        <!--<ul class="breadcrumb-elements">
             <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -40,7 +40,7 @@
                     <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
                 </ul>
             </li>
-        </ul>
+        </ul>-->
     </div>
 
 

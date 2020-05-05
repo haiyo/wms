@@ -63,7 +63,6 @@ class ManagerControl {
 
         if( isset( $post['laID'] ) && $post['laID'] ) {
             $post['hasSup'] = $this->ManagerModel->save( $post );
-
             $vars['bool'] = 1;
             $vars['data'] = $post;
             echo json_encode( $vars );

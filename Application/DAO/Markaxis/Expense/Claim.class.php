@@ -27,10 +27,25 @@ class Claim extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByEcIDUserID( $ecID, $userID, $status ) {
+        $sql = $this->DB->select( 'SELECT COUNT(ecID) FROM expense_claim 
+                                   WHERE ecID = "' . (int)$ecID . '" AND
+                                         userID = "' . (int)$userID . '" AND
+                                         status = "' . (int)$status . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByecID( $ecID ) {
+    public function getByEcID( $ecID ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
@@ -48,12 +63,12 @@ class Claim extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByUserID( $userID ) {
+    public function getByUserIDStatus( $userID, $status ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
                                    WHERE ec.userID = "' . (int)$userID . '" AND 
-                                         ec.status = "1" AND
+                                         ec.status = "' . (int)$status . '" AND
                                          ec.cancelled <> "1"',
                                    __FILE__, __LINE__ );
 
@@ -106,7 +121,7 @@ class Claim extends \DAO {
      * @return mixed
      */
     public function getPendingAction( $userID ) {
-        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.fname, u.lname, 
+        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.userID, u.fname, u.lname, 
                                           up.name AS uploadName, up.hashName, c.currencyCode, c.currencySymbol
                                    FROM expense_claim ec
                                    LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
@@ -124,6 +139,28 @@ class Claim extends \DAO {
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getChart( $date ) {
+        $sql = $this->DB->select( 'SELECT SUM(ps.claim) AS claim FROM payroll p
+                                   LEFT JOIN payroll_summary ps ON ( ps.pID = p.pID )
+                                   WHERE p.startDate BETWEEN DATE_SUB( "' . addslashes( $date ) . '", INTERVAL 11 MONTH) AND 
+                                         "' . addslashes( $date ) . '" 
+                                   GROUP BY p.startDate',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = (int)$row['claim'];
             }
         }
         return $list;

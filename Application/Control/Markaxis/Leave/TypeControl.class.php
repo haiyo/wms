@@ -47,7 +47,6 @@ class TypeControl {
      */
     public function settings( ) {
         $output = Control::getOutputArray( );
-
         Control::setOutputArrayAppend( array( 'form' => $this->TypeView->renderSettings( ) ) );
     }
 

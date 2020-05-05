@@ -12,7 +12,7 @@ class CalendarModel extends \Model {
 
 
     //properties
-    protected $userInfo;
+    protected $Calendar;
 
 
         /**
@@ -21,12 +21,10 @@ class CalendarModel extends \Model {
     */
     function __construct( ) {
         parent::__construct( );
-
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $this->userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Markaxis/Calendar/EventRes');
+
+        $this->Calendar = new Calendar( );
 
         $this->info['eventID']     = 0;
         $this->info['userID']      = 0;
@@ -60,8 +58,7 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getCalByDefault( ) {
-        $Calendar = new Calendar( );
-        return $Calendar->getCalByDefault( $this->userInfo['userID'] );
+        return $this->Calendar->getCalByDefault( $this->userInfo['userID'] );
     }
 
 
@@ -70,8 +67,7 @@ class CalendarModel extends \Model {
     * @return mixed[]
     */
     public function getByCalID( $calID ) {
-        $Calendar = new Calendar( );
-        return $Calendar->getByCalID( $calID );
+        return $this->Calendar->getByCalID( $calID );
     }
 
 
@@ -132,8 +128,7 @@ class CalendarModel extends \Model {
     * @return mixed[]
     */
     public function getEventIDByCalID( $calID ) {
-        $Calendar = new Calendar( );
-        return $Calendar->getEventIDByCalID( $calID );
+        return $this->Calendar->getEventIDByCalID( $calID );
     }
 
 
@@ -142,8 +137,7 @@ class CalendarModel extends \Model {
     * @return bool
     */
     public function loadEvent( $eventID /*, $startDate='', $endDate=''*/ ) {
-        $Calendar = new Calendar( );
-        if( !$this->info = $Calendar->getEventByID( $eventID ) ) {
+        if( !$this->info = $this->Calendar->getEventByID( $eventID ) ) {
             return false;
         }
         // In the event when user A changes the event date, user B might still be
@@ -283,8 +277,7 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getTableList( ) {
-        $Calendar = new Calendar( );
-        return $Calendar->getTableList( );
+        return $this->Calendar->getTableList( );
     }
 
 
@@ -308,13 +301,12 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getEvents( $info ) {
-        $Calendar = new Calendar( );
         if( isset( $info['allDay'] ) && $info['allDay'] == 'true' ) {
             $info['end'] = strtotime( date( 'Y-m-d 23:59:59', $info['end'] ) );
         }
-        return $Calendar->getEventsBetween( $info['calID'],
-                                            date( 'Y-m-d H:i:s', $info['start'] ),
-                                            date( 'Y-m-d H:i:s', $info['end'] ) );
+        return $this->Calendar->getEventsBetween( $info['calID'],
+                                                  date( 'Y-m-d H:i:s', $info['start'] ),
+                                                  date( 'Y-m-d H:i:s', $info['end'] ) );
     }
 
 
@@ -323,9 +315,8 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function getRecurs( $info ) {
-        $Calendar = new Calendar( );
         $effective = array( );
-        $eventInfo = $Calendar->getRecurs( $info['calID'] );
+        $eventInfo = $this->Calendar->getRecurs( $info['calID'] );
         $size = sizeof( $eventInfo );
 
         for( $i=0; $i<$size; $i++ ) {
@@ -376,7 +367,6 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function save( ) {
-        $Calendar = new Calendar( );
         $param = array( );
         $param['calID']    = $this->info['calID'];
         $param['userID']   = $this->userInfo['userID'];
@@ -392,11 +382,11 @@ class CalendarModel extends \Model {
         $param['popup']    = $this->info['popup'];
 
         if( $this->info['eventID'] == 0 ) {
-            $this->info['eventID']  = $Calendar->insert( 'markaxis_event', $param );
+            $this->info['eventID']  = $this->Calendar->insert( 'markaxis_event', $param );
             $this->info['saveType'] = 'add';
         }
         else {
-            $Calendar->update( 'markaxis_event', $param, 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
+            $this->Calendar->update( 'markaxis_event', $param, 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
             $this->info['saveType'] = 'update';
         }
 
@@ -410,14 +400,14 @@ class CalendarModel extends \Model {
             if( $this->info['untilDate']   ) $recur['untilDate']   = $this->info['untilDate'];
 
             if( $this->info['hasRecur'] ) {
-                $Calendar->update( 'markaxis_event_recur', $recur, 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
+                $this->Calendar->update( 'markaxis_event_recur', $recur, 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
             }
             else {
-                $Calendar->insert( 'markaxis_event_recur', $recur );
+                $this->Calendar->insert( 'markaxis_event_recur', $recur );
             }
         }
         else if( $this->info['hasRecur'] ) {
-            $Calendar->delete( 'markaxis_event_recur', 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
+            $this->Calendar->delete( 'markaxis_event_recur', 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
         }
         return true;
     }
@@ -429,12 +419,11 @@ class CalendarModel extends \Model {
     */
     public function updateEventDrag( $post ) {
         if( $this->loadEvent( $post['eventID'] ) ) {
-            $Calendar = new Calendar( );
             $param = array( );
             $param['start'] = $post['start'];
             $param['end']   = $post['end'] != '' ? $post['end'] : $post['start'];
             if( isset( $post['allDay'] ) ) { $param['allDay'] = (int)$post['allDay']; }
-            $Calendar->update( 'markaxis_event', $param, 'WHERE eventID = "' . (int)$post['eventID'] . '"' );
+            $this->Calendar->update( 'markaxis_event', $param, 'WHERE eventID = "' . (int)$post['eventID'] . '"' );
             return true;
         }
     }
@@ -466,8 +455,7 @@ class CalendarModel extends \Model {
                 $CalendarAttachmentModel = new CalendarAttachmentModel( );
                 $CalendarAttachmentModel->deleteAllFilesByEventID( );
 
-                $Calendar = new Calendar( );
-                $Calendar->delete( 'markaxis_event', 'WHERE eventID = "' . (int)$this->info['eventID'] . '" AND
+                $this->Calendar->delete( 'markaxis_event', 'WHERE eventID = "' . (int)$this->info['eventID'] . '" AND
                                                             userID = "' . (int)$this->userInfo['userID'] . '"' );
                 return true;
             }

@@ -40,6 +40,21 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function getChart( ) {
+        $vars = array( );
+        $post = Control::getRequest( )->request( POST );
+
+        if( isset( $post['date'] ) ) {
+            $vars['bool'] = 1;
+            Control::setOutputArrayAppend( array( 'data' => $this->ClaimModel->getChart( $post['date'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function claim( ) {
         $this->ClaimView->renderClaimList( );
     }
@@ -60,7 +75,7 @@ class ClaimControl {
      */
     public function getClaim( $data ) {
         if( isset( $data[1] ) ) {
-            Control::setOutputArray( array( 'data' => $this->ClaimModel->getByecID( $data[1] ) ) );
+            Control::setOutputArray( array( 'data' => $this->ClaimModel->getByEcID( $data[1] ) ) );
         }
     }
 
@@ -91,6 +106,27 @@ class ClaimControl {
      */
     public function reprocessPayroll( ) {
         $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $data = Control::getOutputArray( );
+        $post = Control::getRequest( )->request( POST );
+        Control::setOutputArray( $this->ClaimModel->savePayroll( $data, $post ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->ClaimModel->deletePayroll( $data );
     }
 
 

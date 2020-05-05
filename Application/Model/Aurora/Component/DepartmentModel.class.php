@@ -26,11 +26,12 @@ class DepartmentModel extends \Model {
     }
 
 
+
     /**
      * Return total count of records
      * @return int
      */
-    public function isFoundByID( $dID ) {
+    public function isFound( $dID ) {
         return $this->Department->isFound( $dID );
     }
 

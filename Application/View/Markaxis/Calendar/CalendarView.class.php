@@ -18,12 +18,12 @@ class CalendarView extends AdminView {
 
     // Properties
     protected $Registry;
-    protected $HKEY_LOCAL;
-    protected $CalendarModel;
+    protected $i18n;
+    protected $L10n;
+    protected $View;
     protected $CalendarRes;
     protected $EventRes;
-    protected $View;
-    protected $userInfo;
+    protected $CalendarModel;
 
 
     /**
@@ -32,18 +32,15 @@ class CalendarView extends AdminView {
     */
     function __construct( ) {
         parent::__construct( );
-
+        $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance( );
         $this->HKEY_LOCAL = $this->Registry->get( HKEY_LOCAL );
-
-        $this->CalendarModel = CalendarModel::getInstance( );
 
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->CalendarRes = $i18n->loadLanguage('Markaxis/Calendar/CalendarRes');
         $this->EventRes    = $i18n->loadLanguage('Markaxis/Calendar/EventRes');
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $this->userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $this->CalendarModel = CalendarModel::getInstance( );
 
         $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
                                   'plugins/fullcalendar' => array( 'core/main.js',
@@ -53,6 +50,20 @@ class CalendarView extends AdminView {
 
         $this->setStyle( array( 'fullcalendar' => array( 'core/main', 'daygrid/main', 'timegrid/main' ) ) );
 	}
+
+
+    /**
+     * Render Tab
+     * @return string
+     */
+    public function renderUpcomingEvents( ) {
+        $vars = array_merge( $this->EventRes->getContents( ), array( ) );
+
+        $vars['dynamic']['noEvent'] = true;
+        $vars['dynamic']['event'] = false;
+
+        return $this->View->render( 'markaxis/calendar/upcomingEvent.tpl', $vars );
+    }
 
 
     /**

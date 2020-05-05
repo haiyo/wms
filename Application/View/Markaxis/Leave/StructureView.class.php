@@ -2,7 +2,7 @@
 namespace Markaxis\Leave;
 use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel AS A_DesignationModel;
 use \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
-use \Aurora\Component\ContractModel AS A_ContractModel;
+use \Aurora\Component\ContractModel AS A_ContractModel, \Aurora\Component\CountryModel;
 use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Runtime\Registry;
 
@@ -24,7 +24,6 @@ class StructureView {
     protected $StructureModel;
     protected $A_DesignationModel;
     protected $A_ContractModel;
-    protected $SelectGroupListView;
 
 
     /**
@@ -40,10 +39,52 @@ class StructureView {
         $this->A_DesignationModel = A_DesignationModel::getInstance( );
         $this->A_ContractModel = A_ContractModel::getInstance( );
         $this->StructureModel = StructureModel::getInstance( );
+    }
 
-        $this->SelectGroupListView = new SelectGroupListView( );
-        $this->SelectGroupListView->includeBlank( false );
-        $this->SelectGroupListView->isMultiple(true);
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderFormVars( ) {
+        $SelectGroupListView = new SelectGroupListView( );
+        $SelectGroupListView->includeBlank(false );
+        $SelectGroupListView->isMultiple(true);
+
+        $designationList = $SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
+                                                       '','Select Designation' );
+
+        $SelectListView = new SelectListView( );
+        $SelectListView->isMultiple(true );
+        $SelectListView->includeBlank(false);
+        $contractList = $SelectListView->build('contractType', $this->A_ContractModel->getList( ),
+                                               '', 'Select Contract Type' );
+
+        $RadioView = new RadioView( );
+        $proRatedRadio = $RadioView->build('proRated', YesNoHelper::getL10nList( ), '' );
+        $childCareRadio = $RadioView->build('childCare', YesNoHelper::getL10nList( ), '0' );
+
+        $CountryModel = CountryModel::getInstance( );
+        $countries = $CountryModel->getList( );
+
+        $SelectListView = new SelectListView( );
+        $childCountryList = $SelectListView->build('childBorn', $countries, '', 'Select a Country' );
+        $childNotCountryList = $SelectListView->build('childNotBorn', $countries, '', 'Select a Country' );
+
+        $maxAge = 10;
+        $ageList = array( );
+
+        for( $i=1; $i<=$maxAge; $i++ ) {
+            $ageList[$i] = $i;
+        }
+        $childAgeList = $SelectListView->build('childAge', $ageList, '', 'Select Child Age' );
+
+        return array( 'TPL_DESIGNATION_LIST' => $designationList,
+                      'TPL_CONTRACT_LIST' => $contractList,
+                      'TPL_PRO_RATED_RADIO' => $proRatedRadio,
+                      'TPL_CHILD_CARE_RADIO' => $childCareRadio,
+                      'TPL_CHILD_COUNTRY_LIST' => $childCountryList,
+                      'TPL_CHILD_NOT_COUNTRY_LIST' => $childNotCountryList,
+                      'TPL_CHILD_AGE_LIST' => $childAgeList );
     }
 
 
@@ -52,14 +93,10 @@ class StructureView {
      * @return string
      */
     public function renderAddType( ) {
-        $designationList = $this->SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
-                                                             '','Select Designation' );
-
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_DESIGNATION_LIST' => $designationList ) );
+        $vars = array_merge( $this->L10n->getContents( ), $this->renderFormVars( ) );
 
         $vars['dynamic']['noGroup'] = true;
-        $vars['dynamic']['structure'] = false;
+        $vars['dynamic']['group'] = false;
         return $this->View->render( 'markaxis/leave/structureForm.tpl', $vars );
     }
 
@@ -69,31 +106,18 @@ class StructureView {
      * @return string
      */
     public function renderEditType( $ltID ) {
-        $RadioView = new RadioView( );
-        $proRated = $RadioView->build( 'proRated', YesNoHelper::getL10nList( ), '' );
+        $vars = array_merge( $this->L10n->getContents( ), $this->renderFormVars( ) );
 
-        $designationList = $this->SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
-                                                             '','Select Designation' );
-
-        $SelectListView = new SelectListView( );
-        $SelectListView->isMultiple(true );
-        $SelectListView->includeBlank(false);
-        $contractList = $SelectListView->build('contractType', $this->A_ContractModel->getList( ),
-                                               '', 'Select Contract Type' );
-
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_PRO_RATED_RADIO' => $proRated,
-                       'TPL_DESIGNATION_LIST' => $designationList,
-                       'TPL_CONTRACT_LIST' => $contractList ) );
-
-        $vars['dynamic']['noGroup'] = false;
+        $vars['dynamic']['noGroup'] = true;
         $vars['dynamic']['group'] = false;
-        $vars['dynamic']['structure'] = false;
+        //$vars['dynamic']['structure'] = false;
 
         $GroupModel = GroupModel::getInstance( );
-        $groupID = $structureID = 0;
+        $groupID = 0;
 
         if( $groupInfo = $GroupModel->getByltID( $ltID ) ) {
+            $vars['dynamic']['noGroup'] = false;
+
             foreach( $groupInfo as $group ) {
 
                 /*$child = '';
@@ -122,9 +146,6 @@ class StructureView {
 
                 $groupID++;
             }
-        }
-        else {
-            $vars['dynamic']['noGroup'] = true;
         }
         return $this->View->render( 'markaxis/leave/structureForm.tpl', $vars );
     }

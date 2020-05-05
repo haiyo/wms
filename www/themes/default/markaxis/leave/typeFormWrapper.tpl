@@ -28,13 +28,31 @@
         $('.stepy-step').find('.button-next').addClass('btn btn-primary btn-next');
         $('.stepy-step').find('.button-back').addClass('btn btn-default');
 
+        $("#paidLeave").select2({minimumResultsForSearch:Infinity});
         $("#applied").select2({minimumResultsForSearch:Infinity});
         $("#unused").select2({minimumResultsForSearch:Infinity});
         $("#pPeriodType").select2({minimumResultsForSearch:Infinity});
         $("#cPeriodType").select2({minimumResultsForSearch:Infinity});
         $("#usedType").select2({minimumResultsForSearch:Infinity});
         $("#childBorn").select2({allowClear:true});
+        $("#childNotBorn").select2({allowClear:true});
         $("#childAge").select2({minimumResultsForSearch:Infinity,allowClear:true});
+
+        if( $("#childCare1").is(":checked") ) {
+            $("#childcareWrapper").removeClass("hide");
+        }
+        else if( $("#childCare2").is(":checked") ) {
+            $("#childcareWrapper").addClass("hide");
+        }
+
+        $('input:radio[name="childCare"]').change(function( ) {
+            if( $(this).val( ) == 1 ) {
+                $("#childcareWrapper").removeClass("hide");
+            }
+            else {
+                $("#childcareWrapper").addClass("hide");
+            }
+        });
 
         $(".styled").uniform({radioClass:"choice"});
         $("#designation").multiselect({
@@ -50,8 +68,8 @@
 
         $("#applied").change(function( ) {
             if( $(this).val( ) == "probation" ) {
-                $("#pPeriodValue").removeAttr("disabled");
-                $("#pPeriodType").removeAttr("disabled");
+                $("#pPeriodValue").prop("disabled", false);
+                $("#pPeriodType").prop("disabled", false);
             }
             else {
                 $("#pPeriodValue").prop("disabled", true);
@@ -61,10 +79,10 @@
 
         $("#unused").change(function( ) {
             if( $(this).val( ) == "carry" ) {
-                $("#cPeriodValue").removeAttr("disabled");
-                $("#cPeriodType").removeAttr("disabled");
-                $("#usedValue").removeAttr("disabled");
-                $("#usedType").removeAttr("disabled");
+                $("#cPeriodValue").prop("disabled", false);
+                $("#cPeriodType").prop("disabled", false);
+                $("#usedValue").prop("disabled", false);
+                $("#usedType").prop("disabled", false);
             }
             else {
                 $("#cPeriodValue").prop("disabled", true);
@@ -157,6 +175,10 @@
                         "designation": $("#designation").val( ),
                         "contractType": $("#contractType").val( ),
                         "proRated": $("#proRated2").is(":checked") ? 0 : 1,
+                        "childCare": $("#childCare2").is(":checked") ? 0 : 1,
+                        "childBorn": $("#childBorn").val( ),
+                        "childNotBorn": $("#childNotBorn").val( ),
+                        "childAge": $("#childAge").val( ),
                         "structures": []
                     };
 
@@ -181,6 +203,7 @@
                 }
 
                 leaveGroupsInput.val( JSON.stringify( editedGroups ) );
+                $("#noGroup").remove( );
                 swal("Done!", $("#groupTitle").val( ) + " has been successfully created! Remember to click on Submit to save changes!", "success");
                 $("#modalLeaveGroup").modal('hide');
             }
@@ -195,7 +218,29 @@
             var designation = $("#designation");
             designation.multiselect("clearSelection");
             designation.multiselect("refresh");
+
+            var contractType = $("#contractType");
+            contractType.multiselect("clearSelection");
+            contractType.multiselect("refresh");
+
+            $("#childBorn").val("").trigger("change");
+            $("#childNotBorn").val("").trigger("change");
+            $("#childAge").val("").trigger("change");
+
             $("#structureWrapper").html("");
+        });
+
+        if( $("#paidLeave").val( ) == 0 ) {
+            $("#formula").prop("disabled", false);
+        }
+
+        $("#paidLeave").change(function( ) {
+            if( $(this).val( ) == 0 ) {
+                $("#formula").prop("disabled", false);
+            }
+            else {
+                $("#formula").prop("disabled", true);
+            }
         });
 
         $('input:radio[name="proRated"]').change(function( ) {
@@ -220,7 +265,7 @@
             var lgIndex = $invoker.attr("data-index");
             $("#lgIndex").val( lgIndex );
 
-            if( $("#leaveGroups").val( ) != "" ) {
+            if( lgIndex != "" && $("#leaveGroups").val( ) != "" ) {
                 var leaveGroups = JSON.parse( $("#leaveGroups").val( ) );
 
                 for( var i=0; i<leaveGroups.length; i++ ) {
@@ -237,6 +282,14 @@
                         }
                         $.uniform.update();
 
+                        if( leaveGroups[i].childCare == 1 ) {
+                            $("#childCare1").click( );
+                        }
+                        else {
+                            $("#childCare2").click( );
+                        }
+                        $.uniform.update();
+
                         var designation = $("#designation");
 
                         if( leaveGroups[i].designation.length > 0 ) {
@@ -248,9 +301,9 @@
 
                         var contractType = $("#contractType");
 
-                        if( leaveGroups[i].contract.length > 0 ) {
-                            for( var j=0; j<leaveGroups[i].contract.length; j++ ) {
-                                contractType.multiselect("select", leaveGroups[i].contract[j] );
+                        if( leaveGroups[i].contractType.length > 0 ) {
+                            for( var j=0; j<leaveGroups[i].contractType.length; j++ ) {
+                                contractType.multiselect("select", leaveGroups[i].contractType[j] );
                             }
                             contractType.multiselect("refresh");
                         }
@@ -272,16 +325,20 @@
                     bundle: {
                         lgID: lgID
                     },
-                    success: function (res) {
+                    success: function(res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
                             swal("error", obj.errMsg);
                             return;
                         }
                         else {
+                            console.log(obj)
                             $("#lgID").val( obj.data.group.lgID );
                             $("#groupTitle").val( obj.data.group.title );
                             $("#entitledLeaves").val( obj.data.group.entitledLeaves );
+                            $("#childBorn").val( obj.data.group.childBorn ).trigger("change");
+                            $("#childNotBorn").val( obj.data.group.childNotBorn ).trigger("change");
+                            $("#childAge").val( obj.data.group.childAge ).trigger("change");
 
                             if( obj.data.group.proRated == "1" ) {
                                 $("#proRated1").click( );
@@ -291,27 +348,37 @@
                             }
                             $.uniform.update();
 
-                            var designation = $("#designation");
-
-                            if( obj.data.designation.length > 0 ) {
-                                for( var i=0; i<obj.data.designation.length; i++ ) {
-                                    designation.multiselect("select", obj.data.designation[i]["dID"] );
-                                }
-                                designation.multiselect("refresh");
+                            if( obj.data.group.childCare == "1" ) {
+                                $("#childCare1").click( );
                             }
+                            else {
+                                $("#childCare2").click( );
+                            }
+                            $.uniform.update();
+
+                            var designation = $("#designation");
+                            var designationObj = obj.data.group.designation;
+
+                            for( var d in designationObj ){
+                                if( designationObj.hasOwnProperty( c ) ) {
+                                    designation.multiselect("select", designationObj[d].dID );
+                                }
+                            }
+                            designation.multiselect("refresh");
 
                             var contractType = $("#contractType");
+                            var contractObj = obj.data.group.contract;
 
-                            if( obj.data.contract.length > 0 ) {
-                                for( var i=0; i<obj.data.contract.length; i++ ) {
-                                    contractType.multiselect("select", obj.data.contract[i]["cID"] );
+                            for( var c in contractObj ){
+                                if( contractObj.hasOwnProperty( c ) ) {
+                                    contractType.multiselect("select", contractObj[c].cID );
                                 }
-                                contractType.multiselect("refresh");
                             }
+                            contractType.multiselect("refresh");
 
-                            if( obj.data.structure.length > 0 ) {
-                                for( var i=0; i<obj.data.structure.length; i++ ) {
-                                    addStructure( obj.data.structure[i] );
+                            if( obj.data.group.structure.length > 0 ) {
+                                for( var i=0; i<obj.data.group.structure.length; i++ ) {
+                                    addStructure( obj.data.group.structure[i] );
                                 }
                             }
                             else {

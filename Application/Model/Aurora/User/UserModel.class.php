@@ -67,6 +67,26 @@ class UserModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getEvents( $post ) {
+        $eventList = array( );
+
+        if( isset( $post['start'] ) && isset( $post['end'] ) ) {
+            $startDate = Date::parseDateTime( $post['start'] );
+            $endDate = Date::parseDateTime( $post['end'] );
+            $eventList = $this->User->getEvents( $startDate, $endDate );
+
+            foreach( $eventList as $key => $event ) {
+                $eventList[$key]['title'] = $event['name'] . ' ' . $this->L10n->getContents('LANG_BIRTHDAY');
+            }
+        }
+        return $eventList;
+    }
+
+
+    /**
     * Load user to class
     * @return void
     */

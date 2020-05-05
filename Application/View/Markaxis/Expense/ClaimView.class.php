@@ -92,10 +92,9 @@ class ClaimView {
                     $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/' . $row['uID'] .
                                     '/' . $row['hashName'] . '">' . $row['uploadName'] . '</a>';
                 }
-
                 $UserImageModel = UserImageModel::getInstance( );
 
-                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
+                $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $row['userID'] ),
                                                     'TPLVAR_FNAME' => $row['fname'],
                                                     'TPLVAR_LNAME' => $row['lname'],
                                                     'TPLVAR_TIME_AGO' => $created,

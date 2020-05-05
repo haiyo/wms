@@ -31,6 +31,30 @@ class UserControl {
      * Render main navigation
      * @return string
      */
+    public function profile( $userID ) {
+        if( !$userID ) {
+            Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getEvents( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( $eventInfo = $this->UserModel->getEvents( $post ) ) {
+            Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function add( ) {
         Control::setOutputArrayAppend( array( 'form' => $this->UserView->renderAdd( ) ) );
     }

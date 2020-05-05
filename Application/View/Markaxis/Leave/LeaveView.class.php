@@ -1,5 +1,7 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
+use \Markaxis\Employee\LeaveBalanceModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\ApplyForHelper;
 use \Markaxis\Employee\ManagerModel;
@@ -40,32 +42,6 @@ class LeaveView {
     /**
      * Render main navigation
      * @return string
-
-    public function renderApplyForm( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-
-        $SelectListView = new SelectListView( );
-        $leaveTypeList = $SelectListView->build( 'ltID', $this->LeaveModel->getTypeListByUserID( $userInfo['userID'] ),
-                                                '', 'Select Leave Type' );
-        $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
-
-        $ManagerModel = ManagerModel::getInstance( );
-        $managers = $ManagerModel->getSuggestToken( $userInfo['userID'] );
-
-        $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
-                       'TPL_APPLY_FOR_LIST' => $applyForList,
-                       'TPLVAR_MANAGERS' => $managers['name'] ) );
-
-        return array( 'js' => array( 'markaxis' => 'applyLeave.js' ),
-                      'content' => $this->render( 'markaxis/leave/applyForm.tpl', $vars ) );
-    } */
-
-
-    /**
-     * Render main navigation
-     * @return string
      */
     public function renderBalance( ) {
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js',
@@ -79,6 +55,39 @@ class LeaveView {
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'mi-schedule',
                                             'text' => $this->L10n->getContents('LANG_LEAVE_BALANCE_STATUS') ) );
+
+        $vars['dynamic']['balChart'] = false;
+
+        $TypeModel = TypeModel::getInstance( );
+        $chartList = $TypeModel->getByChart( );
+
+        $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+        $id = 0;
+
+        $colors = array( );
+        $colors[] = array( '458AF2', 'c3d8f8' );
+        $colors[] = array( 'EC407A', 'fad0df' );
+        $colors[] = array( 'ffaf23', 'fee8c8' );
+        $colors[] = array( '70b754', 'd4f1c8' );
+
+        foreach( $chartList as $ltID => $name ) {
+            $balInfo = $LeaveBalanceModel->getByltIDUserID( $ltID, $empInfo['userID'] );
+
+            if( $balInfo['elbID'] ) {
+                $vars['dynamic']['balChart'][] = array( 'TPLVAR_ID' => $id,
+                                                        'TPLVAR_LEAVE_NAME' => $name,
+                                                        'TPLVAR_BALANCE' => (float)$balInfo['balance'],
+                                                        'TPLVAR_TOTAL_APPLIED' => (float)$balInfo['totalConsumed'],
+                                                        'TPLVAR_TOTAL_PENDING' => (float)$balInfo['totalPending'],
+                                                        'TPLVAR_TOTAL_LEAVES' => (float)$balInfo['totalLeaves'],
+                                                        'TPLVAR_COLOR_1' => $colors[0][0],
+                                                        'TPLVAR_COLOR_2' => $colors[0][1] );
+                array_shift($colors);
+                $id++;
+            }
+        }
 
         $this->View->printAll( $this->View->render( 'markaxis/leave/balance.tpl', $vars ) );
     }

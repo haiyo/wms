@@ -46,7 +46,7 @@ class EmployeeControl {
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
             $includeOwn = isset( $args[2] ) ? true : false;
-            echo json_encode( $this->EmployeeModel->getList( $args[1], $includeOwn ) );
+            echo json_encode( $this->EmployeeModel->getList( $args[1], 0, 0, $includeOwn ) );
             exit;
         }
     }
@@ -71,7 +71,34 @@ class EmployeeControl {
      * @return void
      */
     public function list( ) {
-        $this->EmployeeView->renderList( );
+        $this->EmployeeView->renderUserList( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function results( ) {
+        $post = Control::getRequest( )->request( POST );
+        echo json_encode( $this->EmployeeModel->getResults( $post ) );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function search( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        $vars = array( );
+        $vars['bool'] = 1;
+        $vars['html'] = $this->EmployeeView->renderUserCard( $post['q'], $post['department'], $post['designation'] );
+
+        echo json_encode( $vars );
+        exit;
     }
 
 
@@ -132,7 +159,7 @@ class EmployeeControl {
      * @return string
      */
     public function reprocessPayroll( $args ) {
-        $this->processPayroll( $args, true );
+        $this->processPayroll( $args,true );
     }
 
 
@@ -141,7 +168,16 @@ class EmployeeControl {
      * @return string
      */
     public function savePayroll( $args ) {
-        $this->reprocessPayroll( $args );
+        $this->processPayroll( $args,true );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( $args ) {
+        $this->processPayroll( $args,true );
     }
 
 
@@ -175,17 +211,6 @@ class EmployeeControl {
         $post = Control::getRequest( )->request( POST );
 
         echo json_encode( $this->EmployeeModel->getLogsByUserID( $post, $userID ) );
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return void
-     */
-    public function results( ) {
-        $post = Control::getRequest( )->request( POST );
-        echo json_encode( $this->EmployeeModel->getResults( $post ) );
         exit;
     }
 

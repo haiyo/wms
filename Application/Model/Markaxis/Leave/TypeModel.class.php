@@ -4,9 +4,9 @@ use \Library\Helper\Markaxis\PaidLeaveHelper;
 use \Library\Helper\Markaxis\HalfDayHelper;
 use \Library\Helper\Markaxis\AppliedHelper;
 use \Library\Helper\Markaxis\LeavePeriodHelper;
-use \Library\Helper\Markaxis\ProRatedHelper;
 use \Library\Helper\Markaxis\UnusedLeaveHelper;
 use \Library\Helper\Markaxis\CarryPeriodHelper;
+use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Validator\Validator;
 
 /**
@@ -39,11 +39,10 @@ class TypeModel extends \Model {
         $this->info['proRated'] = 0;
         $this->info['allowHalfDay'] = 0;
         $this->info['paidLeave'] = 1;
+        $this->info['formula'] = '';
         $this->info['applied'] = 'hired';
         $this->info['unused'] = 'forfeit';
-        $this->info['haveChild'] = 0;
-        $this->info['childBorn'] = '';
-        $this->info['childAge'] = '';
+        $this->info['showChart'] = 0;
         $this->info['pPeriod'] = '';
         $this->info['cPeriod'] = '';
         $this->info['uPeriod'] = '';
@@ -86,6 +85,16 @@ class TypeModel extends \Model {
      */
     public function getList( ) {
         return $this->Type->getList( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getByChart( ) {
+        $this->Type->setLimit(0,4 );
+        return $this->Type->getByChart( );
     }
 
 
@@ -162,27 +171,18 @@ class TypeModel extends \Model {
         $this->info['name'] = Validator::stripTrim( $data['leaveTypeName'] );
         $this->info['code'] = Validator::stripTrim( $data['leaveCode'] );
 
-        if( isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
-            $this->info['paidLeave'] = $data['paidLeave'];
-        }
-        if( isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
-            $this->info['allowHalfDay'] = $data['allowHalfDay'];
-        }
-        if( isset( AppliedHelper::getL10nList( )[$data['applied']] ) ) {
-            $this->info['applied'] = $data['applied'];
-
-            if( $this->info['applied'] == 'probation' ) {
-                $pPeriodValue = (int)$data['pPeriodValue'];
-
-                if( $pPeriodValue > 0 && isset( LeavePeriodHelper::getL10nList( )[$data['pPeriodType']] ) ) {
-                    $this->info['pPeriod'] = $pPeriodValue ;
-                    $this->info['pPeriodType'] = $data['pPeriodType'];
-                }
-            }
+        if( isset( $data['formula'] ) ) {
+            $this->info['formula'] = Validator::stripTrim( $data['formula'] );
         }
 
-        if( isset( ProRatedHelper::getL10nList( )[$data['proRated']] ) ) {
-            $this->info['proRated'] = $data['proRated'];
+        if( isset( $data['paidLeave'] ) && isset( PaidLeaveHelper::getL10nList( )[$data['paidLeave']] ) ) {
+            $this->info['paidLeave'] = (int)$data['paidLeave'];
+        }
+        if( isset( $data['allowHalfDay'] ) && isset( HalfDayHelper::getL10nList( )[$data['allowHalfDay']] ) ) {
+            $this->info['allowHalfDay'] = (int)$data['allowHalfDay'];
+        }
+        if( isset( $data['showChart'] ) && isset( YesNoHelper::getL10nList( )[$data['showChart']] ) ) {
+            $this->info['showChart'] = (int)$data['showChart'];
         }
 
         if( isset( UnusedLeaveHelper::getL10nList( )[$data['unused']] ) ) {
@@ -203,14 +203,13 @@ class TypeModel extends \Model {
                 }
             }
         }
-        $Type = new Type( );
 
         if( $data['ltID'] && $this->isFound( $data['ltID'] ) ) {
             $ltID = (int)$data['ltID'];
-            $Type->update( 'leave_type', $this->info, 'WHERE ltID = "' . $ltID . '"' );
+            $this->Type->update( 'leave_type', $this->info, 'WHERE ltID = "' . $ltID . '"' );
         }
         else {
-            $ltID = $Type->insert('leave_type', $this->info);
+            $ltID = $this->Type->insert('leave_type', $this->info);
         }
         return $ltID;
     }

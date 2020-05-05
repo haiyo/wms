@@ -45,8 +45,8 @@ class ManagerModel extends \Model implements IObservable {
      * Return a list of all users
      * @return mixed
      */
-    public function getByecID( $ecID ) {
-        return $this->Manager->getByecID( $ecID );
+    public function getByEcID( $ecID ) {
+        return $this->Manager->getByEcID( $ecID );
     }
 
 
@@ -66,7 +66,7 @@ class ManagerModel extends \Model implements IObservable {
     public function getResults( $list ) {
         if( isset( $list['data'] ) ) {
             foreach( $list['data'] as $key => $value ) {
-                $list['data'][$key]['managers'] = $this->Manager->getByecID( $value['ecID'] );
+                $list['data'][$key]['managers'] = $this->Manager->getByEcID( $value['ecID'] );
             }
         }
         return $list;

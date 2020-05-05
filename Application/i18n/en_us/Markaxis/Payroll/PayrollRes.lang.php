@@ -58,6 +58,9 @@ class PayrollRes extends Resource {
         $this->contents['LANG_IDENTITY_NUMBER'] = 'Identity Number';
         $this->contents['LANG_EMAIL'] = 'Email Address';
         $this->contents['LANG_CONTACT_NUMBER'] = 'Contact Number';
+        $this->contents['LANG_TOTAL_EMPLOYER_LEVY'] = 'Total Employer Levy';
+        $this->contents['LANG_TOTAL_EMPLOYER_CONTRIBUTION'] = 'Total Employer Contribution';
+        $this->contents['LANG_TOTAL_CLAIM'] = 'Total Claim';
     }
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
+use \Aurora\User\ChildrenModel;
+use \Library\Util\Date;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -71,6 +73,8 @@ class StructureModel extends \Model {
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getInfo( );
 
+        $ChildrenModel = ChildrenModel::getInstance( );
+
         if( sizeof( $empInfo ) > 0 ) {
             $months = $EmployeeModel->getCurrYearWorkMonth( );
 
@@ -83,6 +87,25 @@ class StructureModel extends \Model {
                             ( isset( $group['contract'] ) && isset( $empInfo['contractID'] ) &&
                                 isset( $group['contract'][$empInfo['contractID']] ) && sizeof( $group['contract'] ) > 0 ) ) {
 
+                            if( $group['childCare'] && $empInfo['children'] ) {
+                                $userChild = $ChildrenModel->getYoungestByUserID( $empInfo['userID'] );
+
+                                if( !$userChild['birthday'] ) {
+                                    continue;
+                                }
+
+                                $childAge = Date::getAge( $userChild['birthday'] );
+
+                                if( $group['childBorn'] && $userChild['country'] != $group['childBorn'] ) {
+                                    continue;
+                                }
+                                if( $group['childNotBorn'] && $userChild['country'] == $group['childNotBorn'] ) {
+                                    continue;
+                                }
+                                if( $childAge > $group['childAge'] ) {
+                                    continue;
+                                }
+                            }
                             if( $group['proRated'] && $group['entitledLeaves'] ) {
                                 $leaveTypes[$key]['totalLeaves'] = round($months/12*$group['entitledLeaves'] );
                             }
@@ -94,7 +117,7 @@ class StructureModel extends \Model {
                                     $structures = array_reverse( $structures );
 
                                     foreach( $structures as $structure ) {
-                                        if( ( $structure['start'] <= $months ) && ( $months <= $structure['end'] ) ) {
+                                        if( ( $months >= $structure['start'] ) && ( $months >= $structure['end'] ) ) {
                                             $leaveTypes[$key]['totalLeaves'] = $structure['days'];
                                         }
                                     }

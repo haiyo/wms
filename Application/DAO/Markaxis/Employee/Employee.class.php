@@ -73,20 +73,24 @@ class Employee extends \DAO {
      * Retrieve a user list normally use for building select list
      * @return mixed
      */
-    public function getList( $q='', $excludeUserID='' ) {
+    public function getList( $q='', $departmentID, $designationID, $excludeUserID='' ) {
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" )' : '';
+        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" OR u.email1 LIKE "%' . $q . '%" )' : '';
 
-        $exclude = $excludeUserID ? 'AND u.userID NOT IN(' . addslashes( $excludeUserID ) . ')' : '';
+        $exclude = $excludeUserID ? ' AND u.userID NOT IN(' . addslashes( $excludeUserID ) . ')' : '';
+        $department = $departmentID ? ' AND dpt.dID = "' . (int)$departmentID . '"' : '';
+        $designation = $designationID ? ' AND d.dID = "' . (int)$designationID . '"' : '';
 
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
-                                          d.title AS designation
+        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name, u.email1 AS email,
+                                          u.mobile, dpt.name AS department, d.title AS designation
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
                                    LEFT JOIN designation d ON ( e.designationID = d.dID )
-                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND u.deleted <> "1" ' . $q . ' ' . $exclude . '
+                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND u.deleted <> "1" ' . $q .
+                                         $exclude . $department . $designation . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -131,7 +135,6 @@ class Employee extends \DAO {
                        OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
                        OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
-
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
                                           u.email1, u.mobile,
                                           u.suspended, e.startdate, d.title AS designation, e.currency,
@@ -167,14 +170,17 @@ class Employee extends \DAO {
     public function getProcessInfo( $userID ) {
         $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
                                           u.birthday, u.raceID, n.nationality, e.idnumber, 
-                                          d.title AS designation, c.type AS contractType, 
-                                          e.officeID, e.currency, e.salary, pt.title AS passType,
+                                          dpt.name AS department, d.title AS designation, c.type AS contractType, 
+                                          e.officeID, e.salary, pt.title AS passType,
+                                          CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency,
                                           DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
                                           DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate
                                    FROM employee e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
+                                   LEFT JOIN country cty ON ( cty.cID = u.countryID )
                                    LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                   LEFT JOIN department dpt ON ( dpt.dID = e.departmentID )
                                    LEFT JOIN designation d ON ( d.dID = e.designationID )
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN pass_type pt ON ( pt.ptID = e.passTypeID )

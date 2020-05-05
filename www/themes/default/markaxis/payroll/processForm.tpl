@@ -1,8 +1,10 @@
 <form id="processForm" name="processForm" method="post" action="">
     <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
-    <input type="hidden" id="currency" name="currency" value="<?TPLVAR_CURRENCY?>" />
+    <input type="hidden" id="userName" name="userName" value="<?TPLVAR_FNAME?> <?TPLVAR_LNAME?>" />
+    <input type="hidden" id="processDate" name="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
+
     <div class="row" style="border-bottom:1px solid #ccc;margin-top:0;padding-bottom:11px;">
-        <div class="col-md-1" style="width: 10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
+        <div class="col-md-1" style="width:10%;"><img width="95" src="<?TPLVAR_IMAGE?>"></div>
         <div class="col-md-4" style="width:29%;border-right: 1px solid #ccc;">
             <?TPL_COL_1?>
         </div>
@@ -14,14 +16,14 @@
         </div>
     </div>
 
-    <div class="row font-weight-semibold" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;margin-bottom:0;">
+    <div class="row font-weight-semibold processColHeader">
         <div class="col-md-4">Item Type:</div>
         <div class="col-md-3 amount">Amount:</div>
         <div class="col-md-4 remark">Remark</div>
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
-    <div id="itemWrapper" style="min-height:160px;max-height:160px;margin-bottom:11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
+    <div id="itemWrapper" style="min-height:189px;max-height:189px;margin-bottom:11px;border-bottom: 1px solid #ccc;overflow-y:auto;">
         <!-- BEGIN DYNAMIC BLOCK: item -->
         <div id="itemRowWrapper_<?TPLVAR_ID?>" class="row itemRow <?TPLVAR_DEDUCTION?>" style="border-bottom: 1px solid #ccc;padding-bottom: 11px;">
             <div class="col-md-4">
@@ -34,17 +36,21 @@
             </div>
 
             <div class="col-md-4 remark">
-                <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark" value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark"
+                       value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">
                 <div class="mt-5 iconWrapper">
-                    <a href="#" class="removeItem"><i id="plus_<?TPLVAR_ID?>" class="icon icon-minus-circle2"></i></a>
+                    <a href="<?TPLVAR_ID?>" id="<?TPLVAR_HIDDEN_ID?>" class="removeItem"><i id="plus_<?TPLVAR_ID?>" class="icon icon-minus-circle2"></i></a>
                 </div>
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: item -->
     </div>
+    <!-- BEGIN DYNAMIC BLOCK: hiddenField -->
+    <input type="hidden" id="<?TPLVAR_HIDDEN_ID?>" name="<?TPLVAR_HIDDEN_NAME?>" value="<?TPLVAR_VALUE?>" />
+    <!-- END DYNAMIC BLOCK: hiddenField -->
 
     <div id="processSummary">
         <?TPL_PROCESS_SUMMARY?>

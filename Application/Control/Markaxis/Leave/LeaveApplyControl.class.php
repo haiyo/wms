@@ -48,9 +48,8 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
-    public function getHistory( ) {
-        $post = Control::getRequest( )->request( POST );
-        Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
+    public function dashboard( ) {
+        Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
     }
 
 
@@ -58,19 +57,9 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
-    public function getDateDiff( ) {
+    public function getHistory( ) {
         $post = Control::getRequest( )->request( POST );
-
-        if( $days = $this->LeaveApplyModel->calculateDateDiff( $post ) ) {
-            $vars['bool'] = 1;
-            $vars['text'] = $this->LeaveApplyView->renderBalText( $days );
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
-        }
-        echo json_encode( $vars );
-        exit;
+        Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
     }
 
 
@@ -87,8 +76,12 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
-    public function dashboard( ) {
-        Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
+    public function getEvents( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( $eventInfo = $this->LeaveApplyModel->getEvents( $post ) ) {
+            Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+        }
     }
 
 
@@ -97,18 +90,9 @@ class LeaveApplyControl {
      * @return string
      */
     public function apply( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
-
-        if( $this->LeaveApplyModel->applyIsValid( $post ) ) {
-            $this->LeaveApplyModel->save( );
-            Control::setPostData( array_merge( $post, $this->LeaveApplyModel->getInfo( ) ) );
-        }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
-        }
+        $post = Control::getPostData( );
+        $this->LeaveApplyModel->save( $post );
+        Control::setPostData( array_merge( $post, $this->LeaveApplyModel->getInfo( ) ) );
     }
 
 
@@ -117,8 +101,31 @@ class LeaveApplyControl {
      * @return string
      */
     public function processPayroll( $args ) {
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            $data = Control::getOutputArray( );
+            Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $args[2], $data ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $data ) );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        $this->LeaveApplyModel->savePayroll( $data, $post );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->LeaveApplyModel->deletePayroll( $data );
     }
 }
 ?>

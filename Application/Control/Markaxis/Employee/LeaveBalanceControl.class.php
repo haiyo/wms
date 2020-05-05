@@ -14,6 +14,7 @@ class LeaveBalanceControl {
 
     // Properties
     protected $LeaveBalanceModel;
+    protected $LeaveBalanceView;
 
 
     /**
@@ -22,6 +23,7 @@ class LeaveBalanceControl {
      */
     function __construct( ) {
         $this->LeaveBalanceModel = new LeaveBalanceModel( );
+        $this->LeaveBalanceView = new LeaveBalanceView( );
     }
 
 
@@ -46,6 +48,46 @@ class LeaveBalanceControl {
         if( sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
             sizeof( $data['leaveTypes'] ) > 0 ) {
             $this->LeaveBalanceModel->updateUserBalance( $empInfo['userID'], $data['leaveTypes'] );
+            Control::clearOutput( );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getDateDiff( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( $days = $this->LeaveBalanceModel->calculateDateDiff( $post ) ) {
+            $vars['bool'] = 1;
+            $vars['text'] = $this->LeaveBalanceView->renderBalText( $days );
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->LeaveBalanceModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function apply( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+        if( $this->LeaveBalanceModel->applyIsValid( $post ) ) {
+            Control::setPostData( array_merge( $post, $this->LeaveBalanceModel->getInfo( ) ) );
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->LeaveBalanceModel->getErrMsg( );
+            echo json_encode( $vars );
+            exit;
         }
     }
 }

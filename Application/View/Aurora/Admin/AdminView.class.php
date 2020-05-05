@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\Admin;
+use \Markaxis\Company\CompanyModel;
 use \Aurora\User\UserModel, \Aurora\Component\OfficeModel, \Aurora\Page\MenuView;
 use \Library\Helper\HTMLHelper, \Aurora\Notification\NotificationView;
 use \Library\Helper\SingletonHelper, \Library\Runtime\Registry;
@@ -236,10 +237,22 @@ class AdminView extends SingletonHelper {
         $MenuView = new MenuView( );
         $NotificationView = new NotificationView( );
 
+        $CompanyModel = CompanyModel::getInstance( );
+        $logo = $CompanyModel->getLogo( 'company_uID' );
+        $companyInfo = $CompanyModel->getInfo( );
+
         return $this->render('aurora/core/navBar.tpl',
                             array( 'TPL_MENU' => $MenuView->renderMenu( ),
                                    'TPLVAR_FNAME' => $this->userInfo['fname'],
                                    'TPLVAR_LNAME' => $this->userInfo['lname'],
+                                   'TPLVAR_LOGO' => $logo,
+                                   'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
+                                   'TPLVAR_NAVIGATION_COLOR' => $companyInfo['navigationColor'],
+                                   'TPLVAR_NAVIGATION_TEXT_COLOR' => $companyInfo['navigationTextColor'],
+                                   'TPLVAR_NAVIGATION_TEXT_HOVER_COLOR' => $companyInfo['navigationTextHoverColor'],
+                                   'TPLVAR_BUTTON_COLOR' => $companyInfo['buttonColor'],
+                                   'TPLVAR_BUTTON_HOVER_COLOR' => $companyInfo['buttonHoverColor'],
+                                   'TPLVAR_BUTTON_FOCUS_COLOR' => $companyInfo['buttonFocusColor'],
                                    'TPL_NOTIFICATION_WINDOW' => $NotificationView->renderWindow( ) ) );
     }
 

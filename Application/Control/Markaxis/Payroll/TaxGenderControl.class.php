@@ -43,8 +43,8 @@ class TaxGenderControl {
      * @return string
      */
     public function getAllTaxRules( ) {
-        $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxGenderModel->getAll( $taxRules ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'taxGender' => $this->TaxGenderModel->getAll( $data ) ) );
     }
 
 

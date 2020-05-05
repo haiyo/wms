@@ -211,6 +211,23 @@ class Date {
 
 
     /**
+     * Parses a string into a DateTime object, optionally forced into the given timeZone.
+     * @return string
+     */
+    public static function parseDateTime( $string, $timeZone=null ) {
+        // Used only when the string is ambiguous.
+        // Ignored if string has a timeZone offset in it.
+        $DateTime = new \DateTime( $string,$timeZone ? $timeZone : new \DateTimeZone('UTC') );
+
+        if( $timeZone ) {
+            // If our timeZone was ignored above, force it.
+            $DateTime->setTimezone($timeZone);
+        }
+        return $DateTime->format('Y-m-d');
+    }
+
+
+    /**
     * Output Since Time Ago Calculation
     * @param string $dateFrom
     * @param string $dateTo

@@ -46,7 +46,8 @@ class ContractControl {
         $data = Control::getOutputArray( );
 
         if( isset( $data['group'] ) ) {
-            Control::setOutputArrayAppend( array( 'contract' => $this->ContractModel->getBylgID( $data['group']['lgID'] ) ) );
+            $data['group']['contract'] = $this->ContractModel->getBylgID( $data['group']['lgID'] );
+            Control::setOutputArray( $data );
         }
     }
 

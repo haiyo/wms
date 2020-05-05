@@ -51,7 +51,7 @@ class TaxComputingControl {
      */
     public function getAllTaxRules( ) {
         $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxComputingView->renderAll( $taxRules ) );
+        Control::setOutputArray( array( 'taxComputing' => $this->TaxComputingView->renderAll( $taxRules ) ) );
     }
 
 

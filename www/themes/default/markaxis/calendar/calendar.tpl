@@ -21,66 +21,28 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
             defaultView: 'dayGridMonth',
+            selectable: true,
             editable: true,
             eventLimit: true,
             eventTimeFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true },
-            defaultDate: '2019-05-07',
             header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: '2019-05-01'
+            events: {
+                url: Aurora.ROOT_URL + "admin/leave/getEvents",
+                method: "POST",
+                extraParams: {
+                    ajaxCall: 1,
+                    csrfToken: Aurora.CSRF_TOKEN
                 },
-                {
-                    title: 'Long Event',
-                    start: '2019-05-07',
-                    end: '2019-05-10'
-                },
-                {
-                    groupId: '999',
-                    title: 'Repeating Event',
-                    start: '2019-05-09T16:00:00'
-                },
-                {
-                    groupId: '999',
-                    title: 'Repeating Event',
-                    start: '2019-05-16T16:00:00'
-                },
-                {
-                    title: 'Conference',
-                    start: '2019-05-11',
-                    end: '2019-05-13'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2019-05-12T10:30:00',
-                    end: '2019-05-12T12:30:00'
-                },
-                {
-                    title: 'Lunch',
-                    start: '2019-05-12T12:00:00'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2019-05-12T14:30:00'
-                },
-                {
-                    title: 'Birthday Party',
-                    start: '2019-05-13T07:00:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2019-05-28'
-                }
-            ]
+            },
+            select: function(info) {
+                alert('selected ' + info.startStr + ' to ' + info.endStr);
+            }
         });
-
-        calendar.render();
+        calendar.render( );
     });
 </script>
 <style>
@@ -250,11 +212,7 @@
         margin-top:20px;
     }
 </style>
-<script>
-    $(document).ready(function( ) {
-        //$('.form-control-datepicker').datepicker();
-    });
-</script>
+
 <div class="d-md-flex">
     <div class="sidebar sidebar-light sidebar-component sidebar-component-left sidebar-expand-md">
 
@@ -285,7 +243,6 @@
             </div>
             <!-- /sidebar search -->
 
-
             <!-- Sub navigation -->
             <div class="card mb-2">
                 <div class="card-header bg-transparent header-elements-inline">
@@ -307,7 +264,7 @@
                             <a href="#" class="nav-link">
                                 <i class="icon-file-plus"></i>
                                 Colleague Events
-                                <span class="badge bg-dark badge-pill ml-auto">28</span>
+                                <span class="badge bg-dark badge-pill mt-3 ml-5">28</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -317,7 +274,7 @@
                             <a href="#" class="nav-link">
                                 <i class="icon-reading"></i>
                                 Include Holidays
-                                <span class="badge bg-info badge-pill ml-auto">86</span>
+                                <span class="badge bg-info badge-pill mt-3 ml-5">86</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -330,13 +287,9 @@
                 </div>
             </div>
             <!-- /sub navigation -->
-
         </div>
         <!-- /sidebar content -->
 
     </div>
-
-
     <div id="calendar"></div>
-
 </div>

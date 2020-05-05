@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
-use \Aurora\Component\DesignationModel;
+use \Aurora\Component\DesignationModel, \Aurora\Component\DepartmentModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
@@ -83,14 +83,14 @@ class EmployeeModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getList( $q='', $includeOwn=false ) {
+    public function getList( $q='', $departmentID, $designationID, $includeOwn=false ) {
         $exclude = '';
 
         if( !$includeOwn ) {
             $userInfo = UserModel::getInstance( )->getInfo( );
             $exclude = $userInfo['userID'];
         }
-        $row = $this->Employee->getList( $q, $exclude );
+        $row = $this->Employee->getList( $q, $departmentID, $designationID, $exclude );
 
         if( sizeof( $row ) > 0 ) {
             $UserImageModel = UserImageModel::getInstance( );
@@ -166,6 +166,16 @@ class EmployeeModel extends \Model {
             }
         }
         $results = $this->Employee->getResults( $post['search']['value'], $order . $dir );
+
+        if( $results ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $results as $key => $row ) {
+                if( isset( $row['userID'] ) ) {
+                    $results[$key]['photo'] = $UserImageModel->getImgLinkByUserID( $row['userID'] );
+                }
+            }
+        }
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
@@ -280,6 +290,13 @@ class EmployeeModel extends \Model {
             $DesignationModel = DesignationModel::getInstance( );
             if( $DesignationModel->isFound( $data['designation'] ) ) {
                 $saveInfo['designationID'] = (int)$data['designation'];
+            }
+        }
+
+        if( isset( $data['department'] ) ) {
+            $DepartmentModel = DepartmentModel::getInstance( );
+            if( $DepartmentModel->isFound( $data['department'] ) ) {
+                $saveInfo['departmentID'] = (int)$data['department'];
             }
         }
 

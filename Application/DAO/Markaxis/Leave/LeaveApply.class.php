@@ -15,6 +15,35 @@ class LeaveApply extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByLaIDUserID( $laID, $userID, $status ) {
+        $sql = $this->DB->select( 'SELECT COUNT(laID) FROM leave_apply 
+                                   WHERE laID = "' . (int)$laID . '" AND
+                                         userID = "' . (int)$userID . '" AND
+                                         status = "' . (int)$status . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByUserID( $userID, $status ) {
+        $sql = $this->DB->select( 'SELECT COUNT(laID) FROM leave_apply 
+                                   WHERE userID = "' . (int)$userID . '" AND
+                                         status = "' . (int)$status . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */
@@ -42,20 +71,19 @@ class LeaveApply extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getHistory( $q='', $order='la.created DESC' ) {
-        $list = array( );
-
+    public function getHistory( $userID, $q='', $order='la.created DESC' ) {
         $q = '';
-
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, la.cancelled,
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate,
                                           la.days, la.status, la.created, lt.name, lt.code
                                    FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
-                                   WHERE 1 = 1 ' . $q . '
+                                   WHERE la.userID = "' . (int)$userID . '" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
+
+        $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
@@ -110,6 +138,83 @@ class LeaveApply extends \DAO {
                                          la.ltID = "' . (int)$ltID . '" AND
                                          la.userID = "' . (int)$userID . '" AND 
                                          ( la.status = "1" OR la.status = "0" ) AND
+                                         la.cancelled = "0" AND
+                                         lt.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+ * Retrieve a user column by userID
+ * @return mixed
+ */
+    public function getUnPaidByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT la.*, lt.name, lt.formula FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   WHERE la.userID = "' . (int)$userID . '" AND 
+                                         la.status = "1" AND
+                                         la.cancelled = "0" AND
+                                         lt.paidLeave = "0" AND
+                                         lt.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getWhosOnLeave( $date ) {
+        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name
+                                   FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   LEFT JOIN user u ON ( u.userID = la.userID )
+                                   WHERE la.startDate <= "' . addslashes( $date ) . '" AND
+                                         la.endDate >= "' . addslashes( $date ) . '" AND
+                                         la.status = "1" AND
+                                         la.cancelled = "0" AND
+                                         lt.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getEvents( $startDate, $endDate ) {
+        $sql = $this->DB->select( 'SELECT CONCAT( u.fname, " ", u.lname ) AS name,
+                                          la.*, la.startDate AS start, la.endDate AS end,
+                                          lt.name AS title FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   LEFT JOIN user u ON ( u.userID = la.userID )
+                                   WHERE la.startDate BETWEEN "' . addslashes( $startDate ) . '" AND 
+                                                              "' . addslashes( $endDate ) . '" AND
+                                         la.status = "1" AND
                                          la.cancelled = "0" AND
                                          lt.deleted = "0"',
                                    __FILE__, __LINE__ );

@@ -43,8 +43,8 @@ class TaxCompetencyControl {
      * @return string
      */
     public function getAllTaxRules( ) {
-        $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxCompetencyModel->getAll( $taxRules ) );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'taxCompetency' => $this->TaxCompetencyModel->getAll( $data ) ) );
     }
 
 

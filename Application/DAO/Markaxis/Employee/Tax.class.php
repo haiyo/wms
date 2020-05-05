@@ -32,17 +32,18 @@ class Tax extends \DAO {
      * @return mixed
      */
     public function getByUserID( $userID, $column ) {
-        $list = array( );
-
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ', tg.title, tg.summary
                                    FROM employee_tax et
                                    LEFT JOIN tax_group tg ON ( tg.tgID = et.tgID )
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
+
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list['mainGroup'][$row['tgID']] = $row;
+                $list['mainGroup'][$row['tgID']]['child'][] = $row['tgID'];
 
                 $sql2 = $this->DB->select( 'SELECT tgID, title, parent
                                             FROM ( SELECT * FROM tax_group ORDER BY parent, tgID) tax_group,

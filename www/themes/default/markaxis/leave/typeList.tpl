@@ -34,7 +34,7 @@
             },{
                 targets: [1],
                 orderable: true,
-                width: '250px',
+                width: '450px',
                 data: 'name',
                 render: function( data, type, full, meta ) {
                     return data + " (" + full['code'] + ")";
@@ -70,32 +70,13 @@
             },{
                 targets: [4],
                 orderable: true,
-                width: '100px',
-                data: 'proRated',
-                className : "text-center",
-                render: function( data, type, full, meta ) {
-                    if( data == 0 ) {
-                        return '<span class="label label-pending">No</span>';
-                    }
-                    else {
-                        return '<span class="label label-success">Yes</span>';
-                    }
-                }
-            },{
-                targets: [5],
-                orderable: true,
-                width: '100px',
-                data: 'applied',
-            },{
-                targets: [6],
-                orderable: true,
-                width: '100px',
+                width: '200px',
                 data: 'unused',
             },{
-                targets: [7],
+                targets: [5],
                 orderable: false,
                 searchable: false,
-                width: '100px',
+                width: '10px',
                 className: "text-center",
                 data: 'ltID',
                 render: function( data, type, full, meta ) {
@@ -198,8 +179,6 @@
             <th>Name</th>
             <th>Paid Leave</th>
             <th>Allow Half Day</th>
-            <th>Pro Rated</th>
-            <th>Can Be Applied</th>
             <th>Unused Leave</th>
             <th>Actions</th>
         </tr>

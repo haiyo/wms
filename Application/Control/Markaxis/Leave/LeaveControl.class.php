@@ -30,7 +30,6 @@ class LeaveControl {
      * @return string
      */
     public function balance( ) {
-        $output = Control::getOutputArray( );
         $this->LeaveView->renderBalance( );
     }
 

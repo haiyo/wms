@@ -95,9 +95,10 @@ class DashboardView {
         $userInfo = UserModel::getInstance( )->getInfo( );
         $UserImageModel = UserImageModel::getInstance( );
 
-        $vars = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
                        'TPLVAR_FNAME' => $userInfo['fname'],
-                       'TPLVAR_LNAME' => $userInfo['lname'] );
+                       'TPLVAR_LNAME' => $userInfo['lname'] ) );
 
         $vars['TPL_SIDEBAR_SEARCH_BOX'] = $this->renderSearchbox( $output );
 

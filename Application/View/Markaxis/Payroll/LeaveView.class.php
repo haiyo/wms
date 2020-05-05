@@ -48,7 +48,7 @@ class LeaveView {
 
             foreach( $lvInfo as $row ) {
                 $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $row['name'],
-                                                    'TPLVAR_VALUE' => $row['balance'] );
+                                                    'TPLVAR_VALUE' => (float)$row['balance'] );
             }
             $col_3 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
             return array( 'col_3' => $col_3 );

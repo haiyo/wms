@@ -28,34 +28,25 @@
             autoWidth: false,
             mark: true,
             columnDefs: [{
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
-                },
-                width: '10px',
-                orderable: false,
-                searchable : false,
-                data: 'userID',
-                render: function (data, type, full, meta) {
-                    return '<input type="checkbox" class="dt-checkboxes check-input" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-                }
-            },{
-                targets: [1],
+                targets: [0],
                 orderable: true,
                 width: '150px',
                 data: 'idnumber'
             },{
-                targets: [2],
+                targets: [1],
                 orderable: true,
                 width: '270px',
-                data: 'name'
+                data: 'name',
+                render: function(data, type, full, meta) {
+                    return '<img src="' + full['photo'] + '" width="32" height="32" style="margin-right:10px" />' + data;
+                }
             },{
-                targets: [3],
+                targets: [2],
                 orderable: true,
                 width: '260px',
                 data: 'designation'
             },{
-                targets: [4],
+                targets: [3],
                 searchable : false,
                 data: 'status',
                 width: '190px',
@@ -77,17 +68,17 @@
                     }
                 }
             },{
-                targets: [5],
+                targets: [4],
                 orderable: true,
                 width: '220px',
                 data: 'email1'
             },{
-                targets: [6],
+                targets: [5],
                 orderable: true,
                 width: '150px',
                 data: 'mobile'
             },{
-                targets: [7],
+                targets: [6],
                 orderable: false,
                 searchable : false,
                 width: '100px',
@@ -294,62 +285,63 @@
         return false;
     }
 </script>
-<div class="list-action-btns">
-    <ul class="icons-list">
-        <li>
-            <!-- BEGIN DYNAMIC BLOCK: addEmployeeBtn -->
-            <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/employee/add">
-                <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;
-            <!-- END DYNAMIC BLOCK: addEmployeeBtn -->
-            <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
-                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
-                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
-                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
-                <li class="divider"></li>
-                <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
+<div class="tab-pane fade show" id="employeeList">
+    <div class="list-action-btns">
+        <ul class="icons-list">
+            <li>
+                <!-- BEGIN DYNAMIC BLOCK: addEmployeeBtn -->
+                <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/user/add">
+                    <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;
+                <!-- END DYNAMIC BLOCK: addEmployeeBtn -->
+                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employees</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/email"><i class="icon-mail5"></i> Message Selected Employees</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><i class="icon-user-block"></i> Suspend Selected Employees</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/delete"><i class="icon-user-minus"></i> Delete Selected Employees</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/settings"><i class="icon-gear"></i> Employee Settings</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
-<table class="table table-hover employeeTable">
-    <thead>
-    <tr>
-        <th rowspan="2"></th>
-        <th rowspan="2">Employee ID</th>
-        <th colspan="3">HR Information</th>
-        <th colspan="3">Contact</th>
-    </tr>
-    <tr>
-        <th>Name</th>
-        <th>Designation</th>
-        <th>Employment Status</th>
-        <th>E-mail</th>
-        <th>Mobile</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-<div id="modalLoad" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-info">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Info header</h6>
-            </div>
+    <table class="table table-hover employeeTable">
+        <thead>
+        <tr>
+            <th rowspan="2">Employee ID</th>
+            <th colspan="3">HR Information</th>
+            <th colspan="3">Contact</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Employment Status</th>
+            <th>E-mail</th>
+            <th>Mobile</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="modalLoad" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title">Info header</h6>
+                </div>
 
-            <div class="modal-body"></div>
+                <div class="modal-body"></div>
 
-            <div class="modal-footer">
-                <!--<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>-->
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
             </div>
         </div>
     </div>

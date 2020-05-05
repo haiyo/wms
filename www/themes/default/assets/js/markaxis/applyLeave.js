@@ -79,7 +79,7 @@ var MarkaxisApplyLeave = (function( ) {
 
             $("#modalApplyLeave").on("shown.bs.modal", function(e) {
                 var markaxisUSuggest = new MarkaxisUSuggest( false );
-                markaxisUSuggest.getSuggestToken("admin/employee/getSuggestToken" );
+                markaxisUSuggest.getSuggestToken("admin/user/getSuggestToken" );
             });
 
             $(document).on("click", ".leaveAction", function ( ) {
@@ -120,6 +120,9 @@ var MarkaxisApplyLeave = (function( ) {
             var startDate = new Date( $("#startDate").val( ) );
             var endDate = new Date( $("#endDate").val( ) );
 
+            if( startDate == "Invalid Date" || endDate == "Invalid Date" ) {
+                return;
+            }
             if( startDate > endDate ) {
                 swal("Error!", "Invalid date range selected", "error");
                 return false;
@@ -147,7 +150,7 @@ var MarkaxisApplyLeave = (function( ) {
                     }
                 }
             };
-            Aurora.WebService.AJAX( "admin/leave/getDateDiff", data );
+            Aurora.WebService.AJAX("admin/leave/getDateDiff", data );
         },
 
 
@@ -169,8 +172,7 @@ var MarkaxisApplyLeave = (function( ) {
                     }
                     else {
                         var ltID = $("#ltID").val( );
-                        var count = parseInt( $("#ltID" + ltID).text( ) );
-                        $("#ltID" + ltID).text( count-obj.data.days );
+                        $("#ltID" + ltID).text( obj.data.balance );
 
                         if( obj.data.hasSup ) {
                             text = "Your leave application is not confirm yet and is subject to Manager(s) approval.";

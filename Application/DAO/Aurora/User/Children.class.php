@@ -44,5 +44,22 @@ class Children extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve a user list normally use for building select list
+     * @return mixed
+     */
+    public function getYoungestByUserID( $userID ) {
+        $sql = $this->DB->select( 'SELECT * FROM user_children 
+                                   WHERE userID = "' . (int)$userID . '"
+                                   ORDER BY birthday DESC LIMIT 1',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
 }
 ?>

@@ -16,6 +16,7 @@ class ItemModel extends \Model {
 
     // Properties
     protected $Item;
+    private $itemList;
 
 
 
@@ -46,7 +47,10 @@ class ItemModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        return $this->Item->getList( );
+        if( $this->itemList ) {
+            return $this->itemList;
+        }
+        return $this->itemList = $this->Item->getList( );
     }
 
 
@@ -212,26 +216,6 @@ class ItemModel extends \Model {
                 }
             }
             return $post;
-        }
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function savePayroll( $data, $post ) {
-        $post = $this->reprocessPayroll( $data, $post );
-
-        if( sizeof( $post['postItems'] ) ) {
-            foreach( $post['postItems'] as $item ) {
-                $info = array( );
-                $info['userID'] = $data['empInfo']['userID'];
-                $info['piID'] = $item['piID'];
-                $info['amount'] = $item['amount'];
-                $info['remark'] = $item['remark'];
-                $this->Item->insert( 'payroll_user_item', $info );
-            }
         }
     }
 

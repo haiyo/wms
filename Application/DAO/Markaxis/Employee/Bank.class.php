@@ -45,10 +45,10 @@ class Bank extends \DAO {
      * @return mixed
      */
     public function getByUserID( $userID ) {
-        $sql = $this->DB->select( 'SELECT * FROM employee_bank eb
+        $sql = $this->DB->select( 'SELECT eb.* FROM employee_bank eb
                                    LEFT JOIN bank b on b.bkID = eb.ebID
                                    WHERE userID = "' . (int)$userID . '"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

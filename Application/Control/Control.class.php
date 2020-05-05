@@ -214,6 +214,15 @@ class Control {
 
 
     /**
+     * Set Output to Array by Append
+     * @return void
+     */
+    public static function clearOutput( ) {
+        self::$outputArray = array( );
+    }
+
+
+    /**
     * Setup Default Registry
     * @return void
     */

@@ -87,7 +87,7 @@ class NotificationView {
     public function renderList( ) {
         $list = $this->NotificationModel->getByUserID( );
 
-        $vars['dynamic']['noList'][] = true;
+        $vars['dynamic']['noList'] = true;
         $vars['dynamic']['list'] = false;
 
         if( sizeof( $list ) > 0 ) {

@@ -56,7 +56,13 @@ class EmployeeView {
                                                 'icon' => 'icon-cog3',
                                                 'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
 
-            $vars = array( 'TPL_TAB' => $data['tab'], 'TPL_FORM' => $data['form'] );
+            $vars = array_merge( $this->L10n->getContents( ),
+                    array( 'TPLVAR_HREF' => 'employeeList',
+                           'LANG_TEXT' => $this->L10n->getContents( 'LANG_EMPLOYEE' ) ) );
+
+            $vars['TPL_TAB']  = $this->View->render( 'aurora/core/tab.tpl', $vars ) . $data['tab'];
+            $vars['TPL_FORM'] = $this->renderList( ) . $data['form'];
+
             $this->View->printAll( $this->View->render( 'markaxis/employee/settings.tpl', $vars ) );
         }
     }
@@ -67,19 +73,72 @@ class EmployeeView {
      * @return string
      */
     public function renderList( ) {
-        $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/list',
+        $vars = array( );
+        $vars['dynamic']['addEmployeeBtn'] = false;
+
+        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
+        if( $Authorization->hasPermission( 'Markaxis', 'add_modify_employee' ) ) {
+            $vars['dynamic']['addEmployeeBtn'] = true;
+        }
+
+        return $this->View->render( 'markaxis/employee/list.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderUserList( ) {
+        $this->View->setBreadcrumbs( array( 'link' => 'list',
                                             'icon' => 'icon-users4',
                                             'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'user.js' ) ) );
 
-        $vars['dynamic']['addEmployeeBtn'][] = false;
-        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
-        if( $Authorization->hasPermission( 'Markaxis', 'add_modify_employee' ) ) {
-            $vars['dynamic']['addEmployeeBtn'][] = true;
+        $DesignationModel = DesignationModel::getInstance( );
+        $SelectGroupListView = new SelectGroupListView( );
+        $SelectListView = new SelectListView( );
+
+        $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
+        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getList( ), $designationID,'Filter By Designation' );
+
+        $DepartmentModel = DepartmentModel::getInstance( );
+        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
+        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Filter By Department' );
+
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY'),
+                       'TPL_DEPARTMENT_LIST' => $departmentList,
+                       'TPL_DESIGNATION_LIST' => $designationList,
+                       'TPL_USER_CARD' => $this->renderUserCard( ) ) );
+
+        $this->View->printAll( $this->View->render( 'markaxis/employee/userList.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderUserCard( $q='', $departmentID='', $designationID='' ) {
+        $list = '';
+
+        if( $userList = $this->EmployeeModel->getList( $q, $departmentID, $designationID,true ) ) {
+            foreach( $userList as $user ) {
+                $list .= $this->View->render( 'markaxis/employee/userCard.tpl',
+                                               array( 'TPLVAR_PHOTO' => $user['image'],
+                                                      'TPLVAR_NAME' => $user['name'],
+                                                      'TPLVAR_DEPARTMENT' => $user['department'],
+                                                      'TPLVAR_DESIGNATION' => $user['designation'],
+                                                      'TPLVAR_EMAIL' => $user['email'],
+                                                      'TPLVAR_MOBILE' => $user['mobile'] ) );
+            }
         }
-
-        $this->View->printAll( $this->View->render( 'markaxis/employee/list.tpl', $vars ) );
+        else {
+            $list = $this->View->render( 'markaxis/employee/noUserCard.tpl', array( ) );
+        }
+        return $list;
     }
 
 
@@ -177,6 +236,10 @@ class EmployeeView {
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
         $designationList = $SelectGroupListView->build('designation', $DesignationModel->getList( ), $designationID,'Select Designation' );
 
+        $DepartmentModel = DepartmentModel::getInstance( );
+        $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
+        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Select Department(s)' );
+
         $confirmDayList = $DayIntListView->getList('confirmDay', $confirmDay,'Day' );
         $confirmMonthList = $SelectListView->build('confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );
 
@@ -223,14 +286,6 @@ class EmployeeView {
         $RoleModel = RoleModel::getInstance( );
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
         $roleList = $SelectListView->build('role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
-
-        $A_DepartmentModel = A_DepartmentModel::getInstance( );
-        $DepartmentModel = DepartmentModel::getInstance( );
-
-        $SelectListView->setClass( '' );
-        $departments = isset( $this->info['userID'] ) ? $DepartmentModel->getListByUserID( $this->info['userID'] ) : '';
-        $departments = isset( $departments['dID'] ) ? explode(',', $departments['dID'] ) : '';
-        $departmentList = $SelectListView->build( 'department',  $A_DepartmentModel->getList( ), $departments,'Select Department(s)' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],

@@ -17,29 +17,7 @@
 
         <div class="col-md-3">
             <label class="display-block">&nbsp;</label>
-            <?TPL_PAID_LEAVE?>
-        </div>
-
-        <div class="col-md-3">
-            <label class="display-block">&nbsp;</label>
             <?TPL_ALLOW_HALF_DAY_RADIO?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <label><?LANG_LEAVE_CAN_BE_APPLIED?>:</label>
-            <?TPL_APPLIED_LIST?>
-        </div>
-
-        <div class="col-md-2">
-            <label><?LANG_PROBATION_PERIOD?>:</label>
-            <input type="text" name="pPeriodValue" id="pPeriodValue" class="form-control" value="<?TPLVAR_PPERIOD?>" placeholder="3" disabled="disabled" />
-        </div>
-
-        <div class="col-md-2">
-            <label>&nbsp;</label>
-            <?TPL_PPERIOD_LIST?>
         </div>
     </div>
 
@@ -71,26 +49,20 @@
         </div>
     </div>
 
-
     <div class="row">
-        <span class="mb-0 ml-10 font-weight-bold"><?LANG_APPLICABLE_TO?>:</span>
-        <div class="card">
-            <div class="card-body">
+        <div class="col-md-4">
+            <label><?LANG_PAYROLL_PROCESS_AS?>:</label>
+            <?TPL_PAID_LEAVE?>
+        </div>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_CHILD_BORN_IN?>:</label>
-                        <?TPL_CHILD_COUNTRY_LIST?>
-                    </div>
-                </div>
+        <div class="col-md-4">
+            <label><?LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE?>:</label>
+            <input type="text" name="formula" id="formula" class="form-control" value="<?TPLVAR_PAYROLL_FORMULA?>" placeholder="" disabled="disabled" />
+        </div>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="display-block"><?LANG_CHILD_MAX_AGE?>:</label>
-                        <?TPL_CHILD_AGE_LIST?>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-4">
+            <label class="display-block"><?LANG_SHOW_CHART_LEAVE_BALANCE?></label>
+            <?TPL_SHOW_CHART_RADIO?>
         </div>
     </div>
 

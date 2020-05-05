@@ -13,6 +13,7 @@ class CalendarControl {
 
 
     // Properties
+    protected $CalendarModel;
     protected $CalendarView;
 
 
@@ -21,10 +22,20 @@ class CalendarControl {
     * @return void
     */
     function __construct( ) {
+        $this->CalendarModel = CalendarModel::getInstance( );
         $this->CalendarView = new CalendarView( );
 	}
 
-    
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function dashboard( ) {
+        Control::setOutputArrayAppend( array( 'sidebarCards' => $this->CalendarView->renderUpcomingEvents( ) ) );
+    }
+
+
     /**
     * Show Calendar
     * @return void
@@ -101,35 +112,15 @@ class CalendarControl {
     * Get a single event
     * @return void
     */
-    public function getEvent( $param ) {
-        if( isset( $param[1] ) ) {
-            $vars = array( );
-            $CalendarModel = CalendarModel::getInstance( );
-            $CalendarView = new CalendarView( $CalendarModel );
-
-            if( $CalendarModel->loadEvent( $param[1]/*, $param[2], $param[3]*/ ) ) {
-                $vars['tab']     = $CalendarView->renderAgendaTab( );
-                $vars['tabData'] = $CalendarView->renderAgendaTabData( );
-                $vars['data']    = $CalendarView->renderAgenda( );
-            }
-            else {
-                // Someone might have deleted the event at the same time.
-                $LightboxView = LightboxView::getInstance( );
-                $LightboxView->printAll( $CalendarView->renderEventDeleted( ) );
-                exit;
-            }
-            Control::setOutputArray( $vars );
-        }
-    }
-
-
-    /**
-    * Get all events
-    * @return void
-    */
     public function getEvents( ) {
-        $CalendarModel = CalendarModel::getInstance( );
-        Control::setOutputArray( $CalendarModel->getEvents( Control::getRequest( )->request( POST ) ) );
+        $data = Control::getOutputArray( );
+        $vars = array( );
+
+        if( isset( $data['events'] ) ) {
+            echo json_encode( $data['events'] );
+            exit;
+            //$this->CalendarModel
+        }
     }
 
 
@@ -144,7 +135,7 @@ class CalendarControl {
 
         $CalendarModel = CalendarModel::getInstance( );
         $info = $CalendarModel->getRecurs( $post );
-        
+
         if( sizeof( $info ) > 0 ) {
             $vars['bool'] = 1;
             $vars['data'] = $info;

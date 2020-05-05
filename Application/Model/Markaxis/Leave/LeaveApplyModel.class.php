@@ -1,9 +1,8 @@
 <?php
 namespace Markaxis\Leave;
-use \Markaxis\Employee\LeaveBalanceModel, \Markaxis\Employee\EmployeeModel;
-use \Aurora\Notification\NotificationModel;
-use \Library\Helper\Aurora\DayHelper, \Library\Util\Date;
-use \DateTime;
+use \Markaxis\Employee\EmployeeModel;
+use \Markaxis\Company\OfficeModel;
+use \Library\Util\Date, \Library\Util\Formula;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -37,8 +36,26 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getByUserID( $userID ) {
-        return $this->LeaveApply->getByUserID( $userID );
+    public function isFoundByLaIDUserID( $laID, $userID, $status ) {
+        return $this->LeaveApply->isFoundByLaIDUserID( $laID, $userID, $status );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function isFoundByUserID( $userID, $status ) {
+        return $this->LeaveApply->isFoundByUserID( $userID, $status );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getUnPaidByUserID( $userID ) {
+        return $this->LeaveApply->getUnPaidByUserID( $userID );
     }
 
 
@@ -97,6 +114,35 @@ class LeaveApplyModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getWhosOnLeave( $date ) {
+        return $this->LeaveApply->getWhosOnLeave( $date );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getEvents( $post ) {
+        $eventList = array( );
+
+        if( isset( $post['start'] ) && isset( $post['end'] ) ) {
+            $startDate = Date::parseDateTime( $post['start'] );
+            $endDate = Date::parseDateTime( $post['end'] );
+            $eventList = $this->LeaveApply->getEvents( $startDate, $endDate );
+
+            foreach( $eventList as $key => $event ) {
+                $eventList[$key]['title'] = $event['name'] . ' - ' . $event['title'];
+            }
+        }
+        return $eventList;
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -122,7 +168,9 @@ class LeaveApplyModel extends \Model {
                     break;
             }
         }
-        $results = $this->LeaveApply->getHistory( $post['search']['value'], $order . $dir );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+        $results = $this->LeaveApply->getHistory( $empInfo['userID'], $post['search']['value'], $order . $dir );
 
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
@@ -148,65 +196,43 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $data ) {
-        /*$applyInfo = $this->getByuserID( $userID );
+    public function processPayroll( $userID, $processDate, $data ) {
+        $applyInfo    = $this->getUnPaidByUserID( $userID );
+        $totalApplied = sizeof( $applyInfo );
+        $processDate  = \DateTime::createFromFormat('Y-m-d', $processDate );
 
-        if( sizeof( $applyInfo ) > 0 ) {
+        if( $totalApplied > 0 ) {
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, salary' );
+
+            $OfficeModel = OfficeModel::getInstance( );
+            $workDays = $OfficeModel->getWorkingDaysByRange( $empInfo['officeID'],
+                                                             $processDate->format('Y-m-') . '01',
+                                                             $processDate->format('Y-m-') . $processDate->format('t') );
+
+            $daysWorked = ($workDays-$totalApplied);
+
             foreach( $applyInfo as $value ) {
-                $data['items'][$value['ecID']] = array( 'eiID' => $value['eiID'],
-                                                        'title' => $value['descript'],
-                                                        'amount' => $value['amount'] );
+                //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
+                $formula = str_replace('{salary}', $empInfo['salary'], $value['formula'] );
+                $formula = str_replace('{workDaysOfMonth}', $workDays, $formula );
+                $formula = str_replace('{daysWorkedInMonth}', $daysWorked, $formula );
+
+                // AW Ceiling
+                $Formula = new Formula( );
+                $salary = round( $Formula->calculate( $formula ) );
+                $amount = $empInfo['salary']-$salary;
+                $remark = $value['name'];
+
+                $data['items'][] = array( 'hiddenName' => 'leaveApply[]',
+                                          'hiddenValue' => $value['laID'],
+                                          'hiddenID' => 'leaveApply' . $value['laID'],
+                                          'piID' => $data['deduction']['piID'],
+                                          'remark' => $remark,
+                                          'amount' => $amount );
             }
         }
-        return $data;*/
-    }
-
-
-    /**
-     * Set User Property Info
-     * @return bool
-     */
-    public function applyIsValid( $data ) {
-        if( !$data['ltID'] ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
-            return false;
-        }
-        $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
-
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-
-        if( $balInfo = $LeaveBalanceModel->getByltIDUserID( $data['ltID'], $userInfo['userID'] ) ) {
-            if( isset( $data['startDate'] ) && isset( $data['endDate'] ) ) {
-                $startDate = DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $endDate = DateTime::createFromFormat('d M Y', $data['endDate'] );
-
-                if( !$startDate || !$endDate || !$days = $this->calculateDateDiff( $data ) ) {
-                    $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );
-                    return false;
-                }
-                else {
-                    if( $days > $balInfo['balance'] ) {
-                        $this->setErrMsg( $this->L10n->getContents('LANG_INSUFFICIENT_LEAVE') );
-                        return false;
-                    }
-                    $firstHalf  = ( isset( $data['firstHalf']  ) && $data['firstHalf']  ) ? 1 : 0;
-                    $secondHalf = ( isset( $data['secondHalf'] ) && $data['secondHalf'] ) ? 1 : 0;
-
-                    $this->info['userID'] = $userInfo['userID'];
-                    $this->info['ltID'] = $data['ltID'];
-                    $this->info['reason'] = $data['reason'];
-                    $this->info['startDate'] = $startDate->format('Y-m-d');
-                    $this->info['endDate'] = $endDate->format('Y-m-d');
-                    $this->info['firstHalf'] = $firstHalf;
-                    $this->info['secondHalf'] = $secondHalf;
-                    $this->info['days'] = $days;
-                    $this->info['created'] = date( 'Y-m-d H:i:s' );
-                    return true;
-                }
-            }
-        }
-        return false;
+        return $data;
     }
 
 
@@ -214,78 +240,49 @@ class LeaveApplyModel extends \Model {
      * Render main navigation
      * @return string
      */
-    public function calculateDateDiff( $data ) {
+    public function save( $data ) {
         $firstHalf  = ( isset( $data['firstHalf']  ) && $data['firstHalf']  ) ? 1 : 0;
         $secondHalf = ( isset( $data['secondHalf'] ) && $data['secondHalf'] ) ? 1 : 0;
 
-        if( !$data['ltID'] ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_CHOOSE_LEAVE_TYPE') );
-            return false;
-        }
-        if( !$data['startDate'] || !$data['endDate'] ) {
-            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );
-            return false;
-        }
+        $this->info['userID'] = $data['userID'];
+        $this->info['ltID'] = $data['ltID'];
+        $this->info['reason'] = $data['reason'];
+        $this->info['startDate'] = $data['startDate']->format('Y-m-d');
+        $this->info['endDate'] = $data['endDate']->format('Y-m-d');
+        $this->info['firstHalf'] = $firstHalf;
+        $this->info['secondHalf'] = $secondHalf;
+        $this->info['days'] = $data['days'];
+        $this->info['created'] = date( 'Y-m-d H:i:s' );
+        return $this->info['laID'] = $this->LeaveApply->insert('leave_apply', $this->info );
+    }
 
-        // Get leave type to check if half day allowed
-        $TypeModel = TypeModel::getInstance( );
 
-        if( $typeInfo = $TypeModel->getByID( $data['ltID'] ) ) {
-            if( !$typeInfo['allowHalfDay'] && ( $data['firstHalf']  == 1 || $data['secondHalf'] == 1 ) ) {
-                $this->setErrMsg( $this->L10n->getContents('LANG_HALF_DAY_NOT_ALLOWED') );
-                return false;
-            }
-            $EmployeeModel = EmployeeModel::getInstance( );
-            $empInfo = $EmployeeModel->getInfo( );
-
-            // Get office time shift
-            $OfficeModel = OfficeModel::getInstance( );
-
-            if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                $startDate  = DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $endDate    = DateTime::createFromFormat('d M Y', $data['endDate'] );
-                $daysDiff   = Date::daysDiff( $startDate, $endDate );
-
-                // Create an iterateable period of date (P1D equates to 1 day)
-                $period   = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
-                $workDays = array( );
-                $dayList  = DayHelper::getL10nNumericValueList( );
-                $started  = false;
-
-                foreach( $dayList as $dayNumberic => $day ) {
-                    if( $dayNumberic == $officeInfo['workDayFrom'] ) {
-                        $workDays[$dayNumberic] = $started = true;
-                    }
-                    if( $dayNumberic == $officeInfo['workDayTo'] ) {
-                        $workDays[$dayNumberic] = true;
-                        $started = false;
-                    }
-                    if( $started ) {
-                        $workDays[$dayNumberic] = true;
-                    }
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        if( isset( $data['empInfo'] ) && isset( $post['data']['leaveApply'] ) && is_array( $post['data']['leaveApply'] ) ) {
+            foreach( $post['data']['leaveApply'] as $laID ) {
+                if( $this->isFoundByLaIDUserID( $laID, $data['empInfo']['userID'],1 ) ) {
+                    $this->LeaveApply->update('leave_apply', array( 'status' => 2 ),
+                                              'WHERE laID = "' . (int)$laID . '"' );
                 }
-                foreach( $period as $dt ) {
-                    $curr = strtolower( $dt->format('N') );
-
-                    // substract non working days
-                    if( !isset( $workDays[$curr] ) ) {
-                        $daysDiff--;
-                    }
-                }
-                if( $firstHalf  ) { $daysDiff -= .5; }
-                if( $secondHalf ) { $daysDiff -= .5; }
-                return $daysDiff;
             }
         }
     }
 
 
     /**
-     * Render main navigation
-     * @return string
+     * Return total count of records
+     * @return int
      */
-    public function save( ) {
-        return $this->info['laID'] = $this->LeaveApply->insert('leave_apply', $this->info );
+    public function deletePayroll( $data ) {
+        if( isset( $data['empInfo']['userID'] ) && $this->isFoundByUserID( $data['empInfo']['userID'],2 ) ) {
+            $this->LeaveApply->update('leave_apply', array( 'status' => 1 ),
+                                      'WHERE userID = "' . (int)$data['empInfo']['userID'] . '" AND
+                                                    status = "2"' );
+        }
     }
 }
 ?>

@@ -23,6 +23,12 @@ class LeaveRes extends Resource {
 
         $this->contents = array( );
         $this->contents['LANG_LEAVE_EVENTS'] = 'Leave &amp; Events';
+        $this->contents['LANG_TODAY'] = 'Today';
+        $this->contents['LANG_TOMORROW'] = 'Tomorrow';
+        $this->contents['LANG_WHOS_ON_LEAVE'] = 'Who\'s On Leave';
+        $this->contents['LANG_NO_ONE_ON_LEAVE_TODAY'] = 'No one is on leave today.';
+        $this->contents['LANG_NO_ONE_ON_LEAVE_TOMORROW'] = 'No one is on leave tomorrow.';
+        $this->contents['LANG_ITS_HOLIDAY'] = 'It\'s Holiday!';
         $this->contents['LANG_LEAVE_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
         $this->contents['LANG_LEAVE_BALANCE'] = 'Leave Balance';
         $this->contents['LANG_LEAVE_SETTINGS'] = 'Leave Settings';
@@ -57,11 +63,14 @@ class LeaveRes extends Resource {
         $this->contents['LANG_LEAVE_CAN_BE_APPLIED'] = 'Leave Can Be Applied';
         $this->contents['LANG_PROBATION_PERIOD'] = 'Probation Period';
         $this->contents['LANG_MONTHLY_BASIS'] = 'Monthly Basis';
-        $this->contents['LANG_IS_THIS_PRO_RATED'] = 'Is this leave type pro-rated?';
+        $this->contents['LANG_IS_THIS_PRO_RATED'] = 'Is Pro-Rated?';
+        $this->contents['LANG_IS_CHILD_CARE_LEAVE'] = 'Is Child Care Leave?';
         $this->contents['LANG_UNUSED_LIST'] = 'Unused Leave';
         $this->contents['LANG_CARRY_OVER_LIMIT'] = 'Carry Over Limit';
         $this->contents['LANG_TO_BE_USED_WITHIN'] = 'To Be Used Up Within';
-        $this->contents['LANG_APPLICABLE_TO'] = 'Applicable To';
+        $this->contents['LANG_PAYROLL_PROCESS_AS'] = 'Payroll Process As';
+        $this->contents['LANG_PAYROLL_FORMULA_FOR_UNPAID_LEAVE'] = 'Payroll Formula For UnPaid Leave';
+        $this->contents['LANG_SHOW_CHART_LEAVE_BALANCE'] = 'Show Chart in Leave Balance';
         $this->contents['LANG_GENDER'] = 'Gender';
         $this->contents['LANG_DESIGNATION'] = 'Designation';
         $this->contents['LANG_CONTRACT_TYPE'] = 'Contract Type';
@@ -70,6 +79,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_MARITAL_STATUS'] = 'Marital Status';
         $this->contents['LANG_MUST_HAVE_CHILDREN'] = 'Must Have Children';
         $this->contents['LANG_CHILD_BORN_IN'] = 'Child Born In';
+        $this->contents['LANG_CHILD_NOT_BORN_IN'] = 'Child <strong><u>Not</u></strong> Born In';
         $this->contents['LANG_CHILD_MAX_AGE'] = 'Child Maximum Age';
         $this->contents['LANG_ENTITLEMENT_STRUCTURE'] = 'Entitlement Structure';
         $this->contents['LANG_LEAVE_STRUCTURE_HEADER'] = 'Define the leave entitlement structure based on Employee\'s number of completed months service.';
@@ -80,6 +90,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_OFFICE_LOCATION'] = 'Office Location';
         $this->contents['LANG_FULL_DAY'] = 'Full Day';
         $this->contents['LANG_HALF_DAY'] = 'Half Day';
+        $this->contents['LANG_INVALID_BALANCE'] = 'Invalid Leave Balance.';
         $this->contents['LANG_INVALID_DATE_RANGE'] = 'Please select a valid date range for your leave application.';
         $this->contents['LANG_APPLYING'] = 'You are applying {days} of leave (Excluding Weekends and Public Holidays).';
         $this->contents['LANG_APPLY_DAYS'] = '{n} day|days';
@@ -90,6 +101,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Leave Request';
         $this->contents['LANG_FROM'] = 'From';
         $this->contents['LANG_TO'] = 'To';
+        $this->contents['LANG_CREATE_CUSTOM_HOLIDAY'] = 'Create Custom Holiday';
     }
 }
 ?>
