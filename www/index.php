@@ -6,7 +6,7 @@
  * @version $Id: index.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
-echo 1;
+
 require_once( '../config.ini.php' );
 require_once( APP . 'Application.class.php' );
 $Application = new Application( );
