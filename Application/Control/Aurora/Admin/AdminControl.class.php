@@ -45,7 +45,7 @@ class AdminControl extends Control {
      * @return void
      */
     public function init( $args ) {
-        echo 6; exit;
+        echo 7; exit;
         try {
             // Initialize Database Access Point
             $DB = new DB( DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT );
