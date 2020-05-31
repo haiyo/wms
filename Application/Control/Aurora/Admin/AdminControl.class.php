@@ -45,7 +45,7 @@ class AdminControl extends Control {
      * @return void
      */
     public function init( $args ) {
-        echo 7; exit;
+        echo 8; exit;
         try {
             // Initialize Database Access Point
             $DB = new DB( DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT );
@@ -73,7 +73,7 @@ class AdminControl extends Control {
                     //exit;
                 }
             }
-            // If no event request, just redirect to main page
+                // If no event request, just redirect to main page
             else if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
                 // Redirect to default page if user is authenticated and tries to load admin/
                 header( 'location: ' . ROOT_URL . 'admin/dashboard' );
