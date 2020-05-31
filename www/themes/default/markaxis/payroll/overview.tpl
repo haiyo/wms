@@ -372,7 +372,7 @@
                 date: date
             },
             success: function( res ) {
-                console.log(res)
+                //console.log(res)
                 var obj = $.parseJSON( res );
                 if( obj.bool == 0 ) {
                     return;
@@ -390,8 +390,7 @@
         var chart = document.getElementById( dataID + "Chart" );
         var columns_basic = echarts.init( chart );
         var dataLength = data.length;
-        var salaries = [];
-        var claims = [];
+        var salaries = claims = levies = contri = [];
 
         if( dataLength > 0 ) {
             for( var i=0; i<dataLength; i++ ) {
@@ -401,11 +400,26 @@
                 else {
                     salaries.push( parseInt( data[i].salaries ) );
                 }
+
                 if( !data[i].claims.length > 0 ) {
                     claims.push( 0 );
                 }
                 else {
                     claims.push( parseInt( data[i].claim ) );
+                }
+
+                if( !data[i].levies.length > 0 ) {
+                    levies.push( 0 );
+                }
+                else {
+                    levies.push( parseInt( data[i].levy ) );
+                }
+
+                if( !data[i].contributions.length > 0 ) {
+                    contri.push( 0 );
+                }
+                else {
+                    contri.push( parseInt( data[i].contribution ) );
                 }
             }
         }
@@ -413,7 +427,7 @@
         columns_basic.setOption({
 
             // Define colors
-            color: ['#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80'],
+            color: ['#E67F7F','#b6a2de','#5ab1ef','#ffb980','#d87a80'],
 
             // Global text styles
             textStyle: {
@@ -435,7 +449,7 @@
 
             // Add legend
             legend: {
-                data: ['Total Salaries', 'Total Claims'],
+                data: ['Total Salaries', 'Total Claims', 'Total Levies', 'Total CPF Contributions'],
                 itemHeight: 8,
                 itemGap: 20,
                 textStyle: {
@@ -455,10 +469,14 @@
                 formatter : function(params) {
                     var salaries = params[0].data.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.00/g, '');
                     var claims = params[1].data.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.00/g, '');
+                    var levies = params[2].data.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.00/g, '');
+                    var contri = params[3].data.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.00/g, '');
 
-                    var data  = params[0].axisValueLabel + " 2018<br />";
-                    data += params[0].marker + " " + params[0].seriesName + ": " + "SGD$" + salaries + "<br />";
-                    data += params[1].marker + " " + params[1].seriesName + ": " + "SGD$" + claims + "<br />";
+                    var data  = params[0].axisValueLabel + "<br />";
+                    data += params[0].seriesName + ": " + "SGD$" + salaries + "<br />";
+                    data += params[1].seriesName + ": " + "SGD$" + claims + "<br />";
+                    data += params[2].seriesName + ": " + "SGD$" + levies + "<br />";
+                    data += params[3].seriesName + ": " + "SGD$" + contri + "<br />";
                     return data;
                 }
             },
@@ -466,7 +484,7 @@
             // Horizontal axis
             xAxis: [{
                 type: 'category',
-                data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: data.range,
                 axisLabel: {
                     color: '#333'
                 },
@@ -524,9 +542,6 @@
                                 }
                             }
                         }
-                    },
-                    markLine: {
-                        data: [{type: 'average', name: 'Average'}]
                     }
                 },
                 {
@@ -543,9 +558,38 @@
                                 }
                             }
                         }
-                    },
-                    markLine: {
-                        data: [{type: 'average', name: 'Average'}]
+                    }
+                },
+                {
+                    name: 'Total Levies',
+                    type: 'bar',
+                    data: data.levies,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'top',
+                                textStyle: {
+                                    fontWeight: 500
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'Total CPF Contributions',
+                    type: 'bar',
+                    data: data.contributions,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'top',
+                                textStyle: {
+                                    fontWeight: 500
+                                }
+                            }
+                        }
                     }
                 }
             ]

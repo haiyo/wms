@@ -22,6 +22,7 @@ class Payslip extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT p.endDate AS period, pm.method AS paymentMethod, bk.name AS bankName,
+                                          emp_bk.number AS acctNumber,
                                           DATE_FORMAT(p.created, "%D %b %Y") AS created
                                    FROM payroll_user pu
                                         LEFT JOIN payroll p ON ( p.pID = pu.pID )

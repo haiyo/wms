@@ -37,6 +37,15 @@ class PayrollContributionModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getChart( $date ) {
+        return array( 'contributions' => $this->PayrollContribution->getChart( $date ) );
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function savePayroll( $data ) {

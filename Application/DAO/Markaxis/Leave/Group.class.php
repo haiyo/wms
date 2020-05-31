@@ -67,7 +67,7 @@ class Group extends \DAO {
      */
     public function getByltIDs( $ltIDs ) {
         $sql = $this->DB->select( 'SELECT * FROM leave_group
-                                   WHERE ltIDs IN (' . implode(',', $ltID ) . ')',
+                                   WHERE ltIDs IN (' . implode(',', $ltIDs ) . ')',
                                    __FILE__, __LINE__ );
 
         $list = array( );

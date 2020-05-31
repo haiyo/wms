@@ -34,7 +34,6 @@ class ChartControl {
         $post = Control::getRequest( )->request( POST );
 
         if( isset( $post['date'] ) ) {
-            //var_dump($this->ChartModel->getChart( $post['date'] )); exit;
             Control::setOutputArrayAppend( array( 'data' => $this->ChartModel->getChart( $post['date'] ) ) );
 
             $output = Control::getOutputArray( );

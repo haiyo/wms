@@ -101,6 +101,8 @@ class PayrollSummaryModel extends \Model {
             $info['puID'] = $data['puID'];
             $info['gross'] = $data['summary']['gross'];
             $info['deduction'] = $data['summary']['deduction'];
+            $info['levy'] = $data['summary']['levy'];
+            $info['contribution'] = $data['summary']['contribution'];
             $info['net'] = $data['summary']['net'];
             $info['claim'] = $data['summary']['claim'];
 
