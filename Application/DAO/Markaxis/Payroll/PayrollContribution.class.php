@@ -32,5 +32,27 @@ class PayrollContribution extends \DAO {
         }
         return $list;
     }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getChart( $date ) {
+        $sql = $this->DB->select( 'SELECT SUM(ps.contribution) AS contribution FROM payroll p
+                                   LEFT JOIN payroll_summary ps ON ( ps.pID = p.pID )
+                                   WHERE p.startDate BETWEEN DATE_SUB( "' . addslashes( $date ) . '", INTERVAL 11 MONTH) AND 
+                                         "' . addslashes( $date ) . '" 
+                                   GROUP BY p.startDate',
+                                    __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = (int)$row['contribution'];
+            }
+        }
+        return $list;
+    }
 }
 ?>

@@ -169,6 +169,8 @@
     </task>
     <task type="payroll/getChart">
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
         <observer controller="Markaxis/Payroll/ChartControl"></observer>
     </task>
     <task type="payroll/getProcessPass">

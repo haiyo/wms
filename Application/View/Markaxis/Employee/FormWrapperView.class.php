@@ -77,7 +77,7 @@ class FormWrapperView {
      * Render main navigation
      * @return string
      */
-    public function renderForm( $form, $userID=0, $photo='' ) {
+    public function renderForm( $form, $userID=0, $photo='silhouette' ) {
         $UserModel = UserModel::getInstance( );
         $userInfo = $UserModel->getInfo( );
 

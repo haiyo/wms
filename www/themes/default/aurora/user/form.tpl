@@ -114,44 +114,48 @@
         <h6 class="mb-0 ml-10 font-weight-bold">Enter Children(s) Information:</h6>
         <div class="card">
             <div id="childWrapper" class="card-body">
-                <!-- BEGIN DYNAMIC BLOCK: children -->
-                <div id="childRowWrapper_<?TPLVAR_ID?>">
-                    <div id="childRow_<?TPLVAR_ID?>" class="col-md-12 childRow">
-                        <input type="hidden" id="ucID_<?TPLVAR_ID?>" name="ucID_<?TPLVAR_ID?>" value="<?TPLVAR_UCID?>" />
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Child's Full Name: <span class="text-danger-400">*</span></label>
-                                <input type="text" name="childName_<?TPLVAR_ID?>" id="childName_<?TPLVAR_ID?>"
-                                       placeholder="Child's Full Name" class="form-control" value="<?TPLVAR_CHILD_NAME?>" />
+                <div id="addChildren">
+                    <!-- BEGIN DYNAMIC BLOCK: children -->
+                    <div id="childRowWrapper_<?TPLVAR_ID?>">
+                        <div id="childRow_<?TPLVAR_ID?>" class="col-md-12 childRow">
+                            <input type="hidden" id="ucID_<?TPLVAR_ID?>" name="ucID_<?TPLVAR_ID?>" value="<?TPLVAR_UCID?>" />
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Child's Full Name: <span class="text-danger-400">*</span></label>
+                                    <input type="text" name="childName_<?TPLVAR_ID?>" id="childName_<?TPLVAR_ID?>"
+                                           placeholder="Child's Full Name" class="form-control childName" value="<?TPLVAR_CHILD_NAME?>" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Country of Birth: <span class="text-danger-400">*</span></label>
-                                <?TPL_CHILD_COUNTRY?>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Country of Birth: <span class="text-danger-400">*</span></label>
+                                    <?TPL_CHILD_COUNTRY?>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Date of Birth:</label>
-                            <div class="form-group">
-                                <div class="col-md-4 no-padding-left">
-                                    <div class="form-group">
-                                        <?TPL_CHILD_DOB_MONTH_LIST?>
+                            <div class="col-md-6">
+                                <label>Date of Birth:</label>
+                                <div class="form-group">
+                                    <div class="col-md-4 no-padding-left">
+                                        <div class="form-group">
+                                            <?TPL_CHILD_DOB_MONTH_LIST?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <?TPL_CHILD_DOB_DAY_LIST?>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <?TPL_CHILD_DOB_DAY_LIST?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" name="childDobYear_<?TPLVAR_ID?>" class="form-control" placeholder="Year" value="<?TPLVAR_CHILD_YEAR?>" />
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="number" name="childDobYear_<?TPLVAR_ID?>" class="form-control childDobYear"
+                                                   placeholder="Year" value="<?TPLVAR_CHILD_YEAR?>" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-1 addChildrenCol">
-                                    <div class="form-group">
-                                        <a href="<?TPLVAR_ID?>" class="removeChildren"><i id="plus_<?TPLVAR_ID?>" class="icon-minus-circle2"></i></a>
+                                    <div class="col-md-1 addChildrenCol">
+                                        <div class="form-group">
+                                            <a href="<?TPLVAR_ID?>" class="removeChildren">
+                                                <i id="plus_<?TPLVAR_ID?>" class="icon-minus-circle2"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -159,6 +163,11 @@
                     </div>
                 </div>
                 <!-- END DYNAMIC BLOCK: children -->
+                <div style="float:left;padding:10px 20px;">
+                    <a type="button" class="btn bg-purple-400 btn-labeled btn-lg btn-block addChildren" data-toggle="modal" data-target="#modalApplyLeave">
+                        <b><i class="icon-file-plus2"></i></b> Add More Children</a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -169,7 +178,7 @@
                 <div class="form-group">
                     <label>Child's Full Name: <span class="text-danger-400">*</span></label>
                     <input type="text" name="childName_{id}" id="childName_{id}" placeholder="Child's Full Name"
-                           class="form-control" value="" />
+                           class="form-control childName" value="" />
                 </div>
             </div>
             <div class="col-md-3">
@@ -193,12 +202,12 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="number" name="childDobYear_{id}" class="form-control" placeholder="Year" value="" />
+                            <input type="number" name="childDobYear_{id}" class="form-control childDobYear" placeholder="Year" value="" />
                         </div>
                     </div>
                     <div class="col-md-1 addChildrenCol">
                         <div class="form-group">
-                            <a href="{id}" class="addChildren"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            <a href="{id}" class="removeChildren"><i id="plus_{id}" class="icon-minus-circle2"></i></a>
                         </div>
                     </div>
                 </div>

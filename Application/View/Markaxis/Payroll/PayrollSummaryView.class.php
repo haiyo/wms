@@ -126,6 +126,7 @@ class PayrollSummaryView {
 
         require_once LIB . 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf();
+        //$mpdf->SetProtection( array( 'print-highres' ), '123', '1234' );
         $mpdf->WriteHTML( $html );
         $mpdf->Output('payslip-' . $processDate . '.pdf','I' );
     }

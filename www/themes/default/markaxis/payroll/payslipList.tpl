@@ -47,13 +47,19 @@
                 targets: [3],
                 orderable: true,
                 searchable: false,
+                width: "100px",
+                data: "acctNumber"
+            },{
+                targets: [4],
+                orderable: true,
+                searchable: false,
                 width: "110px",
                 data: "bankName",
                 className : "text-center",
                 render: function( data, type, full, meta ) {
                     if( data ) {
-                        return '<div class="text-ellipsis"><a target="_blank" href="' + Aurora.ROOT_URL +
-                               'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">' + data + '</a></div>';
+                        return '<a target="_blank" href="' + Aurora.ROOT_URL +
+                               'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">Download</a>';
                     }
                     else {
                         return '';
@@ -103,16 +109,7 @@
 </script>
 
 <div class="tab-pane fade" id="claim">
-    <div class="list-action-btns claim-list-action-btns">
-        <ul class="icons-list">
-            <li>
-                <a type="button" class="btn bg-purple-400 btn-labeled"
-                   data-toggle="modal" data-target="#modalClaim">
-                    <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_CLAIM?>
-                </a>
-            </li>
-        </ul>
-    </div>
+
 
     <table class="table table-hover datatable tableLayoutFixed claimTable">
         <thead>
@@ -120,6 +117,7 @@
             <th>Pay Period</th>
             <th>Payment Method</th>
             <th>Bank Name</th>
+            <th>Account No.</th>
             <th>Payslip</th>
         </tr>
         </thead>

@@ -33,7 +33,18 @@ class ChartModel extends \Model {
      * @return mixed
      */
     public function getChart( $date ) {
-        return array( 'salaries' => $this->Chart->getChart( $date ) );
+        $from = new \DateTime( $date );
+        $to = new \DateTime( $date );
+        $to->modify('-11 month');
+
+        $range = array( );
+        while( $to<=$from ) {
+            array_push($range, $to->format('M Y') );
+            $to->modify('+1 month');
+        }
+
+        return array( 'range' => $range,
+                      'salaries' => $this->Chart->getChart( $date ) );
     }
 }
 ?>

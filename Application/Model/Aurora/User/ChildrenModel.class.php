@@ -62,6 +62,11 @@ class ChildrenModel extends \Model {
      * @return mixed
      */
     public function save( $data ) {
+        if( $data['children'] == 0 ) {
+            $this->deleteAll( $data['userID'] );
+            return;
+        }
+
         $preg = '/^ucID_(\d)+/';
 
         $callback = function( $val ) use( $preg ) {
@@ -74,14 +79,14 @@ class ChildrenModel extends \Model {
 
         $child = array_filter( $data, $callback,ARRAY_FILTER_USE_KEY );
         $size = sizeof( $child );
-        $validIDs = array( 0 );
+        $validIDs = array( );
 
         $ucInfo = array( );
         $ucInfo['userID'] = (int)$data['userID'];
 
         if( $size == 0 ) {
-            // Delete any orphans if children = No
-            $this->Children->delete( 'user_children', 'WHERE userID = "' . (int)$data['userID'] . '"' );
+            // Delete any orphans if no children
+            $this->deleteAll( $ucInfo['userID'] );
         }
         else {
             $saveInfo = array( );
@@ -116,10 +121,29 @@ class ChildrenModel extends \Model {
                     }
                 }
             }
-            $validIDs = implode(',', $validIDs );
-            $this->Children->delete('user_children','WHERE userID = "' . (int)$data['userID'] . '" AND 
+
+            $User = new User( );
+
+            if( sizeof( $validIDs ) > 0 ) {
+                $validIDs = implode(',', $validIDs );
+                $this->Children->delete('user_children','WHERE userID = "' . (int)$data['userID'] . '" AND 
                                                             ucID NOT IN(' . addslashes( $validIDs ) . ')');
+
+                $User->update( 'user', array( 'children' => 1 ), 'WHERE userID = "' . (int)$data['userID'] . '"' );
+            }
+            else {
+                $User->update( 'user', array( 'children' => 0 ), 'WHERE userID = "' . (int)$data['userID'] . '"' );
+            }
         }
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function deleteAll( $userID ) {
+        $this->Children->delete('user_children','WHERE userID = "' . (int)$userID . '"' );
     }
 }
 ?>
