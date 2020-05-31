@@ -103,11 +103,14 @@ class UserView {
         $SelectListView->setClass( 'raceList' );
         $raceList = $SelectListView->build( 'race',  $RaceModel->getList( ), $raceID, 'Select Race' );
 
-        $SelectListView->setClass( 'childSelect' );
-        $DayIntListView->setClass( 'childSelect' );
+        $SelectListView->setClass('childSelect childCountry' );
         $childCountry  = $SelectListView->build( 'childCountry_{id}', $countries, '', 'Select Country' );
-        $childDOBDayList   = $DayIntListView->getList( 'childDobDay_{id}', $dobDay, 'Day' );
-        $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), $dobMonth, 'Month' );
+
+        $DayIntListView->setClass('childSelect childDobDay' );
+        $childDOBDayList = $DayIntListView->getList( 'childDobDay_{id}', '', 'Day' );
+
+        $SelectListView->setClass('childSelect childDobMonth' );
+        $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), '', 'Month' );
 
         $vars = array( 'TPLVAR_USERID' => $this->info['userID'],
                        'TPLVAR_FNAME' => $this->info['fname'],

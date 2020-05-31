@@ -258,6 +258,17 @@ class PayrollModel extends \Model {
                 }
             }
         }
+        if( isset( $data['levy'] ) ) {
+            foreach( $data['levy'] as $levies ) {
+                $summary['levy'] += (float)$levies['amount'];
+            }
+        }
+        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
+            foreach( $data['contribution'] as $contribution ) {
+                $summary['contribution'] += (float)$contribution['amount'];
+            }
+        }
+/*
         if( isset( $data['skillLevy'] ) ) {
             $summary['sdl'] += (float)$data['skillLevy']['amount'];
             $summary['levy'] += (float)$data['skillLevy']['amount'];
@@ -266,11 +277,7 @@ class PayrollModel extends \Model {
             $summary['fwl'] += (float)$data['foreignLevy']['amount'];
             $summary['levy'] += (float)$data['foreignLevy']['amount'];
         }
-        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-            foreach( $data['contribution'] as $contribution ) {
-                $summary['contribution'] += (float)$contribution['amount'];
-            }
-        }
+        */
         return $summary;
     }
 

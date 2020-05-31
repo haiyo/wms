@@ -52,6 +52,7 @@ var MarkaxisEmployee = (function( ) {
                 next: function(index) {
                     $(".form-control").removeClass("border-danger");
                     $(".error").remove( );
+                    console.log("remove")
                     $(".stepy").validate(validate)
                 },
                 finish: function( index ) {
@@ -61,6 +62,44 @@ var MarkaxisEmployee = (function( ) {
                     }
                 }
             });
+
+            $.validator.addMethod("validChildren", function(value, element) {
+                if( $("#children1").is(":checked") ) {
+                    var error = false;
+
+                    if( $("#haveChildren .childName").length > 0 ) {
+                        $("#haveChildren .childRow").each(function( ) {
+                            if( $.trim( $(this).find(".childName").val( ) ) == "" ) {
+                                error = true;
+                                return false;
+                            }
+                            if( $(this).find(".childCountry").val( ) == "" ) {
+                                error = true;
+                                return false;
+                            }
+                            if( $(this).find(".childDobDay").val( ) == "" ) {
+                                error = true;
+                                return false;
+                            }
+                            if( $(this).find(".childDobMonth").val( ) == "" ) {
+                                error = true;
+                                return false;
+                            }
+                            if( $.trim( $(this).find(".childDobYear").val( ) ) == "" ) {
+                                error = true;
+                                return false;
+                            }
+                        });
+                    }
+
+                    if( !error )
+                    return true;
+                }
+                else
+                return true;
+
+            }, "Please enter valid child information.");
+
 
             $.validator.addMethod("validEmail", function(value, element) {
                 if( value == '' ) return true;
@@ -94,44 +133,7 @@ var MarkaxisEmployee = (function( ) {
                 },
                 // Different components require proper error label placement
                 errorPlacement: function( error, element ) {
-                    // Styled checkboxes, radios, bootstrap switch
-                    if( element.parents('div').hasClass("checker") ||
-                        element.parents('div').hasClass("choice") ||
-                        element.parent().hasClass('bootstrap-switch-container') ) {
-
-                        if( element.parents('label').hasClass('checkbox-inline') ||
-                            element.parents('label').hasClass('radio-inline')) {
-                            error.appendTo( element.parent().parent().parent().parent() );
-                        }
-                        else {
-                            error.appendTo( element.parent().parent().parent().parent().parent() );
-                        }
-                    }
-                    // Unstyled checkboxes, radios
-                    else if( element.parents('div').hasClass('checkbox') ||
-                             element.parents('div').hasClass('radio') ) {
-                        error.appendTo( element.parent().parent().parent() );
-                    }
-                    // Input with icons and Select2
-                    else if( element.parents('div').hasClass('has-feedback') ||
-                             element.hasClass('select2-hidden-accessible') ) {
-                        //error.appendTo( element.parent() );
-                        element.next().find(".select2-selection").addClass("border-danger");
-                    }
-                    // Inline checkboxes, radios
-                    else if( element.parents('label').hasClass('checkbox-inline') ||
-                             element.parents('label').hasClass('radio-inline') ) {
-                        error.appendTo( element.parent().parent() );
-                    }
-                    // Input group, styled file input
-                    else if( element.parent().hasClass('uploader') ||
-                             element.parents().hasClass('input-group') ) {
-                        error.appendTo( element.parent().parent() );
-                    }
-                    else {
-                        if( $(".error").length === 0 )
-                            $(".stepy-navigator").prepend(error);
-                    }
+                    $(".stepy-navigator").prepend(error);
                 },
                 rules: {
                     fname : "required",
@@ -140,6 +142,9 @@ var MarkaxisEmployee = (function( ) {
                     email1: {
                         validEmail: true,
                         required: true
+                    },
+                    children: {
+                        validChildren: true
                     }
                 }
             };
@@ -1086,7 +1091,7 @@ var MarkaxisEmployee = (function( ) {
             var length = $("#childWrapper .childRow").length;
             var child = $("#childTemplate").html( );
             child = child.replace(/\{id\}/g, length );
-            $("#childWrapper").append( '<div id="childRowWrapper_' + length + '">' + child + "</div>" );
+            $("#addChildren").append( '<div id="childRowWrapper_' + length + '">' + child + "</div>" );
 
             $("#childRowWrapper_" + length).find(".select2").remove( );
 
@@ -1199,14 +1204,14 @@ var MarkaxisEmployee = (function( ) {
                             if( $("#userID").val( ) === 0 ) {
                                 title = "New Employee Added  Successfully";
                                 goToURL = Aurora.ROOT_URL + "admin/user/add";
-                                backToURL = Aurora.ROOT_URL + "admin/user/list";
+                                backToURL = Aurora.ROOT_URL + "admin/employee/settings";
                                 confirmButtonText = "Add Another Employee";
                                 cancelButtonText = "Go to Employee Listing";
                             }
                             else {
                                 title = "Employee Updated Successfully";
                                 cancelButtonText = "Continue Editing This Employee";
-                                goToURL = Aurora.ROOT_URL + "admin/user/list";
+                                goToURL = Aurora.ROOT_URL + "admin/employee/settings";
                                 backToURL = Aurora.ROOT_URL + "admin/user/edit/" + $("#userID").val( );
                                 confirmButtonText = "Go to Employee Listing";
                             }

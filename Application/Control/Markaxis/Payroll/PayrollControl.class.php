@@ -183,7 +183,7 @@ class PayrollControl {
 
             //$result = json_decode($this->refresh( $result ) );
 
-            echo '<pre>' . var_dump($result) . '</pre>';
+            //echo '<pre>' . var_dump($result) . '</pre>';
 
 
             $fields = array(
@@ -214,9 +214,9 @@ class PayrollControl {
                                             'accessToken:' . $result->access_token ) ,
                 //CURLOPT_POSTFIELDS => '{"payee":{"partyId":"1058634943","partyInitials":"MR","payeeDetail":{"transferPayee":{"payeeName":"Robin","payeeNickname":"Gupta","paymentChannel":"RTGS","bankId":"XYZ","payeeAccount":{"accountNumber":"20010054460009"},"alternatePayeeReference":{"alternateReferenceType":"Treasures","alternateReferenceDesc":"tranferpayee","alternateReference":"accountNumber"},"payeeContacts":{"phone":{"phoneType":"home","phoneNumber":"9972427518"},"email":{"emailAddressType":"home","emailAddress":"asdfg@gmail.com"}}}}}}'
             ));
-            $result = curl_exec($ch);
-            var_dump( $result );
-            exit;
+            //$result = curl_exec($ch);
+            //var_dump( $result );
+            //exit;
 
 
             /*$ch = curl_init();

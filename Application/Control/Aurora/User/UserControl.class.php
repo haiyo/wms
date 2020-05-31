@@ -33,7 +33,7 @@ class UserControl {
      */
     public function profile( $userID ) {
         if( !$userID ) {
-            Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+            //Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
         }
     }
 
