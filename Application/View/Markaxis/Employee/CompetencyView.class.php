@@ -32,6 +32,8 @@ class CompetencyView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/CompetencyRes');
 
         $this->CompetencyModel = CompetencyModel::getInstance( );
+
+        $this->View->setJScript( array( 'markaxis' => array( 'competency.js' ) ) );
     }
 
 

@@ -3,6 +3,7 @@ namespace Markaxis\Payroll;
 use \Aurora\User\UserImageModel;
 use \Library\Security\Aurora\LockMethod;
 use \Library\Validator\Validator;
+use \Library\Util\Date;
 use \Library\Exception\Aurora\AuthLoginException;
 
 /**
@@ -57,6 +58,23 @@ class PayrollModel extends \Model {
      */
     public function getCalculateUserInfo( $userID ) {
         return $this->Payroll->getCalculateUserInfo( $userID );
+    }
+
+
+    /**
+     * Retrieve Events Between a Start and End Timestamp
+     * @return mixed
+     */
+    public function getEventsBetween( $info ) {
+        $eventList = array( );
+
+        if( isset( $info['start'] ) && isset( $info['end'] ) ) {
+            $startDate = Date::parseDateTime( $info['start'] );
+            $endDate = Date::parseDateTime( $info['end'] );
+
+            $eventList = $this->Payroll->getEventsBetween( $startDate, $endDate );
+        }
+        return $eventList;
     }
 
 

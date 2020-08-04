@@ -1,6 +1,8 @@
 <?php
 namespace Aurora\User;
 use \Control;
+use \Library\Http\HttpResponse;
+use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -31,10 +33,8 @@ class UserControl {
      * Render main navigation
      * @return string
      */
-    public function profile( $userID ) {
-        if( !$userID ) {
-            //Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
-        }
+    public function profile( ) {
+        Control::setOutputArrayAppend( $this->UserView->renderProfile( ) );
     }
 
 
@@ -45,8 +45,10 @@ class UserControl {
     public function getEvents( ) {
         $post = Control::getRequest( )->request( POST );
 
-        if( $eventInfo = $this->UserModel->getEvents( $post ) ) {
-            Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+        if( isset( $post['type'] ) && $post['type'] == 'birthday' ) {
+            if( $eventInfo = $this->UserModel->getEvents( $post ) ) {
+                Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+            }
         }
     }
 
@@ -65,8 +67,31 @@ class UserControl {
      * @return string
      */
     public function edit( $args ) {
-        $userID = isset( $args[1] ) ? (int)$args[1] : 0;
-        Control::setOutputArrayAppend( array( 'form' => $this->UserView->renderEdit( $userID ) ) );
+        try {
+            $userID = isset( $args[1] ) ? (int)$args[1] : 0;
+
+            if( $userInfo = $this->UserModel->getFieldByUserID( $userID, '*' ) ) {
+                Control::setOutputArrayAppend( array( 'userInfo' => $userInfo,
+                                                      'form' => $this->UserView->renderEdit( $userInfo ) ) );
+            }
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+            }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
+            header( 'location: ' . ROOT_URL . 'admin/notfound' );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveProfile( ) {
+        $this->saveUser( );
     }
 
 

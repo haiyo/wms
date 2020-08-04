@@ -411,7 +411,7 @@
                         </div>
                     </div>
 
-                    <div class="row p-20 mb-0 mr-10 text-right">
+                    <div class="mb-0 mr-10 text-right">
                         <button id="saveCompanySettings" type="button" class="btn bg-purple-400 btn-ladda" data-style="slide-right">
                             <span class="ladda-label">Save Settings <i class="icon-check position-right"></i></span>
                         </button>

@@ -5,14 +5,6 @@
         <div class="page-title">
             <h3><i class="<?TPLVAR_ICON?> position-left"></i> <?LANG_TEXT?></h3>
         </div>
-
-        <!--<div class="heading-elements header-links">
-            <div class="heading-btn-group">
-                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-            </div>
-        </div>-->
     </div>
 
     <div class="breadcrumb-line">
@@ -23,24 +15,11 @@
             <!-- END DYNAMIC BLOCK: breadcrumbs -->
         </ul>
 
-        <!--<ul class="breadcrumb-elements">
-            <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-gear position-left"></i>
-                    Settings
-                    <span class="caret"></span>
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
-                    <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
-                    <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
-                </ul>
-            </li>
-        </ul>-->
+        <ul class="breadcrumb-elements">
+            <!-- BEGIN DYNAMIC BLOCK: headerLinks -->
+            <li><a href="<?TPLVAR_LINK?>" class="<?TPLVAR_CLASSNAME?>"><i class="<?TPLVAR_ICON?> position-left"></i> <?LANG_TEXT?></a></li>
+            <!-- END DYNAMIC BLOCK: headerLinks -->
+        </ul>
     </div>
 
 

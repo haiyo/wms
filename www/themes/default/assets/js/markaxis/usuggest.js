@@ -10,9 +10,13 @@ var MarkaxisUSuggest = (function( ) {
      * MarkaxisUSuggest Constructor
      * @return void
      */
-    MarkaxisUSuggest = function( includeOwn ) {
+    MarkaxisUSuggest = function( settings ) {
         this.suggestElement = $(".suggestList");
-        this.includeOwn = includeOwn ? "/includeOwn" : "";
+
+        this.settings = $.extend({
+            includeOwn: false,
+        }, settings );
+
         this.cache = [];
         this.init( );
     };
@@ -39,7 +43,7 @@ var MarkaxisUSuggest = (function( ) {
             // Use Bloodhound engine
             var engine = new Bloodhound({
                 remote: {
-                    url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY' + that.includeOwn,
+                    url: Aurora.ROOT_URL + 'admin/employee/getList/%QUERY' + (that.settings.includeOwn ? "/includeOwn" : ""),
                     wildcard: '%QUERY',
                     filter: function( response ) {
                         return $.map( response, function( d ) {
@@ -158,7 +162,8 @@ var MarkaxisUSuggest = (function( ) {
         clearToken: function( ) {
             this.suggestElement.tokenfield('setTokens', []);
             this.cache = [];
-            $(".token-input").val("");
+            this.suggestElement.val("");
+            $(".tt-input").val("");
         }
     }
     return MarkaxisUSuggest;

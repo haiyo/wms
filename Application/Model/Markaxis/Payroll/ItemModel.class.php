@@ -169,11 +169,10 @@ class ItemModel extends \Model {
         $items['deductionAW'] = $this->getDeductionAW( );
         $items['additional'] = $this->getAdditional( );
 
-        if( isset( $data['empInfo']['salary'] ) &&
-            isset( $items['basic']['piID'] ) &&
-            isset( $items['ordinary'][$items['basic']['piID']] ) &&
-            is_numeric( $data['empInfo']['salary'] ) &&
+        if( isset( $data['empInfo']['salary'] ) && isset( $items['basic']['piID'] ) &&
+            isset( $items['ordinary'][$items['basic']['piID']] ) && is_numeric( $data['empInfo']['salary'] ) &&
             $data['empInfo']['salary'] > 0 ) {
+
             $items['ordinary'][$items['basic']['piID']]['amount'] = $data['empInfo']['salary'];
         }
         return $items;

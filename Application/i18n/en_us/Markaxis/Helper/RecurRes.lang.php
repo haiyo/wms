@@ -19,6 +19,8 @@ class RecurRes extends Resource {
     * @return void
     */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_HOURLY'] = 'Hourly';
         $this->contents['LANG_DAILY'] = 'Daily';

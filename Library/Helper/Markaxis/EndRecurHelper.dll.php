@@ -41,7 +41,7 @@ class EndRecurHelper implements IListHelper {
     public static function getL10nList( ) {
         $Registry = Registry::getInstance( );
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
-        $L10n = $i18n->loadLanguage('Markaxis/Calendar/Helper/RecurRes');
+        $L10n = $i18n->loadLanguage('Markaxis/Helper/RecurRes');
 
         return array( 'never' => $L10n->getContents('LANG_NEVER'),
                       'untilDate' => $L10n->getContents('LANG_UNTIL_DATE') );

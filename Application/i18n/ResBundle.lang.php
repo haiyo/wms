@@ -77,30 +77,33 @@ abstract class ResBundle {
             preg_match_all( '/(.*)({n}+)\s+(.*)/', $string, $match );
             //if( $t === 0 ) return $string;
 
-            $frontText = $match[1][0] . $match[2][0] . ' ';
-            preg_match_all( '/\s+(.*)/', $match[3][0], $back );
+            if( isset( $match[1][0] ) ) {
+                $frontText = $match[1][0] . $match[2][0] . ' ';
+                $backText  = '';
 
-            if( isset( $back[0][0] ) ) {
-                $backText = $back[0][0];
-                $match[3][0] = str_replace( $backText, '', $match[3][0] );
-            }
-            else {
-                $backText = '';
-            }
-            $replace = $replace ? $replace : $apply;
-            $t = explode( '|', $match[3][0] );
-            $i = 0;
-            if( sizeof( $t ) > 0 ) {
-                foreach( $rules as $rule ) {
-                    $choice = $this->strReplace( 'n', $apply, $rule );
-                    if( @eval("return $choice;") && isset( $t[$i] ) ) {
-                        return str_replace( '{n}', $replace, $frontText . $t[$i] . $backText );
-                    }
-                    $i++;
+                preg_match_all( '/\s+(.*)/', $match[3][0], $back );
+
+                if( isset( $back[0][0] ) ) {
+                    $backText = $back[0][0];
+                    $match[3][0] = str_replace( $backText, '', $match[3][0] );
                 }
+
+                $replace = $replace ? $replace : $apply;
+                $t = explode( '|', $match[3][0] );
+                $i = 0;
+
+                if( sizeof( $t ) > 0 && sizeof( $rules ) > 0 ) {
+                    foreach( $rules as $rule ) {
+                        $choice = $this->strReplace( 'n', $apply, $rule );
+                        if( @eval("return $choice;") && isset( $t[$i] ) ) {
+                            return str_replace( '{n}', $replace, $frontText . $t[$i] . $backText );
+                        }
+                        $i++;
+                    }
+                }
+                // Otherwise~
+                return str_replace( '{n}', $replace, $frontText . $t[(sizeof($t)-1)] . $backText );
             }
-            // Otherwise~
-            return str_replace( '{n}', $replace, $frontText . $t[(sizeof($t)-1)] . $backText );
         }
 	}
 

@@ -50,11 +50,73 @@ class ExpenseControl {
     /**
      * Render main navigation
      * @return string
+     */
+    public function getExpense( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->ExpenseModel->getByeiID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
 
-    public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        $this->ExpenseModel->savePayroll( $data, $post );
-    } */
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getMaxAmount( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        $vars = array( );
+
+        if( isset( $post['eiID'] ) && $vars['text'] = $this->ExpenseModel->getMaxAmount( $post['eiID'] ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->ExpenseModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveExpenseType( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( $vars['data'] = $this->ExpenseModel->saveExpenseType( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteExpense( ) {
+        $post = Control::getRequest( )->request( POST );
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( $this->ExpenseModel->deleteExpense( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['errMsg'] = $this->ExpenseModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

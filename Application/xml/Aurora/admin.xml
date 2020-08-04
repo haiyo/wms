@@ -15,12 +15,10 @@
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
         <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
-        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
+        <observer controller="Markaxis/Calendar/EventControl"></observer>
         <observer controller="Aurora/Page/DashboardControl"></observer>
-    </task>
-    <task type="newsAnnouncement">
-        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
     </task>
     <task type="notification">
         <observer controller="Aurora/Notification/NotificationControl"></observer>
@@ -33,7 +31,7 @@
     <task type="logo">
         <observer controller="Aurora/Page/LogoControl"></observer>
     </task>
-    <task type="notFound">
+    <task type="notfound">
         <observer controller="Aurora/Page/NotFoundControl"></observer>
     </task>
     <task type="billing">
@@ -45,9 +43,6 @@
     <task type="team">
         <observer controller="Markaxis/Team/TeamControl"></observer>
         <observer controller="Markaxis/Team/TeamMemberControl"></observer>
-    </task>
-    <task type="calendar">
-        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
     </task>
     <task type="smtp">
         <observer controller="Aurora/Config/SMTP/SMTPTestControl"></observer>
@@ -63,7 +58,11 @@
         <observer controller="Markaxis/Company/DepartmentManagerControl"></observer>
         <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Company/OfficeControl"></observer>
+        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
+    </task>
+    <task type="newsAnnouncement/results,newsAnnouncement/getContent,newsAnnouncement/save,newsAnnouncement/naDelete">
+        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
     </task>
     <task type="config">
         <observer controller="Aurora/Config/CoreControl"></observer>
@@ -84,11 +83,11 @@
         <observer controller="Aurora/User/Inbox/InboxAttachmentControl"></observer>
         <observer controller="Aurora/User/Inbox/InboxControl"></observer>
     </task>
-    <task type="profile">
-        <observer controller="Aurora/User/Profile/ProfileControl"></observer>
-        <observer controller="Aurora/User/Profile/SettingsControl"></observer>
-        <observer controller="Aurora/User/Profile/PasswordControl"></observer>
-        <observer controller="Aurora/User/Profile/ProfileWrapperControl"></observer>
+    <task type="user/profile,user/saveProfile">
+        <observer controller="Aurora/User/UserControl"></observer>
+        <observer controller="Aurora/User/UserImageControl"></observer>
+        <!--<observer controller="Markaxis/Employee/FinanceControl"></observer>-->
+        <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
     </task>
     <task type="help">
         <observer controller="Markaxis/Help/HelpControl"></observer>
@@ -102,13 +101,16 @@
         <observer controller="Aurora/User/UserImageControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Employee/FinanceControl"></observer>
         <!--<observer controller="Markaxis/Employee/EducationControl"></observer>-->
         <!--<observer controller="Markaxis/Employee/ExperienceControl"></observer>-->
         <!--<observer controller="Markaxis/Employee/AdditionalControl"></observer>-->
-        <!--<observer controller="Markaxis/Employee/DepartmentControl"></observer>-->
         <observer controller="Markaxis/Employee/ManagerControl"></observer>
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
+    </task>
+    <task type="role/getRole">
+        <observer controller="Aurora/User/RoleControl"></observer>
     </task>
     <task type="user/list,employee/getList">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
@@ -130,10 +132,21 @@
     <task type="employee/getCompetency,employee/getCompetencyResults,employee/getCompetencyToken,
                 employee/getCountList,employee/saveCompetency,employee/deleteCompetency">
         <observer controller="Aurora/User/UserRoleControl"></observer>
+        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
+        <observer controller="Markaxis/Employee/OfficeControl"></observer>
         <observer controller="Markaxis/Employee/DesignationControl"></observer>
         <observer controller="Markaxis/Employee/ContractControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+    </task>
+    <task type="employee/deleteOrphanGroups,employee/deleteDesignation">
+        <observer controller="Markaxis/Employee/DesignationControl"></observer>
+    </task>
+    <task type="employee/getContract,employee/saveContract">
+        <observer controller="Markaxis/Employee/ContractControl"></observer>
+    </task>
+    <task type="employee/getDesignation,employee/saveDesignation">
+        <observer controller="Markaxis/Employee/DesignationControl"></observer>
     </task>
     <task type="employee/results">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
@@ -141,15 +154,21 @@
     <task type="expense/claim">
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
     </task>
+    <task type="expense/getMaxAmount">
+        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
+    </task>
     <task type="expense">
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
         <observer controller="Markaxis/Expense/ManagerControl"></observer>
         <observer controller="Markaxis/Expense/ExpenseControl"></observer>
     </task>
-    <task type="expense/getExpensesResults">
+    <task type="expense/getExpense,expense/getExpensesResults,expense/deleteExpense,expense/saveExpenseType">
         <observer controller="Markaxis/Expense/ExpenseControl"></observer>
     </task>
-    <task type="payroll/process">
+    <task type="payroll/downloadCPF">
+        <observer controller="Markaxis/Payroll/CPFControl"></observer>
+    </task>
+    <task type="payroll/getPayrollEvents,payroll/process">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/getGroupList">
@@ -161,13 +180,15 @@
     <task type="payroll/deletePayItem">
         <observer controller="Markaxis/Payroll/ItemControl"></observer>
     </task>
-    <task type="payroll/getCalResults">
+    <task type="payroll/getCalResults,payroll/savePayCal,payroll/deletePayCal,payroll/getPayCal,
+                payroll/getEndDate,payroll/updatePayPeriod,payroll/getPaymentRecur">
         <observer controller="Markaxis/Payroll/CalendarControl"></observer>
     </task>
     <task type="payroll/overview">
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/getChart">
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
@@ -180,7 +201,10 @@
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/view,payroll/getPayslipResults">
-        <observer controller="Markaxis/Payroll/PayslipControl"></observer>
+        <observer controller="Markaxis/Payroll/PaySlipControl"></observer>
+    </task>
+    <task type="payroll/release,payroll/releaseAll">
+        <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
     </task>
     <task type="payroll/processPayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
@@ -237,6 +261,7 @@
         <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
+
     <task type="payroll/getAllProcessed">
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
     </task>
@@ -292,10 +317,13 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
-    <task type="leave/getDateDiff,leave/apply,leave/setLeaveAction">
+    <task type="leave/getDateDiff,leave/apply,leave/upload,leave/setLeaveAction">
         <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
+    </task>
+    <task type="leave/cancel">
+        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
     </task>
     <task type="leave/getGroup">
         <observer controller="Markaxis/Leave/GroupControl"></observer>
@@ -303,14 +331,21 @@
         <observer controller="Markaxis/Leave/ContractControl"></observer>
         <observer controller="Markaxis/Leave/StructureControl"></observer>
     </task>
-    <task type="leave/getEvents">
+    <task type="calendar/getEvents">
         <observer controller="Aurora/User/UserControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/HolidayControl"></observer>
+        <observer controller="Markaxis/Calendar/EventControl"></observer>
+        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
+    </task>
+    <task type="calendar/saveEvent,calendar/getRecurs,calendar/updateEventDropDrag">
+        <observer controller="Markaxis/Calendar/EventControl"></observer>
+    </task>
+    <task type="calendar">
         <observer controller="Markaxis/Calendar/CalendarControl"></observer>
     </task>
     <task type="leave/getTypeResults,leave/addType,leave/editType,leave/saveType,
-                leave/balance,leave/getHistory,leave/settings,leave/getHolidayResults">
+                leave/balance,leave/getHistory,leave/settings">
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
         <observer controller="Markaxis/Leave/TypeControl"></observer>
@@ -323,6 +358,9 @@
         <observer controller="Markaxis/Leave/ContractControl"></observer>
         <observer controller="Markaxis/Leave/StructureControl"></observer>
         <observer controller="Markaxis/Leave/LeaveControl"></observer>
+    </task>
+    <task type="leave/getHolidayResults,leave/getHoliday,leave/saveHoliday,leave/deleteHoliday">
+        <observer controller="Markaxis/Leave/HolidayControl"></observer>
     </task>
     <task type="file">
         <observer controller="Aurora/Component/UploadControl"></observer>

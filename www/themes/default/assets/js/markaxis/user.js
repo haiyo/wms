@@ -101,6 +101,7 @@ var MarkaxisUser = (function( ) {
                     }
                     else {
                         $("#userList").html( obj.html );
+                        $('[data-toggle="tooltip"]').tooltip( );
                     }
                 }
             };

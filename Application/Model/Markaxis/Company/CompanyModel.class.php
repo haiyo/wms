@@ -53,6 +53,15 @@ class CompanyModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getRegNumber( ) {
+        return $this->Company->getRegNumber( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getLogo( $field ) {
         $UploadModel = new UploadModel( );
         $companyInfo = $this->loadInfo( );

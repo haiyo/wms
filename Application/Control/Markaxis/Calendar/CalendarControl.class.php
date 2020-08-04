@@ -40,7 +40,7 @@ class CalendarControl {
     * Show Calendar
     * @return void
     */
-    public function calendar( ) {
+    public function view( ) {
         $date = getdate( time( ) );
 
         //echo json_encode( $CalendarView->renderCalendar( $date ) );
@@ -114,12 +114,10 @@ class CalendarControl {
     */
     public function getEvents( ) {
         $data = Control::getOutputArray( );
-        $vars = array( );
 
         if( isset( $data['events'] ) ) {
             echo json_encode( $data['events'] );
             exit;
-            //$this->CalendarModel
         }
     }
 
@@ -127,7 +125,7 @@ class CalendarControl {
     /**
     * Get all recurring events
     * @return void
-    */
+
     public function getRecurs( ) {
         $vars = array( );
         $vars['bool'] = 0;
@@ -141,32 +139,32 @@ class CalendarControl {
             $vars['data'] = $info;
         }
         Control::setOutputArray( $vars );
-    }
+    }*/
 
 
     /**
     * Save Event
     * @return void
-    */
+
     public function saveEvent( ) {
-        $post = Control::getRequest( )->request( POST );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
         $vars = array( );
         $vars['bool'] = 0;
 
-        $CalendarModel = CalendarModel::getInstance( );
-        if( !$CalendarModel->validate( $post ) ) {
-            $vars['errMsg'] = $CalendarModel->getErrMsg( );
+        if( !$this->CalendarModel->isValid( $post ) ) {
+            $vars['errMsg'] = $this->CalendarModel->getErrMsg( );
         }
         else {
-            if( $CalendarModel->save( ) ) {
-                $info = $CalendarModel->getInfo( );
+            if( $this->CalendarModel->save( ) ) {
+                $info = $this->CalendarModel->getInfo( );
                 $vars['bool'] = 1;
                 $vars = array_merge( $vars, $info );
             }
-            else $vars['errMsg'] = $CalendarModel->getErrMsg( );
+            else $vars['errMsg'] = $this->CalendarModel->getErrMsg( );
         }
-        Control::setOutputArray( $vars );
-    }
+        echo json_encode( $vars );
+        exit;
+    } */
 
 
     /**

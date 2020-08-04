@@ -63,7 +63,7 @@ class PayrollContributionModel extends \Model {
         }
         if( sizeof( $success ) > 0 ) {
             $this->PayrollContribution->delete('payroll_contribution',
-                                       'WHERE pcID NOT IN(' . implode(',', $success ) . ') AND 
+                                               'WHERE pcID NOT IN(' . implode(',', $success ) . ') AND 
                                                     puID = "' . (int)$data['puID'] . '"');
         }
         else {

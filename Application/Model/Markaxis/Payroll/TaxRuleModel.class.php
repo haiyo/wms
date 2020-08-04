@@ -68,8 +68,12 @@ class TaxRuleModel extends \Model {
             foreach( $data['taxGroups']['mainGroup'] as $mainGroup ) {
                 $tgIDs[] = $mainGroup['tgID'];
 
-                if( isset( $mainGroup['child'] ) ) {
-                    $tgIDs[] = implode(', ', $mainGroup['child'] );
+                if( isset( $mainGroup['child'] ) && is_array( $mainGroup['child'] ) ) {
+                    foreach( $mainGroup['child'] as $child ) {
+                        if( isset( $child['tgID'] ) ) {
+                            $tgIDs[] = $child['tgID'];
+                        }
+                    }
                 }
             }
             $data['taxRules'] = $this->TaxRule->getBytgIDs( implode(', ', $tgIDs ) );

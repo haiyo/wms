@@ -44,14 +44,10 @@
 }
 .card-header {
     padding:10px;
-    margin-top:20px;
     border-top: 1px solid rgba(0,0,0,.125);
     border-bottom: none;
 }
-.card-body {
-    padding-top:0;
-    padding-bottom:0;
-}
+
 .header-elements-inline {
     display: -ms-flexbox;
     display: flex;
@@ -256,11 +252,12 @@
     border:5px solid #8768ad;
     margin-bottom: 7px;
 }
-.dashboard-btn-block {margin-top:10px;}
+.dashboard-btn-block {margin:10px 0;}
 .header-links, .breadcrumb-line {display:none;}
 .dashboard-panel{width:100%;position:relative;background-color:#fff;border-radius: 3px;}
-.dashboard-header{margin:20px 0 10px 0;color:#666;}
-.dashboard-counter{margin:20px 0 10px 0;width:100%;padding:20px;}
+.dashboard-header{color:#666;}
+.dashboard-card-header{margin:20px 0 10px 0;color:#666;}
+.dashboard-counter{margin:10px 0 10px 0;width:100%;padding:20px;}
 .no-notification {padding:40px; color:#999;}
 .tab-content{padding:20px 20px;}
 .picker--time {min-width:118px;max-width:20px;}

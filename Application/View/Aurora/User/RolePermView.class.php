@@ -35,6 +35,8 @@ class RolePermView {
 
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/RolePermRes');
+
+        $this->View->setJScript( array( 'markaxis' => array( 'role.js' ) ) );
 	}
 
 
@@ -48,7 +50,7 @@ class RolePermView {
                        'LANG_TEXT' => $this->L10n->getContents( 'LANG_ROLES_PERMISSIONS' ) ) );
 
         return array( 'tab' =>  $this->View->render( 'aurora/core/tab.tpl', $vars ),
-                      'form' => $this->View->render( 'markaxis/employee/roleList.tpl', $vars ) );
+                      'form' => $this->View->render( 'aurora/role/roleList.tpl', $vars ) );
     }
 
 
@@ -72,7 +74,7 @@ class RolePermView {
             }
         }
         $vars['TPL_PERM_LIST'] = $this->renderPermList( );
-        return $this->View->render( 'markaxis/employee/roleList.tpl', $vars );
+        return $this->View->render( 'aurora/role/roleList.tpl', $vars );
     }
 
 
@@ -99,7 +101,7 @@ class RolePermView {
             }
         }
         $vars['TPL_PERM_LIST'] = implode( '', array_values( $list ) );
-        return $this->View->render( 'markaxis/employee/permList.tpl', $vars );
+        return $this->View->render( 'aurora/role/permListTable.tpl', $vars );
     }
 }
 ?>

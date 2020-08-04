@@ -19,7 +19,7 @@ class YearRecur extends MonthRecur {
     * @return void
     */
     function __construct( $rangeStart, $rangeEnd ) {
-        parent::__construct( (int)$rangeStart, (int)$rangeEnd );
+        parent::__construct( $rangeStart, $rangeEnd );
 	}
 
 

@@ -133,7 +133,7 @@ class CompetencyModel extends \Model {
     /**
      * Set Pay Item Info
      * @return bool
-
+     */
     public function isValid( $data ) {
         $Validator = new Validator( );
 
@@ -150,14 +150,14 @@ class CompetencyModel extends \Model {
             return false;
         }
         return true;
-    } */
+    }
 
 
     /**
      * Save Competency
      * @return int
-
-    public function saveCompetency( ) {
+     */
+    public function save( ) {
         if( !$this->info['cID'] ) {
             unset( $this->info['cID'] );
             $this->info['cID'] = $this->Competency->insert( 'competency', $this->info );
@@ -166,14 +166,14 @@ class CompetencyModel extends \Model {
             $this->Competency->update( 'competency', $this->info, 'WHERE cID = "' . (int)$this->info['cID'] . '"' );
         }
         return $this->info['cID'];
-    } */
+    }
 
 
     /**
      * Return a list of all users
      * @return mixed
      */
-    public function isValid( $data ) {
+    public function isValidList( $data ) {
         if( isset( $data['competency'] ) ) {
             $competencies = array_map('trim', explode( ';', $data['competency'] ) );
             $A_CompetencyModel = A_CompetencyModel::getInstance( );
@@ -200,7 +200,7 @@ class CompetencyModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function save( ) {
+    public function saveUser( ) {
         // Make sure userID has "passed" from UserModel before proceed
 
         if( sizeof( $this->validcID ) > 0 && isset( $this->info['userID'] ) ) {
@@ -230,40 +230,9 @@ class CompetencyModel extends \Model {
 
 
     /**
-     * Save Employee Competencies
-     * @return void
-
-    public function save( ) {
-        // Array with cID passthru from Component\CompetencyModel
-        if( isset( $data['competency'] ) && is_array( $data['competency'] ) ) {
-            $A_CompetencyModel = A_CompetencyModel::getInstance( );
-            $validcID = array( );
-
-            foreach( $data['competency'] as $cID ) {
-                if( $A_CompetencyModel->isFoundBycID( $cID ) ) {
-                    if( !$this->isFoundByUserID( $data['userID'], $cID ) ) {
-                        $info = array( );
-                        $info['userID'] = (int)$data['userID'];
-                        $info['eID'] = (int)$data['eID'];
-                        $info['cID'] = (int)$cID;
-                        $this->Competency->insert( 'employee_competency', $info );
-                    }
-                }
-                array_push( $validcID, $cID );
-            }
-            $competency = implode( ',', $validcID );
-
-            if( $competency )
-                $this->Competency->delete( 'employee_competency', 'WHERE userID = "' . (int)$data['userID'] . '" AND 
-                                            cID NOT IN(' . addslashes( $competency ) . ')' );
-        }
-    } */
-
-
-    /**
      * Delete Pay Item
      * @return int
-
+     */
     public function delete( $data ) {
         $deleted = 0;
 
@@ -276,6 +245,6 @@ class CompetencyModel extends \Model {
             }
         }
         return $deleted;
-    } */
+    }
 }
 ?>

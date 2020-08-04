@@ -85,8 +85,7 @@ class Calendar extends \DAO {
                                          e.label = l.color AND
                                          e.calID = "' . (int)$calID . '" AND
                                          e.start <= "' . addslashes( $end ) . '" AND
-                                         e.end >= "' . addslashes( $start ) . '"
-                                   ',
+                                         e.end >= "' . addslashes( $start ) . '"',
                                    __FILE__, __LINE__ );
         
         if( $this->DB->numrows( $sql ) > 0 ) {

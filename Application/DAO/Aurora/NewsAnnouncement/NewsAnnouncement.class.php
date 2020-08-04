@@ -15,6 +15,19 @@ class NewsAnnouncement extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $naID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(naID) FROM news_annoucement 
+                                   WHERE naID = "' . (int)$naID . '"',
+                                    __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -36,7 +49,7 @@ class NewsAnnouncement extends \DAO {
      */
     public function getList( ) {
         $list = array( );
-        $sql = $this->DB->select( 'SELECT *, DATE_FORMAT(na.created, "%D %b %Y") AS created 
+        $sql = $this->DB->select( 'SELECT *, DATE_FORMAT(na.created, "%a %b %D %Y") AS created 
                                    FROM news_annoucement na
                                    LEFT JOIN user u ON( u.userID = na.userID )
                                    ORDER BY na.created DESC ' . $this->limit,
@@ -59,9 +72,7 @@ class NewsAnnouncement extends \DAO {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
-                   OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
-                   OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
+        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR title LIKE "%' . $q . '%" )' : '';
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS na.*, DATE_FORMAT(na.created, "%D %b %Y") AS created,
                                           u.userID, CONCAT( u.fname, \' \', u.lname ) AS createdBy

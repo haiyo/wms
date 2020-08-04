@@ -28,7 +28,7 @@
         </div>
 
 
-        <div class="row">
+        <div class="row mb-0">
             <div class="col-md-12 on-leave-header"><?LANG_TOMORROW?> <?TPLVAR_TOMORROW_DAY?>
                 <span class="badge bg-dark count-pill ml-5"><?TPLVAR_TOMORROW_COUNT?></span>
             </div>

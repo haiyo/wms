@@ -1,6 +1,4 @@
 
-
-
 <div class="panel panel-flat">
     <div class="panel-body">
         <div class="sidebar sidebar-secondary sidebar-default">

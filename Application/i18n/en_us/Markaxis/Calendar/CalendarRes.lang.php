@@ -19,8 +19,10 @@ class CalendarRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
-        $this->contents['LANG_MY_CALENDAR'] = 'My Calendar';
+        $this->contents['LANG_CALENDAR'] = 'View Calendar';
     }
 }
 ?>

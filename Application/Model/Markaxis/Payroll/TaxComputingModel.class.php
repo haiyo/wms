@@ -169,6 +169,7 @@ class TaxComputingModel extends \Model {
     public function filterInvalidRules( $data, $post=false ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
             $unset = array( );
 

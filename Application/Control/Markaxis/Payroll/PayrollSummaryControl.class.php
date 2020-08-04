@@ -42,6 +42,21 @@ class PayrollSummaryControl {
 
     /**
      * Render main navigation
+     * @return string
+     */
+    public function getChart( ) {
+        $vars = array( );
+        $post = Control::getRequest( )->request( POST );
+
+        if( isset( $post['date'] ) ) {
+            $vars['bool'] = 1;
+            Control::setOutputArrayAppend( array( 'data' => $this->PayrollSummaryModel->getCountByDate( $post['date'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
      * @return void
      */
     public function processPayroll( $args ) {

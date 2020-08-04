@@ -19,6 +19,8 @@ class HelpRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_KNOWLEDGE_BASE'] = 'Knowledge Base';
         $this->contents['LANG_CONTACT_HELPDESK'] = 'Contact Helpdesk';

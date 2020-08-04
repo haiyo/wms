@@ -173,7 +173,7 @@ class DesignationModel extends \Model {
 
         if( is_array( $data['data'] ) ) {
             foreach( $data['data'] as $dID ) {
-                if( $data['group'] ) {
+                if( isset( $data['group'] ) ) {
                     $this->Designation->delete('designation', 'WHERE parent = "' . (int)$dID . '"');
                 }
                 else {

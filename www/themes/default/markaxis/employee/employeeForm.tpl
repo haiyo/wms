@@ -8,7 +8,7 @@
         </div>
 
         <div class="col-md-4">
-            <label>Select Department:</label>
+            <label>Assign Department(s):</label>
             <?TPL_DEPARTMENT_LIST?>
         </div>
 
@@ -58,50 +58,48 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <label>Employment Confirmation Date:</label>
-                <div class="form-group">
+        <div class="col-md-6 mb-30">
+            <label>Employment Confirmation Date:</label>
+            <div class="form-group">
 
-                    <div class="col-md-4 no-padding-left">
-                        <div class="form-group">
-                            <?TPL_CONFIRM_MONTH_LIST?>
-                        </div>
+                <div class="col-md-4 no-padding-left">
+                    <div class="form-group">
+                        <?TPL_CONFIRM_MONTH_LIST?>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <?TPL_CONFIRM_DAY_LIST?>
-                        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <?TPL_CONFIRM_DAY_LIST?>
                     </div>
+                </div>
 
-                    <div class="col-md-4 no-padding-right">
-                        <div class="form-group">
-                            <input type="number" name="confirmYear" class="form-control" placeholder="Year" value="<?TPLVAR_CONFIRM_YEAR?>" />
-                        </div>
+                <div class="col-md-4 no-padding-right">
+                    <div class="form-group">
+                        <input type="number" name="confirmYear" class="form-control" placeholder="Year" value="<?TPLVAR_CONFIRM_YEAR?>" />
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-6">
-                <label>Employment Start Date:</label>
-                <div class="form-group">
-                    <div class="col-md-4 no-padding-left">
-                        <div class="form-group">
-                            <?TPL_START_MONTH_LIST?>
-                        </div>
+        <div class="col-md-6">
+            <label>Employment Start Date:</label>
+            <div class="form-group">
+                <div class="col-md-4 no-padding-left">
+                    <div class="form-group">
+                        <?TPL_START_MONTH_LIST?>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <?TPL_START_DAY_LIST?>
-                        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <?TPL_START_DAY_LIST?>
                     </div>
+                </div>
 
-                    <div class="col-md-4 no-padding-right">
-                        <div class="form-group">
-                            <input type="number" name="startYear" class="form-control" placeholder="Year" value="<?TPLVAR_START_YEAR?>" />
-                        </div>
+                <div class="col-md-4 no-padding-right">
+                    <div class="form-group">
+                        <input type="number" name="startYear" class="form-control" placeholder="Year" value="<?TPLVAR_START_YEAR?>" />
                     </div>
                 </div>
             </div>
@@ -143,42 +141,44 @@
     </div>
 
     <div class="row">
-        <span class="mb-0 ml-10 font-weight-bold">For Foreigner:</span>
-        <div class="card">
-            <div class="card-body">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Work Pass Type:</label>
-                        <?TPL_PASS_TYPE_LIST?>
+        <div class="col-md-12">
+            <h7 class="mb-0 ml-10 font-weight-bold">For Foreigner:</h7>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Work Pass Type:</label>
+                            <?TPL_PASS_TYPE_LIST?>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>Work Pass Number:</label>
-                        <input type="text" name="passNumber" placeholder="0 325269 42" class="form-control" value="<?TPLVAR_PASS_NUMBER?>" />
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Work Pass Number:</label>
+                            <input type="text" name="passNumber" placeholder="0 325269 42" class="form-control" value="<?TPLVAR_PASS_NUMBER?>" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Work Pass Expiry Date:</label>
-                        <div class="row">
-                            <div class="col-md-4 no-padding-left">
-                                <div class="form-group">
-                                    <?TPL_PASS_EXPIRY_MONTH_LIST?>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Work Pass Expiry Date:</label>
+                            <div class="row">
+                                <div class="col-md-4 no-padding-left">
+                                    <div class="form-group">
+                                        <?TPL_PASS_EXPIRY_MONTH_LIST?>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <?TPL_PASS_EXPIRY_DAY_LIST?>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <?TPL_PASS_EXPIRY_DAY_LIST?>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-4 no-padding-right">
-                                <div class="form-group">
-                                    <input type="number" name="passExpiryYear" class="form-control" placeholder="Year" value="<?TPLVAR_PASS_EXPIRY_YEAR?>" />
+                                <div class="col-md-4 no-padding-right">
+                                    <div class="form-group">
+                                        <input type="number" name="passExpiryYear" class="form-control" placeholder="Year" value="<?TPLVAR_PASS_EXPIRY_YEAR?>" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

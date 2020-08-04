@@ -44,16 +44,35 @@ class TaxRuleWrapperModel extends \Model {
         if( !isset( $data['taxRules'] ) || !isset( $data['deduction'] ) ) {
             return $data;
         }
+
         // Parse all passes to items
         foreach( $data['taxRules'] as $rules ) {
             $remark = '';
             $amount = 0;
 
-            $ruleTitle = $rules['title'];
+            foreach( $data['taxGroups']['mainGroup'] as $taxGroup ) {
+                // First find all the childs in this group and see if we have any summary=1
+                if( isset( $taxGroup['child'] ) ) {
+                    $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
 
-            foreach( $data['taxGroups']['mainGroup'] as $taxGroups ) {
-                if( in_array( $rules['tgID'], $taxGroups['child'] ) && $taxGroups['summary'] ) {
-                    $ruleTitle = $taxGroups['title'];
+                    if( isset( $rules['tgID'] ) && in_array( $rules['tgID'], $tgIDChilds ) ) {
+                        foreach( $taxGroup['child'] as $child ) {
+                            if( isset( $child['tgID'] ) && $child['tgID'] == $rules['tgID'] ) {
+                                if( $child['summary'] ) {
+                                    $ruleTitle = $child['title'];
+                                    break 2;
+                                }
+                                else {
+                                    $ruleTitle = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if( $taxGroup['tgID'] == $rules['tgID'] ) {
+                    $ruleTitle = $taxGroup['title'];
+                    break;
                 }
             }
 
@@ -81,18 +100,6 @@ class TaxRuleWrapperModel extends \Model {
                                           'amount' => $amount );
             }
 
-            if( ( $rules['applyType'] == 'skillLevy' || $rules['applyType'] == 'foreignLevy' ) &&
-                $rules['applyValueType'] ) {
-                if( $rules['applyValueType'] == 'fixed' ) {
-                    $amount = $rules['applyValue'];
-                }
-                if( $rules['applyValueType'] == 'percentage' ) {
-                    $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
-                }
-                $data['levy'][] = array( 'title' => $ruleTitle,
-                                         'amount' => $amount,
-                                         'levyType' => $rules['applyType'] );
-            }
             if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
                 if( $rules['applyValueType'] == 'percentage' ) {
                     if( isset( $rules['capped'] ) ) {
@@ -108,6 +115,19 @@ class TaxRuleWrapperModel extends \Model {
                 $data['contribution'][$rules['trID']] = array( 'title' => $ruleTitle,
                                                                'trID' => $rules['trID'],
                                                                'amount' => $amount );
+            }
+
+            if( ( $rules['applyType'] == 'skillLevy' || $rules['applyType'] == 'foreignLevy' ) &&
+                $rules['applyValueType'] ) {
+                if ($rules['applyValueType'] == 'fixed') {
+                    $amount = $rules['applyValue'];
+                }
+                if ($rules['applyValueType'] == 'percentage') {
+                    $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
+                }
+                $data['levy'][] = array( 'title' => $ruleTitle,
+                                         'amount' => $amount,
+                                         'levyType' => $rules['applyType']);
             }
         }
         return $data;

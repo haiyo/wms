@@ -29,8 +29,22 @@ class LeaveControl {
      * Render main navigation
      * @return string
      */
+    public function getRequest( ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['leave'] ) ) {
+            Control::setOutputArrayAppend( array( 'request' => $this->LeaveView->renderRequest( $output['leave'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function balance( ) {
-        $this->LeaveView->renderBalance( );
+        $output = Control::getOutputArray( );
+        $this->LeaveView->renderBalance( $output );
     }
 
 

@@ -46,15 +46,17 @@ class NDayRecur extends DayRecur {
         // Find the first occurance of the event
         $startDate = new DateTime( $this->Event->getInfo('start', 'Y-m-d') );
         $startDate = $startDate->format('U');
+
         while( 0 != (($this->rangeStart->format('U')-$startDate)%$this->recurTotal)) {
             $this->rangeStart->modify('+1 day');
         }
         // Loop thru the range and find occurring events
         while( $this->rangeStart->format('U') <= $this->rangeEnd->format('U') ) {
             if( $this->rangeStart->format('U') >= $startDate && in_array( $this->rangeStart->format('N'), $this->nDay ) ) {
-                if( $this->untilDate( $this->rangeStart->format('Y-m-d') ) ) {
+                /*if( $this->untilDate( $this->rangeStart->format('Y-m-d') ) ) {
                     $this->setCollection( $this->Event->getInfo( ) );
-                }
+                }*/
+                $this->setCollection( $this->Event->getInfo( ) );
             }
             $this->rangeStart->modify('+1 day' );
         }

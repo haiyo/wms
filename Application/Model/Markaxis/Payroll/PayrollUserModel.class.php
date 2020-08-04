@@ -80,5 +80,43 @@ class PayrollUserModel extends \Model {
             }
         }
     }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function release( $data ) {
+        $released = 0;
+
+        if( isset( $data['pID'] ) && isset( $data['userIDs'] ) &&
+            is_array( $data['userIDs'] ) && sizeof( $data['userIDs'] ) > 0 ) {
+
+            foreach( $data['userIDs'] as $userID ) {
+                if( $this->getUserPayroll( $data['pID'], $userID ) ) {
+                    $info = array( );
+                    $info['released'] = 1;
+                    $this->PayrollUser->update('payroll_user', $info,
+                                               'WHERE pID = "' . (int)$data['pID'] . '" AND
+                                                             userID = "' . (int)$userID . '"' );
+                    $released++;
+                }
+            }
+        }
+        return $released;
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function releaseAll( $data ) {
+        if( isset( $data['pID'] ) ) {
+            $info = array( );
+            $info['released'] = 1;
+            $this->PayrollUser->update('payroll_user', $info,'WHERE pID = "' . (int)$data['pID'] . '"' );
+        }
+    }
 }
 ?>

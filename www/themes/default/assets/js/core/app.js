@@ -36,9 +36,6 @@ $(function() {
     // Initialize
     containerHeight();
 
-
-
-
     // ========================================
     //
     // Heading elements
@@ -333,7 +330,9 @@ $(function() {
         $('body').toggleClass('sidebar-xs');
     });
 
-
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
     // Sidebar controls
     // -------------------------

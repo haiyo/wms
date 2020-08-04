@@ -1,11 +1,11 @@
 <?php
 namespace Markaxis\Calendar;
+use \Library\Helper\Markaxis\LabelHelper;
+use \Library\Helper\Aurora\TimeHelper, \Aurora\Form\DayIntListView;
 use \Library\Runtime\Registry, \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\CheckboxView;
-use \Aurora\DayIntListView, Aurora\YearListView, Aurora\MonthHelper, Aurora\TimeHelper;
-use \Aurora\RadioView, Aurora\PermListView, Aurora\YesNoRadioView, Aurora\UserAvatarView;
-use \Aurora\RoleListView;
+use \Library\Helper\Markaxis\RecurHelper, \Library\Helper\Markaxis\ReminderHelper;
 use \Library\IO\File;
-use \Date, \Stringify;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, July 7th, 2012
@@ -42,11 +42,15 @@ class CalendarView extends AdminView {
 
         $this->CalendarModel = CalendarModel::getInstance( );
 
-        $this->setJScript( array( 'plugins/moment' => 'moment.min.js',
+        $this->setJScript( array( 'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
+                                  'plugins/moment' => 'moment.min.js',
+                                  'plugins/forms/styling' => array( 'switch.min.js', 'switchery.min.js' ),
                                   'plugins/fullcalendar' => array( 'core/main.js',
                                                                    'daygrid/main.js',
                                                                    'timegrid/main.js',
-                                                                   'interaction/main.js' ) ) );
+                                                                   'interaction/main.js' ),
+                                  'jquery' => array( 'jquery.validate.min.js' ),
+                                  'markaxis' => array( 'calendar.js' ) ) );
 
         $this->setStyle( array( 'fullcalendar' => array( 'core/main', 'daygrid/main', 'timegrid/main' ) ) );
 	}
@@ -89,41 +93,24 @@ class CalendarView extends AdminView {
     * @return mixed
     */
     public function renderCalendar( $date ) {
-        /*$calInfo  = $this->CalendarModel->getCalByDefault( );
-        $setInfo  = unserialize( $calInfo['settings'] );
-        $editAble = 1;
-        
-        if( $calInfo['parentID'] != 0 ) {
-            // Get real owner
-            $ownerCal = $this->CalendarModel->getByCalID( $calInfo['parentID'] );
-            $ownerSet = unserialize( $ownerCal['settings'] );
+        $SelectListView = new SelectListView( );
 
-            if( isset( $ownerSet['people'] ) ) {
-                foreach( $ownerSet['people'] as $userID => $value ) {
-                    if( $userID == $this->userInfo['userID'] ) {
-                        if( $value['perm'] == 'viewAll' ) {
-                            $editAble = 0;
-                        }
-                    }
-                }
-            }
-        }
-        $vars = array( 'TPLVAR_CALID'        => $calInfo['calID'],
-                       'TPLVAR_PARENT_CALID' => $calInfo['parentID'],
-                       'TPLVAR_CAL_VIEW'     => 'month',
-                       'TPLVAR_CAL_RATIO'    => $setInfo['calHeight'],
-                       'TPLVAR_CAL_STARTS'   => $setInfo['weekStart'],
-                       'TPLVAR_CAL_WEEKENDS' => $setInfo['showWeekends'],
-                       'TPLVAR_CAL_EDITABLE' => $editAble );
-        
-        return array( 'title' => $this->EventRes->getContents('LANG_DEFAULT_TITLE'),
-                      'calendar' => $this->render( 'markaxis/calendar/html/droplet.tpl', $vars ) );*/
+        $DayIntListView = new DayIntListView( );
+        $DayIntListView->setClass('selectList');
+        $DayIntListView->setClass('selectList repeatList');
 
         $this->setBreadcrumbs( array( 'link' => 'admin/calendar',
                                       'icon' => 'icon-users4',
-                                      'text' => $this->CalendarRes->getContents('LANG_MY_CALENDAR') ) );
+                                      'text' => $this->CalendarRes->getContents('LANG_CALENDAR') ) );
 
-        $vars = array_merge( $this->CalendarRes->getContents( ), array( 'LANG_LINK' => $this->CalendarRes->getContents('LANG_MY_CALENDAR') ) );
+        $vars = array_merge( $this->CalendarRes->getContents( ),
+                             $this->EventRes->getContents( ),
+                             array( 'TPLVAR_START_TIME' => $SelectListView->build( 'startTime', TimeHelper::getL10nList( )/*,  date('Hi', '' )*/, '','Set Start Time' ),
+                                    'TPLVAR_END_TIME' => $SelectListView->build( 'endTime', TimeHelper::getL10nList( )/*,  date('Hi', '' )*/, '','Set End Time' ),
+                                    'TPLVAR_RECUR_TYPE' => $SelectListView->build( 'recurType', RecurHelper::getL10nList( ), '', 'Set Recurring' ),
+                                    'TPLVAR_REMINDER' => $SelectListView->build( 'reminder', ReminderHelper::getL10nList( ), '', 'Set Reminder' ),
+                                    'TPLVAR_LABEL_LIST' => $SelectListView->build( 'label', LabelHelper::getL10nList( ), '' ),
+                                    'LANG_LINK' => $this->CalendarRes->getContents('LANG_CALENDAR') ) );
 
         return $this->render( 'markaxis/calendar/calendar.tpl', $vars );
     }

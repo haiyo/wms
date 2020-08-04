@@ -13,7 +13,6 @@ class MonthRecur extends Recur {
 
 
     // Properties
-    protected $startDate;
     protected $interval;
     protected $forceMonthEnd = false;
 
@@ -44,9 +43,11 @@ class MonthRecur extends Recur {
     */
     public function getNextRecur( $baseTime=null, $months=1 ) {
         if( is_null( $baseTime ) ) $baseTime = time( );
+
         $xMonths = strtotime( '+' . $months . ' months', $baseTime );
         $before = (int)date( 'm', $baseTime )+12*(int)date( 'Y', $baseTime );
         $after  = (int)date( 'm', $xMonths )+12*(int)date( 'Y', $xMonths );
+
         if( $after > $months+$before ) {
             $xMonths = strtotime( date('Ym01His', $xMonths) . ' -1 day' );
         }
@@ -67,13 +68,8 @@ class MonthRecur extends Recur {
     * Get events formula
     * @return mixed
     */
-    public function getEvents( $returnTime=false ) {
-        /*$this->rangeStart->setDate( $this->Event->getInfo('start', 'Y'),
-                                    $this->Event->getInfo('start', 'm'),
-                                    $this->Event->getInfo('start', 'd') );*/
-
+    public function getEvents( ) {
         while( $this->rangeStart <= $this->rangeEnd ) {
-
             $currView  = mktime( 0, 0, 0, $this->rangeStart->format('m'),
                                                                $this->Event->getInfo('start', 'd'),
                                                                $this->rangeStart->format('Y') );
@@ -92,43 +88,22 @@ class MonthRecur extends Recur {
                 $nextRecur = $this->getNextRecur( $this->Event->getInfo('start', 'U'), $this->interval );
                 $endRecur  = $this->getNextRecur( $this->Event->getInfo('end',   'U'), $this->interval );
 
-                // Store first created recur
-                if( sizeof( $this->collection ) == 0 ) {
-                    $this->collection[] = array( 'start' => $this->Event->getInfo( 'start', 'Y-m-d' ),
-                                                 'end'   => $this->Event->getInfo( 'end', 'Y-m-d' ) );
-                }
-
-                //$nextRecur = self::addMonth( $this->Event->getInfo( 'start', false ), $this->Event->getInfo('start', false ), $this->forceMonthEnd );
-                //$endRecur  = self::addMonth( $this->Event->getInfo( 'end', false ), $this->Event->getInfo('end', false ), $this->forceMonthEnd );
-
                 $startDate = date( 'Y-m-d', $nextRecur );
-                //$startDate = $nextRecur->format( 'Y-m-d' );
 
-                if( $startDate >= $this->Event->getInfo('start') && $this->untilDate( $startDate ) ) {
+                if( $startDate >= $this->Event->getInfo('start') /*&& $this->untilDate( $startDate )*/ ) {
                     $eventInfo = $this->Event->getInfo( );
 
                     // Do the magic overwrite with new recur dates!
-                    $format = $this->forceMonthEnd ? 'Y-m-t ' : 'Y-m-d ';
+                    $format = $this->forceMonthEnd ? 'Y-m-t' : 'Y-m-d H:i:s';
 
                     $eventInfo['start'] = date( $format, $nextRecur );
-                    $eventInfo['end']   = date( 'Y-m-d ', $endRecur  );
-
-                    //$eventInfo['start'] = $nextRecur->format( 'Y-m-d' );
-                    //$eventInfo['end']   = $endRecur->format( 'Y-m-d' );
-
-                    if( $returnTime ) {
-                        $eventInfo['start'] .= $this->Event->getInfo('start', ' H:i:s');
-                        $eventInfo['end']   .= $this->Event->getInfo('end', ' H:i:s');
-                    }
+                    $eventInfo['end']   = date( 'Y-m-d H:i:s', $endRecur  );
 
                     $this->collection[] = $eventInfo;
+                    $this->Event->setInfo( 'start', new DateTime( $eventInfo['start'] ) );
+                    $this->Event->setInfo( 'end', new DateTime( $eventInfo['end'] ) );
                 }
-                $this->Event->setInfo( 'start', new DateTime( $eventInfo['start'] ) );
-                $this->Event->setInfo( 'end', new DateTime( $eventInfo['end'] ) );
             }
-            //$this->rangeStart->modify('+' . $this->Event->repeatTimes( ) . ' ' . $this->Event->getInfo('recurType') );
-            //$this->rangeStart->setDate( $this->rangeStart->format('Y'), $this->rangeStart->format('m'), $this->Event->getInfo( 'start', 'd') );
-
             $this->rangeStart = self::addMonth( $this->rangeStart, $this->rangeStart, $this->forceMonthEnd );
         }
         return $this->collection;

@@ -110,67 +110,71 @@
             <?TPL_CHILDREN_RADIO?>
         </div>
     </div>
+
     <div id="haveChildren" class="row hide">
-        <h6 class="mb-0 ml-10 font-weight-bold">Enter Children(s) Information:</h6>
-        <div class="card">
-            <div id="childWrapper" class="card-body">
-                <div id="addChildren">
-                    <!-- BEGIN DYNAMIC BLOCK: children -->
-                    <div id="childRowWrapper_<?TPLVAR_ID?>">
-                        <div id="childRow_<?TPLVAR_ID?>" class="col-md-12 childRow">
-                            <input type="hidden" id="ucID_<?TPLVAR_ID?>" name="ucID_<?TPLVAR_ID?>" value="<?TPLVAR_UCID?>" />
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Child's Full Name: <span class="text-danger-400">*</span></label>
-                                    <input type="text" name="childName_<?TPLVAR_ID?>" id="childName_<?TPLVAR_ID?>"
-                                           placeholder="Child's Full Name" class="form-control childName" value="<?TPLVAR_CHILD_NAME?>" />
+        <div class="col-md-12">
+            <h7 class="mb-0 ml-10 font-weight-bold">Enter Children(s) Information:</h7>
+            <div class="card">
+                <div id="childWrapper" class="card-body">
+                    <div id="addChildren">
+                        <!-- BEGIN DYNAMIC BLOCK: children -->
+                        <div id="childRowWrapper_<?TPLVAR_ID?>">
+                            <div id="childRow_<?TPLVAR_ID?>" class="col-md-12 childRow">
+                                <input type="hidden" id="ucID_<?TPLVAR_ID?>" name="ucID_<?TPLVAR_ID?>" value="<?TPLVAR_UCID?>" />
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Child's Full Name: <span class="text-danger-400">*</span></label>
+                                        <input type="text" name="childName_<?TPLVAR_ID?>" id="childName_<?TPLVAR_ID?>"
+                                               placeholder="Child's Full Name" class="form-control childName" value="<?TPLVAR_CHILD_NAME?>" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Country of Birth: <span class="text-danger-400">*</span></label>
-                                    <?TPL_CHILD_COUNTRY?>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Country of Birth: <span class="text-danger-400">*</span></label>
+                                        <?TPL_CHILD_COUNTRY?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Date of Birth:</label>
-                                <div class="form-group">
-                                    <div class="col-md-4 no-padding-left">
-                                        <div class="form-group">
-                                            <?TPL_CHILD_DOB_MONTH_LIST?>
+                                <div class="col-md-6">
+                                    <label>Date of Birth:</label>
+                                    <div class="form-group">
+                                        <div class="col-md-4 no-padding-left">
+                                            <div class="form-group">
+                                                <?TPL_CHILD_DOB_MONTH_LIST?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <?TPL_CHILD_DOB_DAY_LIST?>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <?TPL_CHILD_DOB_DAY_LIST?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <input type="number" name="childDobYear_<?TPLVAR_ID?>" class="form-control childDobYear"
-                                                   placeholder="Year" value="<?TPLVAR_CHILD_YEAR?>" />
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="number" name="childDobYear_<?TPLVAR_ID?>" class="form-control childDobYear"
+                                                       placeholder="Year" value="<?TPLVAR_CHILD_YEAR?>" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-1 addChildrenCol">
-                                        <div class="form-group">
-                                            <a href="<?TPLVAR_ID?>" class="removeChildren">
-                                                <i id="plus_<?TPLVAR_ID?>" class="icon-minus-circle2"></i></a>
+                                        <div class="col-md-1 addChildrenCol">
+                                            <div class="form-group">
+                                                <a href="<?TPLVAR_ID?>" class="removeChildren">
+                                                    <i id="plus_<?TPLVAR_ID?>" class="icon-minus-circle2"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- END DYNAMIC BLOCK: children -->
                     </div>
-                </div>
-                <!-- END DYNAMIC BLOCK: children -->
-                <div style="float:left;padding:10px 20px;">
-                    <a type="button" class="btn bg-purple-400 btn-labeled btn-lg btn-block addChildren" data-toggle="modal" data-target="#modalApplyLeave">
-                        <b><i class="icon-file-plus2"></i></b> Add More Children</a>
+                    <div style="float:left;padding:0px 20px 10px 20px;">
+                        <a type="button" class="btn bg-purple-400 btn-labeled btn-lg btn-block addChildren" data-toggle="modal" data-target="#modalApplyLeave">
+                            <b><i class="icon-file-plus2"></i></b> Add More Children</a>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
+
     <div id="childTemplate" class="hide">
         <div id="childRow_{id}" class="col-md-12 childRow">
             <input type="hidden" id="ucID_{id}" name="ucID_{id}" value="" />
@@ -216,32 +220,43 @@
     </div>
 
     <div class="row">
-        <h6 class="mb-0 ml-10 font-weight-bold">HRMS Account Login:</h6>
-        <input id="username" style="display:none" type="text" name="fakeusername" />
-        <input id="password" style="display:none" type="password" name="fakepassword" />
-        <div class="card">
-            <div class="card-body">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Login Username:</label>
-                        <input type="text" id="loginUsername" name="loginUsername" placeholder="juliakoh" class="form-control" value="<?TPLVAR_USERNAME?>" />
+        <div class="col-md-12">
+            <h7 class="mb-0 ml-10 font-weight-bold">HRMS Account Login:</h7>
+            <input id="username" style="display:none" type="text" name="fakeusername" />
+            <input id="password" style="display:none" type="password" name="fakepassword" />
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Login Username:</label>
+                            <input type="text" id="loginUsername" name="loginUsername" placeholder="juliakoh" class="form-control" value="<?TPLVAR_USERNAME?>" />
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Login Password:</label>
-                        <div class="input-group">
-                            <input type="password" id="loginPassword" name="loginPassword" class="form-control" autocomplete="new-password" />
-                            <span class="input-group-append">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Login Password:</label>
+                            <div class="input-group">
+                                <input type="password" id="loginPassword" name="loginPassword" class="form-control" autocomplete="new-password" />
+                                <span class="input-group-append">
                                 <button class="btn btn-light" type="button" id="autoGenPwd" onclick="copyText()">Auto Generate</button>
                             </span>
-                            <span class="input-group-append">
+                                <span class="input-group-append">
                                 <button class="btn btn-light" type="button" id="showPwd"> <i class="icon-eye"></i></button>
                             </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group hide" id="capsLockWarn">
+                            <label></label>
+                            <div class="input-group text-muted" style="margin-top: 14px;">
+                                CAPS LOCK IS ON
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </fieldset>

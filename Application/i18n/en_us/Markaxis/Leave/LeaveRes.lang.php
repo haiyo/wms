@@ -51,7 +51,6 @@ class LeaveRes extends Resource {
         $this->contents['LANG_DAYS'] = 'Days';
         $this->contents['LANG_APPROVED'] = 'Approved';
         $this->contents['LANG_UNAPPROVED'] = 'Unapproved';
-        $this->contents['LANG_UNAPPROVED'] = 'Unapproved';
         $this->contents['LANG_PENDING'] = 'Pending';
         $this->contents['LANG_%_ENTITLEMENT'] = '% Of Entitlement';
         $this->contents['LANG_SELECT_PERIOD'] = 'Select Period';
@@ -102,6 +101,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_FROM'] = 'From';
         $this->contents['LANG_TO'] = 'To';
         $this->contents['LANG_CREATE_CUSTOM_HOLIDAY'] = 'Create Custom Holiday';
+        $this->contents['LANG_PROVIDE_ALL_REQUIRED_FIELDS'] = 'Please provide all required fields.';
     }
 }
 ?>

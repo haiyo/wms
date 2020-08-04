@@ -78,16 +78,20 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getCountList( $dID ) {
-        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, n.nationality, e.idnumber,
-                                          dpt.name AS department, dsg.title AS designation
+        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, u.mobile, n.nationality, e.idnumber,
+                                          IFNULL(ed.department, "" ) AS department, dsg.title AS designation
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN employee_department e_dpt ON ( e_dpt.userID = u.userID )
-                                   LEFT JOIN department dpt ON ( e_dpt.departmentID = dpt.dID )
                                    LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
                                    LEFT JOIN designation dsg ON ( e.designationID = dsg.dID )
+                                   LEFT JOIN ( SELECT userID, GROUP_CONCAT(DISTINCT dpt.name) AS department
+                                               FROM employee_department ed
+                                               LEFT JOIN department dpt ON ( dpt.dID = ed.departmentID )
+                                               WHERE dpt.deleted <> "1" 
+                                               GROUP BY userID ORDER BY dpt.name ) ed ON ed.userID = e.userID
                                    WHERE u.deleted <> "1" AND e.resigned <> "1" AND 
-                                         e.designationID = "' . (int)$dID . '"',
+                                         e.designationID = "' . (int)$dID . '"
+                                   GROUP BY userID',
                                    __FILE__, __LINE__ );
 
         $list = array( );

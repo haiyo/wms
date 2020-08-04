@@ -293,13 +293,6 @@ class EmployeeModel extends \Model {
             }
         }
 
-        if( isset( $data['department'] ) ) {
-            $DepartmentModel = DepartmentModel::getInstance( );
-            if( $DepartmentModel->isFound( $data['department'] ) ) {
-                $saveInfo['departmentID'] = (int)$data['department'];
-            }
-        }
-
         if( isset( $data['contractType'] ) ) {
             $ContractModel = ContractModel::getInstance( );
             if( $ContractModel->isFound( $data['contractType'] ) ) {
@@ -380,6 +373,8 @@ class EmployeeModel extends \Model {
             $info['resigned'] = $post['status'] == 1 ? 1 : 0;
             $info['endDate'] = date( 'Y-m-d H:i:s' );
             $this->Employee->update( 'employee', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
+
+            $UserModel->setSuspendStatus( $post );
 
             $AuditLogModel = new AuditLogModel( );
 

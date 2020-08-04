@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header bg-transparent header-elements-inline">
                     <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Upcoming Events &nbsp;-&nbsp;
-                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar">View Calendar</a></a>
+                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar/view">View Calendar</a></a>
                     </span>
     </div>
 
@@ -22,9 +22,9 @@
 
                 <div class="media-body">
                     <div class="d-flex justify-content-between">
-                        <a href="#"><?TPLVAR_DATE?></a>
+                        <?TPLVAR_TITLE?>
                     </div>
-                    <?TPLVAR_TITLE?>
+                    <div class="text-muted text-size-small"><?TPLVAR_DATE?></div>
                 </div>
             </li>
             <!-- END DYNAMIC BLOCK: event -->

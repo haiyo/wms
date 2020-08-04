@@ -83,9 +83,6 @@ class FinanceView {
         $PayrollModel = EmployeePayrollModel::getInstance( );
         $payrollInfo = $PayrollModel->getInfo( );
 
-        $TaxModel = TaxModel::getInstance( );
-        $taxInfo = $TaxModel->getInfo( );
-
         $LeaveTypeModel = LeaveTypeModel::getInstance( );
         $leaveTypeInfo = $LeaveTypeModel->getInfo( );
 
@@ -112,6 +109,9 @@ class FinanceView {
         $SelectListView->isMultiple( true );
         $SelectListView->includeBlank( false );
         $SelectListView->setClass( '' );
+
+        $TaxModel = TaxModel::getInstance( );
+        $taxInfo = $TaxModel->getInfo( );
 
         $taxGroup = isset( $taxInfo['tgID'] ) ? explode(',', $taxInfo['tgID'] ) : '';
         $taxGroupList = $SelectListView->build( 'tgID', $TaxGroupModel->getList( true ), $taxGroup, 'Select Tax Group' );

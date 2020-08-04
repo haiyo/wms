@@ -6,7 +6,6 @@
       <path value="$PROJECT_DIR$/Library/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/Library/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/Library/vendor/guzzlehttp/guzzle" />
-      <path value="$PROJECT_DIR$/Library/vendor/mpdf/mpdf" />
       <path value="$PROJECT_DIR$/Library/vendor/phpseclib/phpseclib" />
       <path value="$PROJECT_DIR$/Library/vendor/psr/log" />
       <path value="$PROJECT_DIR$/Library/vendor/psr/cache" />
@@ -19,6 +18,13 @@
       <path value="$PROJECT_DIR$/Library/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/Library/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/Library/vendor/composer" />
+      <path value="$PROJECT_DIR$/Library/vendor/mpdf/mpdf" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/protobuf" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/grpc-gcp" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/common-protos" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/gax" />
+      <path value="$PROJECT_DIR$/Library/vendor/google/cloud-kms" />
+      <path value="$PROJECT_DIR$/Library/vendor/grpc/grpc" />
     </include_path>
   </component>
 </project>

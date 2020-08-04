@@ -18,12 +18,29 @@ class Expense extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $eiID ) {
+    public function isFoundByeiID( $eiID ) {
         $sql = $this->DB->select( 'SELECT COUNT(eiID) FROM expense_item 
                                    WHERE eiID = "' . (int)$eiID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getByeiID( $eiID ) {
+        $sql = $this->DB->select( 'SELECT * FROM expense_item
+                                   WHERE deleted <> "1" AND
+                                         eiID = "' . (int)$eiID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 
@@ -57,7 +74,7 @@ class Expense extends \DAO {
         $q = $q ? 'AND ( ei.title LIKE "%' . $q . '%" OR ei.max_amount LIKE "%' . $q . '%" )' : '';
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM expense_item ei
-                                   WHERE 1 = 1' . $q . '
+                                   WHERE deleted <> "1"' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 

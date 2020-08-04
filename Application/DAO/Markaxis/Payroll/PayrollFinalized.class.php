@@ -43,7 +43,7 @@ class PayrollFinalized extends \DAO {
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
                                           b.name AS bankName, eb.number, eb.code, eb.branchCode, eb.holderName, eb.swiftCode, 
-                                          ps.net, pm.method
+                                          ps.net, pm.method, pu.released
                                    FROM payroll_user pu
                                    LEFT JOIN payroll p ON (p.pID = pu.pID)
                                    LEFT JOIN payroll_summary ps ON (ps.puID = pu.puID)

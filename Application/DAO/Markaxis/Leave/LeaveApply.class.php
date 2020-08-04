@@ -73,12 +73,14 @@ class LeaveApply extends \DAO {
      */
     public function getHistory( $userID, $q='', $order='la.created DESC' ) {
         $q = '';
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, la.cancelled,
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS la.laID, la.reason, la.uID, la.cancelled,
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate,
-                                          la.days, la.status, la.created, lt.name, lt.code
+                                          la.days, la.status, la.created, lt.name, lt.code,
+                                          u.name AS uploadName, u.hashName
                                    FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   LEFT JOIN upload u ON ( u.uID = la.uID )
                                    WHERE la.userID = "' . (int)$userID . '" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
@@ -113,9 +115,39 @@ class LeaveApply extends \DAO {
                                    WHERE lam.managerID = "' . (int)$userID . '" AND 
                                          lam.approved = "0" AND
                                          la.cancelled <> "1" AND
-                                         lt.deleted <> "1"',
+                                         lt.deleted <> "1"
+                                   ORDER BY la.created desc',
                                    __FILE__, __LINE__ );
 
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getRequest( $userID ) {
+        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.userID, u.fname, u.lname, la.reason,
+                                          la.laID, la.days, la.created, la.status,
+                                          DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
+                                          DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate
+                                   FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   LEFT JOIN user u ON ( u.userID = la.userID )
+                                   WHERE la.userID = "' . (int)$userID . '" AND 
+                                         la.status = "0" AND
+                                         la.cancelled <> "1" AND
+                                         lt.deleted <> "1"
+                                   ORDER BY la.created desc',
+                                   __FILE__, __LINE__ );
         $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

@@ -57,6 +57,15 @@ class LeaveApplyControl {
      * Render main navigation
      * @return string
      */
+    public function balance( ) {
+        Control::setOutputArrayAppend( $this->LeaveApplyView->renderApplyForm( ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getHistory( ) {
         $post = Control::getRequest( )->request( POST );
         Control::setOutputArray( array( 'list' => $this->LeaveApplyModel->getHistory( $post ) ) );
@@ -69,6 +78,17 @@ class LeaveApplyControl {
      */
     public function getPendingAction( ) {
         Control::setOutputArrayAppend( array( 'pending' => $this->LeaveApplyView->renderPendingAction( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getRequest( ) {
+        if( $request = $this->LeaveApplyModel->getRequest( ) ) {
+            Control::setOutputArrayAppend( array( 'leave' => $request ) );
+        }
     }
 
 
@@ -97,6 +117,19 @@ class LeaveApplyControl {
 
 
     /**
+     * For No Pay Leave
+     * @return string
+     */
+    public function cancel( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( isset( $post['laID'] ) ) {
+            $this->LeaveApplyModel->cancel( $post['laID'] );
+        }
+    }
+
+
+    /**
      * Render main navigation
      * @return string
      */
@@ -109,7 +142,7 @@ class LeaveApplyControl {
 
 
     /**
-     * Render main navigation
+     * For No Pay Leave
      * @return string
      */
     public function savePayroll( ) {
@@ -126,6 +159,45 @@ class LeaveApplyControl {
     public function deletePayroll( ) {
         $data = Control::getOutputArray( );
         $this->LeaveApplyModel->deletePayroll( $data );
+    }
+
+
+    /**
+     * Upload Attachment
+     * @return void
+     */
+    public function upload( ) {
+        // COR not enabled
+        //header('Access-Control-Allow-Origin: *');
+        header( 'Access-Control-Allow-Credentials: true' );
+        header( 'Pragma: no-cache' );
+        header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+        header( 'X-Content-Type-Options: nosniff' );
+        header( 'Access-Control-Allow-Headers: X-File-Name, X-File-Type, X-File-Size' );
+
+        $vars = array( );
+        $vars['bool'] = 0;
+        $laID = Control::getRequest( )->request( POST, 'laID' );
+        $file = Control::getRequest( )->request( FILES );
+
+        if( $_SERVER['REQUEST_METHOD'] == 'POST' && empty( $_POST ) && empty( $_FILES ) &&
+            $_SERVER['CONTENT_LENGTH'] > 0 ) {
+            $vars['error'] = 'No files uploaded. Please make sure file size is within the allowed limit.';
+        }
+        else {
+            if( $this->LeaveApplyModel->uploadSuccess( $laID, $file ) ) {
+                $vars = $this->LeaveApplyModel->getFileInfo( );
+
+                if( $vars['success'] == 2 ) {
+                    unset( $vars['error'] );
+                }
+            }
+            else {
+                $vars['errMsg'] = $this->LeaveApplyModel->getErrMsg( );
+            }
+        }
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

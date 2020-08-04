@@ -1,128 +1,10 @@
-<script>
-    $(document).ready(function( ) {
-        var holidayTable = $(".holidayTable").DataTable({
-            "processing": true,
-            "serverSide": true,
-            "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                $(nRow).attr('id', 'leaveTypeTable-row' + aData['ltID']);
-            },
-            ajax: {
-                url: Aurora.ROOT_URL + "admin/leave/getHolidayResults",
-                type: "POST",
-                data: function (d) {
-                    d.ajaxCall = 1;
-                    d.csrfToken = Aurora.CSRF_TOKEN;
-                },
-            },
-            initComplete: function () {
-                //
-            },
-            autoWidth: false,
-            mark: true,
-            columnDefs: [{
-                targets: [0],
-                orderable: true,
-                width: '900px',
-                data: 'title'
-            },{
-                targets: [1],
-                orderable: true,
-                width: '200px',
-                data: 'date',
-            },{
-                targets: [2],
-                orderable: false,
-                searchable: false,
-                width: '10px',
-                className: "text-center",
-                data: 'hID',
-                render: function( data, type, full, meta ) {
-                    return '<div class="list-icons">' +
-                        '<div class="list-icons-item dropdown">' +
-                        '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
-                        '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
-                        '<a href="<?TPLVAR_ROOT_URL?>admin/leave/editHoliday/' + data + '" class="dropdown-item editHoliday">' +
-                        '<i class="icon-pencil5"></i> Edit Holiday</a>' +
-                        '<div class="divider"></div>' +
-                        '<a class="dropdown-item deleteHoliday" data-id="' + data + '">' +
-                        '<i class="icon-bin"></i> Delete Holiday</a>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
-                }
-            }],
-            select: {
-                "style": "multi"
-            },
-            order: [],
-            dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
-            language: {
-                search: '',
-                searchPlaceholder: 'Search Leave Type',
-                lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
-            },
-            drawCallback: function () {
-                $(".holidayTable [type=checkbox]").uniform();
-
-                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                Popups.init();
-            },
-            preDrawCallback: function () {
-                $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-            }
-        });
-
-        $(".holiday-list-action-btns").insertAfter("#holidayList .dataTables_filter");
-
-        // Alternative pagination
-        $('#holidayList .datatable-pagination').DataTable({
-            pagingType: "simple",
-            language: {
-                paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
-            }
-        });
-
-        // Datatable with saving state
-        $('#holidayList .datatable-save-state').DataTable({
-            stateSave: true
-        });
-
-        // Scrollable datatable
-        $('#holidayList .datatable-scroll-y').DataTable({
-            autoWidth: true,
-            scrollY: 300
-        });
-
-        // Highlighting rows and columns on mouseover
-        var lastIdx = null;
-
-        $("#holidayList .datatable tbody").on("mouseover", "td", function () {
-            if( typeof holidayTable.cell(this).index() == "undefined" ) return;
-            var colIdx = holidayTable.cell(this).index().column;
-
-            if( colIdx !== lastIdx ) {
-                $(holidayTable.cells().nodes()).removeClass('active');
-                $(holidayTable.column(colIdx).nodes()).addClass('active');
-            }
-        }).on('mouseleave', function () {
-            $(holidayTable.cells().nodes()).removeClass("active");
-        });
-
-        // Enable Select2 select for the length option
-        $("#holidayList .dataTables_length select").select2({
-            minimumResultsForSearch: Infinity,
-            width: "auto"
-        });
-    });
-</script>
 
 <div class="tab-pane fade" id="holidayList">
     <div class="list-action-btns holiday-list-action-btns">
         <ul class="icons-list">
             <li>
-                <a href="<?TPLVAR_ROOT_URL?>admin/leave/addHoliday" type="button" class="btn bg-purple-400 btn-labeled">
+                <a type="button" class="btn bg-purple-400 btn-labeled"
+                   data-toggle="modal" data-target="#modalHoliday" data-backdrop="static" data-keyboard="false">
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_CUSTOM_HOLIDAY?>
                 </a>
             </li>
@@ -134,8 +16,64 @@
         <tr>
             <th>Title</th>
             <th>Date</th>
+            <th>Work Day</th>
             <th>Actions</th>
         </tr>
         </thead>
     </table>
+</div>
+
+<div id="modalHoliday" class="modal fade">
+    <div class="modal-dialog modal-med">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title"><?LANG_CREATE_CUSTOM_HOLIDAY?></h6>
+            </div>
+
+            <form id="saveHoliday" name="saveHoliday" method="post" action="">
+                <div class="modal-body overflow-y-visible">
+                    <input type="hidden" id="hID" name="hID" value="0" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Holiday Title:</label>
+                                <input type="text" name="holidayTitle" id="holidayTitle" class="form-control" value=""
+                                       placeholder="Enter a title for this holiday" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>Date: <span class="requiredField">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                    </span>
+                                    <input type="text" class="form-control pickadate" id="date" name="date" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label></label>
+                                <div class="input-group" style="margin-top: 13px;">
+                                    <input type="checkbox" class="dt-checkboxes check-input" id="workDay" name="workDay" value="1" />
+                                    <label for="workDay" class="ml-5">Is this a work day?</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

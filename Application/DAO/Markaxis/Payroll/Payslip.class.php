@@ -21,8 +21,9 @@ class Payslip extends \DAO {
     public function getResults( $userID, $order='name ASC' ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT p.endDate AS period, pm.method AS paymentMethod, bk.name AS bankName,
+        $sql = $this->DB->select( 'SELECT pm.method AS paymentMethod, bk.name AS bankName,
                                           emp_bk.number AS acctNumber,
+                                          DATE_FORMAT(p.endDate, "%D %b %Y") AS period,
                                           DATE_FORMAT(p.created, "%D %b %Y") AS created
                                    FROM payroll_user pu
                                         LEFT JOIN payroll p ON ( p.pID = pu.pID )
@@ -31,7 +32,9 @@ class Payslip extends \DAO {
                                         LEFT JOIN bank bk ON ( emp_bk.bkID = bk.bkID )
                                         LEFT JOIN payment_method pm ON ( emp.paymentMethodID = pm.pmID )
                                         LEFT JOIN pass_type pt ON ( emp.passTypeID = pt.ptID )
-                                   WHERE pu.userID = "' . (int)$userID . '"
+                                   WHERE pu.userID = "' . (int)$userID . '" AND
+                                         pu.released = "1"
+                                   GROUP BY p.pID
                                    ORDER BY ' . $order . $this->limit,
                                     __FILE__, __LINE__ );
 

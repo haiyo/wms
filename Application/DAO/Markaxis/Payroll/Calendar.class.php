@@ -18,11 +18,26 @@ class Calendar extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $pcID ) {
+    public function isFoundBypcID( $pcID ) {
         $sql = $this->DB->select( 'SELECT COUNT(pcID) FROM pay_calendar WHERE pcID = "' . (int)$pcID . '"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBypcID( $pcID ) {
+        $sql = $this->DB->select( 'SELECT * FROM pay_calendar  WHERE pcID = "' . (int)$pcID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
     }
 
 

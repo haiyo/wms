@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Company\OfficeModel, \Markaxis\Employee\EmployeeModel, \Markaxis\Employee\LeaveTypeModel;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserModel, \Aurora\User\UserImageModel;
+use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserImageModel;
 use \Library\Helper\Markaxis\ApplyForHelper, \Library\Util\Date;
 use \Library\Runtime\Registry;
 
@@ -62,7 +62,12 @@ class LeaveApplyView {
             $vars['TPLVAR_OPEN_TIME'] = $officeInfo['openTime'];
             $vars['TPLVAR_CLOSE_TIME'] = $officeInfo['closeTime'];
         }
-        return array( 'js' => array( 'markaxis' => array( 'usuggest.js', 'applyLeave.js' ) ),
+        return array( 'js' => array( 'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
+                                     'plugins/forms' => array( 'styling/switchery.min.js', 'tags/tokenfield.min.js',
+                                                               'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
+                                     'plugins/uploaders' => array( 'fileinput.min.js' ),
+                                     'jquery' => array( 'jquery.validate.min.js' ),
+                                     'markaxis' => array( 'usuggest.js', 'pickerExtend.js', 'applyLeave.js' ) ),
                       'sidebarCards' => $this->renderOnLeave( ),
                       'content' => $this->View->render( 'markaxis/leave/applyForm.tpl', $vars ) );
     }
@@ -180,7 +185,7 @@ class LeaveApplyView {
                                                     'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
                                                     'TPLVAR_ATTACHMENT' => '' );
 
-                return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
+                return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }
         }
     }

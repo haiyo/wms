@@ -31,8 +31,24 @@ class ManagerControl {
      */
     public function getHistory( ) {
         $data = Control::getOutputArray( );
-        echo json_encode( $this->ManagerModel->getHistory( $data['list'] ) );
-        exit;
+
+        if( isset( $data['list'] ) ) {
+            echo json_encode( $this->ManagerModel->getHistory( $data['list'] ) );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getRequest( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['leave'] ) ) {
+            Control::setOutputArray( array( 'leave' => $this->ManagerModel->getRequest( $data['leave'] ) ) );
+        }
     }
 
 

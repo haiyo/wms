@@ -29,6 +29,17 @@ class DepartmentControl {
      * Render main navigation
      * @return string
      */
+    public function getCountList( $data ) {
+        if( isset( $data[1] ) && $data[1] == 'department' && isset( $data[2] ) ) {
+            Control::setOutputArrayAppend( array( 'list' => $this->DepartmentModel->getCountList( $data[2] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveUser( ) {
         if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
             $this->DepartmentModel->save( Control::getPostData( ) );

@@ -7,6 +7,12 @@
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/apiclient" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/apiclient-services" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/cloud-kms" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/common-protos" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/gax" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/grpc-gcp" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/protobuf" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/grpc/grpc" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/guzzlehttp/guzzle" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/guzzlehttp/psr7" />

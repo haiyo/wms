@@ -57,6 +57,7 @@ class UserRes extends Resource {
         $this->contents['LANG_SEARCH_BY_NAME'] = 'Search by name';
         $this->contents['LANG_IMPORT_EXPORT_CONTACTS'] = 'Import / Export Contacts';
         $this->contents['LANG_BIRTHDAY'] = 'Birthday';
+        $this->contents['LANG_EMPLOYEE_SINCE'] = 'Employee since';
         // Form
         $this->contents['LANG_PERSONAL_INFORMATION'] = 'Personal Information';
         $this->contents['LANG_OTHER_INFORMATION'] = 'Other Information';

@@ -106,19 +106,21 @@
 
                 <div class="modal-body overflow-y-visible">
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Leave Group Title:</label>
-                            <input type="hidden" name="lgIndex" id="lgIndex" class="form-control" value="" />
-                            <input type="hidden" name="lgID" id="lgID" class="form-control" value="" />
-                            <input type="text" name="groupTitle" id="groupTitle" class="form-control" value="" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Leave Group Title:</label>
+                                <input type="hidden" name="lgIndex" id="lgIndex" class="form-control" value="" />
+                                <input type="hidden" name="lgID" id="lgID" class="form-control" value="" />
+                                <input type="text" name="groupTitle" id="groupTitle" class="form-control" value="" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-6 pr-0">
-                        <div class="form-group">
-                            <label>Assign Designation:</label>
-                            <?TPL_DESIGNATION_LIST?>
+                        <div class="col-md-6 pr-0">
+                            <div class="form-group">
+                                <label>Assign Designation:</label>
+                                <?TPL_DESIGNATION_LIST?>
+                            </div>
                         </div>
                     </div>
 

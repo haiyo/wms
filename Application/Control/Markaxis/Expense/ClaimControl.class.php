@@ -179,6 +179,7 @@ class ClaimControl {
 
         $vars = array( );
         $vars['bool'] = 0;
+        $ecID = Control::getRequest( )->request( POST, 'ecID' );
         $file = Control::getRequest( )->request( FILES );
 
         if( $_SERVER['REQUEST_METHOD'] == 'POST' && empty( $_POST ) && empty( $_FILES ) &&
@@ -186,7 +187,7 @@ class ClaimControl {
             $vars['error'] = 'No files uploaded. Please make sure file size is within the allowed limit.';
         }
         else {
-            if( $this->ClaimModel->uploadSuccess( $file ) ) {
+            if( $this->ClaimModel->uploadSuccess( $ecID, $file ) ) {
                 $vars = $this->ClaimModel->getFileInfo( );
 
                 if( $vars['success'] == 2 ) {

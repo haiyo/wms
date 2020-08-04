@@ -29,10 +29,12 @@ class UserImageControl {
      * Render main navigation
      * @return string
      */
-    public function add( ) {
-        /*
-        $UserView = new UserView( );
-        Control::setOutputArrayAppend( array( 'form' => $UserView->renderAdd( ) ) );*/
+    public function profile( ) {
+        $output = Control::getOutputArray( );
+
+        if( isset( $output['userInfo'] ) ) {
+            Control::setOutputArrayAppend( array( 'photo' => $this->UserImageModel->getImgLinkByUserID( $output['userInfo']['userID'], '*' ) ) );
+        }
     }
 
 
@@ -44,6 +46,15 @@ class UserImageControl {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
         Control::setOutputArrayAppend( array( 'photo' => $this->UserImageModel->getImgLinkByUserID( $userID, '*' ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveProfile( ) {
+        $this->saveUser( );
     }
 
 

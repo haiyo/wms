@@ -40,7 +40,7 @@ class ClaimView {
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
                                         'plugins/uploaders' => array( 'fileinput.min.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 
@@ -63,7 +63,7 @@ class ClaimView {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList,
                                                                  'TPLVAR_EXPENSE_LIST' => $expenseList ) );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'usuggest.js' ),
+        $this->View->setJScript( array( 'markaxis' => array( 'usuggest.js', 'claim.js' ),
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
                                                                   'input/typeahead.bundle.min.js', 'input/handlebars.js' ) ) );
 
@@ -106,7 +106,7 @@ class ClaimView {
                                                     'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
                                                     'TPLVAR_ATTACHMENT' => $attachment );
 
-                return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
+                return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }
         }
     }

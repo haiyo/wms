@@ -166,7 +166,7 @@
                     return '<div class="list-icons">' +
                         '<div class="list-icons-item dropdown">' +
                         '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
+                        '<i class="icon-menu7"></i></a>' +
                         '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
                         '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view">' +
                         '<i class="icon-user"></i> View Employee Info</a>' +
@@ -242,15 +242,13 @@
             scrollY: 300
         });
 
-        // Highlighting rows and columns on mouseover
-        var lastIdx = null;
         var table = $('.datatable').DataTable();
 
         $('.datatable tbody').on('mouseover', 'td', function() {
             if( typeof table.cell(this).index() == "undefined" ) return;
             var colIdx = table.cell(this).index().column;
 
-            if (colIdx !== lastIdx) {
+            if (colIdx !== null) {
                 $(table.cells().nodes()).removeClass('active');
                 $(table.column(colIdx).nodes()).addClass('active');
             }

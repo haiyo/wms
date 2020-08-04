@@ -48,10 +48,13 @@ class PayrollSummaryView {
         $userInfo = $PayrollModel->getCalculateUserInfo( $userID );
 
         $CompanyModel = new CompanyModel( );
+        $companyInfo = $CompanyModel->loadInfo( );
 
         $UserImageModel = UserImageModel::getInstance( );
 
         $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID'),
+                       'TPLVAR_COMPANY_NAME' => $companyInfo['name'],
+                       'TPLVAR_COMPANY_ADDRESS' => $companyInfo['address'],
                        'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
                        'TPLVAR_USERID' => $userID,
                        'TPLVAR_FNAME' => $userInfo['fname'],
@@ -62,6 +65,17 @@ class PayrollSummaryView {
                        'TPLVAR_START_DATE' => $data['empInfo']['startDate'],
                        'TPLVAR_CONTRACT_TYPE' => $data['empInfo']['contractType'],
                        'TPLVAR_PAY_PERIOD' => $processDate );
+
+        $vars['dynamic']['phone'] = false;
+        $vars['dynamic']['website'] = false;
+
+        if( $companyInfo['phone'] ) {
+            $vars['dynamic']['phone'][] = array( 'TPLVAR_COMPANY_PHONE' => $companyInfo['phone'] );
+        }
+
+        if( $companyInfo['website'] ) {
+            $vars['dynamic']['website'][] = array( 'TPLVAR_COMPANY_WEBSITE' => $companyInfo['website'] );
+        }
 
         $PayrollUserItemModel = PayrollUserItemModel::getInstance( );
         $itemInfo = $PayrollUserItemModel->getByPuID( $puID );
@@ -102,8 +116,8 @@ class PayrollSummaryView {
         $vars['dynamic']['deductionSummary'] = false;
 
         $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-            'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                        'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
 
         $PayrollUserTaxModel = PayrollUserTaxModel::getInstance( );
         $userTaxInfo = $PayrollUserTaxModel->getByPuID( $puID );
@@ -214,11 +228,11 @@ class PayrollSummaryView {
             }
         }
 
-        if( $totalLevy ) {
+        /*if( $totalLevy ) {
             $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_LEVY'),
                                                         'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
                                                         'TPLVAR_AMOUNT' => number_format( $totalLevy,2 ) );
-        }
+        }*/
 
         $PayrollContributionModel = PayrollContributionModel::getInstance( );
         $contriInfo = $PayrollContributionModel->getByPuID( $puID );
@@ -236,7 +250,7 @@ class PayrollSummaryView {
         if( $totalContribution ) {
             $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_CONTRIBUTION'),
                                                         'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                        'TPLVAR_AMOUNT' => number_format( $totalContribution,2 ) );
+                                                        'TPLVAR_AMOUNT' => number_format( ($totalContribution+$totalLevy),2 ) );
         }
 
         $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),

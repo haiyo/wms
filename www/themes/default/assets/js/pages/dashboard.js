@@ -30,33 +30,6 @@ $(function() {
         });
         $("#modalChat").show( );
         $("#message").focus( );
-        /*if( tgID ) {
-            var data = {
-                bundle: {
-                    tgID: tgID
-                },
-                success: function (res) {
-                    var obj = $.parseJSON(res);
-                    if (obj.bool == 0) {
-                        swal("error", obj.errMsg);
-                        return;
-                    }
-                    else {
-                        $("#tgID").val( obj.data.tgID );
-                        $("#groupTitle").val( obj.data.title );
-                        $("#groupDescription").val( obj.data.description );
-                        $("#parent").val( obj.data.parent ).trigger("change");
-                    }
-                }
-            }
-            Aurora.WebService.AJAX( "admin/payroll/getTaxGroup/" + tgID, data );
-        }
-        else {
-            $("#tgID").val(0);
-            $("#groupTitle").val("");
-            $("#groupDescription").val("");
-            $("#parent").val(0).trigger("change");
-        }*/
     });
 
     $("#modalChat").on("shown.bs.modal", function(e) {
@@ -71,9 +44,31 @@ $(function() {
                 if( obj.bool == 1 ) {
                     $("#noPendingAction").hide( );
                     $("#pendingAction").html( obj.data );
+
+                    if( $("#noRequest").is(":visible") ) {
+                        $("#pendingWrapper").insertBefore( $("#requestWrapper") );
+                    }
                 }
             }
         }
-    }
+    };
     Aurora.WebService.AJAX( "admin/dashboard/getPendingAction", data );
+
+    var data1 = {
+        success: function(res) {
+            if( res ) {
+                var obj = $.parseJSON(res);
+
+                if( obj.bool == 1 ) {
+                    $("#noRequest").hide( );
+                    $("#latestRequest").html( obj.data );
+
+                    if( $("#noPendingAction").is(":visible") ) {
+                        $("#requestWrapper").insertBefore( $("#pendingWrapper") );
+                    }
+                }
+            }
+        }
+    };
+    Aurora.WebService.AJAX( "admin/dashboard/getRequest", data1 );
 });
