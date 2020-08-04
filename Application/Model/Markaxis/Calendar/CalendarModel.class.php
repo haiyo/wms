@@ -1,5 +1,9 @@
 <?php
 namespace Markaxis\Calendar;
+use \Library\Helper\Markaxis\LabelHelper;
+use \Library\Helper\Markaxis\RecurHelper, \Library\Helper\Markaxis\ReminderHelper;
+use \Library\Validator\Validator;
+use \DateTime;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -26,8 +30,7 @@ class CalendarModel extends \Model {
 
         $this->Calendar = new Calendar( );
 
-        $this->info['eventID']     = 0;
-        $this->info['userID']      = 0;
+        $this->info['eID']         = 0;
         $this->info['title']       = '';
         $this->info['descript']    = '';
         $this->info['label']       = 'blue';
@@ -35,21 +38,8 @@ class CalendarModel extends \Model {
         $this->info['allDay']      = 0;
         $this->info['start']       = '';
         $this->info['end']         = '';
-        $this->info['email']       = 0;
-        $this->info['popup']       = 1;
-        $this->info['recur']       = 0;
+        $this->info['reminder']    = 0;
         $this->info['recurType']   = 0;
-        $this->info['repeatTimes'] = 0;
-        $this->info['endRecur']    = '';
-        $this->info['occurrences'] = 0;
-        $this->info['untilDate']   = '';
-
-        $this->setInfo['tableList']     = 'markaxis_event';
-        $this->setInfo['calTitle']      = $this->L10n->getContents('LANG_DEFAULT_TITLE');
-        $this->setInfo['calView']       = 'month';
-        $this->setInfo['calHeight']     = '1';
-        $this->setInfo['weekStart']     = '0';
-        $this->setInfo['showWeekends']  = '1';
 	}
 
 
@@ -68,6 +58,16 @@ class CalendarModel extends \Model {
     */
     public function getByCalID( $calID ) {
         return $this->Calendar->getByCalID( $calID );
+    }
+
+
+    /**
+     * Retrieve Labels by UserID
+     * @return mixed
+     */
+    public function getLabels( ) {
+        $Label = new Label( );
+        return $Label->getLabels( );
     }
 
 
@@ -153,121 +153,71 @@ class CalendarModel extends \Model {
 
 
     /**
-    * Set new event info on POST
-    * @return bool
-    */
-    public function validate( $info ) {
-        $this->info['data'] = explode( '&', $info['data'] );
-        $sizeOf    = sizeof( $this->info['data'] );
-        $startTime = '';
-        $endTime   = '';
-        
-        for( $i=0; $i<$sizeOf; $i++ ) {
-            preg_match( '/(.*)=(.*)/', $this->info['data'][$i], $match );
+     * Set Pay Item Info
+     * @return bool
+     */
+    public function isValid( $data ) {
+        $this->info['eID'] = (int)$data['eID'];
+        $this->info['title'] = Validator::stripTrim( $data['title'] );
+        $this->info['descript'] = Validator::stripTrim( $data['descript'] );
+        $this->info['allDay']  = ( isset( $data['allDay']  ) && $data['allDay']  ) ? 1 : 0;
+        $this->info['privacy'] = ( isset( $data['privacy'] ) && $data['privacy'] ) ? 1 : 0;
 
-            switch( $match[1] ) {
-                case 'title' :
-                $this->info['title'] = trim( urldecode( $match[2] ) );
-                if( $this->info['title'] == '' ) {
-                    $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_TITLE') );
-                    return false;
-                }
-                unset( $this->info['data'][$i] );
-                break;
-                
-                case 'allDay'  :
-                case 'eventID' :
-                case 'calID' :
-                case 'hasRecur' :
-                case 'occurrences' :
-                case 'privacy' :
-                $this->info[$match[1]] = (int)$match[2];
-                unset( $this->info['data'][$i] );
-                break;
+        if( !$this->info['title'] || !$this->info['descript'] ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_PROVIDE_ALL_REQUIRED') );
+            return false;
+        }
 
-                case 'repeatTimes' :
-                $this->info[$match[1]] = (int)$match[2];
-                if( $this->info['repeatTimes'] < 1 ) $this->info['repeatTimes'] = 1;
-                unset( $this->info['data'][$i] );
-                break;
+        $startDate = DateTime::createFromFormat('d M Y', $data['startDate'] )->format('Y-m-d');
+        $endDate   = DateTime::createFromFormat('d M Y', $data['endDate'] )->format('Y-m-d');
 
-                case 'startMonth' :
-                case 'startDay'   :
-                case 'startYear'  :
-                case 'endMonth'   :
-                case 'endDay'     :
-                case 'endYear'    :
-                $$match[1] = (int)$match[2];
-                unset( $this->info['data'][$i] );
-                break;
+        if( !$startDate || !$endDate ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_PROVIDE_ALL_REQUIRED') );
+            return false;
+        }
 
-                case 'startTime' :
-                case 'endTime' :
-                if( preg_match( '/(\d{4})/', $match[2] ) ) {
-                    $$match[1] = $match[2];
-                    unset( $this->info['data'][$i] );
-                }
-                break;
+        $startTime = isset( $data['startTime'] ) ? $data['startTime'] : '';
+        $endTime   = isset( $data['endTime'] ) ? $data['endTime'] : '';
+        $unixStart = strtotime($startDate . ' ' . $startTime );
+        $unixEnd = strtotime($endDate . ' ' . $endTime );
 
-                case 'email' :
-                case 'popup' :
-                if( in_array( $match[2], ReminderHelper::getList( ) ) ) {
-                    $this->info[$match[1]] = $match[2];
-                    unset( $this->info['data'][$i] );
-                }
-                break;
+        $this->info['start'] = date('Y-m-d H:i', $unixStart);
+        $this->info['end'] = date('Y-m-d H:i', $unixEnd);
 
-                case 'recurType' :
-                if( in_array( $match[2], RecurHelper::getList( ) ) ) {
-                    $this->info['recur']   = $match[2] == '' ? 0 : 1;
-                    $this->info[$match[1]] = $match[2];
-                    if( $this->info['repeatTimes'] < 1 || $this->info['recurType'] == 'weekday' ||
-                        $this->info['recurType'] == 'monWedFri' || $this->info['recurType'] == 'tueThur' )
-                    $this->info['repeatTimes'] = 1;
-                    unset( $this->info['data'][$i] );
-                }
-                break;
-
-                case 'endRecur' :
-                if( in_array( $match[2], EndRecurHelper::getList( ) ) ) {
-                    $this->info[$match[1]] = $match[2];
-                    unset( $this->info['data'][$i] );
-                }
-                break;
-
-                case 'label' :
-                if( in_array( $match[2], LabelHelper::getList( ) ) ) {
-                    $this->info[$match[1]] = $match[2];
-                    unset( $this->info['data'][$i] );
-                }
-                break;
-
-                case 'untilDate' :
-                if( $match[2] != '' ) {
-                    $date = explode( '-', urldecode( $match[2] ) );
-                    if( isset( $date[0] ) && isset( $date[1] ) && isset( $date[2] ) && checkdate( $date[1], $date[2], $date[0] ) ) {
-                        $date[2] = strlen( $date[2] ) == 1 ? 0 . $date[2] : $date[2];
-                        $date[1] = strlen( $date[1] ) == 1 ? 0 . $date[1] : $date[1];
-                        $date = $date[0] . '-' . $date[1] . '-' . $date[2];
-                        $this->info[$match[1]] = $date;
-                        unset( $this->info['data'][$i] );
-                    }
-                }
-                break;
+        if( $data['recurType'] ) {
+            if( in_array( $data['recurType'], RecurHelper::getList() ) ) {
+                $this->info['recurType'] = $data['recurType'];
+            }
+            else {
+                $this->setErrMsg( $this->L10n->getContents('LANG_PROVIDE_ALL_REQUIRED') );
+                return false;
             }
         }
 
-        if( $this->info['descript'] == '<br>' ) {
-            $this->info['descript'] = '';
+        if( $data['reminder'] ) {
+            if( in_array( $data['reminder'], ReminderHelper::getList() ) ) {
+                $this->info['reminder'] = $data['reminder'];
+            }
+            else {
+                $this->setErrMsg( $this->L10n->getContents('LANG_PROVIDE_ALL_REQUIRED') );
+                return false;
+            }
         }
-        else {
-            $this->info['descript'] = trim( strip_tags( $info['descript'], '<p><br><span><font><b><i><u><ul><li><ol><div>') );
+
+        if( $data['label'] ) {
+            if( in_array( $data['label'], LabelHelper::getList( ) ) ) {
+                $this->info['label'] = $data['label'];
+            }
+            else {
+                $this->setErrMsg( $this->L10n->getContents('LANG_PROVIDE_ALL_REQUIRED') );
+                return false;
+            }
         }
-        $unixStart = strtotime( $startYear . '-' . $startMonth . '-' . $startDay . ' ' . $startTime );
-        $unixEnd   = strtotime( $endYear . '-' . $endMonth . '-' . $endDay . ' ' . $endTime );
-        $this->info['start'] = date( 'Y-m-d H:i', $unixStart );
-        $this->info['end']   = date( 'Y-m-d H:i', $unixEnd   );
-        $this->info['data']  = array_values( $this->info['data'] );
+
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $this->info['userID'] = $userInfo['userID'];
+        $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
     }
 
@@ -367,30 +317,17 @@ class CalendarModel extends \Model {
     * @return mixed
     */
     public function save( ) {
-        $param = array( );
-        $param['calID']    = $this->info['calID'];
-        $param['userID']   = $this->userInfo['userID'];
-        $param['title']    = $this->info['title'];
-        $param['descript'] = $this->info['descript'];
-        $param['privacy']  = $this->info['privacy'];
-        $param['allDay']   = $this->info['allDay'];
-        $param['start']    = $this->info['start'];
-        $param['end']      = $this->info['end'];
-        $param['recur']    = $this->info['recur'];
-        $param['label']    = $this->info['label'];
-        $param['email']    = $this->info['email'];
-        $param['popup']    = $this->info['popup'];
-
-        if( $this->info['eventID'] == 0 ) {
-            $this->info['eventID']  = $this->Calendar->insert( 'markaxis_event', $param );
-            $this->info['saveType'] = 'add';
+        if( $this->info['eID'] == 0 ) {
+            $this->info['eID']  = $this->Calendar->insert( 'markaxis_event', $this->info );
         }
         else {
-            $this->Calendar->update( 'markaxis_event', $param, 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
-            $this->info['saveType'] = 'update';
+            // and userID
+            $this->Calendar->update('markaxis_event', $this->info,
+                                    'WHERE eID = "' . (int)$this->info['eID'] . '" AND
+                                                  userID = "' . (int)$this->info['userID'] . '"' );
         }
 
-        if( $this->info['recur'] ) {
+        /*if( $this->info['recur'] ) {
             $recur = array( );
             $recur['eventID']     = $this->info['eventID'];
             $recur['recurType']   = $this->info['recurType'];
@@ -408,7 +345,7 @@ class CalendarModel extends \Model {
         }
         else if( $this->info['hasRecur'] ) {
             $this->Calendar->delete( 'markaxis_event_recur', 'WHERE eventID = "' . (int)$this->info['eventID'] . '"' );
-        }
+        }*/
         return true;
     }
 
@@ -464,15 +401,6 @@ class CalendarModel extends \Model {
         return false;
     }
 
-
-    /**
-    * Retrieve Labels by UserID
-    * @return mixed
-    */
-    public function getLabels( ) {
-        $Label = new Label( );
-        return $Label->getLabels( );
-    }
 
 
     /**

@@ -97,7 +97,7 @@
                     return '<div class="list-icons">' +
                         '<div class="list-icons-item dropdown">' +
                         '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
-                        '<i class="icon-menu9"></i></a>' +
+                        '<i class="icon-menu7"></i></a>' +
                         '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                         '<a class="dropdown-item" data-href="<?TPLVAR_ROOT_URL?>admin/employee/view\' + data + \'">' +
                         '<i class="icon-user"></i> View Employee Info</a>' +
@@ -115,23 +115,6 @@
                         '</div>' +
                         '</div>' +
                         '</div>';
-
-                    /*return '<ul class="action icons-list">\n' +
-                        '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-                        '<i class="icon-menu9"></i>\n' +
-                        '</a>\n' +
-                        '<ul class="dropdown-menu dropdown-menu-right">\n' +
-                        '<li><a><i class="icon-user"></i> View Employee Info</a></li>\n' +
-
-                        '<li><a href="<?TPLVAR_ROOT_URL?>admin/employee/edit/' + data + '"><i class="icon-pencil5"></i> Edit Employee Info</a></li>\n' +
-                        '<li><a data-href="<?TPLVAR_ROOT_URL?>admin/employee/email/' + data + '"><i class="icon-mail5"></i> Message Employee</a></li>\n' +
-                        '<li><a data-title="View ' + name + ' History Log" data-href="<?TPLVAR_ROOT_URL?>admin/employee/log/' + data + '" data-toggle="modal" data-target="#modalLoad"><i class="icon-history"></i> View History Log</a></li>\n' +
-                        '<li class="divider"></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setSuspend(' + data + ', \'' + name + '\')"><i class="icon-user-block"></i> ' + statusText + '</a></li>\n' +
-                        '<li><a id="menuSetStatus' + full['userID'] + '" href="#" onclick="return setResign(' + data + ', \'' + name + '\')"><i class="icon-exit3"></i> Employee Resigned</a></li>\n' +
-                        '</ul>\n' +
-                        '</li>\n' +
-                        '</ul>'*/
                 }
             }],
             select: {
@@ -173,14 +156,12 @@
             scrollY: 300
         });
 
-        // Highlighting rows and columns on mouseover
-        var lastIdx = null;
         var table = $(".dataTable").DataTable( );
 
         $(".dataTable tbody").on("mouseover", "td", function( ) {
             var colIdx = table.cell(this).index( ).column;
 
-            if( colIdx !== lastIdx ) {
+            if( colIdx !== null ) {
                 $(table.cells().nodes()).removeClass("active");
                 $(table.column(colIdx).nodes()).addClass("active");
             }

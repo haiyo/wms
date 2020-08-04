@@ -45,6 +45,7 @@ class NewsAnnouncementView {
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
         $vars['dynamic']['noList'] = true;
+        $vars['dynamic']['manage'] = false;
 
         if( $list = $this->NewsAnnouncementModel->getList( ) ) {
             $vars['dynamic']['noList'] = false;
@@ -58,6 +59,11 @@ class NewsAnnouncementView {
                                                     'TPLVAR_DATE' => $row['created'] );
             }
         }
+
+        if( \Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
+            $vars['dynamic']['manage'] = true;
+        }
+
         return array( 'js' => array( 'aurora' => array( 'newsAnnouncement.js' ) ),
                       'sidebarCards' => $this->View->render( 'aurora/newsAnnouncement/sideCard.tpl', $vars ),
                       'content' => $this->View->render( 'aurora/newsAnnouncement/modalContent.tpl', $vars ) );
@@ -66,9 +72,9 @@ class NewsAnnouncementView {
 
     /**
      * Render main navigation
-     * @return string
+     * @return mixed
      */
-    public function renderList( ) {
+    public function renderSettings( ) {
         $this->View->setBreadcrumbs( array( 'link' => 'admin/newsAnnouncement/list',
                                             'icon' => 'mi-description',
                                             'text' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
@@ -82,17 +88,14 @@ class NewsAnnouncementView {
         $contentTypeList  = $SelectListView->build( 'contentType', NewsAnnouncementHelper::getL10nList( ),'', 'Select Content Type' );
 
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'LANG_LINK' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT'),
+                array( 'TPLVAR_HREF' => 'naList',
+                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_NEWS_ANNOUNCEMENT' ),
                        'TPLVAR_CONTENT_TYPE_LIST' => $contentTypeList ) );
 
-        $vars['dynamic']['addEmployeeBtn'] = false;
+        $this->View->setJScript( array( 'aurora' => array( 'newsAnnouncement.js' ) ) );
 
-        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
-        if( $Authorization->hasPermission( 'Markaxis', 'add_modify_employee' ) ) {
-            $vars['dynamic']['addEmployeeBtn'] = true;
-        }
-
-        $this->View->printAll( $this->View->render( 'aurora/newsAnnouncement/list.tpl', $vars ) );
+        return array( 'tab'  => $this->View->render( 'aurora/core/tab.tpl', $vars ),
+                      'form' => $this->View->render( 'aurora/newsAnnouncement/list.tpl', $vars ) );
     }
 }
 ?>

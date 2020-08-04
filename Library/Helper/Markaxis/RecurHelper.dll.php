@@ -30,7 +30,7 @@ class RecurHelper implements IListHelper {
     * @return mixed
     */
     public static function getList( ) {
-        return array( 'daily', 'weekly', 'biweekly', 'monthly', 'yearly', 'weekday', 'monWedFri', 'tueThur', /*'dayOfMonth'*/ );
+        return array( 'day', 'week', 'biweekly', 'month', 'year', 'weekday', 'monWedFri', 'tueThur', /*'dayOfMonth'*/ );
 	}
 
 
@@ -44,11 +44,11 @@ class RecurHelper implements IListHelper {
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
         $L10n = $i18n->loadLanguage('Markaxis/Helper/RecurRes');
 
-        return array( 'daily' => $L10n->getContents('LANG_DAILY'),
-                      'weekly' => $L10n->getContents('LANG_WEEKLY'),
+        return array( 'day' => $L10n->getContents('LANG_DAILY'),
+                      'week' => $L10n->getContents('LANG_WEEKLY'),
                       'biweekly' => $L10n->getContents('LANG_EVERY_2_WEEKS'),
-                      'monthly' => $L10n->getContents('LANG_MONTHLY'),
-                      'yearly' => $L10n->getContents('LANG_YEARLY'),
+                      'month' => $L10n->getContents('LANG_MONTHLY'),
+                      'year' => $L10n->getContents('LANG_YEARLY'),
                       'weekday' => $L10n->getContents('LANG_MON_FRI'),
                       'monWedFri' => $L10n->getContents('LANG_MON_WED_FRI'),
                       'tueThur' => $L10n->getContents('LANG_TUE_THUR') );

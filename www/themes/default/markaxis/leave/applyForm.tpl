@@ -8,10 +8,11 @@
 
             <form id="applyLeaveForm" name="applyLeaveForm" method="post" action="">
                 <div class="modal-body overflow-y-visible">
+                    <input type="hidden" id="laID" name="laID" value="0" />
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Leave Type:</label>
+                                <label>Leave Type: <span class="requiredField">*</span></label>
                                 <?TPL_LEAVE_TYPE_LIST?>
                             </div>
                         </div>
@@ -26,7 +27,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Start Date:</label>
+                                <label>Start Date: <span class="requiredField">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
@@ -37,12 +38,14 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label>End Date:</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar22"></i></span>
-                                </span>
-                                <input type="text" class="form-control pickadate-end" id="endDate" name="endDate" placeholder="" />
+                            <div class="form-group">
+                                <label>End Date: <span class="requiredField">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                    </span>
+                                    <input type="text" class="form-control pickadate-end" id="endDate" name="endDate" placeholder="" />
+                                </div>
                             </div>
                         </div>
 
@@ -61,6 +64,17 @@
                         <div id="dateHelpWrapper" class="col-md-12 hide">
                             <div class="form-group">
                                 <span id="daysHelp" class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="display-block">Upload Supporting Document (If any):</label>
+                                <div class="input-group">
+                                    <input type="file" class="fileInput" data-fouc />
+                                    <span class="help-block">Accepted formats: pdf, doc. Max file size <?TPLVAR_MAX_ALLOWED?></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 

@@ -17,7 +17,6 @@ class NewsAnnouncementModel extends \Model {
 
     // Properties
     protected $NewsAnnouncement;
-    protected $userInfo;
 
 
     /**
@@ -28,7 +27,15 @@ class NewsAnnouncementModel extends \Model {
         parent::__construct( );
 
         $this->NewsAnnouncement = new NewsAnnouncement( );
-        $this->userInfo = UserModel::getInstance( )->getInfo( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFound( $naID ) {
+        return $this->NewsAnnouncement->isFound( $naID );
     }
 
 
@@ -70,7 +77,7 @@ class NewsAnnouncementModel extends \Model {
                     $order = 'contentType';
                     break;
                 case 3:
-                    $order = 'd.title';
+                    $order = 'name';
                     break;
                 case 4:
                     $order = 'created';
@@ -133,6 +140,19 @@ class NewsAnnouncementModel extends \Model {
             $this->NewsAnnouncement->update( 'news_annoucement', $this->info, 'WHERE naID = "' . (int)$this->info['naID'] . '"' );
         }
         return $this->info['naID'];
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return int
+     */
+    public function delete( $naID ) {
+        if( $this->isFound( $naID ) ) {
+            $info = array( );
+            $info['deleted'] = 1;
+            $this->NewsAnnouncement->delete( 'news_annoucement', 'WHERE naID = "' . (int)$naID . '"' );
+        }
     }
 }
 ?>

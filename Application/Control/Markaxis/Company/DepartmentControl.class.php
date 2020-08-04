@@ -58,18 +58,9 @@ class DepartmentControl {
      * @return string
      */
     public function getDepartmentResults( ) {
-        $post = Control::getRequest( )->request( POST );
-        Control::setOutputArray( array( 'list' => $this->DepartmentModel->getResults( $post ) ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getCountList( $data ) {
-        if( isset( $data[1] ) && $data[1] == 'department' && isset( $data[2] ) ) {
-            Control::setOutputArrayAppend( array( 'list' => $this->DepartmentModel->getCountList( $data[2] ) ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $post = Control::getRequest( )->request( POST );
+            Control::setOutputArray( array( 'list' => $this->DepartmentModel->getResults( $post ) ) );
         }
     }
 
@@ -79,11 +70,13 @@ class DepartmentControl {
      * @return string
      */
     public function saveDepartment( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        if( $this->DepartmentModel->isValid( $post ) ) {
-            $post['dID'] = $this->DepartmentModel->save( );
-            Control::setPostData( $post );
+            if( $this->DepartmentModel->isValid( $post ) ) {
+                $post['dID'] = $this->DepartmentModel->save( );
+                Control::setPostData( $post );
+            }
         }
     }
 
@@ -93,12 +86,14 @@ class DepartmentControl {
      * @return string
      */
     public function deleteDepartment( ) {
-        $dID = Control::getRequest( )->request( POST, 'data' );
+        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+            $dID = Control::getRequest( )->request( POST, 'data' );
 
-        $this->DepartmentModel->delete( $dID );
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
+            $this->DepartmentModel->delete( $dID );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

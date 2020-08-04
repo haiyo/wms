@@ -42,6 +42,7 @@
 <form id="employeeForm" class="stepy processEmployee" action="#">
     <input type="hidden" id="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
     <input type="hidden" id="completed" value="<?TPLVAR_COMPLETED?>" />
+    <input type="hidden" id="pID" value="<?TPLVAR_PID?>" />
 
     <div class="input-group payroll-range">
             <span class="input-group-prepend">
@@ -83,13 +84,11 @@
                 <th>Levy</th>
                 <th>Contribution</th>
                 <th>Net</th>
-                <th>Payslip</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
                 <th>Total</th>
-                <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
@@ -101,17 +100,19 @@
     </fieldset>
     <!-- BEGIN DYNAMIC BLOCK: accountDetails -->
     <fieldset>
-        <legend class="text-semibold">Account Details</legend>
+        <legend class="text-semibold">Account &amp; Payslip Release</legend>
 
         <table class="table table-hover datatable finalizedTable">
             <thead>
             <tr>
+                <th></th>
                 <th>Employee</th>
                 <th>Payment Method</th>
                 <th>Bank Name</th>
                 <th>Account Detail</th>
-                <th>Transfer Amount</th>
+                <th>Payable</th>
                 <th>Payslip</th>
+                <th>Released</th>
             </tr>
             </thead>
         </table>

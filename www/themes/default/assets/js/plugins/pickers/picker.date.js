@@ -1198,7 +1198,14 @@
                                             (function( klasses ) {
 
                                                 // Andy: Push extra class for starting of NEXT month
-                                                klass = (viewsetObject.month+1) == targetDate.month ? "hide" : "presentation";
+                                                var monthView = (viewsetObject.month+1);
+
+                                                if( monthView != 12 ) {
+                                                    klass = (viewsetObject.month+1) == targetDate.month ? "hide" : "presentation";
+                                                }
+                                                else {
+                                                    klass = 0 == targetDate.month ? "hide" : "presentation";
+                                                }
 
                                                 // Add the `infocus` or `outfocus` classes based on month in view.
                                                 klasses.push( viewsetObject.month == targetDate.month ? settings.klass.infocus : settings.klass.outfocus )

@@ -78,17 +78,23 @@ class Employee extends \DAO {
         $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" OR u.email1 LIKE "%' . $q . '%" )' : '';
 
         $exclude = $excludeUserID ? ' AND u.userID NOT IN(' . addslashes( $excludeUserID ) . ')' : '';
-        $department = $departmentID ? ' AND dpt.dID = "' . (int)$departmentID . '"' : '';
+        $department = $departmentID ? ' AND FIND_IN_SET("' . (int)$departmentID . '", ed.departmentID)' : '';
         $designation = $designationID ? ' AND d.dID = "' . (int)$designationID . '"' : '';
 
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name, u.email1 AS email,
-                                          u.mobile, dpt.name AS department, d.title AS designation
+        $sql = $this->DB->select( 'SELECT DISTINCT u.userID, CONCAT( u.fname, " ", u.lname ) AS name, u.email1 AS email,
+                                          u.mobile, d.title AS designation,
+                                          IFNULL(ed.department, "" ) AS department
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   LEFT JOIN department dpt ON ( e.departmentID = dpt.dID )
                                    LEFT JOIN designation d ON ( e.designationID = d.dID )
+                                   LEFT JOIN ( SELECT userID, GROUP_CONCAT(DISTINCT dpt.dID) AS departmentID,
+                                               GROUP_CONCAT(DISTINCT dpt.name ORDER BY dpt.name) AS department
+                                               FROM employee_department ed
+                                               LEFT JOIN department dpt ON ( dpt.dID = ed.departmentID )
+                                               WHERE dpt.deleted <> "1"
+                                               GROUP BY ed.userID ) ed ON ed.userID = u.userID
                                    WHERE e.resigned <> "1" AND u.suspended <> "1" AND u.deleted <> "1" ' . $q .
                                          $exclude . $department . $designation . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );

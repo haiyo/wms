@@ -33,7 +33,8 @@ class CalendarView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->CalendarModel = CalendarModel::getInstance( );
-        $this->View->setJScript( array( ) );
+
+        $this->View->setJScript( array( 'markaxis' => 'payCal.js' ) );
     }
 
 
@@ -44,8 +45,8 @@ class CalendarView {
     public function renderSettings( ) {
         $SelectListView = new SelectListView( );
         $recurList = RecurHelper::getL10nList( );
-        unset( $recurList['daily'] );
-        unset( $recurList['yearly'] );
+        unset( $recurList['day'] );
+        unset( $recurList['year'] );
         unset( $recurList['weekday'] );
         unset( $recurList['monWedFri'] );
         unset( $recurList['tueThur'] );
@@ -77,9 +78,9 @@ class CalendarView {
      */
     public function renderPaymentRecur( $data ) {
         if( $range = $this->CalendarModel->getPaymentRecur( $data ) ) {
-            $str = $this->L10n->getContents( 'LANG_FIRST_PAYMENT_HELP' );
-            $str = str_replace( '{dates}', implode( ', ', $range ), $str );
-            return $str;
+            //$str = $this->L10n->getContents( 'LANG_FIRST_PAYMENT_HELP' );
+            //$str = str_replace( '{dates}', implode( ', ', $range ), $str );
+            return implode( ', ', $range );
         }
     }
 }

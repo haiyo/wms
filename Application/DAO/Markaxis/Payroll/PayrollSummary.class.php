@@ -35,6 +35,20 @@ class PayrollSummary extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
+    public function getCountByDate( $date ) {
+        $sql = $this->DB->select( 'SELECT COUNT(*) FROM payroll_summary ps 
+                                    LEFT JOIN payroll p ON ( p.pID = ps.pID ) 
+                                    WHERE p.startDate = "' . addslashes( $date ) . '"',
+                                    __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
     public function getResults( $processDate, $q='', $order='name ASC' ) {
         if( $q ) {
             $q = $q ? addslashes( $q ) : '';

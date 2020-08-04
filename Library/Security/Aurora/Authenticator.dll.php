@@ -4,6 +4,10 @@ use \Aurora\User\UserModel;
 use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
+use \Library\Helper\Google\KeyManagerHelper;
+use \Google_Service_CloudKMS as Kms;
+use \Google_Service_CloudKMS_DecryptRequest as DecryptRequest;
+use \Google_Service_CloudKMS_EncryptRequest as EncryptRequest;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -18,7 +22,6 @@ class Authenticator {
     // Properties
     protected $Registry;
     protected $UserModel;
-    protected $Session;
     protected $authField;
 
 
@@ -47,17 +50,33 @@ class Authenticator {
     * @return bool
     */
     public function login( $username, $password, $setSession=true ) {
-        $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password' );
+        $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek' );
 
-        if( $userInfo && password_verify( $password, $userInfo['password'] ) ) {
-            if( $setSession ) {
+        if( $userInfo ) {
+            require( ROOT . './Library/vendor/autoload.php' );
+            $client = new \Google_Client( );
+            $client->setAuthConfig(ROOT . 'HRMS-Markaxis-75b213b4b0d5.json' );
+            $client->addScope('https://www.googleapis.com/auth/cloud-platform');
+
+            $jsonData = json_decode( file_get_contents(ROOT . 'HRMS-Markaxis-75b213b4b0d5.json' ),true );
+
+            $keyManager = new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
+                $jsonData['projectId'],
+                $jsonData['locationId'],
+                $jsonData['keyRingId'],
+                $jsonData['cryptoKeyId']
+            );
+
+            $decrypted = $keyManager->decrypt( $userInfo['kek'], $userInfo['password'] );
+
+            if( $decrypted == $password && $setSession ) {
                 $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
                 $Session->setSession( $userInfo['userID'] );
 
                 $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
                 $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                return true;
             }
-            return true;
         }
         return false;
     }

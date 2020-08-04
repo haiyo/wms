@@ -43,18 +43,18 @@ class Tax extends \DAO {
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list['mainGroup'][$row['tgID']] = $row;
-                $list['mainGroup'][$row['tgID']]['child'][] = $row['tgID'];
 
-                $sql2 = $this->DB->select( 'SELECT tgID, title, parent
+                $sql2 = $this->DB->select( 'SELECT tgID, title, parent, summary
                                             FROM ( SELECT * FROM tax_group ORDER BY parent, tgID) tax_group,
                                             ( SELECT @pv := "' . (int)$row['tgID'] . '" ) initialisation
-                                            WHERE find_in_set( parent, @pv ) > 0
+                                              WHERE find_in_set( parent, @pv ) > 0
                                              AND @pv := concat( @pv, ",", tgID )',
                                             __FILE__, __LINE__ );
 
-                while( $child = $this->DB->fetch( $sql2 ) ) {
-                    //$list[] = $child;
-                    $list['mainGroup'][$row['tgID']]['child'][] = $child['tgID'];
+                if( $this->DB->numrows( $sql2 ) > 0 ) {
+                    while( $child = $this->DB->fetch( $sql2 ) ) {
+                        $list['mainGroup'][$row['tgID']]['child'][] = $child;
+                    }
                 }
             }
         }

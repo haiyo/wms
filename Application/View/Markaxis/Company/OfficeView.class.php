@@ -34,6 +34,8 @@ class OfficeView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/OfficeRes');
 
         $this->OfficeModel = OfficeModel::getInstance( );
+
+        $this->View->setJScript( array( 'markaxis' => array( 'office.js' ) ) );
     }
 
 
@@ -52,7 +54,6 @@ class OfficeView {
 
         $nList = DayHelper::getL10nNumericValueList( );
         $workDayToList   = $SelectListView->build( 'workDayTo', $nList, '', 'Select Work Day To' );
-        $SelectListView->isDisabled(true);
         $workDayFromList = $SelectListView->build( 'workDayFrom', $nList, '', 'Select Work Day From' );
 
         $vars = array_merge( $this->L10n->getContents( ),

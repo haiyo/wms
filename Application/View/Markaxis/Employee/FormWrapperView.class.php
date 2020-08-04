@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Aurora\Admin\AdminView, \Aurora\User\UserModel;
+use \Aurora\Admin\AdminView;
 use \Aurora\Component\DesignationModel;
 use \Library\Runtime\Registry;
 
@@ -21,6 +21,7 @@ class FormWrapperView {
     protected $View;
     protected $EmployeeModel;
     protected $info;
+    protected $formWrapper;
 
 
     /**
@@ -38,12 +39,25 @@ class FormWrapperView {
         $this->View->setStyle( array( 'core' => 'croppie' ) );
 
         $this->View->setJScript( array( 'core' => 'aurora.uploader.js',
-                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
-                                                                  'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
-                                        'markaxis' => array( 'employee.js', 'usuggest.js', 'competency.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' )  ) );
+    }
+
+
+    /**
+     * @return string
+     */
+    public function renderProfile( $form, $userInfo, $photo ) {
+        $this->formWrapper = 'formProfileWrapper';
+
+        $this->View->setBreadcrumbs( array( 'link' => '',
+                                            'icon' => 'icon-user-plus',
+                                            'text' => $this->L10n->getContents('LANG_EDIT_PROFILE') ) );
+
+        $this->View->setJScript( array( 'markaxis' => 'profile.js' ) );
+
+        $this->View->printAll( $this->renderForm( $form, $userInfo, $photo ) );
     }
 
 
@@ -52,6 +66,8 @@ class FormWrapperView {
      * @return string
      */
     public function renderAdd( $form ) {
+        $this->formWrapper = 'formWrapper';
+
         $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/add',
                                             'icon' => 'icon-user-plus',
                                             'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
@@ -64,12 +80,14 @@ class FormWrapperView {
      * Render main navigation
      * @return string
      */
-    public function renderEdit( $form, $userID, $photo ) {
+    public function renderEdit( $form, $userInfo, $photo ) {
+        $this->formWrapper = 'formWrapper';
+
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-user-plus',
                                             'text' => $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') ) );
 
-        $this->View->printAll( $this->renderForm( $form, $userID, $photo ) );
+        $this->View->printAll( $this->renderForm( $form, $userInfo, $photo ) );
     }
 
 
@@ -77,16 +95,13 @@ class FormWrapperView {
      * Render main navigation
      * @return string
      */
-    public function renderForm( $form, $userID=0, $photo='silhouette' ) {
-        $UserModel = UserModel::getInstance( );
-        $userInfo = $UserModel->getInfo( );
-
-        $vars = array( 'TPLVAR_USERID' => $userID,
+    public function renderForm( $form, $userInfo=array('userID' => 0), $photo='silhouette' ) {
+        $vars = array( 'TPLVAR_USERID' => $userInfo['userID'],
                        'TPLVAR_THUMBNAIL' => rand(1, 8),
                        'TPLVAR_DEF_PHOTO' => '',
                        'TPL_FORM' => $form );
 
-        if( $userInfo['fname'] ) {
+        if( isset( $userInfo['fname'] ) && $userInfo['fname'] ) {
             $vars['dynamic']['name'][] = array( 'TPLVAR_FNAME' => $userInfo['fname'],
                                                 'TPLVAR_LNAME' => $userInfo['lname'] );
         }
@@ -94,7 +109,7 @@ class FormWrapperView {
             $vars['dynamic']['name'] = false;
         }
 
-        if( $userInfo['email1'] ) {
+        if( isset( $userInfo['email1'] ) && $userInfo['email1'] ) {
             $vars['dynamic']['email'][] = array( 'TPLVAR_EMAIL' => $userInfo['email1'] );
         }
         else {
@@ -109,14 +124,14 @@ class FormWrapperView {
             $vars['dynamic']['photo'] = false;
         }
 
-        if( $userInfo['phone'] ) {
+        if( isset( $userInfo['phone'] ) && $userInfo['phone'] ) {
             $vars['dynamic']['phone'][] = array( 'TPLVAR_PHONE' => $userInfo['phone'] );
         }
         else {
             $vars['dynamic']['phone'] = false;
         }
 
-        if( $userInfo['mobile'] ) {
+        if( isset( $userInfo['mobile'] ) && $userInfo['mobile'] ) {
             $vars['dynamic']['mobile'][] = array( 'TPLVAR_MOBILE' => $userInfo['mobile'] );
         }
         else {
@@ -136,7 +151,14 @@ class FormWrapperView {
                 $vars['dynamic']['designation'][] = array( 'TPLVAR_DESIGNATION' => $dInfo[$key]['title'] );
             }
         }
-        return $this->View->render( 'markaxis/employee/formWrapper.tpl', $vars );
+
+        if( $this->formWrapper == 'formWrapper' ) {
+            $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+                                            'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
+                                            'markaxis' => array( 'employeeForm.js', 'usuggest.js', 'competency.js' ) ) );
+        }
+
+        return $this->View->render( 'markaxis/employee/' . $this->formWrapper . '.tpl', $vars );
     }
 }
 ?>

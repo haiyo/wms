@@ -51,6 +51,21 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
+    public function getPayrollEvents( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        $vars = array( );
+        $vars['events'] = $this->PayrollModel->getEventsBetween( $post );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getProcessPass( ) {
         $vars = array( );
         $post = Control::getRequest( )->request( POST );

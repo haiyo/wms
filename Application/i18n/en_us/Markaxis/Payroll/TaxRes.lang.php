@@ -19,6 +19,8 @@ class TaxRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_ENTER_RULE_TITLE'] = 'Please enter a Rule Title.';
         $this->contents['LANG_INVALID_COUNTRY'] = 'Please select a valid Country.';

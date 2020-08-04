@@ -40,10 +40,11 @@ class WeekDayRecur extends DayRecur {
         // Loop thru the range and find occurring events
         while( $this->rangeStart <= $this->rangeEnd ) {
             if( $this->rangeStart->format('U') >= $startDate && $this->rangeStart->format('N') < 6 ) {
-                if( $this->untilDate( $this->rangeStart->format('Y-m-d') ) ) {
+                /*if( $this->untilDate( $this->rangeStart->format('Y-m-d') ) ) {
                     $this->setCollection( $this->Event->getInfo( ) );
                 }
-                else break;
+                else break;*/
+                $this->setCollection( $this->Event->getInfo( ) );
             }
             $this->rangeStart->modify('+1 ' . $this->Event->getInfo('recurType'));
         }

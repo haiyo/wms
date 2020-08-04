@@ -32,6 +32,8 @@ class ContractView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/ContractRes');
 
         $this->ContractModel = ContractModel::getInstance( );
+
+        $this->View->setJScript( array( 'markaxis' => array( 'contract.js' ) ) );
     }
 
 

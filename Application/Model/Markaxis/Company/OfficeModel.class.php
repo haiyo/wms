@@ -3,7 +3,7 @@ namespace Markaxis\Company;
 use \Aurora\Component\OfficeModel AS A_OfficeModel;
 use \Markaxis\Leave\HolidayModel;
 use \Aurora\Component\CountryModel, \Library\Helper\Aurora\DayHelper;
-use \Library\Util\Date, \Library\Validator\Validator;
+use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
 use \DateTime;
@@ -39,7 +39,7 @@ class OfficeModel extends \Model {
      */
     public function isFound( $oID ) {
         $A_OfficeModel = A_OfficeModel::getInstance( );
-        return $A_OfficeModel->getByoID( $oID );
+        return $A_OfficeModel->isFound( $oID );
     }
 
 

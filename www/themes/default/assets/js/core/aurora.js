@@ -199,7 +199,7 @@ $(document).ready( function( ) {
                 iframe.style.display = 'none';
                 document.body.appendChild(iframe);
             }
-            iframe.src = url;
+            iframe.src = Aurora.ROOT_URL + url;
         },
 
         sendType : "POST",

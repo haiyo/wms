@@ -28,15 +28,15 @@ class EventRes extends Resource {
         $this->contents['LANG_NEW_EVENTS'] = 'Posting of New Events';
         $this->contents['LANG_APPROVING_OFFICERS'] = 'Approving Officer(s)';
         $this->contents['LANG_ADMIN_DEFAULT'] = 'Note: The Administrator is by default the approving officer.';
-        $this->contents['LANG_NO_UPCOMING_EVENT'] = 'There is no upcoming event.';
+        $this->contents['LANG_NO_UPCOMING_EVENT'] = 'There is no upcoming event today.';
         $this->contents['LANG_EVENT_INFORMATION'] = 'Event Information';
         $this->contents['LANG_AGENDA'] = 'Agenda';
         $this->contents['LANG_AGENDA_LIST'] = 'Agenda List';
         $this->contents['LANG_EVENT_NO_RECORD'] = 'There is no event on this date.<br /><a href="" class="createSingle">Create event on this date.</a>';
-        $this->contents['LANG_ENTER_EVENT_TITLE'] = 'Enter Event Title';
-        $this->contents['LANG_ENTER_EVENT_DESCRIPT'] = 'Enter Event Description';
+        $this->contents['LANG_PROVIDE_ALL_REQUIRED'] = 'Please provide all required fields.';
         $this->contents['LANG_ALL_DAY'] = 'All day event';
         $this->contents['LANG_CREATE_NEW_EVENT'] = 'Create New Event';
+        $this->contents['LANG_RECUR_EDIT_NOTE'] = 'Note: This is a recurring event. Editing this event will affect all other occurances.';
         $this->contents['LANG_EDIT_EVENT'] = 'Edit Event';
         $this->contents['LANG_SAVE_EVENT'] = 'Save Event';
         $this->contents['LANG_CLOSE'] = 'Close';

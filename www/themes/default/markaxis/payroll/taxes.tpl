@@ -127,6 +127,9 @@
                         </div>
                     </div>
 
+                    <div class="col-md-3"></div>
+                    <div id="multi-select-wrapper" class="col-md-9"></div>
+
                     <div class="col-md-12">
                         <div class="card">
                             <div id="rulesWrapper" class="card-body" style="padding: 12px;">
@@ -163,7 +166,7 @@
 
 
                     <div id="computingTemplate" class="hide">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <input type="hidden" id="tcID_{id}" name="tcID_{id}" value="" />
                             <div class="form-group">
                                 <label>Computing:</label>
@@ -179,7 +182,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Amount Type:</label>
                                 <select name="valueType_{id}" id="valueType_{id}" data-placeholder=""
@@ -205,7 +208,7 @@
                     </div>
 
                     <div id="payItemTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-3">
+                        <div id="col_{id}" class="col-md-5">
                             <input type="hidden" id="tpiID_{id}" name="tpiID_{id}" value="" />
                             <div class="form-group">
                                 <label>Select Pay Item:</label>
@@ -213,7 +216,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Amount Type:</label>
                                 <select name="valueType_{id}" id="valueType_{id}" data-id="{id}" data-placeholder=""
@@ -240,7 +243,7 @@
                     </div>
 
                     <div id="competencyTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8 competency-col">
+                        <div id="col_{id}" class="col-md-11 competency-col">
                             <input type="hidden" id="cID_{id}" name="cID_{id}" value="" />
                             <div class="form-group">
                                 <label>Enter Competencies: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"
@@ -260,7 +263,7 @@
                     </div>
 
                     <div id="contractTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8">
+                        <div id="col_{id}" class="col-md-11">
                             <input type="hidden" id="contractID_{id}" name="contractID_{id}" value="" />
                             <div class="form-group">
                                 <label>Select Contract Type:</label>
@@ -276,7 +279,7 @@
                     </div>
 
                     <div id="designationTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8">
+                        <div id="col_{id}" class="col-md-11">
                             <input type="hidden" id="designationID_{id}" name="designationID_{id}" value="" />
                             <div class="form-group">
                                 <label>Select Designation:</label>
@@ -292,9 +295,9 @@
                     </div>
 
                     <div id="raceTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8">
+                        <div id="col_{id}" class="col-md-11 test" style="position:static !important;">
                             <input type="hidden" id="raceID_{id}" name="raceID_{id}" value="" />
-                            <div class="form-group">
+                            <div class="form-group test">
                                 <label>Select Race:</label>
                                 <?TPL_RACE_LIST?>
                             </div>
@@ -308,7 +311,7 @@
                     </div>
 
                     <div id="genderTemplate" class="hide">
-                        <div id="col_{id}" class="col-md-8">
+                        <div id="col_{id}" class="col-md-11">
                             <input type="hidden" id="genderID_{id}" name="genderID_{id}" value="" />
                             <div class="form-group">
                                 <label>Select Gender:</label>
@@ -334,7 +337,7 @@
                             <label>Apply above criteria as:</label>
                             <select name="applyType" id="applyType" data-placeholder="" placeholder=""
                                     class="form-control select select2-hidden-accessible criteria" tabindex="-1" aria-hidden="true">
-                                <option value="deductionOR" selected>Deduction From Ordinary Wage</option>
+                                <option value="deductionOR">Deduction From Ordinary Wage</option>
                                 <option value="deductionAW">Deduction From Additional Wage</option>
                                 <option value="contribution">Employer Contribution</option>
                                 <option value="skillLevy">Skill Development Levy</option>
@@ -376,6 +379,18 @@
             $(".glyphicon", this).toggleClass("glyphicon-chevron-right")
                                  .toggleClass("glyphicon-chevron-down");
         });
+
+        /*$(document).on( "click", ".multiselect", function ( ) {
+            var width = $(this).outerWidth();
+            var offset = $(this).offset();
+
+            var test = $(this).offsetParent().width() - $(this).outerWidth() - $(this).position().left;
+
+            console.log( $(this).next().attr("class"))
+
+            $(this).next().width(width);
+            $(this).next().addClass("leftImportant");
+        });*/
 
         var data = {
             success: function (res) {
@@ -485,12 +500,15 @@
             var length = $("#rulesWrapper .criteriaRow").length;
             var criteria = $("#criteriaTemplate").html( );
             criteria = criteria.replace(/\{id\}/g, length );
-            $("#rulesWrapper").append( '<div id="criteriaRowWrapper_' + length + '">' + criteria + "</div>" );
+            $("#rulesWrapper").append( '<div id="criteriaRowWrapper_' + length + '" class="row">' + criteria + "</div>" );
             $("#criteria_" + length).select2({minimumResultsForSearch: Infinity});
+            $("#criteria_" + length).val("age").trigger("change");
 
             var id = $("#rulesWrapper .criteriaRow").length-2;
             $("#plus_" + id).attr( "class", "icon-minus-circle2" );
             $("#plus_" + id).parent().attr( "class", "removeCriteria" );
+
+            $("#rulesWrapper").animate({ scrollTop: $("#rulesWrapper")[0].scrollHeight}, 1000);
         }
 
         addCriteria( );
@@ -510,7 +528,7 @@
             var id = element.attr("data-id");
             var html = $("#payItemTemplate").html( );
             html = html.replace(/\{id\}/g, id );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
             $("#payItem_" + id).select2({minimumResultsForSearch:Infinity});
             $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
         }
@@ -519,7 +537,7 @@
             var id = element.attr("data-id");
             var html = $("#computingTemplate").html( );
             html = html.replace(/\{id\}/g, id );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
             $("#computing_" + id).select2({minimumResultsForSearch:Infinity});
             $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
         }
@@ -534,8 +552,24 @@
             var html = $("#contractTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#contract").multiselect( );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
+            $("#contract").multiselect({
+                includeSelectAllOption: true,
+                templates: {
+                    button: '<button type="button" class="multiselect dropdown-toggle" data-display="static" data-toggle="dropdown"><span class="multiselect-selected-text"></span></button>'
+                },
+                onDropdownShown: function( e ) {
+                    var $invoker = $("#criteriaSet_" + id);
+                    var position = $invoker.position( );
+                    var width = $invoker.find(".col-md-11").width( );
+
+                    var multiContainer = $(".multiselect-container");
+                    multiContainer.appendTo("#multi-select-wrapper");
+                    multiContainer.css( "top", (position.top+71) + "px" );
+                    multiContainer.css( "left", "33px" );
+                    multiContainer.css( "width", width + "px" );
+                }
+            });
         }
 
         function addDesignation( element ) {
@@ -548,8 +582,24 @@
             var html = $("#designationTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#designation").multiselect( );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
+            $("#designation").multiselect({
+                includeSelectAllOption: true,
+                templates: {
+                    button: '<button type="button" class="multiselect dropdown-toggle" data-display="static" data-toggle="dropdown"><span class="multiselect-selected-text"></span></button>'
+                },
+                onDropdownShown: function( e ) {
+                    var $invoker = $("#criteriaSet_" + id);
+                    var position = $invoker.position( );
+                    var width = $invoker.find(".col-md-11").width( );
+
+                    var multiContainer = $(".multiselect-container");
+                    multiContainer.appendTo("#multi-select-wrapper");
+                    multiContainer.css( "top", (position.top+71) + "px" );
+                    multiContainer.css( "left", "33px" );
+                    multiContainer.css( "width", width + "px" );
+                }
+            });
         }
 
         function addRace( element ) {
@@ -562,8 +612,8 @@
             var html = $("#raceTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
-            $("#race").multiselect( );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
+            $("#race").multiselect({includeSelectAllOption: true});
         }
 
         function addGender( element ) {
@@ -576,7 +626,7 @@
             var html = $("#genderTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
             $(".gender").uniform({radioClass: 'choice'});
         }
 
@@ -590,7 +640,7 @@
             var html = $("#competencyTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             html = html.replace(/\{template\}/g, "" );
-            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '">' + html + '</div>' );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
 
             // Use Bloodhound engine
             var engine = new Bloodhound({
@@ -630,6 +680,21 @@
                     highlight: true,
                     source: engine.ttAdapter()
                 }]
+            });
+
+            var $invoker = $("#criteriaSet_" + id);
+            var position = $invoker.position( );
+            var width = $invoker.find(".col-md-11").width( );
+
+            var multiContainer = $(".tt-menu");
+            multiContainer.appendTo("#multi-select-wrapper");
+            multiContainer.css( "top", (position.top+71) + "px" );
+            multiContainer.css( "left", "29px" );
+            multiContainer.css( "width", width + "px" );
+
+            $("#competency").on('tokenfield:createtoken', function (e) {
+                var height = parseInt( $(".tokenfield").height( ) );
+                multiContainer.css( "top", (position.top+68+height) + "px" );
             });
         }
 
@@ -883,10 +948,6 @@
                                 $.uniform.update("input[name=gender]");
                                 criteria++;
                             }
-
-                            if( criteria > 0 ) {
-                                addCriteria( );
-                            }
                         }
                     }
                 }
@@ -897,7 +958,7 @@
                 $("#ruleTitle").val("");
                 $("#group").val(0).trigger("change");
                 $("#country").val("").trigger("change");
-                $("#applyType").val("deduction").trigger("change");
+                $("#applyType").val("deductionOR").trigger("change");
                 $("#applyValueType").val("percentage").trigger("change");
                 $("#applyValue").val("");
             }

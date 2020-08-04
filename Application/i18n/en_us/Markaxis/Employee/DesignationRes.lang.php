@@ -19,6 +19,8 @@ class DesignationRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_DESIGNATION'] = 'Designation';
         $this->contents['LANG_CREATE_NEW_DESIGNATION'] = 'Create New Designation';

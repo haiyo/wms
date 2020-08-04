@@ -8,6 +8,10 @@ use \Library\Util\Date;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
 use \Library\Exception\ValidatorException;
+use \Library\Helper\Google\KeyManagerHelper;
+use \Google_Service_CloudKMS as Kms;
+use \Google_Service_CloudKMS_DecryptRequest as DecryptRequest;
+use \Google_Service_CloudKMS_EncryptRequest as EncryptRequest;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -58,6 +62,18 @@ class UserModel extends \Model {
 
 
     /**
+     * Return a list of all users
+     * @return mixed
+     */
+    public function getCurrUser( ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        return $this->User->getFieldByUserID( $userInfo['userID'], '*' );
+    }
+
+
+    /**
     * Return a list of all users
     * @return mixed
     */
@@ -70,12 +86,12 @@ class UserModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getEvents( $post ) {
+    public function getEvents( $info ) {
         $eventList = array( );
 
-        if( isset( $post['start'] ) && isset( $post['end'] ) ) {
-            $startDate = Date::parseDateTime( $post['start'] );
-            $endDate = Date::parseDateTime( $post['end'] );
+        if( isset( $info['start'] ) && isset( $info['end'] ) ) {
+            $startDate = Date::parseDateTime( $info['start'] );
+            $endDate = Date::parseDateTime( $info['end'] );
             $eventList = $this->User->getEvents( $startDate, $endDate );
 
             foreach( $eventList as $key => $event ) {
@@ -190,7 +206,31 @@ class UserModel extends \Model {
         $data['loginPassword'] = Validator::stripTrim( $data['loginPassword'] );
 
         if( $data['loginPassword'] ) {
-            $this->info['password'] = password_hash( $data['loginPassword'], PASSWORD_DEFAULT );
+            try {
+                require( ROOT . './Library/vendor/autoload.php' );
+                $client = new \Google_Client( );
+                $client->setAuthConfig(ROOT . 'HRMS-Markaxis-75b213b4b0d5.json' );
+                $client->addScope('https://www.googleapis.com/auth/cloud-platform');
+
+                $projectId = 'markaxis-hrms';
+                $locationId = 'global';
+                $keyRingId = 'hrms-keyrings';
+                $cryptoKeyId = 'hrms-key';
+
+                $keyManager = new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
+                    $projectId,
+                    $locationId,
+                    $keyRingId,
+                    $cryptoKeyId
+                );
+
+                $encrypted = $keyManager->encrypt( $data['loginPassword'] );
+                $this->info['password'] = $encrypted['data'];
+                $this->info['kek'] = $encrypted['secret'];
+            }
+            catch( \Exception $e ) {
+                die( $e );
+            }
         }
 
         if( isset( $data['gender'] ) ) {

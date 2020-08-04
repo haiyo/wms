@@ -32,6 +32,8 @@ class DesignationView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Employee/DesignationRes');
 
         $this->DesignationModel = DesignationModel::getInstance( );
+
+        $this->View->setJScript( array( 'markaxis' => array( 'designation.js', 'designationGroup.js' ) ) );
     }
 
 

@@ -19,12 +19,15 @@ class PayrollRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_PAYROLL_CLAIM'] = 'Payroll &amp; Claim';
         $this->contents['LANG_CPF_SUBMISSION'] = 'CPF Submission';
         $this->contents['LANG_TAX_FILING'] = 'Tax Filing (IRAS)';
-        $this->contents['LANG_VIEW_DOWNLOAD_PAYSLIPS'] = 'View &amp; Download Payslips';
+        $this->contents['LANG_VIEW_DOWNLOAD_PAYSLIPS'] = 'View My Payslips';
         $this->contents['LANG_PAYROLL_OVERVIEW'] = 'Payroll Overview';
+        $this->contents['LANG_PAYROLL_ARCHIVE'] = 'More Payroll Archives';
         $this->contents['LANG_PROCESS_PAYROLL'] = 'Process Payroll';
         $this->contents['LANG_CREATE_NEW_PAY_RUN'] = 'Create New Pay Run';
         $this->contents['LANG_PAYSLIP_RECORDS'] = 'Payslip Records';

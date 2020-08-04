@@ -13,6 +13,7 @@ class FormWrapperControl {
 
 
     // Properties
+    protected $FormWrapperView;
 
 
     /**
@@ -20,7 +21,22 @@ class FormWrapperControl {
      * @return void
      */
     function __construct( ) {
-        //
+        $this->FormWrapperView = new FormWrapperView( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function profile( ) {
+        $output = Control::getOutputArray( );
+
+        $form  = isset( $output['form'] ) ? $output['form'] : '';
+        $userInfo  = isset( $output['userInfo'] ) ? $output['userInfo'] : '';
+        $photo = isset( $output['photo'] ) ? $output['photo'] : '';
+
+        $this->FormWrapperView->renderProfile( $form, $userInfo, $photo );
     }
 
 
@@ -31,8 +47,7 @@ class FormWrapperControl {
     public function add( ) {
         $output = Control::getOutputArray( );
 
-        $FormWrapperView = new FormWrapperView( );
-        $FormWrapperView->renderAdd( $output['form'] );
+        $this->FormWrapperView->renderAdd( $output['form'] );
     }
 
 
@@ -41,14 +56,22 @@ class FormWrapperControl {
      * @return string
      */
     public function edit( $args ) {
-        $userID = isset( $args[1] ) ? (int)$args[1] : 0;
         $output = Control::getOutputArray( );
 
         $form  = isset( $output['form'] ) ? $output['form'] : '';
+        $userInfo  = isset( $output['userInfo'] ) ? $output['userInfo'] : '';
         $photo = isset( $output['photo'] ) ? $output['photo'] : '';
 
-        $FormWrapperView = new FormWrapperView( );
-        $FormWrapperView->renderEdit( $form, $userID, $photo );
+        $this->FormWrapperView->renderEdit( $form, $userInfo, $photo );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveProfile( ) {
+        $this->saveUser( );
     }
 
 

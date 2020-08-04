@@ -33,7 +33,9 @@ class CompanyControl {
      * @return string
      */
     public function setup( ) {
-        $this->CompanyView->renderSetup( );
+        if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
+            $this->CompanyView->renderSetup( );
+        }
     }
 
 
@@ -42,8 +44,10 @@ class CompanyControl {
      * @return string
      */
     public function settings( ) {
-        $output = Control::getOutputArray( );
-        $this->CompanyView->renderSettings( $output );
+        if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
+            $output = Control::getOutputArray( );
+            $this->CompanyView->renderSettings( $output );
+        }
     }
 
 
@@ -51,13 +55,15 @@ class CompanyControl {
      * Render main navigation
      * @return string
      */
-    public function getCountList( $data ) {
-        $output = Control::getOutputArray( );
+    public function getCountList( ) {
+        if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
+            $output = Control::getOutputArray( );
 
-        if( isset( $output['list'] ) ) {
-            $EmployeeView = new EmployeeView( );
-            echo $EmployeeView->renderCountList( $output['list'] );
-            exit;
+            if( isset( $output['list'] ) ) {
+                $EmployeeView = new EmployeeView( );
+                echo $EmployeeView->renderCountList( $output['list'] );
+                exit;
+            }
         }
     }
 
@@ -67,11 +73,13 @@ class CompanyControl {
      * @return string
      */
     public function saveCompanySettings( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        $this->CompanyModel->save( $post );
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
+        if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+            $this->CompanyModel->save( $post );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 
 
@@ -80,19 +88,21 @@ class CompanyControl {
      * @return string
      */
     public function deleteLogo( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        if( $post['logo'] == 'Company' ) {
-            $field = 'company_uID';
-        }
-        else {
-            $field = 'slip_uID';
-        }
+            if( $post['logo'] == 'Company' ) {
+                $field = 'company_uID';
+            }
+            else {
+                $field = 'slip_uID';
+            }
 
-        $this->CompanyModel->deleteLogo( $field, true );
-        $vars['bool'] = 1;
-        echo json_encode( $vars );
-        exit;
+            $this->CompanyModel->deleteLogo( $field, true );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

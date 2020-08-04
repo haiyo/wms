@@ -2,7 +2,6 @@
 namespace Markaxis\Employee;
 use \Markaxis\Leave\TypeModel, \Markaxis\Leave\OfficeModel;
 use \Library\Helper\Aurora\DayHelper, \Library\Util\Date;
-use \DateTime;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -145,8 +144,8 @@ class LeaveBalanceModel extends \Model {
             $OfficeModel = OfficeModel::getInstance( );
 
             if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                $startDate  = DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $endDate    = DateTime::createFromFormat('d M Y', $data['endDate'] );
+                $startDate  = \DateTime::createFromFormat('d M Y', $data['startDate'] );
+                $endDate    = \DateTime::createFromFormat('d M Y', $data['endDate'] );
                 $daysDiff   = Date::daysDiff( $startDate, $endDate );
 
                 // Create an iterateable period of date (P1D equates to 1 day)
@@ -198,8 +197,8 @@ class LeaveBalanceModel extends \Model {
 
         if( $balInfo = $this->getByltIDUserID( $data['ltID'], $this->info['userID'] ) ) {
             if( isset( $data['startDate'] ) && isset( $data['endDate'] ) ) {
-                $this->info['startDate'] = DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $this->info['endDate']   = DateTime::createFromFormat('d M Y', $data['endDate'] );
+                $this->info['startDate'] = \DateTime::createFromFormat('d M Y', $data['startDate'] );
+                $this->info['endDate']   = \DateTime::createFromFormat('d M Y', $data['endDate'] );
 
                 if( !$this->info['startDate'] || !$this->info['endDate'] || !$this->info['days'] = $this->calculateDateDiff( $data ) ) {
                     $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_DATE_RANGE') );

@@ -29,7 +29,7 @@ class ReminderHelper implements IListHelper {
     * @return mixed
     */
     public static function getList( ) {
-        return array( '0', '1', '2', '3', '4', '5', '24', '48' );
+        return array( '1', '2', '3', '4', '5', '24', '48' );
 	}
 
 
@@ -41,10 +41,9 @@ class ReminderHelper implements IListHelper {
     public static function getL10nList( ) {
         $Registry = Registry::getInstance( );
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
-        $L10n = $i18n->loadLanguage('Markaxis/Calendar/Helper/ReminderRes');
+        $L10n = $i18n->loadLanguage('Markaxis/Helper/ReminderRes');
 
-        return array( '0'  => '',
-                      '1'  => $L10n->getText('LANG_ONE_HOUR_BEFORE', 1, 1 ),
+        return array( '1'  => $L10n->getText('LANG_ONE_HOUR_BEFORE', 1, 1 ),
                       '2'  => $L10n->getText('LANG_ONE_HOUR_BEFORE', 2, 2 ),
                       '3'  => $L10n->getText('LANG_ONE_HOUR_BEFORE', 3, 3 ),
                       '4'  => $L10n->getText('LANG_ONE_HOUR_BEFORE', 4, 4 ),

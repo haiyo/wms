@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Calendar;
-use Aurora\AuroraView;
+use \Aurora\Admin\AdminView;
+use \Library\Runtime\Registry;
+
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, September 27, 2010
@@ -8,7 +10,7 @@ use Aurora\AuroraView;
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class LabelListView extends AdminView {
+class LabelListView {
 
 
     // Properties
@@ -19,7 +21,7 @@ class LabelListView extends AdminView {
     * @return void
     */
     function __construct( ) {
-        parent::__construct( );
+        $this->View = AdminView::getInstance( );
 	}
     
     
@@ -28,11 +30,11 @@ class LabelListView extends AdminView {
     * @return string
     */
     public function getList( $name, $arrayList, $selected='' ) {
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-        $L10n = $i18n->loadLanguage('Markaxis/Calendar/Helper/LabelRes');
+        $Registry = Registry::getInstance( );
+        $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
+        $L10n = $i18n->loadLanguage('Markaxis/Helper/LabelRes');
 
-        $vars   = array( 'TPLVAR_NAME' => $name,
-                         'LANG_MANAGE_LABEL' => $L10n->getContents('LANG_MANAGE_LABEL') );
+        $vars   = array( 'TPLVAR_NAME' => $name );
         $option = array( );
 
         foreach( $arrayList as $row ) {
@@ -50,7 +52,7 @@ class LabelListView extends AdminView {
                                'TPLVAR_SELECT' => $select );
         }
         $vars['dynamic']['option'] = $option;
-        return $this->render( 'markaxis/calendar/html/labelList.tpl', $vars );
+        return $this->View->render( 'markaxis/calendar/labelList.tpl', $vars );
     }
 }
 ?>

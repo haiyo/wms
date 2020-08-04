@@ -19,6 +19,8 @@ class AdditionalRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_ADDITIONAL_INFO'] = 'Additional Info';
         $this->contents['LANG_ECONTACT_INFO'] = 'If have any children, be sure to add them in contact for Leave Entitlement purposes.';

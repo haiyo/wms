@@ -39,11 +39,25 @@ class PayrollContribution extends \DAO {
      * @return mixed
      */
     public function getChart( $date ) {
-        $sql = $this->DB->select( 'SELECT SUM(ps.contribution) AS contribution FROM payroll p
-                                   LEFT JOIN payroll_summary ps ON ( ps.pID = p.pID )
-                                   WHERE p.startDate BETWEEN DATE_SUB( "' . addslashes( $date ) . '", INTERVAL 11 MONTH) AND 
-                                         "' . addslashes( $date ) . '" 
-                                   GROUP BY p.startDate',
+        $date = addslashes( $date );
+
+        $sql = $this->DB->select( 'SELECT p.startDate, COALESCE(SUM(ps.contribution), 0) AS contribution
+                                    FROM (SELECT DATE("' . $date . '") as thedate union all
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 1 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 2 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 3 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 4 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 5 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 6 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 7 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 8 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 9 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 10 MONTH)) UNION ALL
+                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 11 MONTH))) d 
+                                    LEFT OUTER JOIN payroll p on p.startDate = d.thedate 
+                                    LEFT OUTER JOIN payroll_summary ps ON ( ps.pID = p.pID ) 
+                                    GROUP BY thedate
+                                    ORDER BY thedate ASC',
                                     __FILE__, __LINE__ );
 
         $list = array( );

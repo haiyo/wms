@@ -35,7 +35,7 @@ class TimesheetView extends AdminView {
         $this->TimesheetModel = TimesheetModel::getInstance( );
 
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 

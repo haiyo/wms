@@ -32,7 +32,8 @@ class DayRecur extends Recur {
     public function setCollection( $eventInfo ) {
         $eventInfo['start'] = $this->rangeStart->format('Y-m-d ' . $this->Event->getInfo('start', 'H:i:s') );
         $eventInfo['end']   = date('Y-m-d ' . $this->Event->getInfo('end', 'H:i:s'),
-                                $this->rangeStart->format('U')+$this->Event->getTimeDiff( ) );
+                                    $this->rangeStart->format('U')+$this->Event->getTimeDiff( ) );
+
         $this->collection[] = $eventInfo;
     }
 
@@ -55,17 +56,18 @@ class DayRecur extends Recur {
         $startDate = new DateTime( $this->Event->getInfo('start', 'Y-m-d') );
         $startDate = $startDate->format('U');
 
-        $this->rangeStart->setDate( $this->Event->getInfo('start', 'Y'),
+        /*$this->rangeStart->setDate( $this->Event->getInfo('start', 'Y'),
                                     $this->Event->getInfo('start', 'm'),
-                                    $this->Event->getInfo('start', 'd') );
+                                    $this->Event->getInfo('start', 'd') );*/
 
         // Loop thru the range and find occurring events
         while( $this->rangeStart <= $this->rangeEnd ) {
             if( $this->rangeStart->format('U') >= $startDate ) {
-                if( $this->untilDate( $this->rangeStart->format('Y-m-d') ) ) {
+                /*if( $this->untilDate( $this->rangeStart->format('Y-m-d') ) ) {
                     $this->setCollection( $this->Event->getInfo( ) );
                 }
-                else break;
+                else break;*/
+                $this->setCollection( $this->Event->getInfo( ) );
             }
             $this->rangeStart->modify('+' . $this->Event->repeatTimes( ) . ' ' . $this->Event->getInfo('recurType') );
         }

@@ -8,7 +8,14 @@
         <td valign="top"><img src="<?TPLVAR_LOGO?>" width="250" /></td>
         <td style="text-align:right;">
             <h2>PAYSLIP</h2>
-            Markaxis Private Limited<br />30 Pasir Panjang #07-35<br />Singapore 435344<br />Tel: 6744 5439</td>
+            <?TPLVAR_COMPANY_NAME?><br /><?TPLVAR_COMPANY_ADDRESS?><br />
+            <!-- BEGIN DYNAMIC BLOCK: phone -->
+            <?TPLVAR_COMPANY_PHONE?><br />
+            <!-- END DYNAMIC BLOCK: phone -->
+            <!-- BEGIN DYNAMIC BLOCK: website -->
+            <?TPLVAR_COMPANY_WEBSITE?>
+            <!-- END DYNAMIC BLOCK: website -->
+        </td>
     </tr>
 </table>
 

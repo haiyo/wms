@@ -28,6 +28,27 @@ class Payroll extends \DAO {
 
 
     /**
+     * Retrieve Events Between a Start and End Timestamp
+     * @return mixed
+     */
+    public function getEventsBetween( $start, $end ) {
+        $events = array( );
+        $sql = $this->DB->select( 'SELECT * FROM payroll
+                                   WHERE startDate <= "' . addslashes( $end ) . '" AND
+                                         startDate >= "' . addslashes( $start ) . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $row['classNames'] = 'holiday';
+                $events[] = $row;
+            }
+        }
+        return $events;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

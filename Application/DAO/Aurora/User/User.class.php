@@ -156,8 +156,10 @@ class User extends \DAO {
                                    __FILE__, __LINE__ );
 
         $list = array( );
+
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['classNames'] = 'birthday';
                 $list[] = $row;
             }
         }

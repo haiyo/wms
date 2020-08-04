@@ -18,7 +18,7 @@ class Department extends \DAO {
      * Return total count of records
      * @return int
      */
-    public function isFound( $dID ) {
+    public function isFoundByID( $dID ) {
         $sql = $this->DB->select( 'SELECT COUNT(dID) FROM department
                                    WHERE dID = "' . (int)$dID . '" AND deleted <> "1"',
                                    __FILE__, __LINE__ );
@@ -47,7 +47,8 @@ class Department extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM department WHERE deleted <> "1"', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT * FROM department WHERE deleted <> "1"
+                                   ORDER BY name', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {

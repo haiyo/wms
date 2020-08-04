@@ -22,7 +22,7 @@ class UserView {
     protected $L10n;
     protected $View;
     protected $UserModel;
-    protected $info;
+    protected $userInfo;
 
 
     /**
@@ -44,8 +44,29 @@ class UserView {
      * Render main navigation
      * @return string
      */
+    public function setInfo( $userInfo ) {
+        $this->userInfo = $userInfo;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderProfile( ) {
+        $this->userInfo = $this->UserModel->getCurrUser( );
+
+        return array( 'userInfo' => $this->userInfo,
+                      'form' => $this->renderForm( ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function renderAdd( ) {
-        $this->info = $this->UserModel->getInfo( );
+        $this->userInfo = $this->UserModel->getInfo( );
         return $this->renderForm( );
     }
 
@@ -54,11 +75,9 @@ class UserView {
      * Render main navigation
      * @return string
      */
-    public function renderEdit( $userID ) {
-        if( $this->info = $this->UserModel->getFieldByUserID( $userID, '*' ) ) {
-            return $this->renderForm( );
-        }
-        //throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+    public function renderEdit( $userInfo ) {
+        $this->userInfo = $userInfo;
+        return $this->renderForm( );
     }
 
 
@@ -68,12 +87,12 @@ class UserView {
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
-        $genderRadio = $RadioView->build( 'gender', GenderHelper::getL10nList( ), $this->info['gender'] );
-        $childrenRadio = $RadioView->build( 'children', YesNoHelper::getL10nList( ), $this->info['children'] );
+        $genderRadio = $RadioView->build( 'gender', GenderHelper::getL10nList( ), $this->userInfo['gender'] );
+        $childrenRadio = $RadioView->build( 'children', YesNoHelper::getL10nList( ), $this->userInfo['children'] );
 
         $dobDay = $dobMonth = $dobYear = $startYear = $endYear = '';
-        if( $this->info['birthday'] ) {
-            $birthday = explode( '-', $this->info['birthday'] );
+        if( $this->userInfo['birthday'] ) {
+            $birthday = explode( '-', $this->userInfo['birthday'] );
             $dobDay   = $birthday[2];
             $dobMonth = $birthday[1];
             $dobYear  = $birthday[0];
@@ -85,21 +104,21 @@ class UserView {
 
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
-        $countryList = $SelectListView->build( 'country', $countries, $this->info['countryID'], 'Select Country' );
+        $countryList = $SelectListView->build( 'country', $countries, $this->userInfo['countryID'], 'Select Country' );
 
         $NationalityModel = NationalityModel::getInstance( );
         $nationalities = $NationalityModel->getList( );
-        $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->info['nationalityID'], 'Select Nationality' );
+        $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->userInfo['nationalityID'], 'Select Nationality' );
 
         $SelectListView->setClass( 'maritalList' );
-        $maritalList  = $SelectListView->build( 'marital', MaritalHelper::getL10nList( ), $this->info['marital'], 'Select Status' );
+        $maritalList  = $SelectListView->build( 'marital', MaritalHelper::getL10nList( ), $this->userInfo['marital'], 'Select Status' );
 
         $ReligionModel = ReligionModel::getInstance( );
-        $religionID = isset( $this->info['religionID'] ) ? $this->info['religionID'] : '';
+        $religionID = isset( $this->userInfo['religionID'] ) ? $this->userInfo['religionID'] : '';
         $religionList = $SelectListView->build( 'religion', $ReligionModel->getList( ), $religionID, 'Select Religion' );
 
         $RaceModel = RaceModel::getInstance( );
-        $raceID = isset( $this->info['raceID'] ) ? $this->info['raceID'] : '';
+        $raceID = isset( $this->userInfo['raceID'] ) ? $this->userInfo['raceID'] : '';
         $SelectListView->setClass( 'raceList' );
         $raceList = $SelectListView->build( 'race',  $RaceModel->getList( ), $raceID, 'Select Race' );
 
@@ -112,21 +131,21 @@ class UserView {
         $SelectListView->setClass('childSelect childDobMonth' );
         $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), '', 'Month' );
 
-        $vars = array( 'TPLVAR_USERID' => $this->info['userID'],
-                       'TPLVAR_FNAME' => $this->info['fname'],
-                       'TPLVAR_LNAME' => $this->info['lname'],
-                       'TPLVAR_NRIC' => $this->info['nric'],
-                       'TPLVAR_USERNAME' => $this->info['username'],
-                       'TPLVAR_EMAIL1' => $this->info['email1'],
-                       'TPLVAR_EMAIL2' => $this->info['email2'],
-                       'TPLVAR_PHONE' => $this->info['phone'],
-                       'TPLVAR_MOBILE' => $this->info['mobile'],
+        $vars = array( 'TPLVAR_USERID' => $this->userInfo['userID'],
+                       'TPLVAR_FNAME' => $this->userInfo['fname'],
+                       'TPLVAR_LNAME' => $this->userInfo['lname'],
+                       'TPLVAR_NRIC' => $this->userInfo['nric'],
+                       'TPLVAR_USERNAME' => $this->userInfo['username'],
+                       'TPLVAR_EMAIL1' => $this->userInfo['email1'],
+                       'TPLVAR_EMAIL2' => $this->userInfo['email2'],
+                       'TPLVAR_PHONE' => $this->userInfo['phone'],
+                       'TPLVAR_MOBILE' => $this->userInfo['mobile'],
                        'TPLVAR_DOB_YEAR' => $dobYear,
-                       'TPLVAR_ADDRESS1' => $this->info['address1'],
-                       'TPLVAR_ADDRESS2' => $this->info['address2'],
-                       'TPLVAR_POSTAL' => $this->info['postal'],
-                       'TPLVAR_CITY' => $this->info['city'],
-                       'TPLVAR_STATE' => $this->info['state'],
+                       'TPLVAR_ADDRESS1' => $this->userInfo['address1'],
+                       'TPLVAR_ADDRESS2' => $this->userInfo['address2'],
+                       'TPLVAR_POSTAL' => $this->userInfo['postal'],
+                       'TPLVAR_CITY' => $this->userInfo['city'],
+                       'TPLVAR_STATE' => $this->userInfo['state'],
                        'TPL_NATIONALITY_LIST' => $nationalityList,
                        'TPL_RELIGION_LIST' => $religionList,
                        'TPL_RACE_LIST' => $raceList,
@@ -143,11 +162,11 @@ class UserView {
 
         $vars['dynamic']['children'] = false;
 
-        if( $this->info['userID'] ) {
+        if( $this->userInfo['userID'] ) {
             $ChildrenModel = new ChildrenModel( );
 
             $id = 0;
-            if( $ucInfo = $ChildrenModel->getByUserID( $this->info['userID'] ) ) {
+            if( $ucInfo = $ChildrenModel->getByUserID( $this->userInfo['userID'] ) ) {
                 foreach( $ucInfo as $value ) {
                     $countryList  = $SelectListView->build( 'childCountry_' . $id, $countries, $value['country'], 'Select Country' );
 

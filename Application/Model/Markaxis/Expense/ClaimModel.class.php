@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Expense;
+use \Markaxis\Employee\EmployeeModel;
 use \Aurora\User\UserModel;
 use \Aurora\Component\UploadModel;
 use \Library\Util\Uploader, \Library\Validator\Validator;
@@ -205,25 +206,24 @@ class ClaimModel extends \Model {
         $this->info['amount'] = Validator::stripTrim( $data['claimAmount'] );
 
         $ExpenseModel = ExpenseModel::getInstance( );
-        if( isset( $ExpenseModel->getList( )[$data['expense']] ) ) {
+
+        if( $exInfo = $ExpenseModel->getByeiID( $data['expense'] ) ) {
             $this->info['eiID'] = (int)$data['expense'];
         }
         else {
             $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CLAIM_TYPE') );
             return false;
         }
-        $ecaUID = Validator::stripTrim( $data['ecaUID'] );
-        $hashName = Validator::stripTrim( $data['ecaHashName'] );
 
-        if( $ecaUID && $hashName ) {
-            $UploadModel = new UploadModel( );
-            if( $UploadModel->isFound( $ecaUID, $hashName ) ) {
-                $this->info['uID'] = $ecaUID;
-            }
+        if( $exInfo['max_amount'] && $this->info['amount'] > $exInfo['max_amount'] ) {
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $empInfo = $EmployeeModel->getInfo( );
+
+            $this->setErrMsg( $this->L10n->strReplace( 'maxAmount', $empInfo['currency'] . $exInfo['max_amount'],
+                                                       'LANG_AMOUNT_OVER_MAX' ) );
+            return false;
         }
-        else {
-            unset( $this->info['uID'] );
-        }
+
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $this->info['userID'] = $userInfo['userID'];
@@ -265,27 +265,35 @@ class ClaimModel extends \Model {
      * Upload file
      * @return bool
      */
-    public function uploadSuccess( $file ) {
-        $Uploader = new Uploader( );
+    public function uploadSuccess( $ecID, $file ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-        if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
-            $this->fileInfo = $Uploader->getFileInfo( );
+        if( $this->isFoundByEcIDUserID( $ecID, $userInfo['userID'],0 ) ) {
+            $Uploader = new Uploader( );
 
-            $UploadModel = new UploadModel( );
-            $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
+            if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
+                $this->fileInfo = $Uploader->getFileInfo( );
 
-            if( $this->fileInfo['error'] ) {
-                $this->setErrMsg( $this->fileInfo['error'] );
-                return false;
+                $UploadModel = new UploadModel( );
+                $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
+
+                if( $this->fileInfo['error'] ) {
+                    $this->setErrMsg( $this->fileInfo['error'] );
+                    return false;
+                }
+
+                if( $this->fileInfo['success'] == 2 && $this->fileInfo['isImage'] ) {
+                    $this->processResize( );
+                }
+                $this->Claim->update('expense_claim', array( 'uID' => $this->fileInfo['uID'] ),
+                                    'WHERE ecID = "' . (int)$ecID . '"' );
+
+                return true;
             }
-
-            if( $this->fileInfo['success'] == 2 && $this->fileInfo['isImage'] ) {
-                $this->processResize( );
-            }
-            return true;
+            $this->setErrMsg( $Uploader->getFileInfo( )['error'] );
+            return false;
         }
-        $this->setErrMsg( $Uploader->getFileInfo( )['error'] );
-        return false;
     }
 }
 ?>

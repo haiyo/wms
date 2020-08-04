@@ -1,10 +1,10 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
+use \Aurora\User\UserImageModel;
 use \Markaxis\Employee\LeaveBalanceModel;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Library\Helper\Markaxis\ApplyForHelper;
-use \Markaxis\Employee\ManagerModel;
+use \Aurora\Admin\AdminView;
+use \Library\Util\Date;
 use \Library\Runtime\Registry;
 
 /**
@@ -43,12 +43,13 @@ class LeaveView {
      * Render main navigation
      * @return string
      */
-    public function renderBalance( ) {
+    public function renderBalance( $output ) {
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js',
                                                                               'checkboxes.min.js',
                                                                               'mark.min.js'),
                                         'plugins/visualization/d3' => array( 'd3.min.js', 'd3_tooltip.js' ),
-                                        'jquery' => array( 'mark.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js' ),
+                                        'markaxis' => 'leave.js' ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
@@ -87,6 +88,14 @@ class LeaveView {
                 array_shift($colors);
                 $id++;
             }
+        }
+
+        $vars['TPL_CONTENT'] = '';
+        if( isset( $output['content'] ) ) {
+            $vars['TPL_CONTENT'] = $output['content'];
+        }
+        if( isset( $output['js'] ) ) {;
+            $this->View->setJScript( $output['js'] );
         }
 
         $this->View->printAll( $this->View->render( 'markaxis/leave/balance.tpl', $vars ) );
@@ -147,6 +156,76 @@ class LeaveView {
 
             return array( 'days' => $days,
                           'text' => $this->L10n->getText( 'LANG_APPLY_DAYS', $days ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderRequest( $request ) {
+        if( is_array( $request ) ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $request as $row ) {
+                $created = Date::timeSince( $row['created'] );
+
+                $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
+
+                if( $row['reason'] ) {
+                    $pdVars['dynamic']['reason'][] = array( 'TPLVAR_REASON' => $row['reason'] );
+                }
+                else {
+                    $pdVars['dynamic']['reason'] = false;
+                }
+
+                if( $row['status'] == 0 ) {
+                    $label = 'pending';
+                    $status = $this->L10n->getContents('LANG_PENDING');
+                }
+                else if( $row['status'] == 1 ) {
+                    $label = 'success';
+                    $status = $this->L10n->getContents('LANG_APPROVED');
+                }
+                else {
+                    $label = 'danger';
+                    $status = $this->L10n->getContents('LANG_UNAPPROVED');
+                }
+
+                $managers = '';
+
+                if( isset( $row['managers'] ) ) {
+                    foreach( $row['managers'] as $manager ) {
+                        if( $manager['approved'] == 0 ) {
+                            $managers .= '<i class="icon-watch2 text-grey-300 mr-3"></i>';
+                        }
+                        else if( $manager['approved'] == 1 ) {
+                            $managers .= '<i class="icon-checkmark4 text-green-800 mr-3"></i>';
+                        }
+                        else if( $manager['approved'] == "-1" ) {
+                            $managers .= '<i class="icon-cross2 text-warning-800 mr-3"></i>';
+                        }
+                        $managers .= $manager['name'] . '<br />';
+                    }
+                }
+
+                $pdVars['TPLVAR_START_DATE'] = $row['startDate'];
+                $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
+                $reason = $this->View->render( 'markaxis/leave/pending_description.tpl', $pdVars );
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_TIME_AGO' => $created,
+                                                    'TPLVAR_ID' => $row['laID'],
+                                                    'TPLVAR_GROUP_NAME' => 'leave',
+                                                    'TPLVAR_CLASS' => 'cancelApplyLeave',
+                                                    'TPLVAR_TITLE' => $row['name'] . ' (' . $row['code'] . ')',
+                                                    'TPLVAR_DESCRIPTION' => $reason,
+                                                    'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
+                                                    'TPLVAR_LABEL' => $label,
+                                                    'TPLVAR_MANAGER' => $managers,
+                                                    'LANG_STATUS' => $status );
+            }
+            return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
         }
     }
 }

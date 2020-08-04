@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Employee;
+use \Aurora\User\UserImageModel;
 use \Aurora\Component\DepartmentModel AS A_DepartmentModel;
 
 /**
@@ -52,6 +53,33 @@ class DepartmentModel extends \Model {
      */
     public function getList( ) {
         return $this->Department->getList( );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getListByUserID( $userID ) {
+        return $this->Department->getListByUserID( $userID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getCountList( $dID ) {
+        $list = $this->Department->getCountList( $dID );
+
+        if( sizeof( $list ) > 0 ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $list as $key => $value ) {
+                $list[$key]['image'] = $UserImageModel->getImgLinkByUserID( $list[$key]['userID'] );
+            }
+        }
+        return $list;
     }
 
 

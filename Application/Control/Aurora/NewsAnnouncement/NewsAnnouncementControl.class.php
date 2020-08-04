@@ -40,6 +40,17 @@ class NewsAnnouncementControl {
      * Render main navigation
      * @return string
      */
+    public function settings( ) {
+        if( Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
+            Control::setOutputArrayAppend( $this->NewsAnnouncementView->renderSettings( ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getContent( $data ) {
         $vars = array( );
         $naID = isset( $data[1] ) ? $data[1] : $data;
@@ -62,7 +73,9 @@ class NewsAnnouncementControl {
      * @return void
      */
     public function list( ) {
-        $this->NewsAnnouncementView->renderList( );
+        if( Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
+            $this->NewsAnnouncementView->renderList( );
+        }
     }
 
 
@@ -71,9 +84,11 @@ class NewsAnnouncementControl {
      * @return void
      */
     public function results( ) {
-        $post = Control::getRequest( )->request( POST );
-        echo json_encode( $this->NewsAnnouncementModel->getResults( $post ) );
-        exit;
+        if( Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
+            $post = Control::getRequest( )->request( POST );
+            echo json_encode( $this->NewsAnnouncementModel->getResults( $post ) );
+            exit;
+        }
     }
 
 
@@ -82,7 +97,7 @@ class NewsAnnouncementControl {
      * @return string
      */
     public function save( ) {
-        if( Control::hasPermission( 'Aurora', 'add_modify_news' ) ) {
+        if( Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
             $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
             if( $this->NewsAnnouncementModel->isValid( $post ) ) {
@@ -93,6 +108,22 @@ class NewsAnnouncementControl {
                 $vars['bool'] = 0;
                 $vars['errMsg'] = $this->NewsAnnouncementModel->getErrMsg( );
             }
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function naDelete( ) {
+        if( Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
+            $naID = Control::getRequest( )->request( POST, 'data' );
+
+            $this->NewsAnnouncementModel->delete( $naID );
+            $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;
         }

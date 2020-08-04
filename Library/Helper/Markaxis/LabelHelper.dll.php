@@ -41,7 +41,7 @@ class LabelHelper implements IListHelper {
     public static function getL10nList( ) {
         $Registry = Registry::getInstance( );
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
-        $L10n = $i18n->loadLanguage('Markaxis/Calendar/Helper/LabelRes');
+        $L10n = $i18n->loadLanguage('Markaxis/Helper/LabelRes');
 
         return array( 'blue' => $L10n->getContents('LANG_BUSINESS'),
                       'red' => $L10n->getContents('LANG_IMPORTANT'),

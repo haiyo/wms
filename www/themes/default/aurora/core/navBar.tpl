@@ -1,71 +1,12 @@
 <style>
-    .navbar-nav {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        padding-left: 0;
-        margin-bottom: 0;
-        list-style: none;
-    }
-    .navbar-nav li > a {
-        color:#<?TPLVAR_NAVIGATION_TEXT_COLOR?> !important;
-        font-size:14px;
-    }
-    .navbar-nav>li>a:focus,.navbar-nav>li>a:hover {
-        color:#<?TPLVAR_NAVIGATION_TEXT_HOVER_COLOR?> !important;
-        text-decoration:none;
-        background-color:#<?TPLVAR_NAVIGATION_COLOR?> !important;
-    }
-    .stepy-header li.stepy-active div {
-        background-color:#<?TPLVAR_BUTTON_COLOR?> !important;
-    }
-    .nav-item i {
-        margin-right: 5px;
-    }
-    .dropdown-menu>.dropdown-submenu {
-        position: relative;
-    }
-    .dropdown-menu>.dropdown-submenu>.dropdown-menu {
-        top: 0;
-        left: 100%;
-        margin-top: -.5625rem;
-    }
-    .dropdown-menu>li>a {
-        color: #333 !important;
-    }
-    .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
-        text-decoration: none;
-        color: #333 !important;
-        background-color: #f5f5f5;
-    }
-    .btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary {
-        background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important;
-        border-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important;
-    }
-    @media (min-width: 768px) {
-        .navbar-expand-md .navbar-nav {
-            -ms-flex-direction: row;
-            flex-direction: row;
-        }
-        .navbar-expand-md {
-            -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
-            -ms-flex-pack: start;
-            justify-content: flex-start;
-        }
-    }
-    .navbar-expand-md {
-        background-color:#<?TPLVAR_MAIN_COLOR?> !important;
-    }
-    .navbar-nav-link {
-        position: relative;
-        display: block;
-        cursor: pointer;
-        padding: .875em 1em;
-        outline: 0;
-        transition: all ease-in-out .15s;
-    }
+    .navbar-nav>li > a { color:#<?TPLVAR_NAVIGATION_TEXT_COLOR?> !important; font-size:14px; }
+    .navbar-nav>li>a:focus,
+    .navbar-nav>li>a:hover { color:#<?TPLVAR_NAVIGATION_TEXT_HOVER_COLOR?> !important; text-decoration:none;background-color:#<?TPLVAR_NAVIGATION_COLOR?> !important; }
+    .stepy-header li.stepy-active div { background-color:#<?TPLVAR_BUTTON_COLOR?> !important; }
+    .btn-primary.active, .btn-primary:active,
+    .open>.dropdown-toggle.btn-primary { background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; border-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; }
+    .navbar-expand-md { background-color:#<?TPLVAR_MAIN_COLOR?> !important; }
+    .dropdown-menu>li.user-header { padding: 10px; text-align: center; color:#fff; background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?>; }
 </style>
 <div class="navbar navbar-expand-md navbar-fixed-top">
     <div class="navbar-header">
@@ -92,14 +33,21 @@
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="<?TPLVAR_ROOT_URL?>themes/<?TPLVAR_THEME?>/assets/images/face11.jpg" alt="">
+                    <img src="<?TPLVAR_PHOTO?>" class="small" />
                     <span><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></span>
                     <i class="caret"></i>
                 </a>
 
-                <ul class="dropdown-menu dropdown-menu-right width-200">
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/profile"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/settings"><i class="icon-cog5"></i> Account settings</a></li>
+                <ul class="dropdown-menu dropdown-menu-user dropdown-menu-right width-300">
+                    <li class="user-header">
+                        <img src="<?TPLVAR_PHOTO?>" width="90" height="90" />
+
+                        <div class="dropdown-menu-username text-ellipsis"><h4><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h4></div>
+                        <div><small><?TPLVAR_DESIGNATION?></small></div>
+                        <div><small><?LANG_EMPLOYEE_SINCE?> <?TPLVAR_START_DATE?></small></div>
+                    </li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/profile"><i class="icon-user"></i> Edit Profile</a></li>
+                    <!--<li><a href="<?TPLVAR_ROOT_URL?>admin/user/settings"><i class="icon-cog5"></i> Account settings</a></li>-->
                     <li><a href="<?TPLVAR_ROOT_URL?>admin/logout"><i class="icon-switch2"></i> Logout</a></li>
                 </ul>
             </li>

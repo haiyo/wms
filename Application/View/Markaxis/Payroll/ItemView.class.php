@@ -32,7 +32,8 @@ class ItemView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->ItemModel = ItemModel::getInstance( );
-        $this->View->setJScript( array( ) );
+
+        $this->View->setJScript( array( 'markaxis' => 'payItem.js' ) );
     }
 
 

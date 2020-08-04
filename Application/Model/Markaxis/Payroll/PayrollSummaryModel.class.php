@@ -37,6 +37,15 @@ class PayrollSummaryModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getCountByDate( $date ) {
+        return array( 'empCount' => $this->PayrollSummary->getCountByDate( $date ) );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */

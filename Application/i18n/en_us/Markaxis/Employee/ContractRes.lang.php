@@ -19,6 +19,8 @@ class ContractRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_CONTRACT_TYPE'] = 'Contract Type';
         $this->contents['LANG_CREATE_NEW_CONTRACT_TYPE'] = 'Create New Contract Type';

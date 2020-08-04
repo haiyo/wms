@@ -51,12 +51,33 @@ class DashboardControl {
     public function getPendingAction( ) {
         $output = Control::getOutputArray( );
 
+        $vars = array( );
+        $vars['bool'] = 0;
+
         if( isset( $output['pending'] ) ) {
             $vars['bool'] = 1;
             $vars['data'] = $this->DashboardView->renderPendingAction( $output['pending'] );
-            echo json_encode( $vars );
-            exit;
         }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getRequest( ) {
+        $output = Control::getOutputArray( );
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( isset( $output['request'] ) && $output['request'] ) {
+            $vars['bool'] = 1;
+            $vars['data'] = $this->DashboardView->renderRequest( $output['request'] );
+        }
+        echo json_encode( $vars );
+        exit;
     }
 }
 ?>

@@ -126,8 +126,30 @@ class CompetencyControl {
     public function saveUser( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 
-        if( $this->CompetencyModel->isValid( $post ) ) {
-            $this->CompetencyModel->save( );
+        if( $this->CompetencyModel->isValidList( $post ) ) {
+            $this->CompetencyModel->saveUser( );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function saveCompetency( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_competency' ) ) {
+            $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+
+            if( $this->CompetencyModel->isValid( $post ) ) {
+                $this->CompetencyModel->save( );
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->CompetencyModel->getErrMsg( );
+            }
+            echo json_encode( $vars );
+            exit;
         }
     }
 

@@ -1,217 +1,131 @@
-<style>
-    hr.fc-divider {
-        position: absolute;
-        z-index: 99;
-    }
-    .fc-day-grid-container.fc-scroller, .fc-time-grid-container {
-        height: auto!important;
-        overflow:visible!important;
-    }
-    .fc-time-grid {
-        margin-top: 4px;
-    }
-    .fc-button {
-        border-left: 1px solid;
-    }
-</style>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-            defaultView: 'dayGridMonth',
-            selectable: true,
-            editable: true,
-            eventLimit: true,
-            eventTimeFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true },
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: {
-                url: Aurora.ROOT_URL + "admin/leave/getEvents",
-                method: "POST",
-                extraParams: {
-                    ajaxCall: 1,
-                    csrfToken: Aurora.CSRF_TOKEN
-                },
-            },
-            select: function(info) {
-                alert('selected ' + info.startStr + ' to ' + info.endStr);
-            }
-        });
-        calendar.render( );
-    });
-</script>
-<style>
-    @media (min-width: 768px) {
-        .justify-content-md-center {
-            -ms-flex-pack: center !important;
-            justify-content: center !important;
-        }
-    }
-    .sidebar-light {
-        background-color: #fff;
-        color: #333;
-        border-right: 1px solid rgba(0,0,0,.125);
-        background-clip: content-box;
-    }
-    .sidebar-component {
-        border: 1px solid transparent;
-        border-radius: .1875em;
-        box-shadow: 0 1px 2px rgba(0,0,0,.05);
-    }
-    .sidebar-component.sidebar-light {
-        border-color: rgba(0,0,0,.125);
-    }
-    .sidebar:not(.bg-transparent) .card {
-        border-width: 0;
-        margin-bottom: 0;
-        border-radius: 0;
-        box-shadow: none;
-    }
-    .sidebar:not(.bg-transparent) .card:not([class*=bg-]):not(.fixed-top) {
-        background-color: transparent;
-    }
-    .card-header {
-        padding: .9375rem 1.25em;
-        margin-bottom: 0;
-        background-color: rgba(0,0,0,.02);
-        border-bottom: 1px solid rgba(0,0,0,.125);
-    }
-    .header-elements-inline {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
-    }
-    .card-header:first-child {
-        border-radius: .125em .125em 0 0;
-    }
-    .form-group-feedback {
-        position: relative;
-    }
-    .form-control-feedback {
-        position: absolute;
-        top: 0;
-        color: #333;
-        padding-left: .875em;
-        padding-right: .875em;
-        line-height: 2.8em;
-        min-width: 1rem;
-    }
-    .form-group-feedback-right .form-control-feedback {
-        right: 0;
-    }
+<div id="eventModal" class="modal fade">
+    <div class="modal-dialog modal-med2">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_EVENT?></h6>
+            </div>
 
-    @media (min-width: 768px) {
-        .sidebar-expand-md.sidebar-component-left {
-            margin-right: 1.25em;
-        }
-    }
-    @media (min-width: 768px) {
-        .sidebar-expand-md.sidebar-component {
-            display: block;
-        }
-    }
-    .d-md-flex .sidebar {
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-        width:320px;
-    }
-    .col-6 {
-        -ms-flex: 0 0 50%;
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-    .row {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        margin-right: -.625em;
-        margin-left: -.625em;
-    }
-    .row-tile div[class*=col]+div[class*=col] .btn {
-        border-left: 0;
-    }
-    .no-gutters {
-        margin-right: 0 !important;
-        margin-left: 0 !important;
-    }
-    .no-gutters>.col, .no-gutters>[class*=col-] {
-        padding-right: 0 !important;
-        padding-left: 0 !important;
-    }
-    .row-tile div[class*=col] .btn {
-        border-radius: 0;
-    }
-    .row-tile div[class*=col]:first-child .btn:first-child {
-        border-top-left-radius: .1875em;
-    }
-    .nav-sidebar .nav-item-header {
-        padding: .75em 2.9em;
-        margin-top: .5em;
-    }
-    .sidebar-light .nav-sidebar .nav-item-header {
-        color: rgba(51,51,51,.5);
-    }
-    .nav {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        padding-left: 0;
-        margin-bottom: 0;
-        list-style: none;
-    }
-    .nav-sidebar {
-        -ms-flex-direction: column;
-        flex-direction: column;
-    }
-    .nav-sidebar .nav-item:not(.nav-item-divider) {
-        margin-bottom: 1px;
-    }
-    .nav-sidebar .nav-link {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: start;
-        align-items: flex-start;
-        padding:.75em 2.9em;
-        transition: background-color ease-in-out .15s,color ease-in-out .15s;
-    }
-    .nav-sidebar>.nav-item>.nav-link {
-        font-weight: 500;
-    }
-    .sidebar-light .nav-sidebar .nav-link {
-        color: rgba(51,51,51,.85);
-    }
-    .nav-sidebar .nav-link i {
-        margin-right: 1.25em;
-        margin-top: .12502em;
-        margin-bottom: .12502em;
-        top: 0;
-    }
-    .p-0 {
-        padding: 0!important;
-    }
-    .mb-2, .my-2 {
-        margin-bottom:1.625em!important;
-    }
-    .rounded-round {
-        border-radius: 100px!important;
-    }
-    .form-control-datepicker {
-        margin-top:20px;
-    }
-</style>
+            <div id="modalNote" class="modalNote hide"><?LANG_RECUR_EDIT_NOTE?></div>
+
+            <form id="eventForm" name="eventForm" method="post" action="">
+                <div class="modal-body overflow-y-visible">
+                    <input type="hidden" id="eID" name="eID" value="0" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Event Title: <span class="requiredField">*</span></label>
+                                <input type="text" name="title" id="title" class="form-control" value=""
+                                       placeholder="For e.g: Meeting at 3pm" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Event Description:</label>
+                                <input type="text" name="descript" id="descript" class="form-control" value=""
+                                       placeholder="For e.g: Daily standup meeting" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Start Date: <span class="requiredField">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                    </span>
+                                    <input type="text" class="form-control pickadate-start" id="startDate" name="startDate" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>End Date: <span class="requiredField">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                    </span>
+                                    <input type="text" class="form-control pickadate-end" id="endDate" name="endDate" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-checkbox-group">
+                                <div class="input-group">
+                                    <input type="checkbox" class="dt-checkboxes check-input" id="allDay" checked="checked" name="allDay" value="1" />
+                                    <label for="allDay" class="ml-5">Whole Day Event</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Start Time:</label>
+                                <div class="input-group">
+                                    <?TPLVAR_START_TIME?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>End Time:</label>
+                                <div class="input-group">
+                                    <?TPLVAR_END_TIME?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Recurring Every:</label>
+                                <?TPLVAR_RECUR_TYPE?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Send Email Reminder:</label>
+                                <div class="input-group">
+                                    <?TPLVAR_REMINDER?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Event Label:</label>
+                                <div class="input-group">
+                                    <?TPLVAR_LABEL_LIST?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-checkbox-group">
+                                <label>&nbsp;</label>
+                                <div class="input-group">
+                                    <input type="checkbox" class="dt-checkboxes check-input" id="public" name="public" value="1" />
+                                    <label for="public" class="ml-5">Public Event (Everyone can see)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveEvent">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="d-md-flex">
     <div class="sidebar sidebar-light sidebar-component sidebar-component-left sidebar-expand-md">
@@ -225,7 +139,7 @@
                     <span class="text-uppercase font-size-sm font-weight-semibold">Event search</span>
                     <div class="header-elements">
                         <div class="list-icons">
-                            <a class="list-icons-item" data-action="collapse"></a>
+                            <span class="list-icons-item" data-action="collapse"></span>
                         </div>
                     </div>
                 </div>
@@ -246,43 +160,30 @@
             <!-- Sub navigation -->
             <div class="card mb-2">
                 <div class="card-header bg-transparent header-elements-inline">
-                    <span class="text-uppercase font-size-sm font-weight-semibold">View Event Types</span>
+                    <span class="text-uppercase font-size-sm font-weight-semibold">Filter Event Types</span>
                     <div class="header-elements">
                         <div class="list-icons">
-                            <a class="list-icons-item" data-action="collapse"></a>
+                            <span class="list-icons-item" data-action="collapse"></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="card-body p-0">
-                    <ul class="nav nav-sidebar" data-nav-type="accordion">
+                    <ul class="nav nav-sidebar">
                         <li class="nav-item-header"></li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="icon-files-empty"></i> View Only My Events</a>
+                        <li class="nav-item nav-link">
+                            <input type="checkbox" checked="checked" id="myEvents" data-size="mini" data-label-text="My Events" data-label-width="150">
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="icon-file-plus"></i>
-                                Colleague Events
-                                <span class="badge bg-dark badge-pill mt-3 ml-5">28</span>
-                            </a>
+                        <li class="nav-item nav-link">
+                            <input type="checkbox" checked="checked" id="colleagues" data-size="mini" data-label-text="Colleague Events" data-label-width="150">
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="icon-file-check"></i> Include Birthdays</a>
+                        <li class="nav-item nav-link">
+                            <input type="checkbox" checked="checked" id="includeBirthday" data-size="mini" data-label-text="Include Birthdays" data-label-width="150">
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="icon-reading"></i>
-                                Include Holidays
-                                <span class="badge bg-info badge-pill mt-3 ml-5">86</span>
-                            </a>
+                        <li class="nav-item nav-link">
+                            <input type="checkbox" checked="checked" id="includeHoliday" data-size="mini" data-label-text="Include Holidays" data-label-width="150">
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="icon-make-group"></i>
-                                Sync from Google Cal
-                            </a>
-                        </li>
+
                     </ul>
                 </div>
             </div>

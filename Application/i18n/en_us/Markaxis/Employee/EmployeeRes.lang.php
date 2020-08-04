@@ -19,10 +19,13 @@ class EmployeeRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_EMPLOYEE_DIRECTORY'] = 'Employee Directory';
         $this->contents['LANG_ADD_NEW_EMPLOYEE'] = 'Add New Employee';
         $this->contents['LANG_EDIT_EMPLOYEE_INFO'] = 'Edit Employee Info';
+        $this->contents['LANG_EDIT_PROFILE'] = 'Edit Profile';
         $this->contents['LANG_EMPLOYEE_TIMESHEET'] = 'Employee Timesheet';
         $this->contents['LANG_EMPLOYEE_SETTINGS'] = 'Employee Settings';
         $this->contents['LANG_EMPLOYEE'] = 'Employee';

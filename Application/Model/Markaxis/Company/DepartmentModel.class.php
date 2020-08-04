@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Company;
-use \Aurora\User\UserImageModel, \Aurora\Component\DepartmentModel AS A_DepartmentModel;
+use \Aurora\Component\DepartmentModel AS A_DepartmentModel;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -76,24 +76,6 @@ class DepartmentModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function getCountList( $dID ) {
-        $list = $this->Department->getCountList( $dID );
-
-        if( sizeof( $list ) > 0 ) {
-            $UserImageModel = UserImageModel::getInstance( );
-
-            foreach( $list as $key => $value ) {
-                $list[$key]['image'] = $UserImageModel->getImgLinkByUserID( $list[$key]['userID'] );
-            }
-        }
-        return $list;
     }
 
 

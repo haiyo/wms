@@ -32,6 +32,8 @@ class DepartmentView {
         $this->L10n = $this->i18n->loadLanguage('Markaxis/Company/DepartmentRes');
 
         $this->DepartmentModel = DepartmentModel::getInstance( );
+
+        $this->View->setJScript( array( 'markaxis' => array( 'department.js' ) ) );
     }
 
 

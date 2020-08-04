@@ -225,14 +225,12 @@
             scrollY: 300
         });
 
-        // Highlighting rows and columns on mouseover
-        var lastIdx = null;
         var table = $(".dataTable").DataTable( );
 
         $(".dataTable tbody").on("mouseover", "td", function( ) {
             var colIdx = table.cell(this).index( ).column;
 
-            if( colIdx !== lastIdx ) {
+            if( colIdx !== null ) {
                 $(table.cells().nodes()).removeClass("active");
                 $(table.column(colIdx).nodes()).addClass("active");
             }

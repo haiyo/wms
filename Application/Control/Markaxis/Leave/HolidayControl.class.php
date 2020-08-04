@@ -40,6 +40,21 @@ class HolidayControl {
      * Render main navigation
      * @return string
      */
+    public function getHoliday( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->HolidayModel->getByhID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getHolidayResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->HolidayModel->getResults( $post ) );
@@ -54,8 +69,10 @@ class HolidayControl {
     public function getEvents( ) {
         $post = Control::getRequest( )->request( POST );
 
-        if( $eventInfo = $this->HolidayModel->getEvents( $post ) ) {
-            Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+        if( isset( $post['type'] ) && $post['type'] == 'holiday' ) {
+            if( $eventInfo = $this->HolidayModel->getEvents( $post ) ) {
+                Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
+            }
         }
     }
 
@@ -63,33 +80,40 @@ class HolidayControl {
     /**
      * Render main navigation
      * @return string
+     */
+    public function saveHoliday( ) {
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
+        $vars = array( );
+        $vars['bool'] = 0;
 
-    public function addType( ) {
-        $output = Control::getOutputArray( );
-        $this->HolidayView->renderTypeForm( $output['form'] );
-    } */
-
-
-    /**
-     * Render main navigation
-     * @return string
-
-    public function editType( $args ) {
-        $output = Control::getOutputArray( );
-        $ltID = isset( $args[1] ) ? (int)$args[1] : 0;
-
-        $this->HolidayView->renderTypeForm( $output['form'], $ltID );
-    } */
-
-
-    /**
-     * Render main navigation
-     * @return string
-    /
-    public function saveType( ) {
-        $post = Control::getPostData( );
-        echo json_encode( $post );
+        if( $this->HolidayModel->saveHoliday( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['errMsg'] = $this->HolidayModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
         exit;
-    } */
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteHoliday( ) {
+        $post = Control::getRequest( )->request( POST );
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( $this->HolidayModel->deleteHoliday( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['errMsg'] = $this->HolidayModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
+    }
 }
 ?>

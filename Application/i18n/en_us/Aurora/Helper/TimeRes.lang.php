@@ -19,6 +19,8 @@ class TimeRes extends Resource {
     * @return void
     */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_ANTE_MERIDIEM'] = 'am';
         $this->contents['LANG_POST_MERIDIEM'] = 'pm';

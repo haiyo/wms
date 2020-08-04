@@ -2,7 +2,8 @@
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
 use \Markaxis\Company\OfficeModel;
-use \Library\Util\Date, \Library\Util\Formula;
+use \Aurora\Component\UploadModel;
+use \Library\Util\Uploader, \Library\Util\Date, \Library\Util\Formula;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -114,6 +115,18 @@ class LeaveApplyModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getRequest( ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        return $this->LeaveApply->getRequest( $userInfo['userID'] );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */
@@ -126,12 +139,12 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getEvents( $post ) {
+    public function getEvents( $info ) {
         $eventList = array( );
 
-        if( isset( $post['start'] ) && isset( $post['end'] ) ) {
-            $startDate = Date::parseDateTime( $post['start'] );
-            $endDate = Date::parseDateTime( $post['end'] );
+        if( isset( $info['start'] ) && isset( $info['end'] ) ) {
+            $startDate = Date::parseDateTime( $info['start'] );
+            $endDate = Date::parseDateTime( $info['end'] );
             $eventList = $this->LeaveApply->getEvents( $startDate, $endDate );
 
             foreach( $eventList as $key => $event ) {
@@ -175,6 +188,10 @@ class LeaveApplyModel extends \Model {
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
+        foreach( $results as $key => $row ) {
+            $results[$key]['created'] = '<div class="text-muted text-size-small">' . Date::timeSince( $row['created'] ) . '</div>';
+        }
+
         return array( 'draw' => (int)$post['draw'],
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
@@ -189,6 +206,19 @@ class LeaveApplyModel extends \Model {
     public function setStatus( $laID, $status ) {
         $this->LeaveApply->update('leave_apply', array( 'status' => $status ),
                                   'WHERE laID = "' . (int)$laID . '"' );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function cancel( $laID ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        $this->LeaveApply->update('leave_apply', array( 'cancelled' => 1 ),
+                                  'WHERE laID = "' . (int)$laID . '" AND userID = "' . $userInfo['userID'] . '"' );
     }
 
 
@@ -282,6 +312,42 @@ class LeaveApplyModel extends \Model {
             $this->LeaveApply->update('leave_apply', array( 'status' => 1 ),
                                       'WHERE userID = "' . (int)$data['empInfo']['userID'] . '" AND
                                                     status = "2"' );
+        }
+    }
+
+
+    /**
+     * Upload file
+     * @return bool
+     */
+    public function uploadSuccess( $laID, $file ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        if( $this->isFoundByLaIDUserID( $laID, $userInfo['userID'],0 ) ) {
+            $Uploader = new Uploader( );
+
+            if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
+                $this->fileInfo = $Uploader->getFileInfo( );
+
+                $UploadModel = new UploadModel( );
+                $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
+
+                if( $this->fileInfo['error'] ) {
+                    $this->setErrMsg( $this->fileInfo['error'] );
+                    return false;
+                }
+
+                if( $this->fileInfo['success'] == 2 && $this->fileInfo['isImage'] ) {
+                    $this->processResize( );
+                }
+                $this->LeaveApply->update('leave_apply', array( 'uID' => $this->fileInfo['uID'] ),
+                                          'WHERE laID = "' . (int)$laID . '"' );
+
+                return true;
+            }
+            $this->setErrMsg( $Uploader->getFileInfo( )['error'] );
+            return false;
         }
     }
 }

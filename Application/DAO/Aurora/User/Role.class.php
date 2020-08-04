@@ -47,7 +47,7 @@ class Role extends \DAO {
     */
     public function getList( ) {
         $list = array( );
-        $sql = $this->DB->select( 'SELECT roleID, title FROM role',
+        $sql = $this->DB->select( 'SELECT roleID, title FROM role ORDER BY title',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

@@ -89,7 +89,7 @@ class ItemControl {
      * @return string
      */
     public function savePayroll( ) {
-        $this->processPayroll( );
+        $this->reprocessPayroll( );
     }
 
 

@@ -1,7 +1,8 @@
 <?php
 namespace Aurora\Admin;
-use \Markaxis\Company\CompanyModel;
-use \Aurora\User\UserModel, \Aurora\Component\OfficeModel, \Aurora\Page\MenuView;
+use \Aurora\User\UserImageModel;
+use \Markaxis\Company\CompanyModel, Markaxis\Employee\EmployeeModel;
+use \Aurora\Component\DesignationModel, \Aurora\Component\OfficeModel, \Aurora\Page\MenuView;
 use \Library\Helper\HTMLHelper, \Aurora\Notification\NotificationView;
 use \Library\Helper\SingletonHelper, \Library\Runtime\Registry;
 
@@ -22,6 +23,7 @@ class AdminView extends SingletonHelper {
     protected $PageRes;
     protected $UserRes;
     protected $breadcrumbs;
+    protected $headerLinks;
     protected $userInfo;
     protected $tplPath;
     protected $title;
@@ -47,14 +49,16 @@ class AdminView extends SingletonHelper {
         $this->PageRes = $this->i18n->loadLanguage('Aurora/Page/PageRes');
         $this->UserRes = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
-        $this->userInfo = UserModel::getInstance( )->getInfo( );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $this->userInfo = $EmployeeModel->getInfo( );
+
         $userID = isset( $this->userInfo['userID'] ) ? '&USERID=' . (int)$this->userInfo['userID'] : '';
 
         $OfficeModel = OfficeModel::getInstance( );
         $officeInfo = $OfficeModel->getMainOffice( );
 
         $this->setJScript( array( 'aurora.noiframe' => 'aurora/aurora.noiframe.js',
-                                  'jquery' => 'jquery-3.3.1.min.js',
+                                  'jquery' => array( 'jquery-3.3.1.min.js', 'jquery-migrate-3.0.0.min.js' ),
                                   'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'notification.js',
                                                    'aurora.init.js.php?ROOT_URL=' . urlencode( ROOT_URL ) .
                                                    '&THEME=' . $this->HKEY_LOCAL['theme'] .
@@ -72,6 +76,15 @@ class AdminView extends SingletonHelper {
         $this->setStyle( array( 'core' => array( 'bootstrap', 'colors', 'components', 'core' ),
                                 'fonts' => array( 'proxima/styles', 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );
 	}
+
+
+    /**
+     * Render Display View
+     * @return void
+     */
+    public function setHeaderLinks( array $vars ) {
+        $this->headerLinks[] = $vars;
+    }
 
 
     /**
@@ -241,10 +254,20 @@ class AdminView extends SingletonHelper {
         $logo = $CompanyModel->getLogo( 'company_uID' );
         $companyInfo = $CompanyModel->getInfo( );
 
+        $DesignationModel = DesignationModel::getInstance( );
+        $designation = $DesignationModel->getByID( $this->userInfo['designationID'] )['title'];
+
+        $UserImageModel = UserImageModel::getInstance( );
+        $startDate = date('M Y', strtotime( $this->userInfo['startDate'] ) );
+
         return $this->render('aurora/core/navBar.tpl',
-                            array( 'TPL_MENU' => $MenuView->renderMenu( ),
+                              array_merge( $this->UserRes->getContents( ),
+                              array( 'TPL_MENU' => $MenuView->renderMenu( ),
+                                   'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $this->userInfo['userID'] ),
                                    'TPLVAR_FNAME' => $this->userInfo['fname'],
                                    'TPLVAR_LNAME' => $this->userInfo['lname'],
+                                   'TPLVAR_DESIGNATION' => $designation,
+                                   'TPLVAR_START_DATE' => $startDate,
                                    'TPLVAR_LOGO' => $logo,
                                    'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
                                    'TPLVAR_NAVIGATION_COLOR' => $companyInfo['navigationColor'],
@@ -253,7 +276,7 @@ class AdminView extends SingletonHelper {
                                    'TPLVAR_BUTTON_COLOR' => $companyInfo['buttonColor'],
                                    'TPLVAR_BUTTON_HOVER_COLOR' => $companyInfo['buttonHoverColor'],
                                    'TPLVAR_BUTTON_FOCUS_COLOR' => $companyInfo['buttonFocusColor'],
-                                   'TPL_NOTIFICATION_WINDOW' => $NotificationView->renderWindow( ) ) );
+                                   'TPL_NOTIFICATION_WINDOW' => $NotificationView->renderWindow( ) ) ) );
     }
 
 
@@ -274,19 +297,32 @@ class AdminView extends SingletonHelper {
      */
     public function renderPageHeader( ) {
         $vars = array_merge( $this->PageRes->getContents( ),
-            array( 'TPLVAR_AURORA_VER' => AURORA_VERSION ) );
+                array( 'TPLVAR_AURORA_VER' => AURORA_VERSION ) );
+
+        $vars['dynamic']['breadcrumbs'] = false;
+        $vars['dynamic']['headerLinks'] = false;
 
         if( is_array( $this->breadcrumbs ) ) {
-            foreach( $this->breadcrumbs as $crumbs ) {
-                $active = isset( $crumbs['active'] ) ? 'active' : '';
-                $icon = isset( $crumbs['icon'] ) ? $crumbs['icon'] : '';
+            foreach( $this->breadcrumbs as $crumb ) {
+                $active = isset( $crumb['active'] ) ? 'active' : '';
+                $icon = isset( $crumb['icon'] ) ? $crumb['icon'] : '';
 
-                $vars['dynamic']['breadcrumbs'][] = array( 'TPLVAR_LINK' => $crumbs['link'],
+                $vars['dynamic']['breadcrumbs'][] = array( 'TPLVAR_LINK' => $crumb['link'],
                                                            'TPLVAR_ICON' => $icon,
                                                            'TPLVAR_ACTIVE' => $active,
-                                                           'LANG_TEXT' => $crumbs['text'] );
+                                                           'LANG_TEXT' => $crumb['text'] );
             }
         }
+
+        if( is_array( $this->headerLinks ) ) {
+            foreach( $this->headerLinks as $link ) {
+                $vars['dynamic']['headerLinks'][] = array( 'TPLVAR_LINK' => $link['link'],
+                                                           'TPLVAR_ICON' => $link['icon'],
+                                                           'TPLVAR_CLASSNAME' => $link['classname'],
+                                                           'LANG_TEXT' => $link['text'] );
+            }
+        }
+
         return $this->render('aurora/page/pageHeader.tpl', $vars );
     }
 

@@ -34,10 +34,7 @@ class DashboardView {
 
         $this->View->setJScript( array( 'pages' => 'dashboard.js',
                                         'plugins' => array( 'moment/moment.min.js' ),
-                                        'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
-                                        'plugins/visualization' => array( 'd3/d3.min.js', 'd3/d3_tooltip.js' ),
-                                        'plugins/forms' => array( 'styling/switchery.min.js', 'tags/tokenfield.min.js',
-                                                                  'input/handlebars.js', 'input/typeahead.bundle.min.js' ) ) );
+                                        'plugins/visualization' => array( 'd3/d3.min.js', 'd3/d3_tooltip.js' ) ) );
 
         $this->View->setStyle( array( 'core' => 'dashboard' ) );
 
@@ -127,6 +124,16 @@ class DashboardView {
      * @return mixed
      */
     public function renderPendingAction( $data ) {
+        $vars['TPL_ROW'] = $data;
+        return $this->View->render( 'aurora/page/tableRequest.tpl', $vars );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderRequest( $data ) {
         $vars['TPL_ROW'] = $data;
         return $this->View->render( 'aurora/page/tableRequest.tpl', $vars );
     }

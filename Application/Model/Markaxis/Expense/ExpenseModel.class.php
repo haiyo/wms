@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Expense;
+use \Markaxis\Employee\EmployeeModel;
 use \Library\Validator\Validator;
 
 /**
@@ -24,7 +25,7 @@ class ExpenseModel extends \Model {
     function __construct( ) {
         parent::__construct( );
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-        $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
+        $this->L10n = $i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
         $this->Expense = new Expense( );
     }
@@ -34,8 +35,17 @@ class ExpenseModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $eiID ) {
-        return $this->Expense->isFound( $eiID );
+    public function isFoundByeiID( $eiID ) {
+        return $this->Expense->isFoundByeiID( $eiID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getByeiID( $eiID ) {
+        return $this->Expense->getByeiID( $eiID );
     }
 
 
@@ -57,6 +67,27 @@ class ExpenseModel extends \Model {
             return $this->expenseList;
         }
         return $this->expenseList = $this->Expense->getList( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getMaxAmount( $eiID ) {
+        if( $exInfo = $this->getByeiID( $eiID ) ) {
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $empInfo = $EmployeeModel->getInfo( );
+
+            if( $exInfo['max_amount'] ) {
+                return $this->L10n->strReplace( 'maxAmount', $empInfo['currency'] . $exInfo['max_amount'],
+                                                'LANG_MAX_AMOUNT' );
+            }
+        }
+        else {
+            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_CLAIM_TYPE') );
+            return false;
+        }
     }
 
 
@@ -133,22 +164,36 @@ class ExpenseModel extends \Model {
 
 
     /**
+     * Get File Information
+     * @return mixed
+     */
+    public function saveExpenseType( $data ) {
+        $eiID = (int)$data['eiID'];
+        $this->info['title'] = Validator::stripTrim( $data['expenseTitle'] );
+        $this->info['max_amount'] = Validator::stripTrim( $data['expenseAmount'] );
+
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+        $this->info['max_amount'] = number_format( str_replace( $empInfo['currency'],'',$this->info['max_amount'] ) );
+
+        if( $this->isFoundByeiID( $eiID ) ) {
+            $this->Expense->update( 'expense_item', $this->info, 'WHERE eiID = "' . (int)$eiID . '"' );
+        }
+        else {
+            $this->info['eiID'] = $this->Expense->insert('expense_item', $this->info );
+        }
+        return $this->info['eiID'];
+    }
+
+
+    /**
      * Return total count of records
      * @return int
-
-    public function savePayroll( $data, $post ) {
-        $post = $this->reprocessPayroll( $data, $post );
-
-        if( sizeof( $post['postItems'] ) ) {
-            foreach( $post['postItems'] as $item ) {
-                $info = array( );
-                $info['userID'] = $data['empInfo']['userID'];
-                $info['eiID'] = $item['eiID'];
-                $info['amount'] = $item['amount'];
-                $info['remark'] = $item['remark'];
-                $this->Expense->insert( 'payroll_user_expense', $info );
-            }
+     */
+    public function deleteExpense( $data ) {
+        if( isset( $data['eiID'] ) ) {
+            return $this->Expense->update('expense_item', array( 'deleted' => 1 ), 'WHERE eiID = "' . (int)$data['eiID'] . '"');
         }
-    } */
+    }
 }
 ?>

@@ -14,6 +14,32 @@ class Holiday extends \DAO {
     // Properties
 
 
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isFoundByhID( $hID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(hID) FROM holiday WHERE hID = "' . (int)$hID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getByhID( $hID ) {
+        $sql = $this->DB->select( 'SELECT * FROM holiday WHERE hID = "' . (int)$hID . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
 
     /**
      * Retrieve a user column by userID
@@ -29,6 +55,27 @@ class Holiday extends \DAO {
             }
         }
         return $list;
+    }
+
+
+    /**
+     * Retrieve Events Between a Start and End Timestamp
+     * @return mixed
+     */
+    public function getEventsBetween( $start, $end ) {
+        $events = array( );
+        $sql = $this->DB->select( 'SELECT * FROM holiday
+                                   WHERE date <= "' . addslashes( $end ) . '" AND
+                                         date >= "' . addslashes( $start ) . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $row['classNames'] = 'holiday';
+                $events[] = $row;
+            }
+        }
+        return $events;
     }
 
 

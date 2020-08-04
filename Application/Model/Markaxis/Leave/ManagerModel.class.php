@@ -74,6 +74,20 @@ class ManagerModel extends \Model implements IObservable {
 
 
     /**
+     * Get File Information
+     * @return mixed
+     */
+    public function getRequest( $list ) {
+        if( is_array( $list ) ) {
+            foreach( $list as $key => $value ) {
+                $list[$key]['managers'] = $this->Manager->getBylaID( $value['laID'] );
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Return a list of all users
      * @return mixed
      */

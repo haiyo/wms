@@ -47,6 +47,31 @@ class CalendarControl {
         exit;
     }
 
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getPayCal( $data ) {
+        if( isset( $data[1] ) ) {
+            $vars = array( );
+            $vars['data'] = $this->CalendarModel->getBypcID( $data[1] );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function updatePayPeriod( ) {
+        $this->CalendarModel->updatePayPeriod( );
+        echo 'ok';
+        exit;
+    }
+
 
     /**
      * Render main navigation
@@ -80,13 +105,33 @@ class CalendarControl {
      * Render main navigation
      * @return string
      */
-    public function savePayrun( ) {
+    public function savePayCal( ) {
         $post = Control::getRequest( )->request( POST );
         $vars = array( );
         $vars['bool'] = 0;
 
-        if( $vars['data'] = $this->CalendarModel->savePayrun( $post ) ) {
+        if( $vars['data'] = $this->CalendarModel->savePayCal( $post ) ) {
             $vars['bool'] = 1;
+        }
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayCal( ) {
+        $post = Control::getRequest( )->request( POST );
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( $this->CalendarModel->deletePayCal( $post ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['errMsg'] = $this->CalendarModel->getErrMsg( );
         }
         echo json_encode( $vars );
         exit;

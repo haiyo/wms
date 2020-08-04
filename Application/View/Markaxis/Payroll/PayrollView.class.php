@@ -44,7 +44,7 @@ class PayrollView {
                                                                   'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js', 'widgets.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
     }
 
 
@@ -67,6 +67,8 @@ class PayrollView {
         $OfficeModel = M_OfficeModel::getInstance( );
         $EmployeeModel = EmployeeModel::getInstance( );
 
+        $vars['dynamic']['tab-pane-process'] = $vars['dynamic']['tab-pane'] = false;
+
         foreach( $period as $datetime ) {
             $index     = $datetime->format('n') . $datetime->format('Y');
             $dataID    = 'upcoming';
@@ -87,7 +89,7 @@ class PayrollView {
                 $pane      = 'tab-pane';
                 $status    = $this->L10n->getContents('LANG_COMPLETED');
             }
-            else if( $index == date('n') ) {
+            else if( $index == date('nY') ) {
                 $dataID    = 'pending';
                 $statusTab = 'pending-tab active show';
                 $status    = $this->L10n->getContents('LANG_PENDING');
@@ -109,11 +111,19 @@ class PayrollView {
                                                'TPLVAR_YEAR' => $year,
                                                'TPLVAR_DATE' => $ymd );
         }
+
+        $this->View->setHeaderLinks( array( 'link' => '#',
+                                            'classname' => 'payroll-archive',
+                                            'icon' => 'icon-calendar22',
+                                            'text' => $this->L10n->getContents('LANG_PAYROLL_ARCHIVE') ) );
+
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-stats-bars2',
                                             'text' => $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') ) );
 
-        $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js' ) ) );
+        $this->View->setJScript( array( 'plugins/pickers' => array( 'picker.js', 'picker.date.js' ),
+                                        'markaxis' => array( 'pickerExtend.js', 'payrollOverview.js' ) ) );
+
         $vars = array_merge( $this->L10n->getContents( ), $vars );
         $this->View->printAll( $this->View->render( 'markaxis/payroll/overview.tpl', $vars ) );
     }
@@ -155,6 +165,7 @@ class PayrollView {
         if( $payInfo = $this->PayrollModel->getProcessByDate( $processDate ) ) {
             if( $payInfo['completed'] ) {
                 $vars['TPLVAR_COMPLETED'] = 1;
+                $vars['TPLVAR_PID'] = $payInfo['pID'];
                 $vars['dynamic']['selectEmployee'] = false;
                 $vars['dynamic']['accountDetails'] = true;
             }
@@ -164,7 +175,7 @@ class PayrollView {
                                             'icon' => 'icon-calculator2',
                                             'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );
 
-        $this->View->setJScript( array( 'markaxis' => 'process.js' ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'payrollEmployee.js', 'payrollProcessed.js', 'payrollFinalized.js' ) ) );
 
         return $this->View->printAll( $this->View->render( 'markaxis/payroll/process.tpl', $vars ) );
     }
@@ -359,32 +370,53 @@ class PayrollView {
                                                         'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
 
         if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
-            foreach( $data['items'] as $items ) {
+            foreach( $data['items'] as $item ) {
                 if( isset( $data['deduction'] ) ) {
-                    $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$items['amount'];
-                    $vars['TPLVAR_NET_AMOUNT'] -= (float)$items['amount'];
+                    $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$item['amount'];
+                    $vars['TPLVAR_NET_AMOUNT'] -= (float)$item['amount'];
 
-                    foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroups ) {
-                        if( $taxGroups['summary'] ) {
-                            if( isset( $items['tgID'] ) && in_array( $items['tgID'], $taxGroups['child'] ) ) {
 
-                                $itemGroups[$key]['title'] = $taxGroups['title'];
+                    foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
+                        // First find all the childs in this group and see if we have any summary=1
+                        if( isset( $taxGroup['child'] ) ) {
+                            $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
 
-                                if( isset( $itemGroups[$key]['amount'] ) ) {
-                                    $itemGroups[$key]['amount'] += (float)$items['amount'];
-                                }
-                                else {
-                                    $itemGroups[$key]['amount'] = (float)$items['amount'];
+                            if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
+                                foreach( $taxGroup['child'] as $child ) {
+                                    if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
+                                        if( $child['summary'] ) {
+                                            $itemGroups[$key]['title'] = $child['title'];
+                                        }
+                                        else {
+                                            $itemGroups[$key]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                        }
+
+                                        if( isset( $itemGroups[$key]['amount'] ) ) {
+                                            $itemGroups[$key]['amount'] += (float)$item['amount'];
+                                        }
+                                        else {
+                                            $itemGroups[$key]['amount'] = (float)$item['amount'];
+                                        }
+                                        break 2;
+                                    }
                                 }
                             }
+                        }
+                        else if( $taxGroup['tgID'] == $item['tgID'] ) {
+                            // If children not found with summary=1, fallback to parent
+                            $itemGroups[$key]['title'] = $taxGroup['title'];
+                            break;
                         }
                     }
                 }
             }
+
             foreach( $itemGroups as $groups ) {
-                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $groups['title'],
-                                                                'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                                'TPLVAR_AMOUNT' => number_format( $groups['amount'],2 ) );
+                if( isset( $groups['amount'] ) ) {
+                    $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $groups['title'],
+                                                                    'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                                    'TPLVAR_AMOUNT' => number_format( $groups['amount'],2 ) );
+                }
             }
         }
 
@@ -397,11 +429,11 @@ class PayrollView {
                                                             'TPLVAR_AMOUNT' => number_format( $levy['amount'],2 ) );
             }
 
-            if( $totalLevy ) {
+            /*if( $totalLevy ) {
                 $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_LEVY'),
                                                             'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
                                                             'TPLVAR_AMOUNT' => number_format( $totalLevy,2 ) );
-            }
+            }*/
         }
 
         if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
@@ -415,7 +447,7 @@ class PayrollView {
             if( $totalContribution ) {
                 $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_CONTRIBUTION'),
                                                             'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                            'TPLVAR_AMOUNT' => number_format( $totalContribution,2 ) );
+                                                            'TPLVAR_AMOUNT' => number_format( ($totalContribution+$totalLevy),2 ) );
             }
         }
 
