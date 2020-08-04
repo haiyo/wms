@@ -1,1 +1,5 @@
 config.ini.php
+.scannerwork
+.idea
+log
+www/themes/default/assets/js/node/package-lock.json
