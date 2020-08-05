@@ -53,29 +53,36 @@ class Authenticator {
         $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek' );
 
         if( $userInfo ) {
-            require( ROOT . './Library/vendor/autoload.php' );
-            $client = new \Google_Client( );
-            $client->setAuthConfig(ROOT . 'HRMS-Markaxis-75b213b4b0d5.json' );
-            $client->addScope('https://www.googleapis.com/auth/cloud-platform');
+            try {
+                require( ROOT . './Library/vendor/autoload.php' );
+                $client = new \Google_Client( );
+                $client->setAuthConfig(CLOUD_KMS_CONFIG );
+                $client->addScope(CLOUD_KMS_SCOPE );
 
-            $jsonData = json_decode( file_get_contents(ROOT . 'HRMS-Markaxis-75b213b4b0d5.json' ),true );
+                $jsonData = json_decode( file_get_contents(CLOUD_KMS_CONFIG ),true );
 
-            $keyManager = new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
-                $jsonData['projectId'],
-                $jsonData['locationId'],
-                $jsonData['keyRingId'],
-                $jsonData['cryptoKeyId']
-            );
+                $keyManager = new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
+                    $jsonData['projectId'],
+                    $jsonData['locationId'],
+                    $jsonData['keyRingId'],
+                    $jsonData['cryptoKeyId']
+                );
 
-            $decrypted = $keyManager->decrypt( $userInfo['kek'], $userInfo['password'] );
+                $decrypted = $keyManager->decrypt( $userInfo['kek'], $userInfo['password'] );
 
-            if( $decrypted == $password && $setSession ) {
-                $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
-                $Session->setSession( $userInfo['userID'] );
+                if( $decrypted == $password ) {
+                    if( $setSession ) {
+                        $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
+                        $Session->setSession( $userInfo['userID'] );
 
-                $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
-                $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
-                return true;
+                        $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
+                        $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                    }
+                    return true;
+                }
+            }
+            catch( \Exception $e ) {
+                die( $e );
             }
         }
         return false;
