@@ -70,12 +70,14 @@ class Authenticator {
 
                 $decrypted = $keyManager->decrypt( $userInfo['kek'], $userInfo['password'] );
 
-                if( $decrypted == $password && $setSession ) {
-                    $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
-                    $Session->setSession( $userInfo['userID'] );
+                if( $decrypted == $password ) {
+                    if( $setSession ) {
+                        $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
+                        $Session->setSession( $userInfo['userID'] );
 
-                    $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
-                    $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                        $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
+                        $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                    }
                     return true;
                 }
             }
