@@ -61,7 +61,7 @@
         <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
     </task>
-    <task type="newsAnnouncement/results,newsAnnouncement/getContent,newsAnnouncement/save,newsAnnouncement/naDelete">
+    <task type="newsAnnouncement/list,newsAnnouncement/results,newsAnnouncement/getContent,newsAnnouncement/save,newsAnnouncement/naDelete">
         <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
     </task>
     <task type="config">
