@@ -59,8 +59,6 @@ class AdminControl extends Control {
             if( isset( $args[0] ) ) {
                 $this->setXMLTasks( $args[0] );
             }
-            $this->checkGateway( );
-            $this->global( array( 'global', 'globalInit' ) );
 
             // Setup company profile if not already
             $CompanyModel = CompanyModel::getInstance( );
@@ -72,8 +70,12 @@ class AdminControl extends Control {
                     //exit;
                 }
             }
-                // If no event request, just redirect to main page
-            else if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
+
+            $this->checkGateway( );
+            $this->global( array( 'global', 'globalInit' ) );
+
+            // If no event request, just redirect to main page
+            if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
                 // Redirect to default page if user is authenticated and tries to load admin/
                 header( 'location: ' . ROOT_URL . 'admin/dashboard' );
                 exit;

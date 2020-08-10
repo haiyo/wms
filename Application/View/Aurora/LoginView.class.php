@@ -1,6 +1,7 @@
 <?php
 namespace Aurora;
 use \Aurora\Admin\AdminView;
+use \Markaxis\Company\CompanyModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -43,11 +44,18 @@ class LoginView extends AdminView {
     * @return string
     */
     public function renderLogin( ) {
+        $CompanyModel = CompanyModel::getInstance( );
+        $companyInfo = $CompanyModel->getInfo( );
+
         $websiteName = $this->HKEY_LOCAL['websiteName'];
         $title = $this->L10n->strReplace( 'WEBSITE_NAME', $websiteName, 'LANG_LOGIN_TITLE' );
 
         $this->setTitle( $title );
-        $vars = array_merge( $this->L10n->getContents( ) );
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
+                       'TPLVAR_BUTTON_COLOR' => $companyInfo['buttonColor'],
+                       'TPLVAR_BUTTON_HOVER_COLOR' => $companyInfo['buttonHoverColor'],
+                       'TPLVAR_BUTTON_FOCUS_COLOR' => $companyInfo['buttonFocusColor'] ) );
 
         return  $this->render( 'aurora/login/login.tpl', $vars );
 	}
