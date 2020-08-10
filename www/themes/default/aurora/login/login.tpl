@@ -1,4 +1,6 @@
 <style>
+    .navbar-expand-md { background-color:#<?TPLVAR_MAIN_COLOR?> !important;}
+    button {background-color:#<?TPLVAR_BUTTON_COLOR?> !important;border-color:#<?TPLVAR_BUTTON_COLOR?> !important;}
     @media (min-width: 576px) {
         .loginForm, .forgotForm {
             width:420px;

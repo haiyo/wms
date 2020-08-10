@@ -25,9 +25,6 @@ class CompanyModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-        $this->L10n = $i18n->loadLanguage('Aurora/User/UserRes');
-
         $this->Company = new Company( );
 
         $this->info['company_uID'] = $this->info['slip_uID'] = 0;
