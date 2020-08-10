@@ -43,9 +43,15 @@ class IP {
     * @return float
     */
     public function getAddress( ) {
-        $this->ip = isset( $_SERVER['HTTP_CLIENT_IP'] ) ? $_SERVER['HTTP_CLIENT_IP'] :
-                    isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-
+        if( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+            $this->ip = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        else if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+            $this->ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else {
+            $this->ip = $_SERVER['REMOTE_ADDR'];
+        }
         return $this->ip;
     }
 

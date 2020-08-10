@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\Page;
 use \Aurora\User\UserModel, \Aurora\Admin\AdminView, \Aurora\User\UserImageModel;
+use \Markaxis\Company\CompanyModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -89,11 +90,16 @@ class DashboardView {
      * @return string
      */
     public function renderDashboard( $output ) {
+        $CompanyModel = CompanyModel::getInstance( );
+        $companyInfo = $CompanyModel->getInfo( );
+
         $userInfo = UserModel::getInstance( )->getInfo( );
         $UserImageModel = UserImageModel::getInstance( );
 
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
+                array( 'TPLVAR_DASHBOARD_BG_COLOR' => $companyInfo['dashboardBgColor'],
+                       'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
+                       'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'] ) );
 
