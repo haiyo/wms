@@ -28,13 +28,6 @@ class HttpRequest {
     */
     public function __construct( ) {
         // Remove quotes if auto
-        if( get_magic_quotes_gpc( ) ) {
-            $_GET    = $this->santize( $_GET    );
-            $_POST   = $this->santize( $_POST   );
-            $_FILES  = $this->santize( $_FILES  );
-            $_SERVER = $this->santize( $_SERVER );
-            $_COOKIE = $this->santize( $_COOKIE );
-        }
         $this->source = array( );
         $this->source[GET]    = $_GET;
         $this->source[POST]   = $_POST;
