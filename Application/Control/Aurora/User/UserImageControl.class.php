@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\User;
+use \Library\IO\File;
 use \Control;
 
 /**
@@ -45,13 +46,18 @@ class UserImageControl {
     public function photo( $args ) {
         if( isset( $args[1] ) ) {
             if( $imgInfo = $this->UserImageModel->getByUserID( $args[1] ) ) {
-                $imgPath = USER_PHOTO_DIR . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
-                $finfo = finfo_open(FILEINFO_MIME_TYPE );
-                $contentType = finfo_file($finfo, $imgPath);
-                finfo_close($finfo);
+                $filename = USER_PHOTO_DIR . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
 
-                header('Content-Type: ' . $contentType);
-                readfile( $imgPath );
+                $mimeType = File::getType( $filename );
+                $content = file_get_contents( $filename );
+                header('Content-Type: ' . $mimeType);
+                header('Content-Length: '.strlen( $content ));
+                header('Content-disposition: inline; filename="' . $imgInfo['name'] . '"');
+                header('Cache-Control: public, must-revalidate, max-age=0');
+                header('Pragma: public');
+                header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+                header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                echo $content;
             }
         }
     }
