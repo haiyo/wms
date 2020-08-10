@@ -25,7 +25,7 @@ class Application {
         require_once( LIB . 'IO/File.dll.php' );
         require_once( LIB . 'AutoLoad.dll.php' );
 
-        //ErrorHandlerException::init( );
+        ErrorHandlerException::init( );
     }
 
 
@@ -37,6 +37,10 @@ class Application {
         try {
             $HttpRequest = new HttpRequest( );
             $pathInfo = $HttpRequest->request(GET, 'pathInfo' );
+
+            if( !$pathInfo ) {
+                $pathInfo = 'admin';
+            }
 
             $Dispatcher = new Dispatcher( );
             $Dispatcher->setMapping(XML . 'urlmap.xml' );

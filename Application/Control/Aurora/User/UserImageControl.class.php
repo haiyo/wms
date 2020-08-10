@@ -42,6 +42,25 @@ class UserImageControl {
      * Render main navigation
      * @return string
      */
+    public function photo( $args ) {
+        if( isset( $args[1] ) ) {
+            if( $imgInfo = $this->UserImageModel->getByUserID( $args[1] ) ) {
+                $imgPath = USER_PHOTO_DIR . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
+                $finfo = finfo_open(FILEINFO_MIME_TYPE );
+                $contentType = finfo_file($finfo, $imgPath);
+                finfo_close($finfo);
+
+                header('Content-Type: ' . $contentType);
+                readfile( $imgPath );
+            }
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function edit( $args ) {
         $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
