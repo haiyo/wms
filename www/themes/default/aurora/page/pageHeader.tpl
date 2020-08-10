@@ -1,6 +1,6 @@
 <!-- Page header -->
 <div class="page-header page-header-default">
-    <div class="page-header-content">
+    <div class="page-header-content dashboard-header-content">
 
         <div class="page-title">
             <h3><i class="<?TPLVAR_ICON?> position-left"></i> <?LANG_TEXT?></h3>

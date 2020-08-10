@@ -1,12 +1,14 @@
 <style>
+    .bg-info{background-color:#<?TPLVAR_MAIN_COLOR?> !important;}
     .navbar-nav>li > a { color:#<?TPLVAR_NAVIGATION_TEXT_COLOR?> !important; font-size:14px; }
     .navbar-nav>li>a:focus,
     .navbar-nav>li>a:hover { color:#<?TPLVAR_NAVIGATION_TEXT_HOVER_COLOR?> !important; text-decoration:none;background-color:#<?TPLVAR_NAVIGATION_COLOR?> !important; }
-    .stepy-header li.stepy-active div { background-color:#<?TPLVAR_BUTTON_COLOR?> !important; }
+    .stepy-header li.stepy-active div,button,.btn,.dataTables_paginate .paginate_button.current {background-color:#<?TPLVAR_BUTTON_COLOR?> !important;border-color:#<?TPLVAR_BUTTON_COLOR?> !important;}
     .btn-primary.active, .btn-primary:active,
-    .open>.dropdown-toggle.btn-primary { background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; border-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; }
+    .open>.dropdown-toggle.btn-primary,.fc-button-active{ background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; border-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; }
     .navbar-expand-md { background-color:#<?TPLVAR_MAIN_COLOR?> !important; }
     .dropdown-menu>li.user-header { padding: 10px; text-align: center; color:#fff; background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?>; }
+    .bootstrap-switch-handle-off.bootstrap-switch-primary, .bootstrap-switch-handle-on.bootstrap-switch-primary{background-color:#<?TPLVAR_BUTTON_COLOR?> !important;}
 </style>
 <div class="navbar navbar-expand-md navbar-fixed-top">
     <div class="navbar-header">
