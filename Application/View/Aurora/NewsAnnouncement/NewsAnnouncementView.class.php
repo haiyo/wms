@@ -72,6 +72,39 @@ class NewsAnnouncementView {
 
     /**
      * Render main navigation
+     * @return string
+     */
+    public function renderList( ) {
+        $this->View->setBreadcrumbs( array( 'link' => 'admin/newsAnnouncement/list',
+            'icon' => 'mi-description',
+            'text' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
+
+        $this->View->setJScript( array( 'locale' => $this->L10n->getL10n( ),
+                                        'jquery' => array( 'jquery.validate.min.js' ),
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js' ),
+                                        'plugins/editors' => array( 'ckeditor/ckeditor.js' ),
+                                        'aurora' => 'newsAnnouncement.js' ) );
+
+        $SelectListView = new SelectListView( );
+        $contentTypeList  = $SelectListView->build( 'contentType', NewsAnnouncementHelper::getL10nList( ),'', 'Select Content Type' );
+
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'LANG_LINK' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT'),
+                        'TPLVAR_CONTENT_TYPE_LIST' => $contentTypeList ) );
+
+        $vars['dynamic']['addEmployeeBtn'] = false;
+
+        $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
+        if( $Authorization->hasPermission( 'Markaxis', 'add_modify_employee' ) ) {
+            $vars['dynamic']['addEmployeeBtn'] = true;
+        }
+
+        $this->View->printAll( $this->View->render( 'aurora/newsAnnouncement/list.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
      * @return mixed
      */
     public function renderSettings( ) {

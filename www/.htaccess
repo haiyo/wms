@@ -1,4 +1,8 @@
 RewriteEngine On
+RewriteCond %{HTTP_HOST} !=localhost
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 #Treats the TestString as a pathname and tests if it exists and is a regular file.
 RewriteCond %{REQUEST_FILENAME} !-f
 #Treats the TestString as a pathname and tests if it exists, and is a directory.
