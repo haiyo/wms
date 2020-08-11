@@ -91,12 +91,12 @@ var MarkaxisPayslip = (function( ) {
                     orderable: true,
                     searchable: false,
                     width: "110px",
-                    data: "bankName",
+                    data: "userID",
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( data ) {
-                            return '<a target="_blank" href="' + Aurora.ROOT_URL +
-                                'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">Download</a>';
+                            return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
+                                full['startDate'] + '/slip" target="_blank">View PDF</a>';
                         }
                         else {
                             return '';

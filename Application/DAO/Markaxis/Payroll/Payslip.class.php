@@ -21,8 +21,8 @@ class Payslip extends \DAO {
     public function getResults( $userID, $order='name ASC' ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT pm.method AS paymentMethod, bk.name AS bankName,
-                                          emp_bk.number AS acctNumber,
+        $sql = $this->DB->select( 'SELECT p.startDate, pm.method AS paymentMethod, bk.name AS bankName,
+                                          emp.userID, emp_bk.number AS acctNumber,
                                           DATE_FORMAT(p.endDate, "%D %b %Y") AS period,
                                           DATE_FORMAT(p.created, "%D %b %Y") AS created
                                    FROM payroll_user pu
