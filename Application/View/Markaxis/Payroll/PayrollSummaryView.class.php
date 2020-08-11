@@ -43,7 +43,7 @@ class PayrollSummaryView {
      * Render main navigation
      * @return string
      */
-    public function renderSlip( $puID, $userID, $processDate, $data ) {
+    public function renderSlip( $puID, $userID, $processDate, $data, $password ) {
         $PayrollModel = PayrollModel::getInstance( );
         $userInfo = $PayrollModel->getCalculateUserInfo( $userID );
 
@@ -89,9 +89,9 @@ class PayrollSummaryView {
 
             foreach( $itemInfo as $item ) {
                 $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $itemList[$item['piID']],
-                    'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
-                                        number_format( $item['amount'],2 ),
-                    'TPLVAR_REMARK' => $item['remark'] );
+                                                    'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
+                                                                        number_format( $item['amount'],2 ),
+                                                    'TPLVAR_REMARK' => $item['remark'] );
             }
 
             $ClaimModel = ClaimModel::getInstance( );
@@ -105,9 +105,9 @@ class PayrollSummaryView {
                     $totalClaim += $claim['amount'];
 
                     $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $expenseList[$claim['eiID']],
-                        'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
-                                            number_format( $claim['amount'],2 ),
-                        'TPLVAR_REMARK' => $claim['descript'] );
+                                                        'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
+                                                                            number_format( $claim['amount'],2 ),
+                                                        'TPLVAR_REMARK' => $claim['descript'] );
                 }
             }
         }
@@ -125,8 +125,8 @@ class PayrollSummaryView {
         if( sizeof( $userTaxInfo ) ) {
             foreach( $userTaxInfo as $userTax ) {
                 $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $userTax['remark'],
-                    'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                    'TPLVAR_AMOUNT' => number_format( $userTax['amount'],2 ) );
+                                                                'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                                'TPLVAR_AMOUNT' => number_format( $userTax['amount'],2 ) );
             }
         }
 
@@ -139,8 +139,8 @@ class PayrollSummaryView {
         $html .= $this->View->render( 'markaxis/payroll/slip.tpl', $vars );
 
         require_once LIB . 'vendor/autoload.php';
-        $mpdf = new \Mpdf\Mpdf();
-        //$mpdf->SetProtection( array( 'print-highres' ), '123', '1234' );
+        $mpdf = new \Mpdf\Mpdf( );
+        $mpdf->SetProtection( array( 'print-highres' ), $password );
         $mpdf->WriteHTML( $html );
         $mpdf->Output('payslip-' . $processDate . '.pdf','I' );
     }

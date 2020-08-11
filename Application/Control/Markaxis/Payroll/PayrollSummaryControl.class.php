@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Control;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -61,20 +62,27 @@ class PayrollSummaryControl {
      */
     public function processPayroll( $args ) {
         if( isset( $args[1] ) && isset( $args[2] ) ) {
-            $PayrollModel = PayrollModel::getInstance( );
+            $Registry = Registry::getInstance( );
+            $Authenticator = $Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-            if( $payrollInfo = $PayrollModel->getProcessByDate( $args[2] ) ) {
-                $PayrollUserModel = PayrollUserModel::getInstance( );
+            if( Control::hasPermission('Markaxis', 'process_payroll' ) ||
+                $userInfo['userID'] == $args[1] ) {
+                $PayrollModel = PayrollModel::getInstance( );
 
-                if( $payrollUserInfo = $PayrollUserModel->getUserPayroll( $payrollInfo['pID'], $args[1] ) ) {
-                    $data = Control::getOutputArray( );
+                if( $payrollInfo = $PayrollModel->getProcessByDate( $args[2] ) ) {
+                    $PayrollUserModel = PayrollUserModel::getInstance( );
 
-                    if( isset( $args[3] ) && $args[3] == 'slip' ) {
-                        $this->PayrollSummaryView->renderSlip( $payrollUserInfo['puID'], $args[1], $args[2], $data );
+                    if( $payrollUserInfo = $PayrollUserModel->getUserPayroll( $payrollInfo['pID'], $args[1] ) ) {
+                        $data = Control::getOutputArray( );
+
+                        if( isset( $args[3] ) && $args[3] == 'slip' ) {
+                            $this->PayrollSummaryView->renderSlip( $payrollUserInfo['puID'], $args[1], $args[2], $data, $Authenticator->getDecrypt( $userInfo ) );
+                            exit;
+                        }
+                        echo $this->PayrollSummaryView->renderProcessForm( $payrollUserInfo['puID'], $args[1], $args[2], $data );
                         exit;
                     }
-                    echo $this->PayrollSummaryView->renderProcessForm( $payrollUserInfo['puID'], $args[1], $args[2], $data );
-                    exit;
                 }
             }
         }

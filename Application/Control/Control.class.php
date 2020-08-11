@@ -1,7 +1,6 @@
 <?php
 use \Library\Http\HttpRequest, \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
-use \Library\Exception\RegistryException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
