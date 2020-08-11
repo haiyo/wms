@@ -201,7 +201,7 @@
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
     </task>
     <task type="payroll/view,payroll/getPayslipResults">
-        <observer controller="Markaxis/Payroll/PaySlipControl"></observer>
+        <observer controller="Markaxis/Payroll/PayslipControl"></observer>
     </task>
     <task type="payroll/release,payroll/releaseAll">
         <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
