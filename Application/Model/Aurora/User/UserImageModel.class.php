@@ -54,7 +54,6 @@ class UserImageModel extends \Model {
      */
     public function getImgLinkByUserID( $userID ) {
         if( $imgInfo = $this->getByUserID( $userID ) ) {
-            //$image = ROOT_URL . 'www/mars/user/photo/' . $imgInfo['hashDir'] . '/' . $imgInfo['hashName'];
             $image = ROOT_URL . 'admin/user/photo/' . $userID;
         }
         else {

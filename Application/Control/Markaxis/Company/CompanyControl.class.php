@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Company;
 use \Markaxis\Employee\EmployeeView;
+use \Library\IO\File;
 use \Control;
 
 /**
@@ -36,6 +37,27 @@ class CompanyControl {
         if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
             $this->CompanyView->renderSetup( );
         }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function logo( $args ) {
+        $logoType = isset( $args[1] ) && $args[1] == 'main' ? 'company_uID' : 'slip_uID';
+        $filename = $this->CompanyModel->getLogo( $logoType );
+
+        $mimeType = File::getType( $filename );
+        $content = file_get_contents( $filename );
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: '.strlen( $content ));
+        header('Content-disposition: inline; filename="logo');
+        header('Cache-Control: public, must-revalidate, max-age=0');
+        header('Pragma: public');
+        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+        echo $content;
     }
 
 

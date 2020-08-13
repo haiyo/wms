@@ -253,7 +253,6 @@ class AdminView extends SingletonHelper {
         $NotificationView = new NotificationView( );
 
         $CompanyModel = CompanyModel::getInstance( );
-        $logo = $CompanyModel->getLogo( 'company_uID' );
         $companyInfo = $CompanyModel->getInfo( );
 
         $DesignationModel = DesignationModel::getInstance( );
@@ -270,7 +269,6 @@ class AdminView extends SingletonHelper {
                                    'TPLVAR_LNAME' => $this->userInfo['lname'],
                                    'TPLVAR_DESIGNATION' => $designation,
                                    'TPLVAR_START_DATE' => $startDate,
-                                   'TPLVAR_LOGO' => $logo,
                                    'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
                                    'TPLVAR_NAVIGATION_COLOR' => $companyInfo['navigationColor'],
                                    'TPLVAR_NAVIGATION_TEXT_COLOR' => $companyInfo['navigationTextColor'],

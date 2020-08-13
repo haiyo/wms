@@ -77,7 +77,7 @@ class LOAView {
         $content = str_replace('{work_days}',$workDays, $content );
         $content = str_replace('{work_hours}',$workHours, $content );
 
-        $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID'),
+        $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID', true ),
                        'TPLVAR_COMPANY_NAME' => $companyInfo['name'],
                        'TPLVAR_CONTRACT_TYPE' => $contractType,
                        'TPLVAR_CONTENT' => $content );
