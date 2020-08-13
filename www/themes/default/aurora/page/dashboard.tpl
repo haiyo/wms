@@ -74,7 +74,7 @@
                             </a>
                         </div>
                         <div class="box-content">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/company/loa"><i class="mi-description mr-3 mi-2x"></i><h4>Letter of Appointment</h4>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/company/loa" target="_blank"><i class="mi-description mr-3 mi-2x"></i><h4>Letter of Appointment</h4>
                                 <div class="box-content-descript">Access your Letter of Appointment</div>
                             </a>
                         </div>
