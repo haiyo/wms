@@ -215,7 +215,8 @@ class CalendarModel extends \Model {
             }
         }
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
