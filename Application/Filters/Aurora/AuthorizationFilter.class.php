@@ -35,7 +35,7 @@ class AuthorizationFilter implements IFilter {
     public function doFilter( HttpRequest $Request, HttpResponse $Response, FilterChain $FilterChain ) {
         $Registry = Registry::getInstance( );
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $Authenticator = $Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $Authorization = new Authorization( );
