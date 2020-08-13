@@ -4,7 +4,7 @@ use \Markaxis\Company\CompanyModel;
 use \Markaxis\Expense\ExpenseModel, \Markaxis\Expense\ClaimModel;
 use \Aurora\User\UserImageModel;
 use \Aurora\Admin\AdminView;
-use \Library\Runtime\Registry;
+use \Library\Runtime\Registry, \Library\IO\File;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -50,7 +50,11 @@ class PayrollSummaryView {
         $CompanyModel = new CompanyModel( );
         $companyInfo = $CompanyModel->loadInfo( );
 
-        $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID',true ),
+        $logoURL = $CompanyModel->getLogo('slip_uID' );
+        $image = file_get_contents( $logoURL );
+        $uri = "data:image/png;base64," . base64_encode( $image );
+
+        $vars = array( 'TPLVAR_LOGO' => $uri,
                        'TPLVAR_COMPANY_NAME' => $companyInfo['name'],
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'],
