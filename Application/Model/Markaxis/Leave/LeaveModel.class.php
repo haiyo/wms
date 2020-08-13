@@ -1,6 +1,6 @@
 <?php
 namespace Markaxis\Leave;
-use \Aurora\User\ChildrenModel, \Aurora\User\UserModel;
+use \Aurora\User\ChildrenModel;
 use \Markaxis\Employee\LeaveBalanceModel;
 use \Library\Util\Date;
 
@@ -52,7 +52,8 @@ class LeaveModel extends \Model {
         $leaveType = $TypeModel->getFullList( );
 
         if( sizeof( $leaveType ) > 0 ) {
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
             $EmployeeModel = EmployeeModel::getInstance();
             $empInfo = $EmployeeModel->getFieldByUserID( $userInfo['userID'], 'oID, dID, cID, confirmDate, startDate, endDate' );

@@ -101,7 +101,8 @@ class ManagerModel extends \Model implements IObservable {
      * @return bool
      */
     public function setLeaveAction( $data ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         if( isset( $data['laID'] ) && $this->isFound( $data['laID'], $userInfo['userID'] ) ) {
             $info = array( );

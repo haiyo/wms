@@ -86,7 +86,8 @@ class CalendarWrapperView {
             $vars['dynamic']['data'][] = true;
         }
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $btn = array( );
         $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );

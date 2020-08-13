@@ -64,7 +64,8 @@ class ManagerModel extends \Model {
      */
     public function getSuggestToken( $userID=false ) {
         if( !$userID ) {
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
             $userID = $userInfo['userID'];
         }
         return $this->Manager->getSuggestToken( $userID );
