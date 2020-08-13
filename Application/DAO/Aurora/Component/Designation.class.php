@@ -47,6 +47,25 @@ class Designation extends \DAO {
      * @return mixed
      */
     public function getList( ) {
+        $sql = $this->DB->select( 'SELECT d.dID, d.title FROM designation d
+                                   WHERE deleted <> "1"
+                                   ORDER BY d.title ASC', __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['dID']] = $row['title'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getGroupList( ) {
         $sql = $this->DB->select( 'SELECT e.dID AS parentID, r.dID AS id, r.title, r.parent
                                    FROM designation r
                                    LEFT JOIN designation e ON r.parent = e.dID

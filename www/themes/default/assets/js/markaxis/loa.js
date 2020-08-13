@@ -1,25 +1,25 @@
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Monday, July 9th, 2012
- * @version $Id: newsAnnouncement.js, v 2.0 Exp $
+ * @version $Id: loa.js, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
-var AuroraNewsAnnouncement = (function( ) {
+var MarkaxisLOA = (function( ) {
 
 
     /**
-     * AuroraNewsAnnouncement Constructor
+     * MarkaxisLOA Constructor
      * @return void
      */
-    AuroraNewsAnnouncement = function( ) {
+    MarkaxisLOA = function( ) {
         this.table = null;
-        this.modalNA = $("#modalNA");
         this.editor = null;
+        this.modalLOA = $("#modalLOA");
         this.init( );
     };
 
-    AuroraNewsAnnouncement.prototype = {
-        constructor: AuroraNewsAnnouncement,
+    MarkaxisLOA.prototype = {
+        constructor: MarkaxisLOA,
 
         /**
          * Initialize first onload setup
@@ -38,10 +38,13 @@ var AuroraNewsAnnouncement = (function( ) {
         initEvents: function( ) {
             var that = this;
 
-            $("#contentType").select2({minimumResultsForSearch: -1});
+            $("#designation").multiselect({
+                includeSelectAllOption: true,
+                numberDisplayed: 5
+            });
 
-            $(document).on("click", ".naDelete", function(e) {
-                that.naDelete( $(this).attr("data-id") );
+            $(document).on("click", ".loaDelete", function(e) {
+                that.loaDelete( $(this).attr("data-id") );
                 e.preventDefault( );
             });
 
@@ -51,7 +54,7 @@ var AuroraNewsAnnouncement = (function( ) {
                         console.warn('Warning - ckeditor.js is not loaded.');
                         return;
                     }
-                    CKEDITOR.replace("naContent", {
+                    CKEDITOR.replace("loaContent", {
                         language: 'en',
                         height: 270,
                     });
@@ -95,50 +98,34 @@ var AuroraNewsAnnouncement = (function( ) {
 
             that.editor.init();
 
-            $("#modalContent").on("show.bs.modal", function(e) {
-                var $invoker = $(e.relatedTarget);
-
-                var data = {
-                    success: function( res   ) {
-                        var obj = $.parseJSON( res );
-
-                        if( obj.bool == 0 ) {
-                            $("#modalContent .modal-body").html( obj.errMsg );
-                            return;
-                        }
-                        $("#modalContent .modal-title").text( obj.data.title );
-                        $("#modalContent .modal-body").html( obj.data.content );
-                    }
-                };
-                Aurora.WebService.AJAX("admin/newsAnnouncement/getContent/" + $invoker.attr("data-id"), data );
+            that.modalLOA.on("hidden.bs.modal", function() {
+                $("#designation").multiselect("clearSelection");
             });
 
-            that.modalNA.on("shown.bs.modal", function(e) {
+            that.modalLOA.on("shown.bs.modal", function(e) {
                 var $invoker = $(e.relatedTarget);
-                var naID = $invoker.attr("data-id");
+                var loaID = $invoker.attr("data-id");
 
-                $("#saveNA").validate({
+                $("#saveLOA").validate({
                     ignore: [],
                     rules: {
-                        contentType: { required: true },
-                        naTitle: { required: true },
-                        naContent: { required: true }
+                        designation: { required: true },
+                        loaContent: { required: true }
                     },
                     messages: {
-                        contentType: Aurora.i18n.NewsAnnouncementRes.LANG_PLEASE_SELECT_CONTENT_TYPE,
-                        naTitle: Aurora.i18n.NewsAnnouncementRes.LANG_PLEASE_ENTER_TITLE,
-                        naContent: Aurora.i18n.NewsAnnouncementRes.LANG_PLEASE_ENTER_CONTENT
+                        designation: Markaxis.i18n.LOARes.LANG_PLEASE_SELECT_DESIGNATION,
+                        loaContent: Markaxis.i18n.LOARes.LANG_PLEASE_ENTER_CONTENT
                     },
                     errorPlacement: function(error, element) {
-                        if( $("#saveNA .modal-footer .error").length > 0 ) {
-                            $("#saveNA .modal-footer .error").remove( );
+                        if( $("#saveLOA .modal-footer .error").length > 0 ) {
+                            $("#saveLOA .modal-footer .error").remove( );
                         }
-                        $("#saveNA .modal-footer").append( error );
+                        $("#saveLOA .modal-footer").append( error );
                     },
                     submitHandler: function( ) {
                         var data = {
                             bundle: {
-                                data: Aurora.WebService.serializePost("#saveNA")
+                                data: Aurora.WebService.serializePost("#saveLOA")
                             },
                             success: function( res, ladda ) {
                                 //ladda.stop( );
@@ -153,16 +140,16 @@ var AuroraNewsAnnouncement = (function( ) {
                                 }
                                 else {
                                     that.table.ajax.reload();
-                                    swal("Done!", "Content has been successfully created!", "success");
-                                    $("#modalNA").modal('hide');
+                                    swal("Done!", "Letter Of Appointment has been successfully created!", "success");
+                                    $("#modalLOA").modal('hide');
                                 }
                             }
                         };
-                        Aurora.WebService.AJAX( "admin/newsAnnouncement/save", data );
+                        Aurora.WebService.AJAX( "admin/loa/save", data );
                     }
                 });
 
-                if( naID ) {
+                if( loaID ) {
                     var data = {
                         success: function(res) {
                             var obj = $.parseJSON(res);
@@ -172,20 +159,26 @@ var AuroraNewsAnnouncement = (function( ) {
                                 return;
                             }
                             else {
-                                $("#naID").val( obj.data.naID );
-                                $("#contentType").val( obj.data.isNews ).trigger("change");
-                                $("#naTitle").val( obj.data.title );
-                                CKEDITOR.instances.naContent.setData( obj.data.content );
+                                $("#loaID").val( obj.data.loaID );
+                                //$("#designation").val( obj.data.designationID ).trigger("change");
+
+                                if( obj.data.designation.length > 0 ) {
+                                    for( var j=0; j<obj.data.designation.length; j++ ) {
+                                        $("#designation").multiselect("select", obj.data.designation[j] );
+                                    }
+                                    $("#designation").multiselect("refresh");
+                                }
+
+                                CKEDITOR.instances.loaContent.setData( obj.data.content );
                             }
                         }
                     }
-                    Aurora.WebService.AJAX( "admin/newsAnnouncement/getContent/" + naID, data );
+                    Aurora.WebService.AJAX( "admin/loa/getContent/" + loaID, data );
                 }
                 else {
-                    $("#naID").val(0);
-                    $("#contentType").val("").trigger("change");
-                    $("#naTitle").val("");
-                    CKEDITOR.instances.naContent.setData("");
+                    $("#loaID").val(0);
+                    $("#designation").val("").trigger("change");
+                    CKEDITOR.instances.loaContent.setData("");
                 }
             });
         },
@@ -195,7 +188,7 @@ var AuroraNewsAnnouncement = (function( ) {
          * Delete
          * @return void
          */
-        naDelete: function( naID ) {
+        loaDelete: function( naID ) {
             var that = this;
             var title = $("#naTitle" + naID).text( );
 
@@ -240,14 +233,14 @@ var AuroraNewsAnnouncement = (function( ) {
         initTable: function( ) {
             var that = this;
 
-            this.table = $(".naTable").DataTable({
+            that.table = $(".loaTable").DataTable({
                 "processing": true,
                 "serverSide": true,
                 "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                    $(nRow).attr('id', 'naTable-row' + aData['naID']);
+                    $(nRow).attr('id', 'loaTable-row' + aData['loaID']);
                 },
                 ajax: {
-                    url: Aurora.ROOT_URL + "admin/newsAnnouncement/results",
+                    url: Aurora.ROOT_URL + "admin/loa/results",
                     type: "POST",
                     data: function ( d ) {
                         d.ajaxCall = 1;
@@ -270,52 +263,47 @@ var AuroraNewsAnnouncement = (function( ) {
                     targets: [0],
                     orderable: true,
                     width: '270px',
-                    data: 'title',
-                    render: function( data, type, full, meta ) {
-                        return '<span id="naTitle' + full['naID'] + '">' + data + '</span>';
+                    data: 'designation',
+                    render: function(data, type, full, meta) {
+                        var badge = "";
+
+                        if( data.length > 0 ) {
+                            for( var i=0; i<data.length; i++ ) {
+                                badge += '<span class="badge badge-primary badge-criteria">' + data[i] + '</span> ';
+                            }
+                        }
+                        return badge;
+
                     }
                 },{
                     targets: [1],
                     orderable: true,
-                    width: '260px',
-                    data: 'isNews',
-                    render: function(data, type, full, meta) {
-                        if( data == 0 ) {
-                            return Aurora.i18n.NewsAnnouncementRes.LANG_ANNOUNCEMENT;
-                        }
-                        else {
-                            return Aurora.i18n.NewsAnnouncementRes.LANG_NEWS;
-                        }
-                    }
+                    width: '60px',
+                    data: 'name'
                 },{
                     targets: [2],
                     orderable: true,
-                    width: '260px',
-                    data: 'createdBy'
+                    width: '60px',
+                    data: 'lastUpdated'
                 },{
                     targets: [3],
-                    orderable: true,
-                    width: '260px',
-                    data: 'created'
-                },{
-                    targets: [4],
                     orderable: false,
                     searchable : false,
                     width: '100px',
                     className : "text-center p-0",
-                    data: 'naID',
+                    data: 'loaID',
                     render: function(data, type, full, meta) {
                         return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
-                            '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalNA" ' +
+                            '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalLOA" ' +
                             'data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit Content</a>' +
+                            '<i class="icon-pencil5"></i> Edit LOA</a>' +
                             '<li class="divider"></li>' +
-                            '<a class="dropdown-item naDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Content</a>' +
+                            '<a class="dropdown-item loaDelete" data-id="' + data + '">' +
+                            '<i class="icon-bin"></i> Delete LOA</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -325,39 +313,39 @@ var AuroraNewsAnnouncement = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Title or Author Name',
+                    searchPlaceholder: 'Search Designation',
                     lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                     paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
                     Popups.init();
-                    $(".naTable [type=checkbox]").uniform();
+                    $(".loaTable [type=checkbox]").uniform();
                 },
                 preDrawCallback: function() {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 }
             });
 
-            $(".na-list-action-btns").insertAfter("#naList .dataTables_filter");
+            $(".loa-list-action-btns").insertAfter("#loaList .dataTables_filter");
 
-            $('#naList .datatable-pagination').DataTable({
+            $('#loaList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
                     paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
                 }
             });
 
-            $('#naList .datatable-save-state').DataTable({
+            $('#loaList .datatable-save-state').DataTable({
                 stateSave: true
             });
 
-            $('#naList .datatable-scroll-y').DataTable({
+            $('#loaList .datatable-scroll-y').DataTable({
                 autoWidth: true,
                 scrollY: 300
             });
 
-            $("#naList .dataTable tbody").on("mouseover", "td", function( ) {
+            $("#loaList .dataTable tbody").on("mouseover", "td", function( ) {
                 if( typeof that.table.cell(this).index() == "undefined" ) return;
                 var colIdx = that.table.cell(this).index().column;
 
@@ -369,15 +357,15 @@ var AuroraNewsAnnouncement = (function( ) {
                 $(that.table.cells().nodes()).removeClass("active");
             });
 
-            $('#naList .dataTables_length select').select2({
+            $('#loaList .dataTables_length select').select2({
                 minimumResultsForSearch: Infinity,
                 width: 'auto'
             });
         }
     }
-    return AuroraNewsAnnouncement;
+    return MarkaxisLOA;
 })();
-var auroraNewsAnnouncement = null;
+var markaxisLOA = null;
 $(document).ready( function( ) {
-    auroraNewsAnnouncement = new AuroraNewsAnnouncement( );
+    markaxisLOA = new MarkaxisLOA( );
 });

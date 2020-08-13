@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
-use \Aurora\Notification\NotificationModel;
+use \Aurora\Notification\NotificationModel, \Aurora\User\UserModel;
 use \Library\Interfaces\IObservable;
 
 /**
@@ -101,8 +101,7 @@ class ManagerModel extends \Model implements IObservable {
      * @return bool
      */
     public function setLeaveAction( $data ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         if( isset( $data['laID'] ) && $this->isFound( $data['laID'], $userInfo['userID'] ) ) {
             $info = array( );

@@ -135,7 +135,9 @@ class AdminView extends SingletonHelper {
             if( is_array( $js ) ) {
                 // Multiple js from the same namespace
                 foreach( $js as $jsFile ) {
-                    $this->js[] = $namespace . '/' . $jsFile;
+                    if( !in_array($namespace . '/' . $jsFile, $this->js ) ) {
+                        $this->js[] = $namespace . '/' . $jsFile;
+                    }
                 }
             }
             else {

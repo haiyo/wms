@@ -2,6 +2,7 @@
 namespace Markaxis\Leave;
 use \Markaxis\Company\OfficeModel, \Markaxis\Employee\EmployeeModel, \Markaxis\Employee\LeaveTypeModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\User\UserImageModel;
+use \Aurora\User\UserModel;
 use \Library\Helper\Markaxis\ApplyForHelper, \Library\Util\Date;
 use \Library\Runtime\Registry;
 
@@ -148,8 +149,7 @@ class LeaveApplyView {
      * @return mixed
      */
     public function renderPendingAction( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         $pendingAction = $this->LeaveApplyModel->getPendingAction( $userInfo['userID'] );
 

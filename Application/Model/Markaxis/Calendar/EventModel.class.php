@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Calendar;
+use \Aurora\User\UserModel;
 use \Library\Util\Markaxis\Calendar\DayRecur;
 use \Library\Util\Markaxis\Calendar\WeekRecur;
 use \Library\Util\Markaxis\Calendar\BiWeeklyRecur;
@@ -58,8 +59,7 @@ class EventModel extends \Model {
         $eventList = array( );
 
         if( isset( $info['user'] ) && isset( $info['start'] ) && isset( $info['end'] ) ) {
-            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+            $userInfo = UserModel::getInstance( )->getInfo( );
 
             $startDate = Date::parseDateTime( $info['start'] );
             $endDate = Date::parseDateTime( $info['end'] );
@@ -83,8 +83,7 @@ class EventModel extends \Model {
         $effective = array( );
 
         if( isset( $info['user'] ) && isset( $info['type'] ) && isset( $info['start'] ) && isset( $info['end'] ) ) {
-            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+            $userInfo = UserModel::getInstance( )->getInfo( );
 
             if( $info['user'] == 'owner' ) {
                 $eventInfo = $this->Event->getRecurs( $userInfo['userID'], $info['type'] );
@@ -219,8 +218,7 @@ class EventModel extends \Model {
             return false;
         }
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
@@ -265,8 +263,7 @@ class EventModel extends \Model {
     * @return bool
     */
     public function updateEventDropDrag( $post ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         if( isset( $post['eID'] ) ) {
             $info = array( );

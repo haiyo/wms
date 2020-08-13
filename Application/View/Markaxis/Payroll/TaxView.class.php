@@ -68,7 +68,7 @@ class TaxView {
         $SelectGroupListView->includeBlank( false );
         $SelectGroupListView->isMultiple( true );
         $designationList = $SelectGroupListView->build( 'designation{template}',
-                                $DesignationModel->getList( ), '', 'Select Designation' );
+                                $DesignationModel->getGroupList( ), '', 'Select Designation' );
 
         $RaceModel = RaceModel::getInstance( );
         $raceList = $SelectListView->build( 'race{template}',  $RaceModel->getList( ), '', 'Select Race' );

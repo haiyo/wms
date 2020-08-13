@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Calendar;
+use \Aurora\User\UserModel;
 use \Registry, Aurora\LightboxView;
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -85,8 +86,7 @@ class CalendarWrapperView {
             $vars['dynamic']['data'][] = true;
         }
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         $btn = array( );
         $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );

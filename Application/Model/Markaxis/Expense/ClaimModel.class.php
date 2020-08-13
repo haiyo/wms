@@ -224,8 +224,7 @@ class ClaimModel extends \Model {
             return false;
         }
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
@@ -266,8 +265,7 @@ class ClaimModel extends \Model {
      * @return bool
      */
     public function uploadSuccess( $ecID, $file ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         if( $this->isFoundByEcIDUserID( $ecID, $userInfo['userID'],0 ) ) {
             $Uploader = new Uploader( );

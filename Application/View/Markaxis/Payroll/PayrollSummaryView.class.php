@@ -50,13 +50,8 @@ class PayrollSummaryView {
         $CompanyModel = new CompanyModel( );
         $companyInfo = $CompanyModel->loadInfo( );
 
-        $UserImageModel = UserImageModel::getInstance( );
-
         $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID'),
                        'TPLVAR_COMPANY_NAME' => $companyInfo['name'],
-                       'TPLVAR_COMPANY_ADDRESS' => $companyInfo['address'],
-                       'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
-                       'TPLVAR_USERID' => $userID,
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'],
                        'TPLVAR_PROCESS_DATE' => $processDate,
@@ -66,8 +61,18 @@ class PayrollSummaryView {
                        'TPLVAR_CONTRACT_TYPE' => $data['empInfo']['contractType'],
                        'TPLVAR_PAY_PERIOD' => $processDate );
 
-        $vars['dynamic']['phone'] = false;
-        $vars['dynamic']['website'] = false;
+        $vars['dynamic']['address']   = false;
+        $vars['dynamic']['regNumber'] = false;
+        $vars['dynamic']['phone']     = false;
+        $vars['dynamic']['website']   = false;
+
+        if( $companyInfo['address'] ) {
+            $vars['dynamic']['address'][] = array( 'TPLVAR_COMPANY_ADDRESS' => $companyInfo['address'] );
+        }
+
+        if( $companyInfo['regNumber'] ) {
+            $vars['dynamic']['regNumber'][] = array( 'TPLVAR_COMPANY_REGNUMBER' => $companyInfo['regNumber'] );
+        }
 
         if( $companyInfo['phone'] ) {
             $vars['dynamic']['phone'][] = array( 'TPLVAR_COMPANY_PHONE' => $companyInfo['phone'] );

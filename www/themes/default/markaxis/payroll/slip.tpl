@@ -7,14 +7,20 @@
     <tr>
         <td valign="top"><img src="<?TPLVAR_LOGO?>" width="250" /></td>
         <td style="text-align:right;">
-            <h2>PAYSLIP</h2>
-            <?TPLVAR_COMPANY_NAME?><br /><?TPLVAR_COMPANY_ADDRESS?><br />
+            <h3>PAYSLIP</h3>
+            <?TPLVAR_COMPANY_NAME?><br />
+            <!-- BEGIN DYNAMIC BLOCK: address -->
+            <?TPLVAR_COMPANY_ADDRESS?><br />
+            <!-- END DYNAMIC BLOCK: address -->
             <!-- BEGIN DYNAMIC BLOCK: phone -->
             <?TPLVAR_COMPANY_PHONE?><br />
             <!-- END DYNAMIC BLOCK: phone -->
             <!-- BEGIN DYNAMIC BLOCK: website -->
-            <?TPLVAR_COMPANY_WEBSITE?>
+            <?TPLVAR_COMPANY_WEBSITE?><br />
             <!-- END DYNAMIC BLOCK: website -->
+            <!-- BEGIN DYNAMIC BLOCK: regNumber -->
+            Company Registration No. <?TPLVAR_COMPANY_REGNUMBER?>
+            <!-- END DYNAMIC BLOCK: regNumber -->
         </td>
     </tr>
 </table>

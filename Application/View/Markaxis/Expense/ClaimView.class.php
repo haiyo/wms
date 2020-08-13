@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Aurora\Component\CurrencyModel, \Aurora\User\UserImageModel;
+use \Aurora\Component\CurrencyModel, \Aurora\User\UserModel, \Aurora\User\UserImageModel;
 use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
@@ -76,8 +76,7 @@ class ClaimView {
      * @return mixed
      */
     public function renderPendingAction( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         $pendingAction = $this->ClaimModel->getPendingAction( $userInfo['userID'] );
 

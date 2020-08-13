@@ -114,7 +114,10 @@ abstract class ResBundle {
     */
     public function getL10n( ) {
         $locale = ROOT . 'www/themes/default/assets/js/locale/';
-        list( $dirname, $filename ) = explode( '\\', get_class( $this ) );
+        $t = explode( '\\', get_class( $this ) );
+
+        $dirname = $t[0];
+        $filename = end( $t );
         $filename = $filename . '.js';
         $hash = MD5( serialize( $this->contents ) );
 

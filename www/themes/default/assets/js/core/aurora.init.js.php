@@ -39,6 +39,8 @@ class JSInit {
             echo '};';
         }
         echo 'Aurora.i18n = {};';
+        echo 'var Markaxis = {};';
+        echo 'Markaxis.i18n = {};';
         exit;
     }
 }

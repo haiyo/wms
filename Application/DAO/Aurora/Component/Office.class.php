@@ -33,7 +33,10 @@ class Office extends \DAO {
      * @return mixed
      */
     public function getByoID( $oID ) {
-        $sql = $this->DB->select( 'SELECT *, o.name AS officeName FROM office o
+        $sql = $this->DB->select( 'SELECT *, o.name AS officeName,
+                                   TIME_FORMAT( openTime, "%l:%i %p" ) AS openTime, 
+                                   TIME_FORMAT( closeTime, "%l:%i %p" ) AS closeTime
+                                   FROM office o
                                    LEFT JOIN office_type ot ON ( ot.otID = o.officeTypeID )
                                    LEFT JOIN country c ON ( c.cID = o.countryID )
                                    WHERE oID = "' . (int)$oID . '" AND

@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Expense;
 use \Markaxis\Employee\EmployeeModel;
-use \Aurora\Notification\NotificationModel;
+use \Aurora\User\UserModel, \Aurora\Notification\NotificationModel;
 use \Library\Interfaces\IObservable;
 
 /**
@@ -87,8 +87,7 @@ class ManagerModel extends \Model implements IObservable {
      * @return bool
      */
     public function setClaimAction( $data ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         if( isset( $data['ecID'] ) && $this->isFound( $data['ecID'], $userInfo['userID'] ) ) {
             $info = array( );

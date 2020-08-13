@@ -149,8 +149,6 @@ class NewsAnnouncementModel extends \Model {
      */
     public function delete( $naID ) {
         if( $this->isFound( $naID ) ) {
-            $info = array( );
-            $info['deleted'] = 1;
             $this->NewsAnnouncement->delete( 'news_annoucement', 'WHERE naID = "' . (int)$naID . '"' );
         }
     }

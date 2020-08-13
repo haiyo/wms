@@ -8,7 +8,7 @@ multiple="multiple"
 <!-- BEGIN DYNAMIC BLOCK: disabled -->
 disabled="disabled"
 <!-- END DYNAMIC BLOCK: disabled -->
-class="form-control select <?TPLVAR_CLASS?>">
+class="form-control <?TPLVAR_CLASS?>">
 <!-- BEGIN DYNAMIC BLOCK: blank -->
 <option value=""></option>
 <!-- END DYNAMIC BLOCK: blank -->

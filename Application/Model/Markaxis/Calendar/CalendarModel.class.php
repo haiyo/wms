@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Calendar;
+use \Aurora\User\UserModel;
 use \Library\Helper\Markaxis\LabelHelper;
 use \Library\Helper\Markaxis\RecurHelper, \Library\Helper\Markaxis\ReminderHelper;
 use \Library\Validator\Validator;
@@ -214,8 +215,7 @@ class CalendarModel extends \Model {
             }
         }
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
