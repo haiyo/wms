@@ -74,10 +74,10 @@ class CompanyModel extends \Model {
         }
         else {
             if( !$url ) {
-                return ROOT_URL . 'themes/default/assets/images/logo.png';
+                return TPL . 'default/assets/images/logo.png';
             }
 
-            return TPL . 'default/assets/images/logo.png';
+            return ROOT_URL . 'themes/default/assets/images/logo.png';
         }
     }
 
