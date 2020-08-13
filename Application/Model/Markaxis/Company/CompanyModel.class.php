@@ -69,12 +69,15 @@ class CompanyModel extends \Model {
             if( !$url ) {
                 return LOGO_DIR . $info['hashDir'] . $info['hashName'];
             }
-            else {
-                return ROOT_URL . 'www/mars/logo/' . $info['hashDir'] . $info['hashName'];
-            }
+
+            return ROOT_URL . 'www/mars/logo/' . $info['hashDir'] . $info['hashName'];
         }
         else {
-            return ROOT_URL . 'themes/default/assets/images/logo.png';
+            if( !$url ) {
+                return ROOT_URL . 'themes/default/assets/images/logo.png';
+            }
+
+            return TPL . 'default/assets/images/logo.png';
         }
     }
 
