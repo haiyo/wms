@@ -48,11 +48,11 @@ class Calendar extends \DAO {
     public function getList( ) {
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT pcID, calName FROM pay_calendar pc', __FILE__, __LINE__ );
+        $sql = $this->DB->select( 'SELECT pcID, title FROM pay_calendar pc', __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['pcID']] = $row['calName'];
+                $list[$row['pcID']] = $row['title'];
             }
         }
         return $list;

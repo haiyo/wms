@@ -19,6 +19,8 @@ class OfficeRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_OFFICE'] = 'Office';
         $this->contents['LANG_CREATE_NEW_OFFICE'] = 'Create New office';

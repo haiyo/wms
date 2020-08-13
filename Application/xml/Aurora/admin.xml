@@ -58,8 +58,12 @@
         <observer controller="Markaxis/Company/DepartmentManagerControl"></observer>
         <observer controller="Markaxis/Employee/DepartmentControl"></observer>
         <observer controller="Markaxis/Company/OfficeControl"></observer>
+        <observer controller="Markaxis/Company/LOAControl"></observer>
         <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
+    </task>
+    <task type="loa/results,loa/getContent,loa/save">
+        <observer controller="Markaxis/Company/LOAControl"></observer>
     </task>
     <task type="newsAnnouncement/list,newsAnnouncement/results,newsAnnouncement/getContent,newsAnnouncement/save,newsAnnouncement/naDelete">
         <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>

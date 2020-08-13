@@ -53,8 +53,8 @@ class EmployeeView {
      */
     public function renderSettings( $data ) {
         $this->View->setBreadcrumbs( array( 'link' => '',
-            'icon' => 'icon-cog3',
-            'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
+                                            'icon' => 'icon-cog3',
+                                            'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_HREF' => 'employeeList',
@@ -108,7 +108,7 @@ class EmployeeView {
         $SelectListView = new SelectListView( );
 
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
-        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getList( ), $designationID,'Filter By Designation' );
+        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getGroupList( ), $designationID,'Filter By Designation' );
 
         $DepartmentModel = DepartmentModel::getInstance( );
         $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
@@ -285,7 +285,7 @@ class EmployeeView {
         $DesignationModel = DesignationModel::getInstance( );
         $SelectGroupListView = new SelectGroupListView( );
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
-        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getList( ), $designationID,'Select Designation' );
+        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getGroupList( ), $designationID,'Select Designation' );
 
         $confirmDayList = $DayIntListView->getList('confirmDay', $confirmDay,'Day' );
         $confirmMonthList = $SelectListView->build('confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );

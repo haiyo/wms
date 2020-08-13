@@ -75,10 +75,6 @@ class NewsAnnouncementView {
      * @return string
      */
     public function renderList( ) {
-        $this->View->setBreadcrumbs( array( 'link' => 'admin/newsAnnouncement/list',
-            'icon' => 'mi-description',
-            'text' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
-
         $this->View->setJScript( array( 'locale' => $this->L10n->getL10n( ),
                                         'jquery' => array( 'jquery.validate.min.js' ),
                                         'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js' ),
@@ -108,14 +104,11 @@ class NewsAnnouncementView {
      * @return mixed
      */
     public function renderSettings( ) {
-        $this->View->setBreadcrumbs( array( 'link' => 'admin/newsAnnouncement/list',
-                                            'icon' => 'mi-description',
-                                            'text' => $this->L10n->getContents('LANG_NEWS_ANNOUNCEMENT') ) );
-
         $this->View->setJScript( array( 'locale' => $this->L10n->getL10n( ),
                                         'jquery' => array( 'jquery.validate.min.js' ),
                                         'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js' ),
-                                        'plugins/editors' => array( 'ckeditor/ckeditor.js' ) ) );
+                                        'plugins/editors' => array( 'ckeditor/ckeditor.js' ),
+                                        'aurora' => array( 'newsAnnouncement.js' ) ) );
 
         $SelectListView = new SelectListView( );
         $contentTypeList  = $SelectListView->build( 'contentType', NewsAnnouncementHelper::getL10nList( ),'', 'Select Content Type' );
@@ -124,8 +117,6 @@ class NewsAnnouncementView {
                 array( 'TPLVAR_HREF' => 'naList',
                        'LANG_TEXT' => $this->L10n->getContents( 'LANG_NEWS_ANNOUNCEMENT' ),
                        'TPLVAR_CONTENT_TYPE_LIST' => $contentTypeList ) );
-
-        $this->View->setJScript( array( 'aurora' => array( 'newsAnnouncement.js' ) ) );
 
         return array( 'tab'  => $this->View->render( 'aurora/core/tab.tpl', $vars ),
                       'form' => $this->View->render( 'aurora/newsAnnouncement/list.tpl', $vars ) );

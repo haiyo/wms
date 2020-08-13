@@ -1,3 +1,0 @@
-var hash="905a12e628679a30a1519adfdcb41d0e";
-function AuroraNewsAnnouncement(){}
-Aurora.i18n.NewsAnnouncement = {LANG_NO_NEWS_OR_ANNOUNCEMENT : "There are currently no news and announcement.",LANG_NEWS_ANNOUNCEMENT : "News &amp;amp; Announcement",LANG_ADD_NEW_CONTENT : "Add New Content",LANG_ANNOUNCEMENT : "Announcement",LANG_NEWS : "News",LANG_CREATE_NEW_CONTENT : "Create New Content",LANG_SELECT_CONTENT_TYPE : "Select Content Type",LANG_TITLE : "Title",LANG_PLEASE_SELECT_CONTENT_TYPE : "Please select a Content Type",LANG_PLEASE_ENTER_TITLE : "Please enter title",LANG_PLEASE_ENTER_CONTENT : "Please enter content",};

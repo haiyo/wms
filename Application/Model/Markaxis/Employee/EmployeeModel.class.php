@@ -378,8 +378,7 @@ class EmployeeModel extends \Model {
 
             $AuditLogModel = new AuditLogModel( );
 
-            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+            $userInfo = UserModel::getInstance( )->getInfo( );
 
             $info['fromUserID'] = $userInfo['userID'];
             $info['toUserID'] = $post['userID'];

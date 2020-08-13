@@ -74,8 +74,8 @@
                             </a>
                         </div>
                         <div class="box-content">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/company/benefits"><i class="mi-favorite-border mr-3 mi-2x"></i><h4>Benefits</h4>
-                                <div class="box-content-descript">See which company benefits you are enrolled in</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/company/loa"><i class="mi-description mr-3 mi-2x"></i><h4>Letter of Appointment</h4>
+                                <div class="box-content-descript">Access your Letter of Appointment</div>
                             </a>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\Page;
+use \Aurora\User\UserModel;
 use \Aurora\Admin\AdminView;
 
 /**
@@ -52,8 +53,7 @@ class PageTabView extends AdminView {
             $pages   = array_reverse( $pages );
             $gotPage = false;
 
-            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+            $userInfo = UserModel::getInstance( )->getInfo( );
             $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
             
             $vars['dynamic']['newPage'] = false;

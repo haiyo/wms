@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\User\UserModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -54,9 +55,8 @@ class PayslipModel extends \Model {
                     break;
             }
         }
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
+        $userInfo = UserModel::getInstance( )->getInfo( );
         $results = $this->Payslip->getResults( $userInfo['userID'], $order . $dir );
 
         $total = $results['recordsTotal'];

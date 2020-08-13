@@ -2,7 +2,7 @@
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
 use \Markaxis\Company\OfficeModel;
-use \Aurora\Component\UploadModel;
+use \Aurora\Component\UploadModel, \Aurora\User\UserModel;
 use \Library\Util\Uploader, \Library\Util\Date, \Library\Util\Formula;
 
 /**
@@ -119,8 +119,7 @@ class LeaveApplyModel extends \Model {
      * @return int
      */
     public function getRequest( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         return $this->LeaveApply->getRequest( $userInfo['userID'] );
     }
@@ -214,8 +213,7 @@ class LeaveApplyModel extends \Model {
      * @return int
      */
     public function cancel( $laID ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         $this->LeaveApply->update('leave_apply', array( 'cancelled' => 1 ),
                                   'WHERE laID = "' . (int)$laID . '" AND userID = "' . $userInfo['userID'] . '"' );
@@ -321,8 +319,7 @@ class LeaveApplyModel extends \Model {
      * @return bool
      */
     public function uploadSuccess( $laID, $file ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $userInfo = UserModel::getInstance( )->getInfo( );
 
         if( $this->isFoundByLaIDUserID( $laID, $userInfo['userID'],0 ) ) {
             $Uploader = new Uploader( );

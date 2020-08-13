@@ -1,5 +1,6 @@
 <?php
 namespace Aurora\Page;
+use \Aurora\User\UserModel;
 use \Library\IO\File, \Library\Util\Uploader, \Library\Util\ImageManipulation;
 
 /**
@@ -28,9 +29,8 @@ class LogoModel extends \Model {
     */
     function __construct( ) {
         parent::__construct( );
-        
-        $Authenticator  = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $this->userInfo = $Authenticator->getUserModel( )->getInfo('userInfo');
+
+        $this->userInfo = UserModel::getInstance( )->getInfo( );
         
         $this->UserSettingModel = $this->Registry->get( HKEY_CLASS, 'UserSettingModel' );
         

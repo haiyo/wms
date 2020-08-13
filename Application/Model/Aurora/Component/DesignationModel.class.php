@@ -30,8 +30,8 @@ class DesignationModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function isFound( $id ) {
-        return $this->Designation->isFound( $id );
+    public function isFound( $dID ) {
+        return $this->Designation->isFound( $dID );
     }
 
 
@@ -50,6 +50,15 @@ class DesignationModel extends \Model {
      */
     public function getList( ) {
         return $this->info = $this->Designation->getList( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getGroupList( ) {
+        return $this->info = $this->Designation->getGroupList( );
     }
 
 

@@ -19,6 +19,8 @@ class DepartmentRes extends Resource {
      * @return void
      */
     function __construct( ) {
+        parent::__construct( );
+
         $this->contents = array( );
         $this->contents['LANG_DEPARTMENT'] = 'Department';
         $this->contents['LANG_CREATE_NEW_DEPARTMENT'] = 'Create New Department';

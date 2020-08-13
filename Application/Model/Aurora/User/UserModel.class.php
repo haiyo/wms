@@ -66,9 +66,7 @@ class UserModel extends \Model {
      * @return mixed
      */
     public function getCurrUser( ) {
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-
+        $userInfo = $this->getInfo( );
         return $this->User->getFieldByUserID( $userInfo['userID'], '*' );
     }
 
@@ -310,8 +308,7 @@ class UserModel extends \Model {
             $this->User->update( 'user', $this->info, 'WHERE userID = "' . (int)$this->info['userID'] . '"' );
 
             $this->info['updateCurrent'] = false;
-            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+            $userInfo = $this->getInfo( 'userInfo' );
 
             if( $userInfo['userID'] == $this->info['userID'] ) {
                 $this->info['updateCurrent'] = true;
@@ -344,8 +341,7 @@ class UserModel extends \Model {
 
             $AuditLogModel = new AuditLogModel( );
 
-            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+            $userInfo = $this->getInfo( );
 
             $info['fromUserID'] = $userInfo['userID'];
             $info['toUserID'] = $post['userID'];
