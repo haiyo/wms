@@ -50,7 +50,7 @@ class StructureView {
         $SelectGroupListView->includeBlank(false );
         $SelectGroupListView->isMultiple(true);
 
-        $designationList = $SelectGroupListView->build('designation', $this->A_DesignationModel->getList( ),
+        $designationList = $SelectGroupListView->build('designation', $this->A_DesignationModel->getGroupList( ),
                                                        '','Select Designation' );
 
         $SelectListView = new SelectListView( );

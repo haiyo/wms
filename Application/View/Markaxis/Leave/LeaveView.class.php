@@ -138,9 +138,9 @@ class LeaveView {
                                             'icon' => 'icon-cog2',
                                             'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
 
-        $this->View->setBreadcrumbs( array( 'link' => '',
+        /*$this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-file-plus2',
-                                            'text' => $this->L10n->getContents('LANG_CREATE_NEW_LEAVE_TYPE') ) );
+                                            'text' => $this->L10n->getContents('LANG_CREATE_NEW_LEAVE_TYPE') ) );*/
 
         $this->View->printAll( $this->View->render( 'markaxis/leave/typeFormWrapper.tpl', $vars ) );
     }

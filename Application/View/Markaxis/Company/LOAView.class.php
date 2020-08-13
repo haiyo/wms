@@ -115,6 +115,7 @@ class LOAView {
 
         require_once LIB . 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf( );
+        $mpdf->SetDisplayMode(90);
         $mpdf->defaultheaderfontsize = 10;
         $mpdf->defaultheaderfontstyle = '';
         $mpdf->defaultheaderline = 0;
