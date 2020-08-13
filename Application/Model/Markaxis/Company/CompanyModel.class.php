@@ -59,13 +59,19 @@ class CompanyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getLogo( $field ) {
+    public function getLogo( $field, $url=false ) {
         $UploadModel = new UploadModel( );
         $companyInfo = $this->loadInfo( );
 
         if( $companyInfo[$field] ) {
             $info = $UploadModel->getByUID( $companyInfo[$field] );
-            return ROOT_URL . 'www/mars/logo/' . $info['hashDir'] . $info['hashName'];
+
+            if( !$url ) {
+                return LOGO_DIR . $info['hashDir'] . $info['hashName'];
+            }
+            else {
+                return ROOT_URL . 'www/mars/logo/' . $info['hashDir'] . $info['hashName'];
+            }
         }
         else {
             return ROOT_URL . 'themes/default/assets/images/logo.png';

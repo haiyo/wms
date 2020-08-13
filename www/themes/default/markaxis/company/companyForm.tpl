@@ -226,7 +226,7 @@
                             <div class="photo-wrap photo-wrap-Company">
                                 <div class="photo company-logo checkered">
                                     <a href="#" data-text="Company" class="deletePhoto deleteLogo"><i class="icon-bin"></i></a>
-                                    <img src="<?TPLVAR_COMPANY_LOGO?>" />
+                                    <img src="<?TPLVAR_ROOT_URL?>admin/company/logo/main" />
                                 </div>
                             </div>
                             <!-- END DYNAMIC BLOCK: companyLogo -->
@@ -261,7 +261,7 @@
                             <div class="photo-wrap photo-wrap-Payslip">
                                 <div class="photo payslip-logo checkered">
                                     <a href="#" data-text="Payslip" class="deletePhoto deleteLogo"><i class="icon-bin"></i></a>
-                                    <img src="<?TPLVAR_SLIP_LOGO?>" />
+                                    <img src="<?TPLVAR_ROOT_URL?>admin/company/logo" />
                                 </div>
                             </div>
                             <!-- END DYNAMIC BLOCK: slipLogo -->

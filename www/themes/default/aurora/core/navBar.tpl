@@ -15,7 +15,7 @@
 <div class="navbar navbar-expand-md navbar-fixed-top">
     <div class="navbar-header">
         <a class="navbar-brand" href="<?TPLVAR_ROOT_URL?>admin/dashboard">
-            <img src="<?TPLVAR_LOGO?>" alt="" />
+            <img src="<?TPLVAR_ROOT_URL?>admin/company/logo/main" alt="" />
         </a>
 
         <ul class="nav navbar-nav visible-xs-block">

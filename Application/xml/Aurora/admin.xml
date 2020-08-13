@@ -62,6 +62,9 @@
         <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
         <observer controller="Markaxis/Company/CompanyControl"></observer>
     </task>
+    <task type="company/logo">
+        <observer controller="Markaxis/Company/CompanyControl"></observer>
+    </task>
     <task type="loa/results,loa/getContent,loa/save">
         <observer controller="Markaxis/Company/LOAControl"></observer>
     </task>
