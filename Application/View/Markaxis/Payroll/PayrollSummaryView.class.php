@@ -50,7 +50,7 @@ class PayrollSummaryView {
         $CompanyModel = new CompanyModel( );
         $companyInfo = $CompanyModel->loadInfo( );
 
-        $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID', true ),
+        $vars = array( 'TPLVAR_LOGO' => $CompanyModel->getLogo('slip_uID',true ),
                        'TPLVAR_COMPANY_NAME' => $companyInfo['name'],
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'],
