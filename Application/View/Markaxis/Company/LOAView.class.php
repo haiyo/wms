@@ -110,6 +110,9 @@ class LOAView {
         //$html = $this->View->renderHeader( );
         $html = $this->View->render( 'markaxis/company/loa.tpl', $vars );
 
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
         require_once LIB . 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf( );
         $mpdf->defaultheaderfontsize = 10;
@@ -122,7 +125,7 @@ class LOAView {
         $mpdf->SetHeader('|STAFF-IN-CONFIDENCE|');
         $mpdf->SetFooter('|STAFF-IN-CONFIDENCE|{PAGENO}');
 
-        //$mpdf->SetProtection( array( 'print-highres' ), $password );
+        $mpdf->SetProtection( array( 'print-highres' ), $Authenticator->getDecrypt( $userInfo ) );
         $mpdf->WriteHTML( $html );
         $mpdf->Output('loa.pdf','I' );
     }
