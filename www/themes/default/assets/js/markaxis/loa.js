@@ -188,12 +188,11 @@ var MarkaxisLOA = (function( ) {
          * Delete
          * @return void
          */
-        loaDelete: function( naID ) {
+        loaDelete: function( loaID ) {
             var that = this;
-            var title = $("#naTitle" + naID).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
+                title: "Are you sure you want to delete this LOA?",
                 text: "This action cannot be undone once deleted.",
                 type: "warning",
                 showCancelButton: true,
@@ -206,7 +205,7 @@ var MarkaxisLOA = (function( ) {
 
                 var data = {
                     bundle: {
-                        data: naID
+                        data: loaID
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
@@ -216,12 +215,12 @@ var MarkaxisLOA = (function( ) {
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal("Done!", "LOA has been successfully deleted!", "success");
                             return;
                         }
                     }
                 };
-                Aurora.WebService.AJAX("admin/newsAnnouncement/naDelete", data);
+                Aurora.WebService.AJAX("admin/loa/delete", data);
             });
         },
 

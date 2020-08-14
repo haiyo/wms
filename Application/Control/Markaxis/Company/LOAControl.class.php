@@ -118,11 +118,11 @@ class LOAControl {
      * Render main navigation
      * @return string
      */
-    public function naDelete( ) {
-        if( Control::hasPermission( 'Aurora', 'add_modify_announcement' ) ) {
-            $naID = Control::getRequest( )->request( POST, 'data' );
+    public function delete( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_loa' ) ) {
+            $loaID = Control::getRequest( )->request( POST, 'data' );
 
-            $this->NewsAnnouncementModel->delete( $naID );
+            $this->LOAModel->delete( $loaID );
             $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;

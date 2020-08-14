@@ -65,7 +65,7 @@
     <task type="company/logo">
         <observer controller="Markaxis/Company/CompanyControl"></observer>
     </task>
-    <task type="loa/results,loa/getContent,loa/save">
+    <task type="loa/results,loa/getContent,loa/save,loa/delete">
         <observer controller="Markaxis/Company/LOAControl"></observer>
     </task>
     <task type="newsAnnouncement/list,newsAnnouncement/results,newsAnnouncement/getContent,newsAnnouncement/save,newsAnnouncement/naDelete">
