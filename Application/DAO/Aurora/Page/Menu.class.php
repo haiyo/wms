@@ -25,6 +25,7 @@ class Menu extends \DAO {
                                    LEFT JOIN menu m ON ( child.parent = m.mID )
                                    LEFT JOIN menu_perm mp ON ( mp.mID = child.mID )
                                    LEFT JOIN permission p ON ( p.pID = mp.pID )
+                                   WHERE child.active = "1"
                                    GROUP BY child.mID
                                    ORDER BY COALESCE(child.parent, child.mID), child.sorting',
                                    __FILE__, __LINE__ );

@@ -149,8 +149,7 @@ class LOAModel extends \Model {
 
         if( sizeof( $validIDs ) > 0 ) {
             $validIDs = implode(',', $validIDs );
-            $this->LOA->delete('loa_designation','WHERE loaID = "' . (int)$this->info['loaID'] . '" AND 
-                                                            loadID NOT IN(' . addslashes( $validIDs ) . ')');
+            $this->LOA->delete('loa_designation','WHERE loadID NOT IN(' . addslashes( $validIDs ) . ')');
         }
 
         return $this->info['loaID'];
