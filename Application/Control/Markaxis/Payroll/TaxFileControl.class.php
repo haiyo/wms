@@ -32,6 +32,36 @@ class TaxFileControl {
      * @return string
      */
     public function taxfile( ) {
+
+        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassAuth?';
+
+        $fields = array(
+            'client_id' => urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
+            'client_secret' => urlencode('H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1'),
+            'scope' => 'EmpIncomeSub',
+            'state' => 'dunno',
+            'tax_agent' => 'false'
+        );
+
+        $fields_string = "";
+        foreach($fields as $key => $value) {
+            $fields_string .= $key.'='.$value.'&';
+        }
+        $fields_string = rtrim($fields_string, '&');
+
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $endpoint . $fields_string,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER => array( 'accept: application/json' )
+        ));
+        $result = curl_exec($ch);
+        $result = json_decode( $result );
+
+
+        var_dump($result); exit;
+
         $this->TaxFileView->renderTaxFile( );
     }
 
