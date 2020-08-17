@@ -33,7 +33,7 @@ class LeaveTypeControl {
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getInfo( );
 
-        if( sizeof( $empInfo ) > 0 ) {
+        if( is_array( $empInfo ) && sizeof( $empInfo ) > 0 ) {
             $ltInfo = array_column( $this->LeaveTypeModel->getByUserID( $empInfo['userID'], 'ltID' ), 'ltID' );
             Control::setOutputArrayAppend( array( 'ltIDs' => $ltInfo ) );
         }

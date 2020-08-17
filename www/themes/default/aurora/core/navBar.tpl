@@ -8,7 +8,7 @@
     .btn-primary.active, .btn-primary:active,
     .open>.dropdown-toggle.btn-primary,.fc-button-active{background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?> !important; border-color: transparent !important; }
     .navbar-expand-md { background-color:#<?TPLVAR_MAIN_COLOR?> !important; }
-    .bg-purple-400:hover,.bg-grey-400:hover,.confirm:hover,.btn-primary:hover,.fc-button-primary:hover{background-color: #<?TPLVAR_BUTTON_HOVER_COLOR?> !important;}
+    .bg-purple-400:hover,.bg-grey-400:hover,.confirm:hover,.btn-primary:hover,.btn-link:hover,.fc-button-primary:hover{background-color: #<?TPLVAR_BUTTON_HOVER_COLOR?> !important;}
     .dropdown-menu>li.user-header { padding: 10px; text-align: center; color:#fff; background-color: #<?TPLVAR_BUTTON_FOCUS_COLOR?>; }
     .bootstrap-switch-handle-off.bootstrap-switch-primary, .bootstrap-switch-handle-on.bootstrap-switch-primary{background-color:#<?TPLVAR_BUTTON_COLOR?> !important;}
 </style>

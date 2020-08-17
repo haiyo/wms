@@ -37,7 +37,7 @@ class LeaveApplyControl {
         $empInfo = $EmployeeModel->getInfo( );
         $data = Control::getOutputArray( );
 
-        if( sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
+        if( is_array( $empInfo ) && sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
             sizeof( $data['leaveTypes'] ) > 0 ) {
             Control::setOutputArray( array( 'leaveTypes' => $this->LeaveApplyModel->getByUserLeaveTypeCurrYear( $empInfo['userID'], $data['leaveTypes'] ) ) );
         }

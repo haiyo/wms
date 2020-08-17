@@ -57,14 +57,17 @@ class AdminView extends SingletonHelper {
         $OfficeModel = OfficeModel::getInstance( );
         $officeInfo = $OfficeModel->getMainOffice( );
 
+        $currencyCode = isset( $officeInfo['currencyCode'] ) ? $officeInfo['currencyCode'] : 'SGD';
+        $currencySymbol = isset( $officeInfo['currencySymbol'] ) ? $officeInfo['currencySymbol'] : '$';
+
         $this->setJScript( array( 'aurora.noiframe' => 'aurora/aurora.noiframe.js',
                                   'jquery' => array( 'jquery-3.3.1.min.js', 'jquery-migrate-3.0.0.min.js' ),
                                   'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'notification.js',
                                                    'aurora.init.js.php?ROOT_URL=' . urlencode( ROOT_URL ) .
                                                    '&THEME=' . $this->HKEY_LOCAL['theme'] .
                                                    '&LANG=' . $this->i18n->getUserLang( ) .
-                                                   '&currency=' . $officeInfo['currencyCode'] .
-                                                                  $officeInfo['currencySymbol'] . $userID ),
+                                                   '&currency=' . $currencyCode .
+                                                   $currencySymbol . $userID ),
                                   'plugins/loaders' => array( 'blockui.min.js' ),
                                   'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                   'plugins/forms/selects' => array( 'bootstrap_multiselect.js', 'select2.min.js' ),
