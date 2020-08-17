@@ -188,22 +188,24 @@ class OfficeModel extends \Model {
             $Validator->validate( );
             $DayHelper = DayHelper::getL10nNumericValueList( );
             $this->info['days'] = 0;
-            $this->info['workDayFrom'] = 1;
 
-            if( isset( $DayHelper[$data['workDayTo']] ) ) {
+            if( isset( $data['workDayFrom'] ) && isset( $DayHelper[$data['workDayFrom']] ) ) {
+                $this->info['workDayFrom'] = $data['workDayFrom'];
+            }
+
+            if( isset( $data['workDayTo'] ) && isset( $DayHelper[$data['workDayTo']] ) ) {
                 $this->info['workDayTo'] = $data['workDayTo'];
             }
 
-            for( $i=$this->info['workDayFrom']; $i<$this->info['workDayTo']; $i++ ) {
-                $this->info['days']++;
+            if( isset( $this->info['workDayFrom'] ) && isset( $this->info['workDayTo'] ) ) {
+                for( $i=$this->info['workDayFrom']; $i<$this->info['workDayTo']; $i++ ) {
+                    $this->info['days']++;
+                }
             }
 
             if( isset( $data['halfDay'] ) ) {
                 $this->info['halfDay'] = 1;
                 $this->info['days'] += .5;
-            }
-            else {
-                $this->info['days']++;
             }
         }
         catch( ValidatorException $e ) {

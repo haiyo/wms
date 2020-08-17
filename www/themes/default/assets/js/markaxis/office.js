@@ -106,10 +106,12 @@ var MarkaxisOffice = (function( ) {
 
             $("#saveOffice").validate({
                 rules: {
-                    officeName: { required: true }
+                    officeName: { required: true },
+                    officeCountry: { required: true }
                 },
                 messages: {
-                    officeName: "Please enter a Office Name."
+                    officeName: "Please enter a Office Name.",
+                    officeCountry: "Please select country of operation."
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -178,6 +180,7 @@ var MarkaxisOffice = (function( ) {
 
 
         officeDelete: function( oID ) {
+            var that = this;
             var title = $("#officeTable-row" + oID).find("td").eq(1).text( );
 
             swal({

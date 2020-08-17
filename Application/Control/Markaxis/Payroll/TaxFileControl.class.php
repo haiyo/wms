@@ -33,12 +33,19 @@ class TaxFileControl {
      */
     public function taxfile( ) {
 
-        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassAuth?';
+        $endpoint = 'https://apisandbox.iras.gov.sg/iras/devportal/sb/Authentication/CorpPassAuth?';
+
+        // Registered callback
+        //https://staging.hrmscloud.net/admin/iras_sandbox
+        //https://hrmscloud.net/admin/iras_sandbox
+        //https://hrmscloud.net/admin/iras
+
+        //echo urlencode( 'https://staging.hrmscloud.net/admin/payroll/iras');
+        //exit;
 
         $fields = array(
-            'client_id' => urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
-            'client_secret' => urlencode('H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1'),
             'scope' => 'EmpIncomeSub',
+            'callback_url' => 'http%3A%2F%2Flocalhost%2Fwms%2Fadmin%2Fpayroll%2Firas%2F',
             'state' => 'dunno',
             'tax_agent' => 'false'
         );
@@ -53,14 +60,17 @@ class TaxFileControl {
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $endpoint . $fields_string,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => array( 'accept: application/json' )
+            //CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER => array( 'x-ibm-client-id: ' . urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
+                                         'x-ibm-client-secret: ' . urlencode('H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1'),
+                                         'content-type: application/json',
+                                         'accept: application/json' )
         ));
         $result = curl_exec($ch);
         $result = json_decode( $result );
 
-
         var_dump($result); exit;
+
 
         $this->TaxFileView->renderTaxFile( );
     }
