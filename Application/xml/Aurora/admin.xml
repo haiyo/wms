@@ -348,7 +348,7 @@
         <observer controller="Markaxis/Calendar/EventControl"></observer>
         <observer controller="Markaxis/Calendar/CalendarControl"></observer>
     </task>
-    <task type="calendar/saveEvent,calendar/getRecurs,calendar/updateEventDropDrag">
+    <task type="calendar/saveEvent,calendar/deleteEvent,calendar/getRecurs,calendar/updateEventDropDrag">
         <observer controller="Markaxis/Calendar/EventControl"></observer>
     </task>
     <task type="calendar">
