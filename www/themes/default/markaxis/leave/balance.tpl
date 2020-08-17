@@ -42,8 +42,8 @@
             <div class="card card-body" style="height:330px;">
                 <h6 class="font-weight-semibold mb-0 mt-1">Leave Actions</h6>
                 <a href="#" class="button-next btn btn-primary btn-next mt-20" data-toggle="modal" data-target="#modalApplyLeave">Apply Leave Now</a>
-                <h6 class="font-weight-semibold mb-10 mt-30">Useful Resources</h6>
-                <a href="" target="_blank" class="mt-10 ml-10"><i class="icon-file-text2"></i> Leave Policy Document</a>
+                <!--<h6 class="font-weight-semibold mb-10 mt-30">Useful Resources</h6>
+                <a href="" target="_blank" class="mt-10 ml-10"><i class="icon-file-text2"></i> Leave Policy Document</a>-->
             </div>
         </div>
     </div>

@@ -59,7 +59,8 @@ class EventModel extends \Model {
         $eventList = array( );
 
         if( isset( $info['user'] ) && isset( $info['start'] ) && isset( $info['end'] ) ) {
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
             $startDate = Date::parseDateTime( $info['start'] );
             $endDate = Date::parseDateTime( $info['end'] );
@@ -83,7 +84,8 @@ class EventModel extends \Model {
         $effective = array( );
 
         if( isset( $info['user'] ) && isset( $info['type'] ) && isset( $info['start'] ) && isset( $info['end'] ) ) {
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
             if( $info['user'] == 'owner' ) {
                 $eventInfo = $this->Event->getRecurs( $userInfo['userID'], $info['type'] );
@@ -218,7 +220,8 @@ class EventModel extends \Model {
             return false;
         }
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
@@ -263,7 +266,8 @@ class EventModel extends \Model {
     * @return bool
     */
     public function updateEventDropDrag( $post ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         if( isset( $post['eID'] ) ) {
             $info = array( );
@@ -283,38 +287,17 @@ class EventModel extends \Model {
 
 
     /**
-    * Delete an event
-    * @return bool
-    */
+     * Delete an event
+     * @return bool
+     */
     public function deleteEvent( $post ) {
-        if( $this->loadEvent( $post['eventID'] ) ) {
-            $calInfo = $this->getOwnerCal( );
+        if( isset( $post['eID'] ) ) {
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
-            $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
-
-            // if public
-            if( $calInfo['parentID'] == 1 ) {
-                if( !$Authorization->isAdmin( ) || $calInfo['userID'] != $this->userInfo['userID'] ) {
-                    $this->setErrMsg( $this->L10n->getContents('LANG_NO_PERM') );
-                    return false;
-                }
-                $perm = 'changeShare';
-            }
-            else {
-                $perm = $this->getCalPerm( $calInfo );
-            }
-
-            if( $perm == 'changeShare' ) {
-                $CalendarAttachmentModel = new CalendarAttachmentModel( );
-                $CalendarAttachmentModel->deleteAllFilesByEventID( );
-
-                $this->Calendar->delete( 'markaxis_event', 'WHERE eventID = "' . (int)$this->info['eventID'] . '" AND
-                                                            userID = "' . (int)$this->userInfo['userID'] . '"' );
-                return true;
-            }
+            $this->Event->delete( 'event', 'WHERE eID = "' . (int)$post['eID'] . '" AND
+                                                                userID = "' . (int)$userInfo['userID'] . '"' );
         }
-        $this->setErrMsg( $this->L10n->getContents('LANG_NO_PERM') );
-        return false;
     }
 
 

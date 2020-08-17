@@ -224,7 +224,7 @@ var MarkaxisCalendar = (function( ) {
             label.on("select2:select", function(e) {
                 var data = e.params.data;
                 var select = label.next().find(".select2-selection");
-                select.removeClass( "blue red gold green purple peach orange grey turquoise cyan yellow");
+                select.removeClass( "blue red gold green purple peach orange grey turquoise cyan yellow" );
                 select.addClass( data.element.value );
             });
 
@@ -238,6 +238,11 @@ var MarkaxisCalendar = (function( ) {
                 showMonthsShort: true,
                 ///disable:datesToDisable,
                 format:"dd mmm yyyy"
+            });
+
+            $("#deleteEvent").on("click", function ( ) {
+                that.deleteEvent( );
+                return false;
             });
 
             $("#saveEvent").on("click", function ( ) {
@@ -398,6 +403,7 @@ var MarkaxisCalendar = (function( ) {
                     var event = eventObj.event;
 
                     if( event.classNames.includes("birthday") ||
+                        event.classNames.includes("holiday") ||
                         event.classNames.includes("colleagues") ) {
                         return false;
                     }
@@ -458,7 +464,7 @@ var MarkaxisCalendar = (function( ) {
                     if( event.extendedProps.recurType != null ) {
                         $("#modalNote").removeClass("hide");
                     }
-
+                    $("#deleteEvent").removeClass("hide");
                     $("#eventModal").modal( );
                 },
                 select: function( info ) {
@@ -638,6 +644,51 @@ var MarkaxisCalendar = (function( ) {
         },
 
 
+        deleteEvent: function( ) {
+            var that = this;
+            var title = $("#title").val();
+            titleTxt = "Are you sure you want to delete event titled " + title + "?";
+            text  = "Event deleted will not be able to recover back.";
+            confirmButtonText = "Confirm Delete";
+
+            swal({
+                title: titleTxt,
+                text: text,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: confirmButtonText,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm === false) return;
+
+                $(".icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
+
+                var data = {
+                    bundle: {
+                        eID : $("#eID").val( )
+                    },
+                    success: function( res ) {
+                        var obj = $.parseJSON( res );
+                        if( obj.bool == 0 ) {
+                            swal("error", obj.errMsg);
+                            return;
+                        }
+                        else {
+                            that.calendar.removeAllEvents( );
+                            that.calendar.refetchEvents( );
+                            swal("Done!", title + " has been successfully deleted!", "success");
+                            $("#eventModal").modal("hide");
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX( "admin/calendar/deleteEvent", data );
+            });
+        },
+
+
         updateEvent: function( info ) {
             var that = this;
 
@@ -705,6 +756,7 @@ var MarkaxisCalendar = (function( ) {
             $("#reminder").val("").trigger("change");
             this.labelChange( "blue" );
 
+            $("#deleteEvent").addClass("hide");
             $("#modalNote").addClass("hide");
             $(".modal-footer .error").remove( );
         },

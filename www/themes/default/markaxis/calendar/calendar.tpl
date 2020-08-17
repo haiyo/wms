@@ -118,6 +118,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link hide" id="deleteEvent">Delete</button>
                         <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" id="saveEvent">Submit</button>
                     </div>
