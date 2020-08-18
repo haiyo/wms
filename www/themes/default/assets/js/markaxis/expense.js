@@ -56,6 +56,7 @@ var MarkaxisExpense = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalExpense .modal-title").text("Edit Expense Type");
                                 $("#eiID").val( obj.data.eiID );
                                 $("#expenseTitle").val( obj.data.title );
                                 $("#expenseAmount").val( obj.data.max_amount ).blur();
@@ -65,6 +66,7 @@ var MarkaxisExpense = (function( ) {
                     Aurora.WebService.AJAX( "admin/expense/getExpense/" + eiID, data );
                 }
                 else {
+                    $("#modalExpense .modal-title").text("Create New Expense Type");
                     $("#eiID").val(0);
                     $("#expenseTitle").val("");
                     $("#expenseAmount").val("");

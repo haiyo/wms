@@ -718,6 +718,7 @@
                             return;
                         }
                         else {
+                            $("#modalTaxGroup .modal-title").text("Edit Tax Group");
                             $("#tgID").val( obj.data.tgID );
                             $("#groupTitle").val( obj.data.title );
                             $("#groupDescription").val( obj.data.descript );
@@ -728,6 +729,7 @@
                 Aurora.WebService.AJAX( "admin/payroll/getTaxGroup/" + tgID, data );
             }
             else {
+                $("#modalTaxGroup .modal-title").text("Create New Tax Group");
                 $("#tgID").val(0);
                 $("#groupTitle").val("");
                 $("#groupDescription").val("");
@@ -848,6 +850,7 @@
                             return;
                         }
                         else {
+                            $("#modalTaxRule .modal-title").text("Edit Tax Rule");
                             $("#trID").val( obj.data.trID );
                             $("#ruleTitle").val( obj.data.title );
                             $("#group").val( obj.data.tgID ).trigger("change");
@@ -954,6 +957,7 @@
                 Aurora.WebService.AJAX( "admin/payroll/getTaxRule/" + trID, data );
             }
             else {
+                $("#modalTaxRule .modal-title").text("Create New Tax Rule");
                 $("#trID").val(0);
                 $("#ruleTitle").val("");
                 $("#group").val(0).trigger("change");

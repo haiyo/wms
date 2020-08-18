@@ -57,6 +57,7 @@ var MarkaxisDepartment = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalDepartment .modal-title").text("Edit Department");
                                 $("#departmentID").val( obj.data.dID );
                                 $("#departmentName").val( obj.data.name );
                                 that.markaxisUSuggest.getSuggestToken("admin/company/getSuggestToken/" + obj.data.dID);
@@ -66,6 +67,7 @@ var MarkaxisDepartment = (function( ) {
                     Aurora.WebService.AJAX( "admin/company/getDepartment/" + dID, data );
                 }
                 else {
+                    $("#modalDepartment .modal-title").text("Create New Department");
                     $("#departmentID").val(0);
                     $("#departmentName").val("");
                 }

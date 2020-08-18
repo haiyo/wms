@@ -62,6 +62,7 @@ var MarkaxisOffice = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalOffice .modal-title").text("Edit Office");
                                 $("#officeID").val( obj.data.oID );
                                 $("#officeName").val( obj.data.officeName );
                                 $("#officeAddress").val( obj.data.address );
@@ -80,6 +81,7 @@ var MarkaxisOffice = (function( ) {
                     Aurora.WebService.AJAX( "admin/company/getOffice/" + oID, data );
                 }
                 else {
+                    $("#modalOffice .modal-title").text("Create New Office");
                     $("#officeID").val(0);
                     $("#officeName").val("");
                     $("#officeAddress").val("");
@@ -181,7 +183,7 @@ var MarkaxisOffice = (function( ) {
 
         officeDelete: function( oID ) {
             var that = this;
-            var title = $("#officeTable-row" + oID).find("td").eq(1).text( );
+            var title = $("#officeTable-row" + oID).find("td").eq(0).text( );
 
             swal({
                 title: "Are you sure you want to delete " + title + "?",

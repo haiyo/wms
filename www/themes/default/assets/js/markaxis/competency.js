@@ -61,6 +61,7 @@ var MarkaxisCompetency = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalCompetency .modal-title").text("Edit Competency");
                                 $("#competencyID").val( obj.data.cID );
                                 $("#competency").val( obj.data.competency );
                                 $("#competencyDescript").val( obj.data.descript );
@@ -70,6 +71,7 @@ var MarkaxisCompetency = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getCompetency/" + cID, data );
                 }
                 else {
+                    $("#modalCompetency .modal-title").text("Create New Competency");
                     $("#competencyID").val(0);
                     $("#competency").val("");
                     $("#competencyDescript").val("");

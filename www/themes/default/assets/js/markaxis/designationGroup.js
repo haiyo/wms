@@ -57,6 +57,7 @@ var MarkaxisDesignationGroup = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalGroup .modal-title").text("Edit Group");
                                 $("#groupID").val( obj.data.dID );
                                 $("#groupTitle").val( obj.data.title );
                             }
@@ -65,6 +66,7 @@ var MarkaxisDesignationGroup = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getDesignation/" + dID, data );
                 }
                 else {
+                    $("#modalGroup .modal-title").text("Create New Group");
                     $("#groupID").val(0);
                     $("#groupTitle").val("");
                 }
