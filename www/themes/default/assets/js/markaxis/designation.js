@@ -70,6 +70,7 @@ var MarkaxisDesignation = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalDesignation .modal-title").text("Edit Designation");
                                 $("#designationID").val( obj.data.dID );
                                 $("#designationTitle").val( obj.data.title );
                                 $("#designationDescript").val( obj.data.descript );
@@ -80,6 +81,7 @@ var MarkaxisDesignation = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getDesignation/" + dID, data );
                 }
                 else {
+                    $("#modalDesignation .modal-title").text("Create New Designation");
                     $("#designationID").val(0);
                     $("#designationTitle").val("");
                     $("#designationDescript").val("");

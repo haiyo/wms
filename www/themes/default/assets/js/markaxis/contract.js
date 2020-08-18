@@ -60,6 +60,7 @@ var MarkaxisContract = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalContract .modal-title").text("Edit Contract");
                                 $("#contractID").val( obj.data.cID );
                                 $("#contractTitle").val( obj.data.type );
                                 $("#contractDescript").val( obj.data.descript );
@@ -69,6 +70,7 @@ var MarkaxisContract = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getContract/" + cID, data );
                 }
                 else {
+                    $("#modalContract .modal-title").text("Create New Contract");
                     $("#contractID").val(0);
                     $("#contractTitle").val("");
                     $("#contractDescript").val("");

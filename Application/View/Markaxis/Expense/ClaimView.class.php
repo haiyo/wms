@@ -164,7 +164,7 @@ class ClaimView {
                                                     'TPLVAR_TIME_AGO' => $created,
                                                     'TPLVAR_ID' => $row['ecID'],
                                                     'TPLVAR_GROUP_NAME' => 'claim',
-                                                    'TPLVAR_CLASS' => 'claimAction',
+                                                    'TPLVAR_CLASS' => 'claimCancel',
                                                     'TPLVAR_TITLE' => $row['itemTitle'],
                                                     'TPLVAR_DESCRIPTION' => $row['descript'],
                                                     'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],

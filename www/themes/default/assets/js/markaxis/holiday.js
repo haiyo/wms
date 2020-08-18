@@ -70,6 +70,7 @@ var MarkaxisHoliday = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalHoliday .modal-title").text("Edit Holiday");
                                 $("#hID").val( obj.data.hID );
                                 $("#holidayTitle").val( obj.data.title );
                                 $("#date").val( obj.data.date );
@@ -90,6 +91,7 @@ var MarkaxisHoliday = (function( ) {
                     Aurora.WebService.AJAX( "admin/leave/getHoliday/" + hID, data );
                 }
                 else {
+                    $("#modalHoliday .modal-title").text("Create Custom Holiday");
                     $("#hID").val(0);
                     $("#holidayTitle").val("");
                     $("#date").val("");

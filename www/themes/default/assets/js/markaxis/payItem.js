@@ -70,6 +70,7 @@ var MarkaxisPayItem = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalPayItem .modal-title").text("Edit Pay Item");
                                 $("#piID").val( obj.data.piID );
                                 $("#payItemTitle").val( obj.data.title );
 
@@ -94,6 +95,7 @@ var MarkaxisPayItem = (function( ) {
                     Aurora.WebService.AJAX( "admin/payroll/getPayItem/" + piID, data );
                 }
                 else {
+                    $("#modalPayItem .modal-title").text("Create New Pay Item");
                     $("#payItemTitle").val("")
                 }
             });

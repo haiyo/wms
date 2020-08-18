@@ -172,6 +172,7 @@ var AuroraNewsAnnouncement = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalNA .modal-title").text("Edit Content");
                                 $("#naID").val( obj.data.naID );
                                 $("#contentType").val( obj.data.isNews ).trigger("change");
                                 $("#naTitle").val( obj.data.title );
@@ -182,6 +183,7 @@ var AuroraNewsAnnouncement = (function( ) {
                     Aurora.WebService.AJAX( "admin/newsAnnouncement/getContent/" + naID, data );
                 }
                 else {
+                    $("#modalNA .modal-title").text("Create New Content");
                     $("#naID").val(0);
                     $("#contentType").val("").trigger("change");
                     $("#naTitle").val("");

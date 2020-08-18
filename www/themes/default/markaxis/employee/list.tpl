@@ -7,13 +7,13 @@
                 <a type="button" class="btn bg-purple-400 btn-labeled" href="<?TPLVAR_ROOT_URL?>admin/user/add">
                     <b><i class="icon-user-plus"></i></b> <?LANG_ADD_NEW_EMPLOYEE?></a>&nbsp;&nbsp;&nbsp;
                 <!-- END DYNAMIC BLOCK: addEmployeeBtn -->
-                <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <!--<button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
                     <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-user-plus"></i> Import Employee (CSV/Excel)</a></li>
                     <li><a href="<?TPLVAR_ROOT_URL?>admin/employee/upload"><i class="icon-cloud-download2"></i> Export All Employee Info</a></li>
-                </ul>
+                </ul>-->
             </li>
         </ul>
     </div>

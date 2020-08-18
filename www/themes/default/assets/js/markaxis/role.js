@@ -70,6 +70,7 @@ var MarkaxisRole = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalRole .modal-title").text("Edit Role");
                                 $("#roleID").val( obj.data.roleID );
                                 $("#roleTitle").val( obj.data.title );
                                 $("#roleDescript").val( obj.data.descript );
@@ -79,6 +80,7 @@ var MarkaxisRole = (function( ) {
                     Aurora.WebService.AJAX( "admin/role/getRole/" + roleID, data );
                 }
                 else {
+                    $("#modalRole .modal-title").text("Create New Role");
                     $("#roleID").val(0);
                     $("#roleTitle").val("");
                     $("#roleDescript").val("");

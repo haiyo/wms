@@ -110,6 +110,7 @@ var MarkaxisClaim = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalClaim .modal-title").text("Edit Claim");
                                 $("#ecID").val( obj.data.ecID )
                                 $("#expense").val( obj.data.eiID ).trigger("change");
                                 $("#claimDescript").val( obj.data.descript );
@@ -123,6 +124,7 @@ var MarkaxisClaim = (function( ) {
                     Aurora.WebService.AJAX( "admin/expense/getClaim/" + ecID, data );
                 }
                 else {
+                    $("#modalClaim .modal-title").text("Create New Claim");
                     $("#ecID").val(0);
                     $("#claimDescript").val("");
                     $("#claimAmount").val("");
@@ -211,9 +213,9 @@ var MarkaxisClaim = (function( ) {
                         $("#list-" + ecID).fadeOut("slow", function( ) {
                             $(this).remove( );
 
-                            if( $(".pendingList").length == 0 ) {
+                            if( $(".requestList").length == 0 ) {
                                 $("#tableRequest").remove( );
-                                $("#noPendingAction").show( );
+                                $("#noRequest").show( );
                             }
                             else if( $(".claimAction").length == 0 ) {
                                 $("#group-claim").remove( );
@@ -229,11 +231,11 @@ var MarkaxisClaim = (function( ) {
 
         claimCancel: function( ecID ) {
             var that = this;
-            var title = $("#claim" + ecID).text( );
+            var title = $("#list-" + ecID + " > td:first-child > span").text( );
 
             swal({
                 title: "Are you sure you want to cancel the claim " + title + "?",
-                text: "Description: " + $("#claimDescript" + ecID).text( ),
+                text: "This action cannot be undone once cancelled",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -254,7 +256,22 @@ var MarkaxisClaim = (function( ) {
                             return;
                         }
                         else {
-                            that.table.ajax.reload();
+                            if( $("#list-" + ecID).length > 0 ) {
+                                $("#list-" + ecID).fadeOut("slow", function( ) {
+                                    $(this).remove();
+
+                                    if( $(".requestList").length == 0 ) {
+                                        $("#tableRequest").remove( );
+                                        $("#noRequest").show( );
+                                    }
+                                    else if( $(".claimAction").length == 0 ) {
+                                        $("#group-claim").remove( );
+                                    }
+                                });
+                            }
+                            else {
+                                that.table.ajax.reload();
+                            }
                             swal("Done!", title + " has been successfully cancelled!", "success");
                             return;
                         }

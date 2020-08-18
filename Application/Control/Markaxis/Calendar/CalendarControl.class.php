@@ -44,5 +44,19 @@ class CalendarControl {
         $date = getdate( time( ) );
         $this->CalendarView->printAll( $this->CalendarView->renderCalendar( $date ) );
 	}
+
+
+    /**
+     * Get a single event
+     * @return void
+     */
+    public function getEvents( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['events'] ) ) {
+            echo json_encode( $data['events'] );
+            exit;
+        }
+    }
 }
 ?>

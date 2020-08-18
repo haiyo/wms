@@ -84,6 +84,7 @@ var MarkaxisPayCal = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalAddPayCal .modal-title").text("Edit Pay Calendar");
                                 $("#pcID").val( obj.data.pcID );
                                 $("#payPeriod").val( obj.data.payPeriod ).trigger("change");
                                 $("#title").val( obj.data.title );
@@ -100,6 +101,7 @@ var MarkaxisPayCal = (function( ) {
                     Aurora.WebService.AJAX( "admin/payroll/getPayCal/" + pcID, data );
                 }
                 else {
+                    $("#modalAddPayCal .modal-title").text("Create New Pay Calendar");
                     $("#pcID").val(0);
                     $("#title").val("");
                     $("#payPeriod").val("month").trigger("change");

@@ -465,6 +465,7 @@ var MarkaxisCalendar = (function( ) {
                         $("#modalNote").removeClass("hide");
                     }
                     $("#deleteEvent").removeClass("hide");
+                    $("#eventModal .modal-title").text("Edit Event");
                     $("#eventModal").modal( );
                 },
                 select: function( info ) {
@@ -758,6 +759,7 @@ var MarkaxisCalendar = (function( ) {
 
             $("#deleteEvent").addClass("hide");
             $("#modalNote").addClass("hide");
+            $("#eventModal .modal-title").text("Create New Event");
             $(".modal-footer .error").remove( );
         },
 

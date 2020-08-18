@@ -159,6 +159,7 @@ var MarkaxisLOA = (function( ) {
                                 return;
                             }
                             else {
+                                $("#modalLOA .modal-title").text("Edit LOA");
                                 $("#loaID").val( obj.data.loaID );
                                 //$("#designation").val( obj.data.designationID ).trigger("change");
 
@@ -176,6 +177,7 @@ var MarkaxisLOA = (function( ) {
                     Aurora.WebService.AJAX( "admin/loa/getContent/" + loaID, data );
                 }
                 else {
+                    $("#modalLOA .modal-title").text("Create New LOA");
                     $("#loaID").val(0);
                     $("#designation").val("").trigger("change");
                     CKEDITOR.instances.loaContent.setData("");
