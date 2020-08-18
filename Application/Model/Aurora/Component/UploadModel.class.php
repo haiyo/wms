@@ -2,6 +2,7 @@
 namespace Aurora\Component;
 use \Library\Http\HttpResponse, \Library\IO\File;
 use \Library\Exception\Aurora\PageNotFoundException;
+use \Library\Util\ImageManipulation;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -22,8 +23,7 @@ class UploadModel extends \Model {
      * @return void
      */
     function __construct() {
-        parent::__construct();
-        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+        parent::__construct( );
 
         $this->Upload = new Upload( );
     }
@@ -70,9 +70,20 @@ class UploadModel extends \Model {
      * @return int
      */
     public function view( $args ) {
-        if( isset( $args[1] ) && isset( $args[2] ) ) {
-            if( $fileInfo = $this->getByUIDHashName( $args[1], $args[2] ) ) {
-                $filename = UPLOAD_DIR . $fileInfo['hashDir'] . '/' . $fileInfo['hashName'];
+        if( isset( $args[1] ) && isset( $args[2] ) && isset( $args[3] ) ) {
+            if( $fileInfo = $this->getByUIDHashName( $args[2], $args[3] ) ) {
+                $dir = '';
+
+                switch( $args[1] ) {
+                    case 'leave' :
+                    $dir = USER_LEAVE_DIR;
+                    break;
+
+                    case 'claim' :
+                    $dir = USER_CLAIM_DIR;
+                    break;
+                }
+                $filename = $dir . $fileInfo['hashDir'] . '/' . $fileInfo['hashName'];
 
                 if( file_exists( $filename ) ) {
                     $mimeType = File::getType( $filename );
@@ -90,6 +101,22 @@ class UploadModel extends \Model {
             }
         }
         throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+    }
+
+
+    /**
+     * Process Image Resize
+     * @return void
+     */
+    public function processResize( $fileInfo ) {
+        $info = explode( '.', $fileInfo['hashName'] );
+        $fileInfo['thumbnail']  = $fileInfo['uploadDir'] . '/' . $info[0] . '_thumbnail.'  . $info[1];
+
+        $ImageManipulation = new ImageManipulation( $this->Registry->get( HKEY_LOCAL, 'imageLib' ) );
+        $ImageManipulation->autoRotate( $fileInfo['uploadDir'] . $fileInfo['hashName'] );
+
+        $ImageManipulation->copyResized( $fileInfo['uploadDir'] . $fileInfo['hashName'], $fileInfo['thumbnail'],
+                                        ImageManipulation::THUMBNAIL_WIDTH, ImageManipulation::THUMBNAIL_HEIGHT, false );
     }
 
 

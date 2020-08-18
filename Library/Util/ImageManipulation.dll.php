@@ -14,6 +14,9 @@ class ImageManipulation {
     // Properties
     private $engine;
 
+    const THUMBNAIL_WIDTH  = 32;
+    const THUMBNAIL_HEIGHT = 32;
+
 
     /**
     * Constructor
@@ -79,15 +82,17 @@ class ImageManipulation {
         if( $exif === false ) {
             return false;
         }
-      	$orientation  = (int)@$exif['Orientation'];
-        $acceptOrient = array( 3 => 180, 6 => 270, 8 => 90 );
-        
-        if( isset( $acceptOrient[$orientation] ) ) {
-            $saveAs = $saveAs ? $saveAs : $file;
-            
-            if( $this->engine == 'gd' ) {
-                $GD = new GD( );
-                $GD->rotate( $file, $saveAs, $acceptOrient[$orientation] );
+        if( isset( $exif['Orientation'] ) ) {
+            $orientation  = (int)@$exif['Orientation'];
+            $acceptOrient = array( 3 => 180, 6 => 270, 8 => 90 );
+
+            if( isset( $acceptOrient[$orientation] ) ) {
+                $saveAs = $saveAs ? $saveAs : $file;
+
+                if( $this->engine == 'gd' ) {
+                    $GD = new GD( );
+                    $GD->rotate( $file, $saveAs, $acceptOrient[$orientation] );
+                }
             }
         }
     }

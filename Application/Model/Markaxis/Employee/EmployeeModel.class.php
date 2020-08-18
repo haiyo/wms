@@ -87,7 +87,8 @@ class EmployeeModel extends \Model {
         $exclude = '';
 
         if( !$includeOwn ) {
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
             $exclude = $userInfo['userID'];
         }
         $row = $this->Employee->getList( $q, $departmentID, $designationID, $exclude );
@@ -378,7 +379,8 @@ class EmployeeModel extends \Model {
 
             $AuditLogModel = new AuditLogModel( );
 
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
             $info['fromUserID'] = $userInfo['userID'];
             $info['toUserID'] = $post['userID'];

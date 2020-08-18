@@ -76,7 +76,8 @@ class ClaimView {
      * @return mixed
      */
     public function renderPendingAction( ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $pendingAction = $this->ClaimModel->getPendingAction( $userInfo['userID'] );
 
@@ -88,8 +89,8 @@ class ClaimView {
 
                 $attachment = '';
                 if( $row['uID'] ) {
-                    $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/' . $row['uID'] .
-                                    '/' . $row['hashName'] . '">' . $row['uploadName'] . '</a>';
+                    $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/claim/' . $row['uID'] .
+                                    '/' . $row['hashName'] . '"><i class="icon-attachment text-grey-300 mr-3"></i> ' . $row['uploadName'] . '</a>';
                 }
                 $UserImageModel = UserImageModel::getInstance( );
 
@@ -107,6 +108,72 @@ class ClaimView {
 
                 return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return mixed
+     */
+    public function renderRequest( $request ) {
+        if( is_array( $request ) ) {
+            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+
+            foreach( $request as $row ) {
+                $created = Date::timeSince( $row['created'] );
+
+                if( $row['status'] == 0 ) {
+                    $label = 'pending';
+                    $status = $this->L10n->getContents('LANG_PENDING');
+                }
+                else if( $row['status'] == 1 ) {
+                    $label = 'success';
+                    $status = $this->L10n->getContents('LANG_APPROVED');
+                }
+                else {
+                    $label = 'danger';
+                    $status = $this->L10n->getContents('LANG_UNAPPROVED');
+                }
+
+                $managers = '';
+
+                if( isset( $row['managers'] ) ) {
+                    foreach( $row['managers'] as $manager ) {
+                        if( $manager['approved'] == 0 ) {
+                            $managers .= '<i class="icon-watch2 text-grey-300 mr-3"></i>';
+                        }
+                        else if( $manager['approved'] == 1 ) {
+                            $managers .= '<i class="icon-checkmark4 text-green-800 mr-3"></i>';
+                        }
+                        else if( $manager['approved'] == "-1" ) {
+                            $managers .= '<i class="icon-cross2 text-warning-800 mr-3"></i>';
+                        }
+                        $managers .= $manager['name'] . '<br />';
+                    }
+                }
+
+                $attachment = '';
+                if( $row['uID'] ) {
+                    $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/claim/' . $row['uID'] .
+                        '/' . $row['hashName'] . '"><i class="icon-attachment text-grey-300 mr-3"></i> ' . $row['uploadName'] . '</a>';
+                }
+
+                $vars['dynamic']['list'][] = array( 'TPLVAR_FNAME' => $row['fname'],
+                                                    'TPLVAR_LNAME' => $row['lname'],
+                                                    'TPLVAR_TIME_AGO' => $created,
+                                                    'TPLVAR_ID' => $row['ecID'],
+                                                    'TPLVAR_GROUP_NAME' => 'claim',
+                                                    'TPLVAR_CLASS' => 'claimAction',
+                                                    'TPLVAR_TITLE' => $row['itemTitle'],
+                                                    'TPLVAR_DESCRIPTION' => $row['descript'],
+                                                    'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
+                                                    'TPLVAR_LABEL' => $label,
+                                                    'TPLVAR_MANAGER' => $managers,
+                                                    'TPLVAR_ATTACHMENT' => $attachment,
+                                                    'LANG_STATUS' => $status );
+            }
+            return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );
         }
     }
 }

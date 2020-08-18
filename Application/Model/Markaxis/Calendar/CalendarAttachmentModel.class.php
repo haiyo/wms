@@ -16,9 +16,6 @@ class CalendarAttachmentModel extends \Model {
     protected $fileInfo;
     protected $uploadPath;
 
-    const THUMBNAIL_WIDTH  = 32;
-    const THUMBNAIL_HEIGHT = 32;
-
 
     /**
     * CalendarAttachmentModel Constructor
@@ -151,22 +148,6 @@ class CalendarAttachmentModel extends \Model {
         }*/
         return true;
 	}
-
-
-    /**
-    * Process Image Resize
-    * @return void
-    */
-    public function processResize( ) {
-        $fileInfo = explode( '.', $this->fileInfo['hashName'] );
-        $this->fileInfo['thumbnail']  = $this->fileInfo['dir'] . '/' . $fileInfo[0] . '_thumbnail.'  . $fileInfo[1];
-
-        $ImageManipulation = new ImageManipulation( $this->Registry->get( HKEY_LOCAL, 'imageLib' ) );
-        $ImageManipulation->autoRotate( $this->uploadPath . $this->fileInfo['dir'] . '/' . $this->fileInfo['hashName'] );
-        $ImageManipulation->copyResized( $this->uploadPath . $this->fileInfo['dir'] . '/' . $this->fileInfo['hashName'],
-                                         $this->uploadPath . $this->fileInfo['thumbnail'],
-                                         self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT, false );
-    }
 
 
     /**

@@ -93,7 +93,8 @@ class DashboardView {
         $CompanyModel = CompanyModel::getInstance( );
         $companyInfo = $CompanyModel->getInfo( );
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $UserImageModel = UserImageModel::getInstance( );
 
         $vars = array_merge( $this->L10n->getContents( ),

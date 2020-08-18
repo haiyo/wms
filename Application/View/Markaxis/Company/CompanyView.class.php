@@ -37,13 +37,13 @@ class CompanyView {
 
         $this->View->setStyle( array( 'core' => 'croppie' ) );
 
-        $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js' ),
-                                        'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
+        $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
                                                                   'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js', 'jscolor.js' ),
                                         'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
                                         'pages' => 'wizard_stepy.js',
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'markaxis' => 'company.js' ) );
     }
 
 

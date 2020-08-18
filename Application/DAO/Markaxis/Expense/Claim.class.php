@@ -146,6 +146,34 @@ class Claim extends \DAO {
 
 
     /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getRequest( $userID ) {
+        $sql = $this->DB->select( 'SELECT ec.*, ei.title AS itemTitle, u.userID, u.fname, u.lname, 
+                                          up.name AS uploadName, up.hashName, c.currencyCode, c.currencySymbol
+                                   FROM expense_claim ec
+                                   LEFT JOIN expense_item ei ON ( ei.eiID = ec.eiID )
+                                   LEFT JOIN user u ON ( u.userID = ec.userID )
+                                   LEFT JOIN upload up ON ( up.uID = ec.uID )
+                                   LEFT JOIN country c ON ( c.cID = u.countryID )
+                                   WHERE ec.userID = "' . (int)$userID . '" AND 
+                                         ec.status = "0" AND
+                                         ec.cancelled <> "1"
+                                   ORDER BY ec.created desc',
+                                   __FILE__, __LINE__ );
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

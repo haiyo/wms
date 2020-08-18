@@ -45,10 +45,11 @@ class Uploader {
             $this->options = array_replace_recursive( $this->options, $options );
         }
 
-        if( !$this->options['uploadDir'] ) {
-            $this->options['hashDir'] = MD5( date('Y-m-d') );
-            $this->options['uploadDir'] = UPLOAD_DIR . $this->options['hashDir'] . '/';
-            File::createDir( $this->options['uploadDir'] );
+        $this->options['hashDir'] = MD5( date('Y-m-d') );
+        $this->fileInfo['uploadDir'] = $this->options['uploadDir'] . $this->options['hashDir'] . '/';
+
+        if( !is_dir( $this->fileInfo['uploadDir'] ) ) {
+            File::createDir( $this->fileInfo['uploadDir'] );
         }
     }
     
@@ -148,7 +149,7 @@ class Uploader {
         $this->fileInfo['name'] = $this->trimFileName( $this->fileInfo['name'], $this->fileInfo['type'] );
         $this->fileInfo['hashDir'] = $this->options['hashDir'];
         $this->fileInfo['isImage'] = preg_match( '/([^\s]+(\.(?i)(jpg|png|gif|bmp))$)/', $this->fileInfo['name'] );
-        File::createDir( $this->options['uploadDir'] . $this->options['tmpFolder'] );
+        File::createDir( $this->fileInfo['uploadDir'] . $this->options['tmpFolder'] );
         return true;
     }
     
@@ -158,7 +159,7 @@ class Uploader {
     * @return bool
     */
     public function upload( ) {
-        $filePath = $this->options['uploadDir'] . $this->options['tmpFolder'] . $this->fileInfo['name'];
+        $filePath = $this->fileInfo['uploadDir'] . $this->options['tmpFolder'] . $this->fileInfo['name'];
         $appendFile = !$this->options['discardAbort'] && is_file( $filePath ) && $this->fileInfo['size'] > filesize( $filePath );
         clearstatcache( );
 
@@ -183,8 +184,8 @@ class Uploader {
                 $this->fileInfo['hashName'] = MD5( microtime( ) . $salt ) . '.' . pathinfo( $this->fileInfo['name'], PATHINFO_EXTENSION );
 
 
-                rename( $filePath, $this->options['uploadDir'] . $this->fileInfo['hashName'] );
-                File::removeDir( $this->options['uploadDir'] . $this->options['tmpFolder'] );
+                rename( $filePath, $this->fileInfo['uploadDir'] . $this->fileInfo['hashName'] );
+                File::removeDir( $this->fileInfo['uploadDir'] . $this->options['tmpFolder'] );
                 $this->fileInfo['success'] = 2;
                 return true;
             }

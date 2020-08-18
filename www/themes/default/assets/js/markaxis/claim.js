@@ -182,7 +182,7 @@ var MarkaxisClaim = (function( ) {
                             else {
                                 $("#ecID").val(obj.data.ecID);
 
-                                if( fileSelected ) {
+                                if( that.fileSelected ) {
                                     that.fileInput.fileinput("upload");
                                 }
                                 else {
@@ -229,11 +229,11 @@ var MarkaxisClaim = (function( ) {
 
         claimCancel: function( ecID ) {
             var that = this;
-            var title = $("#claim" + id).text( );
+            var title = $("#claim" + ecID).text( );
 
             swal({
                 title: "Are you sure you want to cancel the claim " + title + "?",
-                text: "Description: " + $("#claimDescript" + id).text( ),
+                text: "Description: " + $("#claimDescript" + ecID).text( ),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -364,7 +364,7 @@ var MarkaxisClaim = (function( ) {
                     render: function( data, type, full, meta ) {
                         if( data ) {
                             return '<div class="text-ellipsis"><a target="_blank" href="' + Aurora.ROOT_URL +
-                                'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">' + data + '</a></div>';
+                                'admin/file/view/claim/' + full['uID'] + '/' + full['hashName'] + '">' + data + '</a></div>';
                         }
                         else {
                             return '';

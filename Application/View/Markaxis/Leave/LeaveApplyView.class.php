@@ -149,7 +149,8 @@ class LeaveApplyView {
      * @return mixed
      */
     public function renderPendingAction( ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $pendingAction = $this->LeaveApplyModel->getPendingAction( $userInfo['userID'] );
 
@@ -161,17 +162,22 @@ class LeaveApplyView {
 
                 $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
 
+                $pdVars['dynamic']['reason'] = false;
+
                 if( $row['reason'] ) {
                     $pdVars['dynamic']['reason'][] = array( 'TPLVAR_REASON' => $row['reason'] );
-                }
-                else {
-                    $pdVars['dynamic']['reason'] = false;
                 }
                 $pdVars['TPLVAR_START_DATE'] = $row['startDate'];
                 $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
                 $reason = $this->View->render( 'markaxis/leave/pending_description.tpl', $pdVars );
 
                 $UserImageModel = UserImageModel::getInstance( );
+
+                $attachment = '';
+                if( $row['uID'] ) {
+                    $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/leave/' . $row['uID'] .
+                                    '/' . $row['hashName'] . '"><i class="icon-attachment text-grey-300 mr-3"></i> ' . $row['uploadName'] . '</a>';
+                }
 
                 $vars['dynamic']['list'][] = array( 'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $row['userID'] ),
                                                     'TPLVAR_FNAME' => $row['fname'],
@@ -183,7 +189,7 @@ class LeaveApplyView {
                                                     'TPLVAR_TITLE' => $row['name'] . ' (' . $row['code'] . ')',
                                                     'TPLVAR_DESCRIPTION' => $reason,
                                                     'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
-                                                    'TPLVAR_ATTACHMENT' => '' );
+                                                    'TPLVAR_ATTACHMENT' => $attachment );
 
                 return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }

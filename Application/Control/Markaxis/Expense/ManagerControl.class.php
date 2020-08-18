@@ -56,6 +56,22 @@ class ManagerControl {
      * Render main navigation
      * @return string
      */
+    public function getRequest( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['claim'] ) ) {
+            $data['claim'] = $this->ManagerModel->getRequest( $data['claim'] );
+
+            $ClaimView = new ClaimView( );
+            Control::setOutputArrayAppend( array( 'request' => $ClaimView->renderRequest( $data['claim'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function setClaimAction( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
