@@ -100,6 +100,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Leave Request';
         $this->contents['LANG_FROM'] = 'From';
         $this->contents['LANG_TO'] = 'To';
+        $this->contents['LANG_ATTACHMENT'] = 'Attachment';
         $this->contents['LANG_CREATE_CUSTOM_HOLIDAY'] = 'Create Custom Holiday';
         $this->contents['LANG_PROVIDE_ALL_REQUIRED_FIELDS'] = 'Please provide all required fields.';
     }

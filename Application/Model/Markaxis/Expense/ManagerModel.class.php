@@ -83,11 +83,26 @@ class ManagerModel extends \Model implements IObservable {
 
 
     /**
+     * Get File Information
+     * @return mixed
+     */
+    public function getRequest( $list ) {
+        if( is_array( $list ) ) {
+            foreach( $list as $key => $value ) {
+                $list[$key]['managers'] = $this->Manager->getByEcID( $value['ecID'] );
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Render main navigation
      * @return bool
      */
     public function setClaimAction( $data ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         if( isset( $data['ecID'] ) && $this->isFound( $data['ecID'], $userInfo['userID'] ) ) {
             $info = array( );

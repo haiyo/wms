@@ -17,11 +17,11 @@
     </td>
     <td>
         <span class="text-semibold"><?TPLVAR_TITLE?></span>
+        <div class="display-block text-muted text-ellipsis"><?TPLVAR_ATTACHMENT?></div>
         <span class="display-block text-muted"><?TPLVAR_DESCRIPTION?></span>
     </td>
     <td style="width:15%">
         <span class="text-semibold"><?TPLVAR_VALUE?></span>
-        <div class="display-block text-muted text-ellipsis"><?TPLVAR_ATTACHMENT?></div>
     </td>
     <td class="text-center" style="width:80px">
         <ul class="icons-list">

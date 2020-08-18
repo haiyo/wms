@@ -110,7 +110,8 @@ class NewsAnnouncementModel extends \Model {
         $Validator->addModule('title', new IsEmpty( $this->info['title'] ) );
         $Validator->addModule('content', new IsEmpty( $this->info['content'] ) );
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $this->info['userID'] = $userInfo['userID'];
         $this->info['isNews'] = $data['contentType'] == 'news' ? 1 : 0;

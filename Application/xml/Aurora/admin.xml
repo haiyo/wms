@@ -13,6 +13,7 @@
     <task type="dashboard">
         <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Expense/ManagerControl"></observer>
         <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
         <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Leave/ManagerControl"></observer>
@@ -372,7 +373,7 @@
     <task type="leave/getHolidayResults,leave/getHoliday,leave/saveHoliday,leave/deleteHoliday">
         <observer controller="Markaxis/Leave/HolidayControl"></observer>
     </task>
-    <task type="file">
+    <task type="file/view">
         <observer controller="Aurora/Component/UploadControl"></observer>
     </task>
     <task type="alumni">

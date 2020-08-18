@@ -53,7 +53,8 @@ class PageTabView extends AdminView {
             $pages   = array_reverse( $pages );
             $gotPage = false;
 
-            $userInfo = UserModel::getInstance( )->getInfo( );
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
             $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
             
             $vars['dynamic']['newPage'] = false;

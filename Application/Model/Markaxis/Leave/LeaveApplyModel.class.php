@@ -119,7 +119,8 @@ class LeaveApplyModel extends \Model {
      * @return int
      */
     public function getRequest( ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         return $this->LeaveApply->getRequest( $userInfo['userID'] );
     }
@@ -213,7 +214,8 @@ class LeaveApplyModel extends \Model {
      * @return int
      */
     public function cancel( $laID ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         $this->LeaveApply->update('leave_apply', array( 'cancelled' => 1 ),
                                   'WHERE laID = "' . (int)$laID . '" AND userID = "' . $userInfo['userID'] . '"' );
@@ -319,26 +321,29 @@ class LeaveApplyModel extends \Model {
      * @return bool
      */
     public function uploadSuccess( $laID, $file ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         if( $this->isFoundByLaIDUserID( $laID, $userInfo['userID'],0 ) ) {
-            $Uploader = new Uploader( );
+            $Uploader = new Uploader([
+                'uploadDir' => USER_LEAVE_DIR
+            ]);
 
             if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
-                $this->fileInfo = $Uploader->getFileInfo( );
+                $fileInfo = $Uploader->getFileInfo( );
 
                 $UploadModel = new UploadModel( );
-                $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
+                $fileInfo['uID'] = $UploadModel->saveUpload( $fileInfo );
 
-                if( $this->fileInfo['error'] ) {
-                    $this->setErrMsg( $this->fileInfo['error'] );
+                if( $fileInfo['error'] ) {
+                    $this->setErrMsg( $fileInfo['error'] );
                     return false;
                 }
 
-                if( $this->fileInfo['success'] == 2 && $this->fileInfo['isImage'] ) {
-                    $this->processResize( );
+                if( $fileInfo['success'] == 2 && $fileInfo['isImage'] ) {
+                    $UploadModel->processResize( $fileInfo );
                 }
-                $this->LeaveApply->update('leave_apply', array( 'uID' => $this->fileInfo['uID'] ),
+                $this->LeaveApply->update('leave_apply', array( 'uID' => $fileInfo['uID'] ),
                                           'WHERE laID = "' . (int)$laID . '"' );
 
                 return true;

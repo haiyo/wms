@@ -9,190 +9,10 @@
     #companyForm .p-10 {
         padding: 10px 0 !important;
     }
+    #error,#saveCompanySettings {float:right;}
+    #error{text-align:left;}
+    #error .error{margin-top: 10px;}
 </style>
-<script>
-    $(function() {
-        var uploadPortal = initUpload( "upload-company" );
-        var uploadSlip = initUpload( "upload-slip" );
-
-        function initUpload( id ) {
-            return $("#" + id).croppie({
-                viewport: {
-                    width: 424,
-                    height: 116,
-                },
-                enableExif: true
-            });
-        }
-
-        $("#uploadCompany").on("change", function( ) { readFile( this, uploadPortal, "upload-company-wrap" ); });
-        $("#uploadSlip").on("change", function( ) { readFile( this, uploadSlip, "upload-slip-wrap" ); });
-
-        function readFile( input, uploader, wrapper ) {
-            var that = this;
-
-            if( input.files && input.files[0] ) {
-                var reader = new FileReader( );
-                reader.onload = function (e) {
-                    $("." + wrapper).addClass("ready");
-                    $(".caption").addClass("mt-30");
-
-                    if( wrapper == "upload-slip-wrap" ) {
-                        $(".d-md-flex .sidebar").css("height", "440px");
-                    }
-                    uploader.croppie("bind", {
-                        url: e.target.result
-                    }).then(function(){
-                        if( wrapper == "upload-company-wrap" ) {
-                            $(".companyLogoBG").removeClass("hide");
-                            $(".defCompanyLogo").hide( );
-                        }
-                        else {
-                            $(".payslipLogoBG").removeClass("hide");
-                            $(".defPayslipLogo").hide( );
-                        }
-                    });
-                }
-                reader.readAsDataURL( input.files[0] );
-            }
-            else {
-                swal("Sorry - your browser doesn't support the FileReader API");
-            }
-        }
-
-        $(".upload-cancel").on("click", function( ev ) {
-            var wrapper  = $(this).parent( );
-            var uploader = $(this).attr("data-cancel");
-
-            $(wrapper).removeClass('ready');
-            $(".caption").removeClass("mt-30");
-            $("#" + uploader).val("");
-
-            if( uploader == "uploadCompany" ) {
-                uploader = uploadPortal;
-                $(".companyLogoBG").addClass("hide");
-                $(".defCompanyLogo").show( );
-            }
-            else {
-                uploader = uploadSlip;
-                $(".d-md-flex .sidebar").css("height", "");
-                $(".payslipLogoBG").addClass("hide");
-                $(".defPayslipLogo").show( );
-            }
-
-            uploader.croppie("bind", {
-                url : ""
-            }).then(function () {
-                //console.log('reset complete');
-            });
-            return false;
-        });
-
-        $("#saveCompanySettings").on("click", function( ) {
-            if( $("#uploadCompany").val( ) != "" ) {
-                uploadPortal.croppie("result", {
-                    type: "canvas",
-                    size: "viewport"
-                }).then(function( respond ) {
-                    var data = {
-                        bundle: {
-                            companyLogo: encodeURIComponent( respond )
-                        },
-                        success: function( res, ladda ) {
-                            //
-                        }
-                    };
-                    Aurora.WebService.AJAX( "admin/company/saveCompanySettings", data );
-                });
-            }
-
-            if( $("#uploadSlip").val( ) != "" ) {
-                uploadSlip.croppie("result", {
-                    type: "canvas",
-                    size: "viewport"
-                }).then(function( respond ) {
-                    var data = {
-                        bundle: {
-                            slipLogo: encodeURIComponent( respond )
-                        },
-                        success: function( res, ladda ) {
-                            //
-                        }
-                    };
-                    Aurora.WebService.AJAX( "admin/company/saveCompanySettings", data );
-                });
-            }
-
-            var formData = Aurora.WebService.serializePost("#companyForm");
-
-            var data = {
-                bundle: {
-                    data: formData
-                },
-                success: function( res, ladda ) {
-                    var obj = $.parseJSON( res );
-                    if( obj.bool == 0 ) {
-                        swal("Error!", obj.errMsg, "error");
-                        return;
-                    }
-                    else {
-                        swal({
-                            title: "Company Updated Successfully",
-                            text: "Please hold while the page is being refresh.",
-                            type: 'success'
-                        }, function( isConfirm ) {
-                            window.location.href = Aurora.ROOT_URL + "admin/company/settings";
-                        });
-                    }
-                }
-            };
-            Aurora.WebService.AJAX( "admin/company/saveCompanySettings", data );
-        });
-
-        $(".deleteLogo").on("click", function( ) {
-            var dataText = $(this).attr("data-text");
-            title = "Are you sure you want to delete " + dataText + " logo?";
-            text  = "Logo deleted will not be able to recover back.";
-            confirmButtonText = "Confirm Delete";
-
-            swal({
-                title: title,
-                text: text,
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: confirmButtonText,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true
-            }, function (isConfirm) {
-                if (isConfirm === false) return;
-
-                $("." + dataText + " .icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
-
-                var data = {
-                    bundle: {
-                        logo : dataText
-                    },
-                    success: function( res ) {
-                        var obj = $.parseJSON( res );
-                        if( obj.bool == 0 ) {
-                            swal("error", obj.errMsg);
-                            return;
-                        }
-                        else {
-                            $(".photo-wrap-" + dataText).remove( );
-                            $(".def" + dataText + "Logo img").removeClass("hide");
-                            swal("Done!", dataText + " logo has been successfully deleted!", "success");
-                            return;
-                        }
-                    }
-                };
-                Aurora.WebService.AJAX( "admin/company/deleteLogo", data );
-            });
-        });
-    });
-</script>
-
 <div class="tab-pane fade" id="company">
 
     <div class="d-md-flex">
@@ -412,9 +232,10 @@
                     </div>
 
                     <div class="mb-0 mr-10 text-right">
-                        <button id="saveCompanySettings" type="button" class="btn bg-purple-400 btn-ladda" data-style="slide-right">
+                        <button id="saveCompanySettings" type="submit" class="btn bg-purple-400 btn-ladda" data-style="slide-right">
                             <span class="ladda-label">Save Settings <i class="icon-check position-right"></i></span>
                         </button>
+                        <div id="error"></div>
                     </div>
                 </form>
             </div>

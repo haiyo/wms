@@ -238,7 +238,7 @@ var MarkaxisLeave = (function( ) {
                         }
                         if( full['uploadName'] ) {
                             text += '<div class="text-ellipsis"><a target="_blank" href="' + Aurora.ROOT_URL +
-                                'admin/file/view/' + full['uID'] + '/' + full['hashName'] + '">' + full['uploadName'] + '</a></div>';
+                                'admin/file/view/leave/' + full['uID'] + '/' + full['hashName'] + '">' + full['uploadName'] + '</a></div>';
                         }
                         return text;
                     }

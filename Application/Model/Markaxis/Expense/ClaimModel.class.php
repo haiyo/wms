@@ -87,6 +87,18 @@ class ClaimModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getRequest( ) {
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        return $this->Claim->getRequest( $userInfo['userID'] );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -109,7 +121,8 @@ class ClaimModel extends \Model {
                     break;
             }
         }
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $results = $this->Claim->getResults( $userInfo['userID'], $post['search']['value'], $order . $dir );
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
@@ -224,7 +237,8 @@ class ClaimModel extends \Model {
             return false;
         }
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $this->info['userID'] = $userInfo['userID'];
         $this->info['created'] = date( 'Y-m-d H:i:s' );
         return true;
@@ -265,26 +279,29 @@ class ClaimModel extends \Model {
      * @return bool
      */
     public function uploadSuccess( $ecID, $file ) {
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 
         if( $this->isFoundByEcIDUserID( $ecID, $userInfo['userID'],0 ) ) {
-            $Uploader = new Uploader( );
+            $Uploader = new Uploader([
+                'uploadDir' => USER_CLAIM_DIR
+            ]);
 
             if( $Uploader->validate( $file['file_data'] ) && $Uploader->upload( ) ) {
-                $this->fileInfo = $Uploader->getFileInfo( );
+                $fileInfo = $Uploader->getFileInfo( );
 
                 $UploadModel = new UploadModel( );
-                $this->fileInfo['uID'] = $UploadModel->saveUpload( $this->fileInfo );
+                $fileInfo['uID'] = $UploadModel->saveUpload( $fileInfo );
 
-                if( $this->fileInfo['error'] ) {
-                    $this->setErrMsg( $this->fileInfo['error'] );
+                if( $fileInfo['error'] ) {
+                    $this->setErrMsg( $fileInfo['error'] );
                     return false;
                 }
 
-                if( $this->fileInfo['success'] == 2 && $this->fileInfo['isImage'] ) {
-                    $this->processResize( );
+                if( $fileInfo['success'] == 2 && $fileInfo['isImage'] ) {
+                    $UploadModel->processResize( $fileInfo );
                 }
-                $this->Claim->update('expense_claim', array( 'uID' => $this->fileInfo['uID'] ),
+                $this->Claim->update('expense_claim', array( 'uID' => $fileInfo['uID'] ),
                                     'WHERE ecID = "' . (int)$ecID . '"' );
 
                 return true;

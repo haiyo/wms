@@ -73,6 +73,17 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
+    public function getRequest( ) {
+        if( $request = $this->ClaimModel->getRequest( ) ) {
+            Control::setOutputArrayAppend( array( 'claim' => $request ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function getClaim( $data ) {
         if( isset( $data[1] ) ) {
             Control::setOutputArray( array( 'data' => $this->ClaimModel->getByEcID( $data[1] ) ) );

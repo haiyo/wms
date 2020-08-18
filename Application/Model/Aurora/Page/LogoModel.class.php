@@ -15,7 +15,7 @@ class LogoModel extends \Model {
 
     // Properties
     private $UserSettingModel;
-    private $fileInfo;
+    private $Uploader;
     private $userInfo;
     private $dir;
     
@@ -33,9 +33,6 @@ class LogoModel extends \Model {
         $this->userInfo = UserModel::getInstance( )->getInfo( );
         
         $this->UserSettingModel = $this->Registry->get( HKEY_CLASS, 'UserSettingModel' );
-        
-        $this->dir = ROOT . LOGO_DIR . '/' . $this->userInfo['userID'] . '/';
-        File::createDir( $this->dir );
 	}
     
     
@@ -64,33 +61,30 @@ class LogoModel extends \Model {
     * @return bool
     */
     public function uploadSuccess( $file ) {
-        $this->fileInfo['hashDir'] = MD5( date('Y-m-d') );
-        $dir = $this->dir . $this->fileInfo['hashDir'] . '/';
-        File::createDir( $dir );
+        $this->Uploader = new Uploader([
+            'uploadDir' => LOGO_DIR
+        ]);
 
-        $Uploader = new Uploader( array( 'uploadDir' => $dir ) );
-        if( $Uploader->validate( $file ) ) {
-            $Uploader->upload( );
+        if( $this->Uploader->validate( $file ) && $this->Uploader->upload( ) ) {
+            $fileInfo = $this->Uploader->getFileInfo( );
         }
 
-        $this->fileInfo = array_merge( $this->fileInfo, $Uploader->getFileInfo( ) );
-
-        if( $this->fileInfo['error'] ) {
-            $this->setErrMsg( $this->fileInfo['error'] );
+        if( $fileInfo['error'] ) {
+            $this->setErrMsg( $fileInfo['error'] );
             return false;
         }
 
-        if( $this->fileInfo['success'] == 2 ) {
-            $path = $this->dir . $this->fileInfo['hashDir'] . '/' . $this->fileInfo['hashName'];
-            $this->fileInfo['type'] = mime_content_type( $path );
+        if( $fileInfo['success'] == 2 ) {
+            $path = $fileInfo['uploadDir'] . '/' . $fileInfo['hashName'];
+            $fileInfo['type'] = mime_content_type( $path );
 
             //if( $this->fileInfo['isImage'] )
-            $this->processResize( );
+            $this->processResize( $fileInfo );
             
             // Read image path, convert to base64 encoding
             $imageData = base64_encode( file_get_contents( $path ) );
             // Format the image SRC:  data:{mime};base64,{data};
-            $this->fileInfo['img'] = 'data: ' . mime_content_type( $path ).';base64,'.$imageData;
+            $fileInfo['img'] = 'data: ' . mime_content_type( $path ).';base64,'.$imageData;
         }
 
         /*switch( $this->fileInfo['error'] ) {
@@ -106,15 +100,14 @@ class LogoModel extends \Model {
     * Process Image Resize
     * @return void
     */
-    public function processResize( ) {
-        $fileInfo = explode( '.', $this->fileInfo['hashName'] );
-        $this->fileInfo['thumbnail'] = $this->fileInfo['hashDir'] . '/' . $fileInfo[0] . '_thumbnail.'  . $fileInfo[1];
+    public function processResize( $fileInfo ) {
+        $info = explode( '.', $fileInfo['hashName'] );
+        $fileInfo['thumbnail'] = $fileInfo['hashDir'] . '/' . $info[0] . '_thumbnail.'  . $info[1];
 
         $ImageManipulation = new ImageManipulation( $this->Registry->get( HKEY_LOCAL, 'imageLib' ) );
-        //$ImageManipulation->autoRotate( $this->dir . $this->fileInfo['hashDir'] . '/' . $this->fileInfo['hashName'] );
-        $ImageManipulation->copyResized( $this->dir . $this->fileInfo['hashDir'] . '/' . $this->fileInfo['hashName'],
-                                         $this->dir . $this->fileInfo['hashDir'] . '/' . $this->fileInfo['hashName'],
-                                         self::MAX_WIDTH, self::MAX_HEIGHT, true );
+
+        $ImageManipulation->copyResized( $fileInfo['uploadDir'] . $fileInfo['hashName'], $fileInfo['thumbnail'],
+                                        self::MAX_WIDTH, self::MAX_HEIGHT, false );
     }
     
     

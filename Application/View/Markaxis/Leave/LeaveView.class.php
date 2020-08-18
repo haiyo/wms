@@ -173,11 +173,10 @@ class LeaveView {
 
                 $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
 
+                $pdVars['dynamic']['reason'] = false;
+
                 if( $row['reason'] ) {
                     $pdVars['dynamic']['reason'][] = array( 'TPLVAR_REASON' => $row['reason'] );
-                }
-                else {
-                    $pdVars['dynamic']['reason'] = false;
                 }
 
                 if( $row['status'] == 0 ) {
@@ -214,6 +213,12 @@ class LeaveView {
                 $pdVars['TPLVAR_END_DATE'] = $row['endDate'];
                 $reason = $this->View->render( 'markaxis/leave/pending_description.tpl', $pdVars );
 
+                $attachment = '';
+                if( $row['uID'] ) {
+                    $attachment = '<a target="_blank" href="' . ROOT_URL . 'admin/file/view/leave/' . $row['uID'] .
+                        '/' . $row['hashName'] . '"><i class="icon-attachment text-grey-300 mr-3"></i> ' . $row['uploadName'] . '</a>';
+                }
+
                 $vars['dynamic']['list'][] = array( 'TPLVAR_TIME_AGO' => $created,
                                                     'TPLVAR_ID' => $row['laID'],
                                                     'TPLVAR_GROUP_NAME' => 'leave',
@@ -223,6 +228,7 @@ class LeaveView {
                                                     'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
                                                     'TPLVAR_LABEL' => $label,
                                                     'TPLVAR_MANAGER' => $managers,
+                                                    'TPLVAR_ATTACHMENT' => $attachment,
                                                     'LANG_STATUS' => $status );
             }
             return $this->View->render( 'aurora/page/tableRowRequest.tpl', $vars );

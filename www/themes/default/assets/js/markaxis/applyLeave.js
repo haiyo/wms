@@ -130,7 +130,6 @@ var MarkaxisApplyLeave = (function( ) {
                     };
                     return data;
                 }
-
             }).on('fileuploaderror', function(event, data, msg) {
                 that.fileSelected = false;
                 console.log('File uploaded', data, msg);
@@ -315,8 +314,11 @@ var MarkaxisApplyLeave = (function( ) {
             }, function( isConfirm ) {
                 if( $(".leaveHistoryTable").length ) {
                     $(".leaveHistoryTable").DataTable().ajax.reload( );
+                    $("#modalApplyLeave").modal("hide");
                 }
-                $("#modalApplyLeave").modal("hide");
+                else {
+                    window.location.reload(false);
+                }
             });
 
             this.saveResult = [];

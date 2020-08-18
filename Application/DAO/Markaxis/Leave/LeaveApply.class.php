@@ -104,14 +104,15 @@ class LeaveApply extends \DAO {
      * @return mixed
      */
     public function getPendingAction( $userID ) {
-        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.userID, u.fname, u.lname, la.reason,
-                                          la.laID, la.days, la.created,
+        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.userID, u.fname, u.lname, la.reason, la.uID,
+                                          la.laID, la.days, la.created, up.hashDir, up.hashName, up.name AS uploadName, 
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate
                                    FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
                                    LEFT JOIN leave_apply_manager lam ON ( lam.laID = la.laID )
                                    LEFT JOIN user u ON ( u.userID = la.userID )
+                                   LEFT JOIN upload up ON ( up.uID = la.uID )
                                    WHERE lam.managerID = "' . (int)$userID . '" AND 
                                          lam.approved = "0" AND
                                          la.cancelled <> "1" AND
@@ -135,13 +136,15 @@ class LeaveApply extends \DAO {
      * @return mixed
      */
     public function getRequest( $userID ) {
-        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.userID, u.fname, u.lname, la.reason,
+        $sql = $this->DB->select( 'SELECT lt.name, lt.code, u.userID, u.fname, u.lname, la.reason, la.uID,
                                           la.laID, la.days, la.created, la.status,
+                                          up.hashDir, up.hashName, up.name AS uploadName,
                                           DATE_FORMAT( la.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT( la.endDate, "%D %b %Y") AS endDate
                                    FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
                                    LEFT JOIN user u ON ( u.userID = la.userID )
+                                   LEFT JOIN upload up ON ( up.uID = la.uID )
                                    WHERE la.userID = "' . (int)$userID . '" AND 
                                          la.status = "0" AND
                                          la.cancelled <> "1" AND

@@ -56,7 +56,8 @@ class PayslipModel extends \Model {
             }
         }
 
-        $userInfo = UserModel::getInstance( )->getInfo( );
+        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
         $results = $this->Payslip->getResults( $userInfo['userID'], $order . $dir );
 
         $total = $results['recordsTotal'];
