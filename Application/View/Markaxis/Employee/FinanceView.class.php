@@ -27,9 +27,9 @@ class FinanceView {
 
 
     /**
-    * FinanceView Constructor
-    * @return void
-    */
+     * FinanceView Constructor
+     * @return void
+     */
     function __construct( ) {
         $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
@@ -89,18 +89,19 @@ class FinanceView {
         $CalendarModel = CalendarModel::getInstance( );
 
         $SelectListView = new SelectListView( );
-        $payrollCalList = $SelectListView->build( 'pcID', $CalendarModel->getList( ), $payrollInfo['pcID'], 'Select Payroll Calendar' );
+        $pcID = isset( $payrollInfo['pcID'] ) ? $payrollInfo['pcID'] : '';
+        $payrollCalList = $SelectListView->build( 'pcID', $CalendarModel->getList( ), $pcID, 'Select Payroll Calendar' );
 
         $EmployeeModel = EmployeeModel::getInstance();
         $empInfo = $EmployeeModel->getInfo( );
 
         $PaymentMethodModel = PaymentMethodModel::getInstance( );
-        $pmID = $empInfo['paymentMethodID'] ? $empInfo['paymentMethodID'] : '';
+        $pmID = isset( $empInfo['paymentMethodID'] ) ? $empInfo['paymentMethodID'] : '';
         $SelectListView->setClass( 'paymentMethodList' );
         $paymentMethodList = $SelectListView->build( 'paymentMethod',  $PaymentMethodModel->getList( ), $pmID, 'Select Payment Method' );
 
         $BankModel = AuroraBankModel::getInstance( );
-        $bkID = $bankInfo['bkID'] ? $bankInfo['bkID'] : '';
+        $bkID = isset( $bankInfo['bkID'] ) ? $bankInfo['bkID'] : '';
         $bankList = $SelectListView->build( 'bank',  $BankModel->getList( ), $bkID, 'Select Bank' );
 
         $TaxGroupModel = TaxGroupModel::getInstance( );
@@ -120,16 +121,16 @@ class FinanceView {
         $leaveTypeList = $SelectListView->build( 'ltID', $TypeModel->getList( ), $leaveType, 'Select Leave Type' );
 
         $vars = array_merge( $this->L10n->getContents( ),
-                array( 'TPLVAR_BANK_NUMBER' => $bankInfo['number'],
-                       'TPLVAR_BANK_CODE' => $bankInfo['code'],
-                       'TPLVAR_BANK_BRANCH_CODE' => $bankInfo['branchCode'],
-                       'TPLVAR_BANK_HOLDER_NAME' => $bankInfo['holderName'],
-                       'TPLVAR_SWIFT_CODE' => $bankInfo['swiftCode'],
-                       'TPL_PAYROLL_CAL_LIST' => $payrollCalList,
-                       'TPL_TAX_GROUP_LIST' => $taxGroupList,
-                       'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
-                       'TPL_PAYMENT_METHOD_LIST' => $paymentMethodList,
-                       'TPL_BANK_LIST' => $bankList ) );
+            array( 'TPLVAR_BANK_NUMBER' => isset( $bankInfo['number'] ) ? $bankInfo['number'] : '',
+                'TPLVAR_BANK_CODE' => isset( $bankInfo['code'] ) ? $bankInfo['code'] : '',
+                'TPLVAR_BANK_BRANCH_CODE' => isset( $bankInfo['branchCode'] ) ? $bankInfo['branchCode'] : '',
+                'TPLVAR_BANK_HOLDER_NAME' => isset( $bankInfo['holderName'] ) ? $bankInfo['holderName'] : '',
+                'TPLVAR_SWIFT_CODE' => isset( $bankInfo['swiftCode'] ) ? $bankInfo['swiftCode'] : '',
+                'TPL_PAYROLL_CAL_LIST' => $payrollCalList,
+                'TPL_TAX_GROUP_LIST' => $taxGroupList,
+                'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
+                'TPL_PAYMENT_METHOD_LIST' => $paymentMethodList,
+                'TPL_BANK_LIST' => $bankList ) );
 
         return $this->View->render( 'markaxis/employee/financeForm.tpl', $vars );
     }
