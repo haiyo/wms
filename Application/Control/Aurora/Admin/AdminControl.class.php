@@ -83,6 +83,10 @@ class AdminControl extends Control {
             else if( self::$HttpRequest->request( POST, 'auroraLogin' ) ) {
                 $PageModel = PageModel::getInstance( );
                 $defPageInfo = $PageModel->getDefaultPage( );
+
+                if( !isset( $defPageInfo['pageID'] ) ) {
+                    die('Page Error!');
+                }
                 echo $defPageInfo['pageID'];
                 exit;
             }
