@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Page;
-use \Aurora\User\UserModel, \Aurora\Admin\AdminView, \Aurora\User\UserImageModel;
-use \Markaxis\Company\CompanyModel;
+use \Aurora\Admin\AdminView, \Aurora\User\UserImageModel;
+use \Markaxis\Company\CompanyModel, \Markaxis\Employee\EmployeeModel, \Markaxis\Employee\DesignationModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -93,16 +93,21 @@ class DashboardView {
         $CompanyModel = CompanyModel::getInstance( );
         $companyInfo = $CompanyModel->getInfo( );
 
-        $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
-        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        $DesignationModel = DesignationModel::getInstance( );
+        $dInfo = $DesignationModel->getBydID( $empInfo['designationID'] );
+
         $UserImageModel = UserImageModel::getInstance( );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_DASHBOARD_BG_COLOR' => $companyInfo['dashboardBgColor'],
                        'TPLVAR_MAIN_COLOR' => $companyInfo['mainColor'],
-                       'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $userInfo['userID'] ),
-                       'TPLVAR_FNAME' => $userInfo['fname'],
-                       'TPLVAR_LNAME' => $userInfo['lname'] ) );
+                       'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $empInfo['userID'] ),
+                       'TPLVAR_FNAME' => $empInfo['fname'],
+                       'TPLVAR_LNAME' => $empInfo['lname'],
+                        'TPLVAR_DESIGNATION' => $dInfo['title'] ) );
 
         $vars['TPL_SIDEBAR_SEARCH_BOX'] = $this->renderSearchbox( $output );
 

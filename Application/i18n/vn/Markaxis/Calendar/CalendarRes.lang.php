@@ -22,7 +22,7 @@ class CalendarRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_CALENDAR'] = 'View Calendar';
+        $this->contents['LANG_CALENDAR'] = 'Xem lịch';
     }
 }
 ?>

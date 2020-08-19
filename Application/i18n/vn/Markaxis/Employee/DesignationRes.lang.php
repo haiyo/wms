@@ -22,9 +22,9 @@ class DesignationRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_DESIGNATION'] = 'Designation';
-        $this->contents['LANG_CREATE_NEW_DESIGNATION'] = 'Create New Designation';
-        $this->contents['LANG_CREATE_NEW_DESIGNATION_GROUP'] = 'Create New Designation Group';
+        $this->contents['LANG_DESIGNATION'] = 'Chỉ định';
+        $this->contents['LANG_CREATE_NEW_DESIGNATION'] = 'Tạo chỉ định mới';
+        $this->contents['LANG_CREATE_NEW_DESIGNATION_GROUP'] = 'Tạo nhóm chỉ định mới';
     }
 }
 ?>
