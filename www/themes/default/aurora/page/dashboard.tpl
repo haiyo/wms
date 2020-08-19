@@ -12,11 +12,13 @@
 
             <div class="card">
                 <div class="header-inline">
-                    <div class="avatar"><img src="<?TPLVAR_PHOTO?>" width="95" height="95" /></div>
-                    <div class="bg-transparent dashboard-side-header text-ellipsis dashboard-side-ellipsis">
-                        <div class="dashboard-side-role"><h2><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h2></div>
-                        <div class="dashboard-side-role">HR Administrator</div>
-                    </div>
+                    <a href="<?TPLVAR_ROOT_URL?>admin/user/profile">
+                        <div class="avatar"><img src="<?TPLVAR_PHOTO?>" width="95" height="95" /></div>
+                        <div class="bg-transparent dashboard-side-header text-ellipsis dashboard-side-ellipsis">
+                            <div class="dashboard-side-role"><h2><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h2></div>
+                            <div class="dashboard-side-role">HR Administrator</div>
+                        </div>
+                    </a>
                 </div>
 
                 <?TPL_SIDEBAR_SEARCH_BOX?>
