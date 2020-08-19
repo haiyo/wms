@@ -44,7 +44,9 @@ class TaxRaceView {
             $criteriaSet = array( );
 
             foreach( $raceInfo as $race ) {
-                array_push($criteriaSet, 'Employee Race: ' . $race['name'] );
+                if( isset( $race['name'] ) ) {
+                    array_push($criteriaSet, 'Employee Race: ' . $race['name'] );
+                }
             }
             return $criteriaSet;
         }

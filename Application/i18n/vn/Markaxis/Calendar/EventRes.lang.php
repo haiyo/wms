@@ -19,9 +19,9 @@ class EventRes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_DEFAULT_TITLE'] = 'Event Calender';
-        $this->contents['LANG_CALENDAR_SETTINGS'] = 'Calendar Settings';
-        $this->contents['LANG_RETRIEVE_EVENT_FROM'] = 'Retrieve Events From';
+        $this->contents['LANG_DEFAULT_TITLE'] = 'Lịch sự kiện';
+        $this->contents['LANG_CALENDAR_SETTINGS'] = 'Cài đặt lịch';
+        $this->contents['LANG_RETRIEVE_EVENT_FROM'] = 'Lấy sự kiện từ';
         $this->contents['LANG_ADVANCED_DESCRIPT'] = 'If posting new events requires approval, all approving
                                                      officers including the Administrator will receive private
                                                      message and email notifications for new events posted.';

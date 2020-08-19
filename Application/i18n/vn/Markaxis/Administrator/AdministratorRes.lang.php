@@ -20,7 +20,7 @@ class AdministratorRes extends Resource {
      */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_ADMINISTRATOR'] = 'Administrator';
+        $this->contents['LANG_ADMINISTRATOR'] = 'Người quản lý';
     }
 }
 ?>

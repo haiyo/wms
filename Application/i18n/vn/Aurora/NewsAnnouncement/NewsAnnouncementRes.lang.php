@@ -19,17 +19,17 @@ class NewsAnnouncementRes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_NO_NEWS_OR_ANNOUNCEMENT'] = 'There are currently no news and announcement.';
-        $this->contents['LANG_NEWS_ANNOUNCEMENT'] = 'News &amp; Announcement';
-        $this->contents['LANG_ADD_NEW_CONTENT'] = 'Add New Content';
-        $this->contents['LANG_ANNOUNCEMENT'] = 'Announcement';
-        $this->contents['LANG_NEWS'] = 'News';
-        $this->contents['LANG_CREATE_NEW_CONTENT'] = 'Create New Content';
-        $this->contents['LANG_SELECT_CONTENT_TYPE'] = 'Select Content Type';
-        $this->contents['LANG_TITLE'] = 'Title';
-        $this->contents['LANG_PLEASE_SELECT_CONTENT_TYPE'] = 'Please select a Content Type';
-        $this->contents['LANG_PLEASE_ENTER_TITLE'] = 'Please enter title';
-        $this->contents['LANG_PLEASE_ENTER_CONTENT'] = 'Please enter content';
+        $this->contents['LANG_NO_NEWS_OR_ANNOUNCEMENT'] = 'Hiện tại không có tin tức và thông báo';
+        $this->contents['LANG_NEWS_ANNOUNCEMENT'] = 'Tin tức và Thông báo';
+        $this->contents['LANG_ADD_NEW_CONTENT'] = 'Thêm nội dung mới';
+        $this->contents['LANG_ANNOUNCEMENT'] = 'Sự thông báo';
+        $this->contents['LANG_NEWS'] = 'Tin tức';
+        $this->contents['LANG_CREATE_NEW_CONTENT'] = 'Tạo nội dung mới';
+        $this->contents['LANG_SELECT_CONTENT_TYPE'] = 'Chọn loại nội dung';
+        $this->contents['LANG_TITLE'] = 'Tiêu đề';
+        $this->contents['LANG_PLEASE_SELECT_CONTENT_TYPE'] = 'Vui lòng chọn một loại nội dung';
+        $this->contents['LANG_PLEASE_ENTER_TITLE'] = 'Vui lòng nhập tiêu đề';
+        $this->contents['LANG_PLEASE_ENTER_CONTENT'] = 'Vui lòng nhập nội dung';
 	}
 }
 ?>

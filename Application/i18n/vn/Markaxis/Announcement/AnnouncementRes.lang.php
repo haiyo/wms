@@ -22,7 +22,7 @@ class AnnouncementRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_NEWS_ANNOUNCEMENT'] = 'News &amp; Announcement';
+        $this->contents['LANG_NEWS_ANNOUNCEMENT'] = 'Tin tức và Thông báo';
     }
 }
 ?>

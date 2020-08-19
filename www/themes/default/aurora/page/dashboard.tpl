@@ -16,7 +16,7 @@
                         <div class="avatar"><img src="<?TPLVAR_PHOTO?>" width="95" height="95" /></div>
                         <div class="bg-transparent dashboard-side-header text-ellipsis dashboard-side-ellipsis">
                             <div class="dashboard-side-role"><h2><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h2></div>
-                            <div class="dashboard-side-role">HR Administrator</div>
+                            <div class="dashboard-side-role"><?TPLVAR_DESIGNATION?></div>
                         </div>
                     </a>
                 </div>
@@ -30,32 +30,31 @@
     </div>
 
     <div class="dashboard-panel panel-flat">
-        <div class="box1 sb8">hello.</div>
+        <div class="box1 sb8"><?LANG_HELLO?>.</div>
 
         <div class="card">
             <div class="card-body">
 
                 <div class="panel-heading dashboard-heading">
-                    <h1 class="panel-title">Welcome <?TPLVAR_FNAME?> <?TPLVAR_LNAME?>!</h1>
-                    <div class="panel-descript">You're looking at HRMS, your new tool for work. Here's a quick look at some
-                        of the things you can do here in HRMS.</div>
+                    <h1 class="panel-title"><?LANG_WELCOME?> <?TPLVAR_FNAME?> <?TPLVAR_LNAME?>!</h1>
+                    <div class="panel-descript"><?LANG_DASHBOARD_INTRO?></div>
                 </div>
 
                 <div class="quick-boxes">
                     <div class="bottom">
                         <div class="box-content right">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/leave/balance"><i class="mi-av-timer mr-3 mi-2x"></i><h4>My Leaves</h4>
-                                <div class="box-content-descript">Check your leave balances, approval status and history</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/leave/balance"><i class="mi-av-timer mr-3 mi-2x"></i><h4><?LANG_MY_LEAVE?></h4>
+                                <div class="box-content-descript"><?LANG_LEAVE_INTRO?></div>
                             </a>
                         </div>
                         <div class="box-content right">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/calendar/view"><i class="mi-event-note mr-3 mi-2x"></i><h4>My Calendar</h4>
-                                <div class="box-content-descript">Find out any events or planned leaves</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/calendar/view"><i class="mi-event-note mr-3 mi-2x"></i><h4><?LANG_MY_CALENDAR?></h4>
+                                <div class="box-content-descript"><?LANG_CALENDAR_INTRO?></div>
                             </a>
                         </div>
                         <div class="box-content">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/user/list"><i class="icon-people"></i><h4>Staff Directory</h4>
-                                <div class="box-content-descript">Search for coworkers and their contact information</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/user/list"><i class="icon-people"></i><h4><?LANG_STAFF_DIRECTORY?></h4>
+                                <div class="box-content-descript"><?LANG_STAFF_INTRO?></div>
                             </a>
                         </div>
                     </div>
@@ -66,18 +65,18 @@
                             </a>
                         </div>-->
                         <div class="box-content right">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/expense/claim"><i class="mi-local-atm mr-3 mi-2x"></i><h4>Expenses Claim</h4>
-                                <div class="box-content-descript">Submit claims or check approval status</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/expense/claim"><i class="mi-local-atm mr-3 mi-2x"></i><h4><?LANG_EXPENSES_CLAIMS?></h4>
+                                <div class="box-content-descript"><?LANG_CLAIMS_INTRO?></div>
                             </a>
                         </div>
                         <div class="box-content right">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/payroll/view"><i class="icon-cash3"></i><h4>My Payslips</h4>
-                                <div class="box-content-descript">View history or download your monthly payslips</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/payroll/view"><i class="icon-cash3"></i><h4><?LANG_MY_PAYSLIP?></h4>
+                                <div class="box-content-descript"><?LANG_PAYSLIP_INTRO?></div>
                             </a>
                         </div>
                         <div class="box-content">
-                            <a href="<?TPLVAR_ROOT_URL?>admin/company/loa" target="_blank"><i class="mi-description mr-3 mi-2x"></i><h4>Letter of Appointment</h4>
-                                <div class="box-content-descript">Access your Letter of Appointment</div>
+                            <a href="<?TPLVAR_ROOT_URL?>admin/company/loa" target="_blank"><i class="mi-description mr-3 mi-2x"></i><h4><?LANG_LOA?></h4>
+                                <div class="box-content-descript"><?LANG_LOA_INTRO?></div>
                             </a>
                         </div>
                     </div>
@@ -91,7 +90,7 @@
 
             <div id="pendingWrapper">
                 <div class="bg-transparent header-elements-inline">
-                    <span class="dashboard-card-header text-uppercase font-size-sm font-weight-semibold">Pending Action(s)</span>
+                    <span class="dashboard-card-header text-uppercase font-size-sm font-weight-semibold"><?LANG_PENDING_ACTIONS?></span>
                 </div>
 
                 <div class="actions">
@@ -100,7 +99,7 @@
                             <div class="card-body">
                                 <div class="no-notification text-center">
                                     <i class="icon-pulse2 mr-3 icon-3x"></i>
-                                    <span>You have no pending action at the moment...</span>
+                                    <span><?LANG_NO_PENDING_ACTION?></span>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +111,7 @@
 
             <div id="requestWrapper">
                 <div class="bg-transparent header-elements-inline">
-                    <span class="dashboard-card-header text-uppercase font-size-sm font-weight-semibold">Latest Request(s)</span>
+                    <span class="dashboard-card-header text-uppercase font-size-sm font-weight-semibold"><?LANG_LATEST_REQUESTS?></span>
                 </div>
 
                 <div id="requestWrapper" class="actions">
@@ -121,7 +120,7 @@
                             <div class="card-body">
                                 <div class="no-notification text-center">
                                     <i class="icon-pulse2 mr-3 icon-3x"></i>
-                                    <span>You have not made any request at the moment...</span>
+                                    <span><?LANG_NO_LATEST_REQUEST?></span>
                                 </div>
                             </div>
                         </div>

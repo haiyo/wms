@@ -19,21 +19,20 @@ class AttachmentRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_SELECT_FILES'] = 'Select Files';
-        $this->contents['LANG_CLICK_BROWSE'] = 'Attach Files';
-        $this->contents['LANG_REMOVE_FILE'] = 'Remove File';
-        $this->contents['LANG_DELETE_FILE'] = 'Delete File';
-        $this->contents['LANG_BROWSE'] = 'Browse';
-        $this->contents['LANG_DRAG_TEXT'] = 'Drag and drop files here';
-        $this->contents['LANG_SELECT_FILE_TEXT'] = 'You can select more than one file at a time.';
-        $this->contents['LANG_FILE_SIZE_OVER_LIMIT'] = 'The file size is over the 5MB limit.';
-        $this->contents['LANG_ATTACHMENTS'] = 'Attachments';
-        $this->contents['LANG_FILE_SIZE'] = 'File size';
-        $this->contents['LANG_VIEW'] = 'View';
-        $this->contents['LANG_DOWNLOAD'] = 'Download';
-        $this->contents['LANG_DELETE'] = 'Delete';
-        $this->contents['LANG_DELETE_CONFIRM'] = 'This file has already been uploaded. Are you sure you
-                                                  want to delete it? This action cannot be undone.';
+        $this->contents['LANG_SELECT_FILES'] = 'Chọn tệp tin';
+        $this->contents['LANG_CLICK_BROWSE'] = 'Đính kèm tệp';
+        $this->contents['LANG_REMOVE_FILE'] = 'Xóa tệp';
+        $this->contents['LANG_DELETE_FILE'] = 'Xóa tài liệu';
+        $this->contents['LANG_BROWSE'] = 'Duyệt qua';
+        $this->contents['LANG_DRAG_TEXT'] = 'Kéo và thả tệp vào đây';
+        $this->contents['LANG_SELECT_FILE_TEXT'] = 'Bạn có thể chọn nhiều tệp cùng một lúc';
+        $this->contents['LANG_FILE_SIZE_OVER_LIMIT'] = 'Kích thước tệp vượt quá giới hạn 5MB';
+        $this->contents['LANG_ATTACHMENTS'] = 'Tệp đính kèm';
+        $this->contents['LANG_FILE_SIZE'] = 'Kích thước tập tin';
+        $this->contents['LANG_VIEW'] = 'Lượt xem';
+        $this->contents['LANG_DOWNLOAD'] = 'Tải xuống';
+        $this->contents['LANG_DELETE'] = 'Xóa bỏ';
+        $this->contents['LANG_DELETE_CONFIRM'] = 'Tệp này đã được tải lên. Bạn có chắc chắn muốn xóa nó? Hành động này không thể được hoàn tác.';
 	}
 }
 ?>

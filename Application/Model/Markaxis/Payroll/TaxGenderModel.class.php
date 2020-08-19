@@ -53,7 +53,7 @@ class TaxGenderModel extends \Model {
     public function getAll( $data ) {
         if( isset( $data['taxRules'] ) && is_array( $data['taxRules'] ) ) {
             foreach( $data['taxRules'] as $key => $taxRule ) {
-                if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
+                if( isset( $taxRule['trID'] ) && $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
                     $data['taxRules'][$key]['gender'] = $cInfo;
                 }
             }
