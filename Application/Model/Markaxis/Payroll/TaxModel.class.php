@@ -61,31 +61,6 @@ class TaxModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function saveTaxGroup( $data ) {
-        $this->info['title'] = Validator::stripTrim( $data['groupTitle'] );
-        $this->info['description'] = Validator::stripTrim( $data['description'] );
-        $this->info['parent'] = (int)$data['parent'];
-
-        if( $this->info['parent'] && !$this->isFoundByGroupID( $this->info['parent'] ) ) {
-            $this->info['parent'] = 0;
-        }
-
-        if( $data['tgID'] && $this->isFoundByGroupID( $data['tgID'] ) ) {
-            $this->info['tgID'] = (int)$data['tgID'];
-            $this->Tax->update( 'tax_group', $this->info, 'WHERE tgID = "' . (int)$this->info['tgID'] . '"' );
-        }
-        else {
-            $this->info['created'] = date( 'Y-m-d H:i:s' );
-            $this->info['tgID'] = $this->Tax->insert('tax_group', $this->info );
-        }
-        return $this->info['tgID'];
-    }
-
-
-    /**
-     * Get File Information
-     * @return mixed
-     */
     public function saveTaxRule( $data ) {
         $this->info['title'] = Validator::stripTrim( $data['ruleTitle'] );
         $this->info['tgID'] = (int)$data['group'];

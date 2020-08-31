@@ -19,8 +19,8 @@ class ReminderRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_ONE_HOUR_BEFORE'] = '{n} hour|hours before due';
-        $this->contents['LANG_ONE_DAY_BEFORE'] = '{n} day|days before due';
+        $this->contents['LANG_ONE_HOUR_BEFORE'] = '{n} giờ trước khi đến hạn';
+        $this->contents['LANG_ONE_DAY_BEFORE'] = '{n} ngày trước khi đến hạn';
 	}
 }
 ?>

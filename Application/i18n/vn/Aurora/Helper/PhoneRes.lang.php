@@ -17,11 +17,11 @@ class PhoneRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_HOME']   = 'Home';
-        $this->contents['LANG_WORK']   = 'Work';
-        $this->contents['LANG_MOBILE'] = 'Mobile';
-        $this->contents['LANG_FAX']    = 'Fax';
-        $this->contents['LANG_OTHER']  = 'Other';
+        $this->contents['LANG_HOME']   = 'Trang Chủ';
+        $this->contents['LANG_WORK']   = 'Công việc';
+        $this->contents['LANG_MOBILE'] = 'Di động';
+        $this->contents['LANG_FAX']    = 'Số fax';
+        $this->contents['LANG_OTHER']  = 'Khác';
 	}
 }
 ?>

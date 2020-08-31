@@ -130,5 +130,31 @@ class TaxRuleModel extends \Model {
         }
         return $this->info['trID'];
     }
+
+
+    /**
+     * Delete Pay Item
+     * @return mixed
+     */
+    public function deleteFromGroup( $groupList ) {
+        if( is_array( $groupList ) ) {
+            $groupList = implode(',', $groupList );
+
+            $info = array( );
+            $info['deleted'] = 1;
+            $this->TaxRule->update('tax_rule', $info, 'WHERE tgID IN (' . addslashes( $groupList ) . ')' );
+        }
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return mixed
+     */
+    public function delete( $trID ) {
+        $info = array( );
+        $info['deleted'] = 1;
+        $this->TaxRule->update('tax_rule', $info, 'WHERE trID = "' . (int)$trID . '"' );
+    }
 }
 ?>

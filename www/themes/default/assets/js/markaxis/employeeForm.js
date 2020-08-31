@@ -124,10 +124,22 @@ var MarkaxisEmployeeForm = (function( ) {
                 ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
                 successClass: 'validation-valid-label',
                 highlight: function( element, errorClass ) {
-                    $(element).addClass("border-danger");
+                    var selectEle = $(element).next().find(".select2-selection");
+                    if( selectEle.length > 0 ) {
+                        selectEle.addClass("border-danger");
+                    }
+                    else {
+                        $(element).addClass("border-danger");
+                    }
                 },
                 unhighlight: function( element, errorClass ) {
-                    $(element).removeClass("border-danger");
+                    var selectEle = $(element).next().find(".select2-selection");
+                    if( selectEle.length > 0 ) {
+                        selectEle.removeClass("border-danger");
+                    }
+                    else {
+                        $(element).removeClass("border-danger");
+                    }
                 },
                 // Different components require proper error label placement
                 errorPlacement: function( error, element ) {
@@ -138,6 +150,8 @@ var MarkaxisEmployeeForm = (function( ) {
                     fname : "required",
                     lname : "required",
                     idnumber : "required",
+                    office: "required",
+                    pcID: "required",
                     email1: {
                         validEmail: true,
                         required: true
@@ -190,6 +204,10 @@ var MarkaxisEmployeeForm = (function( ) {
                 this.getUserManager( );
                 this.getCompetency( );
             }
+
+            $("#office").on("change", function( ) {
+                that.setOfficePreference( $(this).val( ) );
+            });
 
             $("#department").on("change", function( ) {
                 that.suggestDeptManager( );
@@ -1174,6 +1192,41 @@ var MarkaxisEmployeeForm = (function( ) {
                     }
                 }
             }
+        },
+
+        setOfficePreference: function( oID ) {
+            var data = {
+                success: function( res ) {
+                    var obj = $.parseJSON( res );
+                    if( obj.bool == 0 ) {
+                        swal("error", obj.errMsg);
+                        return;
+                    }
+                    else {
+                        $(".amountInput").attr("data-currency", obj.data.currencyCode + obj.data.currencySymbol);
+                        $(".amountInput").focus( ).blur( );
+                    }
+                }
+            };
+            Aurora.WebService.AJAX( "admin/employee/getOffice/" + oID, data );
+
+            var data = {
+                bundle: {
+                    oID : oID
+                },
+                success: function( res ) {
+                    var obj = $.parseJSON( res );
+                    if( obj.bool == 0 ) {
+                        swal("error", obj.errMsg);
+                        return;
+                    }
+                    else {
+                        $("#taxGroupList").html( obj.html );
+                        $("#tgID").multiselect({includeSelectAllOption: true});
+                    }
+                }
+            };
+            Aurora.WebService.AJAX( "admin/employee/getTaxGroupListByOffice/" + $("#userID").val( ) + "/" + oID, data );
         },
 
         getUserManager: function( ) {

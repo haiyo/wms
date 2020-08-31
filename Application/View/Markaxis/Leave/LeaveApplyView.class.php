@@ -50,7 +50,7 @@ class LeaveApplyView {
 
         $SelectListView = new SelectListView( );
         $leaveTypeList = $SelectListView->build( 'ltID', $LeaveTypeModel->getListByUserID( $empInfo['userID'] ),
-                                                '', 'Select Leave Type' );
+                                                '', $this->L10n->getContents('LANG_SELECT_LEAVE_TYPE') );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
         $vars = array_merge( $this->L10n->getContents( ),

@@ -10,6 +10,7 @@ use \Library\Exception\Aurora\TaskNotFoundException;
 use \Library\Exception\Aurora\NoPermissionException;
 use \Library\Exception\Aurora\SiteCheckException;
 use \Library\Exception\InstantiationException;
+use \Library\Exception\FileNotFoundException;
 use \Control;
 
 /**
@@ -40,21 +41,30 @@ class AdminControl extends Control {
 
 
     /**
+     * Connect database
+     * @return void
+     */
+    public function connectDB( ) {
+        // Initialize Database Access Point
+        $DB = new DB( DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT );
+        $DB = $DB->connect( );
+
+        // Load Application Settings from the Registry Table
+        $this->initRegistry( );
+        $this->Registry = \Library\Runtime\Registry::getInstance( );
+        $this->Registry->setDB( $DB );
+        $this->Registry->loadRegistry( );
+    }
+
+
+    /**
      * Init Control Panel Controller Main
      * Override the parent Registry and extend Registry functionalities
      * @return void
      */
     public function init( $args ) {
         try {
-            // Initialize Database Access Point
-            $DB = new DB( DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT );
-            $DB = $DB->connect( );
-
-            // Load Application Settings from the Registry Table
-            $this->initRegistry( );
-            $this->Registry = \Library\Runtime\Registry::getInstance( );
-            $this->Registry->setDB( $DB );
-            $this->Registry->loadRegistry( );
+            $this->connectDB();
 
             if( isset( $args[0] ) ) {
                 $this->setXMLTasks( $args[0] );
@@ -105,16 +115,21 @@ class AdminControl extends Control {
      * @return bool
      */
     public function setXMLTasks( $task ) {
-        $XML = new XML( );
-        $XMLElement = $XML->load( XML . 'Aurora/admin-no.xml' );
-        $sizeof = sizeof( $XMLElement->task );
+        try {
+            $XML = new XML( );
+            $XMLElement = $XML->load( XML . 'Aurora/admin-no.xml' );
+            $sizeof = sizeof( $XMLElement->task );
 
-        // If not admin task, override the default xmlTaskFile
-        for( $i=0; $i<$sizeof; $i++ ) {
-            if( $XMLElement->task[$i]['type'] == $task ) {
-                $this->xmlTaskFile = XML . 'Aurora/admin-no.xml';
-                $this->xmlGatewayFile = XML . 'Aurora/gateway-no.xml';
+            // If not admin task, override the default xmlTaskFile
+            for( $i=0; $i<$sizeof; $i++ ) {
+                if( $XMLElement->task[$i]['type'] == $task ) {
+                    $this->xmlTaskFile = XML . 'Aurora/admin-no.xml';
+                    $this->xmlGatewayFile = XML . 'Aurora/gateway-no.xml';
+                }
             }
+        }
+        catch( FileNotFoundException $e ) {
+            $e->record( );
         }
     }
 

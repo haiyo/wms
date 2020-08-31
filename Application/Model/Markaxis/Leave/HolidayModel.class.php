@@ -1,5 +1,7 @@
 <?php
 namespace Markaxis\Leave;
+use \Markaxis\Employee\EmployeeModel;
+use \Aurora\Component\OfficeModel AS A_OfficeModel;
 use \Library\Util\Date;
 use \Library\Validator\Validator;
 
@@ -52,8 +54,8 @@ class HolidayModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getAll( ) {
-        return $this->Holiday->getAll( );
+    public function getNonWorkDays( $start='', $end='', $countryCode='' ) {
+        return $this->Holiday->getNonWorkDays( $start, $end, $countryCode );
     }
 
 
@@ -62,13 +64,19 @@ class HolidayModel extends \Model {
      * @return mixed
      */
     public function getEvents( $info ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        $A_OfficeModel = A_OfficeModel::getInstance( );
+        $officeInfo = $A_OfficeModel->getByoID( $empInfo['officeID'] );
+
         $eventList = array( );
 
         if( isset( $info['start'] ) && isset( $info['end'] ) ) {
             $startDate = Date::parseDateTime( $info['start'] );
             $endDate = Date::parseDateTime( $info['end'] );
 
-            $eventList = $this->Holiday->getEventsBetween( $startDate, $endDate );
+            $eventList = $this->Holiday->getEventsBetween( $startDate, $endDate, $officeInfo['countryCode'] );
         }
         return $eventList;
     }
@@ -81,8 +89,10 @@ class HolidayModel extends \Model {
     public function getResults( $post ) {
         $this->Holiday->setLimit( $post['start'], $post['length'] );
 
-        $order = 'h.date';
-        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'asc' ? ' asc' : ' desc';
+        $order = 'c.name';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+
+        $order2 = ', h.date ASC';
 
         if( isset( $post['order'][0]['column'] ) ) {
             switch( $post['order'][0]['column'] ) {
@@ -90,11 +100,14 @@ class HolidayModel extends \Model {
                     $order = 'h.title';
                     break;
                 case 2:
+                    $order = 'c.name';
+                    break;
+                case 3:
                     $order = 'h.date';
                     break;
             }
         }
-        $results = $this->Holiday->getResults( $post['search']['value'], $order . $dir );
+        $results = $this->Holiday->getResults( $post['search']['value'], $order . $dir . $order2 );
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 

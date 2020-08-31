@@ -17,9 +17,9 @@ class AccountStatusRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_ACTIVE'] = 'Active';
-        $this->contents['LANG_PENDING'] = 'Pending';
-        $this->contents['LANG_SUSPENDED'] = 'Suspended';
+        $this->contents['LANG_ACTIVE'] = 'Hoạt động';
+        $this->contents['LANG_PENDING'] = 'Đang chờ xử lý';
+        $this->contents['LANG_SUSPENDED'] = 'Đình chỉ';
 	}
 }
 ?>

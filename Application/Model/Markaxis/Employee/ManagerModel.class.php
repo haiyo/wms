@@ -77,7 +77,7 @@ class ManagerModel extends \Model {
      * @return mixed
      */
     public function isValid( $data ) {
-        if( isset( $data['managers'] ) ) {
+        if( isset( $data['managers'] ) && $data['managers'] ) {
             $managers = array_map('trim', explode( ';', $data['managers'] ) );
             $UserModel = new UserModel( );
 

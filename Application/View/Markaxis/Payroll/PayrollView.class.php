@@ -2,8 +2,9 @@
 namespace Markaxis\Payroll;
 use \Markaxis\Expense\ExpenseModel, \Markaxis\Company\OfficeModel AS M_OfficeModel;
 use \Markaxis\Employee\EmployeeModel, \Aurora\User\UserImageModel;
+use \Aurora\Component\OfficeModel AS A_OfficeModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Aurora\Form\SelectGroupListView, \Aurora\Component\OfficeModel;
+use \Aurora\Form\SelectGroupListView;
 use \Library\Runtime\Registry;
 
 /**
@@ -64,8 +65,11 @@ class PayrollView {
         $interval = \DateInterval::createFromDateString('1 month');
         $period = new \DatePeriod( $startDate, $interval, $endDate );
 
-        $OfficeModel = M_OfficeModel::getInstance( );
+        $A_OfficeModel = A_OfficeModel::getInstance( );
+        $M_OfficeModel = M_OfficeModel::getInstance( );
         $EmployeeModel = EmployeeModel::getInstance( );
+
+        $officeInfo = $A_OfficeModel->getMainOffice( );
 
         $vars['dynamic']['tab-pane-process'] = $vars['dynamic']['tab-pane'] = false;
 
@@ -79,9 +83,10 @@ class PayrollView {
             $year      = $datetime->format('Y');
             $lastDay   = $datetime->format('t');
             $ymd       = $datetime->format('Y-m-d');
-            $workDays  = $OfficeModel->getWorkingDaysByRange( 0,
-                                                              $datetime->format('Y-m-') . '01',
-                                                              $datetime->format('Y-m-') . $lastDay );
+            $workDays  = $M_OfficeModel->getWorkingDaysByRange( $officeInfo['oID'],
+                                                                $datetime->format('Y-m-') . '01',
+                                                                $datetime->format('Y-m-') . $lastDay,
+                                                                $officeInfo['countryCode'] );
 
             if( isset( $processed[$index]['completed'] ) && $processed[$index]['completed'] ) {
                 $dataID    = 'complete';
@@ -149,13 +154,17 @@ class PayrollView {
      * @return string
      */
     public function renderProcess( $processDate ) {
-        $OfficeModel = OfficeModel::getInstance( );
+        //TPLVAR_CURRENCY
+        $A_OfficeModel = A_OfficeModel::getInstance( );
+        $mainInfo = $A_OfficeModel->getMainOffice( );
+
         $SelectListView = new SelectListView( );
-        $officeList = $SelectListView->build( 'office', $OfficeModel->getList( ), '',
+        $officeList = $SelectListView->build( 'office', $A_OfficeModel->getList( ), $mainInfo['oID'],
                                               '-- Filter by Office / Location --' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                              array( 'TPLVAR_PROCESS_DATE' => $processDate,
+                                    'TPLVAR_CURRENCY' => $mainInfo['currencyCode'] . $mainInfo['currencySymbol'],
                                     'TPL_OFFICE_LIST' => $officeList ) );
 
         $vars['TPLVAR_COMPLETED'] = 0;
@@ -191,33 +200,12 @@ class PayrollView {
         if( $userInfo ) {
             $UserImageModel = UserImageModel::getInstance( );
 
-            $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
+            $vars = array_merge( $this->L10n->getContents( ),
+                    array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
                            'TPLVAR_USERID' => $userID,
                            'TPLVAR_FNAME' => $userInfo['fname'],
                            'TPLVAR_LNAME' => $userInfo['lname'],
-                           'TPLVAR_PROCESS_DATE' => $processDate );
-
-            /*$vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getByUserID( $userID, 'up.hashDir, up.hashName' ),
-                           'TPLVAR_FNAME' => $userInfo['fname'],
-                           'TPLVAR_LNAME' => $userInfo['lname'],
-                           'TPLVAR_AGE' => $userInfo['birthday'] ? Date::getAge( $userInfo['birthday'] ) : ' -- ',
-                           'TPLVAR_DEPARTMENT' => $userInfo['department'] ? $userInfo['department'] : ' -- ',
-                           'TPLVAR_DESIGNATION' => $userInfo['designation'] ? $userInfo['designation'] : ' -- ',
-                           'TPLVAR_CONTRACT_TYPE' => $userInfo['contractType'] ? $userInfo['contractType'] : ' -- ',
-                           'TPLVAR_WORK_PASS' => $userInfo['passType'] ? $userInfo['passType'] : $userInfo['nationality'],
-                           'TPLVAR_IDNUMBER' => $userInfo['idnumber'],
-                           'TPLVAR_START_DATE' => $userInfo['startDate'],
-                           'TPLVAR_END_DATE' => $userInfo['endDate'] ? $userInfo['endDate'] : ' -- ',
-                           'TPLVAR_CONFIRM_DATE' => $userInfo['confirmDate'] ? $userInfo['confirmDate'] : ' -- ',
-                           'TPLVAR_DURATION_YEAR' => $duration->y,
-                           'TPLVAR_DURATION_MONTH' => $duration->m,
-                           'TPLVAR_CURRENCY' => $userInfo['currency'],
-                           'TPLVAR_PAYMENT_METHOD' => $userInfo['paymentMethod'] ? $userInfo['paymentMethod'] : ' -- ',
-                           'TPLVAR_BANK_NAME' => $userInfo['bankName'] ? $userInfo['bankName'] : ' -- ',
-                           'TPLVAR_BANK_NUMBER' => $userInfo['number'] ? $userInfo['number'] : ' -- ',
-                           'TPLVAR_BANK_CODE' => $userInfo['code'] ? $userInfo['code'] : ' -- ',
-                           'TPLVAR_BRANCH_CODE' => $userInfo['branchCode'] ? $userInfo['branchCode'] : ' -- ',
-                           'TPLVAR_BANK_SWIFT_CODE' => $userInfo['swiftCode'] ? $userInfo['swiftCode'] : ' -- ' );*/
+                           'TPLVAR_PROCESS_DATE' => $processDate ) );
 
             $ItemModel = ItemModel::getInstance( );
             $ExpenseModel = ExpenseModel::getInstance( );
@@ -245,16 +233,16 @@ class PayrollView {
             $vars['dynamic']['item'] = $vars['dynamic']['hiddenField'] = false;
             $id = 0;
 
-            if( isset( $data['basic'] ) && $data['empInfo']['salary'] ) {
+            if( isset( $data['basic'] ) && $data['totalOrdinary'] ) {
                 $selected = 'p-' . $data['basic']['piID'];
                 $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
                 $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                     'TPLVAR_HIDDEN_ID' => '',
                                                     'TPLVAR_DEDUCTION' => '',
-                                                    'TPLVAR_CURRENCY' => $userInfo['currency'],
-                                                    'TPLVAR_AMOUNT' => $userInfo['currency'] .
-                                                                       number_format( $data['empInfo']['salary'],2 ),
+                                                    'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                    'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
+                                                                       number_format( $data['totalOrdinary'],2 ),
                                                     'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                     'TPLVAR_REMARK' => '',
                                                     'TPL_ICON' => '' );
@@ -287,7 +275,8 @@ class PayrollView {
                         $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                             'TPLVAR_HIDDEN_ID' => $hiddenID,
                                                             'TPLVAR_DEDUCTION' => $deduction,
-                                                            'TPLVAR_AMOUNT' => $userInfo['currency'] .
+                                                            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                            'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
                                                                                 number_format( $item['amount'],2 ),
                                                             'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                             'TPLVAR_REMARK' => $item['remark'] );
@@ -302,7 +291,8 @@ class PayrollView {
 
                             $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
                                                                 'TPLVAR_HIDDEN_ID' => 'claim' . $claim['ecID'],
-                                                                'TPLVAR_AMOUNT' => $userInfo['currency'] .
+                                                                'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                                'TPLVAR_AMOUNT' => $data['empInfo']['currency'] .
                                                                                    number_format( $claim['amount'],2 ),
                                                                 'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                                 'TPLVAR_REMARK' => $claim['remark'] );
@@ -327,12 +317,13 @@ class PayrollView {
 
 
     /**
-     * Render main navigation
+     * Render summary on first process!
      * @return string
      */
     public function renderProcessSummary( $data ) {
-        $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_DEDUCTION_AMOUNT'] =
-        $vars['TPLVAR_NET_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
+        $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_NET_AMOUNT'] = $data['totalOrdinary'];
+
+        $vars['TPLVAR_DEDUCTION_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
         $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
         $vars['TPLVAR_TOTAL_LEVY'] = $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
 
@@ -370,43 +361,46 @@ class PayrollView {
                                                         'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
 
         if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
+
             foreach( $data['items'] as $item ) {
-                if( isset( $data['deduction'] ) ) {
-                    $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$item['amount'];
-                    $vars['TPLVAR_NET_AMOUNT'] -= (float)$item['amount'];
+                if( isset( $item['deductGross'] ) ) {
+                    $vars['TPLVAR_GROSS_AMOUNT'] -= (float)$item['amount'];
+                }
 
+                $vars['TPLVAR_DEDUCTION_AMOUNT'] += (float)$item['amount'];
+                $vars['TPLVAR_NET_AMOUNT'] -= (float)$item['amount'];
 
-                    foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
-                        // First find all the childs in this group and see if we have any summary=1
-                        if( isset( $taxGroup['child'] ) ) {
-                            $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
+                foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
+                    // First find all the childs in this group and see if we have any summary=1
+                    if( isset( $taxGroup['child'] ) ) {
+                        $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
 
-                            if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
-                                foreach( $taxGroup['child'] as $child ) {
-                                    if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
-                                        if( $child['summary'] ) {
-                                            $itemGroups[$key]['title'] = $child['title'];
-                                        }
-                                        else {
-                                            $itemGroups[$key]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
-                                        }
-
-                                        if( isset( $itemGroups[$key]['amount'] ) ) {
-                                            $itemGroups[$key]['amount'] += (float)$item['amount'];
-                                        }
-                                        else {
-                                            $itemGroups[$key]['amount'] = (float)$item['amount'];
-                                        }
-                                        break 2;
+                        if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
+                            foreach( $taxGroup['child'] as $childKey => $child ) {
+                                if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
+                                    if( $child['summary'] ) {
+                                        $itemGroups[$childKey]['title'] = $child['title'];
                                     }
+                                    else {
+                                        $itemGroups[$childKey]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                    }
+
+                                    if( isset( $itemGroups[$childKey]['amount'] ) ) {
+                                        $itemGroups[$childKey]['amount'] += (float)$item['amount'];
+                                    }
+                                    else {
+                                        $itemGroups[$childKey]['amount'] = (float)$item['amount'];
+                                    }
+                                    break 2;
                                 }
                             }
                         }
-                        else if( $taxGroup['tgID'] == $item['tgID'] ) {
-                            // If children not found with summary=1, fallback to parent
-                            $itemGroups[$key]['title'] = $taxGroup['title'];
-                            break;
-                        }
+                    }
+                    else if( isset( $taxGroup['tgID'] ) && isset( $item['tgID'] ) && $taxGroup['tgID'] == $item['tgID'] ) {
+                        // If children not found with summary=1, fallback to parent
+                        $itemGroups[$key]['title'] = $taxGroup['title'];
+                        $itemGroups[$key]['amount'] = (float)$item['amount'];
+                        break;
                     }
                 }
             }
@@ -460,7 +454,7 @@ class PayrollView {
         $vars['TPLVAR_SDL_AMOUNT'] = number_format( $vars['TPLVAR_SDL_AMOUNT'],2 );
         $vars['TPLVAR_FWL_AMOUNT'] = number_format( $vars['TPLVAR_FWL_AMOUNT'],2 );
 
-        return $this->View->render('markaxis/payroll/processSummary.tpl', $vars );
+        return $this->View->render('markaxis/payroll/processSummary.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
     }
 
 

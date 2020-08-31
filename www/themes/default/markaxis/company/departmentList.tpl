@@ -14,10 +14,10 @@
     <table class="table table-hover datatable departmentTable">
         <thead>
         <tr>
-            <th>Department Name</th>
-            <th>Manager(s)</th>
-            <th>No. of Employee</th>
-            <th>Actions</th>
+            <th><?LANG_DEPARTMENT_NAME?></th>
+            <th><?LANG_MANAGERS?></th>
+            <th><?LANG_NO_OF_EMPLOYEE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -27,7 +27,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Department</h6>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_DEPARTMENT?></h6>
             </div>
 
             <form id="saveDepartment" name="saveDepartment" method="post" action="">
@@ -36,17 +36,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Department Name:</label>
+                                <label><?LANG_DEPARTMENT_NAME?>:</label>
                                 <input type="text" name="departmentName" id="departmentName" class="form-control" value=""
-                                       placeholder="Enter Department Name" />
+                                       placeholder="<?LANG_ENTER_DEPARTMENT_NAME?>" />
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Department Manager(s):</label>
+                                <label><?LANG_DEPARTMENT_MANAGER?>:</label>
                                 <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
-                                       placeholder="Enter Manager's Name" value=""
+                                       placeholder="<?LANG_ENTER_MANAGER_NAME?>" value=""
                                        autocomplete="off" data-fouc />
                             </div>
                         </div>
@@ -54,8 +54,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_DISCARD?></button>
+                        <button type="submit" class="btn btn-primary" id="saveApplyLeave"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

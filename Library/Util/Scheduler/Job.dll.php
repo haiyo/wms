@@ -431,7 +431,7 @@ class Job {
         try {
             $returnData = call_user_func_array( $fn, $this->args );
         }
-        catch( Exception $e ) {
+        catch( \Exception $e ) {
             ob_end_clean( );
             throw $e;
         }

@@ -49,6 +49,18 @@ class LeaveRes extends Resource {
         $this->contents['LANG_MONTHS'] = 'Months';
         $this->contents['LANG_WEEKS'] = 'Weeks';
         $this->contents['LANG_DAYS'] = 'Days';
+        $this->contents['LANG_AVAILABLE'] = 'Available';
+        $this->contents['LANG_CONSUMED'] = 'Consumed';
+        $this->contents['LANG_PENDING'] = 'Pending';
+        $this->contents['LANG_ENTITLED'] = 'Entitled';
+        $this->contents['LANG_LEAVE_ACTIONS'] = 'Leave Actions';
+        $this->contents['LANG_LEAVE_TYPE_CODE'] = 'Leave Type (Code)';
+        $this->contents['LANG_PERIOD'] = 'Period';
+        $this->contents['LANG_REASON'] = 'Reason';
+        $this->contents['LANG_STATUS'] = 'Status';
+        $this->contents['LANG_APPROVED_BY'] = 'Approved By';
+        $this->contents['LANG_ACTIONS'] = 'Actions';
+        $this->contents['LANG_SELECT_LEAVE_TYPE'] = 'Select Leave Type';
         $this->contents['LANG_APPROVED'] = 'Approved';
         $this->contents['LANG_UNAPPROVED'] = 'Unapproved';
         $this->contents['LANG_PENDING'] = 'Pending';
@@ -103,6 +115,35 @@ class LeaveRes extends Resource {
         $this->contents['LANG_ATTACHMENT'] = 'Attachment';
         $this->contents['LANG_CREATE_CUSTOM_HOLIDAY'] = 'Create Custom Holiday';
         $this->contents['LANG_PROVIDE_ALL_REQUIRED_FIELDS'] = 'Please provide all required fields.';
+        $this->contents['LANG_NAME'] = 'Name';
+        $this->contents['LANG_UNUSED_LEAVE'] = 'Unused Leave';
+        $this->contents['LANG_ACTIONS'] = 'Actions';
+        $this->contents['LANG_LEAVE_TYPES'] = 'Leave Types';
+        $this->contents['LANG_HOLIDAYS'] = 'Holidays';
+        $this->contents['LANG_TITLE'] = 'Title';
+        $this->contents['LANG_COUNTRY'] = 'Country';
+        $this->contents['LANG_DATE'] = 'Date';
+        $this->contents['LANG_WORK_DAY'] = 'Work Day';
+        $this->contents['LANG_HOLIDAY_TITLE'] = 'Holiday Title';
+        $this->contents['LANG_ENTER_HOLIDAY_TITLE'] = 'Enter a title for this holiday';
+        $this->contents['LANG_IS_THIS_WORK_DAY'] = 'Is this a work day?';
+
+        // Apply Form
+        $this->contents['LANG_APPLY_LEAVE_NOW'] = 'Apply Leave Now';
+        $this->contents['LANG_APPLY_LEAVE'] = 'Apply Leave';
+        $this->contents['LANG_LEAVE_TYPE'] = 'Leave Type';
+        $this->contents['LANG_REASON'] = 'Reason';
+        $this->contents['LANG_PERSONAL_ISSUES_VACATION'] = 'For e.g: Personal issues, Vacation';
+        $this->contents['LANG_START_DATE'] = 'Start Date';
+        $this->contents['LANG_END_DATE'] = 'End Date';
+        $this->contents['LANG_HALF_DAY_ON_FIRST_DAY'] = 'Half day on first day';
+        $this->contents['LANG_HALF_DAY_ON_LAST_DAY'] = 'Half day on last day';
+        $this->contents['LANG_UPLOAD_SUPPORTING_DOCUMENT'] = 'Upload Supporting Document (If any)';
+        $this->contents['LANG_ACCEPTED_FORMATS'] = 'Accepted formats: pdf, doc. Max file size';
+        $this->contents['LANG_APPROVING_MANAGERS'] = 'Approving Manager(s)';
+        $this->contents['LANG_ENTER_MANAGER_NAME'] = 'Enter Manager\'s Name';
+        $this->contents['LANG_CANCEL'] = 'Cancel';
+        $this->contents['LANG_SUBMIT'] = 'Submit';
     }
 }
 ?>

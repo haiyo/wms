@@ -90,7 +90,7 @@ class UserView {
         $genderRadio = $RadioView->build( 'gender', GenderHelper::getL10nList( ), $this->userInfo['gender'] );
         $childrenRadio = $RadioView->build( 'children', YesNoHelper::getL10nList( ), $this->userInfo['children'] );
 
-        $dobDay = $dobMonth = $dobYear = $startYear = $endYear = '';
+        $dobDay = $dobMonth = $dobYear = '';
         if( $this->userInfo['birthday'] ) {
             $birthday = explode( '-', $this->userInfo['birthday'] );
             $dobDay   = $birthday[2];
@@ -99,39 +99,47 @@ class UserView {
         }
         $DayIntListView = new DayIntListView( );
         $SelectListView = new SelectListView( );
-        $dobDayList   = $DayIntListView->getList( 'dobDay', $dobDay, 'Day' );
-        $dobMonthList = $SelectListView->build( 'dobMonth', MonthHelper::getL10nList( ), $dobMonth, 'Month' );
+        $dobDayList   = $DayIntListView->getList('dobDay', $dobDay, $this->L10n->getContents('LANG_DAY') );
+        $dobMonthList = $SelectListView->build('dobMonth', MonthHelper::getL10nList( ), $dobMonth,
+                                                $this->L10n->getContents('LANG_MONTH') );
 
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
-        $countryList = $SelectListView->build( 'country', $countries, $this->userInfo['countryID'], 'Select Country' );
+        $countryList = $SelectListView->build( 'country', $countries, $this->userInfo['countryID'],
+                                                $this->L10n->getContents('LANG_SELECT_COUNTRY') );
 
         $NationalityModel = NationalityModel::getInstance( );
         $nationalities = $NationalityModel->getList( );
-        $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->userInfo['nationalityID'], 'Select Nationality' );
+        $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->userInfo['nationalityID'],
+                                                    $this->L10n->getContents('LANG_SELECT_NATIONALITY') );
 
         $SelectListView->setClass( 'maritalList' );
-        $maritalList  = $SelectListView->build( 'marital', MaritalHelper::getL10nList( ), $this->userInfo['marital'], 'Select Status' );
+        $maritalList  = $SelectListView->build( 'marital', MaritalHelper::getL10nList( ), $this->userInfo['marital'],
+                                                $this->L10n->getContents('LANG_SELECT_STATUS') );
 
         $ReligionModel = ReligionModel::getInstance( );
         $religionID = isset( $this->userInfo['religionID'] ) ? $this->userInfo['religionID'] : '';
-        $religionList = $SelectListView->build( 'religion', $ReligionModel->getList( ), $religionID, 'Select Religion' );
+        $religionList = $SelectListView->build( 'religion', $ReligionModel->getList( ), $religionID,
+                                                $this->L10n->getContents('LANG_SELECT_RELIGION') );
 
         $RaceModel = RaceModel::getInstance( );
         $raceID = isset( $this->userInfo['raceID'] ) ? $this->userInfo['raceID'] : '';
         $SelectListView->setClass( 'raceList' );
-        $raceList = $SelectListView->build( 'race',  $RaceModel->getList( ), $raceID, 'Select Race' );
+        $raceList = $SelectListView->build( 'race',  $RaceModel->getList( ), $raceID, $this->L10n->getContents('LANG_SELECT_RACE') );
 
         $SelectListView->setClass('childSelect childCountry' );
-        $childCountry  = $SelectListView->build( 'childCountry_{id}', $countries, '', 'Select Country' );
+        $childCountry  = $SelectListView->build( 'childCountry_{id}', $countries, '',
+                                                 $this->L10n->getContents('LANG_SELECT_COUNTRY') );
 
         $DayIntListView->setClass('childSelect childDobDay' );
         $childDOBDayList = $DayIntListView->getList( 'childDobDay_{id}', '', 'Day' );
 
         $SelectListView->setClass('childSelect childDobMonth' );
-        $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), '', 'Month' );
+        $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), '',
+                                                     $this->L10n->getContents('LANG_MONTH') );
 
-        $vars = array( 'TPLVAR_USERID' => $this->userInfo['userID'],
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_USERID' => $this->userInfo['userID'],
                        'TPLVAR_FNAME' => $this->userInfo['fname'],
                        'TPLVAR_LNAME' => $this->userInfo['lname'],
                        'TPLVAR_NRIC' => $this->userInfo['nric'],
@@ -158,7 +166,7 @@ class UserView {
                        'TPLVAR_CHILD_NAME' => '',
                        'TPL_CHILD_COUNTRY' => $childCountry,
                        'TPL_CHILD_DOB_DAY_LIST' => $childDOBDayList,
-                       'TPL_CHILD_DOB_MONTH_LIST' => $childDOBMonthList );
+                       'TPL_CHILD_DOB_MONTH_LIST' => $childDOBMonthList ) );
 
         $vars['dynamic']['children'] = false;
 
@@ -168,7 +176,8 @@ class UserView {
             $id = 0;
             if( $ucInfo = $ChildrenModel->getByUserID( $this->userInfo['userID'] ) ) {
                 foreach( $ucInfo as $value ) {
-                    $countryList  = $SelectListView->build( 'childCountry_' . $id, $countries, $value['country'], 'Select Country' );
+                    $countryList  = $SelectListView->build('childCountry_' . $id, $countries, $value['country'],
+                                                            $this->L10n->getContents('LANG_SELECT_COUNTRY') );
 
                     $birthday = explode( '-', $value['birthday'] );
                     $dobDay   = $birthday[2];
@@ -176,7 +185,8 @@ class UserView {
                     $dobYear  = $birthday[0];
 
                     $dobDayList   = $DayIntListView->getList( 'childDobDay_' . $id, $dobDay, 'Day' );
-                    $dobMonthList = $SelectListView->build( 'childDobMonth_' . $id, MonthHelper::getL10nList( ), $dobMonth, 'Month' );
+                    $dobMonthList = $SelectListView->build( 'childDobMonth_' . $id, MonthHelper::getL10nList( ), $dobMonth,
+                                                            $this->L10n->getContents('LANG_MONTH') );
 
                     $vars['dynamic']['children'][] = array( 'TPLVAR_ID' => $id,
                                                             'TPLVAR_UCID' => $value['ucID'],

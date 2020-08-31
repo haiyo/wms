@@ -266,6 +266,7 @@ class AdminView extends SingletonHelper {
 
         return $this->render('aurora/core/navBar.tpl',
                               array_merge( $this->UserRes->getContents( ),
+                                           $this->PageRes->getContents( ),
                               array( 'TPL_MENU' => $MenuView->renderMenu( ),
                                    'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $this->userInfo['userID'] ),
                                    'TPLVAR_FNAME' => $this->userInfo['fname'],

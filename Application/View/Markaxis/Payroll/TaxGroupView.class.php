@@ -67,6 +67,20 @@ class TaxGroupView {
      * Render main navigation
      * @return string
      */
+    public function renderTaxGroupList( $tgID ) {
+        $elements = array( );
+
+        if( $gInfo = $this->TaxGroupModel->getBytgID( $tgID ) ) {
+            $elements[] = $gInfo;
+            return $this->buildGroupTree( $elements, $gInfo['parent'] );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function renderTaxGroup( $tgID ) {
         $elements = array( );
 

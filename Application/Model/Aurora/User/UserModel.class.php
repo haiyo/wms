@@ -4,14 +4,10 @@ use \Library\Helper\Aurora\MaritalHelper;
 use \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Aurora\Component\AuditLogModel, \Aurora\Component\NationalityModel;
-use \Library\Util\Date;
+use \Library\Security\Aurora\Authenticator, \Library\Util\Date;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
 use \Library\Exception\ValidatorException;
-use \Library\Helper\Google\KeyManagerHelper;
-use \Google_Service_CloudKMS as Kms;
-use \Google_Service_CloudKMS_DecryptRequest as DecryptRequest;
-use \Google_Service_CloudKMS_EncryptRequest as EncryptRequest;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -206,21 +202,9 @@ class UserModel extends \Model {
 
         if( $data['loginPassword'] ) {
             try {
-                require( ROOT . './Library/vendor/autoload.php' );
-                $client = new \Google_Client( );
-                $client->setAuthConfig(CLOUD_KMS_CONFIG );
-                $client->addScope(CLOUD_KMS_SCOPE );
+                $Authenticator = new Authenticator( );
 
-                $jsonData = json_decode( file_get_contents(CLOUD_KMS_CONFIG ),true );
-
-                $keyManager = new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
-                    $jsonData['projectId'],
-                    $jsonData['locationId'],
-                    $jsonData['keyRingId'],
-                    $jsonData['cryptoKeyId']
-                );
-
-                $encrypted = $keyManager->encrypt( $data['loginPassword'] );
+                $encrypted = $Authenticator->getKeyManager( )->encrypt( $data['loginPassword'] );
                 $this->info['password'] = $encrypted['data'];
                 $this->info['kek'] = $encrypted['secret'];
             }

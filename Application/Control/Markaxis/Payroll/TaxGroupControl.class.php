@@ -86,5 +86,18 @@ class TaxGroupControl {
         echo json_encode( $vars );
         exit;
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteTaxGroup( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_taxes' ) ) {
+            $tgID = Control::getRequest( )->request( POST, 'tgID' );
+
+            Control::setOutputArray( array( 'groupList' => $this->TaxGroupModel->delete( $tgID ) ) );
+        }
+    }
 }
 ?>

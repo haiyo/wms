@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\Component\OfficeModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
 use \Library\Helper\Markaxis\RecurHelper;
 use \Library\Runtime\Registry;
@@ -44,6 +45,11 @@ class CalendarView {
      */
     public function renderSettings( ) {
         $SelectListView = new SelectListView( );
+
+        /*$OfficeModel = OfficeModel::getInstance( );
+        $officeList = $SelectListView->build( 'office', $OfficeModel->getList( ), '',
+                                              $this->L10n->getContents('LANG_SELECT_OFFICE') );*/
+
         $recurList = RecurHelper::getL10nList( );
         unset( $recurList['day'] );
         unset( $recurList['year'] );
@@ -52,7 +58,8 @@ class CalendarView {
         unset( $recurList['tueThur'] );
         $periodList = $SelectListView->build( 'payPeriod',  $recurList, '' );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_PAY_PERIOD_LIST' => $periodList ) );
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPL_PAY_PERIOD_LIST' => $periodList ) );
 
         return $this->View->render( 'markaxis/payroll/calendar.tpl', $vars );
     }

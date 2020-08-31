@@ -49,6 +49,12 @@ var MarkaxisPayrollFinalized = (function( ) {
         },
 
 
+        updateResults: function( ) {
+            this.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/getAllFinalized/" + $("#processDate").val( ) + "/" + $("#office").val( ) ).load();
+        },
+
+
+
         release: function( ) {
             var that = this;
             var userIDs = [];
@@ -151,7 +157,7 @@ var MarkaxisPayrollFinalized = (function( ) {
                     $(nRow).attr('id', 'row' + aData['userID']);
                 },
                 ajax: {
-                    url: Aurora.ROOT_URL + "admin/payroll/getAllFinalized/" + $("#processDate").val( ),
+                    url: Aurora.ROOT_URL + "admin/payroll/getAllFinalized/" + $("#processDate").val( ) + "/" + $("#office").val( ),
                     type: "POST",
                     data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
                 },
@@ -199,11 +205,11 @@ var MarkaxisPayrollFinalized = (function( ) {
                     orderable: true,
                     width: '220px',
                     data: 'net',
-                    render: function( data ) {
+                    render: function( data, type, full, meta ) {
                         if( typeof data !== 'string' ) {
                             data = "0";
                         }
-                        return Aurora.String.formatMoney( data );
+                        return Aurora.String.formatMoney( data, full["currency"] );
                     }
                 },{
                     targets: [6],

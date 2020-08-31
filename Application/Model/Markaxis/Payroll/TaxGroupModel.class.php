@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\Component\OfficeModel;
 use \Library\Validator\Validator;
 
 /**
@@ -14,6 +15,7 @@ class TaxGroupModel extends \Model {
 
     // Properties
     protected $TaxGroup;
+    private static $groupList = array( );
 
 
 
@@ -58,11 +60,29 @@ class TaxGroupModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getByParentTgID( $parentTgID ) {
+        return $this->TaxGroup->getByParentTgID( $parentTgID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
     public function getList( $selectable=false ) {
         return $this->TaxGroup->getList( $selectable );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getListByOfficeID( $oID ) {
+        return $this->TaxGroup->getListByOfficeID( $oID );
     }
 
 
@@ -124,6 +144,15 @@ class TaxGroupModel extends \Model {
             $this->info['parent'] = 0;
         }
 
+        $OfficeModel = OfficeModel::getInstance( );
+
+        if( $data['office'] && $OfficeModel->isFound( $data['office'] ) ) {
+            $this->info['officeID'] = (int)$data['office'];
+        }
+
+        $this->info['selectable']  = ( isset( $data['selectable']  ) && $data['selectable']  ) ? 1 : 0;
+        $this->info['summary'] = ( isset( $data['summary'] ) && $data['summary'] ) ? 1 : 0;
+
         if( $data['tgID'] && $this->isFound( $data['tgID'] ) ) {
             $this->info['tgID'] = (int)$data['tgID'];
             $this->TaxGroup->update( 'tax_group', $this->info, 'WHERE tgID = "' . (int)$this->info['tgID'] . '"' );
@@ -133,6 +162,29 @@ class TaxGroupModel extends \Model {
             $this->info['tgID'] = $this->TaxGroup->insert('tax_group', $this->info );
         }
         return $this->info['tgID'];
+    }
+
+
+    /**
+     * Delete Pay Item
+     * @return mixed
+     */
+    public function delete( $tgID ) {
+        array_push(self::$groupList, $tgID );
+
+        $info = array( );
+        $info['deleted'] = 1;
+        $this->TaxGroup->update( 'tax_group', $info, 'WHERE tgID = "' . (int)$tgID . '"' );
+
+        $list = $this->getByParentTgID( $tgID );
+
+        if( sizeof( $list ) > 0 ) {
+            foreach( $list as $row ) {
+                $this->delete( $row['tgID'] );
+            }
+
+        }
+        return self::$groupList;
     }
 }
 ?>

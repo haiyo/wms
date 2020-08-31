@@ -99,7 +99,7 @@ class LeaveApplyControl {
     public function getEvents( ) {
         $post = Control::getRequest( )->request( POST );
 
-        if( $eventInfo = $this->LeaveApplyModel->getEvents( $post ) ) {
+        if( isset( $post['user'] ) && $post['user'] == 'colleague' && $eventInfo = $this->LeaveApplyModel->getEvents( $post ) ) {
             Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
         }
     }

@@ -3,7 +3,7 @@ namespace Markaxis\Employee;
 use \Markaxis\Company\DepartmentModel as C_DepartmentModel;
 use \Aurora\Admin\AdminView, \Aurora\Component\DesignationModel, \Aurora\Form\SelectGroupListView;
 use \Aurora\Form\DayIntListView, \Aurora\Form\SelectListView;
-use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\CurrencyHelper, \Aurora\Component\SalaryTypeModel;
+use \Library\Helper\Aurora\MonthHelper, \Aurora\Component\SalaryTypeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel;
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
 use \Library\Runtime\Registry, \Library\Util\Date;
@@ -58,7 +58,7 @@ class EmployeeView {
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_HREF' => 'employeeList',
-                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_EMPLOYEE' ) ) );
+                       'LANG_TEXT' => $this->L10n->getContents('LANG_EMPLOYEE') ) );
 
         $vars['TPL_TAB']  = $this->View->render( 'aurora/core/tab.tpl', $vars );
         $vars['TPL_FORM'] = $this->renderList( );
@@ -108,11 +108,13 @@ class EmployeeView {
         $SelectListView = new SelectListView( );
 
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
-        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getGroupList( ), $designationID,'Filter By Designation' );
+        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getGroupList( ), $designationID,
+                                                        $this->L10n->getContents('LANG_FILTER_BY_DESIGNATION') );
 
         $DepartmentModel = DepartmentModel::getInstance( );
         $departmentID = isset( $this->info['departmentID'] ) ? $this->info['departmentID'] : '';
-        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,'Filter By Department' );
+        $departmentList = $SelectListView->build( 'department',  $DepartmentModel->getList( ), $departmentID,
+                                                    $this->L10n->getContents('LANG_FILTER_BY_DEPARTMENT') );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'LANG_LINK' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY'),
@@ -133,10 +135,11 @@ class EmployeeView {
 
         if( $userList = $this->EmployeeModel->getList( $q, $departmentID, $designationID,true ) ) {
             foreach( $userList as $user ) {
-                $list = array( 'TPLVAR_PHOTO' => $user['image'],
+                $list = array_merge( $this->L10n->getContents( ),
+                        array( 'TPLVAR_PHOTO' => $user['image'],
                                'TPLVAR_NAME' => $user['name'],
                                'TPLVAR_DESIGNATION' => $user['designation'],
-                               'TPLVAR_EMAIL' => $user['email'] );
+                               'TPLVAR_EMAIL' => $user['email'] ) );
 
                 $list['dynamic']['deptName'] = $list['dynamic']['mobile'] = $list['dynamic']['moreDeptName'] = false;
 
@@ -285,25 +288,30 @@ class EmployeeView {
         $DesignationModel = DesignationModel::getInstance( );
         $SelectGroupListView = new SelectGroupListView( );
         $designationID = isset( $this->info['designationID'] ) ? $this->info['designationID'] : '';
-        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getGroupList( ), $designationID,'Select Designation' );
+        $designationList = $SelectGroupListView->build('designation', $DesignationModel->getGroupList( ), $designationID,
+                                                        $this->L10n->getContents('LANG_SELECT_DESIGNATION') );
 
-        $confirmDayList = $DayIntListView->getList('confirmDay', $confirmDay,'Day' );
-        $confirmMonthList = $SelectListView->build('confirmMonth', MonthHelper::getL10nList( ), $confirmMonth, 'Month' );
+        $confirmDayList = $DayIntListView->getList('confirmDay', $confirmDay, $this->L10n->getContents('LANG_DAY') );
+        $confirmMonthList = $SelectListView->build('confirmMonth', MonthHelper::getL10nList( ), $confirmMonth,
+                                                    $this->L10n->getContents('LANG_MONTH') );
 
-        $startDayList = $DayIntListView->getList('startDay', $startDay,'Day' );
-        $startMonthList = $SelectListView->build('startMonth', MonthHelper::getL10nList( ), $startMonth, 'Month' );
+        $startDayList = $DayIntListView->getList('startDay', $startDay, $this->L10n->getContents('LANG_DAY') );
+        $startMonthList = $SelectListView->build('startMonth', MonthHelper::getL10nList( ), $startMonth,
+                                                    $this->L10n->getContents('LANG_MONTH') );
 
-        $endDayList = $DayIntListView->getList('endDay', $endDay,'Day' );
-        $endMonthList = $SelectListView->build('endMonth', MonthHelper::getL10nList( ), $endMonth, 'Month' );
+        $endDayList = $DayIntListView->getList('endDay', $endDay, $this->L10n->getContents('LANG_DAY') );
+        $endMonthList = $SelectListView->build('endMonth', MonthHelper::getL10nList( ), $endMonth,
+                                                $this->L10n->getContents('LANG_MONTH') );
 
-        $passExpiryDayList = $DayIntListView->getList('passExpiryDay', $passExpiryDay, 'Day' );
-        $passExpiryMonthList = $SelectListView->build('passExpiryMonth', MonthHelper::getL10nList( ), $passExpiryMonth,'Month' );
-        $currencyList = $SelectListView->build('currency', CurrencyHelper::getL10nList( ), $this->info['currency'],'Currency' );
+        $passExpiryDayList = $DayIntListView->getList('passExpiryDay', $passExpiryDay, $this->L10n->getContents('LANG_DAY') );
+        $passExpiryMonthList = $SelectListView->build('passExpiryMonth', MonthHelper::getL10nList( ), $passExpiryMonth,
+                                                        $this->L10n->getContents('LANG_MONTH') );
 
         $SalaryTypeModel = SalaryTypeModel::getInstance( );
         $salaryTypeID = isset( $this->info['salaryTypeID'] ) ? $this->info['salaryTypeID'] : '';
         $SelectListView->setClass( 'salaryTypeList' );
-        $salaryTypeList = $SelectListView->build('salaryType',  $SalaryTypeModel->getList( ), $salaryTypeID,'Salary Type' );
+        $salaryTypeList = $SelectListView->build('salaryType',  $SalaryTypeModel->getList( ), $salaryTypeID,
+                                                  $this->L10n->getContents('LANG_SALARY_TYPE') );
 
         $OfficeModel = OfficeModel::getInstance( );
 
@@ -315,15 +323,18 @@ class EmployeeView {
             $officeID = '';
             $officeInfo = $OfficeModel->getMainOffice( );
         }
-        $officeList = $SelectListView->build('office', $OfficeModel->getList( ), $officeID,'Select Office / Location' );
+        $officeList = $SelectListView->build('office', $OfficeModel->getList( ), $officeID,
+                                              $this->L10n->getContents('LANG_SELECT_OFFICE_LOCATION') );
 
         $ContractModel = ContractModel::getInstance( );
         $contractID = isset( $this->info['contractID'] ) ? $this->info['contractID'] : '';
-        $contractList = $SelectListView->build('contractType', $ContractModel->getList( ), $contractID,'Select Contract Type' );
+        $contractList = $SelectListView->build('contractType', $ContractModel->getList( ), $contractID,
+                                                $this->L10n->getContents('LANG_SELECT_CONTRACT_TYPE') );
 
         $PassTypeModel = PassTypeModel::getInstance( );
         $passTypeID = isset( $this->info['passTypeID'] ) ? $this->info['passTypeID'] : '';
-        $passTypeList = $SelectGroupListView->build('passType', $PassTypeModel->getList( ), $passTypeID,'Select Pass Type' );
+        $passTypeList = $SelectGroupListView->build('passType', $PassTypeModel->getList( ), $passTypeID,
+                                                    $this->L10n->getContents('LANG_SELECT_PASS_TYPE') );
 
         // === MULTI LIST LEVEL BELOW ===
         $SelectListView->isMultiple(true );
@@ -332,7 +343,8 @@ class EmployeeView {
         $UserRoleModel = UserRoleModel::getInstance( );
         $RoleModel = RoleModel::getInstance( );
         $selectedRole = $this->info['userID'] ? $UserRoleModel->getByUserID( $this->info['userID'] ) : '';
-        $roleList = $SelectListView->build('role', $RoleModel->getList( ), $selectedRole, 'Select Role(s)' );
+        $roleList = $SelectListView->build('role', $RoleModel->getList( ), $selectedRole,
+                                            $this->L10n->getContents('LANG_SELECT_ROLES') );
 
         $SelectListView->setClass( '' );
         $DepartmentModel = DepartmentModel::getInstance( );
@@ -341,7 +353,8 @@ class EmployeeView {
         $CompanyDepartment = new C_DepartmentModel( );
 
         $deptGroup = isset( $deptInfo['dID'] ) ? explode(',', $deptInfo['dID'] ) : '';
-        $departmentList = $SelectListView->build( 'department',  $CompanyDepartment->getList( ), $deptGroup,'Select Department(s)' );
+        $departmentList = $SelectListView->build( 'department',  $CompanyDepartment->getList( ), $deptGroup,
+                                                    $this->L10n->getContents('LANG_SELECT_DEPARTMENTS') );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],
@@ -358,7 +371,6 @@ class EmployeeView {
                        'TPL_DESIGNATION_LIST' => $designationList,
                        'TPL_CONTRACT_LIST' => $contractList,
                        'TPL_PASS_TYPE_LIST' => $passTypeList,
-                       'TPL_CURRENCY_LIST' => $currencyList,
                        'TPL_SALARY_TYPE' => $salaryTypeList,
                        'TPL_ROLE_LIST' => $roleList,
                        'TPL_CONFIRM_MONTH_LIST' => $confirmMonthList,

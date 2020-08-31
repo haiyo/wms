@@ -26,13 +26,18 @@ class FinanceControl {
 
 
     /**
-     * Render main navigation
-     * @return string
-
-    public function view( ) {
-        $EmployeeView = new EmployeeView( );
-        echo $EmployeeView->renderEdit( );
-    } */
+     * Get File Information
+     * @return mixed
+     */
+    public function getTaxGroupListByOffice( $args ) {
+        // userID && oID
+        if( isset( $args[1] ) && is_numeric( $args[1] ) && isset( $args[2] ) && is_numeric( $args[2] ) ) {
+            $vars['html'] = $this->FinanceView->renderTaxGroupList( $args[1], $args[2] );
+            $vars['bool'] = 1;
+            echo json_encode($vars);
+            exit;
+        }
+    }
 
 
     /**

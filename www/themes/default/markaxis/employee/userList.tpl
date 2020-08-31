@@ -4,7 +4,7 @@
     <div class="row p-10 mb-0">
         <div class="col-md-3">
             <div class="form-group">
-                <input type="search" id="searchUser" placeholder="Search Name or Email" class="form-control" style="width:100%;">
+                <input type="search" id="searchUser" placeholder="<?LANG_SEARCH_NAME_EMAIL?>" class="form-control" style="width:100%;">
             </div>
         </div>
 

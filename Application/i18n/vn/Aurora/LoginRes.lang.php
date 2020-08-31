@@ -19,22 +19,22 @@ class LoginRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_LANGUAGE'] = 'Language';
-        $this->contents['LANG_LOGIN_TITLE'] = 'Sign in to {WEBSITE_NAME}';
-        $this->contents['LANG_LOGIN_DESCRIPT'] = 'You need authorization to access this area.';
-        $this->contents['LANG_EMAIL_ADDRESS'] = 'Email Address';
-        $this->contents['LANG_SIGN_IN'] = 'Sign In';
-        $this->contents['LANG_FORGOT_PASSWORD'] = 'Forgot Password?';
-        $this->contents['LANG_PASSWORD'] = 'Password';
-        $this->contents['LANG_ENTER_VALID_EMAIL'] = 'Please enter a valid email address.';
-        $this->contents['LANG_ENTER_VALID_USERNAME'] = 'Please enter a valid username.';
-        $this->contents['LANG_ENTER_PASSWORD'] = 'Please enter your password.';
-        $this->contents['LANG_ENTER_ALL_FIELDS'] = 'Please enter all fields.';
-        $this->contents['LANG_PLEASE_ENTER_EMAIL'] = 'Please enter email address.';
-        $this->contents['LANG_LOGIN_ERROR'] = 'Invalid Login';
-        $this->contents['LANG_INVALID_LOGIN'] = 'Incorrect Username or Password Combination. Password is case sensitive. Please check your CAPS lock key.';
+        $this->contents['LANG_LANGUAGE'] = 'Ngôn ngữ';
+        $this->contents['LANG_LOGIN_TITLE'] = 'Đăng nhập vào {WEBSITE_NAME}';
+        $this->contents['LANG_LOGIN_DESCRIPT'] = 'Bạn cần ủy quyền để truy cập khu vực này';
+        $this->contents['LANG_EMAIL_ADDRESS'] = 'Địa chỉ email';
+        $this->contents['LANG_SIGN_IN'] = 'Đăng nhập';
+        $this->contents['LANG_FORGOT_PASSWORD'] = 'Quên mật khẩu?';
+        $this->contents['LANG_PASSWORD'] = 'Mật khẩu';
+        $this->contents['LANG_ENTER_VALID_EMAIL'] = 'Vui lòng nhập một địa chỉ email hợp lệ';
+        $this->contents['LANG_ENTER_VALID_USERNAME'] = 'Vui lòng nhập tên người dùng hợp lệ';
+        $this->contents['LANG_ENTER_PASSWORD'] = 'Xin hãy điền mật khẩu';
+        $this->contents['LANG_ENTER_ALL_FIELDS'] = 'Vui lòng nhập tất cả các trường';
+        $this->contents['LANG_PLEASE_ENTER_EMAIL'] = 'Vui lòng nhập địa chỉ email';
+        $this->contents['LANG_LOGIN_ERROR'] = 'Đăng nhập không hợp lệ';
+        $this->contents['LANG_INVALID_LOGIN'] = 'Tên người dùng hoặc kết hợp mật khẩu không chính xác. Mật khẩu phân biệt chữ hoa chữ thường. Vui lòng kiểm tra khóa CAPS của bạn.';
         $this->contents['LANG_OOPS'] = 'Oops...';
-        $this->contents['LANG_SERVICE_UNAVAILABLE'] = 'The login service is currently unavailable. You may have exceeded the maximum number of login attempt. Please try again later.';
+        $this->contents['LANG_SERVICE_UNAVAILABLE'] = 'Dịch vụ đăng nhập hiện không khả dụng. Bạn có thể đã vượt quá số lần đăng nhập tối đa. Vui lòng thử lại sau';
 	}
 }
 ?>

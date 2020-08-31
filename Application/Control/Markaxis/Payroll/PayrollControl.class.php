@@ -40,10 +40,13 @@ class PayrollControl {
      * Render main navigation
      * @return void
      */
-    public function employee( ) {
-        $post = Control::getRequest( )->request( POST );
-        echo json_encode( $this->PayrollModel->getResults( $post ) );
-        exit;
+    public function employee( $args ) {
+        // processDate && officeID
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            $post = Control::getRequest( )->request( POST );
+            echo json_encode( $this->PayrollModel->getResults( $post, $args[1], $args[2] ) );
+            exit;
+        }
     }
 
 

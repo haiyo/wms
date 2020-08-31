@@ -44,6 +44,27 @@ class FinanceView {
      * Render main navigation
      * @return string
      */
+    public function renderTaxGroupList( $userID, $oID ) {
+        $TaxGroupModel = TaxGroupModel::getInstance( );
+
+        $SelectListView = new SelectListView( );
+        $SelectListView->isMultiple( true );
+        $SelectListView->includeBlank( false );
+        $SelectListView->setClass( '' );
+
+        $TaxModel = TaxModel::getInstance( );
+        $taxInfo = $TaxModel->getListByUserID( $userID );
+
+        $taxGroup = isset( $taxInfo['tgID'] ) ? explode(',', $taxInfo['tgID'] ) : '';
+        return $SelectListView->build( 'tgID', $TaxGroupModel->getListByOfficeID( $oID ), $taxGroup,
+                                        $this->L10n->getContents('LANG_SELECT_TAX_GROUP') );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function renderAdd( ) {
         $this->info = $this->FinanceModel->getInfo( );
         return $this->renderForm( );
@@ -68,7 +89,7 @@ class FinanceView {
             $LeaveTypeModel = LeaveTypeModel::getInstance( );
             $LeaveTypeModel->getltIDByUserID( $userID );
         }
-        return $this->renderForm( );
+        return $this->renderForm( $userID );
     }
 
 
@@ -76,7 +97,7 @@ class FinanceView {
      * Render main navigation
      * @return string
      */
-    public function renderForm( ) {
+    public function renderForm( $userID=0 ) {
         $BankModel = BankModel::getInstance( );
         $bankInfo = $BankModel->getInfo( );
 
@@ -90,19 +111,28 @@ class FinanceView {
 
         $SelectListView = new SelectListView( );
         $pcID = isset( $payrollInfo['pcID'] ) ? $payrollInfo['pcID'] : '';
-        $payrollCalList = $SelectListView->build( 'pcID', $CalendarModel->getList( ), $pcID, 'Select Payroll Calendar' );
+        $payrollCalList = $SelectListView->build('pcID', $CalendarModel->getList( ), $pcID,
+                                                  $this->L10n->getContents('LANG_SELECT_PAYROLL_CALENDAR') );
 
-        $EmployeeModel = EmployeeModel::getInstance();
-        $empInfo = $EmployeeModel->getInfo( );
+        $paymentMethodID = $officeID = '';
+
+        if( $userID ) {
+            $EmployeeModel = EmployeeModel::getInstance();
+            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, paymentMethodID' );
+            $paymentMethodID = $empInfo['paymentMethodID'];
+            $officeID = $empInfo['officeID'];
+        }
+
 
         $PaymentMethodModel = PaymentMethodModel::getInstance( );
-        $pmID = isset( $empInfo['paymentMethodID'] ) ? $empInfo['paymentMethodID'] : '';
+        $pmID = $paymentMethodID ? $paymentMethodID : '';
         $SelectListView->setClass( 'paymentMethodList' );
-        $paymentMethodList = $SelectListView->build( 'paymentMethod',  $PaymentMethodModel->getList( ), $pmID, 'Select Payment Method' );
+        $paymentMethodList = $SelectListView->build('paymentMethod',  $PaymentMethodModel->getList( ), $pmID,
+                                                     $this->L10n->getContents('LANG_SELECT_PAYMENT_METHOD') );
 
         $BankModel = AuroraBankModel::getInstance( );
         $bkID = isset( $bankInfo['bkID'] ) ? $bankInfo['bkID'] : '';
-        $bankList = $SelectListView->build( 'bank',  $BankModel->getList( ), $bkID, 'Select Bank' );
+        $bankList = $SelectListView->build( 'bank',  $BankModel->getList( ), $bkID, $this->L10n->getContents('LANG_SELECT_BANK') );
 
         $TaxGroupModel = TaxGroupModel::getInstance( );
         $TypeModel = TypeModel::getInstance( );
@@ -115,10 +145,12 @@ class FinanceView {
         $taxInfo = $TaxModel->getInfo( );
 
         $taxGroup = isset( $taxInfo['tgID'] ) ? explode(',', $taxInfo['tgID'] ) : '';
-        $taxGroupList = $SelectListView->build( 'tgID', $TaxGroupModel->getList( true ), $taxGroup, 'Select Tax Group' );
+        $taxGroupList = $SelectListView->build( 'tgID', $TaxGroupModel->getListByOfficeID( $officeID ), $taxGroup,
+                                                $this->L10n->getContents('LANG_SELECT_TAX_GROUP') );
 
         $leaveType = isset( $leaveTypeInfo['ltID'] ) ? explode(',', $leaveTypeInfo['ltID'] ) : '';
-        $leaveTypeList = $SelectListView->build( 'ltID', $TypeModel->getList( ), $leaveType, 'Select Leave Type' );
+        $leaveTypeList = $SelectListView->build('ltID', $TypeModel->getList( ), $leaveType,
+                                                 $this->L10n->getContents('LANG_SELECT_LEAVE_TYPE') );
 
         $vars = array_merge( $this->L10n->getContents( ),
             array( 'TPLVAR_BANK_NUMBER' => isset( $bankInfo['number'] ) ? $bankInfo['number'] : '',

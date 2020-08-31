@@ -81,7 +81,7 @@ class ExpenseModel extends \Model {
 
             if( $exInfo['max_amount'] ) {
                 return $this->L10n->strReplace( 'maxAmount', $empInfo['currency'] . $exInfo['max_amount'],
-                                                'LANG_MAX_AMOUNT' );
+                                                'LANG_MAX_AMOUNT_CLAIMABLE' );
             }
         }
         else {

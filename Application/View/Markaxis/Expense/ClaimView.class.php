@@ -57,11 +57,9 @@ class ClaimView {
         $CurrencyModel = CurrencyModel::getInstance( );
 
         $SelectListView = new SelectListView( );
-        $currencyList = $SelectListView->build( 'currency', $CurrencyModel->getList( ), '', 'Currency' );
-        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', 'Select Expense Type' );
+        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', $this->L10n->getContents('LANG_SELECT_EXPENSE_TYPE') );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_CURRENCY_LIST' => $currencyList,
-                                                                 'TPLVAR_EXPENSE_LIST' => $expenseList ) );
+        $vars = array_merge( $this->L10n->getContents( ), array( 'TPLVAR_EXPENSE_LIST' => $expenseList ) );
 
         $this->View->setJScript( array( 'markaxis' => array( 'usuggest.js', 'claim.js' ),
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',

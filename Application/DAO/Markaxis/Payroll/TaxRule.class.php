@@ -19,7 +19,8 @@ class TaxRule extends \DAO {
      * @return int
      */
     public function isFound( $trID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(trID) FROM tax_rule WHERE trID = "' . (int)$trID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(trID) FROM tax_rule WHERE deleted = "0" 
+                                   AND trID = "' . (int)$trID . '"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -34,7 +35,8 @@ class TaxRule extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
-                                   LEFT JOIN country c ON ( c.cID = tr.countryID ) ',
+                                   LEFT JOIN country c ON ( c.cID = tr.countryID )
+                                   WHERE deleted = "0"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -54,7 +56,7 @@ class TaxRule extends \DAO {
     public function getBytrID( $trID ) {
         $sql = $this->DB->select( 'SELECT * FROM tax_rule tr
                                    LEFT JOIN country c ON ( c.cID = tr.countryID )
-                                   WHERE tr.trID = "' . (int)$trID . '"',
+                                   WHERE tr.trID = "' . (int)$trID . '" AND deleted = "0"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -77,7 +79,8 @@ class TaxRule extends \DAO {
                                    LEFT JOIN tax_group tg ON ( tg.tgID = tr.tgID )
                                    LEFT JOIN country c ON ( c.cID = tr.countryID )
                                    LEFT JOIN tax_pay_item tpi ON ( tpi.trID = tr.trID ) 
-                                   WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ')',
+                                   WHERE tr.tgID IN (' . addslashes( $tgIDs ) . ') AND
+                                         tr.deleted = "0"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

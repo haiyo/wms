@@ -1,5 +1,9 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\Component\OfficeModel AS A_OfficeModel;
+use \Markaxis\Company\OfficeModel AS M_OfficeModel;
+use \Markaxis\Leave\LeaveApplyModel;
+use \Library\Util\Formula;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -169,11 +173,11 @@ class ItemModel extends \Model {
         $items['deductionAW'] = $this->getDeductionAW( );
         $items['additional'] = $this->getAdditional( );
 
-        if( isset( $data['empInfo']['salary'] ) && isset( $items['basic']['piID'] ) &&
-            isset( $items['ordinary'][$items['basic']['piID']] ) && is_numeric( $data['empInfo']['salary'] ) &&
+        if( isset( $data['empInfo']['salary'] ) && isset( $items['basic'] ) && is_numeric( $data['empInfo']['salary'] ) &&
             $data['empInfo']['salary'] > 0 ) {
 
-            $items['ordinary'][$items['basic']['piID']]['amount'] = $data['empInfo']['salary'];
+            $items['basic']['amount'] = $data['empInfo']['salary'];
+            $items['totalOrdinary'] = $data['empInfo']['salary'];
         }
         return $items;
     }
@@ -226,6 +230,7 @@ class ItemModel extends \Model {
     public function isValid( $data ) {
         $this->info['piID'] = (int)$data['piID'];
         $this->info['title'] = Validator::stripTrim( $data['payItemTitle'] );
+        $this->info['formula'] = trim( $data['formula'] );
 
         $Validator = new Validator( );
         $Validator->addModule( 'payItemTitle', new IsEmpty( $this->info['title'] ) );
@@ -266,7 +271,7 @@ class ItemModel extends \Model {
     public function save( ) {
         if( !$this->info['piID'] ) {
             unset( $this->info['piID'] );
-            $this->info['piID'] = $piID = $this->Item->insert( 'payroll_item', $this->info );
+            $this->info['piID'] = $this->Item->insert( 'payroll_item', $this->info );
         }
         else {
             $this->Item->update( 'payroll_item', $this->info, 'WHERE piID = "' . (int)$this->info['piID'] . '"' );

@@ -75,6 +75,10 @@ var MarkaxisOffice = (function( ) {
                                     $("#halfDay").prop("checked", true);
                                     $.uniform.update('#halfDay');
                                 }
+                                if( obj.data.main == 1 ) {
+                                    $("#main").prop("checked", true);
+                                    $.uniform.update('#main');
+                                }
                             }
                         }
                     }
@@ -91,6 +95,8 @@ var MarkaxisOffice = (function( ) {
                     $("#workDayTo").val("").trigger("change");
                     $("#halfDay").prop("checked", false);
                     $.uniform.update('#halfDay');
+                    $("#main").prop("checked", false);
+                    $.uniform.update('#main');
                 }
             });
 
@@ -135,7 +141,11 @@ var MarkaxisOffice = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal({
+                                    type: "error",
+                                    title: "Error",
+                                    text: obj.errMsg
+                                });
                                 return;
                             }
                             else {
@@ -162,6 +172,8 @@ var MarkaxisOffice = (function( ) {
                                     $("#workDayTo").val("").trigger("change");
                                     $("#halfDay").prop("checked", false);
                                     $.uniform.update('#halfDay');
+                                    $("#main").prop("checked", false);
+                                    $.uniform.update('#main');
 
                                     if( isConfirm === false ) {
                                         that.modalOffice.modal("hide");
@@ -251,7 +263,12 @@ var MarkaxisOffice = (function( ) {
                     width: '250px',
                     data: 'name',
                     render: function( data, type, full, meta ) {
-                        return '<span id="officeName' + full['oID'] + '">' + data + '</span>';
+                        var main = "";
+
+                        if( full["main"] == 1 ) {
+                            main = '<span class="badge badge-primary badge-criteria">Main</span>';
+                        }
+                        return '<span id="officeName' + full['oID'] + '">' + data + ' &nbsp;&nbsp;' + main + '</span>';
                     }
                 },{
                     targets: [1],

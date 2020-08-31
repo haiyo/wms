@@ -28,33 +28,33 @@
                                 <b><i><?TPLVAR_MONTH?></i> <i><?TPLVAR_YEAR?></i></b><em> –
                                 </em><i><?TPLVAR_LAST_DAY?></i> <b><i><?TPLVAR_MONTH?></i> <i><?TPLVAR_YEAR?></i></b>
                             </div>
-                            <span class="badge badge-primary ml-2"><?TPLVAR_WORK_DAYS?> Work Days</span>
+                            <span class="badge badge-primary ml-2"><?TPLVAR_WORK_DAYS?> <?LANG_WORK_DAYS?></span>
                         </div>
                     </div>
 
                     <div class="col-lg-3">
                         <div class="col-md-6">
-                            <div class="font-weight-semibold">Avg. Salary</div>
+                            <div class="font-weight-semibold"><?LANG_AVG_SALARY?></div>
                             <h2 id="<?TPLVAR_MONTH?>avgSalary"></h2>
                         </div>
                         <div class="col-md-6">
-                            <div class="font-weight-semibold">Avg. Contributions</div>
+                            <div class="font-weight-semibold"><?LANG_AVG_CONTRIBUTIONS?></div>
                             <h2 id="<?TPLVAR_MONTH?>avgContri"></h2>
                         </div>
                     </div>
 
                     <div class="col-lg-4">
                         <div class="col-md-4">
-                            <div class="font-weight-semibold">SALARIES PAID</div>
+                            <div class="font-weight-semibold"><?LANG_SALARIES_PAID?></div>
                             <!--<h2 id="<?TPLVAR_MONTH?>empCount"></h2>-->
                             <h2 id="<?TPLVAR_MONTH?>totalSalaries"></h2>
                         </div>
                         <div class="col-md-4">
-                            <div class="font-weight-semibold">CLAIMS PAID</div>
+                            <div class="font-weight-semibold"><?LANG_CLAIMS_PAID?></div>
                             <h2 id="<?TPLVAR_MONTH?>totalClaims"></h2>
                         </div>
                         <div class="col-md-4">
-                            <div class="font-weight-semibold">LEVIES PAID</div>
+                            <div class="font-weight-semibold"><?LANG_LEVIES_PAID?></div>
                             <h2 id="<?TPLVAR_MONTH?>totalLevies"></h2>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                     <div class="col-lg-2">
                         <a type="button" class="btn btn-lg bg-purple-400 btn-labeled mt-10" data-date="<?TPLVAR_DATE?>"
                            data-toggle="modal" data-target="#modalEnterPassword">
-                            <b><i class="icon-checkmark"></i></b> View Finalized Payroll</a>
+                            <b><i class="icon-checkmark"></i></b> <?LANG_VIEW_FINALIZED_PAYROLL?></a>
                     </div>
 
                 </div>
@@ -97,7 +97,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title"><i class="icon-lock"></i>&nbsp; Verify Credential</h6>
+                <h6 class="modal-title"><i class="icon-lock"></i>&nbsp; <?LANG_VERIFY_CREDENTIAL?></h6>
             </div>
 
             <div class="modal-body overflow-y-visible">
@@ -105,7 +105,7 @@
                     <input type="hidden" name="processDate" id="processDate" value="" />
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Enter your password to continue:</label>
+                            <label><?LANG_ENTER_PASSWORD_CONTINUE?>:</label>
                             <input type="password" name="password" id="password" class="form-control" value=""
                                    placeholder="" />
                         </div>
@@ -114,8 +114,8 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-                    <button id="unlock" type="submit" class="btn btn-primary">Unlock</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                    <button id="unlock" type="submit" class="btn btn-primary"><?LANG_UNLOCK?></button>
                 </div>
             </div>
         </div>

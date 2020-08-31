@@ -12,10 +12,10 @@
     <table class="table table-hover datatable loaTable">
         <thead>
         <tr>
-            <th>For Designation(s)</th>
-            <th>Last Updated By</th>
-            <th>Last Updated</th>
-            <th>Actions</th>
+            <th><?LANG_FOR_DESIGNATION?></th>
+            <th><?LANG_LAST_UPDATED_BY?></th>
+            <th><?LANG_LAST_UPDATED?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -43,7 +43,7 @@
 
                         <div class="col-md-12 pb-10">
                             <div class="form-group">
-                                <label>Content: <span class="requiredField">*</span></label>
+                                <label><?LANG_CONTENT?>: <span class="requiredField">*</span></label>
                                 <div class="form-group">
                                     <div class="col-md-12 p-0">
                                         <textarea name="loaContent" id="loaContent" rows="4" cols="4"></textarea>
@@ -56,8 +56,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_DISCARD?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SAVE_CHANGES?></button>
                     </div>
                 </div>
             </form>

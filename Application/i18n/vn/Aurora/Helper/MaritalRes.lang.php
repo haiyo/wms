@@ -17,10 +17,10 @@ class MaritalRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_SINGLE'] = 'Single';
-        $this->contents['LANG_MARRIED'] = 'Married';
-        $this->contents['LANG_DIVORCED'] = 'Divorced';
-        $this->contents['LANG_WIDOW'] = 'Widow';
+        $this->contents['LANG_SINGLE'] = 'Độc thân';
+        $this->contents['LANG_MARRIED'] = 'Cưới nhau';
+        $this->contents['LANG_DIVORCED'] = 'Đã ly hôn';
+        $this->contents['LANG_WIDOW'] = 'Góa phụ';
 	}
 }
 ?>

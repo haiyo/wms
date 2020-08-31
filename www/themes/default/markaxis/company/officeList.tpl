@@ -15,12 +15,12 @@
     <table class="table table-hover datatable officeTable">
         <thead>
         <tr>
-            <th>Office Name</th>
-            <th>Address</th>
-            <th>Country</th>
-            <th>Work Days</th>
-            <th>Total Employee</th>
-            <th>Actions</th>
+            <th><?LANG_OFFICE_NAME?></th>
+            <th><?LANG_ADDRESS?></th>
+            <th><?LANG_COUNTRY?></th>
+            <th><?LANG_WORK_DAYS?></th>
+            <th><?LANG_TOTAL_EMPLOYEE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -31,7 +31,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Office</h6>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_OFFICE?></h6>
             </div>
 
             <form id="saveOffice" name="saveOffice" method="post" action="">
@@ -40,50 +40,57 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Office Name:</label>
+                                <label><?LANG_OFFICE_NAME?>:</label>
                                 <input type="text" name="officeName" id="officeName" class="form-control" value=""
-                                       placeholder="Enter Office Name" />
+                                       placeholder="<?LANG_ENTER_OFFICE_NAME?>" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Office Address:</label>
+                                <label><?LANG_OFFICE_ADDRESS?>:</label>
                                 <input type="text" name="officeAddress" id="officeAddress" class="form-control" value=""
-                                       placeholder="Enter Office Address" />
+                                       placeholder="<?LANG_ENTER_OFFICE_ADDRESS?>" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Office Country:</label>
+                                <label><?LANG_OFFICE_COUNTRY?>:</label>
                                 <?TPL_COUNTRY_LIST?>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Office Type:</label>
+                                <label><?LANG_OFFICE_TYPE?>:</label>
                                 <?TPL_OFFICE_TYPE_LIST?>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Working Day From:</label>
+                                <label><?LANG_WORKING_DAY_FROM?>:</label>
                                 <?TPL_WORK_DAY_FROM?>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Working Day To:</label>
+                                <label><?LANG_WORKING_DAY_TO?>:</label>
                                 <?TPL_WORK_DAY_TO?>
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="checkbox" class="dt-checkboxes check-input" id="main" name="main" value="1" />
+                                <label for="main"> &nbsp;Set as main office</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <div class="form-group text-right">
-                                <label>Last day is half day: &nbsp;</label>
+                                <label for="halfDay"><?LANG_LAST_DAY_IS_HALF_DAY?> &nbsp;</label>
                                 <input type="checkbox" class="dt-checkboxes check-input" id="halfDay" name="halfDay" value="1" />
                             </div>
                         </div>
@@ -92,8 +99,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary" id="saveApplyLeave"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

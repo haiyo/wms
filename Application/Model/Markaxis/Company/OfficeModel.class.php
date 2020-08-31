@@ -20,6 +20,7 @@ class OfficeModel extends \Model {
 
     // Properties
     protected $Office;
+    protected $L10n;
 
 
     /**
@@ -28,6 +29,9 @@ class OfficeModel extends \Model {
     */
     function __construct( ) {
         parent::__construct( );
+
+        $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+        $this->L10n = $i18n->loadLanguage('Markaxis/Company/OfficeRes');
 
         $this->Office = new Office( );
 	}
@@ -69,8 +73,8 @@ class OfficeModel extends \Model {
     public function getResults( $post ) {
         $this->Office->setLimit( $post['start'], $post['length'] );
 
-        $order = 'name';
-        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+        $order = 'main';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'asc' ? ' asc' : ' desc';
 
         if( isset( $post['order'][0]['column'] ) ) {
             switch( $post['order'][0]['column'] ) {
@@ -105,16 +109,7 @@ class OfficeModel extends \Model {
      * @return mixed
      */
     public function getWorkingDaysByOfficeID( $oID ) {
-        $A_OfficeModel = A_OfficeModel::getInstance( );
-
-        if( $oID ) {
-            $info = $this->getByoID( $oID );
-        }
-        else {
-            $info = $A_OfficeModel->getMainOffice( );
-        }
-
-        $officeInfo = $this->getByoID( $info['oID'] );
+        $officeInfo = $this->getByoID( $oID );
         $workDays = array( );
 
         if( $officeInfo['workDayFrom'] && $officeInfo['workDayTo'] ) {
@@ -132,23 +127,21 @@ class OfficeModel extends \Model {
      * Set Pay Item Info
      * @return int
      */
-    public function getWorkingDaysByRange( $oID, $startDate, $endDate ) {
+    public function getWorkingDaysByRange( $oID, $startDate, $endDate, $countryCode ) {
         $workDays = $this->getWorkingDaysByOfficeID( $oID );
-        //$workingDays = [1, 2, 3, 4, 5]; # date format = N (1 = Monday, ...)
-        //$holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
+
         $HolidayModel = new HolidayModel( );
-        $holidayInfo = $HolidayModel->getAll( );
+        $holidayInfo = $HolidayModel->getNonWorkDays( $startDate, $endDate, $countryCode );
         $holidayDays = [];
 
         if( sizeof( $holidayInfo ) > 0 ) {
             $holidayDays = array_column( $holidayInfo, 'date' );
         }
-
         $from = new DateTime( $startDate );
-        $to = new DateTime( $endDate );
-        $to->modify('+1 day');
+        $to = new DateTime($endDate . ' 23:59:59' );
+
         $interval = new \DateInterval('P1D');
-        $periods = new \DatePeriod($from, $interval, $to);
+        $periods = new \DatePeriod( $from, $interval, $to );
 
         $days = 0;
         foreach( $periods as $period ) {
@@ -207,6 +200,18 @@ class OfficeModel extends \Model {
                 $this->info['halfDay'] = 1;
                 $this->info['days'] += .5;
             }
+            $this->info['main'] = isset( $data['main'] ) ? 1 : 0;
+
+            if( $this->info['oID'] && !$this->info['main'] ) {
+                // if not set to main, then we need to double check we have at least 1 main office.
+                $A_OfficeModel = A_OfficeModel::getInstance( );
+                $mainInfo = $A_OfficeModel->getMainOffice( );
+
+                if( $mainInfo['oID'] == $this->info['oID'] ) {
+                    $this->setErrMsg( $this->L10n->getContents('LANG_MUST_AT_LEAST_ONE_MAIN') );
+                    return false;
+                }
+            }
         }
         catch( ValidatorException $e ) {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
@@ -227,6 +232,13 @@ class OfficeModel extends \Model {
         }
         else {
             $this->Office->update( 'office', $this->info, 'WHERE oID = "' . (int)$this->info['oID'] . '"' );
+        }
+
+        // If this is set to main office, then we set all others to 0.
+        if( $this->info['main'] ) {
+            $info = array( );
+            $info['main'] = 0;
+            $this->Office->update( 'office', $info, 'WHERE oID <> "' . (int)$this->info['oID'] . '"' );
         }
         return $this->info['oID'];
     }

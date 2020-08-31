@@ -14,9 +14,9 @@
     <table class="table table-hover datatable tableLayoutFixed expenseTable">
         <thead>
         <tr>
-            <th>Expense Item Title</th>
-            <th>Max Amount</th>
-            <th>Actions</th>
+            <th><?LANG_EXPENSE_ITEM_TITLE?></th>
+            <th><?LANG_MAX_AMOUT?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -35,19 +35,20 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Expense Type:</label>
+                            <label><?LANG_EXPENSE_TYPE?>:</label>
                             <input type="text" name="expenseTitle" id="expenseTitle" class="form-control" value=""
-                                   placeholder="Enter a title for this expense type" />
+                                   placeholder="<?LANG_ENTER_EXPENSE_TYPE?>" />
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Maximum Amount Allowed For Claim:</label>
+                            <label><?LANG_MAX_ALLOWED_CLAIM?>:</label>
                             <div class="form-group">
                                 <div class="col-md-12 p-0">
-                                    <input type="text" name="expenseAmount" id="expenseAmount" class="form-control amountInput" value=""
-                                           placeholder="Enter an amount (Enter 0 for unlimited)" />
+                                    <input type="text" name="expenseAmount" id="expenseAmount" class="form-control amountInput"
+                                           value=""
+                                           placeholder="<?LANG_ENTER_AMOUNT?>" />
                                 </div>
                             </div>
                         </div>
@@ -56,8 +57,8 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                    <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                 </div>
             </div>
             </form>

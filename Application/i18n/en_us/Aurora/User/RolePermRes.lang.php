@@ -30,6 +30,19 @@ class RolePermRes extends Resource {
         $this->contents['LANG_CONFIRM_DELETE_ROLE'] = 'Are you sure you want to delete the {roleTitle} role?';
         $this->contents['LANG_ROLE_TITLE_EMPTY'] = 'Please enter a role title.';
         $this->contents['LANG_NEW_ROLE'] = 'New Role';
+        $this->contents['LANG_ROLE_NAME'] = 'Role Name';
+        $this->contents['LANG_DESCRIPTION'] = 'Description';
+        $this->contents['LANG_NO_OF_EMPLOYEE'] = 'No. of Employee';
+        $this->contents['LANG_ACTIONS'] = 'Actions';
+        $this->contents['LANG_ROLE_TITLE'] = 'Role Title';
+        $this->contents['LANG_ENTER_ROLE_TITLE'] = 'Enter Role Title';
+        $this->contents['LANG_ROLE_DESCRIPTION'] = 'Role Description';
+        $this->contents['LANG_ENTER_ROLE_DESCRIPTION'] = 'Enter Role Description';
+        $this->contents['LANG_DEFINE_PERMISSIONS'] = 'Define Permissions';
+        $this->contents['LANG_CLOSE'] = 'Close';
+        $this->contents['LANG_SAVE_PERMISSIONS'] = 'Save Permissions';
+        $this->contents['LANG_CANCEL'] = 'Cancel';
+        $this->contents['LANG_SUBMIT'] = 'Submit';
 	}
 }
 ?>

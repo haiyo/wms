@@ -191,14 +191,20 @@ class LeaveApply extends \DAO {
  * Retrieve a user column by userID
  * @return mixed
  */
-    public function getUnPaidByUserID( $userID ) {
+    public function getUnPaidByUserID( $userID, $startDate='', $endDate='' ) {
+        $date = '';
+        if( $startDate && $endDate ) {
+            $date = ' AND ( la.startDate BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '" OR
+                            la.endDate BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '" )';
+        }
+
         $sql = $this->DB->select( 'SELECT la.*, lt.name, lt.formula FROM leave_apply la
                                    LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
                                    WHERE la.userID = "' . (int)$userID . '" AND 
                                          la.status = "1" AND
                                          la.cancelled = "0" AND
                                          lt.paidLeave = "0" AND
-                                         lt.deleted = "0"',
+                                         lt.deleted = "0"' . $date,
                                    __FILE__, __LINE__ );
 
         $list = array( );

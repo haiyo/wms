@@ -14,10 +14,11 @@
     <table class="table table-hover datatable holidayTable">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Work Day</th>
-            <th>Actions</th>
+            <th><?LANG_TITLE?></th>
+            <th><?LANG_COUNTRY?></th>
+            <th><?LANG_DATE?></th>
+            <th><?LANG_WORK_DAY?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -37,15 +38,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Holiday Title:</label>
+                                <label><?LANG_HOLIDAY_TITLE?>:</label>
                                 <input type="text" name="holidayTitle" id="holidayTitle" class="form-control" value=""
-                                       placeholder="Enter a title for this holiday" />
+                                       placeholder="<?LANG_ENTER_HOLIDAY_TITLE?>" />
                             </div>
                         </div>
 
                         <div class="col-md-7">
                             <div class="form-group">
-                                <label>Date: <span class="requiredField">*</span></label>
+                                <label><?LANG_DATE?>: <span class="requiredField">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
@@ -60,7 +61,7 @@
                                 <label></label>
                                 <div class="input-group" style="margin-top: 13px;">
                                     <input type="checkbox" class="dt-checkboxes check-input" id="workDay" name="workDay" value="1" />
-                                    <label for="workDay" class="ml-5">Is this a work day?</label>
+                                    <label for="workDay" class="ml-5"><?LANG_IS_THIS_WORK_DAY?></label>
                                 </div>
                             </div>
                         </div>
@@ -69,8 +70,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

@@ -66,9 +66,18 @@ class UserRes extends Resource {
         $this->contents['LANG_REMOVE_PHOTO'] = 'Remove Photo';
         $this->contents['LANG_FIRST_NAME'] = 'First Name';
         $this->contents['LANG_LAST_NAME'] = 'Last Name / Surname';
+        $this->contents['LANG_SSN'] = 'SSN / NRIC / Passport';
+        $this->contents['LANG_NATIONALITY'] = 'Nationality';
         $this->contents['LANG_PRIMARY_EMAIL'] = 'Primary Email Address';
+        $this->contents['LANG_SECONDARY_EMAIL'] = 'Secondary Email Address';
         $this->contents['LANG_DATE_OF_BIRTH'] = 'Date Of Birth';
         $this->contents['LANG_PRIMARY_PHONE'] = 'Primary Phone';
+        $this->contents['LANG_HOME_OFFICE_PHONE'] = 'Home / Office Phone';
+        $this->contents['LANG_MOBILE_PHONE'] = 'Mobile Phone';
+        $this->contents['LANG_ENTER_PHONE'] = 'Enter phone #';
+        $this->contents['LANG_COUNTRY_BIRTH'] = 'Country of Birth';
+        $this->contents['LANG_PRIMARY_ADDRESS'] = 'Primary Address';
+        $this->contents['LANG_SECONDARY_ADDRESS'] = 'Secondary Address';
         $this->contents['LANG_GENDER'] = 'Gender';
         $this->contents['LANG_JOIN_DATE'] = 'Join Date';
         $this->contents['LANG_ACCOUNT_STATUS'] = 'Account Status';
@@ -79,7 +88,20 @@ class UserRes extends Resource {
         $this->contents['LANG_ZIP_CODE'] = 'ZIP / Postal code';
         $this->contents['LANG_STATE_PROVINCE'] = 'State / Province';
         $this->contents['LANG_CITY'] = 'City';
+        $this->contents['LANG_SELECT_STATE'] = 'Select State';
+        $this->contents['LANG_SELECT_CITY'] = 'Select City';
+        $this->contents['LANG_RELIGION'] = 'Religion';
+        $this->contents['LANG_RACE'] = 'Race';
         $this->contents['LANG_MARITAL_STATUS'] = 'Marital Status';
+        $this->contents['LANG_HAVE_CHILDREN'] = 'Have Children(s)?';
+        $this->contents['LANG_ENTER_CHILDREN_INFO'] = 'Enter Children(s) Information';
+        $this->contents['LANG_CHILD_FULL_NAME'] = 'Child\'s Full Name';
+        $this->contents['LANG_ADD_MORE_CHILDREN'] = 'Add More Children';
+        $this->contents['LANG_ACCOUNT_LOGIN'] = 'Account Login';
+        $this->contents['LANG_LOGIN_USERNAME'] = 'Login Username';
+        $this->contents['LANG_LOGIN_PASSWORD'] = 'Login Password';
+        $this->contents['LANG_AUTO_GENERATE'] = 'Auto Generate';
+        $this->contents['LANG_CAPS_LOCK_ON'] = 'CAPS LOCK IS ON';
         $this->contents['LANG_PASSWORD'] = 'Password';
         $this->contents['LANG_EMAIL_RANDOM_PASSWORD'] = 'Email a random password';
         $this->contents['LANG_CONFIRMATION_PASSWORD'] = 'Confirmation Password';
@@ -89,6 +111,16 @@ class UserRes extends Resource {
         $this->contents['LANG_NOTES'] = 'Notes';
         $this->contents['LANG_CANCEL'] = 'Cancel';
         $this->contents['LANG_SAVE'] = 'Save';
+        $this->contents['LANG_YEAR'] = 'Year';
+        $this->contents['LANG_MONTH'] = 'Month';
+        $this->contents['LANG_DAY'] = 'Day';
+        $this->contents['LANG_SELECT_COUNTRY'] = 'Select Country';
+        $this->contents['LANG_SELECT_NATIONALITY'] = 'Select Nationality';
+        $this->contents['LANG_SELECT_RACE'] = 'Select Race';
+        $this->contents['LANG_SELECT_STATUS'] = 'Select Status';
+        $this->contents['LANG_SELECT_RELIGION'] = 'Select Religion';
+
+
 	}
 }
 ?>

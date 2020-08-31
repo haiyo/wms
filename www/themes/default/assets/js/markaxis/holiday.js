@@ -242,17 +242,22 @@ var MarkaxisHoliday = (function( ) {
                 columnDefs: [{
                     targets: [0],
                     orderable: true,
-                    width: '900px',
+                    width: '800px',
                     data: 'title'
                 },{
                     targets: [1],
                     orderable: true,
-                    width: '200px',
-                    data: 'date',
+                    width: '300px',
+                    data: 'country'
                 },{
                     targets: [2],
                     orderable: true,
-                    width: '120px',
+                    width: '250px',
+                    data: 'date',
+                },{
+                    targets: [3],
+                    orderable: true,
+                    width: '180px',
                     data: 'workDay',
                     className : "text-center",
                     render: function( data, type, full, meta ) {
@@ -264,7 +269,7 @@ var MarkaxisHoliday = (function( ) {
                         }
                     }
                 },{
-                    targets: [3],
+                    targets: [4],
                     orderable: false,
                     searchable: false,
                     width: '10px',

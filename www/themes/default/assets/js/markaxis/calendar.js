@@ -717,7 +717,6 @@ var MarkaxisCalendar = (function( ) {
                 var endSec   = moment(info.event.end).format("ss");
 
                 fullEnd = endYear + "-" + endMonth + "-" + endDate + " " + endHour + ":" + endMin + ":" + endSec;
-                console.log(fullEnd)
             }
             else if( info.oldEvent.allDay && !info.event.allDay ) {
                 var updateHour = moment(info.event.start).add(1, "hours");
@@ -761,38 +760,6 @@ var MarkaxisCalendar = (function( ) {
             $("#modalNote").addClass("hide");
             $("#eventModal .modal-title").text("Create New Event");
             $(".modal-footer .error").remove( );
-        },
-
-
-        cancelApplyLeave: function( laID ) {
-            swal({
-                title: "Cancel Applied Leave?",
-                text: "This action cannot be undone once deleted.",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Cancel",
-                closeOnConfirm: true,
-                showLoaderOnConfirm: true
-            }, function (isConfirm) {
-                if (isConfirm === false) return;
-
-                var data = {
-                    bundle: {
-                        laID: laID
-                    },
-                    success: function( res ) {
-                        swal({
-                            title: "Leave Cancelled Successfully",
-                            text: "Please hold while the page reload.",
-                            type: 'success'
-                        }, function( isConfirm ) {
-                            window.location.reload(false);
-                        });
-                    }
-                };
-                Aurora.WebService.AJAX( "admin/leave/cancel", data );
-            });
         }
     }
     return MarkaxisCalendar;

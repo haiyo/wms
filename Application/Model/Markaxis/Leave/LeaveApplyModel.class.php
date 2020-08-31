@@ -2,7 +2,7 @@
 namespace Markaxis\Leave;
 use \Markaxis\Employee\EmployeeModel;
 use \Markaxis\Company\OfficeModel;
-use \Aurora\Component\UploadModel, \Aurora\User\UserModel;
+use \Aurora\Component\UploadModel;
 use \Library\Util\Uploader, \Library\Util\Date, \Library\Util\Formula;
 
 /**
@@ -55,8 +55,8 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getUnPaidByUserID( $userID ) {
-        return $this->LeaveApply->getUnPaidByUserID( $userID );
+    public function getUnPaidByUserID( $userID, $startDate='', $endDate='' ) {
+        return $this->LeaveApply->getUnPaidByUserID( $userID, $startDate, $endDate );
     }
 
 
@@ -227,41 +227,74 @@ class LeaveApplyModel extends \Model {
      * @return int
      */
     public function processPayroll( $userID, $processDate, $data ) {
-        $applyInfo    = $this->getUnPaidByUserID( $userID );
-        $totalApplied = sizeof( $applyInfo );
-        $processDate  = \DateTime::createFromFormat('Y-m-d', $processDate );
+        if( isset( $data['paymentDate'] ) && isset( $data['previousDate'] ) && isset( $data['workDays'] ) ) {
 
-        if( $totalApplied > 0 ) {
-            $EmployeeModel = EmployeeModel::getInstance( );
-            $empInfo = $EmployeeModel->getFieldByUserID( $userID, 'officeID, salary' );
+            $previousDate = $data['previousDate']->format('Y-m-d');
+            $paymentDate  = $data['paymentDate']->format('Y-m-d');
+            $applyInfo    = $this->getUnPaidByUserID( $userID, $previousDate, $paymentDate );
 
-            $OfficeModel = OfficeModel::getInstance( );
-            $workDays = $OfficeModel->getWorkingDaysByRange( $empInfo['officeID'],
-                                                             $processDate->format('Y-m-') . '01',
-                                                             $processDate->format('Y-m-') . $processDate->format('t') );
+            if( sizeof( $applyInfo ) > 0 ) {
+                $OfficeModel = OfficeModel::getInstance( );
 
-            $daysWorked = ($workDays-$totalApplied);
+                $totalUnpaidDays = 0;
 
-            foreach( $applyInfo as $value ) {
-                //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
-                $formula = str_replace('{salary}', $empInfo['salary'], $value['formula'] );
-                $formula = str_replace('{workDaysOfMonth}', $workDays, $formula );
-                $formula = str_replace('{daysWorkedInMonth}', $daysWorked, $formula );
+                foreach( $applyInfo as $row ) {
+                    $leaveStartDate = new \DateTime( $row['startDate'] );
+                    $leaveEndDate   = new \DateTime( $row['endDate'] );
 
-                // AW Ceiling
-                $Formula = new Formula( );
-                $salary = round( $Formula->calculate( $formula ) );
-                $amount = $empInfo['salary']-$salary;
-                $remark = $value['name'];
+                    //$processStartDate = new \DateTime( $data['previousDate'] );
+                    //$processEndDate   = new \DateTime( $data['paymentDate'] );
 
-                $data['items'][] = array( 'hiddenName' => 'leaveApply[]',
-                                          'hiddenValue' => $value['laID'],
-                                          'hiddenID' => 'leaveApply' . $value['laID'],
-                                          'piID' => $data['deduction']['piID'],
-                                          'remark' => $remark,
-                                          'amount' => $amount );
+                    // if unpaid leave is within the process month,
+                    // then we just trust the days since already calculated properly when apply leave.
+                    if( $leaveStartDate >= $data['previousDate'] && $leaveEndDate <= $data['paymentDate'] ) {
+                        $totalUnpaidDays += $row['days'];
+                    }
+                    else {
+                        // At this point we need to make sure weekend(s) and holidays are cater for.
+
+                        // if unpaid leave start within this process date but end the next process date.
+                        // (Eg: March is current month: 29th Mar - 5th Apr)
+                        if( $leaveStartDate >= $data['previousDate'] && $leaveEndDate > $data['paymentDate'] ) {
+                            // Calculate only until $leaveStartDate to $processEndDate
+                            $totalUnpaidDays = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                                    $row['startDate'],
+                                                                                    $data['paymentDate']->format('Y-m-d'),
+                                                                                    $data['empInfo']['countryCode'] );
+                        }
+                        // if start leave is previous month and end is within this month.
+                        // (Eg: March current month: 28th Feb - 5th Mar)
+                        else if( $leaveStartDate < $data['previousDate'] && $leaveEndDate <= $data['paymentDate'] ) {
+                            // Calculate only until $processStartDate to $leaveEndDate
+                            $totalUnpaidDays = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                                    $data['previousDate']->format('Y-m-d'),
+                                                                                    $row['endDate'],
+                                                                                    $data['empInfo']['countryCode'] );
+                        }
+                    }
+                }
+
+                foreach( $applyInfo as $value ) {
+                    //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
+                    $formula = str_replace('{salary}', $data['empInfo']['salary'], $value['formula'] );
+                    $formula = str_replace('{workDaysOfMonth}', $data['workDays'], $formula );
+                    $formula = str_replace('{daysWorkedInMonth}', $totalUnpaidDays, $formula );
+
+                    $Formula = new Formula( );
+                    $totalUnpaidAmount = round( $Formula->calculate( $formula ) );
+                    $remark = $value['name'];
+
+                    $data['items'][] = array( 'hiddenName' => 'leaveApply[]',
+                                              'hiddenValue' => $value['laID'],
+                                              'hiddenID' => 'leaveApply' . $value['laID'],
+                                              'deductGross' => 1,
+                                              'piID' => $data['deduction']['piID'],
+                                              'remark' => $remark . ' (' . $this->L10n->getText( 'LANG_APPLY_DAYS', $totalUnpaidDays ) . ')',
+                                              'amount' => $totalUnpaidAmount );
+                }
             }
         }
+
         return $data;
     }
 

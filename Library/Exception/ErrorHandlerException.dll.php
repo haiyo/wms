@@ -35,7 +35,7 @@ abstract class ErrorHandlerException {
     */
     public static function handleError( $errno, $errstr, $errfile, $errline, $errcontext ) {
         try {
-            throw new Exception( $errstr, $errno );
+            throw new Exception( $errstr . ' ' . $errfile . ' ' . $errline, $errno );
         }
         catch( Exception $e ) {
             die( $e->getMessage( ) );

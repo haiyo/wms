@@ -32,7 +32,8 @@ class Payroll extends \DAO {
      * @return mixed
      */
     public function getByUserID( $userID, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM employee_payroll
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM employee_payroll ep
+                                   LEFT JOIN pay_calendar pc ON ( pc.pcID = ep.pcID )
                                    WHERE userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 

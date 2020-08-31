@@ -14,12 +14,12 @@
     <table class="table table-hover datatable tableLayoutFixed payItemTable">
         <thead>
         <tr>
-            <th>Pay Item Title</th>
-            <th>Ordinary Wage</th>
-            <th>Deduction</th>
-            <th>Deduction AW</th>
-            <th>Additional Wage</th>
-            <th>Actions</th>
+            <th><?LANG_PAY_ITEM_TITLE?></th>
+            <th><?LANG_ORDINARY_WAGE?></th>
+            <th><?LANG_DEDUCTION?></th>
+            <th><?LANG_DEDUCTION_AW?></th>
+            <th><?LANG_ADDITIONAL_WAGE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -39,24 +39,32 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Pay Item Title:</label>
+                            <label><?LANG_PAY_ITEM_TITLE?>:</label>
                             <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
-                                   placeholder="Enter a title for this pay item" />
+                                   placeholder="<?LANG_ENTER_PAY_ITEM_TITLE?>" />
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>This Pay Item Belongs To:</label>
+                            <label><?LANG_FORMULA?>:</label>
+                            <input type="text" name="formula" id="formula" class="form-control" value=""
+                                   placeholder="<?LANG_ENTER_FORMULA?>" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label><?LANG_PAY_ITEM_BELONGS_TO?>:</label>
                             <div class="input-group">
                                 <span class="input-group-prepend">
-                                    <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none">None</button>
-                                    <button id="payItemOrdinary" class="btn btn-light payItemBtn" type="button" value="ordinary">Ordinary Wage</button>
-                                    <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction">Deduction</button>
-                                    <button id="payItemDeductionAW" class="btn btn-light payItemBtn" type="button" value="deductionAW">Deduction AW</button>
+                                    <button id="payItemNone" class="btn btn-light payItemBtn" type="button" value="none"><?LANG_NONE?></button>
+                                    <button id="payItemOrdinary" class="btn btn-light payItemBtn" type="button" value="ordinary"><?LANG_ORDINARY_WAGE?></button>
+                                    <button id="payItemDeduction" class="btn btn-light payItemBtn" type="button" value="deduction"><?LANG_DEDUCTION?></button>
+                                    <button id="payItemDeductionAW" class="btn btn-light payItemBtn" type="button" value="deductionAW"><?LANG_DEDUCTION_AW?></button>
                                 </span>
                                 <span class="input-group-append">
-                                    <button id="payItemAdditional" class="btn btn-light payItemBtn" type="button" value="additional">Additional Wage</button>
+                                    <button id="payItemAdditional" class="btn btn-light payItemBtn" type="button" value="additional"><?LANG_ADDITIONAL_WAGE?></button>
                                 </span>
                             </div>
                         </div>
@@ -66,8 +74,8 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                    <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                 </div>
             </div>
             </form>

@@ -17,9 +17,9 @@
     </div>
 
     <div class="row font-weight-semibold processColHeader">
-        <div class="col-md-4">Item Type:</div>
-        <div class="col-md-3 amount">Amount:</div>
-        <div class="col-md-4 remark">Remark</div>
+        <div class="col-md-4"><?LANG_ITEM_TYPE?>:</div>
+        <div class="col-md-3 amount"><?LANG_AMOUNT?>:</div>
+        <div class="col-md-4 remark"><?LANG_REMARK?></div>
         <div class="col-lg-1 sm-addrm text-right">&nbsp;</div>
     </div>
 
@@ -32,6 +32,7 @@
 
             <div class="col-md-3 amount">
                 <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control amountInput"
+                       data-currency="<?TPLVAR_CURRENCY?>"
                        value="<?TPLVAR_AMOUNT?>" placeholder="" />
             </div>
 

@@ -1,15 +1,8 @@
 <?php
 namespace Aurora\Admin;
-use \Library\Util\Scheduler\Scheduler;
-use \Library\Security\Aurora\Authenticator;
 use \Library\Database\DB;
-use \Library\Util\Aurora\FilterManager;
+use \Library\Security\Aurora\Authenticator;
 use \Library\Exception\Exceptions;
-use \Library\Exception\Aurora\AuthLoginException;
-use \Library\Exception\Aurora\NoPermissionException;
-use \Library\Exception\Aurora\SiteCheckException;
-use \Library\Exception\FileNotFoundException;
-use \Library\Exception\InstantiationException;
 use \Control, \i18n;
 
 /**
@@ -53,7 +46,7 @@ class CronControl extends Control {
                     die("Error: No username and password supplied\n\n");
                 }
 
-                $username = trim( $username['u'] ) ;
+                $username = trim( $username['u'] );
                 $password = trim( $password['p'] );
 
                 if( !$username && !$password ) {
@@ -79,11 +72,8 @@ class CronControl extends Control {
                     throw new Exceptions("Error: Invalid username and password.\n\n");
                 }
 
-                $Scheduler = new Scheduler( );
-                $Scheduler->raw('ps aux | grep httpd');
-                var_dump($Scheduler->run( ));
+                $this->runTasks( );
                 exit;
-                // Load tasks
             }
             else {
                 throw new Exceptions("Error: No username and password supplied.\n\n");
@@ -91,41 +81,7 @@ class CronControl extends Control {
         }
         catch( Exceptions $e ) {
             $e->record( );
-            $e->toString( );
-        }
-    }
-
-
-    /**
-    * Admin Gateway Processing
-    * @return void
-    */
-    public function checkGateway( ) {
-        try {
-            $FilterManager = new FilterManager( );
-            $FilterManager->processFilter( $this->xmlGatewayFile );
-            $FilterManager->execute( self::$HttpRequest, self::$HttpResponse );
-        }
-        catch( AuthLoginException $e ) {
-            $e->record( );
-            $e->toString( );
-            exit;
-        }
-        catch( NoPermissionException $e ) {
-            $e->record( );
-            echo 0;
-            exit;
-        }
-        catch( SiteCheckException $e ) {
-            $e->record( );
-
-            /**********REGISTRY TO BE CHANGE*******/
-
-            // Site is turned off. Only allow Administrator to enter.
-            $Authorization = $this->Registry->get( HKEY_CLASS, 'Authorization' );
-            if( !$Authorization->isAdmin( ) ) {
-                die( );
-            }
+            die( $e->toString( ) );
         }
     }
 
@@ -134,27 +90,9 @@ class CronControl extends Control {
     * Magic Call
     * @return void
     */
-    public function __call( $task, $args ) {
-        try {
-            // Remove extra array from magic call.
-            if( isset( $args[0][0] ) ) {
-                array_shift( $args[0] );
-                $args = $args[0];
-            }
-            $TaskManager = new TaskManager( );
-            $TaskManager->addTask( $this->xmlTaskFile, $task );
-            $TaskManager->escalate( $args );
-        }
-        catch( InstantiationException $e ) {
-            $e->record( );
-        }
-        catch( FileNotFoundException $e ) {
-            $e->record( );
-        }
-        catch( PageNotFoundException $e ) {
-            $e->record( );
-            header( 'location: ' . ROOT_URL . 'admin/notFound' );
-        }
+    public function runTasks( ) {
+        $CronModel = new CronModel( );
+        $CronModel->run( );
     }
 }
 ?>

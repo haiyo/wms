@@ -19,8 +19,8 @@ class NotFoundRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_404_NOT_FOUND'] = '404 Not Found';
-        $this->contents['LANG_NOT_FOUND_INFO'] = 'Oops, an error has occurred.<br />Either record does not exist anymore or the page cannot be found!';
+        $this->contents['LANG_404_NOT_FOUND'] = '404 Không tìm thấy';
+        $this->contents['LANG_NOT_FOUND_INFO'] = 'Một lỗi đã xảy ra.<br />Bản ghi không tồn tại nữa hoặc không thể tìm thấy trang!';
     }
 }
 ?>

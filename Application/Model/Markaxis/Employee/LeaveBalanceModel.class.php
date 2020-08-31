@@ -1,7 +1,6 @@
 <?php
 namespace Markaxis\Employee;
-use \Markaxis\Leave\TypeModel, \Markaxis\Leave\OfficeModel;
-use \Library\Helper\Aurora\DayHelper, \Library\Util\Date;
+use \Markaxis\Leave\TypeModel, \Markaxis\Company\OfficeModel;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -137,47 +136,25 @@ class LeaveBalanceModel extends \Model {
                 $this->setErrMsg( $this->L10n->getContents('LANG_HALF_DAY_NOT_ALLOWED') );
                 return false;
             }
+
+            $startDate  = \DateTime::createFromFormat('d M Y', $data['startDate'] );
+            $endDate    = \DateTime::createFromFormat('d M Y', $data['endDate'] );
+
             $EmployeeModel = EmployeeModel::getInstance( );
             $empInfo = $EmployeeModel->getInfo( );
 
             // Get office time shift
             $OfficeModel = OfficeModel::getInstance( );
+            $officeInfo = $OfficeModel->getByoID( $empInfo['officeID'] );
 
-            if( $officeInfo = $OfficeModel->getOffice( $data['ltID'], $empInfo['officeID'] ) ) {
-                $startDate  = \DateTime::createFromFormat('d M Y', $data['startDate'] );
-                $endDate    = \DateTime::createFromFormat('d M Y', $data['endDate'] );
-                $daysDiff   = Date::daysDiff( $startDate, $endDate );
+            $workDays = $OfficeModel->getWorkingDaysByRange( $officeInfo['oID'],
+                                                             $startDate->format('Y-m-d' ),
+                                                             $endDate->format('Y-m-d' ),
+                                                             $officeInfo['countryCode'] );
 
-                // Create an iterateable period of date (P1D equates to 1 day)
-                $period   = new \DatePeriod( $startDate, new \DateInterval('P1D'), $endDate );
-                $workDays = array( );
-                $dayList  = DayHelper::getL10nNumericValueList( );
-                $started  = false;
-
-                foreach( $dayList as $dayNumberic => $day ) {
-                    if( $dayNumberic == $officeInfo['workDayFrom'] ) {
-                        $workDays[$dayNumberic] = $started = true;
-                    }
-                    if( $dayNumberic == $officeInfo['workDayTo'] ) {
-                        $workDays[$dayNumberic] = true;
-                        $started = false;
-                    }
-                    if( $started ) {
-                        $workDays[$dayNumberic] = true;
-                    }
-                }
-                foreach( $period as $dt ) {
-                    $curr = strtolower( $dt->format('N') );
-
-                    // substract non working days
-                    if( !isset( $workDays[$curr] ) ) {
-                        $daysDiff--;
-                    }
-                }
-                if( $firstHalf  ) { $daysDiff -= .5; }
-                if( $secondHalf ) { $daysDiff -= .5; }
-                return $daysDiff;
-            }
+            if( $firstHalf  ) { $workDays -= .5; }
+            if( $secondHalf ) { $workDays -= .5; }
+            return $workDays;
         }
     }
 

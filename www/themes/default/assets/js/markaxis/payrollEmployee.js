@@ -49,11 +49,21 @@ var MarkaxisPayrollEmployee = (function( ) {
                 titleClick: true,
                 validate: false,
                 block: true,
+                back: function(index) {
+                    if( $("#completed").val( ) == 1 ) {
+                        if( index == 1 ) {
+                            $("#officeFilter").insertAfter("#employeeForm-step-0 .dataTables_filter");
+                        }
+                    }
+                },
                 next: function(index) {
                     if( $("#completed").val( ) == 0 ) {
                         if( !that.haveSaved ) {
                             return false;
                         }
+                    }
+                    else {
+                        $("#officeFilter").insertAfter("#employeeForm-step-1 .dataTables_filter");
                     }
                     markaxisPayrollProcessed.table.ajax.reload( );
                 },
@@ -75,8 +85,11 @@ var MarkaxisPayrollEmployee = (function( ) {
             var endDate = moment( processDate ).endOf('month').format("MMM Do YYYY");
             $(".daterange").val( startDate + " - " + endDate );
             $(".payroll-range").insertAfter(".dataTables_filter");
-            $(".officeFilter").insertAfter(".dataTables_filter");
             $("#employeeForm-step-0 .stepy-navigator").insertAfter("#employeeForm-step-0 .dataTables_filter");
+
+            $(document).on("change", "#office", function(e) {
+                that.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/employee/" + $("#processDate").val( ) + "/" + $("#office").val( ) ).load();
+            });
 
             var ids = [];
             $(document).on("change", "input[class='dt-checkboxes']", function(e) {
@@ -224,12 +237,15 @@ var MarkaxisPayrollEmployee = (function( ) {
                     data: Aurora.WebService.serializePost("#processForm")
                 },
                 success: function( res ) {
-                    console.log(res)
                     if( res ) {
                         var obj = $.parseJSON( res );
 
                         if( obj.bool === 0 ) {
-                            swal( "error", obj.errMsg );
+                            swal({
+                                type: "error",
+                                title: "Error",
+                                text: obj.errMsg
+                            });
                             return;
                         }
                         else {
@@ -308,7 +324,11 @@ var MarkaxisPayrollEmployee = (function( ) {
                         var obj = $.parseJSON( res );
 
                         if( obj.bool === 0 ) {
-                            swal( "error", obj.errMsg );
+                            swal({
+                                type: "error",
+                                title: "Error",
+                                text: obj.errMsg
+                            });
                             return;
                         }
                         else {
@@ -353,7 +373,11 @@ var MarkaxisPayrollEmployee = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool === 0 ) {
-                            alert(obj.errMsg);
+                            swal({
+                                type: "error",
+                                title: "Error",
+                                text: obj.errMsg
+                            });
                             return;
                         }
                         else {
@@ -443,13 +467,12 @@ var MarkaxisPayrollEmployee = (function( ) {
                     $(nRow).attr('id', 'row' + aData['userID']);
                 },
                 ajax: {
-                    url: Aurora.ROOT_URL + "admin/payroll/employee",
+                    url: Aurora.ROOT_URL + "admin/payroll/employee/" + $("#processDate").val( ) + "/" + $("#office").val( ),
                     type: "POST",
                     data: function ( d ) {
                         d.ajaxCall = 1;
                         d.csrfToken = Aurora.CSRF_TOKEN;
-                        d.processDate = $("#processDate").val( );
-                    },
+                    }
                 },
                 initComplete: function() {
                     /*var api = this.api();

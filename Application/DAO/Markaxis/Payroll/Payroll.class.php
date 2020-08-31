@@ -74,7 +74,7 @@ class Payroll extends \DAO {
      * @return mixed
      */
     public function getCalculateUserInfo( $userID ) {
-        $sql = $this->DB->select( 'SELECT u.fname, u.lname, u.birthday, n.nationality, emp.idnumber, emp.currency, emp.salary,
+        $sql = $this->DB->select( 'SELECT u.fname, u.lname, u.birthday, n.nationality, emp.idnumber, emp.salary,
                                           dpt.name AS department, dsg.title AS designation, cont.type AS contractType, 
                                           pm.method AS paymentMethod, pt.title AS passType, emp_bk.*, bk.name AS bankName,
                                           DATE_FORMAT(emp.startDate, "%D %b %Y") AS startDate, 
@@ -129,7 +129,7 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $processDate, $q='', $order='name ASC' ) {
+    public function getResults( $processDate, $officeID, $q='', $order='name ASC' ) {
         $list = array( );
 
         if( $q == 'active' ) {
@@ -144,7 +144,7 @@ class Payroll extends \DAO {
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
                                           u.email1, u.mobile,
-                                          u.suspended, e.startdate, d.title AS designation, e.currency,
+                                          u.suspended, e.startdate, d.title AS designation,
                                           e.idnumber, e.salary, e.endDate, c.type,
                                           ad.descript AS suspendReason, pu.puCount
                                    FROM user u
@@ -158,7 +158,7 @@ class Payroll extends \DAO {
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
-                                   WHERE u.deleted <> "1" AND e.resigned <> "1" ' . $q . '
+                                   WHERE u.deleted <> "1" AND e.resigned <> "1" AND e.officeID = "' . (int)$officeID . '" ' . $q . '
                                    GROUP BY u.userID
                                    ORDER BY ' . $order . $this->limit,
                                     __FILE__, __LINE__ );

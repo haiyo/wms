@@ -37,9 +37,7 @@ class ForgotPasswordRes extends Resource {
         $this->contents['LANG_RESET_PASSWORD_EMAIL'] = 'There has been a request to reset your password for Markaxis HRMS. 
                                                         To reset your password use this link:<br /><br />
                                                         ' . ROOT_URL . 'admin/forgotPassword/token/{TOKEN}<br /><br />
-                                                        If you did not make a request to reset your password please notify {MAIL_FROM}
-                                                        by responding to this email.<br /><br />
-                                                        Best regards<br />{MAIL_FROM}';
+                                                        If you did not make a request to reset your password please ignore this request.';
 	}
 }
 ?>

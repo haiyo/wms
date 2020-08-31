@@ -22,10 +22,10 @@ class HelpRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_KNOWLEDGE_BASE'] = 'Knowledge Base';
-        $this->contents['LANG_CONTACT_HELPDESK'] = 'Contact Helpdesk';
-        $this->contents['LANG_USER_GUIDE'] = 'User Guide';
-        $this->contents['LANG_FREQUENTLY_ASKED_QUESTIONS'] = 'Frequently Asked Questions';
+        $this->contents['LANG_KNOWLEDGE_BASE'] = 'Kiến thức cơ bản';
+        $this->contents['LANG_CONTACT_HELPDESK'] = 'Liên hệ bộ phận trợ giúp';
+        $this->contents['LANG_USER_GUIDE'] = 'Hướng dẫn sử dụng';
+        $this->contents['LANG_FREQUENTLY_ASKED_QUESTIONS'] = 'Các câu hỏi thường gặp';
     }
 }
 ?>

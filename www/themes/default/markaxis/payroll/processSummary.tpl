@@ -16,10 +16,10 @@
 
         <!-- BEGIN DYNAMIC BLOCK: employerItem -->
         <div class="col-md-12 text-light summaryItem">
-            <div class="col-md-9 text-right p-5">
+            <div class="col-md-8 text-right p-5">
                 <strong><?TPLVAR_TITLE?>:</strong>
             </div>
-            <div class="col-md-3 text-right p-5">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
             </div>
         </div>
@@ -28,30 +28,30 @@
 
     <div class="col-md-6">
         <div class="col-md-12 summaryItem">
-            <div class="col-md-9 text-right p-5">
-                <strong>Total Gross:</strong>
+            <div class="col-md-8 text-right p-5">
+                <strong><?LANG_TOTAL_GROSS?>:</strong>
             </div>
-            <div class="col-md-3 text-right p-5">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_GROSS_AMOUNT?>
             </div>
         </div>
 
         <!-- BEGIN DYNAMIC BLOCK: deductionSummary -->
         <div class="col-md-12 summaryItem">
-            <div class="col-md-9 text-right p-5">
+            <div class="col-md-8 text-right p-5">
                 <strong><?TPLVAR_TITLE?>:</strong>
             </div>
-            <div class="col-md-3 text-right p-5">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
             </div>
         </div>
         <!-- END DYNAMIC BLOCK: deductionSummary -->
 
         <div class="col-md-12">
-            <div class="col-md-9 text-right p-5">
-                <strong>Total Net Payable:</strong>
+            <div class="col-md-8 text-right p-5">
+                <strong><?LANG_TOTAL_NET_PAYABLE?>:</strong>
             </div>
-            <div class="col-md-3 text-right p-5">
+            <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_NET_AMOUNT?>
             </div>
         </div>
