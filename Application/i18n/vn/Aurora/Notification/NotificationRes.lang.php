@@ -19,8 +19,8 @@ class NotificationRes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_NO_NOTIFICATIONS'] = 'You have no notification';
-        $this->contents['LANG_VIEW_ALL'] = 'View All';
+        $this->contents['LANG_NO_NOTIFICATIONS'] = 'Bạn không có thông báo';
+        $this->contents['LANG_VIEW_ALL'] = 'Xem tất cả';
 	}
 }
 ?>

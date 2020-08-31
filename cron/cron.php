@@ -7,9 +7,9 @@
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-require __DIR__ . '/config.ini.php';
+require '/Users/andylam/Sites/wms/config.ini.php';
 
-require_once( APP . 'Application.class.php' );
+require_once(APP . 'Application.class.php');
 $Application = new Application( );
 $Application->initCron( $argv );
 ?>

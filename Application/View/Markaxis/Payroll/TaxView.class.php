@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\Component\OfficeModel;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\SelectGroupListView, \Aurora\Form\RadioView;
 use \Aurora\Component\CountryModel, \Aurora\Component\DesignationModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\RaceModel;
@@ -55,6 +56,9 @@ class TaxView {
         $payItemList = $SelectListView->build('payItem_{id}',
             $ItemModel->getList( ), '', 'Select Pay Item' );
 
+        $OfficeModel = OfficeModel::getInstance( );
+        $officeList = $SelectListView->build('office', $OfficeModel->getList( ), '','Select Office / Location' );
+
         $SelectListView->includeBlank( false );
         $SelectListView->isMultiple( true );
 
@@ -80,6 +84,7 @@ class TaxView {
                 array( 'TPL_COUNTRY_LIST' => $countryList,
                        'TPL_PAY_ITEM_LIST' => $payItemList,
                        'TPL_CONTRACT_LIST' => $contractList,
+                       'TPL_OFFICE_LIST' => $officeList,
                        'TPL_DESIGNATION_LIST' => $designationList,
                        'TPL_RACE_LIST' => $raceList,
                        'TPL_GENDER_RADIO' => $genderRadio ) );

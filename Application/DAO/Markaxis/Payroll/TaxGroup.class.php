@@ -19,7 +19,8 @@ class TaxGroup extends \DAO {
      * @return int
      */
     public function isFound( $tgID ) {
-        $sql = $this->DB->select( 'SELECT COUNT(tgID) FROM tax_group WHERE tgID = "' . (int)$tgID . '"',
+        $sql = $this->DB->select( 'SELECT COUNT(tgID) FROM tax_group 
+                                   WHERE tgID = "' . (int)$tgID . '" AND deleted = "0"',
                                    __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -31,9 +32,31 @@ class TaxGroup extends \DAO {
      * @return mixed
      */
     public function getList( $selectable ) {
-        $selectable = $selectable ? ' WHERE selectable = "1"' : '';
+        $selectable = $selectable ? ' AND selectable = "1"' : '';
 
-        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group' . $selectable,
+        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group
+                                   WHERE deleted = "0"' . $selectable,
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['tgID']] = $row['title'];
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getListByOfficeID( $oID ) {
+        $sql = $this->DB->select( 'SELECT tgID, title FROM tax_group 
+                                   WHERE officeID = "' . (int)$oID . '" AND
+                                         selectable = "1" AND
+                                         deleted = "0"',
                                    __FILE__, __LINE__ );
 
         $list = array( );
@@ -51,7 +74,8 @@ class TaxGroup extends \DAO {
      * @return mixed
      */
     public function getSelectList( ) {
-        $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group',
+        $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group
+                                   WHERE deleted = "0"',
                                    __FILE__, __LINE__ );
 
         $list = array( );
@@ -71,7 +95,8 @@ class TaxGroup extends \DAO {
      * @return mixed
      */
     public function getAll( ) {
-        $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group',
+        $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group 
+                                   WHERE deleted = "0"',
                                     __FILE__, __LINE__ );
 
         $list = array( );
@@ -90,13 +115,33 @@ class TaxGroup extends \DAO {
      */
     public function getBytgID( $tgID ) {
         $sql = $this->DB->select( 'SELECT *, tgID AS id, title AS text FROM tax_group
-                                   WHERE tgID = "' . (int)$tgID . '"',
+                                   WHERE tgID = "' . (int)$tgID . '" AND deleted = "0"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );
         }
         return false;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getByParentTgID( $parentTgID ) {
+        $sql = $this->DB->select( 'SELECT tgID FROM tax_group
+                                   WHERE parent = "' . (int)$parentTgID . '" AND
+                                         deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
     }
 }
 ?>

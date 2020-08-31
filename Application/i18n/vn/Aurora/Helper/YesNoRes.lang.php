@@ -17,8 +17,8 @@ class YesNoRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_YES'] = 'Yes';
-        $this->contents['LANG_NO'] = 'No';
+        $this->contents['LANG_YES'] = 'Đúng';
+        $this->contents['LANG_NO'] = 'Không';
 	}
 }
 ?>

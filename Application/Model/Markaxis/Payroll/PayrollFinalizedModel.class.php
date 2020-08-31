@@ -40,7 +40,7 @@ class PayrollFinalizedModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function getResults( $post, $processDate ) {
+    public function getResults( $post, $processDate, $officeID ) {
         $this->PayrollFinalized->setLimit( $post['start'], $post['length'] );
 
         $order = 'name';
@@ -68,7 +68,7 @@ class PayrollFinalizedModel extends \Model {
                     break;
             }
         }
-        $results = $this->PayrollFinalized->getResults( $processDate, $post['search']['value'], $order . $dir );
+        $results = $this->PayrollFinalized->getResults( $processDate, $officeID, $post['search']['value'], $order . $dir );
 
         if( $results ) {
             $UserImageModel = UserImageModel::getInstance( );

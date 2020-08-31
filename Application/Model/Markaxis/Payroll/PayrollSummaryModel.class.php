@@ -49,7 +49,7 @@ class PayrollSummaryModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function getResults( $post, $processDate ) {
+    public function getResults( $post, $processDate, $officeID ) {
         $this->PayrollSummary->setLimit( $post['start'], $post['length'] );
 
         $order = 'name';
@@ -77,7 +77,7 @@ class PayrollSummaryModel extends \Model {
                     break;
             }
         }
-        $results = $this->PayrollSummary->getResults( $processDate, $post['search']['value'], $order . $dir );
+        $results = $this->PayrollSummary->getResults( $processDate, $officeID, $post['search']['value'], $order . $dir );
 
         if( $results ) {
             $UserImageModel = UserImageModel::getInstance( );

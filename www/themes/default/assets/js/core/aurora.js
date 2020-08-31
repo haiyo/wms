@@ -33,7 +33,7 @@ $(document).ready( function( ) {
                 $(this).val( Aurora.String.unFormatMoney( $(this).val( ) ) );
             });
             $(document).on("blur", ".amountInput", function(e) {
-                var amountInput = Aurora.String.formatMoney( $(this).val(), defaultOptions );
+                var amountInput = Aurora.String.formatMoney( $(this) );
                 $(this).val( amountInput );
             });
 
@@ -766,14 +766,15 @@ $(document).ready( function( ) {
             return id.replace(/(:|\.)/g,'\\$1');
         },
 
-        formatMoney: function( n ) {
+        formatMoney: function( element, currency ) {
             t = defaultOptions;
+            n = !isNaN(element) ? element : element.val( );
             n = n.replace(/[^0-9.-]+/g,"");
             n = this.toFixed(n);
+
             var i = [],
                 u = [],
                 r = n;
-
             n = (n = String(n.replace(/\,/g, "")).split("."), n.length > 2) ?
                 r : t.zeroes === 0 && n.length === 2 ? r : t.zeroes !== 0 &&
                 n[1] != null && n[1].length > t.zeroes ? r : (n[0] !== 0 &&
@@ -781,7 +782,10 @@ $(document).ready( function( ) {
                 (n[0] = 0), i = this.formatThousands(n[0], t.thousands), u = this.formatDecimal(n[1], t.zeroes),
                     t.zeroes === 0 ? i : i + t.decimal + u);
 
-            return Aurora.currency + n;
+            if( currency != undefined ) {
+                return currency + n;
+            }
+            return element.attr("data-currency") + n;
         },
 
         formatThousands: function(n, t) {

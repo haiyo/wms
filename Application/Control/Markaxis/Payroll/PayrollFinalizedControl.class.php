@@ -31,9 +31,10 @@ class PayrollFinalizedControl {
      * @return string
      */
     public function getAllFinalized( $args ) {
-        if( isset( $args[1] ) ) {
+        // processDate && officeID
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
             $post = Control::getRequest( )->request( POST );
-            echo json_encode( $this->PayrollFinalizedModel->getResults( $post, $args[1] ) );
+            echo json_encode( $this->PayrollFinalizedModel->getResults( $post, $args[1], $args[2] ) );
             exit;
         }
     }

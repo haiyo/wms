@@ -22,7 +22,7 @@ class LeaveRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_LEAVE_BALANCE'] = 'Leave Balance';
+        $this->contents['LANG_LEAVE_BALANCE'] = 'Trung bình còn lại';
     }
 }
 ?>

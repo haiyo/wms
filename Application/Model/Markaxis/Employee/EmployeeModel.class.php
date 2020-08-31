@@ -234,31 +234,7 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getProcessInfo( $userID ) {
-        $empInfo = $this->Employee->getProcessInfo( $userID );
-        $empInfo['monthDiff'] = 0;
-
-        if( $empInfo['startDate'] ) {
-            $currYear  = date( 'Y' );
-            $dateDiff  = \DateTime::createFromFormat('jS M Y',
-                $empInfo['startDate'] )->diff( new \DateTime('now') );
-
-            if( $dateDiff->y < $currYear ) {
-                $empInfo['monthDiff'] = 12;
-            }
-            else if( $dateDiff->y == $currYear ) {
-                $begin = new \DateTime($dateDiff->d . '-' . $dateDiff->m . '-' . $currYear );
-                $end = new \DateTime( );
-                $end = $end->modify( '+1 month' );
-
-                $interval = \DateInterval::createFromDateString('1 month');
-                $period = new \DatePeriod( $begin, $interval, $end );
-
-                foreach( $period as $dt ) {
-                    $empInfo['monthDiff']++;
-                }
-            }
-        }
-        return $empInfo;
+        return $this->Employee->getProcessInfo( $userID );
     }
 
 

@@ -19,27 +19,24 @@ class ForgotPasswordRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_TOKEN_EXPIRED'] = 'The token has expired.';
-        $this->contents['LANG_PASSWORD_CANNOT_EMPTY'] = 'Password cannot be empty.';
-        $this->contents['LANG_RESET_PASSWORD'] = 'Reset Password';
-        $this->contents['LANG_RESET_PASSWORD_DESCRIPTION'] = 'Your password should be difficult for others to guess.';
-        $this->contents['LANG_NEW_PASSWORD'] = 'New Password';
-        $this->contents['LANG_RE_ENTER_PASSWORD'] = 'Re-enter Password';
-        $this->contents['LANG_PLEASE_ENTER_PASSWORD'] = 'Please enter a new Password';
-        $this->contents['LANG_PLEASE_RE_ENTER_PASSWORD'] = 'Please ee-enter Password';
-        $this->contents['LANG_PASSWORD_MISMATCH'] = 'Password Mismatch';
-        $this->contents['LANG_PASSWORD_MISMATCH_DESCRIPTION'] = 'Your password and confirmation password do not match.';
-        $this->contents['LANG_ERROR'] = 'Error';
-        $this->contents['LANG_DONE'] = 'Done!';
-        $this->contents['LANG_SENT'] = 'Sent!';
-        $this->contents['LANG_GO_TO_LOGIN'] = 'Go to Login page now.';
-        $this->contents['LANG_LINK_SEND_TO'] = 'A link to reset your password has been sent to: ';
-        $this->contents['LANG_RESET_PASSWORD_EMAIL'] = 'There has been a request to reset your password for Markaxis HRMS. 
-                                                        To reset your password use this link:<br /><br />
+        $this->contents['LANG_TOKEN_EXPIRED'] = 'Mã thông báo đã hết hạn';
+        $this->contents['LANG_PASSWORD_CANNOT_EMPTY'] = 'Mật khẩu không được để trống';
+        $this->contents['LANG_RESET_PASSWORD'] = 'Đặt lại mật khẩu';
+        $this->contents['LANG_RESET_PASSWORD_DESCRIPTION'] = 'Mật khẩu của bạn phải khó để người khác đoán được';
+        $this->contents['LANG_NEW_PASSWORD'] = 'Mật khẩu mới';
+        $this->contents['LANG_RE_ENTER_PASSWORD'] = 'Nhập lại mật khẩu';
+        $this->contents['LANG_PLEASE_ENTER_PASSWORD'] = 'Vui lòng nhập mật khẩu mới';
+        $this->contents['LANG_PLEASE_RE_ENTER_PASSWORD'] = 'Vui lòng nhập mật khẩu';
+        $this->contents['LANG_PASSWORD_MISMATCH'] = 'Mật khẩu không khớp';
+        $this->contents['LANG_PASSWORD_MISMATCH_DESCRIPTION'] = 'Mật khẩu của bạn và mật khẩu xác nhận không khớp';
+        $this->contents['LANG_ERROR'] = 'lỗi';
+        $this->contents['LANG_DONE'] = 'Làm xong!';
+        $this->contents['LANG_SENT'] = 'Gởi!';
+        $this->contents['LANG_GO_TO_LOGIN'] = 'Tới trang Đăng nhập ngay bây giờ';
+        $this->contents['LANG_LINK_SEND_TO'] = 'Một liên kết để đặt lại mật khẩu của bạn đã được gửi đến: ';
+        $this->contents['LANG_RESET_PASSWORD_EMAIL'] = 'Đã có yêu cầu đặt lại mật khẩu của bạn cho HRMSCloud. Để đặt lại mật khẩu của bạn, hãy sử dụng liên kết này:<br /><br />
                                                         ' . ROOT_URL . 'admin/forgotPassword/token/{TOKEN}<br /><br />
-                                                        If you did not make a request to reset your password please notify {MAIL_FROM}
-                                                        by responding to this email.<br /><br />
-                                                        Best regards<br />{MAIL_FROM}';
+                                                        Nếu bạn không yêu cầu đặt lại mật khẩu của mình, vui lòng bỏ qua yêu cầu này';
 	}
 }
 ?>

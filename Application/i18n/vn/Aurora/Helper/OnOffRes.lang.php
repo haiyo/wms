@@ -17,8 +17,8 @@ class OnOffRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_ON']  = 'ON';
-        $this->contents['LANG_OFF'] = 'OFF';
+        $this->contents['LANG_ON']  = 'TRÊN';
+        $this->contents['LANG_OFF'] = 'TẮT';
 	}
 }
 ?>

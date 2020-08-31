@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Library\Util\Formula;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

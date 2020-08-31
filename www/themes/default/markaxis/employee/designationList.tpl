@@ -13,11 +13,11 @@
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_DESIGNATION?>
                 </a>&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+                    <b><i class="icon-stack3"></i></b> <?LANG_BULK_ACTION?> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a id="orphanGroupDelete"><i class="icon-bin"></i> Delete Orphan Groups</a></li>
-                    <li><a id="designationBulkDelete"><i class="icon-bin"></i> Delete Selected Designations</a></li>
+                    <li><a id="orphanGroupDelete"><i class="icon-bin"></i> <?LANG_DELETE_ORPHAN_GROUPS?></a></li>
+                    <li><a id="designationBulkDelete"><i class="icon-bin"></i> <?LANG_DELETED_SELECTED_DESIGNATIONS?></a></li>
                 </ul>
             </li>
         </ul>
@@ -28,10 +28,10 @@
         <tr>
             <th></th>
             <th></th>
-            <th>Designation Group / Title</th>
-            <th>Description</th>
-            <th>No. of Employee</th>
-            <th>Actions</th>
+            <th><?LANG_DESIGNATION_GROUP_TITLE?></th>
+            <th><?LANG_DESCRIPTION?></th>
+            <th><?LANG_NO_OF_EMPLOYEE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -41,7 +41,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Designation Group</h6>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_DESIGNATION_GROUP?></h6>
             </div>
 
             <form id="saveGroup" name="saveGroup" method="post" action="">
@@ -49,22 +49,21 @@
                     <input type="hidden" id="groupID" name="groupID" value="0" />
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Designation Group Title: <span class="requiredField">*</span></label>
+                            <label><?LANG_DESIGNATION_GROUP_TITLE?>: <span class="requiredField">*</span></label>
                             <input type="text" name="groupTitle" id="groupTitle" class="form-control" value=""
-                                   placeholder="Enter Group Title" />
+                                   placeholder="<?LANG_ENTER_GROUP_TITLE?>" />
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                        <label><strong>Note:</strong> Newly created group will not appear in the table list until
-                            a designation has been assigned to it.</label>
+                        <label><strong><?LANG_NOTE?>:</strong> <?LANG_DESIGNATION_GROUP_DESCRIPT?></label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>
@@ -76,7 +75,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Designation</h6>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_DESIGNATION?></h6>
             </div>
 
             <form id="saveDesignation" name="saveDesignation" method="post" action="">
@@ -85,22 +84,22 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Designation Title: <span class="requiredField">*</span></label>
+                                <label><?LANG_DESIGNATION_TITLE?>: <span class="requiredField">*</span></label>
                                 <input type="text" name="designationTitle" id="designationTitle" class="form-control" value=""
-                                       placeholder="Enter Designation Title" />
+                                       placeholder="<?LANG_ENTER_DESIGNATION_TITLE?>" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Designation Description:</label>
+                                <label><?LANG_DESCRIPTION?>:</label>
                                 <textarea id="designationDescript" name="designationDescript" rows="5" cols="4"
-                                          placeholder="Enter Designation Description" class="form-control"></textarea>
+                                          placeholder="<?LANG_ENTER_DESIGNATION_DESCRIPTIONS?>" class="form-control"></textarea>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Designation Group: <span class="requiredField">*</span></label>
+                                <label><?LANG_DESIGNATION_GROUP?>: <span class="requiredField">*</span></label>
                                 <div id="groupUpdate"><?TPL_DESIGNATION_GROUP_LIST?></div>
                             </div>
                         </div>
@@ -108,8 +107,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

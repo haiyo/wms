@@ -22,8 +22,30 @@ class OfficeRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_OFFICE'] = 'Office';
-        $this->contents['LANG_CREATE_NEW_OFFICE'] = 'Create New office';
+        $this->contents['LANG_OFFICE'] = 'Văn phòng';
+        $this->contents['LANG_CREATE_NEW_OFFICE'] = 'Tạo văn phòng mới';
+        $this->contents['LANG_OFFICE_NAME'] = 'Tên văn phòng';
+        $this->contents['LANG_ADDRESS'] = 'Địa chỉ';
+        $this->contents['LANG_COUNTRY'] = 'Quốc gia';
+        $this->contents['LANG_WORK_DAYS'] = 'Ngày làm việc';
+        $this->contents['LANG_TOTAL_EMPLOYEE'] = 'Tổng số nhân viên';
+        $this->contents['LANG_ACTIONS'] = 'Hành động';
+        $this->contents['LANG_ENTER_OFFICE_NAME'] = 'Nhập tên văn phòng';
+        $this->contents['LANG_OFFICE_ADDRESS'] = 'Địa chỉ văn phòng';
+        $this->contents['LANG_ENTER_OFFICE_ADDRESS'] = 'Nhập địa chỉ văn phòng';
+        $this->contents['LANG_OFFICE_COUNTRY'] = 'Văn phòng Quốc gia';
+        $this->contents['LANG_OFFICE_TYPE'] = 'Loại văn phòng';
+        $this->contents['LANG_WORKING_DAY_FROM'] = 'Ngày làm việc Từ';
+        $this->contents['LANG_WORKING_DAY_TO'] = 'Ngày làm việc Tới';
+        $this->contents['LANG_LAST_DAY_IS_HALF_DAY'] = 'Ngày cuối cùng là nửa ngày';
+        $this->contents['LANG_SELECT_COUNTRY'] = 'Chọn quốc gia';
+        $this->contents['LANG_SELECT_OFFICE_TYPE'] = 'Chọn loại văn phòng';
+        $this->contents['LANG_SELECT_WORK_DAY_TO'] = 'Chọn Ngày làm việc Tới';
+        $this->contents['LANG_SELECT_WORK_DAY_FROM'] = 'Chọn ngày làm việc từ';
+        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
+        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
+        $this->contents['LANG_ENTER_REQUIRED_FIELDS'] = 'Vui lòng nhập tất cả các trường bắt buộc';
+        $this->contents['LANG_MUST_AT_LEAST_ONE_MAIN'] = 'Phải có ít nhất 1 văn phòng chính';
     }
 }
 ?>

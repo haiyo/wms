@@ -165,11 +165,12 @@ class PayrollSummaryView {
 
         $UserImageModel = UserImageModel::getInstance( );
 
-        $vars = array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_IMAGE' => $UserImageModel->getImgLinkByUserID( $userID ),
                        'TPLVAR_USERID' => $userID,
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'],
-                       'TPLVAR_PROCESS_DATE' => $processDate );
+                       'TPLVAR_PROCESS_DATE' => $processDate ) );
 
         $PayrollUserItemModel = PayrollUserItemModel::getInstance( );
         $itemInfo = $PayrollUserItemModel->getByPuID( $puID );
@@ -215,7 +216,7 @@ class PayrollSummaryView {
 
 
     /**
-     * Render main navigation
+     * Render summary on finalized process!
      * @return string
      */
     public function renderProcessSummary( $puID, $data, $totalClaim ) {
@@ -282,7 +283,7 @@ class PayrollSummaryView {
         $vars['TPLVAR_CLAIM_AMOUNT'] = number_format( $summary['claim'],2 );
         $vars['TPLVAR_NET_AMOUNT'] = number_format( $summary['net'],2 );
 
-        return $this->View->render('markaxis/payroll/processSummary.tpl', $vars );
+        return $this->View->render('markaxis/payroll/processSummary.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
     }
 }
 ?>

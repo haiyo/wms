@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Process Payroll</h6>
+                <h6 class="modal-title"><?LANG_PROCESS_PAYROLL?></h6>
             </div>
 
             <div class="modal-body overflow-y-visible">
@@ -12,8 +12,8 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button id="savePayroll" type="submit" class="btn btn-primary processBtn">Save Payroll</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                    <button id="savePayroll" type="submit" class="btn btn-primary processBtn"><?LANG_SUBMIT?></button>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Payment</h6>
+                <h6 class="modal-title"><?LANG_PAYMENT?></h6>
             </div>
 
             <div class="modal-body modal-payment overflow-y-visible">
@@ -32,8 +32,8 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                    <button id="savePayroll" type="submit" class="btn btn-primary processBtn">Payment</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                    <button id="savePayroll" type="submit" class="btn btn-primary processBtn"><?LANG_SUBMIT?></button>
                 </div>
             </div>
         </div>
@@ -47,48 +47,48 @@
     <div class="input-group payroll-range">
             <span class="input-group-prepend">
                 <span class="input-group-text">
-                    <i class="icon-calendar22"></i> &nbsp;&nbsp;Process Period
+                    <i class="icon-calendar22"></i> &nbsp;&nbsp;<?LANG_PROCESS_PERIOD?>
                 </span>
             </span>
         <input type="text" class="form-control daterange" readonly />
     </div>
     <!-- BEGIN DYNAMIC BLOCK: selectEmployee -->
     <fieldset>
-        <legend class="text-semibold">Select Employee to Process Payroll</legend>
+        <legend class="text-semibold"><?LANG_SELECT_EMPLOYEE_TO_PROCESS?></legend>
 
         <!--<div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>-->
 
         <table class="table table-hover datatable employeeTable">
             <thead>
             <tr>
-                <th>Employee ID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Contract Type</th>
-                <th>Employment Status</th>
-                <th>Actions</th>
+                <th><?LANG_EMPLOYEE_ID?></th>
+                <th><?LANG_NAME?></th>
+                <th><?LANG_DESIGNATION?></th>
+                <th><?LANG_CONTRACT_TYPE?></th>
+                <th><?LANG_EMPLOYMENT_STATUS?></th>
+                <th><?LANG_ACTIONS?></th>
             </tr>
             </thead>
         </table>
     </fieldset>
     <!-- END DYNAMIC BLOCK: selectEmployee -->
     <fieldset>
-        <legend class="text-semibold">Summary</legend>
+        <legend class="text-semibold"><?LANG_SUMMARY?></legend>
 
         <table class="table table-hover datatable processedTable">
             <thead>
             <tr>
-                <th>Employee</th>
-                <th>Gross</th>
-                <th>Claim</th>
-                <th>Levy</th>
-                <th>Contribution</th>
-                <th>Net</th>
+                <th><?LANG_EMPLOYEE?></th>
+                <th><?LANG_GROSS?></th>
+                <th><?LANG_CLAIM?></th>
+                <th><?LANG_LEVY?></th>
+                <th><?LANG_CONTRIBUTION?></th>
+                <th><?LANG_NET?></th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-                <th>Total</th>
+                <th><?LANG_TOTAL?></th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
@@ -100,25 +100,28 @@
     </fieldset>
     <!-- BEGIN DYNAMIC BLOCK: accountDetails -->
     <fieldset>
-        <legend class="text-semibold">Account &amp; Payslip Release</legend>
+        <legend class="text-semibold"><?LANG_ACCOUNT_PAYSLIP_RELEASE?></legend>
 
         <table class="table table-hover datatable finalizedTable">
             <thead>
             <tr>
                 <th></th>
-                <th>Employee</th>
-                <th>Payment Method</th>
-                <th>Bank Name</th>
-                <th>Account Detail</th>
-                <th>Payable</th>
-                <th>Payslip</th>
-                <th>Released</th>
+                <th><?LANG_EMPLOYEE?></th>
+                <th><?LANG_PAYMENT_METHOD?></th>
+                <th><?LANG_BANK_NAME?></th>
+                <th><?LANG_ACCOUNT_DETAILS?></th>
+                <th><?LANG_PAYABLE?></th>
+                <th><?LANG_PAYSLIP?></th>
+                <th><?LANG_RELEASED?></th>
             </tr>
             </thead>
         </table>
     </fieldset>
     <!-- END DYNAMIC BLOCK: accountDetails -->
     <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
-        <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
+        <span class="ladda-label"><?LANG_SUBMIT?> <i class="icon-check position-right"></i></span>
     </button>
 </form>
+<div id="officeFilter" class="dataFilter" data-currency="<?TPLVAR_CURRENCY?>">
+    <?TPL_OFFICE_LIST?>
+</div>

@@ -49,7 +49,7 @@ class PayrollSummary extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $processDate, $q='', $order='name ASC' ) {
+    public function getResults( $processDate, $officeID, $q='', $order='name ASC' ) {
         if( $q ) {
             $q = $q ? addslashes( $q ) : '';
             $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" )' : '';
@@ -57,7 +57,7 @@ class PayrollSummary extends \DAO {
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
                                           ps.gross, ps.deduction, ps.net, ps.claim, pl.levies, pc.contributions,
-                                          pm.method
+                                          pm.method, CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency
                                    FROM payroll_user pu
                                    LEFT JOIN payroll p ON (p.pID = pu.pID)
                                    LEFT JOIN payroll_summary ps ON (ps.puID = pu.puID)
@@ -67,10 +67,13 @@ class PayrollSummary extends \DAO {
                                    LEFT JOIN ( SELECT puID, SUM(amount) AS contributions 
                                                 FROM payroll_contribution 
                                                 GROUP BY puID ) pc ON (pc.puID = pu.puID)
-                                   LEFT JOIN user u ON (u.userID = pu.userID)
-                                   LEFT JOIN employee e ON (e.userID = u.userID)
-                                   LEFT JOIN payment_method pm ON (pm.pmID = e.paymentMethodID)
-                                   WHERE p.startDate = "' . addslashes( $processDate ) . '" ' . $q . '
+                                   LEFT JOIN user u ON ( u.userID = pu.userID )
+                                   LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN office o ON ( o.oID = e.officeID )
+                                   LEFT JOIN country cty ON ( cty.cID = o.countryID )
+                                   LEFT JOIN payment_method pm ON ( pm.pmID = e.paymentMethodID )
+                                   WHERE p.startDate = "' . addslashes( $processDate ) . '" AND
+                                         e.officeID = "' . (int)$officeID . '" ' . $q . '
                                    GROUP BY u.userID
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );

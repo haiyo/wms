@@ -1,6 +1,7 @@
 <?php
 namespace Library\Security\Aurora;
 use \Aurora\User\UserModel;
+use \Library\IO\File;
 use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
@@ -23,6 +24,9 @@ class Authenticator {
     protected $Registry;
     protected $UserModel;
     protected $authField;
+
+    private $kmsConfig = JSON_CONFIG . 'HRMS-Markaxis-75b213b4b0d5.json';
+    private $kmsScope = 'https://www.googleapis.com/auth/cloud-platform';
 
 
     /**
@@ -49,25 +53,24 @@ class Authenticator {
      * @throws AuthLoginException
      * @return string
      */
-    public function getDecrypt( $userInfo ) {
+    public function getKeyManager( ) {
         try {
             require( ROOT . './Library/vendor/autoload.php' );
             $client = new \Google_Client( );
-            $client->setAuthConfig(CLOUD_KMS_CONFIG );
-            $client->addScope(CLOUD_KMS_SCOPE );
+            $client->setAuthConfig( $this->kmsConfig );
+            $client->addScope( $this->kmsScope );
 
-            $jsonData = json_decode( file_get_contents(CLOUD_KMS_CONFIG ),true );
+            $jsonData = json_decode( file_get_contents( $this->kmsConfig ),true );
 
-            $keyManager = new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
+            return new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
                 $jsonData['projectId'],
                 $jsonData['locationId'],
                 $jsonData['keyRingId'],
                 $jsonData['cryptoKeyId']
             );
-            return $keyManager->decrypt( $userInfo['kek'], $userInfo['password'] );
         }
         catch( \Exception $e ) {
-            die( $e );
+            die($e->getCode());
         }
     }
 
@@ -78,21 +81,27 @@ class Authenticator {
     * @return bool
     */
     public function login( $username, $password, $setSession=true ) {
-        $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek' );
+        try {
+            $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek' );
 
-        if( $userInfo ) {
-            $decrypted = $this->getDecrypt( $userInfo );
+            if( $userInfo ) {
+                $decrypted = $this->getKeyManager( )->decrypt( $userInfo['kek'], $userInfo['password'] );
 
-            if( $decrypted == $password ) {
-                if( $setSession ) {
-                    $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
-                    $Session->setSession( $userInfo['userID'] );
+                if( $decrypted == $password ) {
+                    if( $setSession ) {
+                        $Session = $this->Registry->get( HKEY_CLASS, 'Session' );
+                        $Session->setSession( $userInfo['userID'] );
 
-                    $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
-                    $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                        $this->Registry->setCookie( 'userID',   $userInfo['userID'] );
+                        $this->Registry->setCookie( 'sessHash', $Session->getSessHash( ) );
+                    }
+                    return true;
                 }
-                return true;
             }
+        }
+        catch( \Exception $e ) {
+            $line  = '[' . date( 'd/M/Y H:i:s' ) . '] User: (' . $username . ') ' . $e->getMessage( );
+            File::write( LOG_DIR . 'error.php', $line, FILE_APPEND );
         }
         return false;
     }

@@ -22,19 +22,19 @@ class RecurRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_HOURLY'] = 'Hourly';
-        $this->contents['LANG_DAILY'] = 'Daily';
-        $this->contents['LANG_WEEKLY'] = 'Weekly';
-        $this->contents['LANG_EVERY_2_WEEKS'] = 'Every 2 Weeks';
-        $this->contents['LANG_MONTHLY'] = 'Monthly';
-        $this->contents['LANG_YEARLY'] = 'Yearly';
-        $this->contents['LANG_MON_FRI'] = 'Every weekday (Mon-Fri)';
-        $this->contents['LANG_MON_WED_FRI'] = 'Every Mon, Wed and Fri';
-        $this->contents['LANG_TUE_THUR'] = 'Every Tues and Thurs';
-        $this->contents['LANG_DAY_OF_MONTH'] = 'Monthly by day';
-        $this->contents['LANG_NEVER'] = 'Never';
-        $this->contents['LANG_AFTER_OCCUR'] = 'Repeat no. of times';
-        $this->contents['LANG_UNTIL_DATE'] = 'Until date';
+        $this->contents['LANG_HOURLY'] = 'Hàng giờ';
+        $this->contents['LANG_DAILY'] = 'Hằng ngày';
+        $this->contents['LANG_WEEKLY'] = 'Hàng tuần';
+        $this->contents['LANG_EVERY_2_WEEKS'] = 'Mỗi 2 tuần';
+        $this->contents['LANG_MONTHLY'] = 'Hàng tháng';
+        $this->contents['LANG_YEARLY'] = 'Hàng năm';
+        $this->contents['LANG_MON_FRI'] = 'Mỗi ngày trong tuần (Thứ Hai-Thứ Sáu)';
+        $this->contents['LANG_MON_WED_FRI'] = 'Mỗi Thứ Hai, Thứ Tư và Thứ Sáu';
+        $this->contents['LANG_TUE_THUR'] = 'Thứ Ba và thứ Năm hàng tuần';
+        $this->contents['LANG_DAY_OF_MONTH'] = 'Hàng tháng theo ngày';
+        $this->contents['LANG_NEVER'] = 'Không bao giờ';
+        $this->contents['LANG_AFTER_OCCUR'] = 'Số lần lặp lại';
+        $this->contents['LANG_UNTIL_DATE'] = 'Cho đến ngày';
 	}
 }
 ?>

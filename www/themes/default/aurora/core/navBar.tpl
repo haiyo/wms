@@ -50,9 +50,9 @@
                         <div><small><?TPLVAR_DESIGNATION?></small></div>
                         <div><small><?LANG_EMPLOYEE_SINCE?> <?TPLVAR_START_DATE?></small></div>
                     </li>
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/profile"><i class="icon-user"></i> Edit Profile</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/profile"><i class="icon-user"></i> <?LANG_EDIT_PROFILE?></a></li>
                     <!--<li><a href="<?TPLVAR_ROOT_URL?>admin/user/settings"><i class="icon-cog5"></i> Account settings</a></li>-->
-                    <li><a href="<?TPLVAR_ROOT_URL?>admin/logout"><i class="icon-switch2"></i> Logout</a></li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/logout"><i class="icon-switch2"></i> <?LANG_LOGOUT?></a></li>
                 </ul>
             </li>
         </ul>

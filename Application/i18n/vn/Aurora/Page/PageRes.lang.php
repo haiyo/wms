@@ -19,7 +19,9 @@ class PageRes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_HOME'] = 'Home';
+        $this->contents['LANG_HOME'] = 'Trang Chủ';
+        $this->contents['LANG_EDIT_PROFILE'] = 'Chỉnh sửa hồ sơ';
+        $this->contents['LANG_LOGOUT'] = 'Đăng xuất';
 	}
 }
 ?>

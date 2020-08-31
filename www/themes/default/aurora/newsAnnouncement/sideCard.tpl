@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-header bg-transparent header-elements-inline">
-        <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">News &amp; Announcement
+        <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold"><?LANG_NEWS_ANNOUNCEMENT?>
             <!-- BEGIN DYNAMIC BLOCK: manage -->
             &nbsp;-&nbsp;
-            <a href="<?TPLVAR_ROOT_URL?>admin/newsAnnouncement/list">Manage</a></a>
+            <a href="<?TPLVAR_ROOT_URL?>admin/newsAnnouncement/list"><?LANG_MANAGE?></a></a>
             <!-- END DYNAMIC BLOCK: manage -->
         </span>
     </div>

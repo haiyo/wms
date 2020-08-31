@@ -91,5 +91,40 @@ class TaxRuleControl {
             exit;
         }
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteTaxGroup( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_taxes' ) ) {
+            $data = Control::getOutputArray( );
+
+            if( isset( $data['groupList'] ) ) {
+                $this->TaxRuleModel->deleteFromGroup( $data['groupList'] );
+            }
+
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deleteTaxRule( ) {
+        if( Control::hasPermission( 'Markaxis', 'add_modify_taxes' ) ) {
+            $trID = Control::getRequest( )->request( POST, 'trID' );
+
+            $this->TaxRuleModel->delete( $trID );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
+    }
 }
 ?>

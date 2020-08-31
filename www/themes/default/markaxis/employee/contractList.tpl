@@ -8,10 +8,10 @@
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_CONTRACT_TYPE?>
                 </a>&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+                    <b><i class="icon-stack3"></i></b> <?LANG_BULK_ACTION?> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="contractBulkDelete"><i class="icon-bin"></i> Delete Selected Contracts</a></li>
+                    <li><a href="#" id="contractBulkDelete"><i class="icon-bin"></i> <?LANG_DELETE_SELECTED_CONTRACTS?></a></li>
                 </ul>
             </li>
         </ul>
@@ -21,10 +21,10 @@
         <thead>
         <tr>
             <th></th>
-            <th>Contract Type</th>
-            <th>Description</th>
-            <th>No. of Employee</th>
-            <th>Actions</th>
+            <th><?LANG_CONTRACT_TYPE?></th>
+            <th><?LANG_DESCRIPTION?></th>
+            <th><?LANG_NO_OF_EMPLOYEE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -34,7 +34,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Create New Contract Type</h6>
+                <h6 class="modal-title"><?LANG_CREATE_NEW_CONTRACT_TYPE?></h6>
             </div>
 
             <form id="saveContract" name="saveContract" method="post" action="">
@@ -43,25 +43,25 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Contract Title:</label>
+                                <label><?LANG_CONTRACT_TITLE?>:</label>
                                 <input type="text" name="contractTitle" id="contractTitle" class="form-control" value=""
-                                       placeholder="Enter Contract Title" />
+                                       placeholder="<?LANG_ENTER_CONTRACT_TITLE?>" />
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Contract Description:</label>
+                                <label><?LANG_DESCRIPTION?>:</label>
                                 <textarea id="contractDescript" name="contractDescript" rows="5" cols="4"
-                                          placeholder="Enter Contract Description" class="form-control"></textarea>
+                                          placeholder="<?LANG_ENTER_CONTRACT_DESCRIPTION?>" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

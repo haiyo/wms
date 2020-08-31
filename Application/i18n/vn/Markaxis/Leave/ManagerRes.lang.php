@@ -22,7 +22,7 @@ class ManagerRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_LEAVE_PENDING_APPROVAL'] = '<?TPLVAR_FNAME?> <?TPLVAR_LNAME?>\'s yêu cầu nghỉ việc đang chờ bạn phê duyệt';
+        $this->contents['LANG_LEAVE_PENDING_APPROVAL'] = '<?TPLVAR_FNAME?> <?TPLVAR_LNAME?> yêu cầu nghỉ việc đang chờ bạn phê duyệt';
     }
 }
 ?>

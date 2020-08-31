@@ -19,17 +19,17 @@ class LabelRes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_BUSINESS'] = 'Business';
-        $this->contents['LANG_IMPORTANT'] = 'Important';
-        $this->contents['LANG_PREPARATION'] = 'Preparation';
-        $this->contents['LANG_PERSONAL'] = 'Personal';
-        $this->contents['LANG_BIRTHDAY'] = 'Birthday';
-        $this->contents['LANG_MUST_ATTEND'] = 'Must Attend';
-        $this->contents['LANG_PHONE_CALL'] = 'Phone Call';
-        $this->contents['LANG_VACATION'] = 'Vacation';
-        $this->contents['LANG_ANNIVERSARY'] = 'Anniversary';
-        $this->contents['LANG_TRAVEL'] = 'Travel';
-        $this->contents['LANG_MANAGE_LABEL'] = 'Manage Labels';
+        $this->contents['LANG_BUSINESS'] = 'Kinh doanh';
+        $this->contents['LANG_IMPORTANT'] = 'Quan trọng';
+        $this->contents['LANG_PREPARATION'] = 'Sự chuẩn bị';
+        $this->contents['LANG_PERSONAL'] = 'Cá nhân';
+        $this->contents['LANG_BIRTHDAY'] = 'Sinh nhật';
+        $this->contents['LANG_MUST_ATTEND'] = 'Phải tham gia';
+        $this->contents['LANG_PHONE_CALL'] = 'Gọi điện';
+        $this->contents['LANG_VACATION'] = 'Kỳ nghỉ';
+        $this->contents['LANG_ANNIVERSARY'] = 'Ngày kỷ niệm';
+        $this->contents['LANG_TRAVEL'] = 'Du lịch';
+        $this->contents['LANG_MANAGE_LABEL'] = 'Quản lý nhãn';
 	}
 }
 ?>

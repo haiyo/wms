@@ -15,7 +15,7 @@
                    placeholder="<?LANG_LEAVE_CODE_PLACEHOLDER?>" />
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <label class="display-block">&nbsp;</label>
             <?TPL_ALLOW_HALF_DAY_RADIO?>
         </div>

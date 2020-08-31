@@ -53,10 +53,10 @@ class OfficeControl {
      * Render main navigation
      * @return string
      */
-    public function getOffice( $data ) {
-        if( isset( $data[1] ) ) {
+    public function getOffice( $args ) {
+        if( isset( $args[1] ) && is_numeric( $args[1] ) ) {
             $vars = array( );
-            $vars['data'] = $this->OfficeModel->getByoID( $data[1] );
+            $vars['data'] = $this->OfficeModel->getByoID( $args[1] );
             $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;

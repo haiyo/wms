@@ -24,6 +24,15 @@ class DepartmentRes extends Resource {
         $this->contents = array( );
         $this->contents['LANG_DEPARTMENT'] = 'Department';
         $this->contents['LANG_CREATE_NEW_DEPARTMENT'] = 'Create New Department';
+        $this->contents['LANG_DEPARTMENT_NAME'] = 'Department Name';
+        $this->contents['LANG_MANAGERS'] = 'Manager(s)';
+        $this->contents['LANG_NO_OF_EMPLOYEE'] = 'No. of Employee';
+        $this->contents['LANG_ACTIONS'] = 'Actions';
+        $this->contents['LANG_ENTER_DEPARTMENT_NAME'] = 'Enter Department Name';
+        $this->contents['LANG_DEPARTMENT_MANAGER'] = 'Department Manager(s)';
+        $this->contents['LANG_ENTER_MANAGER_NAME'] = 'Enter Manager\'s Name';
+        $this->contents['LANG_DISCARD'] = 'Discard';
+        $this->contents['LANG_SUBMIT'] = 'Submit';
     }
 }
 ?>

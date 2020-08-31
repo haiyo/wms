@@ -45,8 +45,18 @@ class Holiday extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getAll( ) {
-        $sql = $this->DB->select( 'SELECT * FROM holiday', __FILE__, __LINE__ );
+    public function getNonWorkDays( $start='', $end='', $countryCode='' ) {
+        $range = '';
+
+        if( $start && $end ) {
+            $range = ' AND date <= "' . addslashes( $end ) . '" AND
+                           date >= "' . addslashes( $start ) . '"';
+        }
+
+        $countryCode = $countryCode ? ' AND countryCode = "' . addslashes( $countryCode ) . '"' : '';
+
+        $sql = $this->DB->select( 'SELECT * FROM holiday WHERE workDay = "0"' . $range . $countryCode,
+                                   __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -62,13 +72,15 @@ class Holiday extends \DAO {
      * Retrieve Events Between a Start and End Timestamp
      * @return mixed
      */
-    public function getEventsBetween( $start, $end ) {
-        $events = array( );
+    public function getEventsBetween( $start, $end, $countryCode='' ) {
+        $countryCode = $countryCode ? ' AND countryCode = "' . addslashes( $countryCode ) . '"' : '';
+
         $sql = $this->DB->select( 'SELECT * FROM holiday
                                    WHERE date <= "' . addslashes( $end ) . '" AND
-                                         date >= "' . addslashes( $start ) . '"',
+                                         date >= "' . addslashes( $start ) . '"' . $countryCode,
                                     __FILE__, __LINE__ );
 
+        $events = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $row['classNames'] = 'holiday';
@@ -87,11 +99,12 @@ class Holiday extends \DAO {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( h.title LIKE "%' . $q . '%" )' : '';
+        $q = $q ? 'AND ( h.title LIKE "%' . $q . '%" OR c.name LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS h.*,
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS h.*, c.name AS country,
                                           DATE_FORMAT( h.date, "%D %M %Y") AS date
                                    FROM holiday h
+                                   LEFT JOIN country c ON ( c.countryCode = h.countryCode )
                                    WHERE 1 = 1 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );

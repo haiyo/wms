@@ -8,7 +8,7 @@
         <div class="header-elements">
             <div class="list-icons tax-icons">
                 <a data-id="<?TPLVAR_GID?>" class="list-icons-item" data-toggle="modal" data-target="#modalTaxGroup"><i class="icon-pencil5"></i></a>
-                <a data-id="<?TPLVAR_GID?>" class="list-icons-item"><i class="icon-bin"></i></a>
+                <a data-id="<?TPLVAR_GID?>" class="list-icons-item deleteTaxGroup"><i class="icon-bin"></i></a>
             </div>
         </div>
     </div>

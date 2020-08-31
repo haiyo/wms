@@ -16,23 +16,6 @@ class Office extends \DAO {
 
 
     /**
-     * Retrieve a user column by userID
-     * @return mixed
-     */
-    public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM office', __FILE__, __LINE__ );
-
-        $list = array( );
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['ctID']] = $row['type'];
-            }
-        }
-        return $list;
-    }
-
-
-    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -46,7 +29,8 @@ class Office extends \DAO {
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS o.oID, o.name, o.address, c.name as country, 
                                           IFNULL( e.empCount, 0 ) AS empCount, o.workDayFrom, o.workDayTo,
                                           TIME_FORMAT( openTime, "%l:%i %p" ) AS openTime, 
-                                          TIME_FORMAT( closeTime, "%l:%i %p" ) AS closeTime
+                                          TIME_FORMAT( closeTime, "%l:%i %p" ) AS closeTime,
+                                          main
                                    FROM office o
                                    LEFT JOIN country c ON ( o.countryID = c.cID )
                                    LEFT JOIN ( SELECT officeID, COUNT(eID) as empCount FROM employee e

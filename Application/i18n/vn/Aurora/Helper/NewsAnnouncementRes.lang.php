@@ -17,8 +17,8 @@ class NewsAnnouncementRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_ANNOUNCEMENT']  = 'Announcement';
-        $this->contents['LANG_NEWS'] = 'News';
+        $this->contents['LANG_ANNOUNCEMENT']  = 'Sự thông báo';
+        $this->contents['LANG_NEWS'] = 'Tin tức';
 	}
 }
 ?>

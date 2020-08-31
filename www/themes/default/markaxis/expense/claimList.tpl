@@ -14,14 +14,14 @@
     <table class="table table-hover datatable tableLayoutFixed claimTable">
         <thead>
         <tr>
-            <th>Claim Type</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Attachment</th>
-            <th>Status</th>
-            <th>Manager(s)</th>
-            <th>Date Created</th>
-            <th>Actions</th>
+            <th><?LANG_CLAIM_TYPE?></th>
+            <th><?LANG_DESCRIPTION?></th>
+            <th><?LANG_AMOUNT?></th>
+            <th><?LANG_ATTACHMENT?></th>
+            <th><?LANG_STATUS?></th>
+            <th><?LANG_MANAGERS?></th>
+            <th><?LANG_DATE_CREATED?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -40,40 +40,40 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Select Expense Type: <span class="requiredField">*</span></label>
+                                <label><?LANG_SELECT_EXPENSE_TYPE?>: <span class="requiredField">*</span></label>
                                 <?TPLVAR_EXPENSE_LIST?>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Description:</label>
+                                <label><?LANG_DESCRIPTION?>:</label>
                                 <input type="text" name="claimDescript" id="claimDescript" class="form-control" value=""
-                                       placeholder="Enter description for this claim" />
+                                       placeholder="<?LANG_ENTER_DESCRIPTION_CLAIM?>" />
                             </div>
                         </div>
 
                         <div class="col-md-12 pb-10">
                             <div class="form-group">
-                                <label>Amount To Claim: <span class="requiredField">*</span> <div id="maxAmount" class="text-muted"></div></label>
+                                <label><?LANG_AMOUNT_TO_CLAIM?>: <span class="requiredField">*</span> <div id="maxAmount" class="text-muted"></div></label>
                                 <input type="number" name="claimAmount" id="claimAmount" class="form-control" value=""
-                                       placeholder="Enter claim amount (For eg: 2.50)" />
+                                       placeholder="<?LANG_ENTER_CLAIM_AMOUNT?> (For eg: 2.50)" />
                             </div>
                         </div>
 
                         <div class="col-md-12 pb-10">
-                            <label class="display-block">Upload Supporting Document (If any):</label>
+                            <label class="display-block"><?LANG_UPLOAD_SUPPORTING_DOCUMENT?>:</label>
                             <div class="input-group">
                                 <input type="file" class="claimFileInput" data-fouc />
-                                <span class="help-block">Accepted formats: pdf, doc. Max file size <?TPLVAR_MAX_ALLOWED?></span>
+                                <span class="help-block"><?LANG_ACCEPTED_FORMATS?> <?TPLVAR_MAX_ALLOWED?></span>
                                 </span>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Approving Manager(s):</label>
+                                <label><?LANG_APPROVING_MANAGERS?>:</label>
                                 <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
-                                       placeholder="Enter Manager's Name"
+                                       placeholder="<?LANG_ENTER_MANAGER_NAME?>"
                                        value="" autocomplete="off" data-fouc />
                             </div>
                         </div>
@@ -82,8 +82,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

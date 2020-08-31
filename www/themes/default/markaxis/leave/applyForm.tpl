@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Apply Leave</h6>
+                <h6 class="modal-title"><?LANG_APPLY_LEAVE?></h6>
             </div>
 
             <form id="applyLeaveForm" name="applyLeaveForm" method="post" action="">
@@ -12,22 +12,22 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Leave Type: <span class="requiredField">*</span></label>
+                                <label><?LANG_LEAVE_TYPE?>: <span class="requiredField">*</span></label>
                                 <?TPL_LEAVE_TYPE_LIST?>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Reason:</label>
+                                <label><?LANG_REASON?>:</label>
                                 <input type="text" name="reason" id="reason" class="form-control" value=""
-                                       placeholder="For e.g: Personal issues, Vacation" />
+                                       placeholder="<?LANG_PERSONAL_ISSUES_VACATION?>" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Start Date: <span class="requiredField">*</span></label>
+                                <label><?LANG_START_DATE?>: <span class="requiredField">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
@@ -39,7 +39,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>End Date: <span class="requiredField">*</span></label>
+                                <label><?LANG_END_DATE?>: <span class="requiredField">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
@@ -52,13 +52,13 @@
                         <div class="col-md-6">
                             <div class="form-checkbox-group">
                                 <input type="checkbox" class="dt-checkboxes check-input" id="firstHalf" name="firstHalf" value="1" />
-                                <label for="firstHalf" class="ml-5">Half day on first day</label>
+                                <label for="firstHalf" class="ml-5"><?LANG_HALF_DAY_ON_FIRST_DAY?></label>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <input type="checkbox" class="dt-checkboxes check-input" id="secondHalf" name="secondHalf" value="1" />
-                            <label for="secondHalf" class="ml-5">Half day on last day</label>
+                            <label for="secondHalf" class="ml-5"><?LANG_HALF_DAY_ON_LAST_DAY?></label>
                         </div>
 
                         <div id="dateHelpWrapper" class="col-md-12 hide">
@@ -69,27 +69,27 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="display-block">Upload Supporting Document (If any):</label>
+                                <label class="display-block"><?LANG_UPLOAD_SUPPORTING_DOCUMENT?>:</label>
                                 <div class="input-group">
                                     <input type="file" class="fileInput" data-fouc />
-                                    <span class="help-block">Accepted formats: pdf, doc. Max file size <?TPLVAR_MAX_ALLOWED?></span>
+                                    <span class="help-block"><?LANG_ACCEPTED_FORMATS?> <?TPLVAR_MAX_ALLOWED?></span>
                                     </span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-12">
-                            <label>Approving Manager(s):</label>
+                            <label><?LANG_APPROVING_MANAGERS?>:</label>
                             <input type="text" name="managers" class="form-control tokenfield-typeahead suggestList"
-                                   placeholder="Enter Manager's Name"
+                                   placeholder="<?LANG_ENTER_MANAGER_NAME?>"
                                    value="" autocomplete="off" data-fouc />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="saveApplyLeave">Submit</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary" id="saveApplyLeave"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>

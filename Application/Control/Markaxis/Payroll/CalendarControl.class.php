@@ -66,17 +66,6 @@ class CalendarControl {
      * Render main navigation
      * @return string
      */
-    public function updatePayPeriod( ) {
-        $this->CalendarModel->updatePayPeriod( );
-        echo 'ok';
-        exit;
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function getEndDate( ) {
         $post = Control::getRequest( )->request( POST );
         $vars = array( );
@@ -97,6 +86,41 @@ class CalendarControl {
 
         $vars['data'] = $this->CalendarView->renderPaymentRecur( $post );
         echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( $args ) {
+        if( isset( $args[2] ) ) {
+            $data = Control::getOutputArray( );
+            Control::setOutputArray( $this->CalendarModel->getEmployeeDuration( $args[2], $data ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $data = Control::getOutputArray( );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        Control::setPostData( $this->CalendarModel->reprocessPayroll( $data, $post ) );
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function updatePayPeriod( ) {
+        $this->CalendarModel->updatePayPeriod( );
+        echo 'ok';
         exit;
     }
 

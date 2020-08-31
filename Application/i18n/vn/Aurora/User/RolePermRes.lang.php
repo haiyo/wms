@@ -19,17 +19,30 @@ class RolePermRes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_ROLES_PERMISSIONS'] = 'Roles &amp; Permissions';
-        $this->contents['LANG_CREATE_NEW_ROLE'] = 'Create New Role';
-        $this->contents['LANG_DELETE_ROLE'] = 'Delete Role';
-        $this->contents['LANG_CLOSE'] = 'Close';
-        $this->contents['LANG_SAVE'] = 'Save Settings';
-        $this->contents['LANG_CONFIRM_CLOSE'] = 'You have not save your changes to the permission settings. Are you sure you want to cancel?';
-        $this->contents['LANG_PERMISSION_SAVED'] = 'Permissions has been saved.';
-        $this->contents['LANG_NO_DATA_SAVED'] = 'You have not make any changes to the permission settings. No data has been save.';
-        $this->contents['LANG_CONFIRM_DELETE_ROLE'] = 'Are you sure you want to delete the {roleTitle} role?';
-        $this->contents['LANG_ROLE_TITLE_EMPTY'] = 'Please enter a role title.';
-        $this->contents['LANG_NEW_ROLE'] = 'New Role';
+        $this->contents['LANG_ROLES_PERMISSIONS'] = 'Vai trò và Quyền';
+        $this->contents['LANG_CREATE_NEW_ROLE'] = 'Tạo vai trò mới';
+        $this->contents['LANG_DELETE_ROLE'] = 'Xóa vai trò';
+        $this->contents['LANG_CLOSE'] = 'Đóng';
+        $this->contents['LANG_SAVE'] = 'Lưu các thiết lập';
+        $this->contents['LANG_CONFIRM_CLOSE'] = 'Bạn chưa lưu các thay đổi của mình đối với cài đặt quyền. Bạn có chắc là muốn hủy bỏ?';
+        $this->contents['LANG_PERMISSION_SAVED'] = 'Quyền đã được lưu';
+        $this->contents['LANG_NO_DATA_SAVED'] = 'Bạn không thực hiện bất kỳ thay đổi nào đối với cài đặt quyền. Không có dữ liệu nào được lưu';
+        $this->contents['LANG_CONFIRM_DELETE_ROLE'] = 'Bạn có chắc chắn muốn xóa {roleTitle} vai trò?';
+        $this->contents['LANG_ROLE_TITLE_EMPTY'] = 'Vui lòng nhập một chức danh';
+        $this->contents['LANG_NEW_ROLE'] = 'Vai trò mới';
+        $this->contents['LANG_ROLE_NAME'] = 'Tên vai trò';
+        $this->contents['LANG_DESCRIPTION'] = 'Sự miêu tả';
+        $this->contents['LANG_NO_OF_EMPLOYEE'] = 'Số lượng nhân viên';
+        $this->contents['LANG_ACTIONS'] = 'Hành động';
+        $this->contents['LANG_ROLE_TITLE'] = 'Chức danh vai trò';
+        $this->contents['LANG_ENTER_ROLE_TITLE'] = 'Nhập tiêu đề vai trò';
+        $this->contents['LANG_ROLE_DESCRIPTION'] = 'Mô tả vai trò';
+        $this->contents['LANG_ENTER_ROLE_DESCRIPTION'] = 'Nhập mô tả vai trò';
+        $this->contents['LANG_DEFINE_PERMISSIONS'] = 'Xác định quyền';
+        $this->contents['LANG_CLOSE'] = 'Đóng';
+        $this->contents['LANG_SAVE_PERMISSIONS'] = 'Lưu quyền';
+        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
+        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
 	}
 }
 ?>

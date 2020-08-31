@@ -142,8 +142,7 @@ class Employee extends \DAO {
                        OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
-                                          u.email1, u.mobile,
-                                          u.suspended, e.startdate, d.title AS designation, e.currency,
+                                          u.email1, u.mobile, u.suspended, e.startdate, d.title AS designation,
                                           e.idnumber, e.salary, e.endDate, c.type,
                                           ad.descript AS suspendReason
                                    FROM user u
@@ -177,14 +176,15 @@ class Employee extends \DAO {
         $sql = $this->DB->select( 'SELECT u.userID, CONCAT( u.fname, " ", u.lname ) AS name,
                                           u.birthday, u.raceID, n.nationality, e.idnumber, 
                                           dpt.name AS department, d.title AS designation, c.type AS contractType, 
-                                          e.officeID, e.salary, pt.title AS passType,
+                                          e.officeID, e.salary, pt.title AS passType, cty.countryCode,
                                           CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency,
                                           DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
                                           DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
                                           DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate
                                    FROM employee e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
-                                   LEFT JOIN country cty ON ( cty.cID = u.countryID )
+                                   LEFT JOIN office o ON ( o.oID = e.officeID )
+                                   LEFT JOIN country cty ON ( cty.cID = o.countryID )
                                    LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
                                    LEFT JOIN department dpt ON ( dpt.dID = e.departmentID )
                                    LEFT JOIN designation d ON ( d.dID = e.designationID )

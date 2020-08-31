@@ -38,10 +38,6 @@ class Application {
             $HttpRequest = new HttpRequest( );
             $pathInfo = $HttpRequest->request(GET, 'pathInfo' );
 
-            if( !$pathInfo ) {
-                $pathInfo = 'admin';
-            }
-
             $Dispatcher = new Dispatcher( );
             $Dispatcher->setMapping(XML . 'urlmap.xml' );
             $Dispatcher->monitor( $pathInfo );
@@ -68,15 +64,11 @@ class Application {
             // we do not want html markup in emulated CLI
             @ini_set('html_errors', 'off');
 
-            echo "\n-----------------------------------------------\n";
-            echo "|         Cron Script Initializing...         |\n";
-            echo "-----------------------------------------------\n\n";
-
             BenchmarkTimer::start( );
 
             $Dispatcher = new Dispatcher( );
-            $Dispatcher->setMapping( XML . 'cronmap.xml' );
-            $Dispatcher->monitor('admin/cron/', $argv);
+            $Dispatcher->setMapping(XML . 'cronmap.xml' );
+            $Dispatcher->monitor('cron/', $argv);
 
             echo 'Main cron execution time took ' . BenchmarkTimer::stop('Aurora') . " seconds\n\n";
         }

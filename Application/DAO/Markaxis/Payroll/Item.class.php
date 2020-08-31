@@ -87,7 +87,8 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getBasic( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.basic FROM payroll_item pi 
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.basic
+                                   FROM payroll_item pi 
                                    WHERE pi.basic = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
@@ -104,7 +105,8 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getOrdinary( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.ordinary FROM payroll_item pi 
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.ordinary 
+                                   FROM payroll_item pi 
                                    WHERE pi.ordinary = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
@@ -124,7 +126,8 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getDeduction( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.deduction FROM payroll_item pi 
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.deduction 
+                                   FROM payroll_item pi 
                                    WHERE pi.deduction = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );
@@ -141,7 +144,7 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getDeductionAW( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.deduction, pi.deductionAW
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.deduction, pi.deductionAW
                                    FROM payroll_item pi 
                                    WHERE pi.deductionAW = "1" AND 
                                          pi.deleted <> "1"',
@@ -159,7 +162,8 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getAdditional( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.additional FROM payroll_item pi 
+        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.additional
+                                   FROM payroll_item pi 
                                    WHERE pi.additional = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );

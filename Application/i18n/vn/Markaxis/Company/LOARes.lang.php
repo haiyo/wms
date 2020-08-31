@@ -19,11 +19,18 @@ class LOARes extends Resource {
         parent::__construct( );
         
         $this->contents = array( );
-        $this->contents['LANG_LETTER_OF_APPOINTMENT'] = 'Letter Of Appointment';
-        $this->contents['LANG_CREATE_NEW_LOA'] = 'Create New LOA';
-        $this->contents['LANG_FOR_WHICH_DESIGNATION'] = 'For Which Designation';
-        $this->contents['LANG_PLEASE_SELECT_DESIGNATION'] = 'Please select a Designation';
-        $this->contents['LANG_PLEASE_ENTER_CONTENT'] = 'Please enter content.';
+        $this->contents['LANG_LETTER_OF_APPOINTMENT'] = 'Thư hẹn';
+        $this->contents['LANG_CREATE_NEW_LOA'] = 'Tạo thư hẹn mới';
+        $this->contents['LANG_FOR_WHICH_DESIGNATION'] = 'Cho sự chỉ định nào';
+        $this->contents['LANG_PLEASE_SELECT_DESIGNATION'] = 'Vui lòng chọn một Chỉ định';
+        $this->contents['LANG_PLEASE_ENTER_CONTENT'] = 'Vui lòng nhập nội dung';
+        $this->contents['LANG_FOR_DESIGNATION'] = 'Để chỉ định(s)';
+        $this->contents['LANG_LAST_UPDATED_BY'] = 'Cập nhật lần cuối bởi';
+        $this->contents['LANG_LAST_UPDATED'] = 'Cập nhật mới nhất';
+        $this->contents['LANG_ACTIONS'] = 'Hành động';
+        $this->contents['LANG_CONTENT'] = 'Nội dung';
+        $this->contents['LANG_DISCARD'] = 'Bỏ';
+        $this->contents['LANG_SAVE_CHANGES'] = 'Lưu thay đổi';
 	}
 }
 ?>

@@ -15,7 +15,7 @@
 
                     <!-- BEGIN DYNAMIC BLOCK: moreDeptName -->
                     <div class="badge bg-grey-600" data-toggle="tooltip" data-placement="top" data-html="true"
-                         title="<?TPLVAR_MORE_DEPT?>">More Departments</div>
+                         title="<?TPLVAR_MORE_DEPT?>"><?LANG_MORE_DEPARTMENTS?></div>
                     <!-- END DYNAMIC BLOCK: moreDeptName -->
 
                     <div class="d-block text-wrap contactText"><i class="icon-mail5"></i> <?TPLVAR_EMAIL?></div>

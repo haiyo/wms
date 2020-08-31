@@ -54,6 +54,7 @@ var MarkaxisPayItem = (function( ) {
             that.modalPayItem.on("hidden.bs.modal", function (e) {
                 $("#piID").val(0);
                 $("#payItemTitle").val("");
+                $("#formula").val("");
                 that.selectPayItemType( "none" );
             });
 
@@ -73,6 +74,7 @@ var MarkaxisPayItem = (function( ) {
                                 $("#modalPayItem .modal-title").text("Edit Pay Item");
                                 $("#piID").val( obj.data.piID );
                                 $("#payItemTitle").val( obj.data.title );
+                                $("#formula").val( obj.data.formula );
 
                                 if( obj.data.ordinary == 1 ) {
                                     that.selectPayItemType("ordinary");
@@ -97,6 +99,7 @@ var MarkaxisPayItem = (function( ) {
                 else {
                     $("#modalPayItem .modal-title").text("Create New Pay Item");
                     $("#payItemTitle").val("")
+                    $("#formula").val("")
                 }
             });
 

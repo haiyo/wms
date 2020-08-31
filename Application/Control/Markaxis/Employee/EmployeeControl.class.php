@@ -46,12 +46,10 @@ class EmployeeControl {
      * @return void
      */
     public function getList( $args ) {
-        if( Control::hasPermission('Markaxis', 'add_modify_employee' ) ) {
-            if( isset( $args[1] ) ) {
-                $includeOwn = isset( $args[2] ) ? true : false;
-                echo json_encode( $this->EmployeeModel->getList( $args[1], 0, 0, $includeOwn ) );
-                exit;
-            }
+        if( isset( $args[1] ) ) {
+            $includeOwn = isset( $args[2] ) ? true : false;
+            echo json_encode( $this->EmployeeModel->getList( $args[1], 0, 0, $includeOwn ) );
+            exit;
         }
     }
 

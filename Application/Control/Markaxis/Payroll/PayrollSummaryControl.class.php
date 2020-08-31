@@ -33,9 +33,10 @@ class PayrollSummaryControl {
      * @return string
      */
     public function getAllProcessed( $args ) {
-        if( isset( $args[1] ) ) {
+        // processDate && officeID
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
             $post = Control::getRequest( )->request( POST );
-            echo json_encode( $this->PayrollSummaryModel->getResults( $post, $args[1] ) );
+            echo json_encode( $this->PayrollSummaryModel->getResults( $post, $args[1], $args[2] ) );
             exit;
         }
     }

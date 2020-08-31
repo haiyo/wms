@@ -21,17 +21,17 @@
     <table class="table table-hover employeeTable">
         <thead>
         <tr>
-            <th rowspan="2">Employee ID</th>
-            <th colspan="3">HR Information</th>
-            <th colspan="3">Contact</th>
+            <th rowspan="2"><?LANG_EMPLOYEE_ID?></th>
+            <th colspan="3"><?LANG_HR_INFORMATION?></th>
+            <th colspan="3"><?LANG_CONTACT?></th>
         </tr>
         <tr>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Employment Status</th>
-            <th>E-mail</th>
-            <th>Mobile</th>
-            <th>Actions</th>
+            <th><?LANG_NAME?></th>
+            <th><?LANG_DESIGNATION?></th>
+            <th><?LANG_EMPLOYMENT_STATUS?></th>
+            <th><?LANG_EMAIL?></th>
+            <th><?LANG_MOBILE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
         <tbody></tbody>

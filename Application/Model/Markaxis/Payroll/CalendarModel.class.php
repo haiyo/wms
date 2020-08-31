@@ -1,5 +1,8 @@
 <?php
 namespace Markaxis\Payroll;
+use \Markaxis\Company\OfficeModel;
+use \Markaxis\Employee\PayrollModel AS EmpPayrollModel;
+use \Library\Util\Formula;
 use \Library\Util\Markaxis\Calendar\WeekRecur;
 use \Library\Util\Markaxis\Calendar\MonthRecur;
 use \Library\Helper\Markaxis\RecurHelper;
@@ -91,13 +94,12 @@ class CalendarModel extends \Model {
         $results = $this->Calendar->getCalResults( $data['search']['value'], $order . $dir );
 
         foreach( $results as $key => $value ) {
-            if( isset( $value['startDate'] ) ) { // Prevent running into recordsTotal;
-                $startDate = new \DateTime( $value['startDate'] );
-                $endDate = new \DateTime( $value['endDate'] );
+            // Prevent running into recordsTotal
+            if( isset( $value['paymentDate'] ) ) {
+                $paymentDate = explode('-', $value['paymentDate'] );
+                $value['paymentDate'] = date('j F, Y', mktime(0,0,0, date('m'), $paymentDate[2], date('Y') ) );
 
-                $results[$key]['nextPayPeriod'] = $startDate->format( 'jS F Y' ) . ' - ' . $endDate->format( 'jS F Y' );
-                $results[$key]['payPeriod'] = ucwords( $value['payPeriod'] );
-                $results[$key]['paymentDate'] = date('jS F Y', strtotime( $value['paymentDate'] ) );
+                $results[$key]['paymentCycle'] = implode(', ', $this->getPaymentRecur( $value ) );
             }
         }
 
@@ -141,83 +143,12 @@ class CalendarModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function updatePayPeriod( ) {
-        $results = $this->Calendar->getCalResults( );
-        $sizeof  = sizeof( $results );
-        $currDate = new \DateTime( );
-
-        for( $i=0; $i<$sizeof; $i++ ) {
-            if( isset( $results[$i] ) ) {
-                switch( $results[$i]['payPeriod'] ) {
-                    case 'weekly' :
-                        // Setup canvas for NOW to next week
-                        $nextWeek = new \DateTime( );
-                        $nextWeek = $nextWeek->modify('+1 week');
-
-                        $WeekRecur = new WeekRecur( $currDate->format( 'Y-m-d' ), $nextWeek->format( 'Y-m-d' ) );
-
-                        $startEvent = new \DateTime( $results[$i]['startDate'] );
-                        $endEvent = new \DateTime( $results[$i]['startDate'] );
-
-                        $WeekRecur->setEvent( new Event( array( 'start' => $startEvent->format( 'Y-m-d' ),
-                                                                'end' => $endEvent->format( 'Y-m-d' ),
-                                                                'recurType' => 'week', 'endRecur' => 'never' ) ) );
-
-                        $collections = $WeekRecur->getEvents( );
-                        $collections = array_slice( $collections, -2, 2, true );
-                        $collections = array_values( $collections );
-
-                        if( isset( $collections[0] ) && isset( $collections[1] ) ) {
-                            $nextStart = new \DateTime( $collections[0]['start'] );
-                            $nextEnd = new \DateTime( $collections[1]['end'] );
-
-                            $info = array( );
-                            $info['startDate'] = $nextStart->format( 'Y-m-d' );
-                            $info['paymentDate'] = $nextEnd->format( 'Y-m-d' );
-                            $this->Calendar->update( 'pay_calendar', $info, 'WHERE pcID = "' . (int)$results[$i]['pcID'] . '"' );
-                        }
-                        break;
-                    case 'monthly' :
-                        $MonthRecur = new MonthRecur( $currDate->format( 'Y-m-01' ), $currDate->format( 'Y-m-t' ) );
-
-                        $startEvent = new \DateTime( $results[$i]['startDate'] );
-                        $endEvent = MonthRecur::addMonth( $startEvent, $startEvent );
-
-                        $event = new Event( array( 'start' => $startEvent->format( 'Y-m-d' ),
-                            'end' => $endEvent->format( 'Y-m-d' ),
-                            'recurType' => 'month',
-                            'endRecur' => 'never',
-                            'repeatTimes' => 1 ) );
-
-                        $MonthRecur->setEvent( $event );
-                        $collections = $MonthRecur->getEvents( );
-
-                        if( isset( $collections[0] ) ) {
-                            $nextStart = new \DateTime( $collections[0]['start'] );
-                            $nextEnd = new \DateTime( $collections[0]['end'] );
-
-                            $info = array( );
-                            $info['startDate'] = $nextStart->format( 'Y-m-d' );
-                            $info['paymentDate'] = $nextEnd->format( 'Y-m-d' );
-                            $this->Calendar->update( 'pay_calendar', $info, 'WHERE pcID = "' . (int)$results[$i]['pcID'] . '"' );
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Get File Information
-     * @return mixed
-     */
     public function getPaymentRecur( $data ) {
         if( isset( $data['paymentDate'] ) && isset( $data['payPeriod'] ) ) {
             // A bug related to @https://stackoverflow.com/questions/17785443/strtotime-and-datetime-giving-wrong-year-when-parsing-a-year
             // Datetime and strtotime is producing WRONG YEAR! We now use createFromFormat() to more accurately match the format we received
             // from the UI calendar.
-            $formatBug = \DateTime::createFromFormat( 'j F, Y', $data['paymentDate'] );
+            $formatBug = \DateTime::createFromFormat('j F, Y', $data['paymentDate'] );
             if( !$formatBug ) return false;
 
             // Don't use shorthand assign here as PHP treats all to use the same instance!
@@ -291,6 +222,146 @@ class CalendarModel extends \Model {
             return $range;
         }
         return false;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getEmployeeDuration( $processDate, $data ) {
+        $data['empInfo']['joinYear'] = $data['empInfo']['joinMonth'] = $data['empInfo']['joinDay'] = 0;
+
+        // Get employee pay calendar
+        $EmpPayrollModel = EmpPayrollModel::getInstance( );
+        $payCalInfo = $EmpPayrollModel->getByUserID( $data['empInfo']['userID'], 'payPeriod, paymentDate' ); // 2020-07-28
+
+        if( $payCalInfo && $data['empInfo']['startDate'] ) {
+            // Get pay calendar day
+            $payCalDay = explode('-', $payCalInfo['paymentDate'] )[2];
+
+            // Get this month end payroll date
+            $processDate = new \DateTime( $processDate );
+            $data['paymentDate'] = new \DateTime( $processDate->format('Y-m-') . $payCalDay );
+
+            $data['previousDate'] = clone $data['paymentDate'];
+            $data['previousDate']->modify('-1 month');
+            $data['previousDate']->modify('+1 day');
+
+            // Get employee join duration
+            $empStartDate = \DateTime::createFromFormat('jS M Y', $data['empInfo']['startDate'] );
+
+            $dateDiff = $data['paymentDate']->diff( $empStartDate );
+            $data['empInfo']['joinYear'] = $dateDiff->y;
+            $data['empInfo']['joinMonth'] = $dateDiff->m;
+            $data['empInfo']['joinDay'] = $dateDiff->d; // Include Sat, Sun and P.H
+
+            // Get the total workDays for this month
+            $OfficeModel = OfficeModel::getInstance( );
+            $data['officeInfo'] = $OfficeModel->getByoID( $data['empInfo']['officeID'] );
+
+            $data['workDays'] = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                     $data['previousDate']->format('Y-m-d'),
+                                                                     $data['paymentDate']->format('Y-m-d'),
+                                                                     $data['empInfo']['countryCode'] );
+
+            if( $empStartDate->format('Y-m') == $data['paymentDate']->format('Y-m') ) {
+                $data['empInfo']['joinDay'] = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                                   $empStartDate->format('Y-m-d'),
+                                                                                   $data['paymentDate']->format('Y-m-d'),
+                                                                                   $data['empInfo']['countryCode'] );
+
+                if( isset( $data['basic'] ) && $data['basic']['formula'] ) {
+                    //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
+                    $formula = str_replace('{salary}', $data['empInfo']['salary'], $data['basic']['formula'] );
+                    $formula = str_replace('{workDaysOfMonth}', $data['workDays'], $formula );
+                    $formula = str_replace('{daysWorkedInMonth}', $data['empInfo']['joinDay'], $formula );
+
+                    $Formula = new Formula( );
+                    $data['totalOrdinary'] = round( $Formula->calculate( $formula ) );
+                }
+            }
+            else {
+                $data['empInfo']['joinDay'] = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                                   $data['previousDate']->format('Y-m-d'),
+                                                                                   $data['paymentDate']->format('Y-m-d'),
+                                                                                   $data['empInfo']['countryCode'] );
+
+                $data['totalOrdinary'] = $data['empInfo']['salary'];
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Get File Information
+     * @return mixed
+     */
+    public function updatePayPeriod( ) {
+        $results = $this->Calendar->getCalResults( );
+        $sizeof  = sizeof( $results );
+        $currDate = new \DateTime( );
+
+        for( $i=0; $i<$sizeof; $i++ ) {
+            if( isset( $results[$i] ) ) {
+                switch( $results[$i]['payPeriod'] ) {
+                    case 'weekly' :
+                        // Setup canvas for NOW to next week
+                        $nextWeek = new \DateTime( );
+                        $nextWeek = $nextWeek->modify('+1 week');
+
+                        $WeekRecur = new WeekRecur( $currDate->format( 'Y-m-d' ), $nextWeek->format( 'Y-m-d' ) );
+
+                        $startEvent = new \DateTime( $results[$i]['startDate'] );
+                        $endEvent = new \DateTime( $results[$i]['startDate'] );
+
+                        $WeekRecur->setEvent( new Event( array( 'start' => $startEvent->format( 'Y-m-d' ),
+                                                                'end' => $endEvent->format( 'Y-m-d' ),
+                                                                'recurType' => 'week', 'endRecur' => 'never' ) ) );
+
+                        $collections = $WeekRecur->getEvents( );
+                        $collections = array_slice( $collections, -2, 2, true );
+                        $collections = array_values( $collections );
+
+                        if( isset( $collections[0] ) && isset( $collections[1] ) ) {
+                            $nextStart = new \DateTime( $collections[0]['start'] );
+                            $nextEnd = new \DateTime( $collections[1]['end'] );
+
+                            $info = array( );
+                            $info['startDate'] = $nextStart->format( 'Y-m-d' );
+                            $info['paymentDate'] = $nextEnd->format( 'Y-m-d' );
+                            $this->Calendar->update( 'pay_calendar', $info, 'WHERE pcID = "' . (int)$results[$i]['pcID'] . '"' );
+                        }
+                        break;
+                    case 'monthly' :
+                        $MonthRecur = new MonthRecur( $currDate->format( 'Y-m-01' ), $currDate->format( 'Y-m-t' ) );
+
+                        $startEvent = new \DateTime( $results[$i]['startDate'] );
+                        $endEvent = MonthRecur::addMonth( $startEvent, $startEvent );
+
+                        $event = new Event( array( 'start' => $startEvent->format( 'Y-m-d' ),
+                                                   'end' => $endEvent->format( 'Y-m-d' ),
+                                                   'recurType' => 'month',
+                                                   'endRecur' => 'never',
+                                                   'repeatTimes' => 1 ) );
+
+                        $MonthRecur->setEvent( $event );
+                        $collections = $MonthRecur->getEvents( );
+
+                        if( isset( $collections[0] ) ) {
+                            $nextStart = new \DateTime( $collections[0]['start'] );
+                            $nextEnd = new \DateTime( $collections[0]['end'] );
+
+                            $info = array( );
+                            $info['startDate'] = $nextStart->format( 'Y-m-d' );
+                            $info['paymentDate'] = $nextEnd->format( 'Y-m-d' );
+                            $this->Calendar->update( 'pay_calendar', $info, 'WHERE pcID = "' . (int)$results[$i]['pcID'] . '"' );
+                        }
+                        break;
+                }
+            }
+        }
     }
 
 

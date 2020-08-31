@@ -17,8 +17,8 @@ class GenderRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_MALE'] = 'Male';
-        $this->contents['LANG_FEMALE'] = 'Female';
+        $this->contents['LANG_MALE'] = 'Nam giới';
+        $this->contents['LANG_FEMALE'] = 'Giống cái';
 	}
 }
 ?>

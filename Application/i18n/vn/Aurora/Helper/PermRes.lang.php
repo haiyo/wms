@@ -17,9 +17,9 @@ class PermRes extends Resource {
     */
     function __construct( ) {
         $this->contents = array( );
-        $this->contents['LANG_EVERYONE'] = 'Everyone';
-        $this->contents['LANG_ONLY_ME'] = 'Only Me';
-        $this->contents['LANG_SPECIFIC_ROLES'] = 'Specific Roles';
+        $this->contents['LANG_EVERYONE'] = 'Tất cả mọi người';
+        $this->contents['LANG_ONLY_ME'] = 'Chỉ có tôi';
+        $this->contents['LANG_SPECIFIC_ROLES'] = 'Vai trò cụ thể';
 	}
 }
 ?>

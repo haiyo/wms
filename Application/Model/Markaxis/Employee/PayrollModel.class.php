@@ -64,7 +64,7 @@ class PayrollModel extends \Model {
             $saveInfo = array( );
             $saveInfo['pcID'] = (int)$data['pcID'];
 
-            if( $this->Payroll->isFoundByUserID( $data ) ) {
+            if( $this->Payroll->isFoundByUserID( $data['userID'] ) ) {
                 $this->Payroll->update( 'employee_payroll', $saveInfo, 'WHERE userID = "' . (int)$data['userID'] . '"' );
             }
             else {

@@ -47,18 +47,18 @@ class OfficeView {
         $SelectListView = new SelectListView( );
         $CountryModel = CountryModel::getInstance( );
         $countries = $CountryModel->getList( );
-        $countryList = $SelectListView->build( 'officeCountry', $countries, '', 'Select Country' );
+        $countryList = $SelectListView->build( 'officeCountry', $countries, '', $this->L10n->getContents('LANG_SELECT_COUNTRY') );
 
         $OfficeTypeModel = OfficeTypeModel::getInstance( );
-        $officeTypeList  = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', 'Select Office Type' );
+        $officeTypeList  = $SelectListView->build( 'officeType', $OfficeTypeModel->getList( ), '', $this->L10n->getContents('LANG_SELECT_OFFICE_TYPE') );
 
         $nList = DayHelper::getL10nNumericValueList( );
-        $workDayToList   = $SelectListView->build( 'workDayTo', $nList, '', 'Select Work Day To' );
-        $workDayFromList = $SelectListView->build( 'workDayFrom', $nList, '', 'Select Work Day From' );
+        $workDayToList   = $SelectListView->build( 'workDayTo', $nList, '', $this->L10n->getContents('LANG_SELECT_WORK_DAY_TO') );
+        $workDayFromList = $SelectListView->build( 'workDayFrom', $nList, '', $this->L10n->getContents('LANG_SELECT_WORK_DAY_FROM') );
 
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_HREF' => 'officeList',
-                       'LANG_TEXT' => $this->L10n->getContents( 'LANG_OFFICE' ),
+                       'LANG_TEXT' => $this->L10n->getContents('LANG_OFFICE'),
                        'TPL_COUNTRY_LIST' => $countryList,
                        'TPL_OFFICE_TYPE_LIST' => $officeTypeList,
                        'TPL_WORK_DAY_FROM' => $workDayFromList,

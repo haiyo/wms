@@ -58,7 +58,7 @@ class EventModel extends \Model {
     public function getEvents( $info ) {
         $eventList = array( );
 
-        if( isset( $info['user'] ) && isset( $info['start'] ) && isset( $info['end'] ) ) {
+        if( isset( $info['start'] ) && isset( $info['end'] ) ) {
             $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
             $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
 

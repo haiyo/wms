@@ -22,6 +22,7 @@ class NewsAnnouncementRes extends Resource {
         $this->contents['LANG_NO_NEWS_OR_ANNOUNCEMENT'] = 'Hiện tại không có tin tức và thông báo';
         $this->contents['LANG_NEWS_ANNOUNCEMENT'] = 'Tin tức và Thông báo';
         $this->contents['LANG_ADD_NEW_CONTENT'] = 'Thêm nội dung mới';
+        $this->contents['LANG_MANAGE'] = 'Quản lý';
         $this->contents['LANG_ANNOUNCEMENT'] = 'Sự thông báo';
         $this->contents['LANG_NEWS'] = 'Tin tức';
         $this->contents['LANG_CREATE_NEW_CONTENT'] = 'Tạo nội dung mới';
@@ -30,6 +31,14 @@ class NewsAnnouncementRes extends Resource {
         $this->contents['LANG_PLEASE_SELECT_CONTENT_TYPE'] = 'Vui lòng chọn một loại nội dung';
         $this->contents['LANG_PLEASE_ENTER_TITLE'] = 'Vui lòng nhập tiêu đề';
         $this->contents['LANG_PLEASE_ENTER_CONTENT'] = 'Vui lòng nhập nội dung';
+        $this->contents['LANG_CONTENT_TYPE'] = 'Loại nội dung';
+        $this->contents['LANG_AUTHOR'] = 'Tác giả';
+        $this->contents['LANG_DATE_CREATED'] = 'Ngày tạo';
+        $this->contents['LANG_ACTIONS'] = 'Hành động';
+        $this->contents['LANG_ENTER_TITLE_FOR_CONTENT'] = 'Nhập tiêu đề cho nội dung này';
+        $this->contents['LANG_CONTENT'] = 'Nội dung';
+        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
+        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
 	}
 }
 ?>

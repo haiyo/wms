@@ -26,10 +26,10 @@ class NavRes extends Resource {
         $this->contents['LANG_SERVER_INFORMATION'] = 'Server Information';
         $this->contents['LANG_DROPLET_CUSTOMIZE'] = 'Droplets Customization';
         $this->contents['LANG_FIRMWARE_UPDATES'] = 'Firmware Updates';
-        $this->contents['LANG_SIGN_OUT'] = 'Sign Out';
-        $this->contents['LANG_SIGN_OUT_CONFIRM'] = 'Sign out of {WEBSITE_NAME}?';
-        $this->contents['LANG_UPLOAD_LOGO'] = 'Upload Your Company Logo';
-        $this->contents['LANG_SELECT_IMAGE'] = 'Select an image file on your computer (4MB max):';
+        $this->contents['LANG_SIGN_OUT'] = 'Đăng xuất';
+        $this->contents['LANG_SIGN_OUT_CONFIRM'] = 'Đăng xuất khỏi {WEBSITE_NAME}?';
+        $this->contents['LANG_UPLOAD_LOGO'] = 'Tải lên biểu trưng công ty của bạn';
+        $this->contents['LANG_SELECT_IMAGE'] = 'Chọn tệp hình ảnh trên máy tính của bạn (tối đa 4MB):';
 	}
 }
 ?>

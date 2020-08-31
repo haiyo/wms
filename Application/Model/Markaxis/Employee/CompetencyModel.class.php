@@ -174,7 +174,7 @@ class CompetencyModel extends \Model {
      * @return mixed
      */
     public function isValidList( $data ) {
-        if( isset( $data['competency'] ) ) {
+        if( isset( $data['competency'] ) && $data['competency'] ) {
             $competencies = array_map('trim', explode( ';', $data['competency'] ) );
             $A_CompetencyModel = A_CompetencyModel::getInstance( );
 

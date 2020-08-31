@@ -261,7 +261,7 @@ var MarkaxisPayCal = (function( ) {
                     targets: [2],
                     orderable: true,
                     width: '220px',
-                    data: 'paymentDate'
+                    data: 'paymentCycle'
                 },{
                     targets: [3],
                     orderable: false,

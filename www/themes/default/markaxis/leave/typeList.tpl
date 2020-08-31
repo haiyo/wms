@@ -14,11 +14,11 @@
         <thead>
         <tr>
             <th></th>
-            <th>Name</th>
-            <th>Paid Leave</th>
-            <th>Allow Half Day</th>
-            <th>Unused Leave</th>
-            <th>Actions</th>
+            <th><?LANG_NAME?></th>
+            <th><?LANG_PAID_LEAVE?></th>
+            <th><?LANG_ALLOW_HALF_DAY?></th>
+            <th><?LANG_UNUSED_LEAVE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>

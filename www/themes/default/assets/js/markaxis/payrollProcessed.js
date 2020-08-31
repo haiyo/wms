@@ -33,13 +33,40 @@ var MarkaxisPayrollProcessed = (function( ) {
          * @return void
          */
         initEvents: function( ) {
+            var that = this;
             var processDate = $("#processDate").val( );
             var startDate = moment( processDate ).format("MMM Do YYYY");
             var endDate = moment( processDate ).endOf('month').format("MMM Do YYYY");
             $(".daterange").val( startDate + " - " + endDate );
             $(".payroll-range").insertAfter(".dataTables_filter");
-            $(".officeFilter").insertAfter(".dataTables_filter");
+            $("#officeFilter").insertAfter("#employeeForm-step-0 .dataTables_filter");
+
             $("#employeeForm-step-0 .stepy-navigator").insertAfter("#employeeForm-step-0 .dataTables_filter");
+
+            $(document).on("change", "#office", function(e) {
+                that.updateResults( );
+            });
+        },
+
+
+        updateResults: function( ) {
+            var that = this;
+            var data = {
+                success: function(res) {
+                    var obj = $.parseJSON(res);
+                    if( obj.bool == 0 ) {
+                        swal("Error!", obj.errMsg, "error");
+                        return;
+                    }
+                    else {
+                        $("#officeFilter").attr("data-currency", obj.data.currencyCode + obj.data.currencySymbol);
+                        that.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/getAllProcessed/" + $("#processDate").val( ) + "/" + $("#office").val( ) ).load();
+
+                        markaxisPayrollFinalized.updateResults( );
+                    }
+                }
+            };
+            Aurora.WebService.AJAX("admin/company/getOffice/" + $("#office").val( ), data);
         },
 
 
@@ -57,7 +84,7 @@ var MarkaxisPayrollProcessed = (function( ) {
                     $(nRow).attr('id', 'row' + aData['userID']);
                 },
                 ajax: {
-                    url: Aurora.ROOT_URL + "admin/payroll/getAllProcessed/" + $("#processDate").val( ),
+                    url: Aurora.ROOT_URL + "admin/payroll/getAllProcessed/" + $("#processDate").val( ) + "/" + $("#office").val( ),
                     type: "POST",
                     data: function ( d ) { d.ajaxCall = 1; d.csrfToken = Aurora.CSRF_TOKEN; },
                 },
@@ -70,7 +97,7 @@ var MarkaxisPayrollProcessed = (function( ) {
                     orderable: true,
                     width: '200px',
                     data: 'name',
-                    render: function(data, type, full, meta) {
+                    render: function( data, type, full, meta ) {
                         return '<img src="' + full['photo'] + '" width="32" height="32" style="margin-right:10px" />' + data;
                     }
                 },{
@@ -78,55 +105,55 @@ var MarkaxisPayrollProcessed = (function( ) {
                     orderable: true,
                     width: '220px',
                     data: 'gross',
-                    render: function( data ) {
+                    render: function( data, type, full, meta ) {
                         if( typeof data !== 'string' ) {
                             data = "0";
                         }
-                        return Aurora.String.formatMoney( data );
+                        return Aurora.String.formatMoney( data, full["currency"] );
                     }
                 },{
                     targets: [2],
                     orderable: true,
                     width: '220px',
                     data: 'claim',
-                    render: function( data ) {
+                    render: function( data, type, full, meta ) {
                         if( typeof data !== 'string' ) {
                             data = "0";
                         }
-                        return Aurora.String.formatMoney( data );
+                        return Aurora.String.formatMoney( data, full["currency"] );
                     }
                 },{
                     targets: [3],
                     orderable: true,
                     width: '220px',
                     data: 'levies',
-                    render: function( data ) {
+                    render: function( data, type, full, meta ) {
                         if( typeof data !== 'string' ) {
                             data = "0";
                         }
-                        return Aurora.String.formatMoney( data );
+                        return Aurora.String.formatMoney( data, full["currency"] );
                     }
                 },{
                     targets: [4],
                     orderable: true,
                     width: '220px',
                     data: 'contributions',
-                    render: function( data ) {
+                    render: function( data, type, full, meta ) {
                         if( typeof data !== 'string' ) {
                             data = "0";
                         }
-                        return Aurora.String.formatMoney( data );
+                        return Aurora.String.formatMoney( data, full["currency"] );
                     }
                 },{
                     targets: [5],
                     orderable: true,
                     width: '220px',
                     data: 'net',
-                    render: function( data ) {
+                    render: function( data, type, full, meta ) {
                         if( typeof data !== 'string' ) {
                             data = "0";
                         }
-                        return Aurora.String.formatMoney( data );
+                        return Aurora.String.formatMoney( data, full["currency"] );
                     }
                 }],
                 order: [],
@@ -180,11 +207,12 @@ var MarkaxisPayrollProcessed = (function( ) {
                     }, 0);
 
                     // Update footer
-                    $(api.column(1).footer( )).html( Aurora.String.formatMoney( grossTotal.toString( ) ) );
-                    $(api.column(2).footer( )).html( Aurora.String.formatMoney( netTotal.toString( ) ) );
-                    $(api.column(3).footer( )).html( Aurora.String.formatMoney( claimTotal.toString( ) ) );
-                    $(api.column(4).footer( )).html( Aurora.String.formatMoney( levyTotal.toString( ) ) );
-                    $(api.column(5).footer( )).html( Aurora.String.formatMoney( contriTotal.toString( ) ) );
+                    var currency = $("#officeFilter").attr("data-currency");
+                    $(api.column(1).footer( )).html( Aurora.String.formatMoney( grossTotal.toString( ), currency ) );
+                    $(api.column(2).footer( )).html( Aurora.String.formatMoney( netTotal.toString( ), currency ) );
+                    $(api.column(3).footer( )).html( Aurora.String.formatMoney( claimTotal.toString( ), currency ) );
+                    $(api.column(4).footer( )).html( Aurora.String.formatMoney( levyTotal.toString( ), currency ) );
+                    $(api.column(5).footer( )).html( Aurora.String.formatMoney( contriTotal.toString( ), currency ) );
                 }
             });
 

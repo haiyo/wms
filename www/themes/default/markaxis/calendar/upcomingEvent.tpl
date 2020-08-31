@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header bg-transparent header-elements-inline">
-                    <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold">Upcoming Events &nbsp;-&nbsp;
-                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar/view">View Calendar</a></a>
+                    <span class="dashboard-header text-uppercase font-size-sm font-weight-semibold"><?LANG_UPCOMING_EVENT?> &nbsp;-&nbsp;
+                        <a href="<?TPLVAR_ROOT_URL?>admin/calendar/view"><?LANG_VIEW_CALENDAR?></a></a>
                     </span>
     </div>
 

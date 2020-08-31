@@ -167,6 +167,17 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterInvalidRules( $data, $post=false ) {
+        $data['totalOrdinaryNett'] = 0;
+
+        // foreach is still the fastest compare to array_sum;
+        foreach( $data['ordinary'] as $ordinary ) {
+            if( isset( $ordinary['amount'] ) ) {
+                $data['totalOrdinary'] += $ordinary['amount'];
+                $data['totalOrdinaryNett'] += $ordinary['amount'];
+                $data['gross'][] = array( 'amount' => $ordinary['amount'] );
+            }
+        }
+
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
 
@@ -181,16 +192,7 @@ class TaxComputingModel extends \Model {
                         }
                     }
                 }
-                $data['totalOrdinary'] = $data['totalOrdinaryNett'] = 0;
 
-                // foreach is still the fastest compare to array_sum;
-                foreach( $data['ordinary'] as $ordinary ) {
-                    if( isset( $ordinary['amount'] ) ) {
-                        $data['totalOrdinary'] += $ordinary['amount'];
-                        $data['totalOrdinaryNett'] += $ordinary['amount'];
-                        $data['gross'][] = array( 'amount' => $ordinary['amount'] );
-                    }
-                }
                 foreach( $compInfo as $row ) {
                     // Multiple computing criteria can belong to one TaxRule.
                     // If we have the main TaxRule already unset before, skip any compInfo related;

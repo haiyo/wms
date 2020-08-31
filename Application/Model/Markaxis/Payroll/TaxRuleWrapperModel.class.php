@@ -106,7 +106,7 @@ class TaxRuleWrapperModel extends \Model {
                         $amount = $rules['capped']*$rules['applyValue']/100;
                     }
                     else {
-                        $amount = $data['empInfo']['salary']*$rules['applyValue']/100;
+                        $amount = $data['totalOrdinary']*$rules['applyValue']/100;
                     }
                 }
                 if( $rules['applyValueType'] == 'fixed' ) {
@@ -119,6 +119,7 @@ class TaxRuleWrapperModel extends \Model {
 
             if( ( $rules['applyType'] == 'skillLevy' || $rules['applyType'] == 'foreignLevy' ) &&
                 $rules['applyValueType'] ) {
+
                 if ($rules['applyValueType'] == 'fixed') {
                     $amount = $rules['applyValue'];
                 }

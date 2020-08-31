@@ -22,13 +22,13 @@ class TaxRes extends Resource {
         parent::__construct( );
 
         $this->contents = array( );
-        $this->contents['LANG_ENTER_RULE_TITLE'] = 'Please enter a Rule Title.';
-        $this->contents['LANG_INVALID_COUNTRY'] = 'Please select a valid Country.';
-        $this->contents['LANG_DEDUCTION_FROM_ORDINARY_WAGE'] = 'Deduction From Ordinary Wage';
-        $this->contents['LANG_DEDUCTION_FROM_ADDITIONAL_WAGE'] = 'Deduction From Additional Wage';
-        $this->contents['LANG_EMPLOYER_CONTRIBUTION'] = 'Employer Contribution';
-        $this->contents['LANG_EMPLOYER_LEVY'] = 'Employer Levy';
-        $this->contents['LANG_CRITERIA'] = 'Criteria';
+        $this->contents['LANG_ENTER_RULE_TITLE'] = 'Vui lòng nhập Tiêu đề quy tắc.';
+        $this->contents['LANG_INVALID_COUNTRY'] = 'Vui lòng chọn một quốc gia hợp lệ';
+        $this->contents['LANG_DEDUCTION_FROM_ORDINARY_WAGE'] = 'Khấu trừ tiền lương bình thường';
+        $this->contents['LANG_DEDUCTION_FROM_ADDITIONAL_WAGE'] = 'Khấu trừ tiền lương bổ sung';
+        $this->contents['LANG_EMPLOYER_CONTRIBUTION'] = 'Đóng góp của chủ lao động';
+        $this->contents['LANG_EMPLOYER_LEVY'] = 'Lệ phí nhà tuyển dụng';
+        $this->contents['LANG_CRITERIA'] = 'Tiêu chí';
     }
 }
 ?>

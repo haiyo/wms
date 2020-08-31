@@ -8,10 +8,10 @@
                     <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_COMPETENCY?>
                 </a>&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn bg-purple-400 btn-labeled dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <b><i class="icon-stack3"></i></b> Bulk Action <span class="caret"></span>
+                    <b><i class="icon-stack3"></i></b> <?LANG_BULK_ACTION?> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right dropdown-employee">
-                    <li><a href="#" id="competencyBulkDelete"><i class="icon-bin"></i> Delete Selected Competencies</a></li>
+                    <li><a href="#" id="competencyBulkDelete"><i class="icon-bin"></i> <?LANG_DELETED_SELECTED_COMPETENCIES?></a></li>
                 </ul>
             </li>
         </ul>
@@ -21,10 +21,10 @@
         <thead>
         <tr>
             <th></th>
-            <th>Competency</th>
-            <th>Description</th>
-            <th>No. of Employee</th>
-            <th>Actions</th>
+            <th><?LANG_COMPETENCY?></th>
+            <th><?LANG_DESCRIPTION?></th>
+            <th><?LANG_NO_OF_EMPLOYEE?></th>
+            <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
     </table>
@@ -43,25 +43,25 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Competency:</label>
+                                <label><?LANG_COMPETENCY?>:</label>
                                 <input type="text" name="competency" id="competency" class="form-control" value=""
-                                       placeholder="Enter Competency" />
+                                       placeholder="<?LANG_ENTER_COMPETENCY?>" />
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Competency Description:</label>
+                                <label><?LANG_COMPETENCY_DESCRIPTION?>:</label>
                                 <textarea id="competencyDescript" name="competencyDescript" rows="5" cols="4"
-                                          placeholder="Enter Competency Description" class="form-control"></textarea>
+                                          placeholder="<?LANG_ENTER_COMPETENCY_DESCRIPTION?>" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Discard</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>
