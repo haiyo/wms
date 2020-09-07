@@ -64,7 +64,7 @@
         </div>
 
         <div class="col-md-3 amount">
-            <input type="text" name="amount_{id}" id="amount_{id}" class="form-control amountInput" value="" placeholder="" />
+            <input type="text" name="amount_{id}" id="amount_{id}" class="form-control amountInput" value="" placeholder="" data-currency="{currency}" />
         </div>
 
         <div class="col-md-4 remark">

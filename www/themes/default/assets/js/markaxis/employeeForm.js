@@ -41,8 +41,8 @@ var MarkaxisEmployeeForm = (function( ) {
             $.fn.stepy.defaults.legend = false;
             $.fn.stepy.defaults.transition = 'fade';
             $.fn.stepy.defaults.duration = 150;
-            $.fn.stepy.defaults.backLabel = '<i class="icon-arrow-left13 position-left"></i> Back';
-            $.fn.stepy.defaults.nextLabel = 'Next <i class="icon-arrow-right14 position-right"></i>';
+            $.fn.stepy.defaults.backLabel = '<i class="icon-arrow-left13 position-left"></i> ' + Aurora.i18n.GlobalRes.LANG_BACK;
+            $.fn.stepy.defaults.nextLabel = Aurora.i18n.GlobalRes.LANG_NEXT + ' <i class="icon-arrow-right14 position-right"></i>';
 
             $(".stepy").stepy({
                 titleClick: true,
@@ -96,7 +96,7 @@ var MarkaxisEmployeeForm = (function( ) {
                 else
                 return true;
 
-            }, "Please enter valid child information.");
+            }, Markaxis.i18n.EmployeeRes.LANG_ENTER_VALID_CHILD);
 
 
             $.validator.addMethod("validEmail", function(value, element) {
@@ -117,7 +117,7 @@ var MarkaxisEmployeeForm = (function( ) {
                 str = /(^[a-zA-Z0-9]+[\._-]{0,1})+([a-zA-Z0-9]+[_]{0,1})*@([a-zA-Z0-9]+[-]{0,1})+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,3})$/;
                 temp1 = str.test(value);
                 return temp1;
-            }, "Please enter valid email address.");
+            }, Markaxis.i18n.EmployeeRes.LANG_ENTER_VALID_EMAIL);
 
             // Initialize validation
             var validate = {
@@ -191,6 +191,7 @@ var MarkaxisEmployeeForm = (function( ) {
             $("#expToMonth").select2( );
             $("#recruitSource").select2( );
             $(".relationship").select2( );
+            $("#language").select2({minimumResultsForSearch: -1});
             $(".raceList").select2({minimumResultsForSearch: -1});
             $(".maritalList").select2({minimumResultsForSearch: -1});
             $(".salaryTypeList").select2({minimumResultsForSearch: -1});
@@ -708,7 +709,7 @@ var MarkaxisEmployeeForm = (function( ) {
                             success: function( res ) {
                                 var obj = $.parseJSON( res );
                                 if( obj.bool == 0 ) {
-                                    swal("Error!", obj.errMsg, "error");
+                                    swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                     return;
                                 }
                                 else {
@@ -794,7 +795,7 @@ var MarkaxisEmployeeForm = (function( ) {
             var uploadedFile = false;
 
             $(".eduFileInput").fileinput({
-                browseLabel: 'Browse',
+                browseLabel: Aurora.i18n.GlobalRes.LANG_BROWSE,
                 uploadUrl: Aurora.ROOT_URL + "admin/employee/uploadCertificate",
                 uploadAsync: false,
                 maxFileCount: 1,
@@ -807,7 +808,7 @@ var MarkaxisEmployeeForm = (function( ) {
                     icon: '<i class="icon-file-check"></i>',
                     modal: modalTemplate
                 },
-                initialCaption: 'No file selected',
+                initialCaption: Aurora.i18n.GlobalRes.LANG_NO_FILE_SELECTED,
                 previewZoomButtonClasses: previewZoomButtonClasses,
                 previewZoomButtonIcons: previewZoomButtonIcons,
                 allowedFileExtensions: ['pdf', 'doc', 'docx'],
@@ -885,9 +886,9 @@ var MarkaxisEmployeeForm = (function( ) {
                 var hashName = $(this).attr("data-hashname");
                 var fileName = $(this).attr("data-filename");
 
-                title = "Are you sure you want to delete " + fileName + "?";
-                text  = "File(s) deleted will not be able to recover back.";
-                confirmButtonText = "Confirm Delete";
+                title = Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', fileName);
+                text  = Aurora.i18n.GlobalRes.LANG_FILE_DELETED_UNDONE;
+                confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
                 swal({
                     title: title,
@@ -917,7 +918,7 @@ var MarkaxisEmployeeForm = (function( ) {
                                 $("#eduUploadCert_" + index).show( );
                                 $("#eduDeleteCert_" + index).hide( );
                                 $("#eduFileIcoWrapper_" + index).hide( );
-                                swal("Done!", fileName + " has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', fileName), "success");
                                 return;
                             }
                         }
@@ -1019,9 +1020,9 @@ var MarkaxisEmployeeForm = (function( ) {
                 var hashName = $(this).attr("data-hashname");
                 var fileName = $(this).attr("data-filename");
 
-                title = "Are you sure you want to delete " + fileName + "?";
-                text  = "File(s) deleted will not be able to recover back.";
-                confirmButtonText = "Confirm Delete";
+                title = Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', fileName);
+                text  = Aurora.i18n.GlobalRes.LANG_FILE_DELETED_UNDONE;
+                confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
                 swal({
                     title: title,
@@ -1044,14 +1045,14 @@ var MarkaxisEmployeeForm = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 $("#expUploadTest_" + index).show( );
                                 $("#expDeleteTest_" + index).hide( );
                                 $("#expFileIcoWrapper_" + index).hide( );
-                                swal("Done!", fileName + " has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', fileName), "success");
                                 return;
                             }
                         }
@@ -1061,9 +1062,9 @@ var MarkaxisEmployeeForm = (function( ) {
             });
 
             $(".deletePhoto").on("click", function( ) {
-                title = "Are you sure you want to delete " + $("#employeeName").text() + "'s photo?";
-                text  = "Photo deleted will not be able to recover back.";
-                confirmButtonText = "Confirm Delete";
+                title = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_DELETE_PHOTO.replace('{name}', $("#employeeName").text());
+                text  = Markaxis.i18n.EmployeeRes.LANG_PHOTO_DELETED_UNDONE;
+                confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
                 swal({
                     title: title,
@@ -1086,13 +1087,13 @@ var MarkaxisEmployeeForm = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 $(".photo-wrap").remove( );
                                 $(".defPhoto").removeClass("hide");
-                                swal("Done!", $("#employeeName").text() + "'s photo has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_PHOTO_SUCCESSFULLY_DELETED.replace('{name}', $("#employeeName").text()), "success");
                                 return;
                             }
                         }
@@ -1199,7 +1200,7 @@ var MarkaxisEmployeeForm = (function( ) {
                 success: function( res ) {
                     var obj = $.parseJSON( res );
                     if( obj.bool == 0 ) {
-                        swal("error", obj.errMsg);
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     else {
@@ -1217,7 +1218,7 @@ var MarkaxisEmployeeForm = (function( ) {
                 success: function( res ) {
                     var obj = $.parseJSON( res );
                     if( obj.bool == 0 ) {
-                        swal("error", obj.errMsg);
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     else {
@@ -1260,27 +1261,27 @@ var MarkaxisEmployeeForm = (function( ) {
 
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             if( $("#userID").val( ) === 0 ) {
-                                title = "New Employee Added  Successfully";
+                                title = Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_ADDED_SUCCESSFULLY;
                                 goToURL = Aurora.ROOT_URL + "admin/user/add";
                                 backToURL = Aurora.ROOT_URL + "admin/employee/settings";
-                                confirmButtonText = "Add Another Employee";
-                                cancelButtonText = "Go to Employee Listing";
+                                confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_ADD_ANOTHER_EMPLOYEE;
+                                cancelButtonText = Markaxis.i18n.EmployeeRes.LANG_GO_EMPLOYEE_LISTING;
                             }
                             else {
-                                title = "Employee Updated Successfully";
-                                cancelButtonText = "Continue Editing This Employee";
+                                title = Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_UPDATED_SUCCESSFULLY;
+                                cancelButtonText = Markaxis.i18n.EmployeeRes.LANG_CONTINUE_EDIT_EMPLOYEE;
                                 goToURL = Aurora.ROOT_URL + "admin/employee/settings";
                                 backToURL = Aurora.ROOT_URL + "admin/user/edit/" + $("#userID").val( );
-                                confirmButtonText = "Go to Employee Listing";
+                                confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_GO_EMPLOYEE_LISTING;
                             }
                             swal({
                                 title: title,
-                                text: "What do you want to do next?",
+                                text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                 type: 'success',
                                 confirmButtonClass: 'btn btn-success',
                                 cancelButtonClass: 'btn btn-danger',

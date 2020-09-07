@@ -34,11 +34,12 @@ class NewsAnnouncementRes extends Resource {
         $this->contents['LANG_CONTENT_TYPE'] = 'Content Type';
         $this->contents['LANG_AUTHOR'] = 'Author';
         $this->contents['LANG_DATE_CREATED'] = 'Date Created';
-        $this->contents['LANG_ACTIONS'] = 'Actions';
         $this->contents['LANG_ENTER_TITLE_FOR_CONTENT'] = 'Enter title for this content';
         $this->contents['LANG_CONTENT'] = 'Content';
-        $this->contents['LANG_CANCEL'] = 'Cancel';
-        $this->contents['LANG_SUBMIT'] = 'Submit';
+        $this->contents['LANG_SEARCH_TITLE_AUTHOR'] = 'Search Title or Author Name';
+        $this->contents['LANG_EDIT_CONTENT'] = 'Edit Content';
+        $this->contents['LANG_DELETE_CONTENT'] = 'Delete Content';
+        $this->contents['LANG_CONTENT_CREATED_SUCCESSFULLY'] = 'Content has been successfully created!';
 	}
 }
 ?>

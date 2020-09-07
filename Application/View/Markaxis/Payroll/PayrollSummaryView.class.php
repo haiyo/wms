@@ -54,7 +54,8 @@ class PayrollSummaryView {
         $image = file_get_contents( $logoURL );
         $uri = "data:image/png;base64," . base64_encode( $image );
 
-        $vars = array( 'TPLVAR_LOGO' => $uri,
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_LOGO' => $uri,
                        'TPLVAR_COMPANY_NAME' => $companyInfo['name'],
                        'TPLVAR_FNAME' => $userInfo['fname'],
                        'TPLVAR_LNAME' => $userInfo['lname'],
@@ -63,7 +64,7 @@ class PayrollSummaryView {
                        'TPLVAR_DESIGNATION' => $data['empInfo']['designation'],
                        'TPLVAR_START_DATE' => $data['empInfo']['startDate'],
                        'TPLVAR_CONTRACT_TYPE' => $data['empInfo']['contractType'],
-                       'TPLVAR_PAY_PERIOD' => $processDate );
+                       'TPLVAR_PAY_PERIOD' => $processDate ) );
 
         $vars['dynamic']['address']   = false;
         $vars['dynamic']['regNumber'] = false;
@@ -89,6 +90,7 @@ class PayrollSummaryView {
         $PayrollUserItemModel = PayrollUserItemModel::getInstance( );
         $itemInfo = $PayrollUserItemModel->getByPuID( $puID );
 
+        $vars['dynamic']['deductionSummary'] = false;
         $vars['dynamic']['item'] = false;
         $totalClaim = 0;
 
@@ -106,7 +108,7 @@ class PayrollSummaryView {
             $ClaimModel = ClaimModel::getInstance( );
             $claimList = $ClaimModel->getProcessedByUserID( $data['empInfo']['userID'] );
 
-            if( isset( $claimList ) ) {
+            if( sizeof( $claimList ) > 0 ) {
                 $ExpenseModel = ExpenseModel::getInstance( );
                 $expenseList = $ExpenseModel->getList( );
 
@@ -118,15 +120,15 @@ class PayrollSummaryView {
                                                                             number_format( $claim['amount'],2 ),
                                                         'TPLVAR_REMARK' => $claim['descript'] );
                 }
+
+                if( $totalClaim ) {
+                    $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                                                                    'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                                    'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+                }
             }
         }
         $summary = $this->PayrollSummaryModel->getByPuID( $puID );
-
-        $vars['dynamic']['deductionSummary'] = false;
-
-        $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                        'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
 
         $PayrollUserTaxModel = PayrollUserTaxModel::getInstance( );
         $userTaxInfo = $PayrollUserTaxModel->getByPuID( $puID );
@@ -263,9 +265,11 @@ class PayrollSummaryView {
                                                         'TPLVAR_AMOUNT' => number_format( ($totalContribution+$totalLevy),2 ) );
         }
 
-        $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                        'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+        if( $totalClaim ) {
+            $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                                                            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                            'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+        }
 
         $PayrollUserTaxModel = PayrollUserTaxModel::getInstance( );
         $userTaxInfo = $PayrollUserTaxModel->getByPuID( $puID );

@@ -56,7 +56,7 @@ var MarkaxisCompany = (function( ) {
                     regNumber: { required: true }
                 },
                 messages: {
-                    regNumber: "Please provide all required fields."
+                    regNumber: Aurora.i18n.GlobalRes.LANG_PROVIDE_ALL_REQUIRED
                 },
                 highlight: function(element, errorClass, validClass) {
                     var elem = $(element);
@@ -93,7 +93,7 @@ var MarkaxisCompany = (function( ) {
                             var obj = $.parseJSON( res );
 
                             if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
@@ -205,8 +205,8 @@ var MarkaxisCompany = (function( ) {
 
         updateAll: function( ) {
             swal({
-                title: "Company Updated Successfully",
-                text: "Please hold while the page is being refresh.",
+                title: Markaxis.i18n.CompanyRes.LANG_COMPANY_UPDATED_SUCCESSFULLY,
+                text: Aurora.i18n.GlobalRes.LANG_PLEASE_HOLD_REFRESH,
                 type: 'success'
             }, function( isConfirm ) {
                 window.location.reload(false);
@@ -215,9 +215,9 @@ var MarkaxisCompany = (function( ) {
 
 
         deleteLogo: function( dataText ) {
-            title = "Are you sure you want to delete " + dataText + " logo?";
-            text  = "Logo deleted will not be able to recover back.";
-            confirmButtonText = "Confirm Delete";
+            title = Markaxis.i18n.CompanyRes.LANG_CONFIRM_DELETE_LOGO.replace('{dataText}', dataText);
+            text  = Markaxis.i18n.CompanyRes.LANG_CONFIRM_DELETE_LOGO_DESCRIPT;
+            confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
             swal({
                 title: title,
@@ -240,13 +240,13 @@ var MarkaxisCompany = (function( ) {
                     success: function( res ) {
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
-                            swal("error", obj.errMsg);
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             $(".photo-wrap-" + dataText).remove( );
                             $(".def" + dataText + "Logo img").removeClass("hide");
-                            swal("Done!", dataText + " logo has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.CompanyRes.LANG_LOGO_SUCCESSFULLY_DELETED.replace('{datatext}', datatext), "success");
                             return;
                         }
                     }

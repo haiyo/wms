@@ -41,7 +41,8 @@ class FormWrapperView {
         $this->View->setJScript( array( 'core' => 'aurora.uploader.js',
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' )  ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 
@@ -96,10 +97,11 @@ class FormWrapperView {
      * @return string
      */
     public function renderForm( $form, $userInfo=array('userID' => 0), $photo='silhouette' ) {
-        $vars = array( 'TPLVAR_USERID' => $userInfo['userID'],
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_USERID' => $userInfo['userID'],
                        'TPLVAR_THUMBNAIL' => rand(1, 8),
                        'TPLVAR_DEF_PHOTO' => '',
-                       'TPL_FORM' => $form );
+                       'TPL_FORM' => $form ) );
 
         if( isset( $userInfo['fname'] ) && $userInfo['fname'] ) {
             $vars['dynamic']['name'][] = array( 'TPLVAR_FNAME' => $userInfo['fname'],

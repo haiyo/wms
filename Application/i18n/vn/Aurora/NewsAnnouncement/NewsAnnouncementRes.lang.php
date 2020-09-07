@@ -34,11 +34,12 @@ class NewsAnnouncementRes extends Resource {
         $this->contents['LANG_CONTENT_TYPE'] = 'Loại nội dung';
         $this->contents['LANG_AUTHOR'] = 'Tác giả';
         $this->contents['LANG_DATE_CREATED'] = 'Ngày tạo';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_ENTER_TITLE_FOR_CONTENT'] = 'Nhập tiêu đề cho nội dung này';
         $this->contents['LANG_CONTENT'] = 'Nội dung';
-        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
-        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
+        $this->contents['LANG_SEARCH_TITLE_AUTHOR'] = 'Tên tìm kiếm hoặc tên tác giả';
+        $this->contents['LANG_EDIT_CONTENT'] = 'Chỉnh sửa nội dung';
+        $this->contents['LANG_DELETE_CONTENT'] = 'Xóa nội dung';
+        $this->contents['LANG_CONTENT_CREATED_SUCCESSFULLY'] = 'Nội dung đã được tạo thành công!';
 	}
 }
 ?>

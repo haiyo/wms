@@ -68,12 +68,12 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <label><?LANG_PRIMARY_ADDRESS?>:</label>
-            <input type="text" name="address1" placeholder="Ring street 12" class="form-control" value="<?TPLVAR_ADDRESS1?>" />
+            <label><?LANG_PREFERRED_LANGUAGE?>:</label>
+            <?TPL_LANGUAGE_LIST?>
         </div>
         <div class="col-md-3">
-            <label><?LANG_SECONDARY_ADDRESS?>:</label>
-            <input type="text" name="address2" placeholder="Ring street 12" class="form-control" value="<?TPLVAR_ADDRESS2?>" />
+            <label><?LANG_PRIMARY_ADDRESS?>:</label>
+            <input type="text" name="address1" placeholder="Ring street 12" class="form-control" value="<?TPLVAR_ADDRESS1?>" />
         </div>
         <div class="col-md-2">
             <label><?LANG_ZIP_CODE?>:</label>

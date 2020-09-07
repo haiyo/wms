@@ -56,7 +56,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_DISCARD?></button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
                         <button type="submit" class="btn btn-primary"><?LANG_SAVE_CHANGES?></button>
                     </div>
                 </div>

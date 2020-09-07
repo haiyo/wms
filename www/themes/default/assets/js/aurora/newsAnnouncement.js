@@ -26,7 +26,9 @@ var AuroraNewsAnnouncement = (function( ) {
          * @return void
          */
         init: function( ) {
-            this.initTable( );
+            if( $("#naList").length > 0 ) {
+                this.initTable( );
+            }
             this.initEvents( );
         },
 
@@ -153,7 +155,7 @@ var AuroraNewsAnnouncement = (function( ) {
                                 }
                                 else {
                                     that.table.ajax.reload();
-                                    swal("Done!", "Content has been successfully created!", "success");
+                                    swal("Done!", Aurora.i18n.NewsAnnouncementRes.LANG_CONTENT_CREATED_SUCCESSFULLY, "success");
                                     $("#modalNA").modal('hide');
                                 }
                             }
@@ -172,7 +174,7 @@ var AuroraNewsAnnouncement = (function( ) {
                                 return;
                             }
                             else {
-                                $("#modalNA .modal-title").text("Edit Content");
+                                $("#modalNA .modal-title").text( Aurora.i18n.NewsAnnouncementRes.LANG_EDIT_CONTENT );
                                 $("#naID").val( obj.data.naID );
                                 $("#contentType").val( obj.data.isNews ).trigger("change");
                                 $("#naTitle").val( obj.data.title );
@@ -183,7 +185,7 @@ var AuroraNewsAnnouncement = (function( ) {
                     Aurora.WebService.AJAX( "admin/newsAnnouncement/getContent/" + naID, data );
                 }
                 else {
-                    $("#modalNA .modal-title").text("Create New Content");
+                    $("#modalNA .modal-title").text( Aurora.i18n.NewsAnnouncementRes.LANG_CREATE_NEW_CONTENT );
                     $("#naID").val(0);
                     $("#contentType").val("").trigger("change");
                     $("#naTitle").val("");
@@ -202,12 +204,12 @@ var AuroraNewsAnnouncement = (function( ) {
             var title = $("#naTitle" + naID).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -225,7 +227,7 @@ var AuroraNewsAnnouncement = (function( ) {
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -314,10 +316,10 @@ var AuroraNewsAnnouncement = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalNA" ' +
                             'data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit Content</a>' +
+                            '<i class="icon-pencil5"></i> ' + Aurora.i18n.NewsAnnouncementRes.LANG_EDIT_CONTENT + '</a>' +
                             '<li class="divider"></li>' +
                             '<a class="dropdown-item naDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Content</a>' +
+                            '<i class="icon-bin"></i> ' + Aurora.i18n.NewsAnnouncementRes.LANG_DELETE_CONTENT + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -327,9 +329,10 @@ var AuroraNewsAnnouncement = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Title or Author Name',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Aurora.i18n.NewsAnnouncementRes.LANG_SEARCH_TITLE_AUTHOR,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -346,7 +349,7 @@ var AuroraNewsAnnouncement = (function( ) {
             $('#naList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

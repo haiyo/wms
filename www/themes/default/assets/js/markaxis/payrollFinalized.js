@@ -65,18 +65,18 @@ var MarkaxisPayrollFinalized = (function( ) {
 
             if( userIDs.length == 0 ) {
                 swal({
-                    title: "No Employee Selected",
+                    title: Markaxis.i18n.PayrollRes.LANG_NO_EMPLOYEE_SELECTED,
                     type: "info"
                 });
             }
             else {
                 swal({
-                    title: "Confirm release " + userIDs.length + " employee payslip?",
-                    text: "The selected employee(s) will receive email notification to view their payslip once confirmed.",
+                    title: Markaxis.i18n.PayrollRes.LANG_CONFIRM_RELEASE_PAYSLIP.replace('{count}', userIDs.length),
+                    text: Markaxis.i18n.PayrollRes.LANG_SELECTED_EMPLOYEE_EMAIL,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Confirm Release",
+                    confirmButtonText: Markaxis.i18n.PayrollRes.LANG_CONFIRM_RELEASE,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true
                 }, function( isConfirm ) {
@@ -90,12 +90,12 @@ var MarkaxisPayrollFinalized = (function( ) {
                         success: function(res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload( );
-                                swal("Done!", obj.count + " employee(s) has been successfully released!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.PayrollRes.LANG_PAYSLIP_SUCCESSFULLY_RELEASED.replace('{count}', obj.count), "success");
                                 return;
                             }
                         }
@@ -110,12 +110,12 @@ var MarkaxisPayrollFinalized = (function( ) {
             var that = this;
 
             swal({
-                title: "Confirm release all employee payslip?",
-                text: "All employee will receive email notification to view their payslip once confirmed.",
+                title: Markaxis.i18n.PayrollRes.LANG_CONFIRM_RELEASE_ALL_PAYSLIP,
+                text: Markaxis.i18n.PayrollRes.LANG_ALL_EMPLOYEE_EMAIL,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Release All",
+                confirmButtonText: Markaxis.i18n.PayrollRes.LANG_CONFIRM_RELEASE_ALL,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -128,12 +128,12 @@ var MarkaxisPayrollFinalized = (function( ) {
                     success: function(res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload( );
-                            swal("Done!", "All employee payslip has been successfully released!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.PayrollRes.LANG_ALL_PAYSLIP_SUCCESSFULLY_RELEASED, "success");
                             return;
                         }
                     }
@@ -219,7 +219,7 @@ var MarkaxisPayrollFinalized = (function( ) {
                     data: 'userID',
                     render: function( data ) {
                         return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
-                            $("#processDate").val( ) + '/slip" target="_blank">View PDF</a>';
+                            $("#processDate").val( ) + '/slip" target="_blank">' + Markaxis.i18n.PayrollRes.LANG_VIEW_PDF + '</a>';
                     }
                 },{
                     targets: [7],
@@ -228,7 +228,7 @@ var MarkaxisPayrollFinalized = (function( ) {
                     className : "text-center",
                     data: 'released',
                     render: function( data ) {
-                        return data == 1 ? 'Yes' : 'No';
+                        return data == 1 ? Aurora.i18n.GlobalRes.LANG_YES : Aurora.i18n.GlobalRes.LANG_NO;
                     }
                 }],
                 select: {
@@ -238,9 +238,10 @@ var MarkaxisPayrollFinalized = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Employee Name',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.PayrollRes.LANG_SEARCH_EMPLOYEE_NAME,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(".finalizedTable [type=checkbox]").uniform();

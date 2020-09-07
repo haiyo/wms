@@ -77,6 +77,8 @@ class UserRes extends Resource {
         $this->contents['LANG_ENTER_PHONE'] = 'Enter phone #';
         $this->contents['LANG_COUNTRY_BIRTH'] = 'Country of Birth';
         $this->contents['LANG_PRIMARY_ADDRESS'] = 'Primary Address';
+        $this->contents['LANG_PREFERRED_LANGUAGE'] = 'Preferred Language';
+        $this->contents['LANG_SELECT_LANGUAGE'] = 'Select Language';
         $this->contents['LANG_SECONDARY_ADDRESS'] = 'Secondary Address';
         $this->contents['LANG_GENDER'] = 'Gender';
         $this->contents['LANG_JOIN_DATE'] = 'Join Date';

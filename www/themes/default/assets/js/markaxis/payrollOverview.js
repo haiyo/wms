@@ -87,7 +87,7 @@ var MarkaxisPayrollOverview = (function( ) {
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
                             $("#password").focus( );
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
@@ -268,7 +268,7 @@ var MarkaxisPayrollOverview = (function( ) {
                     containLabel: true
                 },
                 legend: {
-                    data: ['Total Salaries', 'Total Claims', 'Total Levies', 'Total CPF Contributions'],
+                    data: [Markaxis.i18n.PayrollRes.LANG_TOTAL_SALARIES, Markaxis.i18n.PayrollRes.LANG_TOTAL_CLAIMS, Markaxis.i18n.PayrollRes.LANG_TOTAL_LEVIES, Markaxis.i18n.PayrollRes.LANG_CONTRIBUTIONS],
                     itemHeight: 8,
                     itemGap: 20,
                     textStyle: {
@@ -340,7 +340,7 @@ var MarkaxisPayrollOverview = (function( ) {
                 }],
                 series: [
                     {
-                        name: 'Total Salaries',
+                        name: Markaxis.i18n.PayrollRes.LANG_TOTAL_SALARIES,
                         type: 'bar',
                         data: data.salaries,
                         itemStyle: {
@@ -356,7 +356,7 @@ var MarkaxisPayrollOverview = (function( ) {
                         }
                     },
                     {
-                        name: 'Total Claims',
+                        name: Markaxis.i18n.PayrollRes.LANG_TOTAL_CLAIMS,
                         type: 'bar',
                         data: data.claims,
                         itemStyle: {
@@ -372,7 +372,7 @@ var MarkaxisPayrollOverview = (function( ) {
                         }
                     },
                     {
-                        name: 'Total Levies',
+                        name: Markaxis.i18n.PayrollRes.LANG_TOTAL_LEVIES,
                         type: 'bar',
                         data: data.levies,
                         itemStyle: {
@@ -388,7 +388,7 @@ var MarkaxisPayrollOverview = (function( ) {
                         }
                     },
                     {
-                        name: 'Total CPF Contributions',
+                        name: Markaxis.i18n.PayrollRes.LANG_CONTRIBUTIONS,
                         type: 'bar',
                         data: data.contributions,
                         itemStyle: {

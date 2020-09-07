@@ -80,11 +80,11 @@ var MarkaxisPayCal = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalAddPayCal .modal-title").text("Edit Pay Calendar");
+                                $("#modalAddPayCal .modal-title").text( Markaxis.i18n.PayrollRes.LANG_EDIT_PAY_CAL );
                                 $("#pcID").val( obj.data.pcID );
                                 $("#payPeriod").val( obj.data.payPeriod ).trigger("change");
                                 $("#title").val( obj.data.title );
@@ -101,7 +101,7 @@ var MarkaxisPayCal = (function( ) {
                     Aurora.WebService.AJAX( "admin/payroll/getPayCal/" + pcID, data );
                 }
                 else {
-                    $("#modalAddPayCal .modal-title").text("Create New Pay Calendar");
+                    $("#modalAddPayCal .modal-title").text( Markaxis.i18n.PayrollRes.LANG_CREATE_NEW_PAY_CALENDAR );
                     $("#pcID").val(0);
                     $("#title").val("");
                     $("#payPeriod").val("month").trigger("change");
@@ -119,9 +119,9 @@ var MarkaxisPayCal = (function( ) {
                     paymentDate: { required: true }
                 },
                 messages: {
-                    title: "Please enter a Pay Run Title for this period.",
-                    payPeriod: "Please select Pay Period.",
-                    paymentDate: "Please select Next Payment Date."
+                    title: Markaxis.i18n.PayrollRes.LANG_PLEASE_ENTER_TITLE,
+                    payPeriod: Markaxis.i18n.PayrollRes.LANG_PLEASE_SELECT_PERIOD,
+                    paymentDate: Markaxis.i18n.PayrollRes.LANG_PLEASE_SELECT_DATE
                 },
                 submitHandler: function( ) {
                     var data = {
@@ -134,17 +134,17 @@ var MarkaxisPayCal = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 if( $("#pcID").val( ) == 0 ) {
-                                    var title = "Pay Calendar Created Successfully";
-                                    var text = "Your pay calendar has been successfully created.";
+                                    var title = Markaxis.i18n.PayrollRes.LANG_PAY_CAL_CREATED_SUCCESSFULLY;
+                                    var text = Markaxis.i18n.PayrollRes.LANG_PAY_CAL_CREATED_SUCCESSFULLY_DESCRIPT;
                                 }
                                 else {
-                                    var title = "Pay Calendar Updated Successfully";
-                                    var text = "Your pay calendar has been successfully updated.";
+                                    var title = Markaxis.i18n.PayrollRes.LANG_PAY_CAL_UPDATED_SUCCESSFULLY;
+                                    var text = Markaxis.i18n.PayrollRes.LANG_PAY_CAL_UPDATED_SUCCESSFULLY_DESCRIPT;
                                 }
 
                                 swal({
@@ -192,12 +192,12 @@ var MarkaxisPayCal = (function( ) {
             var title = $("#payCalTable-row" + pcID).find("td").eq(1).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -210,12 +210,12 @@ var MarkaxisPayCal = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -277,10 +277,10 @@ var MarkaxisPayCal = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-backdrop="static" data-keyboard="false" ' +
                             'data-toggle="modal" data-target="#modalAddPayCal">' +
-                            '<i class="icon-pencil5"></i> Edit Pay Calendar</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.PayrollRes.LANG_EDIT_PAY_CAL + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item deletePayCal" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Pay Calendar</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.PayrollRes.LANG_DELETE_PAY_CAL + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -290,9 +290,10 @@ var MarkaxisPayCal = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Pay Calendar',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.PayrollRes.LANG_SEARCH_PAY_CAL,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -307,7 +308,7 @@ var MarkaxisPayCal = (function( ) {
             $('.datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

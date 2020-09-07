@@ -97,7 +97,7 @@ class Registry extends SingletonHelper {
     * @param $keybox string:~ Which keybox to register
     * @param $handle object:~ Object handler
     * @access public
-    * @return mxied
+    * @return mixed
     */
     public function set( $keybox, $keyname, $keyvalue ) {
         if( !isset( $this->{$keybox}[$keyname] ) ) {
@@ -168,7 +168,7 @@ class Registry extends SingletonHelper {
     public function update( $name, $value ) {
         $this->DB->update( 'UPDATE registry SET value = "' . addslashes( $value ) . '"
                             WHERE name = "' . addslashes( $name ) . '"',
-            __FILE__, __LINE__ );
+                            __FILE__, __LINE__ );
     }
 }
 ?>

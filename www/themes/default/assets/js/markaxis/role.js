@@ -66,11 +66,11 @@ var MarkaxisRole = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalRole .modal-title").text("Edit Role");
+                                $("#modalRole .modal-title").text( Aurora.i18n.RolePermRes.LANG_CREATE_NEW_ROLE );
                                 $("#roleID").val( obj.data.roleID );
                                 $("#roleTitle").val( obj.data.title );
                                 $("#roleDescript").val( obj.data.descript );
@@ -80,7 +80,7 @@ var MarkaxisRole = (function( ) {
                     Aurora.WebService.AJAX( "admin/role/getRole/" + roleID, data );
                 }
                 else {
-                    $("#modalRole .modal-title").text("Create New Role");
+                    $("#modalRole .modal-title").text( Aurora.i18n.RolePermRes.LANG_EDIT_ROLE );
                     $("#roleID").val(0);
                     $("#roleTitle").val("");
                     $("#roleDescript").val("");
@@ -114,7 +114,7 @@ var MarkaxisRole = (function( ) {
                     roleTitle: { required: true }
                 },
                 messages: {
-                    roleTitle: "Please enter a Role Title."
+                    roleTitle: Aurora.i18n.RolePermRes.LANG_ROLE_TITLE_EMPTY
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -136,22 +136,22 @@ var MarkaxisRole = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload();
 
                                 swal({
-                                    title: $("#roleTitle").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#roleTitle").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Role",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Aurora.i18n.RolePermRes.LANG_CREATE_ANOTHER_ROLE,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     $("#roleID").val(0);
@@ -244,9 +244,10 @@ var MarkaxisRole = (function( ) {
                     var obj = $.parseJSON( res );
 
                     if( obj.bool == 0 && obj.errMsg ) {
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
-                    swal("Done!", "Permissions saved!", "success");
+                    swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.RolePermRes.LANG_PERMISSIONS_SAVED, "success");
                 }
             };
             Aurora.WebService.AJAX( "admin/rolePerm/savePerms", data );
@@ -261,12 +262,12 @@ var MarkaxisRole = (function( ) {
             var title = $("#roleTitle" + roleID).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title:Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -279,12 +280,12 @@ var MarkaxisRole = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", title + " has been successfully deleted!", "success");
                             return;
                         }
                     }
@@ -360,13 +361,13 @@ var MarkaxisRole = (function( ) {
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalRole">' +
-                            '<i class="icon-pencil5"></i> Edit Role</a>' +
+                            '<i class="icon-pencil5"></i> ' + Aurora.i18n.RolePermRes.LANG_EDIT_ROLE + '</a>' +
                             '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-backdrop="static" ' +
                             'data-keyboard="false" data-target="#modalPermission">' +
-                            '<i class="icon-lock2"></i> Define Permissions</a>' +
+                            '<i class="icon-lock2"></i> ' + Aurora.i18n.RolePermRes.LANG_DEFINE_PERMISSIONS + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item roleDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Role</a>' +
+                            '<i class="icon-bin"></i> ' + Aurora.i18n.RolePermRes.LANG_DELETE_ROLE + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -376,9 +377,10 @@ var MarkaxisRole = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Role Name',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Aurora.i18n.GlobalRes.LANG_SEARCH_ROLE_NAME,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -395,7 +397,7 @@ var MarkaxisRole = (function( ) {
             $('#rolePermList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

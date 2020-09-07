@@ -172,6 +172,7 @@
                                     </optgroup>
 
                                     <optgroup label="<?LANG_OTHER_EMPLOYEE_VARIABLES?>">
+                                        <option value="confirmation"><?LANG_CONFIRMATION_DATE?></option>
                                         <option value="competency"><?LANG_COMPETENCY?></option>
                                         <option value="contract"><?LANG_CONTRACT_TYPE?></option>
                                         <option value="designation"><?LANG_DESIGNATION?></option>
@@ -251,6 +252,36 @@
                             <div class="form-group">
                                 <label><?LANG_VALUE?>:</label>
                                 <input type="number" class="form-control" id="value_{id}" name="value_{id}" placeholder="" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 criteriaLastCol">
+                            <div class="form-group addCol">
+                                <a href="{id}" class="addCriteria"><i id="plus_{id}" class="icon-plus-circle2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="confirmationTemplate" class="hide">
+                        <div class="col-md-5">
+                            <input type="hidden" id="tcID_{id}" name="tcID_{id}" value="" />
+                            <div class="form-group">
+                                <label><?LANG_COMPUTING?>:</label>
+                                <select name="computing_{id}" id="computing_{id}" data-placeholder=""
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="gt"><?LANG_GREATER_THAN?></option>
+                                    <option value="gte" selected><?LANG_GREATER_THAN_OR_EQUAL?></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><?LANG_DATE_TYPE?>:</label>
+                                <select name="valueType_{id}" id="valueType_{id}" data-placeholder=""
+                                        class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="current" selected><?LANG_CURRENT?></option>
+                                </select>
                             </div>
                         </div>
 
@@ -571,6 +602,9 @@
             if( $(this).val( ) === "payItem" ) {
                 addPayItem( $(this) );
             }
+            if( $(this).val( ) === "confirmation" ) {
+                addConfirmation( $(this) );
+            }
             if( $(this).val( ) === "competency" ) {
                 addCompetency( $(this) );
             }
@@ -630,6 +664,15 @@
         function addComputing( element ) {
             var id = element.attr("data-id");
             var html = $("#computingTemplate").html( );
+            html = html.replace(/\{id\}/g, id );
+            $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
+            $("#computing_" + id).select2({minimumResultsForSearch:Infinity});
+            $("#valueType_" + id).select2({minimumResultsForSearch:Infinity});
+        }
+
+        function addConfirmation( element ) {
+            var id = element.attr("data-id");
+            var html = $("#confirmationTemplate").html( );
             html = html.replace(/\{id\}/g, id );
             $("#criteriaRow_" + id).after( '<div id="criteriaSet_' + id + '" class="col-md-9">' + html + '</div>' );
             $("#computing_" + id).select2({minimumResultsForSearch:Infinity});

@@ -47,7 +47,8 @@ class TypeView extends AdminView {
         $vars = array_merge( $this->L10n->getContents( ),
                 array( ) );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'leaveType.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'leaveType.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
 
         return $this->View->render( 'markaxis/leave/typeList.tpl', $vars );
     }

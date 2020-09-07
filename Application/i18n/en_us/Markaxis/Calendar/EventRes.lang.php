@@ -43,14 +43,12 @@ class EventRes extends Resource {
         $this->contents['LANG_SAVE_EVENT'] = 'Save Event';
         $this->contents['LANG_CLOSE'] = 'Close';
         $this->contents['LANG_DELETE_EVENT'] = 'Delete Event';
-        $this->contents['LANG_CONFIRM_DELETE_EVENT'] = 'Are you sure you want to delete this event? This action cannot be undone.';
         $this->contents['LANG_EVENT_NOT_FOUND'] = 'Event Not Found';
         $this->contents['LANG_EVENT_NOT_FOUND_MSG'] = '<strong>The event you are looking for cannot be found.
                                                        It might have been shifted or deleted recently by someone.</strong>
                                                        <p>Try refreshing the page to get the most updated changes.</p>';
         $this->contents['LANG_MANAGE_LABELS'] = 'Manage Labels';
         $this->contents['LANG_IM_DONE'] = 'I\'m Done!';
-        $this->contents['LANG_DESCRIPT'] = 'Description';
         $this->contents['LANG_START'] = 'Start Date/Time';
         $this->contents['LANG_END'] = 'End Date/Time';
         $this->contents['LANG_EVENT_LABEL'] = 'Event Label';
@@ -67,34 +65,25 @@ class EventRes extends Resource {
         $this->contents['LANG_EMAIL_REMINDER'] = 'Email';
         $this->contents['LANG_POPUP_REMINDER'] = 'Popup';
         $this->contents['LANG_ENTER_TITLE'] = 'Please enter an event title.';
-        $this->contents['LANG_APPROVE'] = 'Approve';
-        $this->contents['LANG_DISAPPROVE'] = 'Disapprove';
-        $this->contents['LANG_APPROVED_BY'] = 'Approved by';
-        $this->contents['LANG_DISAPPROVED_BY'] = 'Disapproved by';
-        $this->contents['LANG_NO_PERM'] = "Sorry, you do not have the permission to edit this event.\nPlease seek an Administrator or the creator of this event for help.";
-
-        $this->contents['LANG_SUBJECT'] = 'Approval For New Event';
-        $this->contents['LANG_MESSAGE'] = 'Calendar Settings';
-        $this->contents['LANG_SUBMIT_FOR_APPROVAL'] = 'Your event has been submitted for approval. Once your event has been approved, it will be display in the calendar.';
-
-        $this->contents['LANG_GENERAL'] = 'General';
-        $this->contents['LANG_REMINDER_REPEAT'] = 'Reminder / Repeat';
-        $this->contents['LANG_NUM_ATTACHMENT'] = '{n} Attachment|Attachments';
-        //$this->contents['LANG_ATTACH_FILES'] = 'Attach Files';
-        //$this->contents['LANG_INVITE_STAFF'] = 'Invite Staff';
 
         $this->contents['LANG_PRIVACY_SETTING'] = 'Privacy Setting';
         $this->contents['LANG_PUBLIC'] = 'Public';
         $this->contents['LANG_PRIVATE'] = 'Private';
-        $this->contents['LANG_WRITE_MESSAGE'] = 'Write a message';
 
         // Agenda
-        $this->contents['LANG_DESCRIPTION'] = 'Description';
         $this->contents['LANG_UNTIL'] = 'until';
         $this->contents['LANG_FULL_DAY'] = 'Full Day';
         $this->contents['LANG_PRIVATE_EVENT_BY'] = 'Private event by';
         $this->contents['LANG_PUBLIC_EVENT_BY'] = 'Public event by';
         $this->contents['LANG_EXPORT'] = 'Export';
+        $this->contents['LANG_EVENT_CREATED'] = 'Event Created Successfully';
+        $this->contents['LANG_EVENT_CREATED_DESCRIPT'] = 'Your event has been successfully created.';
+        $this->contents['LANG_EVENT_UPDATED'] = 'Event Updated Successfully';
+        $this->contents['LANG_EVENT_UPDATED_DESCRIPT'] = 'Your event has been successfully updated.';
+        $this->contents['LANG_CONFIRM_DELETE_EVENT'] = 'Are you sure you want to delete event titled {title}';
+        $this->contents['LANG_CONFIRM_DELETE_EVENT_DESCRIPT'] = 'Event deleted will not be able to recover back.';
+        $this->contents['LANG_EVENT_DELETED_SUCCESSFULLY'] = '{title} has been successfully deleted!';
+        $this->contents['LANG_INVALID_DATE_RANGE'] = 'Invalid date range selected';
 	}
 }
 ?>

@@ -35,7 +35,8 @@ class OfficeView {
 
         $this->OfficeModel = OfficeModel::getInstance( );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'office.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'office.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

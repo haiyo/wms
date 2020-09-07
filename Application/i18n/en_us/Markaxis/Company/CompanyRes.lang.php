@@ -48,6 +48,10 @@ class CompanyRes extends Resource {
         $this->contents['LANG_BUTTONS_HOVER_COLOR'] = 'Buttons Hover Color';
         $this->contents['LANG_BUTTONS_FOCUS_COLOR'] = 'Buttons Focus Color';
         $this->contents['LANG_SAVE_SETTINGS'] = 'Save Settings';
+        $this->contents['LANG_COMPANY_UPDATED_SUCCESSFULLY'] = 'Company Updated Successfully';
+        $this->contents['LANG_CONFIRM_DELETE_LOGO'] = 'Are you sure you want to delete {datatext} logo?';
+        $this->contents['LANG_CONFIRM_DELETE_LOGO_DESCRIPT'] = 'Logo deleted will not be able to recover back.';
+        $this->contents['LANG_LOGO_SUCCESSFULLY_DELETED'] = '{datatext} logo has been successfully deleted!';
     }
 }
 ?>

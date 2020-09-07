@@ -41,8 +41,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_FIRST_PAYMENT_HELP'] = 'Upcoming Payment Dates: {dates}';
         $this->contents['LANG_MY_PAYSLIPS'] = 'My Payslips';
         $this->contents['LANG_UPCOMING'] = 'Upcoming';
-        $this->contents['LANG_COMPLETED'] = 'Completed';
-        $this->contents['LANG_PENDING'] = 'Pending';
+
         $this->contents['LANG_NO_DATA'] = 'No Data';
         $this->contents['LANG_VERIFICATION_FAILED'] = 'Verification Failed';
         $this->contents['LANG_NOT_PROCESS_YET'] = 'payroll has not yet been processed.<br />Do you want to process it now?';
@@ -74,13 +73,10 @@ class PayrollRes extends Resource {
         $this->contents['LANG_NAME'] = 'Name';
         $this->contents['LANG_NEXT_PAYMENT_DATE'] = 'Next Payment Date';
         $this->contents['LANG_PAYMENT_CYCLE'] = 'Payment Cycle';
-        $this->contents['LANG_ACTIONS'] = 'Actions';
         $this->contents['LANG_HOW_OFTEN_PAY'] = 'How often will you pay your employees?';
         $this->contents['LANG_PAY_RUN_TITLE'] = 'Pay Run Title';
         $this->contents['LANG_MONTHLY_WEEKLY'] = 'Monthly Full-time Employee, Weekly Part-time Employee';
         $this->contents['LANG_PAYMENT_CYCLE_DATE'] = 'Payment Cycle Date';
-        $this->contents['LANG_CANCEL'] = 'Cancel';
-        $this->contents['LANG_SUBMIT'] = 'Submit';
         $this->contents['LANG_PAY_CALENDAR'] = 'Pay Calendars';
         $this->contents['LANG_PAY_ITEMS'] = 'Pay Items';
         $this->contents['LANG_EXPENSES_ITEM'] = 'Expenses Item';
@@ -98,8 +94,22 @@ class PayrollRes extends Resource {
         $this->contents['LANG_ITEM_TYPE'] = 'Item Type';
         $this->contents['LANG_AMOUNT'] = 'Amount';
         $this->contents['LANG_REMARK'] = 'Remark';
-
-        // Taxes Computing
+        $this->contents['LANG_CONFIRMATION_DATE'] = 'Confirmation Date';
+        $this->contents['LANG_DATE_TYPE'] = 'Date Type';
+        $this->contents['LANG_CURRENT'] = 'Current Date';
+        $this->contents['LANG_ACCOUNT_AND_PAYSLIP'] = 'Account & Payslip';
+        $this->contents['LANG_RELEASE_PAYSLIPS'] = 'Release Payslips';
+        $this->contents['LANG_RELEASE_ALL_PAYSLIPS'] = 'Release All Payslips';
+        $this->contents['LANG_DOWNLOAD_CPF_FTP_FILE'] = 'Download CPF FTP File';
+        $this->contents['LANG_COMPLETE_PROCESS'] = 'Complete Process';
+        $this->contents['LANG_CONFIRM_FINALIZE'] = 'Confirm & Finalize';
+        $this->contents['LANG_PAYROLL_SAVED'] = 'Payroll Saved';
+        $this->contents['LANG_PAYROLL_SAVED_DESCRIPT'] = 'Note: This payroll is not finalised until confirmed and finalized. You may still reprocess the payroll at anytime.';
+        $this->contents['LANG_REPROCESS_CONFIRMATION'] = 'Are you sure you want to reprocess {username}\'s payroll?';
+        $this->contents['LANG_REPROCESS_CONFIRMATION_DESCRIPT'] = 'This action is irreversible and all item types will be reset!';
+        $this->contents['LANG_CONFIRM_REPROCESS'] = 'Confirm Reprocess';
+        $this->contents['LANG_FINALIZE_CONFIRM'] = 'Are you sure everything is finalized?';
+        $this->contents['LANG_FINALIZE_CONFIRM_DESCRIPT'] = 'Once confirmed, there will be no more changes to be made.';
         $this->contents['LANG_CREATE_NEW_TAX_GROUP'] = 'Create New Tax Group';
         $this->contents['LANG_CREATE_NEW_TAX_RULE'] = 'Create New Tax Rule';
         $this->contents['LANG_NO_TAX'] = 'No Tax';
@@ -174,7 +184,6 @@ class PayrollRes extends Resource {
         $this->contents['LANG_RELEASED'] = 'Released';
         $this->contents['LANG_PAYMENT_METHOD'] = 'Payment Method';
 
-        // Overview
         $this->contents['LANG_WORK_DAYS'] = 'Work Days';
         $this->contents['LANG_AVG_SALARY'] = 'Avg. Salary';
         $this->contents['LANG_AVG_CONTRIBUTIONS'] = 'Avg. Contributions';
@@ -185,6 +194,56 @@ class PayrollRes extends Resource {
         $this->contents['LANG_VERIFY_CREDENTIAL'] = 'Verify Credential';
         $this->contents['LANG_ENTER_PASSWORD_CONTINUE'] = 'Enter your password to continue';
         $this->contents['LANG_UNLOCK'] = 'Unlock';
+
+        $this->contents['LANG_EDIT_PAY_CAL'] = 'Edit Pay Calendar';
+        $this->contents['LANG_PLEASE_ENTER_TITLE'] = 'Please enter a Pay Run Title for this period';
+        $this->contents['LANG_PLEASE_SELECT_PERIOD'] = 'Please select Pay Period';
+        $this->contents['LANG_PLEASE_SELECT_DATE'] = 'Please select Next Payment Date';
+        $this->contents['LANG_PAY_CAL_CREATED_SUCCESSFULLY'] = 'Pay Calendar Created Successfully';
+        $this->contents['LANG_PAY_CAL_CREATED_SUCCESSFULLY_DESCRIPT'] = 'Your pay calendar has been successfully created';
+        $this->contents['LANG_PAY_CAL_UPDATED_SUCCESSFULLY'] = 'Pay Calendar Updated Successfully';
+        $this->contents['LANG_PAY_CAL_UPDATED_SUCCESSFULLY_DESCRIPT'] = 'Your pay calendar has been successfully updated';
+        $this->contents['LANG_DELETE_PAY_CAL'] = 'Delete Pay Calendar';
+        $this->contents['LANG_SEARCH_PAY_CAL'] = 'Search Pay Calendar';
+
+        $this->contents['LANG_EDIT_PAY_ITEM'] = 'Edit Pay Item';
+        $this->contents['LANG_PLEASE_ENTER_PAY_ITEM_TITLE'] = 'Please enter a Pay Item Title';
+        $this->contents['LANG_CREATE_ANOTHER_PAY_ITEM'] = 'Create Another Pay Item';
+        $this->contents['LANG_NO_PAY_ITEM_SELECTED'] = 'No Pay Item Selected';
+        $this->contents['LANG_DELETE_SELECTED_PAY_ITEMS'] = 'Are you sure you want to delete the selected pay Items?';
+        $this->contents['LANG_DELETE_PAY_ITEM'] = 'Delete Pay Item';
+        $this->contents['LANG_SEARCH_PAY_ITEM'] = 'Search Pay Item';
+
+        $this->contents['LANG_REPROCESS_PAYROLL'] = 'Reprocess Payroll';
+        $this->contents['LANG_SAVE_PAYROLL'] = 'Save Payroll';
+        $this->contents['LANG_SAVED'] = 'Saved';
+        $this->contents['LANG_SUSPENDED'] = 'Suspended';
+        $this->contents['LANG_EXPIRED_SOON'] = 'Expired Soon';
+        $this->contents['LANG_ACTIVE'] = 'Active';
+        $this->contents['LANG_PROCESS'] = 'Process';
+        $this->contents['LANG_SEARCH_EMPLOYEE'] = 'Search Employee, Designation or Contract Type';
+
+        $this->contents['LANG_NO_EMPLOYEE_SELECTED'] = 'No Employee Selected';
+        $this->contents['LANG_CONFIRM_RELEASE_PAYSLIP'] = 'Confirm release {count} employee payslip?';
+        $this->contents['LANG_SELECTED_EMPLOYEE_EMAIL'] = 'The selected employee(s) will receive email notification to view their payslip once confirmed';
+        $this->contents['LANG_CONFIRM_RELEASE'] = 'Confirm Release';
+        $this->contents['LANG_PAYSLIP_SUCCESSFULLY_RELEASED'] = '{count} employee payslips has been successfully released!';
+        $this->contents['LANG_CONFIRM_RELEASE_ALL_PAYSLIP'] = 'Confirm release all employee payslip?';
+        $this->contents['LANG_ALL_EMPLOYEE_EMAIL'] = 'All employee will receive email notification to view their payslip once confirmed';
+        $this->contents['LANG_CONFIRM_RELEASE_ALL'] = 'Confirm Release All';
+        $this->contents['LANG_ALL_PAYSLIP_SUCCESSFULLY_RELEASED'] = 'All employee payslip has been successfully released!';
+        $this->contents['LANG_VIEW_PDF'] = 'View PDF';
+        $this->contents['LANG_SEARCH_EMPLOYEE_NAME'] = 'Search Employee Name';
+
+        $this->contents['LANG_TOTAL_SALARIES'] = 'Total Salaries';
+        $this->contents['LANG_TOTAL_CLAIMS'] = 'Total Claims';
+        $this->contents['LANG_TOTAL_LEVIES'] = 'Total Levies';
+        $this->contents['LANG_CONTRIBUTIONS'] = 'Total Contributions';
+
+        $this->contents['LANG_COMPANY_REG_NO'] = 'Company Registration No.';
+        $this->contents['LANG_DEPARTMENT'] = 'Department';
+        $this->contents['LANG_EMPLOYER_NAME'] = 'Employer Name';
+        $this->contents['LANG_JOIN_DATE'] = 'Join Date';
     }
 }
 ?>

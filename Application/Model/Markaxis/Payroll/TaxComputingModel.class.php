@@ -130,6 +130,28 @@ class TaxComputingModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function filterConfirmation( $data, $compInfo ) {
+        if( $compInfo['criteria'] == 'confirmation' && isset( $data['empInfo']['confirmDate'] ) ) {
+            $empInfoConfirm = new \DateTime( $data['empInfo']['confirmDate'] );
+
+            // We only support current now
+            if( $compInfo['valueType'] == 'current' ) {
+                $current = new \DateTime( );
+
+                if( !$this->isEquality( $compInfo['computing'], $current, $empInfoConfirm ) ) {
+                    unset( $data['taxRules'][$compInfo['trID']] );
+                    $unset[$compInfo['trID']] = 1;
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function filterOrdinary( $data, $compInfo ) {
         if( $compInfo['criteria'] == 'ordinary' && isset( $data['totalOrdinary'] ) ) {
             if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
@@ -169,12 +191,14 @@ class TaxComputingModel extends \Model {
     public function filterInvalidRules( $data, $post=false ) {
         $data['totalOrdinaryNett'] = 0;
 
-        // foreach is still the fastest compare to array_sum;
-        foreach( $data['ordinary'] as $ordinary ) {
-            if( isset( $ordinary['amount'] ) ) {
-                $data['totalOrdinary'] += $ordinary['amount'];
-                $data['totalOrdinaryNett'] += $ordinary['amount'];
-                $data['gross'][] = array( 'amount' => $ordinary['amount'] );
+        if( !$post ) {
+            // foreach is still the fastest compare to array_sum;
+            foreach( $data['ordinary'] as $ordinary ) {
+                if( isset( $ordinary['amount'] ) ) {
+                    $data['totalOrdinary'] += $ordinary['amount'];
+                    $data['totalOrdinaryNett'] += $ordinary['amount'];
+                    $data['gross'][] = array( 'amount' => $ordinary['amount'] );
+                }
             }
         }
 
@@ -201,6 +225,7 @@ class TaxComputingModel extends \Model {
                     }
                     $data = $this->filterAge( $data, $row );
                     $data = $this->filterOrdinary( $data, $row );
+                    $data = $this->filterConfirmation( $data, $row );
                     $data = $this->filterAllPayItem( $data, $row );
                 }
             }
@@ -259,23 +284,26 @@ class TaxComputingModel extends \Model {
                         case 'ordinary' :
                         case 'allPayItem' :
                         case 'workforce' :
-                            if( isset( $data['computing_' . $id] ) && isset( $data['valueType_' . $id] ) &&
-                                isset( $data['value_' . $id] ) ) {
+                        case 'confirmation' :
+                            if( isset( $data['computing_' . $id] ) && isset( $data['valueType_' . $id] ) ) {
 
                                 if( $data['computing_' . $id] == 'lt' || $data['computing_' . $id] == 'gt' ||
                                     $data['computing_' . $id] == 'lte' || $data['computing_' . $id] == 'ltec' ||
                                     $data['computing_' . $id] == 'gte' || $data['computing_' . $id] == 'eq' ) {
                                     $computing = $data['computing_' . $id];
+                                    $valueType = $data['valueType_' . $id];
 
-                                    if( $data['valueType_' . $id] == 'fixed' || $data['valueType_' . $id] == 'percentage' ) {
+                                    /*if( $data['valueType_' . $id] == 'fixed' || $data['valueType_' . $id] == 'percentage' ) {
                                         $valueType = $data['valueType_' . $id];
-                                    }
-                                    $value = (float)$data['value_' . $id];
+                                    }*/
 
                                     $cInfo['criteria'] = $data['criteria_' . $id];
                                     $cInfo['computing'] = $computing;
                                     $cInfo['valueType'] = $valueType;
-                                    $cInfo['value'] = $value;
+
+                                    if( isset( $data['value_' . $id] ) ) {
+                                        $cInfo['value'] = (float)$data['value_' . $id];
+                                    }
 
                                     if( $data['tcID_' . $id] ) {
                                         if( $this->isFound( $cInfo['trID'], $data['tcID_' . $id] ) ) {

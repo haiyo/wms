@@ -70,7 +70,7 @@ var MarkaxisHoliday = (function( ) {
                                 return;
                             }
                             else {
-                                $("#modalHoliday .modal-title").text("Edit Holiday");
+                                $("#modalHoliday .modal-title").text( Markaxis.i18n.HolidayRes.LANG_EDIT_HOLIDAY );
                                 $("#hID").val( obj.data.hID );
                                 $("#holidayTitle").val( obj.data.title );
                                 $("#date").val( obj.data.date );
@@ -91,7 +91,7 @@ var MarkaxisHoliday = (function( ) {
                     Aurora.WebService.AJAX( "admin/leave/getHoliday/" + hID, data );
                 }
                 else {
-                    $("#modalHoliday .modal-title").text("Create Custom Holiday");
+                    $("#modalHoliday .modal-title").text( Markaxis.i18n.HolidayRes.LANG_CREATE_CUSTOM_HOLIDAY );
                     $("#hID").val(0);
                     $("#holidayTitle").val("");
                     $("#date").val("");
@@ -118,8 +118,8 @@ var MarkaxisHoliday = (function( ) {
                     date: { required: true }
                 },
                 messages: {
-                    holidayTitle: "Please enter a Holiday Title.",
-                    date: "Please select a date."
+                    holidayTitle: Markaxis.i18n.HolidayRes.LANG_ENTER_HOLIDAY_TITLE,
+                    date: Markaxis.i18n.HolidayRes.LANG_SELECT_DATE
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -145,12 +145,12 @@ var MarkaxisHoliday = (function( ) {
                             }
                             else {
                                 if( $("#hID").val( ) == 0 ) {
-                                    var title = "Holiday Created Successfully";
-                                    var text = "New Holiday has been successfully created.";
+                                    var title = Markaxis.i18n.HolidayRes.LANG_HOLIDAY_CREATED_SUCCESSFULLY;
+                                    var text = Markaxis.i18n.HolidayRes.LANG_HOLIDAY_CREATED_SUCCESSFULLY_DESCRIPT;
                                 }
                                 else {
-                                    var title = "Holiday Updated Successfully";
-                                    var text = "Holiday has been successfully updated.";
+                                    var title = Markaxis.i18n.HolidayRes.LANG_HOLIDAY_UPDATED_SUCCESSFULLY;
+                                    var text = Markaxis.i18n.HolidayRes.LANG_HOLIDAY_UPDATED_SUCCESSFULLY_DESCRIPT;
                                 }
 
                                 swal({
@@ -180,12 +180,12 @@ var MarkaxisHoliday = (function( ) {
             var title = $("#holidayTable-row" + hID).find("td").eq(0).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -198,12 +198,12 @@ var MarkaxisHoliday = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -262,10 +262,10 @@ var MarkaxisHoliday = (function( ) {
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( data == 0 ) {
-                            return '<span class="label label-pending">No</span>';
+                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span class="label label-success">Yes</span>';
+                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 },{
@@ -282,10 +282,10 @@ var MarkaxisHoliday = (function( ) {
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                             '<a class="dropdown-item editHoliday" data-id="' + data + '" data-toggle="modal" data-target="#modalHoliday" data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit Holiday</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.HolidayRes.LANG_EDIT_HOLIDAY + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item deleteHoliday" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Holiday</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.HolidayRes.LANG_DELETE_HOLIDAY + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -298,9 +298,10 @@ var MarkaxisHoliday = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
                     searchPlaceholder: 'Search Holiday',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(".holidayTable [type=checkbox]").uniform();
@@ -319,7 +320,7 @@ var MarkaxisHoliday = (function( ) {
             $('#holidayList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

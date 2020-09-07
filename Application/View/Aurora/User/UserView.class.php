@@ -108,6 +108,9 @@ class UserView {
         $countryList = $SelectListView->build( 'country', $countries, $this->userInfo['countryID'],
                                                 $this->L10n->getContents('LANG_SELECT_COUNTRY') );
 
+        $langList = $SelectListView->build('language', $this->i18n->getLanguages( ), $this->userInfo['lang'],
+                                               $this->L10n->getContents('LANG_SELECT_LANGUAGE') );
+
         $NationalityModel = NationalityModel::getInstance( );
         $nationalities = $NationalityModel->getList( );
         $nationalityList = $SelectListView->build( 'nationality', $nationalities, $this->userInfo['nationalityID'],
@@ -150,7 +153,8 @@ class UserView {
                        'TPLVAR_MOBILE' => $this->userInfo['mobile'],
                        'TPLVAR_DOB_YEAR' => $dobYear,
                        'TPLVAR_ADDRESS1' => $this->userInfo['address1'],
-                       'TPLVAR_ADDRESS2' => $this->userInfo['address2'],
+                       'TPL_LANGUAGE_LIST' => $langList,
+                       //'TPLVAR_ADDRESS2' => $this->userInfo['address2'],
                        'TPLVAR_POSTAL' => $this->userInfo['postal'],
                        'TPLVAR_CITY' => $this->userInfo['city'],
                        'TPLVAR_STATE' => $this->userInfo['state'],

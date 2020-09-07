@@ -27,10 +27,12 @@ class LOARes extends Resource {
         $this->contents['LANG_FOR_DESIGNATION'] = 'Để chỉ định(s)';
         $this->contents['LANG_LAST_UPDATED_BY'] = 'Cập nhật lần cuối bởi';
         $this->contents['LANG_LAST_UPDATED'] = 'Cập nhật mới nhất';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_CONTENT'] = 'Nội dung';
-        $this->contents['LANG_DISCARD'] = 'Bỏ';
         $this->contents['LANG_SAVE_CHANGES'] = 'Lưu thay đổi';
+        $this->contents['LANG_LOA_SUCCESSFULLY_CREATED'] = 'Thư hẹn đã được tạo thành công!';
+        $this->contents['LANG_EDIT_LOA'] = 'Chỉnh sửa LOA';
+        $this->contents['LANG_CREATE_NEW_LOA'] = 'Tạo mới LOA';
+        $this->contents['LANG_DELETE_LOA'] = 'Xóa bỏ LOA';
 	}
 }
 ?>

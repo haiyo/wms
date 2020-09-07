@@ -48,6 +48,10 @@ class CompanyRes extends Resource {
         $this->contents['LANG_BUTTONS_HOVER_COLOR'] = 'Nút di chuột màu';
         $this->contents['LANG_BUTTONS_FOCUS_COLOR'] = 'Các nút lấy nét màu';
         $this->contents['LANG_SAVE_SETTINGS'] = 'Lưu các thiết lập';
+        $this->contents['LANG_COMPANY_UPDATED_SUCCESSFULLY'] = 'Công ty được cập nhật thành công';
+        $this->contents['LANG_CONFIRM_DELETE_LOGO'] = 'Bạn có chắc chắn muốn xóa {datatext} logo?';
+        $this->contents['LANG_CONFIRM_DELETE_LOGO_DESCRIPT'] = 'Biểu trưng bị xóa sẽ không thể khôi phục lại';
+        $this->contents['LANG_LOGO_SUCCESSFULLY_DELETED'] = '{datatext} logo đã được xóa thành công!';
     }
 }
 ?>

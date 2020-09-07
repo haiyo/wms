@@ -15,6 +15,18 @@ class UserSetting extends \DAO {
 
 
     /**
+     * Return user settings
+     * @return mixed
+     */
+    public function isFound( $userID ) {
+        $sql = $this->DB->select( 'SELECT COUNT(*) FROM user_setting WHERE userID = "' . (int)$userID . '"',
+            __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
+
+
+    /**
     * Return user settings
     * @return mixed
     */

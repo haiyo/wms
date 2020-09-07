@@ -57,11 +57,11 @@ var MarkaxisCompetency = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if (obj.bool == 0) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalCompetency .modal-title").text("Edit Competency");
+                                $("#modalCompetency .modal-title").text( Markaxis.i18n.CompetencyRes.LANG_EDIT_COMPETENCY );
                                 $("#competencyID").val( obj.data.cID );
                                 $("#competency").val( obj.data.competency );
                                 $("#competencyDescript").val( obj.data.descript );
@@ -71,7 +71,7 @@ var MarkaxisCompetency = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getCompetency/" + cID, data );
                 }
                 else {
-                    $("#modalCompetency .modal-title").text("Create New Competency");
+                    $("#modalCompetency .modal-title").text( Markaxis.i18n.CompetencyRes.LANG_CREATE_NEW_COMPETENCY );
                     $("#competencyID").val(0);
                     $("#competency").val("");
                     $("#competencyDescript").val("");
@@ -99,7 +99,7 @@ var MarkaxisCompetency = (function( ) {
                     competency: { required: true }
                 },
                 messages: {
-                    competency: "Please enter a Competency."
+                    competency: Markaxis.i18n.CompetencyRes.LANG_PLEASE_ENTER_COMPETENCY
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -121,22 +121,22 @@ var MarkaxisCompetency = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload();
 
                                 swal({
-                                    title: $("#competency").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#competency").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Competency",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Markaxis.i18n.CompetencyRes.LANG_CREATE_ANOTHER_COMPETENCY,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     $("#competencyID").val(0);
@@ -215,12 +215,12 @@ var MarkaxisCompetency = (function( ) {
             cID.push( id );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -233,12 +233,12 @@ var MarkaxisCompetency = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
-                            that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            that.table.ajax.reload( );
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -261,18 +261,18 @@ var MarkaxisCompetency = (function( ) {
 
             if( cID.length == 0 ) {
                 swal({
-                    title: "No Competency Selected",
+                    title: Markaxis.i18n.CompetencyRes.LANG_NO_COMPETENCY_SELECTED,
                     type: "info"
                 });
             }
             else {
                 swal({
-                    title: "Are you sure you want to delete the selected competencies?",
-                    text: "This action cannot be undone once deleted.",
+                    title: Markaxis.i18n.CompetencyRes.LANG_ARE_YOU_SURE_DELETE_COMPETENCIES,
+                    text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Confirm Delete",
+                    confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true
                 }, function( isConfirm ) {
@@ -285,12 +285,12 @@ var MarkaxisCompetency = (function( ) {
                         success: function(res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload( );
-                                swal("Done!", obj.count + " items has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_ITEMS_SUCCESSFULLY_DELETED.replace('{count}', obj.count), "success");
                                 return;
                             }
                         }
@@ -340,7 +340,7 @@ var MarkaxisCompetency = (function( ) {
                     var obj = $.parseJSON( res );
 
                     if( obj.bool === 0 && obj.errMsg ) {
-                        swal("Error!", obj.errMsg, "error");
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     that.setSuggestToken( obj.data );
@@ -375,9 +375,6 @@ var MarkaxisCompetency = (function( ) {
                         d.ajaxCall = 1;
                         d.csrfToken = Aurora.CSRF_TOKEN;
                     },
-                },
-                initComplete: function() {
-                    //
                 },
                 autoWidth: false,
                 mark: true,
@@ -435,10 +432,10 @@ var MarkaxisCompetency = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                             '<a class="dropdown-item competencyEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalCompetency" ' +
                             'data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit Competency</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.CompetencyRes.LANG_EDIT_COMPETENCY + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item competencyDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Competency</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.CompetencyRes.LANG_EDIT_COMPETENCY + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -451,9 +448,10 @@ var MarkaxisCompetency = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Competency',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.CompetencyRes.LANG_SEARCH_COMPETENCY,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(".competencyTable [type=checkbox]").uniform();
@@ -472,7 +470,7 @@ var MarkaxisCompetency = (function( ) {
             $('#competencyList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label><?LANG_EXPENSE_TYPE?>:</label>
                             <input type="text" name="expenseTitle" id="expenseTitle" class="form-control" value=""
-                                   placeholder="<?LANG_ENTER_EXPENSE_TYPE?>" />
+                                   placeholder="<?LANG_ENTER_TITLE_EXPENSE_TYPE?>" />
                         </div>
                     </div>
 

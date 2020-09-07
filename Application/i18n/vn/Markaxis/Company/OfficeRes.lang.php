@@ -29,7 +29,6 @@ class OfficeRes extends Resource {
         $this->contents['LANG_COUNTRY'] = 'Quốc gia';
         $this->contents['LANG_WORK_DAYS'] = 'Ngày làm việc';
         $this->contents['LANG_TOTAL_EMPLOYEE'] = 'Tổng số nhân viên';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_ENTER_OFFICE_NAME'] = 'Nhập tên văn phòng';
         $this->contents['LANG_OFFICE_ADDRESS'] = 'Địa chỉ văn phòng';
         $this->contents['LANG_ENTER_OFFICE_ADDRESS'] = 'Nhập địa chỉ văn phòng';
@@ -42,10 +41,15 @@ class OfficeRes extends Resource {
         $this->contents['LANG_SELECT_OFFICE_TYPE'] = 'Chọn loại văn phòng';
         $this->contents['LANG_SELECT_WORK_DAY_TO'] = 'Chọn Ngày làm việc Tới';
         $this->contents['LANG_SELECT_WORK_DAY_FROM'] = 'Chọn ngày làm việc từ';
-        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
-        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
         $this->contents['LANG_ENTER_REQUIRED_FIELDS'] = 'Vui lòng nhập tất cả các trường bắt buộc';
         $this->contents['LANG_MUST_AT_LEAST_ONE_MAIN'] = 'Phải có ít nhất 1 văn phòng chính';
+        $this->contents['LANG_EDIT_OFFICE'] = 'Chỉnh sửa văn phòng';
+        $this->contents['LANG_PLEASE_ENTER_OFFICE_NAME'] = 'Vui lòng nhập Tên văn phòng';
+        $this->contents['LANG_PLEASE_SELECT_COUNTRY'] = 'Vui lòng chọn quốc gia hoạt động';
+        $this->contents['LANG_CREATE_ANOTHER_OFFICE'] = 'Tạo một văn phòng khác';
+        $this->contents['LANG_MAIN'] = 'Chủ yếu';
+        $this->contents['LANG_DELETE_OFFICE'] = 'Xóa văn phòng';
+        $this->contents['LANG_SEARCH_OFFICE'] = 'Văn phòng tìm kiếm';
     }
 }
 ?>

@@ -50,8 +50,8 @@ class LeaveRes extends Resource {
         $this->contents['LANG_WEEKS'] = 'Tuần';
         $this->contents['LANG_DAYS'] = 'Ngày';
         $this->contents['LANG_AVAILABLE'] = 'Có sẵn';
+        $this->contents['LANG_OF'] = 'của';
         $this->contents['LANG_CONSUMED'] = 'Tiêu thụ';
-        $this->contents['LANG_PENDING'] = 'Đang chờ xử lý';
         $this->contents['LANG_ENTITLED'] = 'Được phép';
         $this->contents['LANG_LEAVE_ACTIONS'] = 'Rời khỏi hành động';
         $this->contents['LANG_LEAVE_TYPE_CODE'] = 'Loại bỏ (Mã)';
@@ -59,12 +59,8 @@ class LeaveRes extends Resource {
         $this->contents['LANG_REASON'] = 'Lý do';
         $this->contents['LANG_STATUS'] = 'Trạng thái';
         $this->contents['LANG_APPROVED_BY'] = 'Được thông qua bởi';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_SELECT_LEAVE_TYPE'] = 'Chọn Loại rời';
-        $this->contents['LANG_APPROVED'] = 'Tán thành';
-        $this->contents['LANG_UNAPPROVED'] = 'Không được chấp thuận';
-        $this->contents['LANG_PENDING'] = 'Đang chờ xử lý';
-        $this->contents['LANG_%_ENTITLEMENT'] = '% Quyền lợi';
+        $this->contents['LANG_ENTITLEMENT'] = '% Quyền lợi';
         $this->contents['LANG_SELECT_PERIOD'] = 'Chọn khoảng thời gian';
         $this->contents['LANG_LEAVE_ENTITLEMENT'] = 'Quyền rời bỏ';
         $this->contents['LANG_LEAVE_TYPE_NAME'] = 'Để lại tên loại';
@@ -112,20 +108,17 @@ class LeaveRes extends Resource {
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Yêu cầu rời khỏi';
         $this->contents['LANG_FROM'] = 'Từ';
         $this->contents['LANG_TO'] = 'Đến';
-        $this->contents['LANG_CREATE_CUSTOM_HOLIDAY'] = 'Tạo ngày lễ tùy chỉnh';
-        $this->contents['LANG_PROVIDE_ALL_REQUIRED_FIELDS'] = 'Vui lòng cung cấp tất cả các trường bắt buộc';
+        $this->contents['LANG_ATTACHMENT'] = 'Attachment';
         $this->contents['LANG_NAME'] = 'Tên';
         $this->contents['LANG_UNUSED_LEAVE'] = 'Nghỉ phép không sử dụng';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_LEAVE_TYPES'] = 'Loại bỏ';
-        $this->contents['LANG_HOLIDAYS'] = 'Ngày lễ';
-        $this->contents['LANG_TITLE'] = 'Tiêu đề';
-        $this->contents['LANG_COUNTRY'] = 'Quốc gia';
-        $this->contents['LANG_DATE'] = 'Ngày';
-        $this->contents['LANG_WORK_DAY'] = 'Ngày làm việc';
-        $this->contents['LANG_HOLIDAY_TITLE'] = 'Tiêu đề ngày lễ';
-        $this->contents['LANG_ENTER_HOLIDAY_TITLE'] = 'Nhập tiêu đề cho ngày lễ này';
-        $this->contents['LANG_IS_THIS_WORK_DAY'] = 'Ngày làm việc?';
+
+        $this->contents['LANG_LEAVE_APPLIED_SUCCESSFULLY'] = 'Rời khỏi đơn đăng ký thành công';
+        $this->contents['LANG_LEAVE_NOT_CONFIRM'] = 'Đơn xin nghỉ phép của bạn vẫn chưa được xác nhận và phải được người quản lý phê duyệt.';
+        $this->contents['LANG_CANCEL_APPLIED_LEAVE'] = 'Hủy bỏ đơn xin nghỉ?';
+        $this->contents['LANG_LEAVE_CANCELLED_SUCCESSFULLY'] = 'Đã hủy thành công';
+        $this->contents['LANG_CANCEL_APPLY'] = 'Hủy áp dụng';
+        $this->contents['LANG_SEARCH_LEAVE_HISTORY'] = 'Tìm kiếm Lịch sử Rời khỏi';
 
         // Apply Form
         $this->contents['LANG_APPLY_LEAVE_NOW'] = 'Xin nghỉ ngay';
@@ -137,12 +130,9 @@ class LeaveRes extends Resource {
         $this->contents['LANG_END_DATE'] = 'Ngày cuối';
         $this->contents['LANG_HALF_DAY_ON_FIRST_DAY'] = 'Nửa ngày vào ngày đầu tiên';
         $this->contents['LANG_HALF_DAY_ON_LAST_DAY'] = 'Nửa ngày vào ngày trước';
-        $this->contents['LANG_UPLOAD_SUPPORTING_DOCUMENT'] = 'Tải lên Tài liệu Hỗ trợ (Nếu có)';
-        $this->contents['LANG_ACCEPTED_FORMATS'] = 'Các định dạng được chấp nhận: pdf, doc. Kích thước tệp tối đa';
         $this->contents['LANG_APPROVING_MANAGERS'] = 'Người quản lý phê duyệt';
         $this->contents['LANG_ENTER_MANAGER_NAME'] = 'Nhập tên người quản lý';
-        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
-        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
+        $this->contents['LANG_HOLIDAYS'] = 'Ngày lễ';
     }
 }
 ?>

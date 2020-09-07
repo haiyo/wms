@@ -35,6 +35,14 @@ class LoginRes extends Resource {
         $this->contents['LANG_INVALID_LOGIN'] = 'Incorrect Username or Password Combination. Password is case sensitive. Please check your CAPS lock key.';
         $this->contents['LANG_OOPS'] = 'Oops...';
         $this->contents['LANG_SERVICE_UNAVAILABLE'] = 'The login service is currently unavailable. You may have exceeded the maximum number of login attempt. Please try again later.';
+        $this->contents['LANG_LOGIN_TO_ACCOUNT'] = 'Login to your account';
+        $this->contents['LANG_ENTER_CREDENTIALS'] = 'Enter your credentials below';
+        $this->contents['LANG_USERNAME'] = 'Username';
+        $this->contents['LANG_PASSWORD_RECOVERY'] = 'Password recovery';
+        $this->contents['LANG_SEND_INSTRUCTIONS'] = 'We\'ll send you instructions in email';
+        $this->contents['LANG_YOUR_EMAIL'] = 'Your email';
+        $this->contents['LANG_RESET_PASSWORD'] = 'Reset password';
+        $this->contents['LANG_BACK_TO_LOGIN'] = 'Back to Login';
 	}
 }
 ?>

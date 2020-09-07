@@ -43,7 +43,7 @@ class CarryPeriodHelper implements IListHelper {
         $i18n = $Registry->get( HKEY_CLASS, 'i18n' );
         $L10n = $i18n->loadLanguage('Markaxis/Leave/LeaveRes');
 
-        return array( 'percent'  => $L10n->getContents('LANG_%_ENTITLEMENT'),
+        return array( 'percent'  => $L10n->getContents('LANG_ENTITLEMENT'),
                       'days'  => $L10n->getContents('LANG_DAYS') );
 	}
 }

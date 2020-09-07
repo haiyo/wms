@@ -26,13 +26,15 @@ class DepartmentRes extends Resource {
         $this->contents['LANG_CREATE_NEW_DEPARTMENT'] = 'Tạo bộ phận mới';
         $this->contents['LANG_DEPARTMENT_NAME'] = 'Tên bộ phận';
         $this->contents['LANG_MANAGERS'] = 'Giám đốc';
-        $this->contents['LANG_NO_OF_EMPLOYEE'] = 'Số lượng nhân viên';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_ENTER_DEPARTMENT_NAME'] = 'Nhập tên bộ phận';
         $this->contents['LANG_DEPARTMENT_MANAGER'] = 'Giám đốc bộ phận';
         $this->contents['LANG_ENTER_MANAGER_NAME'] = 'Nhập tên người quản lý';
-        $this->contents['LANG_DISCARD'] = 'Bỏ';
-        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
+        $this->contents['LANG_EDIT_DEPARTMENT'] = 'Chỉnh sửa bộ phận';
+        $this->contents['LANG_ENTER_DEPARTMENT_NAME'] = 'Vui lòng nhập Tên bộ phận';
+        $this->contents['LANG_ENTER_VALID_MANAGER'] = 'Vui lòng nhập một người quản lý hợp lệ';
+        $this->contents['LANG_CREATE_ANOTHER_DEPARTMENT'] = 'Tạo một phòng ban khác';
+        $this->contents['LANG_DELETE_DEPARTMENT'] = 'Xóa bộ phận';
+        $this->contents['LANG_SEARCH_DEPARTMENT'] = 'Bộ phận tìm kiếm';
     }
 }
 ?>

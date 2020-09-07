@@ -44,10 +44,7 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_DIFF_YEAR'] = 'yr';
         $this->contents['LANG_DIFF_MONTH'] = 'mth';
         $this->contents['LANG_DIFF_DAY'] = 'd';
-        $this->contents['LANG_COMPETENCY_INFO'] = 'Add multiple competencies for employee eligibility for Courses and/or to
-                                                   set criteria for other complicated Tax requirement by the Government
-                                                   when you are doing Payroll for this employee. For e.g: NTS and PRC – higher-skilled,
-                                                   on MYE.';
+        $this->contents['LANG_COMPETENCY_INFO'] = 'Add multiple competencies for employee eligibility for Courses and/or to set criteria for other complicated Tax requirement by the Government when you are doing Payroll for this employee. For e.g: NTS and PRC – higher-skilled, on MYE.';
         $this->contents['LANG_EMPLOYEE_SETUP'] = 'Employee Setup';
         $this->contents['LANG_EMPLOYEE_ID'] = 'Employee ID';
         $this->contents['LANG_ASSIGN_DEPARTMENT'] = 'Assign Department(s)';
@@ -74,14 +71,44 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_WORK_PASS_TYPE'] = 'Work Pass Type';
         $this->contents['LANG_WORK_PASS_NUMBER'] = 'Work Pass Number';
         $this->contents['LANG_WORK_PASS_EXPIRY_DATE'] = 'Work Pass Expiry Date';
-
         $this->contents['LANG_HR_INFORMATION'] = 'HR Information';
         $this->contents['LANG_CONTACT'] = 'Contact';
         $this->contents['LANG_NAME'] = 'Name';
         $this->contents['LANG_EMPLOYMENT_STATUS'] = 'Employment Status';
         $this->contents['LANG_EMAIL'] = 'E-mail';
         $this->contents['LANG_MOBILE'] = 'Mobile';
-        $this->contents['LANG_ACTIONS'] = 'Actions';
+        $this->contents['LANG_CONFIRM_SUSPEND_NAME'] = 'Are you sure you want to suspend {name}?';
+        $this->contents['LANG_NO_LOGIN_HRS'] = 'This employee will no longer be able to login to the HRS System';
+        $this->contents['LANG_CONFIRM_UNSUSPEND'] = 'Are you sure you want to unsuspend {name}?';
+        $this->contents['LANG_ABLE_LOGIN_HRS'] = 'This employee will be able to login to the HRS System';
+        $this->contents['LANG_CONFIRM_SUSPEND'] = 'Confirm Suspend';
+        $this->contents['LANG_CONFIRM_UNSUSPEND'] = 'Confirm Unsuspend';
+        $this->contents['LANG_PROVIDE_REASON'] = 'Provide reason(s) if any';
+        $this->contents['LANG_UNSUSPEND_EMPLOYEE'] = 'Unsuspend Employee';
+        $this->contents['LANG_SUSPENDED'] = 'Suspended';
+        $this->contents['LANG_SUSPEND_EMPLOYEE'] = 'Suspend Employee';
+        $this->contents['LANG_ACTIVE'] = 'Active';
+        $this->contents['LANG_SUCCESSFULLY_SUSPENDED'] = '{name} has been successfully suspended!';
+        $this->contents['LANG_SUCCESSFULLY_UNSUSPENDED'] = '{name} has been successfully unsuspended!';
+        $this->contents['LANG_SET_RESIGNED_EMPLOYEE'] = 'Set {name} as Resigned Employee?';
+        $this->contents['LANG_CONFIRM_RESIGN'] = 'Confirm Resign';
+        $this->contents['LANG_SUCCESSFULLY_RESIGNED'] = '{name} has been successfully set to Resigned!';
+        $this->contents['LANG_INACTIVE_SOON'] = 'Inactive Soon';
+        $this->contents['LANG_EDIT_EMPLOYEE_INFO'] = 'Edit Employee Info';
+        $this->contents['LANG_EMPLOYEE_RESIGNED'] = 'Employee Resigned';
+        $this->contents['LANG_SEARCH_EMPLOYEE'] = 'Search Employee, Designation or Contract Type';
+
+        $this->contents['LANG_ENTER_VALID_CHILD'] = 'Please enter valid child information';
+        $this->contents['LANG_ENTER_VALID_EMAIL'] = 'Please enter valid email address';
+        $this->contents['LANG_CONFIRM_DELETE_PHOTO'] = 'Are you sure you want to delete {name}\'s photo?';
+        $this->contents['LANG_PHOTO_DELETED_UNDONE'] = 'Photo deleted will not be able to recover back';
+        $this->contents['LANG_PHOTO_SUCCESSFULLY_DELETED'] = '{name}\'s photo has been successfully deleted!';
+        $this->contents['LANG_EMPLOYEE_ADDED_SUCCESSFULLY'] = 'New Employee Added Successfully';
+        $this->contents['LANG_ADD_ANOTHER_EMPLOYEE'] = 'Add Another Employee';
+        $this->contents['LANG_GO_EMPLOYEE_LISTING'] = 'Go to Employee Listing';
+        $this->contents['LANG_EMPLOYEE_UPDATED_SUCCESSFULLY'] = 'Employee Updated Successfully';
+        $this->contents['LANG_CONTINUE_EDIT_EMPLOYEE'] = 'Continue Editing This Employee';
+        $this->contents['LANG_PROFILE_UPDATED'] = 'Your Profile Has Been Updated Successfully';
     }
 }
 ?>

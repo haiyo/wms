@@ -45,7 +45,8 @@ class PayrollView {
                                                                   'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 
@@ -92,12 +93,12 @@ class PayrollView {
                 $dataID    = 'complete';
                 $statusTab = 'complete-tab';
                 $pane      = 'tab-pane';
-                $status    = $this->L10n->getContents('LANG_COMPLETED');
+                $status    = $this->View->getGlobalRes( )->getContents('LANG_COMPLETED');
             }
             else if( $index == date('nY') ) {
                 $dataID    = 'pending';
                 $statusTab = 'pending-tab active show';
-                $status    = $this->L10n->getContents('LANG_PENDING');
+                $status    = $this->View->getGlobalRes( )->getContents('LANG_PENDING');
             }
 
             $vars['dynamic']['tab'][] = array( 'TPLVAR_STATUS_TAB' => $statusTab,
@@ -164,10 +165,11 @@ class PayrollView {
 
         $vars = array_merge( $this->L10n->getContents( ),
                              array( 'TPLVAR_PROCESS_DATE' => $processDate,
+                                    'TPLVAR_COUNTRY_CODE' => $mainInfo['countryCode'],
                                     'TPLVAR_CURRENCY' => $mainInfo['currencyCode'] . $mainInfo['currencySymbol'],
                                     'TPL_OFFICE_LIST' => $officeList ) );
 
-        $vars['TPLVAR_COMPLETED'] = 0;
+        $vars['TPLVAR_COMPLETED'] = $vars['TPLVAR_PID'] = 0;
         $vars['dynamic']['selectEmployee'] = true;
         $vars['dynamic']['accountDetails'] = false;
 
@@ -320,20 +322,27 @@ class PayrollView {
      * Render summary on first process!
      * @return string
      */
-    public function renderProcessSummary( $data ) {
-        $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_NET_AMOUNT'] = $data['totalOrdinary'];
+    public function renderProcessSummary( $data, $firstRender=true ) {
+        $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_NET_AMOUNT'] = 0;
+
+        if( $firstRender ) {
+            $vars['TPLVAR_GROSS_AMOUNT'] = $vars['TPLVAR_NET_AMOUNT'] = $data['totalOrdinary'];
+        }
 
         $vars['TPLVAR_DEDUCTION_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
         $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
         $vars['TPLVAR_TOTAL_LEVY'] = $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
 
         if( isset( $data['gross'] ) ) {
-            foreach( $data['gross'] as $gross ) {
+            $vars['TPLVAR_GROSS_AMOUNT'] = (float)$data['gross'];
+            $vars['TPLVAR_NET_AMOUNT'] = (float)$data['gross'];
+
+            /*foreach( $data['gross'] as $gross ) {
                 if( isset( $gross['amount'] ) ) {
                     $vars['TPLVAR_GROSS_AMOUNT'] += (float)$gross['amount'];
                     $vars['TPLVAR_NET_AMOUNT'] += (float)$gross['amount'];
                 }
-            }
+            }*/
         }
         if( isset( $data['net'] ) ) {
             foreach( $data['net'] as $net ) {
@@ -344,21 +353,23 @@ class PayrollView {
         }
 
         $vars['dynamic']['employerItem'] = $vars['dynamic']['deductionSummary'] = false;
-        $totalLevy = $totalContribution = $totalClaim = 0;
+        $totalLevy = $totalContribution = 0;
         $itemGroups = array( );
 
         if( isset( $data['claims'] ) ) {
+            $totalClaim = 0;
+
             foreach( $data['claims'] as $claims ) {
                 if( isset( $claims['eiID'] ) ) {
                     $totalClaim += $claims['amount'];
                     $vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
                 }
             }
-        }
 
-        $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-                                                        'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                        'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+            $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                                                            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
+                                                            'TPLVAR_AMOUNT' => number_format( $totalClaim,2 ) );
+        }
 
         if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
 

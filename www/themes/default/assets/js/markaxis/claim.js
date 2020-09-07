@@ -106,11 +106,11 @@ var MarkaxisClaim = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalClaim .modal-title").text("Edit Claim");
+                                $("#modalClaim .modal-title").text( Markaxis.i18n.ExpenseRes.LANG_EDIT_CLAIM );
                                 $("#ecID").val( obj.data.ecID )
                                 $("#expense").val( obj.data.eiID ).trigger("change");
                                 $("#claimDescript").val( obj.data.descript );
@@ -124,7 +124,7 @@ var MarkaxisClaim = (function( ) {
                     Aurora.WebService.AJAX( "admin/expense/getClaim/" + ecID, data );
                 }
                 else {
-                    $("#modalClaim .modal-title").text("Create New Claim");
+                    $("#modalClaim .modal-title").text( Markaxis.i18n.ExpenseRes.LANG_CREATE_NEW_CLAIM );
                     $("#ecID").val(0);
                     $("#claimDescript").val("");
                     $("#claimAmount").val("");
@@ -142,7 +142,7 @@ var MarkaxisClaim = (function( ) {
                     claimAmount: { required: true }
                 },
                 messages: {
-                    expense: "Please provide all required fields."
+                    expense: Aurora.i18n.GlobalRes.LANG_PROVIDE_ALL_REQUIRED
                 },
                 highlight: function(element, errorClass, validClass) {
                     var elem = $(element);
@@ -178,7 +178,7 @@ var MarkaxisClaim = (function( ) {
                             var obj = $.parseJSON( res );
 
                             if( obj.bool == 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
@@ -234,12 +234,12 @@ var MarkaxisClaim = (function( ) {
             var title = $("#list-" + ecID + " > td:first-child > span").text( );
 
             swal({
-                title: "Are you sure you want to cancel the claim " + title + "?",
-                text: "This action cannot be undone once cancelled",
+                title: Markaxis.i18n.ExpenseRes.LANG_CONFIRM_CANCEL_CLAIM.replace('{title}', title),
+                text: Markaxis.i18n.ExpenseRes.LANG_CONFIRM_CANCEL_CLAIM_DESCRIPT,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Cancel",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_CANCEL,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -252,7 +252,7 @@ var MarkaxisClaim = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
@@ -272,7 +272,7 @@ var MarkaxisClaim = (function( ) {
                             else {
                                 that.table.ajax.reload();
                             }
-                            swal("Done!", title + " has been successfully cancelled!", "success");
+                            swal("Done!", Markaxis.i18n.ExpenseRes.LANG_CLAIM_CANCELLED_SUCCESSFULLY.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -294,15 +294,15 @@ var MarkaxisClaim = (function( ) {
             that.validator.resetForm( );
 
             swal({
-                title: "Claim has been successfully created!",
-                text: "What do you want to do next?",
+                title: Markaxis.i18n.ExpenseRes.LANG_CLAIM_SUCCESSFULLY_CREATED,
+                text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                 type: 'success',
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false,
                 showCancelButton: true,
-                confirmButtonText: "Create Another Claim",
-                cancelButtonText: "Close Window",
+                confirmButtonText: Markaxis.i18n.ExpenseRes.LANG_CREATE_ANOTHER_CLAIM,
+                cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                 reverseButtons: true
             }, function( isConfirm ) {
                 if( isConfirm === false ) {
@@ -333,15 +333,6 @@ var MarkaxisClaim = (function( ) {
                         d.csrfToken = Aurora.CSRF_TOKEN;
                     },
                 },
-                initComplete: function () {
-                    /*var api = this.api();
-                    var that = this;
-                    $('input').on('keyup change', function() {
-                        if (that.search() !== this.value) {
-                            that.search(this.value).draw();
-                        }
-                    });*/
-                },
                 autoWidth: false,
                 mark: true,
                 columnDefs: [{
@@ -369,7 +360,7 @@ var MarkaxisClaim = (function( ) {
                     width: "100px",
                     data: "amount",
                     render: function( data, type, full, meta ) {
-                        return Aurora.currency + data;
+                        return full['currencyCode'] + full['currencySymbol'] + data;
                     }
                 },{
                     targets: [3],
@@ -396,20 +387,20 @@ var MarkaxisClaim = (function( ) {
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( full['cancelled'] == 1 ) {
-                            return '<span id="status' + full['piID'] + '" class="label label-default">Cancelled</span>';
+                            return '<span id="status' + full['piID'] + '" class="label label-default">' + Aurora.i18n.GlobalRes.LANG_CANCELLED + '</span>';
                         }
                         else {
                             if( data == 0 ) {
-                                return '<span id="status' + full['piID'] + '" class="label label-pending">Pending Approval</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_PENDING_APPROVAL + '</span>';
                             }
                             else if( data == 1 ) {
-                                return '<span id="status' + full['piID'] + '" class="label label-success">Approved</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_APPROVED + '</span>';
                             }
                             else if( data == 2 ) {
-                                return '<span id="status' + full['piID'] + '" class="label label-success">Paid</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-success">' + Markaxis.i18n.ExpenseRes.LANG_PAID + '</span>';
                             }
                             else {
-                                return '<span id="status' + full['piID'] + '" class="label label-danger">Disapproved</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-danger">' + Aurora.i18n.GlobalRes.LANG_DISAPPROVED + '</span>';
                             }
                         }
                     }
@@ -420,8 +411,6 @@ var MarkaxisClaim = (function( ) {
                     width: '140px',
                     data: 'managers',
                     render: function(data, type, full, meta) {
-                        //var name   = full["name"];
-                        //var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
                         var length = data.length;
                         var managers = "";
 
@@ -461,10 +450,10 @@ var MarkaxisClaim = (function( ) {
                                 '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                                 '<a class="dropdown-item" data-id="' + data + '" data-backdrop="static" data-keyboard="false" ' +
                                 'data-toggle="modal" data-target="#modalClaim">' +
-                                '<i class="icon-pencil5"></i> Edit Claim</a>' +
+                                '<i class="icon-pencil5"></i> ' + Markaxis.i18n.ExpenseRes.LANG_EDIT_CLAIM + '</a>' +
                                 '<div class="divider"></div>' +
                                 '<a class="dropdown-item claimCancel" data-id="' + data + '">' +
-                                '<i class="icon-cross2"></i> Cancel Claim</a>' +
+                                '<i class="icon-cross2"></i> ' + Markaxis.i18n.ExpenseRes.LANG_CANCEL_CLAIM + '</a>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>';
@@ -476,9 +465,10 @@ var MarkaxisClaim = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Claim',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.ExpenseRes.LANG_SEARCH_CLAIM,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -490,6 +480,13 @@ var MarkaxisClaim = (function( ) {
             });
 
             $(".claim-list-action-btns").insertAfter("#claim .dataTables_filter");
+
+            $('.claimTable .datatable-pagination').DataTable({
+                pagingType: "simple",
+                language: {
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
+                }
+            });
 
             $('.claimTable tbody').on('mouseover', 'td', function() {
                 if( typeof that.table.cell(this).index() == "undefined" ) return;

@@ -192,7 +192,7 @@ class UserModel extends \Model {
         $this->info['username'] = Validator::stripTrim( $data['loginUsername'] );
         $this->info['postal']   = Validator::stripTrim( $data['postal'] );
         $this->info['address1'] = Validator::stripTrim( $data['address1'] );
-        $this->info['address2'] = Validator::stripTrim( $data['address2'] );
+        //$this->info['address2'] = Validator::stripTrim( $data['address2'] );
         $this->info['phone']    = Validator::stripTrim( $data['phone'] );
         $this->info['mobile']   = Validator::stripTrim( $data['mobile'] );
         $this->info['children'] = (int)$data['children'];

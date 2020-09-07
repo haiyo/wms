@@ -338,7 +338,7 @@ var MarkaxisCalendar = (function( ) {
 
             $.validator.addMethod("validDateRange", function(value, element, params) {
                 return that.getDaysDiff();
-            }, "Invalid date range selected");
+            }, Aurora.i18n.GlobalRes.LANG_INVALID_DATE_RANGE );
 
             var rules = {
                 ignore: "",
@@ -350,7 +350,7 @@ var MarkaxisCalendar = (function( ) {
                     }
                 },
                 messages: {
-                    ltID: "Please provide all required fields."
+                    ltID: Aurora.i18n.GlobalRes.LANG_PROVIDE_ALL_REQUIRED
                 },
                 highlight: function(element, errorClass, validClass) {
                     var elem = $(element);
@@ -465,7 +465,7 @@ var MarkaxisCalendar = (function( ) {
                         $("#modalNote").removeClass("hide");
                     }
                     $("#deleteEvent").removeClass("hide");
-                    $("#eventModal .modal-title").text("Edit Event");
+                    $("#eventModal .modal-title").text( Markaxis.i18n.EventRes.LANG_EDIT_EVENT );
                     $("#eventModal").modal( );
                 },
                 select: function( info ) {
@@ -615,19 +615,19 @@ var MarkaxisCalendar = (function( ) {
 
                     var obj = $.parseJSON( res );
                     if( obj.bool == 0 ) {
-                        swal("Error!", obj.errMsg, "error");
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     else {
                         that.resetForm( );
 
                         if( $("#eID").val( ) == 0 ) {
-                            var title = "Event Created Successfully";
-                            var text = "Your event has been successfully created.";
+                            var title = Markaxis.i18n.EventRes.LANG_EVENT_CREATED;
+                            var text = Markaxis.i18n.EventRes.LANG_EVENT_CREATED_DESCRIPT;
                         }
                         else {
-                            var title = "Event Updated Successfully";
-                            var text = "Your event has been successfully updated.";
+                            var title = Markaxis.i18n.EventRes.LANG_EVENT_UPDATED;
+                            var text = Markaxis.i18n.EventRes.LANG_EVENT_UPDATED_DESCRIPT;
                         }
                         swal({
                             title: title,
@@ -648,9 +648,9 @@ var MarkaxisCalendar = (function( ) {
         deleteEvent: function( ) {
             var that = this;
             var title = $("#title").val();
-            titleTxt = "Are you sure you want to delete event titled " + title + "?";
-            text  = "Event deleted will not be able to recover back.";
-            confirmButtonText = "Confirm Delete";
+            titleTxt = Markaxis.i18n.EventRes.LANG_CONFIRM_DELETE_EVENT.replace('{title}', title);
+            text  = Markaxis.i18n.EventRes.LANG_CONFIRM_DELETE_EVENT_DESCRIPT;
+            confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
             swal({
                 title: titleTxt,
@@ -673,13 +673,13 @@ var MarkaxisCalendar = (function( ) {
                     success: function( res ) {
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
-                            swal("error", obj.errMsg);
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.calendar.removeAllEvents( );
                             that.calendar.refetchEvents( );
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( LANG_DONE + "!", Markaxis.i18n.EventRes.LANG_EVENT_DELETED_SUCCESSFULLY.replace('{title}', title), "success");
                             $("#eventModal").modal("hide");
                             return;
                         }
@@ -735,7 +735,7 @@ var MarkaxisCalendar = (function( ) {
                 success: function( res, ladda ) {
                     var obj = $.parseJSON( res );
                     if( obj.bool == 0 ) {
-                        swal("Error!", obj.errMsg, "error");
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     that.calendar.removeAllEvents( );
@@ -758,7 +758,7 @@ var MarkaxisCalendar = (function( ) {
 
             $("#deleteEvent").addClass("hide");
             $("#modalNote").addClass("hide");
-            $("#eventModal .modal-title").text("Create New Event");
+            $("#eventModal .modal-title").text( Markaxis.i18n.EventRes.LANG_CREATE_NEW_EVENT );
             $(".modal-footer .error").remove( );
         }
     }

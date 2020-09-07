@@ -19,7 +19,8 @@ class LeaveApplyView {
     // Properties
     protected $Registry;
     protected $i18n;
-    protected $L10n;
+    protected $LeaveRes;
+    protected $CalendarRes;
     protected $View;
     protected $LeaveApplyModel;
 
@@ -32,7 +33,8 @@ class LeaveApplyView {
         $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-        $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
+        $this->LeaveRes = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
+        $this->CalendarRes = $this->i18n->loadLanguage('Aurora/Helper/CalendarRes');
 
         $this->LeaveApplyModel = LeaveApplyModel::getInstance( );
     }
@@ -50,10 +52,10 @@ class LeaveApplyView {
 
         $SelectListView = new SelectListView( );
         $leaveTypeList = $SelectListView->build( 'ltID', $LeaveTypeModel->getListByUserID( $empInfo['userID'] ),
-                                                '', $this->L10n->getContents('LANG_SELECT_LEAVE_TYPE') );
+                                                '', $this->LeaveRes->getContents('LANG_SELECT_LEAVE_TYPE') );
         $applyForList = $SelectListView->build( 'applyFor', ApplyForHelper::getL10nList( ), 1 );
 
-        $vars = array_merge( $this->L10n->getContents( ),
+        $vars = array_merge( $this->LeaveRes->getContents( ),
                 array( 'TPL_LEAVE_TYPE_LIST' => $leaveTypeList,
                        'TPL_APPLY_FOR_LIST' => $applyForList ) );
 
@@ -68,7 +70,9 @@ class LeaveApplyView {
                                                                'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
                                      'plugins/uploaders' => array( 'fileinput.min.js' ),
                                      'jquery' => array( 'jquery.validate.min.js' ),
-                                     'markaxis' => array( 'usuggest.js', 'pickerExtend.js', 'applyLeave.js' ) ),
+                                     'markaxis' => array( 'usuggest.js', 'pickerExtend.js', 'applyLeave.js' ),
+                                     'locale' => array( $this->LeaveRes->getL10n( ), $this->CalendarRes->getL10n( ) ) ),
+
                       'sidebarCards' => $this->renderOnLeave( ),
                       'content' => $this->View->render( 'markaxis/leave/applyForm.tpl', $vars ) );
     }
@@ -92,7 +96,7 @@ class LeaveApplyView {
         $vars['TPLVAR_DAY'] = date('l' );
 
         if( $officeInfo && !in_array( date('N'), $officeInfo ) ) {
-            $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_ITS_HOLIDAY');
+            $vars['LANG_NOT_TODAY'] = $this->LeaveRes->getContents('LANG_ITS_HOLIDAY');
         }
         else {
             $today = $this->LeaveApplyModel->getWhosOnLeave( date('Y-m-d') );
@@ -108,7 +112,7 @@ class LeaveApplyView {
                 }
             }
             else {
-                $vars['LANG_NOT_TODAY'] = $this->L10n->getContents('LANG_NO_ONE_ON_LEAVE_TODAY');
+                $vars['LANG_NOT_TODAY'] = $this->LeaveRes->getContents('LANG_NO_ONE_ON_LEAVE_TODAY');
             }
         }
         
@@ -120,7 +124,7 @@ class LeaveApplyView {
         $vars['TPLVAR_TOMORROW_DAY'] = date('l', $tomorrowTime );
 
         if( $officeInfo && !in_array( $tomorrowNum == 8 ? 1 : $tomorrowNum, $officeInfo ) ) {
-            $vars['LANG_NOT_TOMORROW'] = $this->L10n->getContents('LANG_ITS_HOLIDAY');
+            $vars['LANG_NOT_TOMORROW'] = $this->LeaveRes->getContents('LANG_ITS_HOLIDAY');
         }
         else {
             $tomorrow = $this->LeaveApplyModel->getWhosOnLeave( date('Y-m-d', $tomorrowTime ) );
@@ -137,10 +141,10 @@ class LeaveApplyView {
                 }
             }
             else {
-                $vars['LANG_NOT_TOMORROW'] = $this->L10n->getContents('LANG_NO_ONE_ON_LEAVE_TOMORROW');
+                $vars['LANG_NOT_TOMORROW'] = $this->LeaveRes->getContents('LANG_NO_ONE_ON_LEAVE_TOMORROW');
             }
         }
-        return $this->View->render( 'markaxis/leave/whosOnLeave.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
+        return $this->View->render( 'markaxis/leave/whosOnLeave.tpl', array_merge( $this->LeaveRes->getContents( ), $vars ) );
     }
 
 
@@ -155,12 +159,12 @@ class LeaveApplyView {
         $pendingAction = $this->LeaveApplyModel->getPendingAction( $userInfo['userID'] );
 
         if( $pendingAction ) {
-            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+            $vars = array_merge( $this->LeaveRes->getContents( ), array( ) );
 
             foreach( $pendingAction as $row ) {
                 $created = Date::timeSince( $row['created'] );
 
-                $pdVars = array_merge( $this->L10n->getContents( ), array( ) );
+                $pdVars = array_merge( $this->LeaveRes->getContents( ), array( ) );
 
                 $pdVars['dynamic']['reason'] = false;
 
@@ -188,7 +192,7 @@ class LeaveApplyView {
                                                     'TPLVAR_CLASS' => 'leaveAction',
                                                     'TPLVAR_TITLE' => $row['name'] . ' (' . $row['code'] . ')',
                                                     'TPLVAR_DESCRIPTION' => $reason,
-                                                    'TPLVAR_VALUE' => $row['days'] . ' ' . $this->L10n->getContents('LANG_DAYS'),
+                                                    'TPLVAR_VALUE' => $row['days'] . ' ' . $this->LeaveRes->getContents('LANG_DAYS'),
                                                     'TPLVAR_ATTACHMENT' => $attachment );
 
                 return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );

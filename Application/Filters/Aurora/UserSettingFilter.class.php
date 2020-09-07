@@ -38,6 +38,11 @@ class UserSettingFilter implements IFilter {
 
         $UserSettingModel = new UserSettingModel( );
         $UserSettingModel->load( $userInfo['userID'] );
+        $userSetInfo = $UserSettingModel->getInfo( );
+
+        if( $userSetInfo['lang'] ) {
+            $Registry->setCookie( 'lang', $userSetInfo['lang'] );
+        }
 
         $Registry->set( HKEY_CLASS, 'UserSettingModel', $UserSettingModel );
         $FilterChain->doFilter( $Request, $Response );

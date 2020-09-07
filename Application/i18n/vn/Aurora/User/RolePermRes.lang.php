@@ -22,7 +22,6 @@ class RolePermRes extends Resource {
         $this->contents['LANG_ROLES_PERMISSIONS'] = 'Vai trò và Quyền';
         $this->contents['LANG_CREATE_NEW_ROLE'] = 'Tạo vai trò mới';
         $this->contents['LANG_DELETE_ROLE'] = 'Xóa vai trò';
-        $this->contents['LANG_CLOSE'] = 'Đóng';
         $this->contents['LANG_SAVE'] = 'Lưu các thiết lập';
         $this->contents['LANG_CONFIRM_CLOSE'] = 'Bạn chưa lưu các thay đổi của mình đối với cài đặt quyền. Bạn có chắc là muốn hủy bỏ?';
         $this->contents['LANG_PERMISSION_SAVED'] = 'Quyền đã được lưu';
@@ -31,18 +30,17 @@ class RolePermRes extends Resource {
         $this->contents['LANG_ROLE_TITLE_EMPTY'] = 'Vui lòng nhập một chức danh';
         $this->contents['LANG_NEW_ROLE'] = 'Vai trò mới';
         $this->contents['LANG_ROLE_NAME'] = 'Tên vai trò';
-        $this->contents['LANG_DESCRIPTION'] = 'Sự miêu tả';
-        $this->contents['LANG_NO_OF_EMPLOYEE'] = 'Số lượng nhân viên';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_ROLE_TITLE'] = 'Chức danh vai trò';
         $this->contents['LANG_ENTER_ROLE_TITLE'] = 'Nhập tiêu đề vai trò';
         $this->contents['LANG_ROLE_DESCRIPTION'] = 'Mô tả vai trò';
         $this->contents['LANG_ENTER_ROLE_DESCRIPTION'] = 'Nhập mô tả vai trò';
         $this->contents['LANG_DEFINE_PERMISSIONS'] = 'Xác định quyền';
-        $this->contents['LANG_CLOSE'] = 'Đóng';
         $this->contents['LANG_SAVE_PERMISSIONS'] = 'Lưu quyền';
-        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
-        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
+
+        $this->contents['LANG_EDIT_ROLE'] = 'Chỉnh sửa vai trò';
+        $this->contents['LANG_CREATE_ANOTHER_ROLE'] = 'Tạo một vai trò khác';
+        $this->contents['LANG_PERMISSIONS_SAVED'] = 'Quyền đã được lưu!';
+        $this->contents['LANG_SEARCH_ROLE_NAME'] = 'Tìm kiếm tên vai trò';
 	}
 }
 ?>

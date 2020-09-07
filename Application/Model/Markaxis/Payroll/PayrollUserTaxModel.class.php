@@ -55,7 +55,7 @@ class PayrollUserTaxModel extends \Model {
         }
         if( sizeof( $success ) > 0 ) {
             $this->PayrollUserTax->delete('payroll_user_tax',
-                                           'WHERE puiID NOT IN(' . implode(',', $success ) . ') AND 
+                                           'WHERE putID NOT IN(' . implode(',', $success ) . ') AND 
                                                         puID = "' . (int)$data['puID'] . '"');
         }
         else {

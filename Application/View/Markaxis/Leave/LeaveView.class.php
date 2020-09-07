@@ -49,7 +49,8 @@ class LeaveView {
                                                                               'mark.min.js'),
                                         'plugins/visualization/d3' => array( 'd3.min.js', 'd3_tooltip.js' ),
                                         'jquery' => array( 'mark.min.js' ),
-                                        'markaxis' => 'leave.js' ) );
+                                        'markaxis' => 'leave.js',
+                                        'locale' => $this->L10n->getL10n( ) ) );
 
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
@@ -181,15 +182,15 @@ class LeaveView {
 
                 if( $row['status'] == 0 ) {
                     $label = 'pending';
-                    $status = $this->L10n->getContents('LANG_PENDING');
+                    $status = $this->View->getGlobalRes( )->getContents('LANG_PENDING');
                 }
                 else if( $row['status'] == 1 ) {
                     $label = 'success';
-                    $status = $this->L10n->getContents('LANG_APPROVED');
+                    $status = $this->View->getGlobalRes( )->getContents('LANG_APPROVED');
                 }
                 else {
                     $label = 'danger';
-                    $status = $this->L10n->getContents('LANG_UNAPPROVED');
+                    $status = $this->View->getGlobalRes( )->getContents('LANG_UNAPPROVED');
                 }
 
                 $managers = '';

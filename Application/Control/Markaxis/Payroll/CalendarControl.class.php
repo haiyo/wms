@@ -106,18 +106,6 @@ class CalendarControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setPostData( $this->CalendarModel->reprocessPayroll( $data, $post ) );
-        $this->processPayroll( );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
     public function updatePayPeriod( ) {
         $this->CalendarModel->updatePayPeriod( );
         echo 'ok';

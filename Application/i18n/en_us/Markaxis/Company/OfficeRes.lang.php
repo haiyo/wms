@@ -29,7 +29,6 @@ class OfficeRes extends Resource {
         $this->contents['LANG_COUNTRY'] = 'Country';
         $this->contents['LANG_WORK_DAYS'] = 'Work Days';
         $this->contents['LANG_TOTAL_EMPLOYEE'] = 'Total Employee';
-        $this->contents['LANG_ACTIONS'] = 'Actions';
         $this->contents['LANG_ENTER_OFFICE_NAME'] = 'Enter Office Name';
         $this->contents['LANG_OFFICE_ADDRESS'] = 'Office Address';
         $this->contents['LANG_ENTER_OFFICE_ADDRESS'] = 'Enter Office Address';
@@ -42,10 +41,15 @@ class OfficeRes extends Resource {
         $this->contents['LANG_SELECT_OFFICE_TYPE'] = 'Select Office Type';
         $this->contents['LANG_SELECT_WORK_DAY_TO'] = 'Select Work Day To';
         $this->contents['LANG_SELECT_WORK_DAY_FROM'] = 'Select Work Day From';
-        $this->contents['LANG_CANCEL'] = 'Cancel';
-        $this->contents['LANG_SUBMIT'] = 'Submit';
         $this->contents['LANG_ENTER_REQUIRED_FIELDS'] = 'Please enter all required fields.';
         $this->contents['LANG_MUST_AT_LEAST_ONE_MAIN'] = 'There must be at least 1 main office.';
+        $this->contents['LANG_EDIT_OFFICE'] = 'Edit Office';
+        $this->contents['LANG_PLEASE_ENTER_OFFICE_NAME'] = 'Please enter a Office Name';
+        $this->contents['LANG_PLEASE_SELECT_COUNTRY'] = 'Please select country of operation';
+        $this->contents['LANG_CREATE_ANOTHER_OFFICE'] = 'Create Another Office';
+        $this->contents['LANG_MAIN'] = 'Main';
+        $this->contents['LANG_DELETE_OFFICE'] = 'Delete Office';
+        $this->contents['LANG_SEARCH_OFFICE'] = 'Search Office';
     }
 }
 ?>

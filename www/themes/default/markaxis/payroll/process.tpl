@@ -56,8 +56,6 @@
     <fieldset>
         <legend class="text-semibold"><?LANG_SELECT_EMPLOYEE_TO_PROCESS?></legend>
 
-        <!--<div class="col-md-3 officeFilter"><?TPL_OFFICE_LIST?></div>-->
-
         <table class="table table-hover datatable employeeTable">
             <thead>
             <tr>
@@ -122,6 +120,6 @@
         <span class="ladda-label"><?LANG_SUBMIT?> <i class="icon-check position-right"></i></span>
     </button>
 </form>
-<div id="officeFilter" class="dataFilter" data-currency="<?TPLVAR_CURRENCY?>">
+<div id="officeFilter" class="dataFilter" data-countrycode="<?TPLVAR_COUNTRY_CODE?>" data-currency="<?TPLVAR_CURRENCY?>">
     <?TPL_OFFICE_LIST?>
 </div>

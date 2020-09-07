@@ -18,6 +18,7 @@ class AuroraView extends View {
     protected $Registry;
     protected $HKEY_LOCAL;
     protected $i18n;
+    protected $GlobalRes;
     protected $PageRes;
     protected $UserRes;
     protected $breadcrumbs;
@@ -40,6 +41,7 @@ class AuroraView extends View {
         $this->setTheme( $this->HKEY_LOCAL['theme'] );
         $this->setTplPath( TPL . 'default/' );
 
+        $this->GlobalRes = $this->i18n->loadLanguage('Aurora/GlobalRes');
         $this->PageRes = $this->i18n->loadLanguage('Aurora/Page/PageRes');
         $this->UserRes = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
@@ -58,7 +60,7 @@ class AuroraView extends View {
                                   'plugins/forms/styling' => array( 'uniform.min.js', 'switchery.min.js', 'switch.min.js' ),
                                   'plugins/notifications' => array( 'sweet_alert.min.js' ),
                                   'pages' => array( 'components_modals.js', 'components_popups.js' ),
-                                  'locale' => $this->UserRes->getL10n( ) ) );
+                                  'locale' => array( $this->GlobalRes->getL10n( ), $this->UserRes->getL10n( ) ) ) );
 
         $this->setStyle( array( 'core' => array( 'bootstrap', 'colors', 'components', 'core' ),
                                 'fonts' => array( 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );

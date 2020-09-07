@@ -96,6 +96,7 @@
     </task>
     <task type="user/profile,user/saveProfile">
         <observer controller="Aurora/User/UserControl"></observer>
+        <observer controller="Aurora/User/UserSettingControl"></observer>
         <observer controller="Aurora/User/UserImageControl"></observer>
         <!--<observer controller="Markaxis/Employee/FinanceControl"></observer>-->
         <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
@@ -108,6 +109,7 @@
     </task>
     <task type="user/add,user/edit,user/saveUser,user/getSuggestToken">
         <observer controller="Aurora/User/UserControl"></observer>
+        <observer controller="Aurora/User/UserSettingControl"></observer>
         <observer controller="Aurora/User/UserRoleControl"></observer>
         <observer controller="Aurora/User/UserImageControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
@@ -231,7 +233,6 @@
         <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/TaxControl"></observer>
-
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
         <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
@@ -249,9 +250,9 @@
     </task>
     <task type="payroll/reprocessPayroll,payroll/savePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Payroll/ItemControl"></observer>
         <observer controller="Markaxis/Employee/CompetencyControl"></observer>
         <observer controller="Markaxis/Employee/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
         <observer controller="Markaxis/Expense/ClaimControl"></observer>
         <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
@@ -259,7 +260,6 @@
         <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
         <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
         <observer controller="Markaxis/Payroll/PayrollUserTaxControl"></observer>
@@ -423,5 +423,8 @@
     </task>
     <task type="login">
         <observer controller="Aurora/LoginControl"></observer>
+    </task>
+    <task type="forgotPassword">
+        <observer controller="Aurora/ForgotPasswordControl"></observer>
     </task>
 </admin>

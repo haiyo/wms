@@ -140,23 +140,21 @@ class EmployeeControl {
      * @return string
      */
     public function processPayroll( $args, $reprocess=false ) {
-        if( Control::hasPermission('Markaxis', 'process_payroll' ) ) {
-            try {
-                if( isset( $args[1] ) && $empInfo = $this->EmployeeModel->getProcessInfo( $args[1] ) ) {
-                    Control::setOutputArray( array( 'empInfo' => $empInfo ) );
+        try {
+            if( isset( $args[1] ) && $empInfo = $this->EmployeeModel->getProcessInfo( $args[1] ) ) {
+                Control::setOutputArray( array( 'empInfo' => $empInfo ) );
 
-                    if( !$reprocess ) {
-                        Control::setOutputArray( $this->EmployeeView->renderProcessForm( $empInfo ) );
-                    }
-                }
-                else {
-                    throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+                if( !$reprocess ) {
+                    Control::setOutputArray( $this->EmployeeView->renderProcessForm( $empInfo ) );
                 }
             }
-            catch( PageNotFoundException $e ) {
-                $e->record( );
-                HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
             }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
         }
     }
 

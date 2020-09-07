@@ -27,10 +27,12 @@ class LOARes extends Resource {
         $this->contents['LANG_FOR_DESIGNATION'] = 'For Designation(s)';
         $this->contents['LANG_LAST_UPDATED_BY'] = 'Last Updated By';
         $this->contents['LANG_LAST_UPDATED'] = 'Last Updated';
-        $this->contents['LANG_ACTIONS'] = 'Actions';
         $this->contents['LANG_CONTENT'] = 'Content';
-        $this->contents['LANG_DISCARD'] = 'Discard';
         $this->contents['LANG_SAVE_CHANGES'] = 'Save changes';
+        $this->contents['LANG_LOA_SUCCESSFULLY_CREATED'] = 'Letter Of Appointment has been successfully created!';
+        $this->contents['LANG_EDIT_LOA'] = 'Edit LOA';
+        $this->contents['LANG_CREATE_NEW_LOA'] = 'Create New LOA';
+        $this->contents['LANG_DELETE_LOA'] = 'Delete LOA';
 	}
 }
 ?>

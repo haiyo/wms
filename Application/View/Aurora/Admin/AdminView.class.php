@@ -20,6 +20,7 @@ class AdminView extends SingletonHelper {
     protected $Registry;
     protected $HKEY_LOCAL;
     protected $i18n;
+    protected $GlobalRes;
     protected $PageRes;
     protected $UserRes;
     protected $breadcrumbs;
@@ -46,6 +47,7 @@ class AdminView extends SingletonHelper {
         $this->setTheme( $this->HKEY_LOCAL['theme'] );
         $this->setTplPath( TPL . 'default/' );
 
+        $this->GlobalRes = $this->i18n->loadLanguage('Aurora/GlobalRes');
         $this->PageRes = $this->i18n->loadLanguage('Aurora/Page/PageRes');
         $this->UserRes = $this->i18n->loadLanguage('Aurora/User/UserRes');
 
@@ -74,11 +76,20 @@ class AdminView extends SingletonHelper {
                                   'plugins/forms/styling' => array( 'uniform.min.js', 'switchery.min.js', 'switch.min.js' ),
                                   'plugins/notifications' => array( 'sweet_alert.min.js' ),
                                   'pages' => array( 'components_modals.js', 'components_popups.js' ),
-                                  'locale' => $this->UserRes->getL10n( ) ) );
+                                  'locale' => array( $this->GlobalRes->getL10n( ), $this->UserRes->getL10n( ) ) ) );
 
         $this->setStyle( array( 'core' => array( 'bootstrap', 'colors', 'components', 'core' ),
                                 'fonts' => array( 'proxima/styles', 'icomoon/styles', 'glyphicons/styles', 'material/styles' ) ) );
 	}
+
+
+    /**
+     * Render Display View
+     * @return mixed
+     */
+    public function getGlobalRes( ) {
+        return $this->GlobalRes;
+    }
 
 
     /**
@@ -196,11 +207,12 @@ class AdminView extends SingletonHelper {
             }
             unset( $vars['dynamic'] );
         }
-        $global = array( 'TPLVAR_ROOT_URL' => ROOT_URL,
+        $global = array_merge( $this->GlobalRes->getContents( ),
+                  array( 'TPLVAR_ROOT_URL' => ROOT_URL,
                          'TPLVAR_TITLE'  => $this->title,
                          'TPLVAR_THEME'  => $this->theme,
                          'TPLVAR_LANG' => $this->i18n->getUserLang( ),
-                         'TPLVAR_CSRF_TOKEN' => $this->Registry->get( HKEY_DYNAM, 'csrfToken' ) );
+                         'TPLVAR_CSRF_TOKEN' => $this->Registry->get( HKEY_DYNAM, 'csrfToken' ) ) );
 
         if( is_array( $vars ) ) {
             $TPL->assign( array_merge( $vars, $global ) );
