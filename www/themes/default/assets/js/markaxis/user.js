@@ -96,7 +96,7 @@ var MarkaxisUser = (function( ) {
                 success: function( res, ladda ) {
                     var obj = $.parseJSON( res );
                     if( obj.bool == 0 ) {
-                        swal("Error!", obj.errMsg, "error");
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     else {

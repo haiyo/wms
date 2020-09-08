@@ -27,8 +27,17 @@ class UserSettingModel extends \Model {
 
     /**
     * Load user to class
-    * @return void
+    * @return bool
     */
+    public function isFound( $userID ) {
+        return $this->UserSetting->isFound( $userID );
+    }
+
+
+    /**
+     * Load user to class
+     * @return void
+     */
     public function load( $userID ) {
         $this->info = $this->UserSetting->getByUserID( $userID );
     }
@@ -38,11 +47,27 @@ class UserSettingModel extends \Model {
     * Save user setting
     * @return int
     */
-    public function save( $userID, $field, $value ) {
-        $info = array( );
-        $info[$field] = $value;
+    public function save( $post ) {
+        if( isset( $post['userID'] ) && isset( $post['language'] ) ) {
+            $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+            $langList = $i18n->getLanguages( );
 
-        return $this->UserSetting->update( 'user_setting', $info, 'WHERE userID = "' . (int)$userID . '"' );
+            if( isset( $langList[$post['language']] ) ) {
+                $info = array( );
+                $info['lang'] = $post['language'];
+
+                if( $this->isFound( $post['userID'] ) ) {
+                    $this->UserSetting->update( 'user_setting', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
+
+                    $time = mktime( 0, 0, 0, 1, 1, 1970 );
+                    $this->Registry->setCookie( 'lang', $post['language'], $time );
+                }
+                else {
+                    $info['userID'] = (int)$post['userID'];
+                    $this->UserSetting->insert( 'user_setting', $info );
+                }
+            }
+        }
     }
 }
 ?>

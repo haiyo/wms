@@ -66,11 +66,11 @@ var MarkaxisDesignation = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if (obj.bool == 0) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalDesignation .modal-title").text("Edit Designation");
+                                $("#modalDesignation .modal-title").text( Markaxis.i18n.DesignationRes.LANG_EDIT_DESIGNATION );
                                 $("#designationID").val( obj.data.dID );
                                 $("#designationTitle").val( obj.data.title );
                                 $("#designationDescript").val( obj.data.descript );
@@ -81,7 +81,7 @@ var MarkaxisDesignation = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getDesignation/" + dID, data );
                 }
                 else {
-                    $("#modalDesignation .modal-title").text("Create New Designation");
+                    $("#modalDesignation .modal-title").text( Markaxis.i18n.DesignationRes.LANG_CREATE_NEW_DESIGNATION );
                     $("#designationID").val(0);
                     $("#designationTitle").val("");
                     $("#designationDescript").val("");
@@ -107,8 +107,8 @@ var MarkaxisDesignation = (function( ) {
                     designationTitle: { required: true }
                 },
                 messages: {
-                    dID: "Please select a Designation Group.",
-                    designationTitle: "Please enter a Designation Title."
+                    dID: Markaxis.i18n.DesignationRes.LANG_SELECT_DESIGNATION_GROUP,
+                    designationTitle: Markaxis.i18n.DesignationRes.LANG_ENTER_DESIGNATION_TITLE
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -131,22 +131,22 @@ var MarkaxisDesignation = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload();
 
                                 swal({
-                                    title: $("#designationTitle").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#designationTitle").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Designation",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Markaxis.i18n.DesignationRes.LANG_CREATE_ANOTHER_DESIGNATION,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     $("#designationID").val(0);
@@ -183,21 +183,21 @@ var MarkaxisDesignation = (function( ) {
             var dID = new Array( );
             dID.push( id );
 
-            var text = "This action cannot be undone once deleted.";
+            var text = Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED;
             var group = 0;
 
             if( $(this).hasClass("group") ) {
-                text = "All designations under this group will be deleted!";
+                text = Markaxis.i18n.DesignationRes.LANG_DESIGNATIONS_UNDER_GROUP_DELETED;
                 group = 1;
             }
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
                 text: text,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -211,7 +211,7 @@ var MarkaxisDesignation = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if (obj.bool == 0) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
@@ -219,7 +219,7 @@ var MarkaxisDesignation = (function( ) {
                             $("#dID").select2("destroy").remove( );
                             $("#groupUpdate").html( obj.groupListUpdate );
                             $("#dID").select2( );
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -242,18 +242,18 @@ var MarkaxisDesignation = (function( ) {
 
             if( dID.length == 0 ) {
                 swal({
-                    title: "No Designation Selected",
+                    title: Markaxis.i18n.DesignationRes.LANG_NO_DESIGNATION_SELECTED,
                     type: "info"
                 });
             }
             else {
                 swal({
-                    title: "Are you sure you want to delete the selected designations?",
-                    text: "This action cannot be undone once deleted.",
+                    title: Markaxis.i18n.DesignationRes.LANG_DELETE_SELECTED_DESIGNATIONS,
+                    text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Confirm Delete",
+                    confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true
                 }, function( isConfirm ) {
@@ -266,12 +266,12 @@ var MarkaxisDesignation = (function( ) {
                         success: function(res) {
                             var obj = $.parseJSON(res);
                             if (obj.bool == 0) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload( );
-                                swal("Done!", obj.count + " items has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_ITEMS_SUCCESSFULLY_DELETED.replace('{count}', obj.count), "success");
                                 return;
                             }
                         }
@@ -368,10 +368,10 @@ var MarkaxisDesignation = (function( ) {
                                 'x-placement="bottom-end">' +
                                 '<a class="dropdown-item designationEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalDesignation" ' +
                                 'data-backdrop="static" data-keyboard="false">' +
-                                '<i class="icon-pencil5"></i> Edit Designation</a>' +
+                                '<i class="icon-pencil5"></i> ' + Markaxis.i18n.DesignationRes.LANG_EDIT_DESIGNATION + '</a>' +
                                 '<div class="divider"></div>' +
                                 '<a class="dropdown-item designationDelete" data-id="' + data + '">' +
-                                '<i class="icon-bin"></i> Delete Designation</a>' +
+                                '<i class="icon-bin"></i> ' + Markaxis.i18n.DesignationRes.LANG_DELETE_DESIGNATION + '</a>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>';
@@ -383,10 +383,11 @@ var MarkaxisDesignation = (function( ) {
                 order:[[that.groupColumn,"asc"]],
                 dom:'<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
-                    search:'',
-                    searchPlaceholder: 'Search Designation',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate:{'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                    search: '',
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.DesignationRes.LANG_SEARCH_DESIGNATION,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function ( settings ) {
                     $(".designationTable [type=checkbox]").uniform();
@@ -408,10 +409,10 @@ var MarkaxisDesignation = (function( ) {
                                 'x-placement="bottom-end">' +
                                 '<a class="dropdown-item group designationEdit" data-toggle="modal" data-target="#modalGroup" ' +
                                 'data-backdrop="static" data-keyboard="false" data-id="' + idTitle[0] + '">' +
-                                '<i class="icon-pencil5"></i> Edit Group</a>' +
+                                '<i class="icon-pencil5"></i> ' + Markaxis.i18n.DesignationRes.LANG_EDIT_GROUP + '</a>' +
                                 '<div class="divider"></div>' +
                                 '<a class="dropdown-item group designationDelete" data-id="' + idTitle[0] + '">' +
-                                '<i class="icon-bin"></i> Delete Group</a>' +
+                                '<i class="icon-bin"></i> ' + Markaxis.i18n.DesignationRes.LANG_DELETE_GROUP + '</a>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>';
@@ -453,7 +454,7 @@ var MarkaxisDesignation = (function( ) {
             $('#designationList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

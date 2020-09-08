@@ -69,7 +69,7 @@ var MarkaxisProfile = (function( ) {
                 else
                     return true;
 
-            }, "Please enter valid child information.");
+            }, Markaxis.i18n.EmployeeRes.LANG_ENTER_VALID_CHILD);
 
 
             $.validator.addMethod("validEmail", function(value, element) {
@@ -132,6 +132,7 @@ var MarkaxisProfile = (function( ) {
             $("#state").select2( );
             $("#city").select2( );
             $(".relationship").select2( );
+            $("#language").select2({minimumResultsForSearch: -1});
             $(".raceList").select2({minimumResultsForSearch: -1});
             $(".maritalList").select2({minimumResultsForSearch: -1});
             $(".salaryTypeList").select2({minimumResultsForSearch: -1});
@@ -227,9 +228,9 @@ var MarkaxisProfile = (function( ) {
             $(".form-check-input-styled").uniform();
 
             $(".deletePhoto").on("click", function( ) {
-                title = "Are you sure you want to delete " + $("#employeeName").text() + "'s photo?";
-                text  = "Photo deleted will not be able to recover back.";
-                confirmButtonText = "Confirm Delete";
+                title = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_DELETE_PHOTO.replace('{name}', $("#employeeName").text());
+                text  = Markaxis.i18n.EmployeeRes.LANG_PHOTO_DELETED_UNDONE;
+                confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
                 swal({
                     title: title,
@@ -252,13 +253,13 @@ var MarkaxisProfile = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 $(".photo-wrap").remove( );
                                 $(".defPhoto").removeClass("hide");
-                                swal("Done!", $("#employeeName").text() + "'s photo has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_PHOTO_SUCCESSFULLY_DELETED.replace('{name}', $("#employeeName").text()), "success");
                                 return;
                             }
                         }
@@ -370,13 +371,13 @@ var MarkaxisProfile = (function( ) {
 
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             swal({
-                                title: "Your Profile Has Been Updated Successfully",
-                                text: "Please hold while the page reload.",
+                                title: Markaxis.i18n.EmployeeRes.LANG_PROFILE_UPDATED,
+                                text: Aurora.i18n.GlobalRes.LANG_PLEASE_HOLD_REFRESH,
                                 type: 'success'
                             }, function( isConfirm ) {
                                 window.location.reload(false);

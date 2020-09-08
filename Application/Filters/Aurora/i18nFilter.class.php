@@ -37,7 +37,7 @@ class i18nFilter implements IFilter {
 
         if( $Request->request( GET, 'lang' ) ) {
             if( $i18n->setUserLang( $Request->request( GET, 'lang' ) ) ) {
-                $Registry->setCookie( 'lang', $Request->request( GET, 'lang' ), time( )+60*60*24*30 );
+                $Registry->setCookie( 'lang', $Request->request( GET, 'lang' ), time( )+60 * 60 * 24 * 30 );
             }
         }
         else if( $Request->request( COOKIE, 'lang' ) ) {

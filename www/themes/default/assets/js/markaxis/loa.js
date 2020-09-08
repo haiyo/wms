@@ -134,13 +134,13 @@ var MarkaxisLOA = (function( ) {
 
                                 if( obj.error ) {
                                     if( obj.bool == 0 ) {
-                                        swal("error", obj.errMsg);
+                                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                         return;
                                     }
                                 }
                                 else {
                                     that.table.ajax.reload();
-                                    swal("Done!", "Letter Of Appointment has been successfully created!", "success");
+                                    swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", Markaxis.i18n.LOARes.LANG_LOA_SUCCESSFULLY_CREATED, "success");
                                     $("#modalLOA").modal('hide');
                                 }
                             }
@@ -155,11 +155,11 @@ var MarkaxisLOA = (function( ) {
                             var obj = $.parseJSON(res);
 
                             if( obj.bool == 0 ) {
-                                swal( "error", obj.errMsg );
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalLOA .modal-title").text("Edit LOA");
+                                $("#modalLOA .modal-title").text( Markaxis.i18n.LOARes.LANG_EDIT_LOA );
                                 $("#loaID").val( obj.data.loaID );
                                 //$("#designation").val( obj.data.designationID ).trigger("change");
 
@@ -177,7 +177,7 @@ var MarkaxisLOA = (function( ) {
                     Aurora.WebService.AJAX( "admin/loa/getContent/" + loaID, data );
                 }
                 else {
-                    $("#modalLOA .modal-title").text("Create New LOA");
+                    $("#modalLOA .modal-title").text( Markaxis.i18n.LOARes.LANG_CREATE_NEW_LOA );
                     $("#loaID").val(0);
                     $("#designation").val("").trigger("change");
                     CKEDITOR.instances.loaContent.setData("");
@@ -194,12 +194,12 @@ var MarkaxisLOA = (function( ) {
             var that = this;
 
             swal({
-                title: "Are you sure you want to delete this LOA?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', 'LOA'),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -212,12 +212,12 @@ var MarkaxisLOA = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if (obj.bool == 0) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", "LOA has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', 'LOA'), "success");
                             return;
                         }
                     }
@@ -301,10 +301,10 @@ var MarkaxisLOA = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-toggle="modal" data-target="#modalLOA" ' +
                             'data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit LOA</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.LOARes.LANG_EDIT_LOA + '</a>' +
                             '<li class="divider"></li>' +
                             '<a class="dropdown-item loaDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete LOA</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.LOARes.LANG_DELETE_LOA + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -314,9 +314,10 @@ var MarkaxisLOA = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Designation',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    searchPlaceholder: '',
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -333,7 +334,7 @@ var MarkaxisLOA = (function( ) {
             $('#loaList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

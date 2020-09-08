@@ -33,7 +33,8 @@ class DesignationView {
 
         $this->DesignationModel = DesignationModel::getInstance( );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'designation.js', 'designationGroup.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'designation.js', 'designationGroup.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

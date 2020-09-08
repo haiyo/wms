@@ -67,7 +67,8 @@ class User extends \DAO {
     * @return mixed
     */
     public function getFieldByUserID( $userID, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ', us.lang FROM user u
+                                   LEFT JOIN user_setting us ON ( us.userID = u.userID )
                                    WHERE u.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
@@ -100,7 +101,7 @@ class User extends \DAO {
      * @return mixed
      */
     public function getFieldByUsername( $username, $column ) {
-        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user 
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
                                    WHERE username = "'. addslashes( $username ) . '"',
                                     __FILE__, __LINE__ );
 

@@ -78,6 +78,8 @@ class UserRes extends Resource {
         $this->contents['LANG_ENTER_PHONE'] = 'Nhập điện thoại';
         $this->contents['LANG_COUNTRY_BIRTH'] = 'Quê hương';
         $this->contents['LANG_PRIMARY_ADDRESS'] = 'Địa chỉ chính';
+        $this->contents['LANG_PREFERRED_LANGUAGE'] = 'Ngôn ngữ ưa thích';
+        $this->contents['LANG_SELECT_LANGUAGE'] = 'Chọn ngôn ngữ';
         $this->contents['LANG_SECONDARY_ADDRESS'] = 'Địa chỉ phụ';
         $this->contents['LANG_GENDER'] = 'Giới tính';
         $this->contents['LANG_JOIN_DATE'] = 'Ngày tham gia';

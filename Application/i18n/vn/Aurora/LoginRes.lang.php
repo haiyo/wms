@@ -35,6 +35,14 @@ class LoginRes extends Resource {
         $this->contents['LANG_INVALID_LOGIN'] = 'Tên người dùng hoặc kết hợp mật khẩu không chính xác. Mật khẩu phân biệt chữ hoa chữ thường. Vui lòng kiểm tra khóa CAPS của bạn.';
         $this->contents['LANG_OOPS'] = 'Oops...';
         $this->contents['LANG_SERVICE_UNAVAILABLE'] = 'Dịch vụ đăng nhập hiện không khả dụng. Bạn có thể đã vượt quá số lần đăng nhập tối đa. Vui lòng thử lại sau';
+        $this->contents['LANG_LOGIN_TO_ACCOUNT'] = 'đăng nhập vào tài khoản của bạn';
+        $this->contents['LANG_ENTER_CREDENTIALS'] = 'Nhập thông tin đăng nhập của bạn bên dưới';
+        $this->contents['LANG_USERNAME'] = 'Tên tài khoản';
+        $this->contents['LANG_PASSWORD_RECOVERY'] = 'Khôi phục mật khẩu';
+        $this->contents['LANG_SEND_INSTRUCTIONS'] = 'Chúng tôi sẽ gửi cho bạn hướng dẫn qua email';
+        $this->contents['LANG_YOUR_EMAIL'] = 'Email của bạn';
+        $this->contents['LANG_RESET_PASSWORD'] = 'Đặt lại mật khẩu';
+        $this->contents['LANG_BACK_TO_LOGIN'] = 'Quay lại đăng nhập';
 	}
 }
 ?>

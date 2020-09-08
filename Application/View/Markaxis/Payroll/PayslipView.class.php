@@ -35,7 +35,8 @@ class PayslipView {
         $this->PayslipModel = PayslipModel::getInstance( );
 
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
-                                        'markaxis' => 'payslip.js' ) );
+                                        'markaxis' => 'payslip.js',
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

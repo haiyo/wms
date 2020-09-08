@@ -134,12 +134,16 @@ class TaxPayItemModel extends \Model {
         if( !isset( $post['postItems'] ) ) {
             return $data;
         }
-        $data['totalPostAW'] = 0;
+        $data['totalPostAW'] = $data['gross'] = 0;
 
         foreach( $post['postItems'] as $postItems ) {
-            if( isset( $data['additional'][$postItems['piID']] ) ) {
+            if( $data['deduction']['piID'] == $postItems['piID'] ) {
+                $data['totalPostAW'] -= $postItems['amount'];
+                $data['gross'] -= $postItems['amount'];
+            }
+            else {
                 $data['totalPostAW'] += $postItems['amount'];
-                $data['gross'][] = array( 'amount' => $postItems['amount'] );
+                $data['gross'] += $postItems['amount'];
             }
         }
 

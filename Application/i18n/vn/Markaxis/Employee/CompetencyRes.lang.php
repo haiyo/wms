@@ -29,12 +29,15 @@ class CompetencyRes extends Resource {
         $this->contents['LANG_ENTER_COMPETENCY'] = 'Nhập năng lực';
         $this->contents['LANG_COMPETENCY_DESCRIPTION'] = 'Mô tả năng lực';
         $this->contents['LANG_ENTER_COMPETENCY_DESCRIPTION'] = 'Nhập mô tả năng lực';
-        $this->contents['LANG_DESCRIPTION'] = 'Sự miêu tả';
-        $this->contents['LANG_BULK_ACTION'] = 'Hành động hàng loạt';
-        $this->contents['LANG_NO_OF_EMPLOYEE'] = 'Số lượng nhân viên';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
-        $this->contents['LANG_CANCEL'] = 'Huỷ bỏ';
-        $this->contents['LANG_SUBMIT'] = 'Gửi đi';
+        $this->contents['LANG_EDIT_COMPETENCY'] = 'Chỉnh sửa năng lực';
+        $this->contents['LANG_DELETE_COMPETENCY'] = 'Xóa năng lực';
+        $this->contents['LANG_CREATE_NEW_COMPETENCY'] = 'Tạo năng lực mới';
+        $this->contents['LANG_COMPETENCY_SUCCESSFULLY_CREATED'] = '{competency} đã được tạo thành công!';
+        $this->contents['LANG_PLEASE_ENTER_COMPETENCY'] = 'Vui lòng nhập Năng lực';
+        $this->contents['LANG_CREATE_ANOTHER_COMPETENCY'] = 'Tạo năng lực khác';
+        $this->contents['LANG_NO_COMPETENCY_SELECTED'] = 'Không có năng lực nào được chọn';
+        $this->contents['LANG_SEARCH_COMPETENCY'] = 'Năng lực tìm kiếm';
+        $this->contents['LANG_ARE_YOU_SURE_DELETE_COMPETENCIES'] = 'Bạn có chắc chắn muốn xóa các năng lực đã chọn không?';
     }
 }
 ?>

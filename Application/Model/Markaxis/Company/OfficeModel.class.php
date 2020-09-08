@@ -130,13 +130,13 @@ class OfficeModel extends \Model {
     public function getWorkingDaysByRange( $oID, $startDate, $endDate, $countryCode ) {
         $workDays = $this->getWorkingDaysByOfficeID( $oID );
 
-        $HolidayModel = new HolidayModel( );
+        /*$HolidayModel = new HolidayModel( );
         $holidayInfo = $HolidayModel->getNonWorkDays( $startDate, $endDate, $countryCode );
         $holidayDays = [];
 
         if( sizeof( $holidayInfo ) > 0 ) {
             $holidayDays = array_column( $holidayInfo, 'date' );
-        }
+        }*/
         $from = new DateTime( $startDate );
         $to = new DateTime($endDate . ' 23:59:59' );
 
@@ -146,8 +146,8 @@ class OfficeModel extends \Model {
         $days = 0;
         foreach( $periods as $period ) {
             if( !in_array( $period->format('N'), $workDays ) ) continue;
-            if(  in_array( $period->format('Y-m-d'), $holidayDays ) ) continue;
-            if(  in_array( $period->format('*-m-d'), $holidayDays ) ) continue;
+            //if(  in_array( $period->format('Y-m-d'), $holidayDays ) ) continue;
+            //if(  in_array( $period->format('*-m-d'), $holidayDays ) ) continue;
             $days++;
         }
         return $days;

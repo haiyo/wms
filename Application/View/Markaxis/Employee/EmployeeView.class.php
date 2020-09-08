@@ -43,7 +43,8 @@ class EmployeeView {
         $this->View->setJScript( array( 'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js', 'mark.min.js'),
                                         'plugins/scrollto' => 'jquery.scrollTo.min.js',
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
-                                        'markaxis' => 'employee.js' ) );
+                                        'markaxis' => 'employee.js',
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

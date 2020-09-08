@@ -33,7 +33,8 @@ class CompetencyView {
 
         $this->CompetencyModel = CompetencyModel::getInstance( );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'competency.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'competency.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

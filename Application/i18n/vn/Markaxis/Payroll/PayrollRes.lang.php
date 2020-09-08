@@ -42,7 +42,6 @@ class PayrollRes extends Resource {
         $this->contents['LANG_MY_PAYSLIPS'] = 'Payslips của tôi';
         $this->contents['LANG_UPCOMING'] = 'Sắp tới';
         $this->contents['LANG_COMPLETED'] = 'Đã hoàn thành';
-        $this->contents['LANG_PENDING'] = 'Đang chờ xử lý';
         $this->contents['LANG_NO_DATA'] = 'Không có dữ liệu';
         $this->contents['LANG_VERIFICATION_FAILED'] = 'Xác minh không hoàn thành';
         $this->contents['LANG_NOT_PROCESS_YET'] = 'bảng lương vẫn chưa được xử lý.<br />Bạn có muốn xử lý nó ngay bây giờ không?';
@@ -77,10 +76,8 @@ class PayrollRes extends Resource {
         $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_HOW_OFTEN_PAY'] = 'Bạn sẽ trả cho nhân viên của mình bao lâu một lần?';
         $this->contents['LANG_PAY_RUN_TITLE'] = 'Pay Run Title';
-        $this->contents['LANG_MONTHLY_WEEKLY'] = 'Nhân viên toàn thời gian hàng tháng, nhân viên bán thời gian hàng tuần';
+        $this->contents['LANG_MONTHLY_WEEKLY'] = 'Nhân viên toàn thời gian hàng tháng';
         $this->contents['LANG_PAYMENT_CYCLE_DATE'] = 'Ngày chu kỳ thanh toán';
-        $this->contents['LANG_CANCEL'] = 'Cancel';
-        $this->contents['LANG_SUBMIT'] = 'Submit';
         $this->contents['LANG_PAY_CALENDAR'] = 'Lịch trả tiền';
         $this->contents['LANG_PAY_ITEMS'] = 'Thanh toán các mặt hàng';
         $this->contents['LANG_EXPENSES_ITEM'] = 'Khoản mục Chi phí';
@@ -171,6 +168,21 @@ class PayrollRes extends Resource {
         $this->contents['LANG_ITEM_TYPE'] = 'Loại sản phẩm';
         $this->contents['LANG_AMOUNT'] = 'Số tiền';
         $this->contents['LANG_REMARK'] = 'Nhận xét';
+        $this->contents['LANG_CONFIRMATION_DATE'] = 'Ngày xác nhận';
+        $this->contents['LANG_DATE_TYPE'] = 'Loại ngày';
+        $this->contents['LANG_CURRENT'] = 'Ngay hiện tại';
+        $this->contents['LANG_ACCOUNT_AND_PAYSLIP'] = 'Tài khoản và Phiếu thanh toán';
+        $this->contents['LANG_RELEASE_PAYSLIPS'] = 'Phát hành Payslips';
+        $this->contents['LANG_RELEASE_ALL_PAYSLIPS'] = 'Phát hành tất cả các Payslips';
+        $this->contents['LANG_COMPLETE_PROCESS'] = 'Hoàn thành quy trình';
+        $this->contents['LANG_CONFIRM_FINALIZE'] = 'Xác nhận và hoàn thiện';
+        $this->contents['LANG_PAYROLL_SAVED'] = 'Payroll Saved';
+        $this->contents['LANG_PAYROLL_SAVED_DESCRIPT'] = 'Lưu ý: Bảng lương này không được hoàn thiện cho đến khi được xác nhận và quyết toán. Bạn vẫn có thể xử lý lại bảng lương bất cứ lúc nào';
+        $this->contents['LANG_REPROCESS_CONFIRMATION'] = 'Bạn có chắc chắn muốn xử lý lại không {username}\'s lương bổng?';
+        $this->contents['LANG_REPROCESS_CONFIRMATION_DESCRIPT'] = 'Không thể hoàn tác hành động này và tất cả các loại mặt hàng sẽ được đặt lại!';
+        $this->contents['LANG_CONFIRM_REPROCESS'] = 'Xác nhận Xử lý lại';
+        $this->contents['LANG_FINALIZE_CONFIRM'] = 'Bạn có chắc mọi thứ đã hoàn thành không?';
+        $this->contents['LANG_FINALIZE_CONFIRM_DESCRIPT'] = 'Sau khi xác nhận, sẽ không có thay đổi nào được thực hiện';
 
         $this->contents['LANG_WORK_DAYS'] = 'Ngày làm việc';
         $this->contents['LANG_AVG_SALARY'] = 'Lương trung bình';
@@ -182,6 +194,56 @@ class PayrollRes extends Resource {
         $this->contents['LANG_VERIFY_CREDENTIAL'] = 'Xác minh thông tin đăng nhập';
         $this->contents['LANG_ENTER_PASSWORD_CONTINUE'] = 'Nhập mật khẩu của bạn để tiếp tục';
         $this->contents['LANG_UNLOCK'] = 'Mở khóa';
+
+        $this->contents['LANG_EDIT_PAY_CAL'] = 'Chỉnh sửa lịch trả tiền';
+        $this->contents['LANG_PLEASE_ENTER_TITLE'] = 'Vui lòng nhập Tiêu đề Chạy trả tiền cho giai đoạn này';
+        $this->contents['LANG_PLEASE_SELECT_PERIOD'] = 'Vui lòng chọn Kỳ thanh toán';
+        $this->contents['LANG_PLEASE_SELECT_DATE'] = 'Vui lòng chọn Ngày thanh toán tiếp theo';
+        $this->contents['LANG_PAY_CAL_CREATED_SUCCESSFULLY'] = 'Lịch thanh toán đã được tạo thành công';
+        $this->contents['LANG_PAY_CAL_CREATED_SUCCESSFULLY_DESCRIPT'] = 'Lịch thanh toán của bạn đã được tạo thành công';
+        $this->contents['LANG_PAY_CAL_UPDATED_SUCCESSFULLY'] = 'Đã cập nhật lịch thanh toán thành công';
+        $this->contents['LANG_PAY_CAL_UPDATED_SUCCESSFULLY_DESCRIPT'] = 'Lịch thanh toán của bạn đã được cập nhật thành công';
+        $this->contents['LANG_DELETE_PAY_CAL'] = 'Xóa lịch thanh toán';
+        $this->contents['LANG_SEARCH_PAY_CAL'] = 'Tìm kiếm Lịch trả tiền';
+
+        $this->contents['LANG_EDIT_PAY_ITEM'] = 'Chỉnh sửa khoản thanh toán';
+        $this->contents['LANG_PLEASE_ENTER_PAY_ITEM_TITLE'] = 'Vui lòng nhập Tiêu đề mặt hàng thanh toán';
+        $this->contents['LANG_CREATE_ANOTHER_PAY_ITEM'] = 'Tạo một khoản thanh toán khác';
+        $this->contents['LANG_NO_PAY_ITEM_SELECTED'] = 'Không có khoản thanh toán nào được chọn';
+        $this->contents['LANG_DELETE_SELECTED_PAY_ITEMS'] = 'Bạn có chắc chắn muốn xóa các Khoản phải trả đã chọn không?';
+        $this->contents['LANG_DELETE_PAY_ITEM'] = 'Xóa khoản thanh toán';
+        $this->contents['LANG_SEARCH_PAY_ITEM'] = 'Tìm kiếm mặt hàng trả tiền';
+
+        $this->contents['LANG_REPROCESS_PAYROLL'] = 'Xử lý lại bảng lương';
+        $this->contents['LANG_SAVE_PAYROLL'] = 'Lưu bảng lương';
+        $this->contents['LANG_SAVED'] = 'Đã lưu';
+        $this->contents['LANG_SUSPENDED'] = 'Đình chỉ';
+        $this->contents['LANG_EXPIRED_SOON'] = 'Sắp hết hạn';
+        $this->contents['LANG_ACTIVE'] = 'Hoạt động';
+        $this->contents['LANG_PROCESS'] = 'Quá trình';
+        $this->contents['LANG_SEARCH_EMPLOYEE'] = 'Tìm kiếm nhân viên, chức vụ hoặc loại hợp đồng';
+
+        $this->contents['LANG_NO_EMPLOYEE_SELECTED'] = 'Không có nhân viên nào được chọn';
+        $this->contents['LANG_CONFIRM_RELEASE_PAYSLIP'] = 'Xác nhận phát hành phiếu lương của nhân viên {count}?';
+        $this->contents['LANG_SELECTED_EMPLOYEE_EMAIL'] = 'Nhân viên được chọn sẽ nhận được thông báo qua email để xem phiếu lương của họ sau khi được xác nhận';
+        $this->contents['LANG_CONFIRM_RELEASE'] = 'Xác nhận phát hành';
+        $this->contents['LANG_PAYSLIP_SUCCESSFULLY_RELEASED'] = '{count} phiếu lương của nhân viên đã được phát hành thành công!';
+        $this->contents['LANG_CONFIRM_RELEASE_ALL_PAYSLIP'] = 'Xác nhận phát hành tất cả phiếu lương của nhân viên?';
+        $this->contents['LANG_ALL_EMPLOYEE_EMAIL'] = 'Tất cả nhân viên sẽ nhận được thông báo qua email để xem phiếu lương của họ sau khi xác nhận';
+        $this->contents['LANG_CONFIRM_RELEASE_ALL'] = 'Xác nhận phát hành tất cả';
+        $this->contents['LANG_ALL_PAYSLIP_SUCCESSFULLY_RELEASED'] = 'Tất cả phiếu lương của nhân viên đã được phát hành thành công!';
+        $this->contents['LANG_VIEW_PDF'] = 'Xem PDF';
+        $this->contents['LANG_SEARCH_EMPLOYEE_NAME'] = 'Tìm kiếm tên nhân viên';
+
+        $this->contents['LANG_TOTAL_SALARIES'] = 'Tổng lương';
+        $this->contents['LANG_TOTAL_CLAIMS'] = 'Tổng số xác nhận quyền sở hữu';
+        $this->contents['LANG_TOTAL_LEVIES'] = 'Tổng số Levies';
+        $this->contents['LANG_CONTRIBUTIONS'] = 'Tổng số đóng góp';
+
+        $this->contents['LANG_COMPANY_REG_NO'] = 'Số đăng ký công ty';
+        $this->contents['LANG_DEPARTMENT'] = 'Phòng ban';
+        $this->contents['LANG_EMPLOYER_NAME'] = 'Tên nhà tuyển dụng';
+        $this->contents['LANG_JOIN_DATE'] = 'Ngày tham gia';
     }
 }
 ?>

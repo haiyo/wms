@@ -42,25 +42,21 @@ var MarkaxisPayrollEmployee = (function( ) {
             $.fn.stepy.defaults.legend = false;
             $.fn.stepy.defaults.transition = 'fade';
             $.fn.stepy.defaults.duration = 150;
-            $.fn.stepy.defaults.backLabel = '<i class="icon-arrow-left13 position-left"></i> Back';
-            $.fn.stepy.defaults.nextLabel = 'Next <i class="icon-arrow-right14 position-right"></i>';
+            $.fn.stepy.defaults.backLabel = '<i class="icon-arrow-left13 position-left"></i> ' + Aurora.i18n.GlobalRes.LANG_BACK;
+            $.fn.stepy.defaults.nextLabel = Aurora.i18n.GlobalRes.LANG_NEXT + ' <i class="icon-arrow-right14 position-right"></i>';
 
             $(".stepy").stepy({
                 titleClick: true,
                 validate: false,
                 block: true,
                 back: function(index) {
-                    if( $("#completed").val( ) == 1 ) {
-                        if( index == 1 ) {
-                            $("#officeFilter").insertAfter("#employeeForm-step-0 .dataTables_filter");
-                        }
+                    if( index == 1 ) {
+                        $("#officeFilter").insertAfter("#employeeForm-step-0 .dataTables_filter");
                     }
                 },
                 next: function(index) {
-                    if( $("#completed").val( ) == 0 ) {
-                        if( !that.haveSaved ) {
-                            return false;
-                        }
+                    if( $("#completed").val( ) == 0 && !that.haveSaved ) {
+                        return false;
                     }
                     else {
                         $("#officeFilter").insertAfter("#employeeForm-step-1 .dataTables_filter");
@@ -184,40 +180,42 @@ var MarkaxisPayrollEmployee = (function( ) {
 
                     if( $invoker.attr("data-saved") == 1 ) {
                         $(".processBtn").attr("id", "reprocessPayroll");
-                        $(".processBtn").text("Reprocess Payroll");
+                        $(".processBtn").text( Markaxis.i18n.PayrollRes.LANG_REPROCESS_PAYROLL );
                     }
                     else {
                         $(".processBtn").attr("id", "savePayroll");
-                        $(".processBtn").text("Save Payroll");
+                        $(".processBtn").text( Markaxis.i18n.PayrollRes.LANG_SAVE_PAYROLL );
                     }
                 });
             });
 
             if( $("#completed").val( ) == 1 ) {
                 $("#employeeForm-step-0 .stepy-navigator a")
-                    .html('Account &amp; Payslips <i class="icon-arrow-right14 position-right"></i>');
+                    .html( Markaxis.i18n.PayrollRes.LANG_ACCOUNT_AND_PAYSLIP + ' <i class="icon-arrow-right14 position-right"></i>');
 
                 $('<button type="button" class="btn btn-primary" data-style="slide-right" ' +
-                    'id="release">Release Payslips <i class="icon-check position-right"></i>').insertAfter(".stepy-finish");
+                    'id="release">' + Markaxis.i18n.PayrollRes.LANG_RELEASE_PAYSLIPS + ' <i class="icon-check position-right"></i>').insertAfter(".stepy-finish");
 
                 $('<button type="button" class="btn btn-primary" data-style="slide-right" ' +
-                    'id="releaseAll">Release All Payslips <i class="icon-check position-right"></i><i class="icon-check"></i></button>').insertAfter("#release");
+                    'id="releaseAll">' + Markaxis.i18n.PayrollRes.LANG_RELEASE_ALL_PAYSLIPS + ' <i class="icon-check position-right"></i><i class="icon-check"></i></button>').insertAfter("#release");
 
-                $('<button type="button" class="btn btn-primary" data-style="slide-right" ' +
-                    'id="downloadCPF">Download CPF FTP File <i class="icon-download position-right"></i>').insertAfter("#releaseAll");
+                if( $("#officeFilter").attr("data-countrycode") == "SG" ) {
+                    $('<button type="button" class="btn btn-primary" data-style="slide-right" ' +
+                        'id="downloadCPF">' + Markaxis.i18n.PayrollRes.LANG_DOWNLOAD_CPF_FTP_FILE + ' <i class="icon-download position-right"></i>').insertAfter("#releaseAll");
+                }
 
                 $(".stepy-finish").remove( )
             }
             else {
                 $("#employeeForm-step-0 .stepy-navigator a")
                     .attr("disabled", true)
-                    .html('Complete Process <i class="icon-arrow-right14 position-right"></i>');
+                    .html(Markaxis.i18n.PayrollRes.LANG_COMPLETE_PROCESS + ' <i class="icon-arrow-right14 position-right"></i>');
 
                 $(".stepy-finish")
                     .removeClass("bg-purple-400")
                     .addClass("bg-warning-400")
                     .attr("id", "confirm")
-                    .html('Confirm &amp; Finalize <i class="icon-check position-right"></i>');
+                    .html(Markaxis.i18n.PayrollRes.LANG_CONFIRM_FINALIZE + ' <i class="icon-check position-right"></i>');
 
                 $(".stepy-finish").append( )
             }
@@ -241,11 +239,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                         var obj = $.parseJSON( res );
 
                         if( obj.bool === 0 ) {
-                            swal({
-                                type: "error",
-                                title: "Error",
-                                text: obj.errMsg
-                            });
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
@@ -274,7 +268,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ), data );
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#processDate").val( ), data );
         },
 
 
@@ -285,7 +279,7 @@ var MarkaxisPayrollEmployee = (function( ) {
 
         addItem: function( deduction ) {
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-            var icon = iconWrapper.find(".icon")
+            var icon = iconWrapper.find(".icon");
 
             icon.removeClass("icon-plus-circle2").addClass("icon-minus-circle2");
             icon.parent().attr( "class", "removeItem" );
@@ -293,6 +287,7 @@ var MarkaxisPayrollEmployee = (function( ) {
             var length = $(".itemRow").length;
             var item = $("#itemTemplate").html( );
             item = item.replace(/\{id\}/g, length );
+            item = item.replace(/\{currency\}/g, $("#officeFilter").attr("data-currency") );
 
             if( deduction ) {
                 item = item.replace(/\{deduction\}/g, "deduction1" );
@@ -324,20 +319,16 @@ var MarkaxisPayrollEmployee = (function( ) {
                         var obj = $.parseJSON( res );
 
                         if( obj.bool === 0 ) {
-                            swal({
-                                type: "error",
-                                title: "Error",
-                                text: obj.errMsg
-                            });
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             swal({
-                                title: "Payroll Saved",
-                                text: "Note: This payroll is not finalised until confirmed and finalized. You may still reprocess the payroll at anytime.",
+                                title: Markaxis.i18n.PayrollRes.LANG_PAYROLL_SAVED,
+                                text: Markaxis.i18n.PayrollRes.LANG_PAYROLL_SAVED_DESCRIPT,
                                 type: 'success'
                             }, function( isConfirm ) {
-                                $("#process" + obj.data.empInfo.userID).text("Saved");
+                                $("#process" + obj.data.empInfo.userID).text( Markaxis.i18n.PayrollRes.LANG_SAVED );
                                 $("#process" + obj.data.empInfo.userID).attr("data-saved", 1);
                                 $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", false);
                                 $("#modalCalPayroll").modal('hide');
@@ -356,12 +347,12 @@ var MarkaxisPayrollEmployee = (function( ) {
             var that = this;
 
             swal({
-                title: "Are you sure you want to reprocess " + $("#userName").val( ) + "'s payroll?",
-                text: "This action is irreversible and all item types will be reset!",
+                title: Markaxis.i18n.PayrollRes.LANG_REPROCESS_CONFIRMATION.replace('{username}', $("#userName").val( )),
+                text: Markaxis.i18n.PayrollRes.LANG_REPROCESS_CONFIRMATION_DESCRIPT,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Reprocess",
+                confirmButtonText: Markaxis.i18n.PayrollRes.LANG_CONFIRM_REPROCESS,
                 closeOnConfirm: false
             }, function( isConfirm ) {
                 if( !isConfirm ) return;
@@ -373,11 +364,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool === 0 ) {
-                            swal({
-                                type: "error",
-                                title: "Error",
-                                text: obj.errMsg
-                            });
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
@@ -397,7 +384,7 @@ var MarkaxisPayrollEmployee = (function( ) {
 
                                 var processBtn = $(".processBtn");
                                 processBtn.attr("id", "savePayroll");
-                                processBtn.text("Save Payroll");
+                                processBtn.text( Markaxis.i18n.PayrollRes.LANG_SAVE_PAYROLL );
 
                                 if( obj.data.userProcessCount == 0 ) {
                                     that.haveSaved = false;
@@ -415,12 +402,12 @@ var MarkaxisPayrollEmployee = (function( ) {
 
         confirmFinalize: function( ) {
             swal({
-                title: "Are you sure everything is finalized?",
-                text: "Once confirmed, there will be no more changes to be made.",
+                title: Markaxis.i18n.PayrollRes.LANG_FINALIZE_CONFIRM,
+                text: Markaxis.i18n.PayrollRes.LANG_FINALIZE_CONFIRM_DESCRIPT,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM,
                 closeOnConfirm: true,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
@@ -518,16 +505,16 @@ var MarkaxisPayrollEmployee = (function( ) {
                         var reason = full['suspendReason'] ? ' title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
 
                         if( full['suspended'] == 1 ) {
-                            return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>Suspended</span>';
+                            return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_SUSPENDED + '</span>';
                         }
                         else {
                             if( full['endDate'] ) {
                                 if( that.dateDiff( full['endDate'] ) <= 30 ) {
                                     reason = ' title="" data-placement="bottom" data-original-title="Expire on ' + full['endDate'] + '"'
-                                    return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>Expired Soon</span>';
+                                    return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_EXPIRED_SOON + '</span>';
                                 }
                             }
-                            return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>Active</span>';
+                            return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_ACTIVE + '</span>';
                         }
                     }
                 },{
@@ -539,15 +526,15 @@ var MarkaxisPayrollEmployee = (function( ) {
                     data: 'userID',
                     render: function(data, type, full, meta) {
                         if( full["puCount"] > 0 ) {
-                            haveSaved = true;
+                            that.haveSaved = true;
                             $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", false);
 
                             return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="1" ' +
-                                'data-toggle="modal" data-target="#modalCalPayroll">Saved</a>';
+                                'data-toggle="modal" data-target="#modalCalPayroll">' + Markaxis.i18n.PayrollRes.LANG_SAVED + '</a>';
                         }
                         else {
                             return '<a id="process' + full['userID'] + '" data-id="' + full['userID'] + '" data-saved="0" ' +
-                                'data-toggle="modal" data-target="#modalCalPayroll">Process</a>';
+                                'data-toggle="modal" data-target="#modalCalPayroll">' + Markaxis.i18n.PayrollRes.LANG_PROCESS + '</a>';
                         }
                     }
                 }],
@@ -555,9 +542,10 @@ var MarkaxisPayrollEmployee = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Employee, Designation or Contract Type',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.PayrollRes.LANG_SEARCH_EMPLOYEE,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');

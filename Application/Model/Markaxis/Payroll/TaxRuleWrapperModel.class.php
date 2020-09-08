@@ -49,6 +49,7 @@ class TaxRuleWrapperModel extends \Model {
         foreach( $data['taxRules'] as $rules ) {
             $remark = '';
             $amount = 0;
+            $ruleTitle = '';
 
             foreach( $data['taxGroups']['mainGroup'] as $taxGroup ) {
                 // First find all the childs in this group and see if we have any summary=1

@@ -173,7 +173,8 @@ class AdminControl extends Control {
             exit;
         }
         catch( NoPermissionException $e ) {
-            die( $this->login( ) );
+            $vars['error'] = 'loginError';
+            die( json_encode( $vars ) );
         }
         catch( SiteCheckException $e ) {
             $e->record( );

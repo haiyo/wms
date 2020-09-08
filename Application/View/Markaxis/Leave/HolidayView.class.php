@@ -29,7 +29,7 @@ class HolidayView extends AdminView {
         $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance( );
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-        $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/LeaveRes');
+        $this->L10n = $this->i18n->loadLanguage('Markaxis/Leave/HolidayRes');
 
         $this->HolidayModel = HolidayModel::getInstance( );
     }
@@ -45,7 +45,8 @@ class HolidayView extends AdminView {
 
         $this->View->setJScript( array( 'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
                                         'plugins/moment' => 'moment.min.js',
-                                        'markaxis' => array( 'pickerExtend.js', 'holiday.js' ) ) );
+                                        'markaxis' => array( 'pickerExtend.js', 'holiday.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
 
         return $this->View->render( 'markaxis/leave/holidayList.tpl', $vars );
     }

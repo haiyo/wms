@@ -144,7 +144,7 @@ var MarkaxisApplyLeave = (function( ) {
 
             $.validator.addMethod("validDateRange", function(value, element, params) {
                 return that.getDaysDiff();
-            }, "Invalid date range selected");
+            }, Aurora.i18n.GlobalRes.LANG_INVALID_DATE_RANGE );
 
             that.rules = {
                 ignore: "",
@@ -156,7 +156,7 @@ var MarkaxisApplyLeave = (function( ) {
                     }
                 },
                 messages: {
-                    ltID: "Please provide all required fields."
+                    ltID: Aurora.i18n.GlobalRes.LANG_PROVIDE_ALL_REQUIRED
                 },
                 highlight: function(element, errorClass, validClass) {
                     var elem = $(element);
@@ -301,14 +301,14 @@ var MarkaxisApplyLeave = (function( ) {
             $(".fileInput").fileinput("clear");
             $(".modal-footer .error").remove( );
 
+            var text = "";
+
             if( this.saveResult.hasSup ) {
-                text = "Your leave application is not confirm yet and is subject to your manager(s) approval.";
+                text = Markaxis.i18n.LeaveRes.LANG_LEAVE_NOT_CONFIRM;
             }
-            else {
-                text = "";
-            }
+
             swal({
-                title: "Leave Applied Successfully",
+                title: Markaxis.i18n.LeaveRes.LANG_LEAVE_APPLIED_SUCCESSFULLY,
                 text: text,
                 type: "success"
             }, function( isConfirm ) {
@@ -327,12 +327,12 @@ var MarkaxisApplyLeave = (function( ) {
 
         cancelApplyLeave: function( laID ) {
             swal({
-                title: "Cancel Applied Leave?",
-                text: "This action cannot be undone once deleted.",
+                title: Markaxis.i18n.LeaveRes.LANG_CANCEL_APPLIED_LEAVE,
+                text: Markaxis.i18n.LeaveRes.LANG_ACTION_CANNOT_BE_UNDONE,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Cancel",
+                confirmButtonText: Markaxis.i18n.LeaveRes.LANG_CONFIRM_CANCEL,
                 closeOnConfirm: true,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
@@ -344,8 +344,8 @@ var MarkaxisApplyLeave = (function( ) {
                     },
                     success: function( res ) {
                         swal({
-                            title: "Leave Cancelled Successfully",
-                            text: "Please hold while the page reload.",
+                            title: Markaxis.i18n.LeaveRes.LANG_LEAVE_CANCELLED_SUCCESSFULLY,
+                            text: Markaxis.i18n.LeaveRes.LANG_HOLD_WHILE_PAGE_RELOAD,
                             type: 'success'
                         }, function( isConfirm ) {
                             window.location.reload(false);

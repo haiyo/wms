@@ -601,6 +601,7 @@ $(document).ready( function( ) {
     */
     Aurora.String = {
 
+
         /**
         * Returns plural or non
         */
@@ -785,7 +786,10 @@ $(document).ready( function( ) {
             if( currency != undefined ) {
                 return currency + n;
             }
-            return element.attr("data-currency") + n;
+            else if( !isNaN(element) ) {
+                return element.attr("data-currency") + n;
+            }
+            return Aurora.currency + n;
         },
 
         formatThousands: function(n, t) {

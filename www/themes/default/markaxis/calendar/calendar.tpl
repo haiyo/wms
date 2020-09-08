@@ -15,23 +15,23 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Event Title: <span class="requiredField">*</span></label>
+                                <label><?LANG_EVENT_TITLE?>: <span class="requiredField">*</span></label>
                                 <input type="text" name="title" id="title" class="form-control" value=""
-                                       placeholder="For e.g: Meeting at 3pm" />
+                                       placeholder="<?LANG_MEETING_3PM?>" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Event Description:</label>
+                                <label><?LANG_EVENT_DESCRIPTION?>:</label>
                                 <input type="text" name="descript" id="descript" class="form-control" value=""
-                                       placeholder="For e.g: Daily standup meeting" />
+                                       placeholder="<?LANG_DAILY_MEETING?>" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Start Date: <span class="requiredField">*</span></label>
+                                <label><?LANG_START_DATE?>: <span class="requiredField">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
@@ -43,7 +43,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>End Date: <span class="requiredField">*</span></label>
+                                <label><?LANG_END_DATE?>: <span class="requiredField">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon-calendar22"></i></span>
@@ -57,14 +57,14 @@
                             <div class="form-checkbox-group">
                                 <div class="input-group">
                                     <input type="checkbox" class="dt-checkboxes check-input" id="allDay" checked="checked" name="allDay" value="1" />
-                                    <label for="allDay" class="ml-5">Whole Day Event</label>
+                                    <label for="allDay" class="ml-5"><?LANG_WHOLE_DAY_EVENT?></label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Start Time:</label>
+                                <label><?LANG_START_TIME?>:</label>
                                 <div class="input-group">
                                     <?TPLVAR_START_TIME?>
                                 </div>
@@ -73,7 +73,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>End Time:</label>
+                                <label><?LANG_END_TIME?>:</label>
                                 <div class="input-group">
                                     <?TPLVAR_END_TIME?>
                                 </div>
@@ -82,13 +82,13 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Recurring Every:</label>
+                                <label><?LANG_RECURRING_EVERY?>:</label>
                                 <?TPLVAR_RECUR_TYPE?>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Send Email Reminder:</label>
+                                <label><?LANG_SEND_EMAIL_REMINDER?>:</label>
                                 <div class="input-group">
                                     <?TPLVAR_REMINDER?>
                                 </div>
@@ -97,7 +97,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Event Label:</label>
+                                <label><?LANG_EVENT_LABEL?>:</label>
                                 <div class="input-group">
                                     <?TPLVAR_LABEL_LIST?>
                                 </div>
@@ -109,7 +109,7 @@
                                 <label>&nbsp;</label>
                                 <div class="input-group">
                                     <input type="checkbox" class="dt-checkboxes check-input" id="public" name="public" value="1" />
-                                    <label for="public" class="ml-5">Public Event (Everyone can see)</label>
+                                    <label for="public" class="ml-5"><?LANG_PUBLIC_EVENT?></label>
                                 </div>
                             </div>
                         </div>
@@ -118,9 +118,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-btn">
-                        <button type="button" class="btn btn-link hide" id="deleteEvent">Delete</button>
-                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="saveEvent">Submit</button>
+                        <button type="button" class="btn btn-link hide" id="deleteEvent"><?LANG_DELETE?></button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary" id="saveEvent"><?LANG_SUBMIT?></button>
                     </div>
                 </div>
             </form>
@@ -134,7 +134,7 @@
         <!-- Sidebar content -->
         <div class="sidebar-content">
 
-            <!-- Sidebar search -->
+            <!-- Sidebar search
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
                     <span class="text-uppercase font-size-sm font-weight-semibold">Event search</span>
@@ -156,12 +156,12 @@
                     </form>
                 </div>
             </div>
-            <!-- /sidebar search -->
+          /sidebar search -->
 
             <!-- Sub navigation -->
             <div class="card mb-2">
                 <div class="card-header bg-transparent header-elements-inline">
-                    <span class="text-uppercase font-size-sm font-weight-semibold">Filter Event Types</span>
+                    <span class="text-uppercase font-size-sm font-weight-semibold"><?LANG_FILTER_EVENT_TYPES?></span>
                     <div class="header-elements">
                         <div class="list-icons">
                             <span class="list-icons-item" data-action="collapse"></span>
@@ -173,16 +173,16 @@
                     <ul class="nav nav-sidebar">
                         <li class="nav-item-header"></li>
                         <li class="nav-item nav-link">
-                            <input type="checkbox" checked="checked" id="myEvents" data-size="mini" data-label-text="My Events" data-label-width="150">
+                            <input type="checkbox" checked="checked" id="myEvents" data-size="mini" data-label-text="<?LANG_MY_EVENTS?>" data-label-width="150">
                         </li>
                         <li class="nav-item nav-link">
-                            <input type="checkbox" checked="checked" id="colleagues" data-size="mini" data-label-text="Colleague Events" data-label-width="150">
+                            <input type="checkbox" checked="checked" id="colleagues" data-size="mini" data-label-text="<?LANG_COLLEAGUE_EVENTS?>" data-label-width="150">
                         </li>
                         <li class="nav-item nav-link">
-                            <input type="checkbox" checked="checked" id="includeBirthday" data-size="mini" data-label-text="Include Birthdays" data-label-width="150">
+                            <input type="checkbox" checked="checked" id="includeBirthday" data-size="mini" data-label-text="<?LANG_INCLUDE_BIRTHDAYS?>" data-label-width="150">
                         </li>
                         <li class="nav-item nav-link">
-                            <input type="checkbox" checked="checked" id="includeHoliday" data-size="mini" data-label-text="Include Holidays" data-label-width="150">
+                            <input type="checkbox" checked="checked" id="includeHoliday" data-size="mini" data-label-text="<?LANG_INCLUDE_HOLIDAYS?>" data-label-width="150">
                         </li>
 
                     </ul>

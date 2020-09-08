@@ -53,6 +53,8 @@ class CalendarView {
         $recurList = RecurHelper::getL10nList( );
         unset( $recurList['day'] );
         unset( $recurList['year'] );
+        unset( $recurList['week'] );
+        unset( $recurList['biweekly'] );
         unset( $recurList['weekday'] );
         unset( $recurList['monWedFri'] );
         unset( $recurList['tueThur'] );

@@ -193,28 +193,24 @@ class PayrollModel extends \Model {
                 $pass = Validator::stripTrim( $data['password'] );
                 $date = \DateTime::createFromFormat('Y-m-d', $data['processDate'] );
 
-                if( $pass ) {
-                    if( $date ) {
-                        $method = 'payroll_process_' . $date->format('Y-m-d');
+                if( $pass && $date ) {
+                    $method = 'payroll_process_' . $date->format('Y-m-d');
 
-                        $LockMethod = new LockMethod( );
-                        if( $LockMethod->verify( $pass ) ) {
-                            if( $LockMethod->allow( $method ) ) {
-                                $LockMethod->logEntry( $method );
-                                return true;
-                            }
-                        }
+                    $LockMethod = new LockMethod( );
+                    if( $LockMethod->verify( $pass ) && $LockMethod->allow( $method ) ) {
+                        $LockMethod->logEntry( $method );
+                        return true;
                     }
                 }
                 else {
-                    $this->errMsg = $this->L10n->getContents( 'LANG_ENTER_PASSWORD' );
+                    $this->errMsg = $this->L10n->getContents('LANG_ENTER_PASSWORD');
                 }
             }
             catch( AuthLoginException $e ) {
-                $this->errMsg = $this->L10n->getContents( 'LANG_VERIFICATION_FAILED' );
+                $this->errMsg = $this->L10n->getContents('LANG_VERIFICATION_FAILED');
             }
         }
-        $this->errMsg = $this->L10n->getContents( 'LANG_VERIFICATION_FAILED' );
+        $this->errMsg = $this->L10n->getContents('LANG_VERIFICATION_FAILED');
         return false;
     }
 
@@ -246,12 +242,15 @@ class PayrollModel extends \Model {
         $summary['fwl'] = $summary['sdl'] = $summary['levy'] = $summary['contribution'] = 0;
 
         if( isset( $data['gross'] ) ) {
-            foreach( $data['gross'] as $gross ) {
+            $summary['gross'] = (float)$data['gross'];
+            $summary['net'] = (float)$data['gross'];
+
+            /*foreach( $data['gross'] as $gross ) {
                 if( isset( $gross['amount'] ) ) {
                     $summary['gross'] += (float)$gross['amount'];
                     $summary['net'] += (float)$gross['amount'];
                 }
-            }
+            }*/
         }
         if( isset( $data['net'] ) ) {
             foreach( $data['net'] as $net ) {

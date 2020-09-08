@@ -107,7 +107,9 @@ class ManagerModel extends \Model implements IObservable {
         if( isset( $data['ecID'] ) && $this->isFound( $data['ecID'], $userInfo['userID'] ) ) {
             $info = array( );
             $info['approved'] = $data['approved'];
-            $this->Manager->update( 'expense_claim_manager', $info, 'WHERE managerID="' . (int)$userInfo['userID'] . '"' );
+            $this->Manager->update( 'expense_claim_manager', $info,
+                                    'WHERE managerID="' . (int)$userInfo['userID'] . '" AND
+                                                  ecID = "' . (int)$data['ecID'] . '"' );
 
             // Immediate disapprove if one manager disapproved
             $ClaimModel = ClaimModel::getInstance( );

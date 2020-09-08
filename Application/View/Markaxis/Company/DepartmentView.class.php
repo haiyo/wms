@@ -33,7 +33,8 @@ class DepartmentView {
 
         $this->DepartmentModel = DepartmentModel::getInstance( );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'department.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'department.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

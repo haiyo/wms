@@ -136,7 +136,7 @@ class PayrollControl {
         $vars = array( );
         $vars['bool'] = 1;
         $vars['data'] = $data;
-        $vars['summary'] = $this->PayrollView->renderProcessSummary( $data );
+        $vars['summary'] = $this->PayrollView->renderProcessSummary( $data, false );
         echo json_encode( $vars );
         exit;
     }

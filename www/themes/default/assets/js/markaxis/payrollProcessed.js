@@ -55,12 +55,21 @@ var MarkaxisPayrollProcessed = (function( ) {
                 success: function(res) {
                     var obj = $.parseJSON(res);
                     if( obj.bool == 0 ) {
-                        swal("Error!", obj.errMsg, "error");
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     else {
+                        $("#officeFilter").attr("data-countrycode", obj.data.countryCode);
                         $("#officeFilter").attr("data-currency", obj.data.currencyCode + obj.data.currencySymbol);
                         that.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/getAllProcessed/" + $("#processDate").val( ) + "/" + $("#office").val( ) ).load();
+
+                        if( obj.data.countryCode == "SG" ) {
+                            $('<button type="button" class="btn btn-primary" data-style="slide-right" ' +
+                                'id="downloadCPF">' + Markaxis.i18n.PayrollRes.LANG_DOWNLOAD_CPF_FTP_FILE + ' <i class="icon-download position-right"></i>').insertAfter("#releaseAll");
+                        }
+                        else {
+                            $("#downloadCPF").remove( );
+                        }
 
                         markaxisPayrollFinalized.updateResults( );
                     }
@@ -160,9 +169,10 @@ var MarkaxisPayrollProcessed = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Employee Name',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.PayrollRes.LANG_SEARCH_EMPLOYEE_NAME,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');

@@ -67,11 +67,11 @@ var MarkaxisPayItem = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool === 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalPayItem .modal-title").text("Edit Pay Item");
+                                $("#modalPayItem .modal-title").text( Markaxis.i18n.PayrollRes.LANG_EDIT_PAY_ITEM );
                                 $("#piID").val( obj.data.piID );
                                 $("#payItemTitle").val( obj.data.title );
                                 $("#formula").val( obj.data.formula );
@@ -97,7 +97,7 @@ var MarkaxisPayItem = (function( ) {
                     Aurora.WebService.AJAX( "admin/payroll/getPayItem/" + piID, data );
                 }
                 else {
-                    $("#modalPayItem .modal-title").text("Create New Pay Item");
+                    $("#modalPayItem .modal-title").text( Markaxis.i18n.PayrollRes.LANG_CREATE_NEW_PAY_ITEM );
                     $("#payItemTitle").val("")
                     $("#formula").val("")
                 }
@@ -112,7 +112,7 @@ var MarkaxisPayItem = (function( ) {
                     payItemTitle: { required: true }
                 },
                 messages: {
-                    payItemTitle: "Please enter a Pay Item Title."
+                    payItemTitle: Markaxis.i18n.PayrollRes.LANG_PLEASE_ENTER_PAY_ITEM_TITLE
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -134,19 +134,19 @@ var MarkaxisPayItem = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool === 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             }
                             else {
                                 swal({
-                                    title: $("#payItemTitle").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#payItemTitle").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Pay Item",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Markaxis.i18n.PayrollRes.LANG_CREATE_ANOTHER_PAY_ITEM,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     that.table.ajax.reload( );
@@ -203,12 +203,12 @@ var MarkaxisPayItem = (function( ) {
             piID.push( id );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -221,11 +221,11 @@ var MarkaxisPayItem = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool === 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                         }
                     }
                 };
@@ -242,18 +242,18 @@ var MarkaxisPayItem = (function( ) {
 
             if( piID.length === 0 ) {
                 swal({
-                    title: "No Pay Item Selected",
+                    title: Markaxis.i18n.PayrollRes.LANG_NO_PAY_ITEM_SELECTED,
                     type: "info"
                 });
             }
             else {
                 swal({
-                    title: "Are you sure you want to delete the selected pay Items?",
-                    text: "This action cannot be undone once deleted.",
+                    title: Markaxis.i18n.PayrollRes.LANG_DELETE_SELECTED_PAY_ITEMS,
+                    text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Confirm Delete",
+                    confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true
                 }, function (isConfirm) {
@@ -266,11 +266,11 @@ var MarkaxisPayItem = (function( ) {
                         success: function(res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool === 0 ) {
-                                swal("Error!", obj.errMsg, "error");
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             }
                             else {
                                 that.table.ajax.reload();
-                                swal("Done!", obj.count + " items has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_ITEMS_SUCCESSFULLY_DELETED.replace('{count}', obj.count), "success");
                             }
                         }
                     };
@@ -319,10 +319,10 @@ var MarkaxisPayItem = (function( ) {
                     className : "text-center",
                     render: function( data ) {
                         if( data === '0' ) {
-                            return '<span class="label label-pending">No</span>';
+                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span class="label label-success">Yes</span>';
+                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 },{
@@ -334,10 +334,10 @@ var MarkaxisPayItem = (function( ) {
                     className : "text-center",
                     render: function( data, type, full ) {
                         if( data === '0' ) {
-                            return '<span id="deduction' + full['piID'] + '" class="label label-pending">No</span>';
+                            return '<span id="deduction' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span id="deduction' + full['piID'] + '" class="label label-success">Yes</span>';
+                            return '<span id="deduction' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 },{
@@ -349,10 +349,10 @@ var MarkaxisPayItem = (function( ) {
                     className : "text-center",
                     render: function( data, type, full ) {
                         if( data === '0' ) {
-                            return '<span id="deductionAW' + full['piID'] + '" class="label label-pending">No</span>';
+                            return '<span id="deductionAW' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span id="deductionAW' + full['piID'] + '" class="label label-success">Yes</span>';
+                            return '<span id="deductionAW' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 },{
@@ -364,10 +364,10 @@ var MarkaxisPayItem = (function( ) {
                     className : "text-center",
                     render: function( data, type, full ) {
                         if( data === '0' ) {
-                            return '<span id="additional' + full['piID'] + '" class="label label-pending">No</span>';
+                            return '<span id="additional' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span id="additional' + full['piID'] + '" class="label label-success">Yes</span>';
+                            return '<span id="additional' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 }, {
@@ -385,10 +385,10 @@ var MarkaxisPayItem = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-backdrop="static" data-keyboard="false" ' +
                             'data-toggle="modal" data-target="#modalPayItem">' +
-                            '<i class="icon-pencil5"></i> Edit Pay Item</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.PayrollRes.LANG_EDIT_PAY_ITEM + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item payItemDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Pay Item</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.PayrollRes.LANG_DELETE_PAY_ITEM + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -398,9 +398,10 @@ var MarkaxisPayItem = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Pay Item',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.PayrollRes.LANG_SEARCH_PAY_ITEM,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');

@@ -53,11 +53,11 @@ var MarkaxisDesignationGroup = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if (obj.bool == 0) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalGroup .modal-title").text("Edit Group");
+                                $("#modalGroup .modal-title").text( Markaxis.i18n.DesignationRes.LANG_EDIT_GROUP );
                                 $("#groupID").val( obj.data.dID );
                                 $("#groupTitle").val( obj.data.title );
                             }
@@ -66,7 +66,7 @@ var MarkaxisDesignationGroup = (function( ) {
                     Aurora.WebService.AJAX( "admin/employee/getDesignation/" + dID, data );
                 }
                 else {
-                    $("#modalGroup .modal-title").text("Create New Group");
+                    $("#modalGroup .modal-title").text( Markaxis.i18n.DesignationRes.LANG_CREATE_NEW_GROUP );
                     $("#groupID").val(0);
                     $("#groupTitle").val("");
                 }
@@ -83,7 +83,7 @@ var MarkaxisDesignationGroup = (function( ) {
                     groupTitle: { required: true }
                 },
                 messages: {
-                    groupTitle: "Please enter a Group Title."
+                    groupTitle: Markaxis.i18n.DesignationRes.LANG_PLEASE_ENTER_GROUP_TITLE
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -106,22 +106,22 @@ var MarkaxisDesignationGroup = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload();
 
                                 swal({
-                                    title: $("#groupTitle").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#groupTitle").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Group",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Markaxis.i18n.DesignationRes.LANG_CREATE_ANOTHER_GROUP,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     $("#groupID").val(0);
@@ -156,12 +156,12 @@ var MarkaxisDesignationGroup = (function( ) {
          */
         orphanGroupDelete: function( ) {
             swal({
-                title: "Are you sure you want to delete all orphan groups?",
-                text: "All groups with empty designation will be deleted.",
+                title: Markaxis.i18n.DesignationRes.LANG_CONFIRM_DELETE_ALL_ORPHAN_GROUPS,
+                text: Markaxis.i18n.DesignationRes.LANG_GROUPS_EMPTY_DESIGNATION_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -171,7 +171,7 @@ var MarkaxisDesignationGroup = (function( ) {
                     success: function(res) {
                         var obj = $.parseJSON(res);
                         if (obj.bool == 0) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
@@ -179,10 +179,10 @@ var MarkaxisDesignationGroup = (function( ) {
                                 $("#dID").select2("destroy").remove( );
                                 $("#groupUpdate").html( obj.groupListUpdate );
                                 $("#dID").select2( );
-                                swal("Done!", obj.count + " orphan groups has been successfully deleted!", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.DesignationRes.LANG_ORPHAN_GROUPS_SUCCESSFULLY_DELETE.replace('{count}', obj.count), "success");
                             }
                             else {
-                                swal("Done!", "There are currently no orphan group.", "success");
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.DesignationRes.LANG_NO_ORPHAN_GROUPS, "success");
                             }
                             return;
                         }

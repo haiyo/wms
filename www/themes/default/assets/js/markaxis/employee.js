@@ -58,22 +58,22 @@ var MarkaxisEmployee = (function( ) {
         setSuspend: function( userID, name ) {
             if( $("#status" + userID).hasClass("label-success") ) {
                 status = 1;
-                title = "Are you sure you want to suspend " + name + "?";
-                text  = "This employee will no longer be able to login to the HRS System.";
-                confirmButtonText = "Confirm Suspend";
+                title = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_SUSPEND_NAME.replace('{name}', name);
+                text  = Markaxis.i18n.EmployeeRes.LANG_NO_LOGIN_HRS;
+                confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_SUSPEND;
             }
             else {
                 status = 0;
-                title = "Are you sure you want to unsuspend " + name + "?";
-                text  = "This employee will be able to login to the HRS System.";
-                confirmButtonText = "Confirm Unsuspend";
+                title = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_UNSUSPEND.replace('{name}', name);
+                text  = Markaxis.i18n.EmployeeRes.LANG_ABLE_LOGIN_HRS;
+                confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_UNSUSPEND;
             }
 
             swal({
                 title: title,
                 text: text,
                 type: "input",
-                inputPlaceholder: "Provide reason(s) if any",
+                inputPlaceholder: Markaxis.i18n.EmployeeRes.LANG_PROVIDE_REASON,
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: confirmButtonText,
@@ -91,21 +91,21 @@ var MarkaxisEmployee = (function( ) {
                     success: function( res ) {
                         var obj = $.parseJSON( res );
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             var reason = isConfirm ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + isConfirm     + '"' : "";
 
                             if( status == 1 ) {
-                                $("#menuSetStatus" + userID).html('<i class="icon-user-check"></i> Unsuspend Employee');
-                                $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-danger"' + reason + '>Suspended</span>');
-                                swal("Done!", name + " has been successfully suspended!", "success");
+                                $("#menuSetStatus" + userID).html('<i class="icon-user-check"></i> ' + Markaxis.i18n.EmployeeRes.LANG_UNSUSPEND_EMPLOYEE);
+                                $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_SUSPENDED + '</span>');
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_SUSPENDED.replace('{name}', name), "success");
                             }
                             else {
-                                $("#menuSetStatus" + userID).html('<i class="icon-user-block"></i> Suspend Employee');
-                                $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-success"' + reason + '>Active</span>');
-                                swal("Done!", name + " has been successfully unsuspended!", "success");
+                                $("#menuSetStatus" + userID).html('<i class="icon-user-block"></i> ' + Markaxis.i18n.EmployeeRes.LANG_SUSPEND_EMPLOYEE);
+                                $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-success"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_ACTIVE + '</span>');
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_UNSUSPENDED.replace('{name}', name), "success");
                             }
                             Popups.init();
                             return;
@@ -119,13 +119,12 @@ var MarkaxisEmployee = (function( ) {
 
         setResign: function( userID, name ) {
             swal({
-                title: "Set " + name + " as Resigned Employee?",
-                text: name + "'s account will be move to the Alumni section.",
+                title: Markaxis.i18n.EmployeeRes.LANG_SET_RESIGNED_EMPLOYEE.replace('{name}', name),
                 type: "input",
-                inputPlaceholder: "Provide reason(s) if any",
+                inputPlaceholder: Markaxis.i18n.EmployeeRes.LANG_PROVIDE_REASON,
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Markaxis.i18n.EmployeeRes.LANG_CONFIRM_RESIGN,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
@@ -145,7 +144,7 @@ var MarkaxisEmployee = (function( ) {
                         }
                         else {
                             $("#row" + userID).fadeOut("slow");
-                            swal("Done!", name + " has been successfully set to Resigned!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_RESIGNED.replace('{name}', name), "success");
                             return;
                         }
                     }
@@ -209,16 +208,16 @@ var MarkaxisEmployee = (function( ) {
                         var reason = full['suspendReason'] ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
 
                         if( full['suspended'] == 1 ) {
-                            return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>Suspended</span>';
+                            return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_SUSPENDED + '</span>';
                         }
                         else {
                             if( full['endDate'] ) {
                                 if( that.dateDiff( full['endDate'] ) <= 30 ) {
                                     reason = ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="Expire on ' + full['endDate'] + '"'
-                                    return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>Expired Soon</span>';
+                                    return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_INACTIVE_SOON + '</span>';
                                 }
                             }
-                            return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>Active</span>';
+                            return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_ACTIVE + '</span>';
                         }
                     }
                 },{
@@ -240,7 +239,7 @@ var MarkaxisEmployee = (function( ) {
                     data: 'userID',
                     render: function(data, type, full, meta) {
                         var name   = full["name"];
-                        var statusText = full['suspended'] == 1 ? "Unsuspend Employee" : "Suspend Employee"
+                        var statusText = full['suspended'] == 1 ? Markaxis.i18n.EmployeeRes.LANG_UNSUSPEND_EMPLOYEE : Markaxis.i18n.EmployeeRes.LANG_SUSPEND_EMPLOYEE;
 
                         return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
@@ -248,12 +247,12 @@ var MarkaxisEmployee = (function( ) {
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/user/edit/' + data + '">' +
-                            '<i class="icon-pencil5"></i> Edit Employee Info</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.EmployeeRes.LANG_EDIT_EMPLOYEE_INFO + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item setSuspend" href="#" data-id="' + data + '" data-name="' + name + '">' +
                             '<i class="icon-user-block"></i> ' + statusText + '</a>' +
                             '<a class="dropdown-item setResign" href="#" data-id="' + data + '" data-name="' + name + '">' +
-                            '<i class="icon-exit3"></i> Employee Resigned</a>' +
+                            '<i class="icon-exit3"></i> ' + Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_RESIGNED + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -263,9 +262,10 @@ var MarkaxisEmployee = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Employee, Designation or Contract Type',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.EmployeeRes.LANG_SEARCH_EMPLOYEE,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -281,7 +281,7 @@ var MarkaxisEmployee = (function( ) {
             $('.employeeTable .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

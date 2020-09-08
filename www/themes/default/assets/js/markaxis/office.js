@@ -62,7 +62,7 @@ var MarkaxisOffice = (function( ) {
                                 return;
                             }
                             else {
-                                $("#modalOffice .modal-title").text("Edit Office");
+                                $("#modalOffice .modal-title").text( Markaxis.i18n.OfficeRes.LANG_EDIT_OFFICE );
                                 $("#officeID").val( obj.data.oID );
                                 $("#officeName").val( obj.data.officeName );
                                 $("#officeAddress").val( obj.data.address );
@@ -85,7 +85,7 @@ var MarkaxisOffice = (function( ) {
                     Aurora.WebService.AJAX( "admin/company/getOffice/" + oID, data );
                 }
                 else {
-                    $("#modalOffice .modal-title").text("Create New Office");
+                    $("#modalOffice .modal-title").text( Markaxis.i18n.OfficeRes.LANG_CREATE_NEW_OFFICE );
                     $("#officeID").val(0);
                     $("#officeName").val("");
                     $("#officeAddress").val("");
@@ -118,8 +118,8 @@ var MarkaxisOffice = (function( ) {
                     officeCountry: { required: true }
                 },
                 messages: {
-                    officeName: "Please enter a Office Name.",
-                    officeCountry: "Please select country of operation."
+                    officeName: Markaxis.i18n.OfficeRes.LANG_PLEASE_ENTER_OFFICE_NAME,
+                    officeCountry: Markaxis.i18n.OfficeRes.LANG_PLEASE_SELECT_COUNTRY
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -141,26 +141,22 @@ var MarkaxisOffice = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal({
-                                    type: "error",
-                                    title: "Error",
-                                    text: obj.errMsg
-                                });
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload();
 
                                 swal({
-                                    title: $("#officeName").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#officeName").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Office",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Markaxis.i18n.OfficeRes.LANG_CREATE_ANOTHER_OFFICE,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     $("#officeID").val(0);
@@ -198,12 +194,12 @@ var MarkaxisOffice = (function( ) {
             var title = $("#officeTable-row" + oID).find("td").eq(0).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -216,12 +212,12 @@ var MarkaxisOffice = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -266,7 +262,7 @@ var MarkaxisOffice = (function( ) {
                         var main = "";
 
                         if( full["main"] == 1 ) {
-                            main = '<span class="badge badge-primary badge-criteria">Main</span>';
+                            main = '<span class="badge badge-primary badge-criteria">' + Markaxis.i18n.OfficeRes.LANG_MAIN + '</span>';
                         }
                         return '<span id="officeName' + full['oID'] + '">' + data + ' &nbsp;&nbsp;' + main + '</span>';
                     }
@@ -314,10 +310,10 @@ var MarkaxisOffice = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                             '<a class="dropdown-item officeEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalOffice" ' +
                             'data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit Office</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.OfficeRes.LANG_EDIT_OFFICE + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item officeDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Office</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.OfficeRes.LANG_DELETE_OFFICE + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -327,9 +323,10 @@ var MarkaxisOffice = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Office',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.OfficeRes.LANG_SEARCH_OFFICE,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -346,7 +343,7 @@ var MarkaxisOffice = (function( ) {
             $("#officeList .datatable-pagination").DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

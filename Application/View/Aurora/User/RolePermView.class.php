@@ -36,7 +36,8 @@ class RolePermView {
         $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
         $this->L10n = $i18n->loadLanguage('Aurora/User/RolePermRes');
 
-        $this->View->setJScript( array( 'markaxis' => array( 'role.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'role.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
 	}
 
 

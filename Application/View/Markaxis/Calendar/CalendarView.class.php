@@ -50,7 +50,8 @@ class CalendarView extends AdminView {
                                                                    'timegrid/main.js',
                                                                    'interaction/main.js' ),
                                   'jquery' => array( 'jquery.validate.min.js' ),
-                                  'markaxis' => array( 'calendar.js' ) ) );
+                                  'markaxis' => array( 'calendar.js' ),
+                                  'locale' => array( $this->CalendarRes->getL10n( ), $this->EventRes->getL10n( ) ) ) );
 
         $this->setStyle( array( 'fullcalendar' => array( 'core/main', 'daygrid/main', 'timegrid/main' ) ) );
 	}

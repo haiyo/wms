@@ -33,7 +33,8 @@ class ContractView {
 
         $this->ContractModel = ContractModel::getInstance( );
 
-        $this->View->setJScript( array( 'markaxis' => array( 'contract.js' ) ) );
+        $this->View->setJScript( array( 'markaxis' => array( 'contract.js' ),
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

@@ -53,11 +53,11 @@ var MarkaxisDepartment = (function( ) {
                             var obj = $.parseJSON(res);
 
                             if( obj.bool == 0 ) {
-                                swal( "error", obj.errMsg );
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalDepartment .modal-title").text("Edit Department");
+                                $("#modalDepartment .modal-title").text( Markaxis.i18n.DepartmentRes.LANG_EDIT_DEPARTMENT );
                                 $("#departmentID").val( obj.data.dID );
                                 $("#departmentName").val( obj.data.name );
                                 that.markaxisUSuggest.getSuggestToken("admin/company/getSuggestToken/" + obj.data.dID);
@@ -67,7 +67,7 @@ var MarkaxisDepartment = (function( ) {
                     Aurora.WebService.AJAX( "admin/company/getDepartment/" + dID, data );
                 }
                 else {
-                    $("#modalDepartment .modal-title").text("Create New Department");
+                    $("#modalDepartment .modal-title").text( Markaxis.i18n.DepartmentRes.LANG_CREATE_NEW_DEPARTMENT );
                     $("#departmentID").val(0);
                     $("#departmentName").val("");
                 }
@@ -94,7 +94,7 @@ var MarkaxisDepartment = (function( ) {
                     departmentName: { required: true }
                 },
                 messages: {
-                    departmentName: "Please enter a Department Name."
+                    departmentName: Markaxis.i18n.DepartmentRes.LANG_ENTER_DEPARTMENT_NAME
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -110,7 +110,7 @@ var MarkaxisDepartment = (function( ) {
                 },
                 submitHandler: function( ) {
                     if( $(".tt-input").val( ) != "" && that.markaxisUSuggest.getCount( ) == 0 ) {
-                        $(".modal-footer").append('<label id="departmentName-error" class="error">Please enter a valid manager.</label>');
+                        $(".modal-footer").append('<label id="departmentName-error" class="error">' + Markaxis.i18n.DepartmentRes.LANG_ENTER_VALID_MANAGER + '</label>');
                         return;
                     }
 
@@ -121,22 +121,22 @@ var MarkaxisDepartment = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
                                 that.table.ajax.reload();
 
                                 swal({
-                                    title: $("#departmentName").val( ) + " has been successfully created!",
-                                    text: "What do you want to do next?",
+                                    title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#departmentName").val( )),
+                                    text: Aurora.i18n.GlobalRes.LANG_WHAT_TO_DO_NEXT,
                                     type: 'success',
                                     confirmButtonClass: 'btn btn-success',
                                     cancelButtonClass: 'btn btn-danger',
                                     buttonsStyling: false,
                                     showCancelButton: true,
-                                    confirmButtonText: "Create Another Office",
-                                    cancelButtonText: "Close Window",
+                                    confirmButtonText: Markaxis.i18n.DepartmentRes.LANG_CREATE_ANOTHER_DEPARTMENT,
+                                    cancelButtonText: Aurora.i18n.GlobalRes.LANG_CLOSE_WINDOW,
                                     reverseButtons: true
                                 }, function( isConfirm ) {
                                     $("#departmentID").val(0);
@@ -166,12 +166,12 @@ var MarkaxisDepartment = (function( ) {
             var title = $("#departName" + dID).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -184,12 +184,12 @@ var MarkaxisDepartment = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload( );
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -277,10 +277,10 @@ var MarkaxisDepartment = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                             '<a class="dropdown-item departmentEdit" data-id="' + data + '" data-toggle="modal" data-target="#modalDepartment" ' +
                             'data-backdrop="static" data-keyboard="false">' +
-                            '<i class="icon-pencil5"></i> Edit Department</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.DepartmentRes.LANG_EDIT_DEPARTMENT + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item departmentDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Department</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.DepartmentRes.LANG_DELETE_DEPARTMENT + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -290,9 +290,10 @@ var MarkaxisDepartment = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Department',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.DepartmentRes.LANG_SEARCH_DEPARTMENT,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -309,7 +310,7 @@ var MarkaxisDepartment = (function( ) {
             $('#departmentList .datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

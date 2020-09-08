@@ -17,7 +17,8 @@ class ClaimView {
     // Properties
     protected $Registry;
     protected $i18n;
-    protected $L10n;
+    protected $GlobalRes;
+    protected $ExpenseRes;
     protected $View;
     protected $ClaimModel;
 
@@ -30,7 +31,7 @@ class ClaimView {
         $this->View = AdminView::getInstance( );
         $this->Registry = Registry::getInstance();
         $this->i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-        $this->L10n = $this->i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
+        $this->ExpenseRes = $this->i18n->loadLanguage('Markaxis/Expense/ExpenseRes');
 
         $this->ClaimModel = ClaimModel::getInstance( );
 
@@ -40,7 +41,8 @@ class ClaimView {
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
                                         'plugins/uploaders' => array( 'fileinput.min.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'locale' => $this->ExpenseRes->getL10n( ) ) );
     }
 
 
@@ -51,15 +53,14 @@ class ClaimView {
     public function renderClaimList( ) {
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-coins',
-                                            'text' => $this->L10n->getContents('LANG_EXPENSES_CLAIM') ) );
+                                            'text' => $this->ExpenseRes->getContents('LANG_EXPENSES_CLAIM') ) );
 
         $ExpenseModel = ExpenseModel::getInstance( );
-        $CurrencyModel = CurrencyModel::getInstance( );
 
         $SelectListView = new SelectListView( );
-        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', $this->L10n->getContents('LANG_SELECT_EXPENSE_TYPE') );
+        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', $this->ExpenseRes->getContents('LANG_SELECT_EXPENSE_TYPE') );
 
-        $vars = array_merge( $this->L10n->getContents( ), array( 'TPLVAR_EXPENSE_LIST' => $expenseList ) );
+        $vars = array_merge( $this->ExpenseRes->getContents( ), array( 'TPLVAR_EXPENSE_LIST' => $expenseList ) );
 
         $this->View->setJScript( array( 'markaxis' => array( 'usuggest.js', 'claim.js' ),
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
@@ -80,7 +81,7 @@ class ClaimView {
         $pendingAction = $this->ClaimModel->getPendingAction( $userInfo['userID'] );
 
         if( $pendingAction ) {
-            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+            $vars = array_merge( $this->ExpenseRes->getContents( ), array( ) );
 
             foreach( $pendingAction as $row ) {
                 $created = Date::timeSince( $row['created'] );
@@ -103,9 +104,8 @@ class ClaimView {
                                                     'TPLVAR_DESCRIPTION' => $row['descript'],
                                                     'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
                                                     'TPLVAR_ATTACHMENT' => $attachment );
-
-                return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }
+            return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
         }
     }
 
@@ -116,22 +116,22 @@ class ClaimView {
      */
     public function renderRequest( $request ) {
         if( is_array( $request ) ) {
-            $vars = array_merge( $this->L10n->getContents( ), array( ) );
+            $vars = array_merge( $this->ExpenseRes->getContents( ), array( ) );
 
             foreach( $request as $row ) {
                 $created = Date::timeSince( $row['created'] );
 
                 if( $row['status'] == 0 ) {
                     $label = 'pending';
-                    $status = $this->L10n->getContents('LANG_PENDING');
+                    $status = $this->View->getGlobalRes( )->getContents('LANG_PENDING');
                 }
                 else if( $row['status'] == 1 ) {
                     $label = 'success';
-                    $status = $this->L10n->getContents('LANG_APPROVED');
+                    $status = $this->View->getGlobalRes( )->getContents('LANG_APPROVED');
                 }
                 else {
                     $label = 'danger';
-                    $status = $this->L10n->getContents('LANG_UNAPPROVED');
+                    $status = $this->View->getGlobalRes( )->getContents('LANG_UNAPPROVED');
                 }
 
                 $managers = '';

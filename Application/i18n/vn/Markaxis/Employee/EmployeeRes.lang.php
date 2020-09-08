@@ -78,7 +78,39 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_EMPLOYMENT_STATUS'] = 'Tình trạng việc làm';
         $this->contents['LANG_EMAIL'] = 'E-mail';
         $this->contents['LANG_MOBILE'] = 'Di động';
-        $this->contents['LANG_ACTIONS'] = 'Hành động';
+
+        $this->contents['LANG_CONFIRM_SUSPEND_NAME'] = 'Bạn có chắc chắn muốn tạm ngưng {name}?';
+        $this->contents['LANG_NO_LOGIN_HRS'] = 'Nhân viên này sẽ không thể đăng nhập vào Hệ thống HRS nữa';
+        $this->contents['LANG_CONFIRM_UNSUSPEND'] = 'Bạn có chắc chắn muốn hủy sử dụng không {name}?';
+        $this->contents['LANG_ABLE_LOGIN_HRS'] = 'Nhân viên này sẽ có thể đăng nhập vào Hệ thống HRS';
+        $this->contents['LANG_CONFIRM_SUSPEND'] = 'Xác nhận tạm ngưng';
+        $this->contents['LANG_CONFIRM_UNSUSPEND'] = 'Xác nhận chưa chi tiêu';
+        $this->contents['LANG_PROVIDE_REASON'] = 'Cung cấp lý do nếu có';
+        $this->contents['LANG_UNSUSPEND_EMPLOYEE'] = 'Nhân viên không sử dụng';
+        $this->contents['LANG_SUSPENDED'] = 'Đình chỉ';
+        $this->contents['LANG_SUSPEND_EMPLOYEE'] = 'Đình chỉ nhân viên';
+        $this->contents['LANG_ACTIVE'] = 'Hoạt động';
+        $this->contents['LANG_SUCCESSFULLY_SUSPENDED'] = '{name} đã bị đình chỉ thành công!';
+        $this->contents['LANG_SUCCESSFULLY_UNSUSPENDED'] = '{name} đã được hủy tạm dừng thành công!';
+        $this->contents['LANG_SET_RESIGNED_EMPLOYEE'] = 'Đặt {name} làm Nhân viên đã thôi việc?';
+        $this->contents['LANG_CONFIRM_RESIGN'] = 'Xác nhận từ chức';
+        $this->contents['LANG_SUCCESSFULLY_RESIGNED'] = '{name} đã được đặt thành công thành Đã từ chức!';
+        $this->contents['LANG_INACTIVE_SOON'] = 'Không hoạt động sớm';
+        $this->contents['LANG_EDIT_EMPLOYEE_INFO'] = 'Chỉnh sửa nhân viên';
+        $this->contents['LANG_EMPLOYEE_RESIGNED'] = 'Nhân viên đã từ chức';
+        $this->contents['LANG_SEARCH_EMPLOYEE'] = 'Tìm kiếm nhân viên, chức vụ hoặc loại hợp đồng';
+
+        $this->contents['LANG_ENTER_VALID_CHILD'] = 'Vui lòng nhập thông tin con hợp lệ';
+        $this->contents['LANG_ENTER_VALID_EMAIL'] = 'Vui lòng nhập địa chỉ email hợp lệ';
+        $this->contents['LANG_CONFIRM_DELETE_PHOTO'] = 'Bạn có chắc chắn muốn xóa ảnh của {name} không?';
+        $this->contents['LANG_PHOTO_DELETED_UNDONE'] = 'Ảnh đã xóa sẽ không thể khôi phục lại';
+        $this->contents['LANG_PHOTO_SUCCESSFULLY_DELETED'] = 'Ảnh của {name} đã được xóa thành công!';
+        $this->contents['LANG_EMPLOYEE_ADDED_SUCCESSFULLY'] = 'Nhân viên mới đã được thêm thành công';
+        $this->contents['LANG_ADD_ANOTHER_EMPLOYEE'] = 'Thêm một nhân viên khác';
+        $this->contents['LANG_GO_EMPLOYEE_LISTING'] = 'Đi tới Danh sách nhân viên';
+        $this->contents['LANG_EMPLOYEE_UPDATED_SUCCESSFULLY'] = 'Đã cập nhật nhân viên thành công';
+        $this->contents['LANG_CONTINUE_EDIT_EMPLOYEE'] = 'Tiếp tục Chỉnh sửa Nhân viên này';
+        $this->contents['LANG_PROFILE_UPDATED'] = 'Hồ sơ của bạn đã được cập nhật thành công';
     }
 }
 ?>

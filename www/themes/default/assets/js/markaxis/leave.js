@@ -80,7 +80,7 @@ var MarkaxisLeave = (function( ) {
                         return d.percentage / 100 * twoPi;
                     })
                     .innerRadius((size / 2) - strokeWidth)
-                    .outerRadius((size / 2) - padding)
+                    .outerRadius((size / 2) - padding);
                 //.cornerRadius(20);
 
                 // Background arc
@@ -91,9 +91,7 @@ var MarkaxisLeave = (function( ) {
                     .outerRadius((size / 2) - padding);
 
                 // Group
-                var field = svg.selectAll("g")
-                    .data(dataset)
-                    .enter().append("g");
+                var field = svg.selectAll("g").data(dataset).enter().append("g");
 
                 // Foreground arc
                 field.append("path").attr("class", "arc-foreground").attr("fill", color);
@@ -105,7 +103,7 @@ var MarkaxisLeave = (function( ) {
 
                 // Goal
                 field.append("text")
-                    .text( "of " + goal + " Available" )
+                    .text( Markaxis.i18n.LeaveRes.LANG_OF + " " + goal + " " + Markaxis.i18n.LeaveRes.LANG_AVAILABLE )
                     .attr("transform", "translate(0,20)")
                     .style({
                         'font-size': 11,
@@ -158,7 +156,7 @@ var MarkaxisLeave = (function( ) {
                             return function(t) {
                                 var days = Math.floor(d.percentage/100 * goal);
                                 days = isNaN( days ) ? 0 : days;
-                                this.textContent = days + " days";
+                                this.textContent = days + " " + Aurora.i18n.CalendarRes.LANG_DAYS;
                             };
                         });
 
@@ -250,17 +248,17 @@ var MarkaxisLeave = (function( ) {
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( full['cancelled'] == 1 ) {
-                            return '<span id="status' + full['piID'] + '" class="label label-default">Cancelled</span>';
+                            return '<span id="status' + full['piID'] + '" class="label label-default">' + Aurora.i18n.GlobalRes.LANG_CANCELLED + '</span>';
                         }
                         else {
                             if( data == 0 ) {
-                                return '<span id="status' + full['piID'] + '" class="label label-pending">Pending</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_PENDING + '</span>';
                             }
                             else if( data == 1 ) {
-                                return '<span id="status' + full['piID'] + '" class="label label-success">Approved</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_APPROVED + '</span>';
                             }
                             else {
-                                return '<span id="status' + full['piID'] + '" class="label label-danger">Unapproved</span>';
+                                return '<span id="status' + full['piID'] + '" class="label label-danger">' + Aurora.i18n.GlobalRes.LANG_UNAPPROVED + '</span>';
                             }
                         }
                     }
@@ -303,7 +301,7 @@ var MarkaxisLeave = (function( ) {
                                 '<i class="icon-menu7"></i></a>' +
                                 '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
                                 '<a class="dropdown-item cancelApplyLeave" data-id="' + full['laID'] + '">' +
-                                '<i class="icon-cross2"></i> Cancel Apply</a>' +
+                                '<i class="icon-cross2"></i> ' + Markaxis.i18n.LeaveRes.LANG_CANCEL_APPLY + '</a>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>';
@@ -315,9 +313,10 @@ var MarkaxisLeave = (function( ) {
                 dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Leave History',
-                    lengthMenu: '<span>Show:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.LeaveRes.LANG_SEARCH_LEAVE_HISTORY,
+                    lengthMenu: '<span>' + Aurora.i18n.GlobalRes.LANG_SHOW + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
@@ -332,7 +331,7 @@ var MarkaxisLeave = (function( ) {
             $('.datatable-pagination').DataTable({
                 pagingType: "simple",
                 language: {
-                    paginate: {'next': 'Next &rarr;', 'previous': '&larr; Prev'}
+                    paginate: {'next': Aurora.i18n.GlobalRes.LANG_NEXT + ' &rarr;', 'previous': '&larr; ' + Aurora.i18n.GlobalRes.LANG_PREV}
                 }
             });
 

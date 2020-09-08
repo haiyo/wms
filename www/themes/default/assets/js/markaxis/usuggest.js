@@ -150,7 +150,7 @@ var MarkaxisUSuggest = (function( ) {
                     var obj = $.parseJSON( res );
 
                     if( obj.bool === 0 && obj.errMsg ) {
-                        swal("Error!", obj.errMsg, "error");
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
                     that.setSuggestToken( obj.data );

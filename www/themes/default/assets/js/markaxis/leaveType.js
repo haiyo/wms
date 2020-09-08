@@ -91,10 +91,10 @@ var MarkaxisLeaveType = (function( ) {
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( data == 0 ) {
-                            return '<span class="label label-pending">No</span>';
+                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span class="label label-success">Yes</span>';
+                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 },{
@@ -105,10 +105,10 @@ var MarkaxisLeaveType = (function( ) {
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( data == 0 ) {
-                            return '<span class="label label-pending">No</span>';
+                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
                         }
                         else {
-                            return '<span class="label label-success">Yes</span>';
+                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
                 },{
@@ -130,10 +130,10 @@ var MarkaxisLeaveType = (function( ) {
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm dropdown-employee" x-placement="bottom-end">' +
                             '<a href="' + Aurora.ROOT_URL + 'admin/leave/editType/' + data + '" class="dropdown-item editLeaveType">' +
-                            '<i class="icon-pencil5"></i> Edit Leave Type</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.LeaveRes.LANG_EDIT_LEAVE_TYPE + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item deleteLeaveType" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Leave Type</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.LeaveRes.LANG_DELETE_LEAVE_TYPE + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -146,7 +146,8 @@ var MarkaxisLeaveType = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Leave Type',
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.LeaveRes.LANG_SEARCH_LEAVE_TYPE,
                     lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
                     paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
                 },

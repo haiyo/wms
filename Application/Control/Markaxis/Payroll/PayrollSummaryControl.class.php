@@ -78,7 +78,8 @@ class PayrollSummaryControl {
                         $data = Control::getOutputArray( );
 
                         if( isset( $args[3] ) && $args[3] == 'slip' ) {
-                            $this->PayrollSummaryView->renderSlip( $payrollUserInfo['puID'], $args[1], $args[2], $data, $Authenticator->getDecrypt( $userInfo ) );
+                            $this->PayrollSummaryView->renderSlip( $payrollUserInfo['puID'], $args[1], $args[2], $data,
+                                                                   $Authenticator->getKeyManager( )->decrypt( $userInfo['kek'], $userInfo['password'] ) );
                             exit;
                         }
                         echo $this->PayrollSummaryView->renderProcessForm( $payrollUserInfo['puID'], $args[1], $args[2], $data );

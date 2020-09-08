@@ -31,70 +31,59 @@ class EventRes extends Resource {
         $this->contents['LANG_UPCOMING_EVENT'] = 'Sự kiện sắp tới';
         $this->contents['LANG_NO_UPCOMING_EVENT'] = 'Không có sự kiện sắp diễn ra hôm nay';
         $this->contents['LANG_VIEW_CALENDAR'] = 'Xem lịch';
-        $this->contents['LANG_EVENT_INFORMATION'] = 'Event Information';
-        $this->contents['LANG_AGENDA'] = 'Agenda';
-        $this->contents['LANG_AGENDA_LIST'] = 'Agenda List';
-        $this->contents['LANG_EVENT_NO_RECORD'] = 'There is no event on this date.<br /><a href="" class="createSingle">Create event on this date.</a>';
-        $this->contents['LANG_PROVIDE_ALL_REQUIRED'] = 'Please provide all required fields.';
-        $this->contents['LANG_ALL_DAY'] = 'All day event';
-        $this->contents['LANG_CREATE_NEW_EVENT'] = 'Create New Event';
-        $this->contents['LANG_RECUR_EDIT_NOTE'] = 'Note: This is a recurring event. Editing this event will affect all other occurances.';
-        $this->contents['LANG_EDIT_EVENT'] = 'Edit Event';
-        $this->contents['LANG_SAVE_EVENT'] = 'Save Event';
-        $this->contents['LANG_CLOSE'] = 'Close';
-        $this->contents['LANG_DELETE_EVENT'] = 'Delete Event';
-        $this->contents['LANG_CONFIRM_DELETE_EVENT'] = 'Are you sure you want to delete this event? This action cannot be undone.';
-        $this->contents['LANG_EVENT_NOT_FOUND'] = 'Event Not Found';
-        $this->contents['LANG_EVENT_NOT_FOUND_MSG'] = '<strong>The event you are looking for cannot be found.
-                                                       It might have been shifted or deleted recently by someone.</strong>
-                                                       <p>Try refreshing the page to get the most updated changes.</p>';
-        $this->contents['LANG_MANAGE_LABELS'] = 'Manage Labels';
-        $this->contents['LANG_IM_DONE'] = 'I\'m Done!';
-        $this->contents['LANG_DESCRIPT'] = 'Description';
-        $this->contents['LANG_START'] = 'Start Date/Time';
-        $this->contents['LANG_END'] = 'End Date/Time';
-        $this->contents['LANG_EVENT_LABEL'] = 'Event Label';
-        $this->contents['LANG_REPEAT'] = 'Repeat';
-        $this->contents['LANG_EVERY'] = 'Every';
+        $this->contents['LANG_EVENT_INFORMATION'] = 'Thông tin sự kiện';
+        $this->contents['LANG_AGENDA'] = 'Lịch trình';
+        $this->contents['LANG_AGENDA_LIST'] = 'Danh sách lịch trình';
+        $this->contents['LANG_EVENT_NO_RECORD'] = 'Không có sự kiện nào vào ngày này.<br /><a href="" class="createSingle">Tạo sự kiện vào ngày này.</a>';
+        $this->contents['LANG_ALL_DAY'] = 'Sự kiện cả ngày';
+        $this->contents['LANG_CREATE_NEW_EVENT'] = 'Tạo sự kiện mới';
+        $this->contents['LANG_RECUR_EDIT_NOTE'] = 'Lưu ý: Đây là một sự kiện lặp lại. Việc chỉnh sửa sự kiện này sẽ ảnh hưởng đến tất cả các lần xuất hiện khác';
+        $this->contents['LANG_EDIT_EVENT'] = 'Chỉnh sửa sự kiện';
+        $this->contents['LANG_SAVE_EVENT'] = 'Lưu sự kiện';
+        $this->contents['LANG_DELETE_EVENT'] = 'Xóa sự kiện';
+        $this->contents['LANG_EVENT_NOT_FOUND'] = 'Không tìm thấy sự kiện';
+        $this->contents['LANG_EVENT_NOT_FOUND_MSG'] = '<strong>Sự kiện bạn đang tìm kiếm không thể tìm thấy.
+                                                       Nó có thể đã bị ai đó thay đổi hoặc xóa gần đây.</strong>
+                                                       <p>Hãy thử làm mới trang để nhận được những thay đổi cập nhật nhất.</p>';
+        $this->contents['LANG_MANAGE_LABELS'] = 'Quản lý nhãn';
+        $this->contents['LANG_IM_DONE'] = 'Tôi đã xong!';
+
+        $this->contents['LANG_START'] = 'Ngày / Giờ bắt đầu';
+        $this->contents['LANG_END'] = 'Ngày / Giờ kết thúc';
+        $this->contents['LANG_EVENT_LABEL'] = 'Nhãn sự kiện';
+        $this->contents['LANG_REPEAT'] = 'Nói lại';
+        $this->contents['LANG_EVERY'] = 'Mỗi';
         $this->contents['LANG_TIMES'] = 'Times';
-        $this->contents['LANG_DATE'] = 'Date';
-        $this->contents['LANG_END_REPEAT'] = 'End Repeat';
-        $this->contents['LANG_VIEW_RSVP'] = 'View or RSVP';
-        $this->contents['LANG_LOCATION'] = 'Location';
+        $this->contents['LANG_DATE'] = 'Ngày';
+        $this->contents['LANG_END_REPEAT'] = 'Kết thúc Lặp lại';
+        $this->contents['LANG_VIEW_RSVP'] = 'Xem hoặc RSVP';
+        $this->contents['LANG_LOCATION'] = 'Vị trí';
         $this->contents['LANG_RSVP'] = 'RSVP';
-        $this->contents['LANG_SET_REMINDER'] = 'Set Reminder';
-        $this->contents['LANG_SET_REPEAT'] = 'Set Repeat';
+        $this->contents['LANG_SET_REMINDER'] = 'Thiết lập nhắc nhở';
+        $this->contents['LANG_SET_REPEAT'] = 'Đặt Lặp lại';
         $this->contents['LANG_EMAIL_REMINDER'] = 'Email';
         $this->contents['LANG_POPUP_REMINDER'] = 'Popup';
-        $this->contents['LANG_ENTER_TITLE'] = 'Please enter an event title.';
-        $this->contents['LANG_APPROVE'] = 'Approve';
-        $this->contents['LANG_DISAPPROVE'] = 'Disapprove';
-        $this->contents['LANG_APPROVED_BY'] = 'Approved by';
-        $this->contents['LANG_DISAPPROVED_BY'] = 'Disapproved by';
-        $this->contents['LANG_NO_PERM'] = "Sorry, you do not have the permission to edit this event.\nPlease seek an Administrator or the creator of this event for help.";
+        $this->contents['LANG_ENTER_TITLE'] = 'Vui lòng nhập tiêu đề sự kiện';
 
-        $this->contents['LANG_SUBJECT'] = 'Approval For New Event';
-        $this->contents['LANG_MESSAGE'] = 'Calendar Settings';
-        $this->contents['LANG_SUBMIT_FOR_APPROVAL'] = 'Your event has been submitted for approval. Once your event has been approved, it will be display in the calendar.';
 
-        $this->contents['LANG_GENERAL'] = 'General';
-        $this->contents['LANG_REMINDER_REPEAT'] = 'Reminder / Repeat';
-        $this->contents['LANG_NUM_ATTACHMENT'] = '{n} Attachment|Attachments';
-        //$this->contents['LANG_ATTACH_FILES'] = 'Attach Files';
-        //$this->contents['LANG_INVITE_STAFF'] = 'Invite Staff';
-
-        $this->contents['LANG_PRIVACY_SETTING'] = 'Privacy Setting';
-        $this->contents['LANG_PUBLIC'] = 'Public';
-        $this->contents['LANG_PRIVATE'] = 'Private';
-        $this->contents['LANG_WRITE_MESSAGE'] = 'Write a message';
+        $this->contents['LANG_PRIVACY_SETTING'] = 'Cài đặt cá nhân';
+        $this->contents['LANG_PUBLIC'] = 'Công cộng';
+        $this->contents['LANG_PRIVATE'] = 'Riêng tư';
 
         // Agenda
-        $this->contents['LANG_DESCRIPTION'] = 'Description';
-        $this->contents['LANG_UNTIL'] = 'until';
-        $this->contents['LANG_FULL_DAY'] = 'Full Day';
-        $this->contents['LANG_PRIVATE_EVENT_BY'] = 'Private event by';
-        $this->contents['LANG_PUBLIC_EVENT_BY'] = 'Public event by';
-        $this->contents['LANG_EXPORT'] = 'Export';
+        $this->contents['LANG_UNTIL'] = 'cho đến khi';
+        $this->contents['LANG_FULL_DAY'] = 'Cả ngày';
+        $this->contents['LANG_PRIVATE_EVENT_BY'] = 'Sự kiện riêng tư của';
+        $this->contents['LANG_PUBLIC_EVENT_BY'] = 'Sự kiện công khai bởi';
+        $this->contents['LANG_EXPORT'] = 'Xuất khẩu';
+        $this->contents['LANG_EVENT_CREATED'] = 'Sự kiện được tạo thành công';
+        $this->contents['LANG_EVENT_CREATED_DESCRIPT'] = 'Sự kiện của bạn đã được tạo thành công.';
+        $this->contents['LANG_EVENT_UPDATED'] = 'Đã cập nhật sự kiện thành công';
+        $this->contents['LANG_EVENT_UPDATED_DESCRIPT'] = 'Sự kiện của bạn đã được cập nhật thành công.';
+        $this->contents['LANG_CONFIRM_DELETE_EVENT'] = 'Bạn có chắc chắn muốn xóa sự kiện có tiêu đề {title}';
+        $this->contents['LANG_CONFIRM_DELETE_EVENT_DESCRIPT'] = 'Sự kiện bị xóa sẽ không thể khôi phục lại.';
+        $this->contents['LANG_EVENT_DELETED_SUCCESSFULLY'] = '{title} đã được xóa thành công!';
+        $this->contents['LANG_INVALID_DATE_RANGE'] = 'Đã chọn phạm vi ngày không hợp lệ';
 	}
 }
 ?>

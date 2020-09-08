@@ -52,11 +52,11 @@ var MarkaxisExpense = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool === 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {
-                                $("#modalExpense .modal-title").text("Edit Expense Type");
+                                $("#modalExpense .modal-title").text( Markaxis.i18n.ExpenseRes.LANG_EDIT_EXPENSE_TYPE );
                                 $("#eiID").val( obj.data.eiID );
                                 $("#expenseTitle").val( obj.data.title );
                                 $("#expenseAmount").val( obj.data.max_amount ).blur();
@@ -66,7 +66,7 @@ var MarkaxisExpense = (function( ) {
                     Aurora.WebService.AJAX( "admin/expense/getExpense/" + eiID, data );
                 }
                 else {
-                    $("#modalExpense .modal-title").text("Create New Expense Type");
+                    $("#modalExpense .modal-title").text( Markaxis.i18n.ExpenseRes.LANG_CREATE_NEW_EXPENSE_TYPE );
                     $("#eiID").val(0);
                     $("#expenseTitle").val("");
                     $("#expenseAmount").val("");
@@ -83,8 +83,8 @@ var MarkaxisExpense = (function( ) {
                     expenseAmount: { required: true }
                 },
                 messages: {
-                    expenseTitle: "Please enter a Expense Type Title.",
-                    expenseAmount: "Please enter a maximum amount."
+                    expenseTitle: Markaxis.i18n.ExpenseRes.LANG_ENTER_EXPENSE_TYPE,
+                    expenseAmount: Markaxis.i18n.ExpenseRes.LANG_ENTER_MAX_AMOUNT
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -106,16 +106,16 @@ var MarkaxisExpense = (function( ) {
                         success: function( res ) {
                             var obj = $.parseJSON( res );
                             if( obj.bool === 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             }
                             else {
                                 if( $("#eiID").val( ) == 0 ) {
-                                    var title = "Expense Type Created Successfully";
-                                    var text = "New expense type has been successfully created.";
+                                    var title = Markaxis.i18n.ExpenseRes.LANG_EXPENSE_CREATED_SUCCESSFULLY;
+                                    var text = Markaxis.i18n.ExpenseRes.LANG_EXPENSE_CREATED_SUCCESSFULLY_DESCRIPT;
                                 }
                                 else {
-                                    var title = "Expense Type Updated Successfully";
-                                    var text = "Expense type has been successfully updated.";
+                                    var title = Markaxis.i18n.ExpenseRes.LANG_EXPENSE_UPDATED_SUCCESSFULLY;
+                                    var text = Markaxis.i18n.ExpenseRes.LANG_EXPENSE_UPDATED_SUCCESSFULLY_DESCRIPT;
                                 }
 
                                 swal({
@@ -144,12 +144,12 @@ var MarkaxisExpense = (function( ) {
             var title = $("#expenseTable-row" + eiID).find("td").eq(0).text( );
 
             swal({
-                title: "Are you sure you want to delete " + title + "?",
-                text: "This action cannot be undone once deleted.",
+                title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
+                text: Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm Delete",
+                confirmButtonText: Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function( isConfirm ) {
@@ -162,12 +162,12 @@ var MarkaxisExpense = (function( ) {
                     success: function (res) {
                         var obj = $.parseJSON(res);
                         if( obj.bool == 0 ) {
-                            swal("Error!", obj.errMsg, "error");
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                             return;
                         }
                         else {
                             that.table.ajax.reload();
-                            swal("Done!", title + " has been successfully deleted!", "success");
+                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
                     }
@@ -235,10 +235,10 @@ var MarkaxisExpense = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" x-placement="bottom-end">' +
                             '<a class="dropdown-item" data-id="' + data + '" data-backdrop="static" data-keyboard="false" ' +
                             'data-toggle="modal" data-target="#modalExpense">' +
-                            '<i class="icon-pencil5"></i> Edit Expense Item</a>' +
+                            '<i class="icon-pencil5"></i> ' + Markaxis.i18n.ExpenseRes.LANG_EDIT_EXPENSE_ITEM + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item deleteExpense" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> Delete Expense Item</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.ExpenseRes.LANG_DELETE_EXPENSE_ITEM + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -248,9 +248,10 @@ var MarkaxisExpense = (function( ) {
                 dom: '<"datatable-header"f><"datatable-scroll"t><"datatable-footer"ilp>',
                 language: {
                     search: '',
-                    searchPlaceholder: 'Search Expense Type',
-                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Rows:</span> _MENU_',
-                    paginate: { "first" : 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+                    info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
+                    searchPlaceholder: Markaxis.i18n.ExpenseRes.LANG_SEARCH_EXPENSE_TYPE,
+                    lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
+                    paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },
                 drawCallback: function () {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
