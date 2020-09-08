@@ -194,9 +194,8 @@ class LeaveApplyView {
                                                     'TPLVAR_DESCRIPTION' => $reason,
                                                     'TPLVAR_VALUE' => $row['days'] . ' ' . $this->LeaveRes->getContents('LANG_DAYS'),
                                                     'TPLVAR_ATTACHMENT' => $attachment );
-
-                return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }
+            return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
         }
     }
 }

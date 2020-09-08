@@ -116,7 +116,8 @@ class LeaveApply extends \DAO {
                                    WHERE lam.managerID = "' . (int)$userID . '" AND 
                                          lam.approved = "0" AND
                                          la.cancelled <> "1" AND
-                                         lt.deleted <> "1"
+                                         lt.deleted <> "1" AND
+                                         la.uID IS NULL
                                    ORDER BY la.created desc',
                                    __FILE__, __LINE__ );
 

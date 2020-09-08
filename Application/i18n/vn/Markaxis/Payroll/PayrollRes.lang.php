@@ -76,7 +76,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_ACTIONS'] = 'Hành động';
         $this->contents['LANG_HOW_OFTEN_PAY'] = 'Bạn sẽ trả cho nhân viên của mình bao lâu một lần?';
         $this->contents['LANG_PAY_RUN_TITLE'] = 'Pay Run Title';
-        $this->contents['LANG_MONTHLY_WEEKLY'] = 'Nhân viên toàn thời gian hàng tháng, nhân viên bán thời gian hàng tuần';
+        $this->contents['LANG_MONTHLY_WEEKLY'] = 'Nhân viên toàn thời gian hàng tháng';
         $this->contents['LANG_PAYMENT_CYCLE_DATE'] = 'Ngày chu kỳ thanh toán';
         $this->contents['LANG_PAY_CALENDAR'] = 'Lịch trả tiền';
         $this->contents['LANG_PAY_ITEMS'] = 'Thanh toán các mặt hàng';

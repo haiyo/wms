@@ -102,7 +102,7 @@ class UserModel extends \Model {
     * @return void
     */
     public function load( $userID ) {
-        $this->info = $this->User->getFieldByUserID( $userID, '*' );
+        $this->info = $this->User->getFieldByUserID( $userID, 'u.*' );
     }
 
 

@@ -17,7 +17,7 @@
     <!-- END DYNAMIC BLOCK: list -->
   </ul>
 
-  <div class="dropdown-content-footer">
+  <!--<div class="dropdown-content-footer">
     <a href="#" data-popup="tooltip" title="" data-original-title="All messages"><i class="icon-menu display-block"></i></a>
-  </div>
+  </div>-->
 </div>

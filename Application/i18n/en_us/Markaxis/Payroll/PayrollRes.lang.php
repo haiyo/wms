@@ -75,7 +75,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_PAYMENT_CYCLE'] = 'Payment Cycle';
         $this->contents['LANG_HOW_OFTEN_PAY'] = 'How often will you pay your employees?';
         $this->contents['LANG_PAY_RUN_TITLE'] = 'Pay Run Title';
-        $this->contents['LANG_MONTHLY_WEEKLY'] = 'Monthly Full-time Employee, Weekly Part-time Employee';
+        $this->contents['LANG_MONTHLY_WEEKLY'] = 'Monthly Full-time Employee';
         $this->contents['LANG_PAYMENT_CYCLE_DATE'] = 'Payment Cycle Date';
         $this->contents['LANG_PAY_CALENDAR'] = 'Pay Calendars';
         $this->contents['LANG_PAY_ITEMS'] = 'Pay Items';

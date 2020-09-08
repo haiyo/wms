@@ -104,9 +104,8 @@ class ClaimView {
                                                     'TPLVAR_DESCRIPTION' => $row['descript'],
                                                     'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
                                                     'TPLVAR_ATTACHMENT' => $attachment );
-
-                return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
             }
+            return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
         }
     }
 

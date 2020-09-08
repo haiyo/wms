@@ -213,7 +213,7 @@ var MarkaxisClaim = (function( ) {
                         $("#list-" + ecID).fadeOut("slow", function( ) {
                             $(this).remove( );
 
-                            if( $(".requestList").length == 0 ) {
+                            if( $(".pendingList").length == 0 ) {
                                 $("#tableRequest").remove( );
                                 $("#noRequest").show( );
                             }

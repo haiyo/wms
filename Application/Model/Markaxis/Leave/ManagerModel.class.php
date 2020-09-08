@@ -107,7 +107,9 @@ class ManagerModel extends \Model implements IObservable {
         if( isset( $data['laID'] ) && $this->isFound( $data['laID'], $userInfo['userID'] ) ) {
             $info = array( );
             $info['approved'] = $data['approved'];
-            $this->Manager->update( 'leave_apply_manager', $info, 'WHERE managerID="' . (int)$userInfo['userID'] . '"' );
+            $this->Manager->update( 'leave_apply_manager', $info,
+                                    'WHERE managerID="' . (int)$userInfo['userID'] . '" AND 
+                                                  laID = "' . (int)$data['laID'] . '"' );
 
             // Immediate disapprove if one manager disapproved
             $LeaveApplyModel = LeaveApplyModel::getInstance( );
