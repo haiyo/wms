@@ -43,7 +43,8 @@ class CompanyView {
                                         'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
                                         'pages' => 'wizard_stepy.js',
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
-                                        'markaxis' => 'company.js' ) );
+                                        'markaxis' => 'company.js',
+                                        'locale' => $this->L10n->getL10n( ) ) );
     }
 
 

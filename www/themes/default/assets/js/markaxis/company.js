@@ -50,6 +50,36 @@ var MarkaxisCompany = (function( ) {
                 return false;
             });
 
+            $(".upload-cancel").on("click", function( ev ) {
+                var which = $(this).attr("data-cancel");
+
+                if( which == "uploadCompany" ) {
+                    $(".upload-company-wrap").removeClass('ready');
+                    $(".companyLogoBG").addClass("hide");
+                    $(".defCompanyLogo").show( );
+                    $("#uploadCompany").val("");
+
+                    that.uploadCompany.croppie('bind', {
+                        url : ''
+                    }).then(function () {
+                        console.log('reset complete');
+                    });
+                }
+                else {
+                    $(".upload-slip-wrap").removeClass('ready');
+                    $(".payslipLogoBG").addClass("hide");
+                    $(".defPayslipLogo").show( );
+                    $("#uploadSlip").val("");
+
+                    that.uploadSlip.croppie('bind', {
+                        url : ''
+                    }).then(function () {
+                        console.log('reset complete');
+                    });
+                }
+                return false;
+            });
+
             that.validator = $("#companyForm").validate({
                 ignore: "",
                 rules: {
@@ -214,8 +244,8 @@ var MarkaxisCompany = (function( ) {
         },
 
 
-        deleteLogo: function( dataText ) {
-            title = Markaxis.i18n.CompanyRes.LANG_CONFIRM_DELETE_LOGO.replace('{dataText}', dataText);
+        deleteLogo: function( datatext ) {
+            title = Markaxis.i18n.CompanyRes.LANG_CONFIRM_DELETE_LOGO.replace('{datatext}', datatext);
             text  = Markaxis.i18n.CompanyRes.LANG_CONFIRM_DELETE_LOGO_DESCRIPT;
             confirmButtonText = Aurora.i18n.GlobalRes.LANG_CONFIRM_DELETE;
 
@@ -231,11 +261,11 @@ var MarkaxisCompany = (function( ) {
             }, function (isConfirm) {
                 if (isConfirm === false) return;
 
-                $("." + dataText + " .icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
+                $("." + datatext + " .icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
 
                 var data = {
                     bundle: {
-                        logo : dataText
+                        logo : datatext
                     },
                     success: function( res ) {
                         var obj = $.parseJSON( res );
@@ -244,8 +274,8 @@ var MarkaxisCompany = (function( ) {
                             return;
                         }
                         else {
-                            $(".photo-wrap-" + dataText).remove( );
-                            $(".def" + dataText + "Logo img").removeClass("hide");
+                            $(".photo-wrap-" + datatext).remove( );
+                            $(".def" + datatext + "Logo img").removeClass("hide");
                             swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.CompanyRes.LANG_LOGO_SUCCESSFULLY_DELETED.replace('{datatext}', datatext), "success");
                             return;
                         }

@@ -51,7 +51,7 @@
                             </div>
                             <!-- END DYNAMIC BLOCK: companyLogo -->
                             <div class="upload-demo-wrap upload-company-wrap">
-                                <a href="#" data-cancel="uploadCompany" class="upload-cancel">X</a>
+                                <a href="#" data-cancel="uploadCompany" class="upload-cancel">&times;</a>
                                 <div id="upload-company">
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                             </div>
                             <!-- END DYNAMIC BLOCK: slipLogo -->
                             <div class="upload-demo-wrap upload-slip-wrap">
-                                <a href="#" data-cancel="uploadSlip" class="upload-cancel">X</a>
+                                <a href="#" data-cancel="uploadSlip" class="upload-cancel">&times;</a>
                                 <div id="upload-slip">
                                 </div>
                             </div>
