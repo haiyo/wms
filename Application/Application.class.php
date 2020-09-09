@@ -38,6 +38,10 @@ class Application {
             $HttpRequest = new HttpRequest( );
             $pathInfo = $HttpRequest->request(GET, 'pathInfo' );
 
+            if( !$pathInfo ) {
+                $pathInfo = 'admin';
+            }
+
             $Dispatcher = new Dispatcher( );
             $Dispatcher->setMapping(XML . 'urlmap.xml' );
             $Dispatcher->monitor( $pathInfo );

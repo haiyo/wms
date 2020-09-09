@@ -190,6 +190,7 @@ class TaxComputingModel extends \Model {
      */
     public function filterInvalidRules( $data, $post=false ) {
         $data['totalOrdinaryNett'] = 0;
+        $data['totalOrdinary'] = $data['gross'] = $data['basic']['amount'];
 
         if( !$post ) {
             // foreach is still the fastest compare to array_sum;
@@ -197,7 +198,7 @@ class TaxComputingModel extends \Model {
                 if( isset( $ordinary['amount'] ) ) {
                     $data['totalOrdinary'] += $ordinary['amount'];
                     $data['totalOrdinaryNett'] += $ordinary['amount'];
-                    $data['gross'][] = array( 'amount' => $ordinary['amount'] );
+                    $data['gross'] += $ordinary['amount'];
                 }
             }
         }

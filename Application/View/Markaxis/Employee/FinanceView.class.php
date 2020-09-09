@@ -127,12 +127,12 @@ class FinanceView {
         $PaymentMethodModel = PaymentMethodModel::getInstance( );
         $pmID = $paymentMethodID ? $paymentMethodID : '';
         $SelectListView->setClass( 'paymentMethodList' );
-        $paymentMethodList = $SelectListView->build('paymentMethod',  $PaymentMethodModel->getList( ), $pmID,
+        $paymentMethodList = $SelectListView->build('paymentMethod', $PaymentMethodModel->getList( ), $pmID,
                                                      $this->L10n->getContents('LANG_SELECT_PAYMENT_METHOD') );
 
         $BankModel = AuroraBankModel::getInstance( );
         $bkID = isset( $bankInfo['bkID'] ) ? $bankInfo['bkID'] : '';
-        $bankList = $SelectListView->build( 'bank',  $BankModel->getList( ), $bkID, $this->L10n->getContents('LANG_SELECT_BANK') );
+        $bankList = $SelectListView->build( 'bank', $BankModel->getList( ), $bkID, $this->L10n->getContents('LANG_SELECT_BANK') );
 
         $TaxGroupModel = TaxGroupModel::getInstance( );
         $TypeModel = TypeModel::getInstance( );
