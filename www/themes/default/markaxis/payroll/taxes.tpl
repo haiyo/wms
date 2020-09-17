@@ -382,7 +382,7 @@
                         <div style="width:100%; margin:15px 0 15px 0;"></div>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label><?LANG_APPLY_ABOVE_CRITERIA_AS?>:</label>
                             <select name="applyType" id="applyType" data-placeholder="" placeholder=""
@@ -395,7 +395,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label><?LANG_TYPE_OF_VALUE?>:</label>
                             <select name="applyValueType" id="applyValueType" data-placeholder="" placeholder=""
@@ -405,10 +405,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label><?LANG_VALUE?>: <span class="text-danger-400">*</span></label>
                             <input type="number" class="form-control" id="applyValue" name="applyValue" placeholder="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><?LANG_CAPPED_AMOUNT_FORMULA?>:</label>
+                            <input type="text" class="form-control" id="applyCapped" name="applyCapped" placeholder="" />
                         </div>
                     </div>
                 </div>
@@ -1016,6 +1022,7 @@
                             $("#applyType").val( obj.data.applyType ).trigger("change");
                             $("#applyValueType").val( obj.data.applyValueType ).trigger("change");
                             $("#applyValue").val( obj.data.applyValue );
+                            $("#applyCapped").val( obj.data.applyCapped );
 
                             var criteria=0;
 
@@ -1123,6 +1130,7 @@
                 $("#applyType").val("deductionOR").trigger("change");
                 $("#applyValueType").val("percentage").trigger("change");
                 $("#applyValue").val("");
+                $("#applyCapped").val("");
             }
         });
 

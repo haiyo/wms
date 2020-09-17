@@ -134,10 +134,8 @@ class LeaveApplyControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        if( isset( $args[1] ) && isset( $args[2] ) ) {
-            $data = Control::getOutputArray( );
-            Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $args[2], $data ) );
-        }
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->LeaveApplyModel->processPayroll( $args[1], $data ) );
     }
 
 
@@ -145,9 +143,11 @@ class LeaveApplyControl {
      * For No Pay Leave
      * @return string
      */
-    public function savePayroll( ) {
+    public function savePayroll( $args ) {
         $data = Control::getOutputArray( );
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+
+        $this->processPayroll( $args );
         $this->LeaveApplyModel->savePayroll( $data, $post );
     }
 

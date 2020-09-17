@@ -238,35 +238,25 @@ class PayrollModel extends \Model {
      * @return mixed
      */
     public function processSummary( $data ) {
-        $summary['gross'] = $summary['deduction'] = $summary['net'] = $summary['claim'] =
-        $summary['fwl'] = $summary['sdl'] = $summary['levy'] = $summary['contribution'] = 0;
+        $summary['gross'] = $summary['net'] = (float)$data['items']['totalGross'];
 
-        if( isset( $data['gross'] ) ) {
-            $summary['gross'] = (float)$data['gross'];
-            $summary['net'] = (float)$data['gross'];
+        $summary['deduction'] = $summary['claim'] = $summary['fwl'] = $summary['sdl'] =
+        $summary['levy'] = $summary['contribution'] = $summary['totalContribution'] = 0;
 
-            /*foreach( $data['gross'] as $gross ) {
-                if( isset( $gross['amount'] ) ) {
-                    $summary['gross'] += (float)$gross['amount'];
-                    $summary['net'] += (float)$gross['amount'];
-                }
-            }*/
-        }
-        if( isset( $data['net'] ) ) {
-            foreach( $data['net'] as $net ) {
-                if( isset( $net['amount'] ) ) {
-                    $summary['net'] += (float)$net['amount'];
-                }
+        if( isset( $data['addGross'] ) ) {
+            foreach( $data['addGross'] as $addGross ) {
+                $summary['gross'] += (float)$addGross;
+                $summary['net']   += (float)$addGross;
             }
         }
-        if( isset( $data['items'] ) && is_array( $data['items'] ) ) {
-            foreach( $data['items'] as $items ) {
-                if( isset( $data['deduction'] ) ) {
-                    $summary['deduction'] += (float)$items['amount'];
-                    $summary['net'] -= (float)$items['amount'];
-                }
+
+        if( isset( $data['deductGross'] ) ) {
+            foreach( $data['deductGross'] as $addGross ) {
+                $summary['gross'] -= (float)$addGross;
+                $summary['net']   -= (float)$addGross;
             }
         }
+
         if( isset( $data['claims'] ) ) {
             foreach( $data['claims'] as $claims ) {
                 if( isset( $claims['eiID'] ) ) {
@@ -275,14 +265,50 @@ class PayrollModel extends \Model {
                 }
             }
         }
-        if( isset( $data['levy'] ) ) {
-            foreach( $data['levy'] as $levies ) {
-                $summary['levy'] += (float)$levies['amount'];
-            }
-        }
-        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-            foreach( $data['contribution'] as $contribution ) {
-                $summary['contribution'] += (float)$contribution['amount'];
+
+        if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
+            foreach( $data['itemRow'] as $item ) {
+                if( isset( $item['deductGross'] ) ) {
+                    $summary['gross'] -= (float)$item['amount'];
+                }
+                if( isset($item['deduction']) || isset( $item['deductionAW'] ) ) {
+                    $summary['net'] -= (float)$item['amount'];
+                }
+
+                foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
+                    // First find all the childs in this group and see if we have any summary=1
+                    if( isset( $taxGroup['child'] ) ) {
+                        $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
+
+                        if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
+                            foreach( $taxGroup['child'] as $childKey => $child ) {
+                                if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
+                                    if( $child['summary'] ) {
+                                        $summary['itemGroups'][$childKey]['title'] = $child['title'];
+                                        $summary['itemGroups'][$childKey]['remark'] = $item['remark'];
+                                    }
+                                    else {
+                                        $summary['itemGroups'][$childKey]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                    }
+
+                                    if( isset( $summary['itemGroups'][$childKey]['amount'] ) ) {
+                                        $summary['itemGroups'][$childKey]['amount'] += (float)$item['amount'];
+                                    }
+                                    else {
+                                        $summary['itemGroups'][$childKey]['amount'] = (float)$item['amount'];
+                                    }
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                    else if( isset( $taxGroup['tgID'] ) && isset( $item['tgID'] ) && $taxGroup['tgID'] == $item['tgID'] ) {
+                        // If children not found with summary=1, fallback to parent
+                        $summary['itemGroups'][$key]['title'] = $taxGroup['title'];
+                        $summary['itemGroups'][$key]['amount'] = (float)$item['amount'];
+                        break;
+                    }
+                }
             }
         }
 /*

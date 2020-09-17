@@ -14,6 +14,7 @@ class TaxComputingModel extends \Model {
 
     // Properties
     protected $TaxComputing;
+    private $unsetRules = [];
 
 
     /**
@@ -86,13 +87,8 @@ class TaxComputingModel extends \Model {
      * @return bool
      */
     public function isEquality( $computing, $compare, $against ) {
-        if( !$compare ) {
+        if( !$compare || (( $computing == 'lt' || $computing == 'lte' ) && $compare > $against ) ) {
             return false;
-        }
-        if( $computing == 'lt' || $computing == 'lte' ) {
-            if( $compare > $against ) {
-                return false;
-            }
         }
         if( ( $computing == 'gt' && $compare <= $against ) ||
             ( $computing == 'gte' && $compare < $against ) ) {
@@ -104,22 +100,16 @@ class TaxComputingModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function filterAge( $data, $compInfo ) {
-        $age = 0;
+        if( $compInfo['criteria'] == 'age' && $data['empInfo']['birthday'] ) {
+            $age = Date::getAge( $data['empInfo']['birthday'] );
 
-        if( $compInfo['criteria'] == 'age' ) {
-            if( !$age ) {
+            if( !$age || !$this->isEquality( $compInfo['computing'], $age, $compInfo['value'] ) ) {
                 // If invalid age, break altogether.
-                if( $data['empInfo']['birthday'] && !$age = Date::getAge( $data['empInfo']['birthday'] ) ) {
-                    unset( $data['taxRules'][$compInfo['trID']] );
-                    $unset[$compInfo['trID']] = 1;
-                }
-            }
-            if( !$this->isEquality( $compInfo['computing'], $age, $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
-                $unset[$compInfo['trID']] = 1;
+                $this->unsetRules[$compInfo['trID']] = 1;
             }
         }
         return $data;
@@ -131,16 +121,14 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterConfirmation( $data, $compInfo ) {
-        if( $compInfo['criteria'] == 'confirmation' && isset( $data['empInfo']['confirmDate'] ) ) {
-            $empInfoConfirm = new \DateTime( $data['empInfo']['confirmDate'] );
-
+        if( $compInfo['criteria'] == 'confirmation' && $data['empInfo']['confirmDate'] ) {
             // We only support current now
             if( $compInfo['valueType'] == 'current' ) {
                 $current = new \DateTime( );
 
-                if( !$this->isEquality( $compInfo['computing'], $current, $empInfoConfirm ) ) {
+                if( !$this->isEquality( $compInfo['computing'], $current, $data['empInfo']['confirmDate'] ) ) {
                     unset( $data['taxRules'][$compInfo['trID']] );
-                    $unset[$compInfo['trID']] = 1;
+                    $this->unsetRules[$compInfo['trID']] = 1;
                 }
             }
         }
@@ -153,16 +141,16 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterOrdinary( $data, $compInfo ) {
-        if( $compInfo['criteria'] == 'ordinary' && isset( $data['totalOrdinary'] ) ) {
-            if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
+        if( $compInfo['criteria'] == 'ordinary' ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['items']['totalGross'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
-                $unset[$compInfo['trID']] = 1;
+                $this->unsetRules[$compInfo['trID']] = 1;
             }
-            if( isset( $data['taxRules'][$compInfo['trID']] ) &&
-                $compInfo['computing'] == 'ltec' && $data['totalOrdinary'] > $compInfo['value'] ) {
+            else if( isset( $data['taxRules'][$compInfo['trID']] ) && $compInfo['computing'] == 'ltec' &&
+                     $data['items']['totalGross'] > $compInfo['value'] ) {
                 // Set the cap amount for later deduction.
                 $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
-                $data['totalOrdinaryNett'] = $compInfo['value'];
+                $data['items']['totalNett'] = $compInfo['value'];
             }
         }
         return $data;
@@ -174,10 +162,10 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterAllPayItem( $data, $compInfo ) {
-        if( $compInfo['criteria'] == 'allPayItem' && isset( $data['totalOrdinary'] ) ) {
-            if( !$this->isEquality( $compInfo['computing'], $data['totalOrdinary'], $compInfo['value'] ) ) {
+        if( $compInfo['criteria'] == 'allPayItem' ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['items']['totalGross'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
-                $unset[$compInfo['trID']] = 1;
+                $this->unsetRules[$compInfo['trID']] = 1;
             }
         }
         return $data;
@@ -189,39 +177,16 @@ class TaxComputingModel extends \Model {
      * @return int
      */
     public function filterInvalidRules( $data, $post=false ) {
-        $data['totalOrdinaryNett'] = 0;
-        $data['totalOrdinary'] = $data['gross'] = $data['basic']['amount'];
-
-        if( !$post ) {
-            // foreach is still the fastest compare to array_sum;
-            foreach( $data['ordinary'] as $ordinary ) {
-                if( isset( $ordinary['amount'] ) ) {
-                    $data['totalOrdinary'] += $ordinary['amount'];
-                    $data['totalOrdinaryNett'] += $ordinary['amount'];
-                    $data['gross'] += $ordinary['amount'];
-                }
-            }
-        }
-
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
 
             $compInfo = $this->TaxComputing->getBytrIDs( $trIDs );
-            $unset = array( );
 
             if( sizeof( $compInfo ) > 0 ) {
-                if( isset( $post['postItems'] ) ) {
-                    foreach( $post['postItems'] as $postItems ) {
-                        if( isset( $data['ordinary'][$postItems['piID']] ) ) {
-                            $data['ordinary'][$postItems['piID']]['amount'] = $postItems['amount'];
-                        }
-                    }
-                }
-
                 foreach( $compInfo as $row ) {
                     // Multiple computing criteria can belong to one TaxRule.
                     // If we have the main TaxRule already unset before, skip any compInfo related;
-                    if( isset( $unset[$row['trID']] ) ) {
+                    if( isset( $this->unsetRules[$row['trID']] ) ) {
                         continue;
                     }
                     $data = $this->filterAge( $data, $row );

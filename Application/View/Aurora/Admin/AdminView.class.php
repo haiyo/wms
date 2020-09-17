@@ -316,7 +316,6 @@ class AdminView extends SingletonHelper {
                 array( 'TPLVAR_AURORA_VER' => AURORA_VERSION ) );
 
         $vars['dynamic']['breadcrumbs'] = false;
-        $vars['dynamic']['headerLinks'] = false;
 
         if( is_array( $this->breadcrumbs ) ) {
             foreach( $this->breadcrumbs as $crumb ) {
@@ -338,6 +337,11 @@ class AdminView extends SingletonHelper {
                                                            'LANG_TEXT' => $link['text'] );
             }
         }
+
+        $vars['dynamic']['headerLinks'][] = array( 'TPLVAR_LINK' => '#',
+                                                   'TPLVAR_ICON' => 'icon-lifebuoy',
+                                                   'TPLVAR_CLASSNAME' => '',
+                                                   'LANG_TEXT' => $this->PageRes->getContents('LANG_NEED_HELP') );
 
         return $this->render('aurora/page/pageHeader.tpl', $vars );
     }

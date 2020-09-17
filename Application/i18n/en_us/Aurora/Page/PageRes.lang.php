@@ -20,6 +20,7 @@ class PageRes extends Resource {
         
         $this->contents = array( );
         $this->contents['LANG_HOME'] = 'Home';
+        $this->contents['LANG_NEED_HELP'] = 'Need Help?';
         $this->contents['LANG_EDIT_PROFILE'] = 'Edit Profile';
         $this->contents['LANG_LOGOUT'] = 'Logout';
 	}

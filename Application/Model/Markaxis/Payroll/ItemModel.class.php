@@ -1,9 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\OfficeModel AS A_OfficeModel;
-use \Markaxis\Company\OfficeModel AS M_OfficeModel;
-use \Markaxis\Leave\LeaveApplyModel;
-use \Library\Util\Formula;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -177,7 +173,8 @@ class ItemModel extends \Model {
             $data['empInfo']['salary'] > 0 ) {
 
             $items['basic']['amount'] = $data['empInfo']['salary'];
-            $items['totalOrdinary'] = $data['empInfo']['salary'];
+            $items['totalGross'] = $data['empInfo']['salary'];
+            $items['totalNett'] = 0;
         }
         return $items;
     }
@@ -207,17 +204,19 @@ class ItemModel extends \Model {
                     $id   = $match[1];
                     $piID = str_replace('p-', '', $item );
 
-                    if( $this->isFound( $piID ) && isset( $post['data']['amount_' . $id] ) ) {
-                        $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
+                    if( $this->isFound( $piID ) ) {
+
+                        $amount = str_replace($data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                              '', $post['data']['amount_' . $id] );
                         $amount = (int)str_replace(',', '', $amount );
+
                         $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
 
-                        if( $amount > 0 ) {
-                            $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
-                        }
+                        $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
                     }
                 }
             }
+
             return $post;
         }
     }

@@ -107,16 +107,7 @@ class ClaimControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->ClaimModel->processPayroll( $data ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function reprocessPayroll( ) {
-        $this->processPayroll( );
+        Control::setOutputArray( array( 'claims' => $this->ClaimModel->processPayroll( $data ) ) );
     }
 
 
@@ -127,7 +118,9 @@ class ClaimControl {
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $post = Control::getRequest( )->request( POST );
-        Control::setOutputArray( $this->ClaimModel->savePayroll( $data, $post ) );
+
+        $this->processPayroll( );
+        $this->ClaimModel->savePayroll( $data, $post );
     }
 
 

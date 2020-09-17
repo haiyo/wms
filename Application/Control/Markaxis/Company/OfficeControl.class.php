@@ -68,6 +68,34 @@ class OfficeControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( $args ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'office' => $this->OfficeModel->getWorkDaysOfMonth( $data ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( $args ) {
+        $this->processPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( $args ) {
+        $this->processPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function saveOffice( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST, 'data' ) );
 

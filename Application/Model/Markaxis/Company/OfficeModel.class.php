@@ -113,9 +113,14 @@ class OfficeModel extends \Model {
         $workDays = array( );
 
         if( $officeInfo['workDayFrom'] && $officeInfo['workDayTo'] ) {
-            $workDay = array( (int)$officeInfo['workDayFrom'], (int)$officeInfo['workDayTo'] );
+            $workDayFrom = (int)$officeInfo['workDayFrom'];
+            $workDayTo = (int)$officeInfo['workDayTo'];
 
-            for( $i=$workDay[0]; $i<=$workDay[1]; $i++ ) {
+            for( $i=$workDayFrom; $i<=$workDayTo; $i++ ) {
+                // if last day is half day
+                if( $i == $workDayTo && $officeInfo['halfDay'] ) {
+                    $i -= .5;
+                }
                 $workDays[] = $i;
             }
         }
@@ -127,7 +132,7 @@ class OfficeModel extends \Model {
      * Set Pay Item Info
      * @return int
      */
-    public function getWorkingDaysByRange( $oID, $startDate, $endDate, $countryCode ) {
+    public function getWorkingDaysByRange( $oID, $startDate, $endDate ) {
         $workDays = $this->getWorkingDaysByOfficeID( $oID );
 
         /*$HolidayModel = new HolidayModel( );
@@ -137,20 +142,47 @@ class OfficeModel extends \Model {
         if( sizeof( $holidayInfo ) > 0 ) {
             $holidayDays = array_column( $holidayInfo, 'date' );
         }*/
-        $from = new DateTime( $startDate );
-        $to = new DateTime($endDate . ' 23:59:59' );
+
+        // Can tally from https://www.3ecpa.com.sg/regulatory-and-business/singapore-public-holidays-2020/;
 
         $interval = new \DateInterval('P1D');
-        $periods = new \DatePeriod( $from, $interval, $to );
+        $periods = new \DatePeriod( $startDate, $interval, $endDate );
 
         $days = 0;
         foreach( $periods as $period ) {
-            if( !in_array( $period->format('N'), $workDays ) ) continue;
-            //if(  in_array( $period->format('Y-m-d'), $holidayDays ) ) continue;
-            //if(  in_array( $period->format('*-m-d'), $holidayDays ) ) continue;
-            $days++;
+            if( in_array( $period->format('N'), $workDays ) ) {
+                $days++;
+                continue;
+            }
+
+            if( in_array( $period->format('N')-.5, $workDays ) ) {
+                $days += .5;
+            }
+            //if( in_array( $period->format('Y-m-d'), $holidayDays ) ) continue;
+            //if( in_array( $period->format('*-m-d'), $holidayDays ) ) continue;
         }
         return $days;
+    }
+
+
+    /**
+     * Set Pay Item Info
+     * @return int
+     */
+    public function getWorkDaysOfMonth( $data ) {
+        $officeInfo = $this->getByoID( $data['empInfo']['officeID'] );
+
+        $officeInfo['workDaysOfMonth'] = $this->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                       $data['payCal']['rangeStart'],
+                                                                       $data['payCal']['rangeEnd'] );
+
+        // If employee just join within this month, calculate the exact days
+        if( $data['empInfo']['startDate']->format('Y-m') == $data['payCal']['paymentDate']->format('Y-m') ) {
+            $data['empInfo']['joinDay'] = $this->getWorkingDaysByRange( $data['empInfo']['officeID'],
+                                                                        $data['startDate']->format('Y-m-d'),
+                                                                        $data['paymentDate']->format('Y-m-d') );
+        }
+        return $officeInfo;
     }
 
 
@@ -195,6 +227,8 @@ class OfficeModel extends \Model {
                     $this->info['days']++;
                 }
             }
+
+            $this->info['halfDay'] = 0;
 
             if( isset( $data['halfDay'] ) ) {
                 $this->info['halfDay'] = 1;

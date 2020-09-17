@@ -17,7 +17,8 @@
         <!-- BEGIN DYNAMIC BLOCK: employerItem -->
         <div class="col-md-12 text-light summaryItem">
             <div class="col-md-8 text-right p-5">
-                <strong><?TPLVAR_TITLE?>:</strong>
+                <strong><?TPLVAR_TITLE?> <i class="icon-info22 mr-3 <?TPLVAR_SHOW_TIP?>" data-popup="tooltip" title="" data-html="true"
+                                            data-original-title="<?TPLVAR_REMARK?>"></i>:</strong>
             </div>
             <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>
@@ -39,7 +40,8 @@
         <!-- BEGIN DYNAMIC BLOCK: deductionSummary -->
         <div class="col-md-12 summaryItem">
             <div class="col-md-8 text-right p-5">
-                <strong><?TPLVAR_TITLE?>:</strong>
+                <strong><?TPLVAR_TITLE?> <i class="icon-info22 mr-3 <?TPLVAR_SHOW_TIP?>" data-popup="tooltip" title="" data-html="true"
+                                            data-original-title="<?TPLVAR_REMARK?>"></i>:</strong>
             </div>
             <div class="col-md-4 text-right p-5">
                 <?TPLVAR_CURRENCY?><?TPLVAR_AMOUNT?>

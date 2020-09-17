@@ -70,7 +70,7 @@ class UserControl {
         try {
             $userID = isset( $args[1] ) ? (int)$args[1] : 0;
 
-            if( $userInfo = $this->UserModel->getFieldByUserID( $userID, '*' ) ) {
+            if( $userInfo = $this->UserModel->getFieldByUserID( $userID, 'u.*' ) ) {
                 Control::setOutputArrayAppend( array( 'userInfo' => $userInfo,
                                                       'form' => $this->UserView->renderEdit( $userInfo ) ) );
             }

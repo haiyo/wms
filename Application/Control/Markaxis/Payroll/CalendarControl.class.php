@@ -95,10 +95,26 @@ class CalendarControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        if( isset( $args[2] ) ) {
-            $data = Control::getOutputArray( );
-            Control::setOutputArray( $this->CalendarModel->getEmployeeDuration( $args[2], $data ) );
-        }
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'payCal' => $this->CalendarModel->getPayCal( $args[2], $data ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( $args ) {
+        $this->processPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( $args ) {
+        $this->processPayroll( $args );
     }
 
 

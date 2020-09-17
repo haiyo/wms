@@ -52,6 +52,7 @@ class SelectGroupListView extends SelectListView {
                 }
                 $vars['dynamic']['option'][] = array( 'TPLVAR_VALUE'  => $arrayList[$i]['id'],
                                                       'TPLVAR_TITLE'  => $arrayList[$i]['title'],
+                                                      'TPLVAR_CLASS'  => isset( $arrayList[$i]['class'] ) ? $arrayList[$i]['class'] : '',
                                                       'TPLVAR_SELECT' => $select );
                 $isParsed = true;
 

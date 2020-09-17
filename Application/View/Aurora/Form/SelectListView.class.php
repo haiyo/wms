@@ -108,6 +108,10 @@ class SelectListView {
                     $select = ' selected="selected"';
                 }
             }
+            if( is_array( $value ) && isset( $value['title'] ) ) {
+                $value = $value['title'];
+            }
+
             $vars['dynamic']['option'][] = array( 'TPLVAR_VALUE'  => $value,
                                                   'TPLVAR_SELECT' => $select,
                                                   'TPLVAR_KEY'    => $key );

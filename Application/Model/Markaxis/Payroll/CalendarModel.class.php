@@ -1,8 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
-use \Markaxis\Company\OfficeModel;
 use \Markaxis\Employee\PayrollModel AS EmpPayrollModel;
-use \Library\Util\Formula;
 use \Library\Util\Markaxis\Calendar\WeekRecur;
 use \Library\Util\Markaxis\Calendar\MonthRecur;
 use \Library\Helper\Markaxis\RecurHelper;
@@ -229,14 +227,25 @@ class CalendarModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getEmployeeDuration( $processDate, $data ) {
-        $data['empInfo']['joinYear'] = $data['empInfo']['joinMonth'] = $data['empInfo']['joinDay'] = 0;
-
+    public function getPayCal( $processDate, $data ) {
         // Get employee pay calendar
         $EmpPayrollModel = EmpPayrollModel::getInstance( );
-        $payCalInfo = $EmpPayrollModel->getByUserID( $data['empInfo']['userID'], 'payPeriod, paymentDate' ); // 2020-07-28
+        $payCalInfo = $EmpPayrollModel->getByUserID( $data['empInfo']['userID'], 'payPeriod, paymentDate' );
 
-        if( $payCalInfo && $data['empInfo']['startDate'] ) {
+        // Get pay calendar day
+        $payCalDay = explode('-', $payCalInfo['paymentDate'] )[2];
+
+        // Convert all to DateTime obj and get this month end payroll range date
+        $payCalInfo['processDate'] = new \DateTime( $processDate );
+        $payCalInfo['paymentDate'] = new \DateTime( $payCalInfo['paymentDate'] );
+        $payCalInfo['rangeEnd']    = new \DateTime( $payCalInfo['processDate']->format('Y-m-') . $payCalDay . ' 23:59:59' );
+
+        $payCalInfo['rangeStart'] = clone $payCalInfo['rangeEnd'];
+        $payCalInfo['rangeStart']->modify('-1 month');
+
+        return $payCalInfo;
+
+        /*if( $payCalInfo && $data['empInfo']['startDate'] ) {
             // Get pay calendar day
             $payCalDay = explode('-', $payCalInfo['paymentDate'] )[2];
 
@@ -290,7 +299,7 @@ class CalendarModel extends \Model {
                 $data['totalOrdinary'] = $data['empInfo']['salary'];
             }
         }
-        return $data;
+        return $data;*/
     }
 
 

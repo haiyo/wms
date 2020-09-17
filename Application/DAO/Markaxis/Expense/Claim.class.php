@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Expense;
+use \Library\Util\Money;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -84,6 +85,34 @@ class Claim extends \DAO {
 
 
     /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getApprovedByUserID( $userID, $startDate='', $endDate='' ) {
+        $date = '';
+        if( $startDate && $endDate ) {
+            $date = ' AND ( ec.created BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '" )';
+        }
+
+        $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
+                                   FROM expense_claim ec
+                                   LEFT JOIN upload u ON ( u.uID = ec.uID )
+                                   WHERE ec.userID = "' . (int)$userID . '" AND 
+                                         (ec.status = "1" OR ec.status = "2") AND
+                                         ec.cancelled <> "1"' . $date,
+                                   __FILE__, __LINE__ );
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */
@@ -110,6 +139,7 @@ class Claim extends \DAO {
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
+                $row['amount'] = Money::format( $row['amount'] );
                 $list[] = $row;
             }
         }

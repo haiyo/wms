@@ -32,14 +32,14 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT piID AS id, title FROM payroll_item
+        $sql = $this->DB->select( 'SELECT piID AS id, title, additional FROM payroll_item
                                    WHERE deleted <> "1"
                                    ORDER BY title', __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[$row['id']] = $row['title'];
+                $list[$row['id']] = $row;
             }
         }
         return $list;
@@ -53,7 +53,7 @@ class Item extends \DAO {
     public function getBypiID( $piID ) {
         $sql = $this->DB->select( 'SELECT * FROM payroll_item
                                    WHERE piID = "' . (int)$piID . '" AND deleted <> "1"',
-            __FILE__, __LINE__ );
+                                   __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             return $this->DB->fetch( $sql );

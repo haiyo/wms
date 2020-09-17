@@ -33,12 +33,12 @@
             <div class="col-md-3 amount">
                 <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control amountInput"
                        data-currency="<?TPLVAR_CURRENCY?>"
-                       value="<?TPLVAR_AMOUNT?>" placeholder="" />
+                       value="<?TPLVAR_AMOUNT?>" placeholder="" disabled="<?TPLVAR_DISABLED?>" />
             </div>
 
             <div class="col-md-4 remark">
                 <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark"
-                       value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                       value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc disabled="<?TPLVAR_DISABLED?>" />
             </div>
 
             <div class="col-lg-1 sm-addrm text-center">

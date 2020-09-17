@@ -234,7 +234,24 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getProcessInfo( $userID ) {
-        return $this->Employee->getProcessInfo( $userID );
+        $data = $this->Employee->getProcessInfo( $userID );
+        $data['joinYear'] = $data['joinMonth'] = $data['joinDay'] = false;
+
+        if( $data['startDate'] ) {
+            // Get employee join duration
+            $data['startDate'] = \DateTime::createFromFormat('Y-m-d', $data['startDate'] );
+            $currentDate = new \DateTime( );
+
+            $dateDiff = $currentDate->diff( $data['startDate'] );
+            $data['joinYear'] = $dateDiff->y;
+            $data['joinMonth'] = $dateDiff->m;
+            $data['joinDay'] = $dateDiff->d; // Include Sat, Sun and P.H
+        }
+
+        if( $data['confirmDate'] ) {
+            $data['confirmDate'] = \DateTime::createFromFormat('Y-m-d', $data['confirmDate'] );
+        }
+        return $data;
     }
 
 

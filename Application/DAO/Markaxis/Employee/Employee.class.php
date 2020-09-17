@@ -178,9 +178,10 @@ class Employee extends \DAO {
                                           dpt.name AS department, d.title AS designation, c.type AS contractType, 
                                           e.officeID, e.salary, pt.title AS passType, cty.countryCode,
                                           CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency,
-                                          DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
-                                          DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
-                                          DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate
+                                          e.startDate, e.confirmDate, e.endDate
+                                          -- DATE_FORMAT(e.startDate, "%D %b %Y") AS startDate, 
+                                          -- DATE_FORMAT(e.confirmDate, "%D %b %Y") AS confirmDate, 
+                                          -- DATE_FORMAT(e.endDate, "%D %b %Y") AS endDate
                                    FROM employee e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
                                    LEFT JOIN office o ON ( o.oID = e.officeID )

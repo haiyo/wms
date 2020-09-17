@@ -63,8 +63,8 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getApprovedByUserID( $userID ) {
-        return $this->Claim->getByUserIDStatus( $userID, 1 );
+    public function getApprovedByUserID( $userID, $startDate='', $endDate='' ) {
+        return $this->Claim->getApprovedByUserID( $userID, $startDate, $endDate );
     }
 
 
@@ -155,20 +155,26 @@ class ClaimModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function processPayroll( $data ) {
-        $claimInfo = $this->getApprovedByUserID( $data['empInfo']['userID'] );
+        if( isset( $data['payCal']['rangeStart'] ) && isset( $data['payCal']['rangeEnd'] ) ) {
+            $rangeStart = $data['payCal']['rangeStart']->format('Y-m-d');
+            $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d');
 
-        if( sizeof( $claimInfo ) > 0 ) {
-            foreach( $claimInfo as $value ) {
-                $data['claims'][] = array( 'ecID' => $value['ecID'],
-                                           'eiID' => $value['eiID'],
-                                           'remark' => $value['descript'],
-                                           'amount' => $value['amount'] );
+            $claimInfo = $this->getApprovedByUserID( $data['empInfo']['userID'], $rangeStart, $rangeEnd );
+            $claims = array( );
+
+            if( sizeof( $claimInfo ) > 0 ) {
+                foreach( $claimInfo as $value ) {
+                    $claims[] = array( 'ecID' => $value['ecID'],
+                        'eiID' => $value['eiID'],
+                        'remark' => $value['descript'],
+                        'amount' => $value['amount'] );
+                }
             }
+            return $claims;
         }
-        return $data;
     }
 
 
@@ -182,17 +188,9 @@ class ClaimModel extends \Model {
                 if( $this->isFoundByEcIDUserID( $ecID, $data['empInfo']['userID'],1 ) ) {
                     $this->Claim->update('expense_claim', array( 'status' => 2 ),
                                          'WHERE ecID = "' . (int)$ecID . '"' );
-
-                    $claimInfo = $this->getByEcID( $ecID );
-
-                    $data['claims'][] = array( 'ecID' => $claimInfo['ecID'],
-                                               'eiID' => $claimInfo['eiID'],
-                                               'remark' => $claimInfo['descript'],
-                                               'amount' => $claimInfo['amount'] );
                 }
             }
         }
-        return $data;
     }
 
 

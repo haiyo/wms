@@ -45,12 +45,14 @@ class PayrollUserTaxModel extends \Model {
 
         if( isset( $data['items'] ) && sizeof( $data['items'] ) ) {
             foreach( $data['items'] as $item ) {
-                $info = array( );
-                $info['puID'] = $data['puID'];
-                $info['trID'] = $item['trID'];
-                $info['amount'] = $item['amount'];
-                $info['remark'] = $item['remark'];
-                array_push($success, $this->PayrollUserTax->insert( 'payroll_user_tax', $info ) );
+                if( isset( $item['trID'] ) ) {
+                    $info = array( );
+                    $info['puID'] = $data['puID'];
+                    $info['trID'] = $item['trID'];
+                    $info['amount'] = $item['amount'];
+                    $info['remark'] = $item['remark'];
+                    array_push($success, $this->PayrollUserTax->insert( 'payroll_user_tax', $info ) );
+                }
             }
         }
         if( sizeof( $success ) > 0 ) {

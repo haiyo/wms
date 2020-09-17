@@ -6,6 +6,7 @@ use \Aurora\Form\DayIntListView, \Aurora\Form\SelectListView;
 use \Library\Helper\Aurora\MonthHelper, \Aurora\Component\SalaryTypeModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel, \Aurora\Component\PassTypeModel;
 use \Aurora\User\UserRoleModel, \Aurora\User\RoleModel;
+use \Library\Util\Money;
 use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
@@ -365,7 +366,7 @@ class EmployeeView {
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
                        'TPLVAR_SALARY' => $officeInfo['currencyCode'] .
                                           $officeInfo['currencySymbol'] .
-                                          number_format( $this->info['salary'],2 ),
+                                          Money::format( $this->info['salary'] ),
                        'TPLVAR_PASS_NUMBER' => $this->info['passNumber'],
                        'TPL_OFFICE_LIST' => $officeList,
                        'TPL_DEPARTMENT_LIST' => $departmentList,
@@ -416,32 +417,21 @@ class EmployeeView {
             $vars = array_merge( $this->L10n->getContents( ),
                     array( 'TPLVAR_TITLE_KEY' => $this->L10n->getContents('LANG_EMPLOYEE_ID'),
                            'TPLVAR_TITLE_VALUE' => $empInfo['idnumber'] ) );
-            $duration = '';
-            if( $empInfo['startDate'] ) {
-                $duration = ' (';
-                $dateDiff = \DateTime::createFromFormat('jS M Y',
-                            $empInfo['startDate'] )->diff( new \DateTime('now') );
 
-                if( $dateDiff->y ) {
-                    $duration .= $dateDiff->y . $this->L10n->getContents('LANG_DIFF_YEAR') . ' ';
-                }
-                if( $dateDiff->m ) {
-                    $duration .= $dateDiff->m . $this->L10n->getContents('LANG_DIFF_MONTH') . ' ';
-                }
-                if( $dateDiff->d ) {
-                    $duration .= $dateDiff->d . $this->L10n->getContents('LANG_DIFF_DAY');
-                }
-                $duration .= ')';
-            }
+            $duration = ' (';
+            $duration .= $empInfo['joinYear'] . $this->L10n->getContents('LANG_DIFF_YEAR') . ' ';
+            $duration .= $empInfo['joinMonth'] . $this->L10n->getContents('LANG_DIFF_MONTH') . ' ';
+            $duration .= $empInfo['joinDay'] . $this->L10n->getContents('LANG_DIFF_DAY');
+            $duration .= ')';
 
             $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_START_DATE'),
-                                                'TPLVAR_VALUE' => $empInfo['startDate'] ? $empInfo['startDate'] . $duration : '--' );
+                                                'TPLVAR_VALUE' => $empInfo['startDate'] ? $empInfo['startDate']->format('jS F Y') . $duration : '--' );
 
-            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_END_DATE'),
-                                                'TPLVAR_VALUE' => $empInfo['endDate'] ? $empInfo['endDate'] : '--' );
+            /*$vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_END_DATE'),
+                                                'TPLVAR_VALUE' => $empInfo['endDate'] ? $empInfo['endDate'] : '--' );*/
 
             $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_CONFIRM_DATE'),
-                                                'TPLVAR_VALUE' => $empInfo['confirmDate'] ? $empInfo['confirmDate'] : '--' );
+                                                'TPLVAR_VALUE' => $empInfo['confirmDate'] ? $empInfo['confirmDate']->format('jS F Y') : '--' );
 
             $col_2 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );
 
