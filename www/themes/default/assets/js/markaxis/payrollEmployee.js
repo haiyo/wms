@@ -178,6 +178,8 @@ var MarkaxisPayrollEmployee = (function( ) {
                     icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
                     icon.parent().attr( "class", "addItem" );
 
+                    $('[data-popup="tooltip"]').tooltip();
+
                     if( $invoker.attr("data-saved") == 1 ) {
                         $(".processBtn").attr("id", "reprocessPayroll");
                         $(".processBtn").text( Markaxis.i18n.PayrollRes.LANG_REPROCESS_PAYROLL );
@@ -264,6 +266,9 @@ var MarkaxisPayrollEmployee = (function( ) {
                                 }
                             }
                             $("#processSummary").html( obj.summary );
+                            $("body").tooltip({
+                                selector: '.icon-info22'
+                            });
                         }
                     }
                 }
@@ -278,6 +283,7 @@ var MarkaxisPayrollEmployee = (function( ) {
 
 
         addItem: function( deduction ) {
+            var that = this;
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
             var icon = iconWrapper.find(".icon");
 
@@ -300,10 +306,56 @@ var MarkaxisPayrollEmployee = (function( ) {
 
             $("#itemRowWrapper_" + length).find(".select2").remove( );
             $("#itemType_" + length).select2( );
+            $("#itemType_" + length).val("").trigger("change");
 
             var itemWrapper = $("#itemWrapper");
-            itemWrapper.animate({ scrollTop: itemWrapper.prop("scrollHeight") - itemWrapper.height() }, 300);
+            itemWrapper.animate({ scrollTop: itemWrapper.prop("scrollHeight") - itemWrapper.height() }, 300).promise().done(function () {
+                $("#itemType_" + length).on("select2:select", function(e) {
+                    var data = e.params.data;
+                    var type = $(this).find('option[value="'+ data.element.value +'"]').attr("class");
+
+                    if( type == "additional" ) {
+                        var id =  $(this).attr("id");
+                        id = id.replace("itemType_", "");
+
+                        that.getAdditional( id );
+                    }
+                });
+            });;
             return length;
+        },
+
+
+        getAdditional: function( id ) {
+            var data = {
+                bundle: {
+                    data: Aurora.WebService.serializePost("#processForm")
+                },
+                success: function( res ) {
+                    if( res ) {
+                        var obj = $.parseJSON( res );
+
+                        if( obj.bool === 0 ) {
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            if( obj.data.inputAmount ) {
+                                $("#amount_" + id).val( obj.data.inputAmount );
+                            }
+
+                            if( obj.data.inputRemark ) {
+                                $("#remark_" + id).val( obj.data.inputRemark );
+                            }
+                            $("#processSummary").html( obj.summary );
+                            $("body").tooltip({
+                                selector: '.icon-info22'
+                            });
+                        }
+                    }
+                }
+            }
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#processDate").val( ), data );
         },
 
 

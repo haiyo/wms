@@ -147,10 +147,7 @@ class LeaveBalanceModel extends \Model {
             $OfficeModel = OfficeModel::getInstance( );
             $officeInfo = $OfficeModel->getByoID( $empInfo['officeID'] );
 
-            $workDays = $OfficeModel->getWorkingDaysByRange( $officeInfo['oID'],
-                                                             $startDate->format('Y-m-d' ),
-                                                             $endDate->format('Y-m-d' ),
-                                                             $officeInfo['countryCode'] );
+            $workDays = $OfficeModel->getWorkingDaysByRange( $officeInfo['oID'], $startDate, $endDate );
 
             if( $firstHalf  ) { $workDays -= .5; }
             if( $secondHalf ) { $workDays -= .5; }

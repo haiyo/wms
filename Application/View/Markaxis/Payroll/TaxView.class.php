@@ -53,8 +53,7 @@ class TaxView {
         $countryList = $SelectListView->build( 'country', $countries, '', 'Select Country' );
 
         $ItemModel = ItemModel::getInstance( );
-        $payItemList = $SelectListView->build('payItem_{id}',
-            $ItemModel->getList( ), '', 'Select Pay Item' );
+        $payItemList = $SelectListView->build('payItem_{id}', $ItemModel->getList( ), '', 'Select Pay Item' );
 
         $OfficeModel = OfficeModel::getInstance( );
         $officeList = $SelectListView->build('office', $OfficeModel->getList( ), '','Select Office / Location' );

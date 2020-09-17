@@ -783,6 +783,8 @@ $(document).ready( function( ) {
                 (n[0] = 0), i = this.formatThousands(n[0], t.thousands), u = this.formatDecimal(n[1], t.zeroes),
                     t.zeroes === 0 ? i : i + t.decimal + u);
 
+            n = n.replace(/\.00$/,'');
+
             if( currency != undefined ) {
                 return currency + n;
             }

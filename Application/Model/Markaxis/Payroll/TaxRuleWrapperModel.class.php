@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Library\Util\Money;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -41,8 +42,16 @@ class TaxRuleWrapperModel extends \Model {
      * @return int
      */
     public function processTaxRules( $data ) {
-        if( !isset( $data['taxRules'] ) || !isset( $data['deduction'] ) ) {
+        if( !isset( $data['taxRules'] ) || !isset( $data['items']['deduction'] ) ) {
             return $data;
+        }
+
+        $totalGross = $data['items']['totalGross'];
+
+        if( isset( $data['deductGross'] ) ) {
+            foreach( $data['deductGross'] as $deduction ) {
+                $totalGross -= $deduction;
+            }
         }
 
         // Parse all passes to items
@@ -51,6 +60,7 @@ class TaxRuleWrapperModel extends \Model {
             $amount = 0;
             $ruleTitle = '';
 
+            // Render taxgroup summary ruleTitle
             foreach( $data['taxGroups']['mainGroup'] as $taxGroup ) {
                 // First find all the childs in this group and see if we have any summary=1
                 if( isset( $taxGroup['child'] ) ) {
@@ -77,37 +87,47 @@ class TaxRuleWrapperModel extends \Model {
                 }
             }
 
-            if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] && isset( $data['totalOrdinary'] ) ) {
+            // Apply taxrules to totalGross and set itemRow
+            if( $rules['applyType'] == 'deductionOR' && $rules['applyValue'] ) {
                 if( $rules['applyValueType'] == 'percentage' ) {
                     if( isset( $rules['capped'] ) ) {
                         $amount = $rules['capped']*$rules['applyValue']/100;
-                        $remark = ' (Capped at ' . $data['empInfo']['currency'] .
-                                    number_format( $rules['capped'] ) . ')';
+                        $remark = '(Capped at ' . $data['office']['currencyCode'] .
+                                                  $data['office']['currencySymbol'] . Money::format( $rules['capped'] ) . ')';
                     }
                     else {
-                        $amount = $data['totalOrdinary']*$rules['applyValue']/100;
+                        $amount = $totalGross*$rules['applyValue']/100;
                         $remark = '';
+
+                        if( $rules['applyCapped'] > 0 ) {
+                            if( $amount > $rules['applyCapped'] ) {
+                                $amount = $rules['applyCapped'];
+                            }
+                        }
                     }
                 }
                 if( $rules['applyValueType'] == 'fixed' ) {
                     $amount = $rules['applyValue'];
                     $remark = '';
                 }
-                $data['items'][] = array( 'piID' => $data['deduction']['piID'],
-                                          'trID' => $rules['trID'],
-                                          'tgID' => $rules['tgID'],
-                                          'deduction' => 1,
-                                          'remark' => $ruleTitle . $remark,
-                                          'amount' => $amount );
+                $data['itemRow'][] = array( 'piID' => $data['items']['deduction']['piID'],
+                                            'trID' => $rules['trID'],
+                                            'tgID' => $rules['tgID'],
+                                            'deduction' => 1,
+                                            'amount' => $amount,
+                                            'remark' => $remark );
             }
 
             if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
                 if( $rules['applyValueType'] == 'percentage' ) {
                     if( isset( $rules['capped'] ) ) {
                         $amount = $rules['capped']*$rules['applyValue']/100;
+                        $remark = '(Capped at ' . $data['office']['currencyCode'] .
+                                                  $data['office']['currencySymbol'] . Money::format( $rules['capped'] ) . ')';
                     }
                     else {
-                        $amount = $data['totalOrdinary']*$rules['applyValue']/100;
+                        $amount = $totalGross*$rules['applyValue']/100;
+                        $remark = '';
                     }
                 }
                 if( $rules['applyValueType'] == 'fixed' ) {
@@ -115,7 +135,8 @@ class TaxRuleWrapperModel extends \Model {
                 }
                 $data['contribution'][$rules['trID']] = array( 'title' => $ruleTitle,
                                                                'trID' => $rules['trID'],
-                                                               'amount' => $amount );
+                                                               'amount' => $amount,
+                                                               'remark' => $remark );
             }
 
             if( ( $rules['applyType'] == 'skillLevy' || $rules['applyType'] == 'foreignLevy' ) &&
@@ -125,7 +146,7 @@ class TaxRuleWrapperModel extends \Model {
                     $amount = $rules['applyValue'];
                 }
                 if ($rules['applyValueType'] == 'percentage') {
-                    $amount = $data['empInfo']['salary'] * $rules['applyValue'] / 100;
+                    $amount = $totalGross*$rules['applyValue'] / 100;
                 }
                 $data['levy'][] = array( 'title' => $ruleTitle,
                                          'amount' => $amount,

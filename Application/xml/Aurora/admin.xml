@@ -1,430 +1,502 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <admin>
     <task type="global">
-        <observer controller="Markaxis/Employee/LeaveTypeControl"></observer>
-        <observer controller="Markaxis/Leave/TypeControl"></observer>
-        <observer controller="Markaxis/Leave/GroupControl"></observer>
-        <observer controller="Markaxis/Leave/DesignationControl"></observer>
-        <observer controller="Markaxis/Leave/ContractControl"></observer>
-        <observer controller="Markaxis/Leave/StructureControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
+        <observer controller="Markaxis/Employee/LeaveTypeControl"/>
+        <observer controller="Markaxis/Leave/TypeControl"/>
+        <observer controller="Markaxis/Leave/GroupControl"/>
+        <observer controller="Markaxis/Leave/DesignationControl"/>
+        <observer controller="Markaxis/Leave/ContractControl"/>
+        <observer controller="Markaxis/Leave/StructureControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Employee/LeaveBalanceControl"/>
     </task>
     <task type="dashboard">
-        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Expense/ManagerControl"></observer>
-        <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Leave/ManagerControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveControl"></observer>
-        <observer controller="Markaxis/Calendar/EventControl"></observer>
-        <observer controller="Aurora/Page/DashboardControl"></observer>
+        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"/>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Expense/ManagerControl"/>
+        <observer controller="Markaxis/Employee/LeaveBalanceControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Leave/ManagerControl"/>
+        <observer controller="Markaxis/Leave/LeaveControl"/>
+        <observer controller="Markaxis/Calendar/EventControl"/>
+        <observer controller="Aurora/Page/DashboardControl"/>
     </task>
     <task type="notification">
-        <observer controller="Aurora/Notification/NotificationControl"></observer>
+        <observer controller="Aurora/Notification/NotificationControl"/>
     </task>
     <task type="chat">
-        <observer controller="Aurora/Chat/RoomControl"></observer>
-        <observer controller="Aurora/Chat/UserControl"></observer>
-        <observer controller="Aurora/Chat/MessageControl"></observer>
+        <observer controller="Aurora/Chat/RoomControl"/>
+        <observer controller="Aurora/Chat/UserControl"/>
+        <observer controller="Aurora/Chat/MessageControl"/>
     </task>
     <task type="logo">
-        <observer controller="Aurora/Page/LogoControl"></observer>
+        <observer controller="Aurora/Page/LogoControl"/>
     </task>
     <task type="notfound">
-        <observer controller="Aurora/Page/NotFoundControl"></observer>
+        <observer controller="Aurora/Page/NotFoundControl"/>
     </task>
     <task type="billing">
-        <observer controller="Aurora/Billing/BillingControl"></observer>
+        <observer controller="Aurora/Billing/BillingControl"/>
     </task>
     <task type="notification">
-        <observer controller="Aurora/Notification/NotificationControl"></observer>
+        <observer controller="Aurora/Notification/NotificationControl"/>
     </task>
     <task type="team">
-        <observer controller="Markaxis/Team/TeamControl"></observer>
-        <observer controller="Markaxis/Team/TeamMemberControl"></observer>
+        <observer controller="Markaxis/Team/TeamControl"/>
+        <observer controller="Markaxis/Team/TeamMemberControl"/>
     </task>
     <task type="smtp">
-        <observer controller="Aurora/Config/SMTP/SMTPTestControl"></observer>
+        <observer controller="Aurora/Config/SMTP/SMTPTestControl"/>
     </task>
     <task type="stateList">
-        <observer controller="Aurora/Component/StateControl"></observer>
+        <observer controller="Aurora/Component/StateControl"/>
     </task>
     <task type="cityList">
-        <observer controller="Aurora/Component/CityControl"></observer>
+        <observer controller="Aurora/Component/CityControl"/>
     </task>
     <task type="company">
-        <observer controller="Markaxis/Company/DepartmentControl"></observer>
-        <observer controller="Markaxis/Company/DepartmentManagerControl"></observer>
-        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
-        <observer controller="Markaxis/Company/OfficeControl"></observer>
-        <observer controller="Markaxis/Company/LOAControl"></observer>
-        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
-        <observer controller="Markaxis/Company/CompanyControl"></observer>
+        <observer controller="Markaxis/Company/DepartmentControl"/>
+        <observer controller="Markaxis/Company/DepartmentManagerControl"/>
+        <observer controller="Markaxis/Employee/DepartmentControl"/>
+        <observer controller="Markaxis/Company/OfficeControl"/>
+        <observer controller="Markaxis/Company/LOAControl"/>
+        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"/>
+        <observer controller="Markaxis/Company/CompanyControl"/>
     </task>
     <task type="company/logo">
-        <observer controller="Markaxis/Company/CompanyControl"></observer>
+        <observer controller="Markaxis/Company/CompanyControl"/>
     </task>
     <task type="company/getOffice">
-        <observer controller="Markaxis/Company/OfficeControl"></observer>
+        <observer controller="Markaxis/Company/OfficeControl"/>
     </task>
     <task type="loa/results,loa/getContent,loa/save,loa/delete">
-        <observer controller="Markaxis/Company/LOAControl"></observer>
+        <observer controller="Markaxis/Company/LOAControl"/>
     </task>
     <task type="newsAnnouncement/list,newsAnnouncement/results,newsAnnouncement/getContent,newsAnnouncement/save,newsAnnouncement/naDelete">
-        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"></observer>
+        <observer controller="Aurora/NewsAnnouncement/NewsAnnouncementControl"/>
     </task>
     <task type="config">
-        <observer controller="Aurora/Config/CoreControl"></observer>
-        <observer controller="Aurora/Config/AccountControl"></observer>
-        <observer controller="Aurora/Config/UsageControl"></observer>
-        <observer controller="Aurora/Config/PerformControl"></observer>
-        <observer controller="Aurora/Config/MiscControl"></observer>
-        <observer controller="Aurora/Config/UpgradeControl"></observer>
-        <observer controller="Aurora/Config/IPControl"></observer>
-        <observer controller="Aurora/Config/BFLoginControl"></observer>
-        <observer controller="Aurora/Config/CSRFControl"></observer>
-        <observer controller="Aurora/Config/ConfigControl"></observer>
+        <observer controller="Aurora/Config/CoreControl"/>
+        <observer controller="Aurora/Config/AccountControl"/>
+        <observer controller="Aurora/Config/UsageControl"/>
+        <observer controller="Aurora/Config/PerformControl"/>
+        <observer controller="Aurora/Config/MiscControl"/>
+        <observer controller="Aurora/Config/UpgradeControl"/>
+        <observer controller="Aurora/Config/IPControl"/>
+        <observer controller="Aurora/Config/BFLoginControl"/>
+        <observer controller="Aurora/Config/CSRFControl"/>
+        <observer controller="Aurora/Config/ConfigControl"/>
     </task>
     <task type="appstore">
-        <observer controller="Aurora/App/AppControl"></observer>
+        <observer controller="Aurora/App/AppControl"/>
     </task>
     <task type="inbox">
-        <observer controller="Aurora/User/Inbox/InboxAttachmentControl"></observer>
-        <observer controller="Aurora/User/Inbox/InboxControl"></observer>
+        <observer controller="Aurora/User/Inbox/InboxAttachmentControl"/>
+        <observer controller="Aurora/User/Inbox/InboxControl"/>
     </task>
     <task type="user/profile,user/saveProfile">
-        <observer controller="Aurora/User/UserControl"></observer>
-        <observer controller="Aurora/User/UserSettingControl"></observer>
-        <observer controller="Aurora/User/UserImageControl"></observer>
-        <!--<observer controller="Markaxis/Employee/FinanceControl"></observer>-->
-        <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
+        <observer controller="Aurora/User/UserControl"/>
+        <observer controller="Aurora/User/UserSettingControl"/>
+        <observer controller="Aurora/User/UserImageControl"/>
+        <!--<observer controller="Markaxis/Employee/FinanceControl"/>-->
+        <observer controller="Markaxis/Employee/FormWrapperControl"/>
     </task>
     <task type="help">
-        <observer controller="Markaxis/Help/HelpControl"></observer>
+        <observer controller="Markaxis/Help/HelpControl"/>
     </task>
     <task type="competency">
-        <observer controller="Aurora/Component/CompetencyControl"></observer>
+        <observer controller="Aurora/Component/CompetencyControl"/>
     </task>
     <task type="user/add,user/edit,user/saveUser,user/getSuggestToken">
-        <observer controller="Aurora/User/UserControl"></observer>
-        <observer controller="Aurora/User/UserSettingControl"></observer>
-        <observer controller="Aurora/User/UserRoleControl"></observer>
-        <observer controller="Aurora/User/UserImageControl"></observer>
-        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
-        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
-        <observer controller="Markaxis/Employee/FinanceControl"></observer>
-        <!--<observer controller="Markaxis/Employee/EducationControl"></observer>-->
-        <!--<observer controller="Markaxis/Employee/ExperienceControl"></observer>-->
-        <!--<observer controller="Markaxis/Employee/AdditionalControl"></observer>-->
-        <observer controller="Markaxis/Employee/ManagerControl"></observer>
-        <observer controller="Markaxis/Employee/FormWrapperControl"></observer>
+        <observer controller="Aurora/User/UserControl"/>
+        <observer controller="Aurora/User/UserSettingControl"/>
+        <observer controller="Aurora/User/UserRoleControl"/>
+        <observer controller="Aurora/User/UserImageControl"/>
+        <observer controller="Markaxis/Employee/CompetencyControl"/>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Employee/DepartmentControl"/>
+        <observer controller="Markaxis/Employee/FinanceControl"/>
+        <!--<observer controller="Markaxis/Employee/EducationControl"/>-->
+        <!--<observer controller="Markaxis/Employee/ExperienceControl"/>-->
+        <!--<observer controller="Markaxis/Employee/AdditionalControl"/>-->
+        <observer controller="Markaxis/Employee/ManagerControl"/>
+        <observer controller="Markaxis/Employee/FormWrapperControl"/>
     </task>
     <task type="role/getRole">
-        <observer controller="Aurora/User/RoleControl"></observer>
+        <observer controller="Aurora/User/RoleControl"/>
     </task>
     <task type="user/list,employee/getList">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
     </task>
     <task type="employee/getOffice">
-        <observer controller="Markaxis/Company/OfficeControl"></observer>
+        <observer controller="Markaxis/Company/OfficeControl"/>
     </task>
     <task type="employee/getTaxGroupListByOffice">
-        <observer controller="Markaxis/Employee/FinanceControl"></observer>
+        <observer controller="Markaxis/Employee/FinanceControl"/>
     </task>
     <task type="user/search">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
     </task>
     <task type="user/deletePhoto,user/photo">
-        <observer controller="Aurora/User/UserImageControl"></observer>
+        <observer controller="Aurora/User/UserImageControl"/>
     </task>
     <task type="employee/settings,role/roleForm,employee/getRolePermResults,
                 employee/getDesignationResults,employee/getContractResults,rolePerm/savePerms">
-        <observer controller="Aurora/User/RolePermControl"></observer>
-        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
-        <observer controller="Markaxis/Employee/ContractControl"></observer>
-        <observer controller="Markaxis/Employee/DesignationControl"></observer>
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Aurora/User/RolePermControl"/>
+        <observer controller="Markaxis/Employee/CompetencyControl"/>
+        <observer controller="Markaxis/Employee/ContractControl"/>
+        <observer controller="Markaxis/Employee/DesignationControl"/>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
     </task>
     <task type="employee/getCompetency,employee/getCompetencyResults,employee/getCompetencyToken,
                 employee/getCountList,employee/saveCompetency,employee/deleteCompetency">
-        <observer controller="Aurora/User/UserRoleControl"></observer>
-        <observer controller="Markaxis/Employee/DepartmentControl"></observer>
-        <observer controller="Markaxis/Employee/OfficeControl"></observer>
-        <observer controller="Markaxis/Employee/DesignationControl"></observer>
-        <observer controller="Markaxis/Employee/ContractControl"></observer>
-        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Aurora/User/UserRoleControl"/>
+        <observer controller="Markaxis/Employee/DepartmentControl"/>
+        <observer controller="Markaxis/Employee/OfficeControl"/>
+        <observer controller="Markaxis/Employee/DesignationControl"/>
+        <observer controller="Markaxis/Employee/ContractControl"/>
+        <observer controller="Markaxis/Employee/CompetencyControl"/>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
     </task>
     <task type="employee/deleteOrphanGroups,employee/deleteDesignation">
-        <observer controller="Markaxis/Employee/DesignationControl"></observer>
+        <observer controller="Markaxis/Employee/DesignationControl"/>
     </task>
     <task type="employee/getContract,employee/saveContract">
-        <observer controller="Markaxis/Employee/ContractControl"></observer>
+        <observer controller="Markaxis/Employee/ContractControl"/>
     </task>
     <task type="employee/getDesignation,employee/saveDesignation">
-        <observer controller="Markaxis/Employee/DesignationControl"></observer>
+        <observer controller="Markaxis/Employee/DesignationControl"/>
     </task>
     <task type="employee/results">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
     </task>
     <task type="expense/claim">
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
     </task>
     <task type="expense/getMaxAmount">
-        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
+        <observer controller="Markaxis/Expense/ExpenseControl"/>
     </task>
     <task type="expense">
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Expense/ManagerControl"></observer>
-        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Expense/ManagerControl"/>
+        <observer controller="Markaxis/Expense/ExpenseControl"/>
     </task>
     <task type="expense/getExpense,expense/getExpensesResults,expense/deleteExpense,expense/saveExpenseType">
-        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
+        <observer controller="Markaxis/Expense/ExpenseControl"/>
     </task>
     <task type="payroll/downloadCPF">
-        <observer controller="Markaxis/Payroll/CPFControl"></observer>
+        <observer controller="Markaxis/Payroll/CPFControl"/>
     </task>
     <task type="payroll/getPayrollEvents,payroll/process">
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/getGroupList">
-        <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
     </task>
     <task type="payroll/getItemResults">
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
+        <observer controller="Markaxis/Payroll/ItemControl"/>
     </task>
     <task type="payroll/deletePayItem">
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
+        <observer controller="Markaxis/Payroll/ItemControl"/>
     </task>
     <task type="payroll/getCalResults,payroll/savePayCal,payroll/deletePayCal,payroll/getPayCal,
                 payroll/getEndDate,payroll/updatePayPeriod,payroll/getPaymentRecur">
-        <observer controller="Markaxis/Payroll/CalendarControl"></observer>
+        <observer controller="Markaxis/Payroll/CalendarControl"/>
     </task>
     <task type="payroll/overview">
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/getChart">
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
-        <observer controller="Markaxis/Payroll/ChartControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Payroll/PayrollLevyControl"/>
+        <observer controller="Markaxis/Payroll/PayrollContributionControl"/>
+        <observer controller="Markaxis/Payroll/ChartControl"/>
     </task>
     <task type="payroll/getProcessPass">
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/employee">
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/view,payroll/getPayslipResults">
-        <observer controller="Markaxis/Payroll/PayslipControl"></observer>
+        <observer controller="Markaxis/Payroll/PayslipControl"/>
     </task>
     <task type="payroll/release,payroll/releaseAll">
-        <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollUserControl"/>
     </task>
     <task type="payroll/processPayroll">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Payroll/CalendarControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
-        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
-        <observer controller="Markaxis/Employee/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer><!-- consist of AW ceiling calculations -->
-        <observer controller="Markaxis/Payroll/TaxContractControl"></observer>
-        <observer controller="Markaxis/Payroll/LeaveControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <!--
+        array empInfo
+        Get Employee Information
+        Calculate Employee Join Day Month Year
+        Render header process HTML
+        -->
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <!--
+        array payCal
+        Get Pay Calendar
+         -->
+        <observer controller="Markaxis/Payroll/CalendarControl"/>
+        <!--
+        array office
+        Get Work Days of Month
+        Calculate Employee days if new joiner within the month
+        -->
+        <observer controller="Markaxis/Company/OfficeControl"/>
+        <!--
+        array items
+        Get Basic Salary
+        Get Ordinary Wages
+        Get Deduction
+        Get DeductionAW
+        Get Additional
+        -->
+        <observer controller="Markaxis/Payroll/ItemControl"/>
+        <!--
+        array claims
+        Get employee claims - return array list with remark and amount
+        -->
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <!--<observer controller="Markaxis/Payroll/PayrollSummaryControl"/>-->
+        <!--
+        array competency
+        Get employee competency
+        -->
+        <observer controller="Markaxis/Employee/CompetencyControl"/>
+        <!--
+        array taxGroups
+        Get employee applied tax groups
+        -->
+        <observer controller="Markaxis/Employee/TaxControl"/>
+        <!--
+        array taxRules
+        Get employee tax rules belong to groups
+        -->
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
+        <!--
+        unset from taxRules if competency does not applies
+        -->
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
+        <!--
+        unset from taxRules if race does not applies
+        -->
+        <observer controller="Markaxis/Payroll/TaxRaceControl"/>
+        <!--
+        unset from taxRules if age does not applies
+        unset from taxRules if ordinary wage does not equates
+        unset from taxRules if employee confirmation date not reached
+        unset from taxRules if all pay items does not equates
+        -->
+        <observer controller="Markaxis/Payroll/TaxComputingControl"/>
+
+
+        <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
+
+        <!--
+        Render process header leave summary
+        -->
+        <observer controller="Markaxis/Payroll/LeaveControl"/>
+        <!--
+        Render taxgroup summary ruleTitle
+        Apply taxrules to totalOrdinary and set itemRow
+        Set contribution, skillLevy and foreign levy
+        -->
+        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
+        <!--
+        Render process form and summary
+        -->
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/payment,payroll/setCompleted">
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/reprocessPayroll,payroll/savePayroll">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Employee/CompetencyControl"></observer>
-        <observer controller="Markaxis/Employee/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollUserItemControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Payroll/CalendarControl"/>
+        <observer controller="Markaxis/Company/OfficeControl" />
+        <observer controller="Markaxis/Payroll/ItemControl"/>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Employee/CompetencyControl"/>
+        <observer controller="Markaxis/Employee/TaxControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"/>
+        <observer controller="Markaxis/Payroll/TaxComputingControl"/>
+        <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
+        <!-- All below are only use for savePayroll -->
+        <observer controller="Markaxis/Payroll/PayrollUserControl"/>
+        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"/>
+        <observer controller="Markaxis/Payroll/PayrollUserItemControl"/>
+        <observer controller="Markaxis/Payroll/PayrollLevyControl"/>
+        <observer controller="Markaxis/Payroll/PayrollContributionControl"/>
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
+    </task>
+    <task type="payroll/getAdditional">
+        <observer controller="Markaxis/Payroll/AdditionalControl"/>
     </task>
     <task type="payroll/deletePayroll">
-        <observer controller="Markaxis/Employee/EmployeeControl"></observer>
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollUserControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollUserItemControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollLevyControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollContributionControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
+        <observer controller="Markaxis/Payroll/PayrollUserControl"/>
+        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"/>
+        <observer controller="Markaxis/Payroll/PayrollUserItemControl"/>
+        <observer controller="Markaxis/Payroll/PayrollLevyControl"/>
+        <observer controller="Markaxis/Payroll/PayrollContributionControl"/>
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
     </task>
 
     <task type="payroll/getAllProcessed">
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
     </task>
     <task type="payroll/getAllFinalized">
-        <observer controller="Markaxis/Payroll/PayrollFinalizedControl"></observer>
+        <observer controller="Markaxis/Payroll/PayrollFinalizedControl"/>
     </task>
     <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
-        <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
     </task>
     <task type="payroll/getPayItem,payroll/savePayItem">
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
+        <observer controller="Markaxis/Payroll/ItemControl"/>
     </task>
     <task type="payroll/getTaxRule,payroll/getAllTaxRules">
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxContractControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxDesignationControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxGenderControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
+        <observer controller="Markaxis/Payroll/TaxComputingControl"/>
+        <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
+        <observer controller="Markaxis/Payroll/TaxContractControl"/>
+        <observer controller="Markaxis/Payroll/TaxDesignationControl"/>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"/>
+        <observer controller="Markaxis/Payroll/TaxGenderControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
     </task>
     <task type="payroll/deleteTaxGroup">
-        <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
     </task>
     <task type="payroll/deleteTaxRule">
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
     </task>
     <task type="payroll/saveTaxRule">
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxContractControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxDesignationControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxGenderControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
+        <observer controller="Markaxis/Payroll/TaxComputingControl"/>
+        <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
+        <observer controller="Markaxis/Payroll/TaxContractControl"/>
+        <observer controller="Markaxis/Payroll/TaxDesignationControl"/>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"/>
+        <observer controller="Markaxis/Payroll/TaxGenderControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
     </task>
     <task type="payroll/settings">
-        <observer controller="Markaxis/Employee/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/ItemControl"></observer>
-        <observer controller="Markaxis/Expense/ExpenseControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxGroupControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleControl"></observer>
-        <observer controller="Markaxis/Expense/ClaimControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxComputingControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxPayItemControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxCompetencyControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxContractControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxDesignationControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRaceControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxGenderControl"></observer>
-        <observer controller="Markaxis/Payroll/CalendarControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"></observer>
-        <observer controller="Markaxis/Payroll/TaxControl"></observer>
-        <observer controller="Markaxis/Payroll/LeaveControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Payroll/PayrollControl"></observer>
+        <observer controller="Markaxis/Employee/TaxControl"/>
+        <observer controller="Markaxis/Payroll/ItemControl"/>
+        <observer controller="Markaxis/Expense/ExpenseControl"/>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
+        <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Payroll/TaxComputingControl"/>
+        <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
+        <observer controller="Markaxis/Payroll/TaxContractControl"/>
+        <observer controller="Markaxis/Payroll/TaxDesignationControl"/>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"/>
+        <observer controller="Markaxis/Payroll/TaxGenderControl"/>
+        <observer controller="Markaxis/Payroll/CalendarControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
+        <observer controller="Markaxis/Payroll/TaxControl"/>
+        <observer controller="Markaxis/Payroll/LeaveControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/taxfile">
-        <observer controller="Markaxis/Payroll/TaxFileControl"></observer>
+        <observer controller="Markaxis/Payroll/TaxFileControl"/>
     </task>
     <task type="leave/getDateDiff,leave/apply,leave/upload,leave/setLeaveAction">
-        <observer controller="Markaxis/Employee/LeaveBalanceControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Leave/ManagerControl"></observer>
+        <observer controller="Markaxis/Employee/LeaveBalanceControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Leave/ManagerControl"/>
     </task>
     <task type="leave/cancel">
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
     </task>
     <task type="leave/getGroup">
-        <observer controller="Markaxis/Leave/GroupControl"></observer>
-        <observer controller="Markaxis/Leave/DesignationControl"></observer>
-        <observer controller="Markaxis/Leave/ContractControl"></observer>
-        <observer controller="Markaxis/Leave/StructureControl"></observer>
+        <observer controller="Markaxis/Leave/GroupControl"/>
+        <observer controller="Markaxis/Leave/DesignationControl"/>
+        <observer controller="Markaxis/Leave/ContractControl"/>
+        <observer controller="Markaxis/Leave/StructureControl"/>
     </task>
     <task type="calendar/getEvents">
-        <observer controller="Aurora/User/UserControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Leave/HolidayControl"></observer>
-        <observer controller="Markaxis/Calendar/EventControl"></observer>
-        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
+        <observer controller="Aurora/User/UserControl"/>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Leave/HolidayControl"/>
+        <observer controller="Markaxis/Calendar/EventControl"/>
+        <observer controller="Markaxis/Calendar/CalendarControl"/>
     </task>
     <task type="calendar/saveEvent,calendar/deleteEvent,calendar/getRecurs,calendar/updateEventDropDrag">
-        <observer controller="Markaxis/Calendar/EventControl"></observer>
+        <observer controller="Markaxis/Calendar/EventControl"/>
     </task>
     <task type="calendar">
-        <observer controller="Markaxis/Calendar/CalendarControl"></observer>
+        <observer controller="Markaxis/Calendar/CalendarControl"/>
     </task>
     <task type="leave/getTypeResults,leave/addType,leave/editType,leave/saveType,
                 leave/balance,leave/getHistory,leave/settings">
-        <observer controller="Markaxis/Leave/LeaveApplyControl"></observer>
-        <observer controller="Markaxis/Leave/ManagerControl"></observer>
-        <observer controller="Markaxis/Leave/TypeControl"></observer>
-        <observer controller="Markaxis/Leave/HolidayControl"></observer>
-        <!--<observer controller="Markaxis/Leave/HaveChildControl"></observer>
-        <observer controller="Markaxis/Leave/ChildBornControl"></observer>
-        <observer controller="Markaxis/Leave/ChildAgeControl"></observer>-->
-        <observer controller="Markaxis/Leave/GroupControl"></observer>
-        <observer controller="Markaxis/Leave/DesignationControl"></observer>
-        <observer controller="Markaxis/Leave/ContractControl"></observer>
-        <observer controller="Markaxis/Leave/StructureControl"></observer>
-        <observer controller="Markaxis/Leave/LeaveControl"></observer>
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Leave/ManagerControl"/>
+        <observer controller="Markaxis/Leave/TypeControl"/>
+        <observer controller="Markaxis/Leave/HolidayControl"/>
+        <!--<observer controller="Markaxis/Leave/HaveChildControl"/>
+        <observer controller="Markaxis/Leave/ChildBornControl"/>
+        <observer controller="Markaxis/Leave/ChildAgeControl"/>-->
+        <observer controller="Markaxis/Leave/GroupControl"/>
+        <observer controller="Markaxis/Leave/DesignationControl"/>
+        <observer controller="Markaxis/Leave/ContractControl"/>
+        <observer controller="Markaxis/Leave/StructureControl"/>
+        <observer controller="Markaxis/Leave/LeaveControl"/>
     </task>
     <task type="leave/getHolidayResults,leave/getHoliday,leave/saveHoliday,leave/deleteHoliday">
-        <observer controller="Markaxis/Leave/HolidayControl"></observer>
+        <observer controller="Markaxis/Leave/HolidayControl"/>
     </task>
     <task type="file/view">
-        <observer controller="Aurora/Component/UploadControl"></observer>
+        <observer controller="Aurora/Component/UploadControl"/>
     </task>
     <task type="alumni">
-        <observer controller="Markaxis/Alumni/AlumniControl"></observer>
+        <observer controller="Markaxis/Alumni/AlumniControl"/>
     </task>
     <task type="positionList">
-        <observer controller="Markaxis/Employee/PositionControl"></observer>
+        <observer controller="Markaxis/Employee/PositionControl"/>
     </task>
     <task type="user/profile,user/settings">
-        <observer controller="Aurora/User/UserControl"></observer>
+        <observer controller="Aurora/User/UserControl"/>
     </task>
     <task type="userRole">
-        <observer controller="Aurora/User/UserRoleControl"></observer>
+        <observer controller="Aurora/User/UserRoleControl"/>
     </task>
     <task type="role/saveRole,role/deleteRole">
-        <observer controller="Aurora/User/RoleControl"></observer>
+        <observer controller="Aurora/User/RoleControl"/>
     </task>
     <task type="positionRoleList">
-        <observer controller="Aurora/Employee/PositionRoleControl"></observer>
+        <observer controller="Aurora/Employee/PositionRoleControl"/>
     </task>
     <task type="userAvatar">
-        <observer controller="Aurora/User/UserAvatarControl"></observer>
+        <observer controller="Aurora/User/UserAvatarControl"/>
     </task>
     <task type="rolePerm/getPerms,user/getPermList">
-        <observer controller="Aurora/User/RolePermControl"></observer>
+        <observer controller="Aurora/User/RolePermControl"/>
     </task>
     <task type="logout">
-        <observer controller="Aurora/LogoutControl"></observer>
+        <observer controller="Aurora/LogoutControl"/>
     </task>
     <task type="login">
-        <observer controller="Aurora/LoginControl"></observer>
+        <observer controller="Aurora/LoginControl"/>
     </task>
     <task type="forgotPassword">
-        <observer controller="Aurora/ForgotPasswordControl"></observer>
+        <observer controller="Aurora/ForgotPasswordControl"/>
     </task>
 </admin>

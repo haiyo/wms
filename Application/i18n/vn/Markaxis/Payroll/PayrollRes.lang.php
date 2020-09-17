@@ -145,6 +145,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_SKILL_DEVELOPMENT_LEVY'] = 'Levy phát triển kỹ năng';
         $this->contents['LANG_FOREIGN_WORKER_LEVY'] = 'Levy công nhân nước ngoài';
         $this->contents['LANG_TYPE_OF_VALUE'] = 'Loại giá trị';
+        $this->contents['LANG_CAPPED_AMOUNT_FORMULA'] = 'Giới hạn (Số lượng / Công thức)';
         $this->contents['LANG_TOTAL_GROSS'] = 'Tổng doanh thu';
         $this->contents['LANG_TOTAL_NET_PAYABLE'] = 'Tổng phải trả ròng';
         $this->contents['LANG_PAYMENT'] = 'Thanh toán';

@@ -59,7 +59,7 @@ class TaxRuleModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return string
      */
     public function getProcessTaxRules( $data ) {
         if( isset( $data['taxGroups']['mainGroup'] ) ) {
@@ -76,9 +76,8 @@ class TaxRuleModel extends \Model {
                     }
                 }
             }
-            $data['taxRules'] = $this->TaxRule->getBytgIDs( implode(', ', $tgIDs ) );
+            return $this->TaxRule->getBytgIDs( implode(', ', $tgIDs ) );
         }
-        return $data;
     }
 
 
@@ -111,6 +110,7 @@ class TaxRuleModel extends \Model {
             $this->info['applyValueType'] = $data['applyValueType'];
         }
         $this->info['applyValue'] = (float)$data['applyValue'];
+        $this->info['applyCapped'] = $data['applyCapped'];
 
         if( $this->info['tgID'] ) {
             $TaxGroupModel = new TaxGroupModel( );

@@ -163,6 +163,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_SKILL_DEVELOPMENT_LEVY'] = 'Skill Development Levy';
         $this->contents['LANG_FOREIGN_WORKER_LEVY'] = 'Foreign Worker Levy';
         $this->contents['LANG_TYPE_OF_VALUE'] = 'Type of Value';
+        $this->contents['LANG_CAPPED_AMOUNT_FORMULA'] = 'Capped (Amount / Formula)';
         $this->contents['LANG_TOTAL_GROSS'] = 'Total Gross';
         $this->contents['LANG_TOTAL_NET_PAYABLE'] = 'Total Net Payable';
         $this->contents['LANG_PAYMENT'] = 'Payment';

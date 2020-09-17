@@ -1,7 +1,8 @@
 <?php
 namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Aurora\Component\CurrencyModel, \Aurora\User\UserModel, \Aurora\User\UserImageModel;
+use \Aurora\User\UserImageModel;
+use \Library\Util\Money;
 use \Library\Runtime\Registry, \Library\Util\Date;
 
 /**
@@ -102,7 +103,7 @@ class ClaimView {
                                                     'TPLVAR_CLASS' => 'claimAction',
                                                     'TPLVAR_TITLE' => $row['itemTitle'],
                                                     'TPLVAR_DESCRIPTION' => $row['descript'],
-                                                    'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
+                                                    'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . Money::format( $row['amount'] ),
                                                     'TPLVAR_ATTACHMENT' => $attachment );
             }
             return $this->View->render( 'aurora/page/tableRowPending.tpl', $vars );
@@ -165,7 +166,7 @@ class ClaimView {
                                                     'TPLVAR_CLASS' => 'claimCancel',
                                                     'TPLVAR_TITLE' => $row['itemTitle'],
                                                     'TPLVAR_DESCRIPTION' => $row['descript'],
-                                                    'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . $row['amount'],
+                                                    'TPLVAR_VALUE' => $row['currencyCode'] . $row['currencySymbol'] . Money::format( $row['amount'] ),
                                                     'TPLVAR_LABEL' => $label,
                                                     'TPLVAR_MANAGER' => $managers,
                                                     'TPLVAR_ATTACHMENT' => $attachment,

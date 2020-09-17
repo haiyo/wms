@@ -51,7 +51,7 @@ class TaxRuleControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxRuleModel->getProcessTaxRules( $data ) );
+        Control::setOutputArray( array( 'taxRules' => $this->TaxRuleModel->getProcessTaxRules( $data ) ) );
     }
 
 

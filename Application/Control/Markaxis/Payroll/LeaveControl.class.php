@@ -30,12 +30,7 @@ class LeaveControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        // Get userID
-        if( Control::hasPermission('Markaxis', 'process_payroll' ) ) {
-            if( isset( $args[1] ) ) {
-                Control::setOutputArray( $this->LeaveView->renderProcessForm( $args[1] ) );
-            }
-        }
+        Control::setOutputArray( $this->LeaveView->renderProcessForm( $args[1] ) );
     }
 }
 ?>
