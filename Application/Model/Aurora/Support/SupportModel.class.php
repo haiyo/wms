@@ -45,7 +45,7 @@ class SupportModel extends \Model {
         try {
             $Validator->validate( );
 
-            if( isset( $post['uID'] ) ) {
+            if( isset( $post['uID'] ) && $post['uID'] ) {
                 $UploadModel = new UploadModel( );
                 $this->info['fileInfo'] = $UploadModel->getByUID( $post['uID'] );
             }
