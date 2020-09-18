@@ -41,7 +41,6 @@ class OfficeRes extends Resource {
         $this->contents['LANG_SELECT_OFFICE_TYPE'] = 'Select Office Type';
         $this->contents['LANG_SELECT_WORK_DAY_TO'] = 'Select Work Day To';
         $this->contents['LANG_SELECT_WORK_DAY_FROM'] = 'Select Work Day From';
-        $this->contents['LANG_ENTER_REQUIRED_FIELDS'] = 'Please enter all required fields.';
         $this->contents['LANG_MUST_AT_LEAST_ONE_MAIN'] = 'There must be at least 1 main office.';
         $this->contents['LANG_EDIT_OFFICE'] = 'Edit Office';
         $this->contents['LANG_PLEASE_ENTER_OFFICE_NAME'] = 'Please enter a Office Name';

@@ -378,7 +378,7 @@ var MarkaxisRole = (function( ) {
                 language: {
                     search: '',
                     info: Aurora.i18n.GlobalRes.LANG_TABLE_ENTRIES,
-                    searchPlaceholder: Aurora.i18n.GlobalRes.LANG_SEARCH_ROLE_NAME,
+                    searchPlaceholder: Aurora.i18n.RolePermRes.LANG_SEARCH_ROLE_NAME,
                     lengthMenu: '<span>| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + Aurora.i18n.GlobalRes.LANG_NUMBER_ROWS + ':</span> _MENU_',
                     paginate: { 'first': Aurora.i18n.GlobalRes.LANG_FIRST, 'last': Aurora.i18n.GlobalRes.LANG_LAST, 'next': '&rarr;', 'previous': '&larr;' }
                 },

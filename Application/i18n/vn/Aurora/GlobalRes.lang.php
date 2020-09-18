@@ -60,7 +60,7 @@ class GlobalRes extends Resource {
         $this->contents['LANG_LAST'] = 'Cuối cùng';
         $this->contents['LANG_NO_OF_EMPLOYEE'] = 'Số lượng nhân viên';
         $this->contents['LANG_UPLOAD_SUPPORTING_DOCUMENT'] = 'Tải lên Tài liệu Hỗ trợ (Nếu có)';
-        $this->contents['LANG_ACCEPTED_FORMATS'] = 'Các định dạng được chấp nhận: pdf, doc. Kích thước tệp tối đa';
+        $this->contents['LANG_ACCEPTED_FORMATS'] = 'Các định dạng được chấp nhận: jpg, png, pdf, doc. Kích thước tệp tối đa 2 MB';
         $this->contents['LANG_APPROVING_MANAGERS'] = 'Người quản lý phê duyệt';
         $this->contents['LANG_ENTER_MANAGER_NAME'] = 'Nhập tên người quản lý';
 

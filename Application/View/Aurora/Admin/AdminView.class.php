@@ -75,7 +75,8 @@ class AdminView extends SingletonHelper {
                                   'plugins/forms/selects' => array( 'bootstrap_multiselect.js', 'select2.min.js' ),
                                   'plugins/forms/styling' => array( 'uniform.min.js', 'switchery.min.js', 'switch.min.js' ),
                                   'plugins/notifications' => array( 'sweet_alert.min.js' ),
-                                  'pages' => array( 'components_modals.js', 'components_popups.js' ),
+                                  'pages' => array( 'components_modals.js', 'components_popups.js', 'support.js' ),
+                                  'plugins/uploaders' => array( 'fileinput.min.js' ),
                                   'locale' => array( $this->GlobalRes->getL10n( ), $this->UserRes->getL10n( ) ) ) );
 
         $this->setStyle( array( 'core' => array( 'bootstrap', 'colors', 'components', 'core' ),
@@ -334,6 +335,8 @@ class AdminView extends SingletonHelper {
                 $vars['dynamic']['headerLinks'][] = array( 'TPLVAR_LINK' => $link['link'],
                                                            'TPLVAR_ICON' => $link['icon'],
                                                            'TPLVAR_CLASSNAME' => $link['classname'],
+                                                           'TPLVAR_DATA_TOGGLE' => $link['toggle'],
+                                                           'TPLVAR_DATA_TARGET' => $link['target'],
                                                            'LANG_TEXT' => $link['text'] );
             }
         }
@@ -341,7 +344,9 @@ class AdminView extends SingletonHelper {
         $vars['dynamic']['headerLinks'][] = array( 'TPLVAR_LINK' => '#',
                                                    'TPLVAR_ICON' => 'icon-lifebuoy',
                                                    'TPLVAR_CLASSNAME' => '',
-                                                   'LANG_TEXT' => $this->PageRes->getContents('LANG_NEED_HELP') );
+                                                   'TPLVAR_DATA_TOGGLE' => 'modal',
+                                                   'TPLVAR_DATA_TARGET' => 'modalSupport',
+                                                   'LANG_TEXT' => $this->PageRes->getContents('LANG_FOUND_ISSUE') );
 
         return $this->render('aurora/page/pageHeader.tpl', $vars );
     }

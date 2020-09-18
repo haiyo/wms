@@ -40,7 +40,7 @@ class FormWrapperView {
 
         $this->View->setJScript( array( 'core' => 'aurora.uploader.js',
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
-                                        'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
+                                        'plugins/uploaders' => array( 'croppie.min.js', 'exif.js' ),
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
                                         'locale' => $this->L10n->getL10n( ) ) );
     }

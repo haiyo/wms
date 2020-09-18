@@ -62,7 +62,7 @@ class GlobalRes extends Resource {
         $this->contents['LANG_LAST'] = 'Last';
         $this->contents['LANG_NO_OF_EMPLOYEE'] = 'No. of Employee';
         $this->contents['LANG_UPLOAD_SUPPORTING_DOCUMENT'] = 'Upload Supporting Document (If any)';
-        $this->contents['LANG_ACCEPTED_FORMATS'] = 'Accepted formats: pdf, doc. Max file size';
+        $this->contents['LANG_ACCEPTED_FORMATS'] = 'Accepted formats: jpg, png, pdf, doc. Max file size 2 MB';
         $this->contents['LANG_APPROVING_MANAGERS'] = 'Approving Manager(s)';
         $this->contents['LANG_ENTER_MANAGER_NAME'] = 'Enter Manager\'s Name';
 
