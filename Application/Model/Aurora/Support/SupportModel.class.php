@@ -68,7 +68,7 @@ class SupportModel extends \Model {
 
         $PHPMailer->AddAddress("andy@markaxis.com" );
         $PHPMailer->Subject = $this->info['supportSubject'];
-        $PHPMailer->MsgHTML( $this->info['supportDescript'] );
+        $PHPMailer->MsgHTML( '<p>' . $this->info['supportDescript'] . '</p>' );
 
         if( isset( $this->info['fileInfo'] ) ) {
             $PHPMailer->AddAttachment(BACKUP_DIR . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'] );
