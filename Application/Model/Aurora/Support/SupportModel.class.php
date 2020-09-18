@@ -64,7 +64,10 @@ class SupportModel extends \Model {
      */
     public function send( ) {
         $MimeMail = new MimeMail('andy@markaxis.com','noreply@hrmscloud.net', $this->info['supportSubject'], $this->info['supportDescript'] );
-        $MimeMail->attach( array( BACKUP_DIR . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'] ) );
+
+        if( isset( $this->info['fileInfo'] ) ) {
+            $MimeMail->attach( array( BACKUP_DIR . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'] ) );
+        }
         $MimeMail->sendmail( );
     }
 

@@ -118,7 +118,7 @@ class MimeMail extends Mail {
             /* Insert Company Signature Here If Needed */
         }
         $body_parts[] .= '--' . $this->boundary . '--';
-        $this->body = implode( "", $body_parts );
+        $this->body = implode("", $body_parts );
 
         return true;
     }

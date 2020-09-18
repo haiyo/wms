@@ -108,13 +108,12 @@ var AuroraSupport = (function( ) {
                 $(".fileSupportInput").fileinput("upload");
             }
             else {
-                that.sendForm( );
+                this.sendForm( 0 );
             }
         },
 
 
         sendForm: function( uID ) {
-            var that = this;
             var formData = Aurora.WebService.serializePost("#supportForm");
 
             var data = {
