@@ -9,6 +9,7 @@ namespace Library\Util;
 
 class Mail {
 
+
     // Properties
     protected $to;
     protected $from;
@@ -26,7 +27,6 @@ class Mail {
     * @returns void
     */
     function __construct( $to, $from, $subject, $body, $replyTo='', $cc='', $bcc='' ) {
-        $this->headers = array( );
     	$this->to      = trim( $to      );
     	$this->cc      = trim( $cc      );
         $this->bcc     = trim( $bcc     );
@@ -42,10 +42,10 @@ class Mail {
     * @returns void
     */
     public function extraHeaders( ) {
-    	if( strlen( trim( $this->from    ) ) != 0 ) $this->headers[] = 'From:     ' . $this->from;
-    	if( strlen( trim( $this->replyTo ) ) != 0 ) $this->headers[] = 'Reply-To: ' . $this->replyTo;
-        if( strlen( trim( $this->cc      ) ) != 0 ) $this->headers[] = 'Cc:       ' . $this->cc;
-    	if( strlen( trim( $this->bcc     ) ) != 0 ) $this->headers[] = 'Bcc:      ' . $this->bcc;
+    	if( strlen( trim( $this->from    ) ) != 0 ) $this->headers .= 'From:     ' . $this->from;
+    	if( strlen( trim( $this->replyTo ) ) != 0 ) $this->headers .= 'Reply-To: ' . $this->replyTo;
+        if( strlen( trim( $this->cc      ) ) != 0 ) $this->headers .= 'Cc:       ' . $this->cc;
+    	if( strlen( trim( $this->bcc     ) ) != 0 ) $this->headers .= 'Bcc:      ' . $this->bcc;
     }
     
 
@@ -63,25 +63,6 @@ class Mail {
             die( 'Unable to send mail. Check mail server.' );
             return false;
         }
-    }
-    
-
-    /**
-    * Return Email Content As-Is for Debugging Purpose
-    * @returns str
-    */
-    public function returnAll( ) {
-    	// Rebuild header blocks
-    	$this->headers = array( );
-        $this->extraHeaders( );
-        $this->headers[] = 'From: ' . $this->from;
-    	$this->headers[] = 'To: ' . $this->to;
-    	$this->headers[] = 'Subject: ' . $this->subject;
-    	
-    	$msg  = implode( "\r\n", $this->headers );
-    	$msg .= "\r\n\r\n";
-    	$msg .= $this->body;
-    	return $msg;
     }
 }
 ?>

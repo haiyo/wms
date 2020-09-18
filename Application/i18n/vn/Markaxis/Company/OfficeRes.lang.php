@@ -41,7 +41,6 @@ class OfficeRes extends Resource {
         $this->contents['LANG_SELECT_OFFICE_TYPE'] = 'Chọn loại văn phòng';
         $this->contents['LANG_SELECT_WORK_DAY_TO'] = 'Chọn Ngày làm việc Tới';
         $this->contents['LANG_SELECT_WORK_DAY_FROM'] = 'Chọn ngày làm việc từ';
-        $this->contents['LANG_ENTER_REQUIRED_FIELDS'] = 'Vui lòng nhập tất cả các trường bắt buộc';
         $this->contents['LANG_MUST_AT_LEAST_ONE_MAIN'] = 'Phải có ít nhất 1 văn phòng chính';
         $this->contents['LANG_EDIT_OFFICE'] = 'Chỉnh sửa văn phòng';
         $this->contents['LANG_PLEASE_ENTER_OFFICE_NAME'] = 'Vui lòng nhập Tên văn phòng';

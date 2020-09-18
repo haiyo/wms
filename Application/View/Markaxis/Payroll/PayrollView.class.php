@@ -121,6 +121,8 @@ class PayrollView {
         $this->View->setHeaderLinks( array( 'link' => '#',
                                             'classname' => 'payroll-archive',
                                             'icon' => 'icon-calendar22',
+                                            'toggle' => '',
+                                            'target' => '',
                                             'text' => $this->L10n->getContents('LANG_PAYROLL_ARCHIVE') ) );
 
         $this->View->setBreadcrumbs( array( 'link' => '',

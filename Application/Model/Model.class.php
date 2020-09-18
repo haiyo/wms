@@ -2,6 +2,7 @@
 use Library\Helper\SingletonHelper;
 use \Library\Runtime\Registry;
 use \Library\Interfaces\IObserver;
+use \Library\Exception\RegistryException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -31,6 +32,14 @@ abstract class Model extends SingletonHelper implements IObserver {
         $this->Registry = Registry::getInstance( );
         $this->info = array( );
         $this->observers = array( );
+
+        try {
+            $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
+            $this->L10n = $i18n->loadLanguage('Aurora/GlobalRes');
+        }
+        catch( RegistryException $e ) {
+            //
+        }
 	}
 
 

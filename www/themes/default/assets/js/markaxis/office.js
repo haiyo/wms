@@ -58,7 +58,7 @@ var MarkaxisOffice = (function( ) {
                         success: function (res) {
                             var obj = $.parseJSON(res);
                             if( obj.bool == 0 ) {
-                                swal("error", obj.errMsg);
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
                             else {

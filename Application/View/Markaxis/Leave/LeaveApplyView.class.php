@@ -68,7 +68,6 @@ class LeaveApplyView {
         return array( 'js' => array( 'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js' ),
                                      'plugins/forms' => array( 'styling/switchery.min.js', 'tags/tokenfield.min.js',
                                                                'input/handlebars.js', 'input/typeahead.bundle.min.js' ),
-                                     'plugins/uploaders' => array( 'fileinput.min.js' ),
                                      'jquery' => array( 'jquery.validate.min.js' ),
                                      'markaxis' => array( 'usuggest.js', 'pickerExtend.js', 'applyLeave.js' ),
                                      'locale' => array( $this->LeaveRes->getL10n( ), $this->CalendarRes->getL10n( ) ) ),

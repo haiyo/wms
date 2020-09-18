@@ -9,6 +9,7 @@ $(document).ready( function( ) {
 
     var queue = [];
     var filesLoaded = [];
+    var fileSelected = false;
     var IS_NUMERIC = /^[0-9\.\,]+$/, defaultOptions = {
         thousands: ",",
         decimal: ".",

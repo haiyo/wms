@@ -41,7 +41,6 @@ class ClaimView {
                                         'plugins/forms' => array( 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                        'plugins/uploaders' => array( 'fileinput.min.js' ),
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
                                         'locale' => $this->ExpenseRes->getL10n( ) ) );
     }

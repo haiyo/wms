@@ -40,7 +40,7 @@ class CompanyView {
         $this->View->setJScript( array( 'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js',
                                                                   'input/typeahead.bundle.min.js', 'input/handlebars.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'picker.time.js', 'jscolor.js' ),
-                                        'plugins/uploaders' => array( 'fileinput.min.js', 'croppie.min.js', 'exif.js' ),
+                                        'plugins/uploaders' => array( 'croppie.min.js', 'exif.js' ),
                                         'pages' => 'wizard_stepy.js',
                                         'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
                                         'markaxis' => 'company.js',
