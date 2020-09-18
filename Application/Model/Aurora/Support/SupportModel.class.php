@@ -1,7 +1,7 @@
 <?php
 namespace Aurora\Support;
 use \Aurora\Component\UploadModel;
-use \Library\Util\Uploader, \Library\Util\MimeMail;
+use \Library\Util\Uploader;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -63,12 +63,10 @@ class SupportModel extends \Model {
      * @return string
      */
     public function send( ) {
-        $MimeMail = new MimeMail('andy@markaxis.com','noreply@hrmscloud.net', $this->info['supportSubject'], $this->info['supportDescript'] );
-
         if( isset( $this->info['fileInfo'] ) ) {
-            $MimeMail->attach( array( BACKUP_DIR . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'] ) );
+            $this->info['supportDescript'] .= ' Attachment: ' . ROOT_URL . '/' . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'];
         }
-        $MimeMail->sendmail( );
+        @mail('andy@markaxis.com', $this->info['supportSubject'], $this->info['supportDescript'] );
     }
 
 
