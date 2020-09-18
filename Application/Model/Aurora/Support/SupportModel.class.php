@@ -1,6 +1,7 @@
 <?php
 namespace Aurora\Support;
 use \Aurora\Component\UploadModel;
+use \Library\Util\PHPMailer\PHPMailer;
 use \Library\Util\Uploader;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
@@ -63,10 +64,16 @@ class SupportModel extends \Model {
      * @return string
      */
     public function send( ) {
+        $PHPMailer = new PHPMailer( );
+
+        $PHPMailer->AddAddress("andy@markaxis.com" );
+        $PHPMailer->Subject = $this->info['supportSubject'];
+        $PHPMailer->MsgHTML( $this->info['supportDescript'] );
+
         if( isset( $this->info['fileInfo'] ) ) {
-            $this->info['supportDescript'] .= ' Attachment: ' . ROOT_URL . '/' . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'];
+            $PHPMailer->AddAttachment(BACKUP_DIR . $this->info['fileInfo']['hashDir'] . '/' . $this->info['fileInfo']['hashName'] );
         }
-        @mail('andy@markaxis.com', $this->info['supportSubject'], $this->info['supportDescript'] );
+        $PHPMailer->Send( );
     }
 
 
