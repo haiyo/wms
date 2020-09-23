@@ -83,10 +83,11 @@ class PayrollRes extends Resource {
         $this->contents['LANG_EXPENSES_ITEM'] = 'Khoản mục Chi phí';
         $this->contents['LANG_TAX_RULES'] = 'Quy tắc thuế';
         $this->contents['LANG_PAY_ITEM_TITLE'] = 'Trả tiêu đề mặt hàng';
-        $this->contents['LANG_ORDINARY_WAGE'] = 'Bình thường';
+        $this->contents['LANG_BASIC'] = 'Căn bản';
+        $this->contents['LANG_ORDINARY'] = 'Bình thường';
         $this->contents['LANG_DEDUCTION'] = 'Khấu trừ';
         $this->contents['LANG_DEDUCTION_AW'] = 'Khấu trừ AW';
-        $this->contents['LANG_ADDITIONAL_WAGE'] = 'Mức lương bổ sung';
+        $this->contents['LANG_ADDITIONAL'] = 'Bổ sung';
         $this->contents['LANG_ENTER_PAY_ITEM_TITLE'] = 'Nhập tiêu đề cho mặt hàng trả tiền này';
         $this->contents['LANG_FORMULA'] = 'Công thức';
         $this->contents['LANG_ENTER_FORMULA'] = 'Nhập công thức (tùy chọn)';

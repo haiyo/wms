@@ -335,13 +335,13 @@ class EmployeeModel extends \Model {
             $saveInfo['startDate'] = date('Y-m-d');
         }
 
-        $endDay   = (int)Validator::stripTrim( $data['endDay'] );
+        /*$endDay   = (int)Validator::stripTrim( $data['endDay'] );
         $endMonth = (int)Validator::stripTrim( $data['endMonth'] );
         $endYear  = (int)Validator::stripTrim( $data['endYear'] );
 
         if( !$saveInfo['endDate'] = Date::getDateStr( $endMonth, $endDay, $endYear ) ) {
             unset( $saveInfo['endDate'] );
-        }
+        }*/
 
         if( $info = $this->getFieldByUserID( $data['userID'], 'e.eID' ) ) {
             $eID = $info['eID'];

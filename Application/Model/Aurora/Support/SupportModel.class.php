@@ -66,7 +66,8 @@ class SupportModel extends \Model {
     public function send( ) {
         $PHPMailer = new PHPMailer( );
 
-        $PHPMailer->AddAddress("andy@markaxis.com" );
+        $PHPMailer->setFrom('noreply@hrmscloud.net' );
+        $PHPMailer->AddAddress('andy@markaxis.com' );
         $PHPMailer->Subject = $this->info['supportSubject'];
         $PHPMailer->MsgHTML( '<p>' . $this->info['supportDescript'] . '</p>' );
 

@@ -165,7 +165,7 @@
                                     <option value=""></option>
                                     <optgroup label="<?LANG_COMPUTING_VARIABLE?>">
                                         <option value="age"><?LANG_AGE?></option>
-                                        <option value="ordinary"><?LANG_ORDINARY_WAGE?></option>
+                                        <option value="ordinary"><?LANG_ORDINARY?></option>
                                         <option value="payItem"><?LANG_PAY_ITEM?></option>
                                         <option value="allPayItem"><?LANG_ALL_PAY_ITEM?></option>
                                         <option value="workforce"><?LANG_TOTAL_WORKFORCE?></option>
