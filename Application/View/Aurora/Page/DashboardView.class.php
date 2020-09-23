@@ -99,6 +99,13 @@ class DashboardView {
         $DesignationModel = DesignationModel::getInstance( );
         $dInfo = $DesignationModel->getBydID( $empInfo['designationID'] );
 
+        if( $dInfo ) {
+            $designation = $dInfo['title'];
+        }
+        else {
+            $designation = '';
+        }
+
         $UserImageModel = UserImageModel::getInstance( );
 
         $vars = array_merge( $this->L10n->getContents( ),
@@ -107,7 +114,7 @@ class DashboardView {
                        'TPLVAR_PHOTO' => $UserImageModel->getImgLinkByUserID( $empInfo['userID'] ),
                        'TPLVAR_FNAME' => $empInfo['fname'],
                        'TPLVAR_LNAME' => $empInfo['lname'],
-                        'TPLVAR_DESIGNATION' => $dInfo['title'] ) );
+                       'TPLVAR_DESIGNATION' => $designation ) );
 
         $vars['TPL_SIDEBAR_SEARCH_BOX'] = $this->renderSearchbox( $output );
 
