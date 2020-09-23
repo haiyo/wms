@@ -133,12 +133,15 @@ class ItemModel extends \Model {
                     $order = 'pi.title';
                     break;
                 case 2:
-                    $order = 'pi.ordinary';
+                    $order = 'pi.basic';
                     break;
                 case 3:
-                    $order = 'pi.deduction';
+                    $order = 'pi.ordinary';
                     break;
                 case 4:
+                    $order = 'pi.deduction';
+                    break;
+                case 5:
                     $order = 'pi.additional';
                     break;
                 default:
@@ -242,12 +245,16 @@ class ItemModel extends \Model {
             return false;
         }
 
+        $this->info['basic'] = 0;
         $this->info['ordinary'] = 0;
         $this->info['deduction'] = 0;
         $this->info['deductionAW'] = 0;
         $this->info['additional'] = 0;
 
-        if( $data['payItemType'] == 'ordinary' ) {
+        if( $data['payItemType'] == 'basic' ) {
+            $this->info['basic'] = 1;
+        }
+        else if( $data['payItemType'] == 'ordinary' ) {
             $this->info['ordinary'] = 1;
         }
         else if( $data['payItemType'] == 'deduction' ) {

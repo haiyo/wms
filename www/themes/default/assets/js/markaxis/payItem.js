@@ -76,7 +76,10 @@ var MarkaxisPayItem = (function( ) {
                                 $("#payItemTitle").val( obj.data.title );
                                 $("#formula").val( obj.data.formula );
 
-                                if( obj.data.ordinary == 1 ) {
+                                if( obj.data.basic == 1 ) {
+                                    that.selectPayItemType("basic");
+                                }
+                                else if( obj.data.ordinary == 1 ) {
                                     that.selectPayItemType("ordinary");
                                 }
                                 else if( obj.data.deduction == 1 ) {
@@ -174,7 +177,11 @@ var MarkaxisPayItem = (function( ) {
         selectPayItemType: function( type ) {
             $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
 
-            if( type === "ordinary" ) {
+            if( type === "basic" ) {
+                $("#payItemBasic").addClass("btn-green");
+                $("#payItemType").val("basic");
+            }
+            else if( type === "ordinary" ) {
                 $("#payItemOrdinary").addClass("btn-green");
                 $("#payItemType").val("ordinary");
             }
@@ -315,7 +322,7 @@ var MarkaxisPayItem = (function( ) {
                     orderable: true,
                     searchable: false,
                     width: "100px",
-                    data: "ordinary",
+                    data: "basic",
                     className : "text-center",
                     render: function( data ) {
                         if( data === '0' ) {
@@ -330,6 +337,21 @@ var MarkaxisPayItem = (function( ) {
                     orderable: true,
                     searchable: false,
                     width: "100px",
+                    data: "ordinary",
+                    className : "text-center",
+                    render: function( data ) {
+                        if( data === '0' ) {
+                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
+                        }
+                        else {
+                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
+                        }
+                    }
+                },{
+                    targets: [3],
+                    orderable: true,
+                    searchable: false,
+                    width: "100px",
                     data: "deduction",
                     className : "text-center",
                     render: function( data, type, full ) {
@@ -341,7 +363,7 @@ var MarkaxisPayItem = (function( ) {
                         }
                     }
                 },{
-                    targets: [3],
+                    targets: [4],
                     orderable: true,
                     searchable: false,
                     width: "100px",
@@ -356,7 +378,7 @@ var MarkaxisPayItem = (function( ) {
                         }
                     }
                 },{
-                    targets: [4],
+                    targets: [5],
                     orderable: true,
                     searchable: false,
                     width: "100px",
@@ -371,7 +393,7 @@ var MarkaxisPayItem = (function( ) {
                         }
                     }
                 }, {
-                    targets: [5],
+                    targets: [6],
                     orderable: false,
                     searchable: false,
                     width:"100px",

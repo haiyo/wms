@@ -12,15 +12,12 @@
             <?TPL_DEPARTMENT_LIST?>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <label><?LANG_OFFICE_LOCATION?>:</label>
             <?TPL_OFFICE_LIST?>
         </div>
 
-        <div class="col-md-3">
-            <label><?LANG_CONTRACT_TYPE?>:</label>
-            <?TPL_CONTRACT_LIST?>
-        </div>
+
     </div>
 
     <div class="row">
@@ -52,11 +49,16 @@
         </div>
 
         <div class="col-md-3">
+            <label><?LANG_CONTRACT_TYPE?>:</label>
+            <?TPL_CONTRACT_LIST?>
+        </div>
+
+        <!--<div class="col-md-3">
             <div class="form-group">
                 <label><?LANG_SALARY_TYPE?>:</label>
                 <?TPL_SALARY_TYPE?>
             </div>
-        </div>
+        </div>-->
 
         <div class="col-md-6 mb-30">
             <label><?LANG_EMPLOYMENT_CONFIRM_DATE?>:</label>
@@ -106,7 +108,7 @@
         </div>
 
 
-        <div class="col-md-6">
+        <!--<div class="col-md-6">
             <label><?LANG_EMPLOYMENT_END_DATE?>:</label>
             <div class="form-group">
                 <div class="col-md-4 no-padding-left">
@@ -127,7 +129,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <div class="col-md-6 competency-tt-menu">
                 <label><?LANG_ADD_EMPLOYEE_COMPETENCIES?>: <i class="icon-info22 mr-3" data-popup="tooltip" title="" data-html="true"

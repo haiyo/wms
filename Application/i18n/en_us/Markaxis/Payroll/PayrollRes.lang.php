@@ -82,10 +82,11 @@ class PayrollRes extends Resource {
         $this->contents['LANG_EXPENSES_ITEM'] = 'Expenses Item';
         $this->contents['LANG_TAX_RULES'] = 'Tax Rules';
         $this->contents['LANG_PAY_ITEM_TITLE'] = 'Pay Item Title';
-        $this->contents['LANG_ORDINARY_WAGE'] = 'Ordinary Wage';
+        $this->contents['LANG_BASIC'] = 'Basic';
+        $this->contents['LANG_ORDINARY'] = 'Ordinary';
         $this->contents['LANG_DEDUCTION'] = 'Deduction';
         $this->contents['LANG_DEDUCTION_AW'] = 'Deduction AW';
-        $this->contents['LANG_ADDITIONAL_WAGE'] = 'Additional Wage';
+        $this->contents['LANG_ADDITIONAL'] = 'Additional';
         $this->contents['LANG_ENTER_PAY_ITEM_TITLE'] = 'Enter a title for this pay item';
         $this->contents['LANG_FORMULA'] = 'Formula';
         $this->contents['LANG_ENTER_FORMULA'] = 'Enter formula (optional)';
