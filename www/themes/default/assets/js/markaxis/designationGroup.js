@@ -110,7 +110,7 @@ var MarkaxisDesignationGroup = (function( ) {
                                 return;
                             }
                             else {
-                                that.table.ajax.reload();
+                                markaxisDesignation.table.ajax.reload();
 
                                 swal({
                                     title: Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_CREATED.replace('{title}', $("#groupTitle").val( )),
