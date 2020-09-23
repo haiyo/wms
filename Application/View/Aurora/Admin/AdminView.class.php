@@ -271,8 +271,11 @@ class AdminView extends SingletonHelper {
         $CompanyModel = CompanyModel::getInstance( );
         $companyInfo = $CompanyModel->getInfo( );
 
-        $DesignationModel = DesignationModel::getInstance( );
-        $designation = $DesignationModel->getByID( $this->userInfo['designationID'] )['title'];
+        $designation = '';
+        if( isset( $this->userInfo['designationID'] ) ) {
+            $DesignationModel = DesignationModel::getInstance( );
+            $designation = $DesignationModel->getByID( $this->userInfo['designationID'] )['title'];
+        }
 
         $UserImageModel = UserImageModel::getInstance( );
         $startDate = date('M Y', strtotime( $this->userInfo['startDate'] ) );
