@@ -257,6 +257,9 @@ var MarkaxisLeave = (function( ) {
                             else if( data == 1 ) {
                                 return '<span id="status' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_APPROVED + '</span>';
                             }
+                            else if( data == 2 ) {
+                                return '<span id="status' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_APPROVED + '</span>';
+                            }
                             else {
                                 return '<span id="status' + full['piID'] + '" class="label label-danger">' + Aurora.i18n.GlobalRes.LANG_UNAPPROVED + '</span>';
                             }
