@@ -30,35 +30,53 @@ class SelectGroupListView extends SelectListView {
     public function build( $name, $arrayList, $selected='', $placeHolder='', $id=true ) {
         $list = '';
         $size = sizeof( $arrayList );
-        $isParsed = false;
-        $parent = $vars = array( );
+        $parent = array( );
+        $sort = false;
+
+        usort($arrayList, function($a, $b) {
+            return $a['parent'] <=> $b['parent'];
+        });
 
         for( $i=0; $i<$size; $i++ ) {
+            // First find whether this parent has any children, if not skip!
             if( isset( $arrayList[$i]['parent'] ) && $arrayList[$i]['parent'] == 0 ) {
-                if( $isParsed ) {
-                    $list .= $this->View->render( 'aurora/form/optGroupList.tpl', $vars );
-                    $vars = array( );
+                if( !array_search( $arrayList[$i]['id'], array_column( $arrayList, 'parent') ) ) {
+                    continue;
                 }
-                $vars['TPLVAR_LABEL'] = $arrayList[$i]['title'];
-                $parent[$arrayList[$i]['id']] = true;
-            }
-            else if( isset( $parent[$arrayList[$i]['parent']] ) ) {
-                $select = '';
-                if( $selected != '' ) {
-                    if( $selected == $arrayList[$i]['id'] || $selected == 'all' ||
-                        ( is_array( $selected ) && in_array( $arrayList[$i], $selected ) ) ) {
-                        $select = ' selected="selected"';
-                    }
-                }
-                $vars['dynamic']['option'][] = array( 'TPLVAR_VALUE'  => $arrayList[$i]['id'],
-                                                      'TPLVAR_TITLE'  => $arrayList[$i]['title'],
-                                                      'TPLVAR_CLASS'  => isset( $arrayList[$i]['class'] ) ? $arrayList[$i]['class'] : '',
-                                                      'TPLVAR_SELECT' => $select );
-                $isParsed = true;
 
-                if( $i == ($size-1) ) {
-                    $list .= $this->View->render( 'aurora/form/optGroupList.tpl', $vars );
+                $parent[$arrayList[$i]['id']]['label'] = $arrayList[$i]['title'];
+                continue;
+            }
+
+            // Children
+            if( isset( $parent[$arrayList[$i]['parent']] ) ) {
+                if( !$sort ) {
+                    asort($parent );
+                    $sort = true;
                 }
+
+                $select = '';
+
+                if( $selected != '' && $selected == $arrayList[$i]['id'] || $selected == 'all' ||
+                    ( is_array( $selected ) && in_array( $arrayList[$i], $selected ) ) ) {
+                    $select = ' selected="selected"';
+                }
+                $parent[$arrayList[$i]['parent']]['child'][] = array( 'TPLVAR_VALUE'  => $arrayList[$i]['id'],
+                                                                      'TPLVAR_TITLE'  => $arrayList[$i]['title'],
+                                                                      'TPLVAR_CLASS'  => isset( $arrayList[$i]['class'] ) ? $arrayList[$i]['class'] : '',
+                                                                      'TPLVAR_SELECT' => $select );
+            }
+        }
+
+        if( sizeof( $parent ) > 0 ) {
+            foreach( $parent as $value ) {
+                $vars = array( );
+                $vars['TPLVAR_LABEL'] = $value['label'];
+
+                foreach( $value['child'] as $child ) {
+                    $vars['dynamic']['option'][] = $child;
+                }
+                $list .= $this->View->render( 'aurora/form/optGroupList.tpl', $vars );
             }
         }
 
@@ -83,9 +101,6 @@ class SelectGroupListView extends SelectListView {
         }
         if( $this->includeBlank ) {
             $vars['dynamic']['blank'] = true;
-        }
-        if( !$isParsed ) {
-            $vars['dynamic']['option'] = false;
         }
         $vars['TPL_GROUP_LIST'] = $list;
         return $this->View->render( 'aurora/form/groupList.tpl', $vars );
