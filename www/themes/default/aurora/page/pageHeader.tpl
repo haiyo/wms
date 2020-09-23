@@ -3,7 +3,7 @@
     <div class="page-header-content dashboard-header-content">
 
         <div class="page-title">
-            <h3><i class="<?TPLVAR_ICON?> position-left"></i> <?LANG_TEXT?></h3>
+            <h3><i class="<?TPLVAR_PAGE_ICON?> position-left"></i> <?LANG_PAGE_TITLE?></h3>
         </div>
     </div>
 

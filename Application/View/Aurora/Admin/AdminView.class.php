@@ -327,6 +327,9 @@ class AdminView extends SingletonHelper {
                                                            'TPLVAR_ICON' => $icon,
                                                            'TPLVAR_ACTIVE' => $active,
                                                            'LANG_TEXT' => $crumb['text'] );
+
+                $vars['TPLVAR_PAGE_ICON'] = $icon;
+                $vars['LANG_PAGE_TITLE'] = $crumb['text'];
             }
         }
 
