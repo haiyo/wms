@@ -213,6 +213,8 @@ class UserModel extends \Model {
             }
         }
 
+        unset( $this->info['lang'] );
+
         if( isset( $data['gender'] ) ) {
             $this->info['gender'] = $data['gender'] == 'm' ? 'm' : 'f';
         }
@@ -260,6 +262,9 @@ class UserModel extends \Model {
         $NationalityModel = NationalityModel::getInstance( );
         if( $NationalityModel->isFound( $data['nationality'] ) ) {
             $this->info['nationalityID'] = (int)$data['nationality'];
+        }
+        else {
+            unset( $this->info['nationalityID'] );
         }
 
         $StateModel = StateModel::getInstance( );
