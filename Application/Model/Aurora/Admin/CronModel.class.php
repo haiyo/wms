@@ -42,7 +42,7 @@ class CronModel extends \Model {
                                   $row['month'] . ' ' . $row['dayOfWeek'];
 
                     $Scheduler = new Scheduler( );
-                    $Scheduler->php( ROOT . $row['task'] )->at( $expression )->output(ROOT . 'log/cron.log',true );
+                    $Scheduler->php( ROOT . 'cron/' . $row['task'] )->at( $expression )->output(ROOT . 'log/cron.log',true );
                     $Scheduler->run( );
                 }
             }

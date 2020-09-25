@@ -85,27 +85,34 @@ class LeaveBalanceModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function updateUserBalance( $userID, $leaveTypes ) {
-        foreach( $leaveTypes as $type ) {
-            $totalApplied = isset( $type['totalApplied'] ) ? $type['totalApplied'] : 0;
-            $totalLeaves  = isset( $type['totalLeaves']  ) ? $type['totalLeaves']  : 0;
+    public function updateUserBalance( $data ) {
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
 
-            $info = array( );
-            $info['totalLeaves'] = (float)$totalLeaves;
-            $info['totalApplied'] = (float)$totalApplied;
-            $info['balance'] = $info['totalLeaves']-$info['totalApplied'];
+        if( is_array( $empInfo ) && sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) &&
+            is_array( $data['leaveTypes'] ) && sizeof( $data['leaveTypes'] ) > 0 ) {
 
-            $balInfo = $this->getByltIDUserID( $type['ltID'], $userID );
+            foreach( $data['leaveTypes'] as $type ) {
+                $totalApplied = isset( $type['totalApplied'] ) ? $type['totalApplied'] : 0;
+                $totalLeaves  = isset( $type['totalLeaves']  ) ? $type['totalLeaves']  : 0;
 
-            if( !$balInfo['elbID'] ) {
-                $info['ltID'] = $type['ltID'];
-                $info['userID'] = (int)$userID;
-                $this->LeaveBalance->insert('employee_leave_bal', $info );
-            }
-            else {
-                $this->LeaveBalance->update('employee_leave_bal', $info,
-                                            'WHERE ltID = "' . (int)$type['ltID'] . '" AND
-                                                         userID = "' . (int)$userID . '"' );
+                $info = array( );
+                $info['totalLeaves'] = (float)$totalLeaves;
+                $info['totalApplied'] = (float)$totalApplied;
+                $info['balance'] = $info['totalLeaves']-$info['totalApplied'];
+
+                $balInfo = $this->getByltIDUserID( $type['ltID'], $empInfo['userID'] );
+
+                if( !$balInfo['elbID'] ) {
+                    $info['ltID'] = $type['ltID'];
+                    $info['userID'] = (int)$empInfo['userID'];
+                    $this->LeaveBalance->insert('employee_leave_bal', $info );
+                }
+                else {
+                    $this->LeaveBalance->update('employee_leave_bal', $info,
+                        'WHERE ltID = "' . (int)$type['ltID'] . '" AND
+                                                         userID = "' . (int)$empInfo['userID'] . '"' );
+                }
             }
         }
     }
