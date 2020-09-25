@@ -12,6 +12,7 @@ class SelectGroupListView extends SelectListView {
 
 
     // Properties
+    private $sortEnable = true;
 
 
     /**
@@ -27,15 +28,26 @@ class SelectGroupListView extends SelectListView {
      * Build Select List
      * @return string
      */
+    public function enableSort( $bool ) {
+        $this->sortEnable = $bool;
+    }
+
+
+    /**
+     * Build Select List
+     * @return string
+     */
     public function build( $name, $arrayList, $selected='', $placeHolder='', $id=true ) {
         $list = '';
         $size = sizeof( $arrayList );
         $parent = array( );
-        $sort = false;
 
-        usort($arrayList, function($a, $b) {
-            return $a['parent'] <=> $b['parent'];
-        });
+        if( $this->sortEnable ) {
+            $sort = false;
+            usort($arrayList, function($a, $b) {
+                return $a['parent'] <=> $b['parent'];
+            });
+        }
 
         for( $i=0; $i<$size; $i++ ) {
             // First find whether this parent has any children, if not skip!
@@ -50,7 +62,7 @@ class SelectGroupListView extends SelectListView {
 
             // Children
             if( isset( $parent[$arrayList[$i]['parent']] ) ) {
-                if( !$sort ) {
+                if( $this->sortEnable && !$sort ) {
                     asort($parent );
                     $sort = true;
                 }

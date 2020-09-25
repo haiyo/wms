@@ -271,7 +271,7 @@ class LeaveApplyModel extends \Model {
 
                 foreach( $applyInfo as $value ) {
                     //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
-                    $formula = str_replace('{salary}', $data['items']['totalGross'], $value['formula'] );
+                    $formula = str_replace('{salary}', $data['items']['totalOrdinary'], $value['formula'] );
                     $formula = str_replace('{workDaysOfMonth}', $data['office']['workDaysOfMonth'], $formula );
                     $formula = str_replace('{daysWorkedInMonth}', $totalUnpaidDays, $formula );
 

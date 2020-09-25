@@ -142,12 +142,12 @@ class TaxComputingModel extends \Model {
      */
     public function filterOrdinary( $data, $compInfo ) {
         if( $compInfo['criteria'] == 'ordinary' ) {
-            if( !$this->isEquality( $compInfo['computing'], $data['items']['totalGross'], $compInfo['value'] ) ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['items']['totalOrdinary'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $this->unsetRules[$compInfo['trID']] = 1;
             }
             else if( isset( $data['taxRules'][$compInfo['trID']] ) && $compInfo['computing'] == 'ltec' &&
-                     $data['items']['totalGross'] > $compInfo['value'] ) {
+                     $data['items']['totalOrdinary'] > $compInfo['value'] ) {
                 // Set the cap amount for later deduction.
                 $data['taxRules'][$compInfo['trID']]['capped'] = $compInfo['value'];
                 $data['items']['totalNett'] = $compInfo['value'];
@@ -163,7 +163,7 @@ class TaxComputingModel extends \Model {
      */
     public function filterAllPayItem( $data, $compInfo ) {
         if( $compInfo['criteria'] == 'allPayItem' ) {
-            if( !$this->isEquality( $compInfo['computing'], $data['items']['totalGross'], $compInfo['value'] ) ) {
+            if( !$this->isEquality( $compInfo['computing'], $data['items']['totalOrdinary'], $compInfo['value'] ) ) {
                 unset( $data['taxRules'][$compInfo['trID']] );
                 $this->unsetRules[$compInfo['trID']] = 1;
             }
