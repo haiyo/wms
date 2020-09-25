@@ -46,7 +46,7 @@ class TaxRuleWrapperModel extends \Model {
             return $data;
         }
 
-        $totalGross = $data['items']['totalGross'];
+        $totalGross = $data['items']['totalOrdinary'];
 
         if( isset( $data['deductGross'] ) ) {
             foreach( $data['deductGross'] as $deduction ) {

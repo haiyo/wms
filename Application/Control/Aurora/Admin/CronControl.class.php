@@ -32,6 +32,23 @@ class CronControl extends Control {
 
 
     /**
+     * Connect database
+     * @return void
+     */
+    public function connectDB( ) {
+        // Initialize Database Access Point
+        $DB = new DB( DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT );
+        $DB = $DB->connect( );
+
+        // Load Application Settings from the Registry Table
+        $this->initRegistry( );
+        $this->Registry = \Library\Runtime\Registry::getInstance( );
+        $this->Registry->setDB( $DB );
+        $this->Registry->loadRegistry( );
+    }
+
+
+    /**
     * Init Control Panel Controller Main
     * Override the parent Registry and extend Registry functionalities
     * @return void
@@ -52,15 +69,8 @@ class CronControl extends Control {
                 if( !$username && !$password ) {
                     throw new Exceptions("Error: Please supply a valid username and password\n\n");
                 }
-                // Initialize Database Access Point
-                $DB = new DB(DBTYPE, DBHOST, DBNAME, DBUSER, DBPASS, DBPORT);
-                $DB = $DB->connect();
 
-                // Load Application Settings from the Registry Table
-                $this->initRegistry();
-                $this->Registry = \Library\Runtime\Registry::getInstance( );
-                $this->Registry->setDB( $DB );
-                $this->Registry->loadRegistry( );
+                $this->connectDB();
 
                 $i18n = new i18n('Aurora/languages.xml');
                 $i18n->setUserLang( $this->Registry->get( HKEY_LOCAL, 'language' ) );

@@ -33,8 +33,8 @@ class Type extends \DAO {
      */
     public function getByID( $ltID ) {
         $sql = $this->DB->select( 'SELECT lt.*, GROUP_CONCAT(DISTINCT lhc.haveChild) AS haveChild,
-                                          GROUP_CONCAT(DISTINCT lcb.cID) AS childBorn,
-                                          GROUP_CONCAT(DISTINCT lca.age) AS childAge
+                                                GROUP_CONCAT(DISTINCT lcb.cID) AS childBorn,
+                                                GROUP_CONCAT(DISTINCT lca.age) AS childAge
                                     FROM `leave_type` lt
                                     LEFT OUTER JOIN leave_have_child lhc ON (lhc.ltID = lt.ltID)
                                     LEFT OUTER JOIN leave_child_born lcb ON (lcb.ltID = lt.ltID)
@@ -51,7 +51,7 @@ class Type extends \DAO {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getByIDs( $ltIDs ) {
         $sql = $this->DB->select( 'SELECT lt.* FROM `leave_type` lt

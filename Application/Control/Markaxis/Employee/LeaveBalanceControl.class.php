@@ -41,15 +41,10 @@ class LeaveBalanceControl {
      * @return string
      */
     public function globalInit( ) {
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getInfo( );
         $data = Control::getOutputArray( );
 
-        if( is_array( $empInfo ) && sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) && is_array( $data['leaveTypes'] ) &&
-            sizeof( $data['leaveTypes'] ) > 0 ) {
-            $this->LeaveBalanceModel->updateUserBalance( $empInfo['userID'], $data['leaveTypes'] );
-            Control::clearOutput( );
-        }
+        $this->LeaveBalanceModel->updateUserBalance( $data );
+        Control::clearOutput( );
     }
 
 
