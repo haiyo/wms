@@ -238,7 +238,7 @@ class PayrollModel extends \Model {
      * @return mixed
      */
     public function processSummary( $data ) {
-        $summary['gross'] = $summary['net'] = (float)$data['items']['totalGross'];
+        $summary['gross'] = $summary['net'] = (float)$data['items']['totalOrdinary'];
 
         $summary['deduction'] = $summary['claim'] = $summary['fwl'] = $summary['sdl'] =
         $summary['levy'] = $summary['contribution'] = $summary['totalContribution'] = 0;

@@ -1,5 +1,9 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\Component\OfficeModel AS A_OfficeModel;
+use \Markaxis\Company\OfficeModel AS M_OfficeModel;
+use \Markaxis\Leave\LeaveApplyModel;
+use \Library\Util\Formula;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -133,15 +137,12 @@ class ItemModel extends \Model {
                     $order = 'pi.title';
                     break;
                 case 2:
-                    $order = 'pi.basic';
-                    break;
-                case 3:
                     $order = 'pi.ordinary';
                     break;
-                case 4:
+                case 3:
                     $order = 'pi.deduction';
                     break;
-                case 5:
+                case 4:
                     $order = 'pi.additional';
                     break;
                 default:
@@ -154,9 +155,9 @@ class ItemModel extends \Model {
         unset( $results['recordsTotal'] );
 
         return array( 'draw' => (int)$data['draw'],
-                      'recordsFiltered' => $total,
-                      'recordsTotal' => $total,
-                      'data' => $results );
+            'recordsFiltered' => $total,
+            'recordsTotal' => $total,
+            'data' => $results );
     }
 
 
@@ -176,8 +177,7 @@ class ItemModel extends \Model {
             $data['empInfo']['salary'] > 0 ) {
 
             $items['basic']['amount'] = $data['empInfo']['salary'];
-            $items['totalGross'] = $data['empInfo']['salary'];
-            $items['totalNett'] = 0;
+            $items['totalOrdinary'] = $data['empInfo']['salary'];
         }
         return $items;
     }
@@ -225,6 +225,7 @@ class ItemModel extends \Model {
     }
 
 
+
     /**
      * Set Pay Item Info
      * @return bool
@@ -245,16 +246,12 @@ class ItemModel extends \Model {
             return false;
         }
 
-        $this->info['basic'] = 0;
         $this->info['ordinary'] = 0;
         $this->info['deduction'] = 0;
         $this->info['deductionAW'] = 0;
         $this->info['additional'] = 0;
 
-        if( $data['payItemType'] == 'basic' ) {
-            $this->info['basic'] = 1;
-        }
-        else if( $data['payItemType'] == 'ordinary' ) {
+        if( $data['payItemType'] == 'ordinary' ) {
             $this->info['ordinary'] = 1;
         }
         else if( $data['payItemType'] == 'deduction' ) {

@@ -113,7 +113,6 @@ class TaxPayItemModel extends \Model {
                 // if so then we get all the related piID from the items
                 $piIDs = array_unique( array_column( $post['postItems'], 'piID' ) );
             }
-
             foreach( $payItemRules as $rule ) {
                 // 1. If list of $payItemRules doesnt even exist in items, we just unset;
                 // 2. OR if we do have items but our payItemRules doesn't apply, unset;
@@ -131,11 +130,11 @@ class TaxPayItemModel extends \Model {
      * @return mixed
     */
     public function reprocessPayroll( $data, $post ) {
-        $data = $this->processPayroll( $data, $post );
-
         if( !isset( $post['postItems'] ) ) {
             return $data;
         }
+
+        $data = $this->processPayroll( $data, $post );
 
         foreach( $post['postItems'] as $postItem ) {
             if( $data['items']['deduction']['piID'] == $postItem['piID'] ) {
@@ -166,7 +165,7 @@ class TaxPayItemModel extends \Model {
 
                         // Get total ordinary of the Year and add current month ordinary as well.
                         $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'] );
-                        $totalOrdinary['amount'] += $data['items']['totalGross'];
+                        $totalOrdinary['amount'] += $data['items']['totalOrdinary'];
 
                         /*if( isset( $data['taxRules'][$row['trID']]['capped'] ) ) {
                             $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'],
@@ -191,7 +190,7 @@ class TaxPayItemModel extends \Model {
                                                                 new \DateTime(date('Y-m-d', strtotime('last day of december ' .
                                                                                 $data['payCal']['processDate']->format('Y') ) ) . ' 23:59:59' ) );
 
-                        $formula = str_replace('{basic}', $data['items']['totalGross'], $row['value'] );
+                        $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $row['value'] );
                         $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
                         $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
                         $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
@@ -223,7 +222,7 @@ class TaxPayItemModel extends \Model {
                                 $amountAfter = $calculatedAmount*$applyValue/100;
 
                                 if( $applyCapped ) {
-                                    $formula = str_replace('{basic}', $data['items']['totalGross'], $row['value'] );
+                                    $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $row['value'] );
                                     $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
                                     $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
                                     $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
@@ -255,7 +254,7 @@ class TaxPayItemModel extends \Model {
 
 
                                 if( $applyType == 'contribution' ) {
-                                    $formula = str_replace('{basic}', $data['items']['totalGross'], $row['value'] );
+                                    $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $row['value'] );
                                     $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
                                     $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
                                     $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );

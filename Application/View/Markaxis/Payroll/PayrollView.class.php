@@ -235,10 +235,11 @@ class PayrollView {
             $SelectGroupListView->includeBlank(false );
             $SelectGroupListView->setClass("itemType");
             $SelectGroupListView->isDisabled(true );
+            $SelectGroupListView->enableSort(false );
             $vars['dynamic']['item'] = $vars['dynamic']['hiddenField'] = false;
             $id = 0;
 
-            if( isset( $data['items']['basic'] ) && $data['items']['totalGross'] ) {
+            if( isset( $data['items']['basic'] ) && $data['items']['totalOrdinary'] ) {
                 $selected = 'p-' . $data['items']['basic']['piID'];
                 $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
@@ -247,7 +248,7 @@ class PayrollView {
                                                     'TPLVAR_DEDUCTION' => '',
                                                     'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
                                                     'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
-                                                                       $data['office']['currencySymbol'] . Money::format( $data['items']['totalGross'] ),
+                                                                       $data['office']['currencySymbol'] . Money::format( $data['items']['totalOrdinary'] ),
                                                     'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                     'TPLVAR_REMARK' => '',
                                                     'TPLVAR_DISABLED' => 'disabled',
