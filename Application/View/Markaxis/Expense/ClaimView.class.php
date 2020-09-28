@@ -51,6 +51,7 @@ class ClaimView {
      * @return mixed
      */
     public function renderClaimList( ) {
+        $this->View->setTitle( $this->ExpenseRes->getContents('LANG_EXPENSES_CLAIM') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-coins',
                                             'text' => $this->ExpenseRes->getContents('LANG_EXPENSES_CLAIM') ) );

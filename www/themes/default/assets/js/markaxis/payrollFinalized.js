@@ -183,7 +183,7 @@ var MarkaxisPayrollFinalized = (function( ) {
                     width: '200px',
                     data: 'name',
                     render: function(data, type, full, meta) {
-                        return '<img src="' + full['photo'] + '" width="32" height="32" style="margin-right:10px" />' + data;
+                        return '<img src="' + full['photo'] + '" class="user-table-photo" />' + data;
                     }
                 },{
                     targets: [2],

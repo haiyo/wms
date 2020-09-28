@@ -168,8 +168,12 @@ var MarkaxisPayrollEmployee = (function( ) {
             that.modalCalPayroll.on("show.bs.modal", function(e) {
                 var $invoker = $(e.relatedTarget);
 
-                $(this).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                $(document).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
                     $invoker.attr("data-id") + "/" + $("#pID").val( ), function() {
+
+                    var title = $("#modalCalPayroll .modal-title").text( ) + " (" + startDate + " - " + endDate + ")";
+                    $("#modalCalPayroll .modal-title").text( title );
+
                     $(".itemType").select2( );
 
                     $('[data-popup="tooltip"]').tooltip();

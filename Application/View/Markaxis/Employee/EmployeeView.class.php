@@ -54,6 +54,7 @@ class EmployeeView {
      * @return string
      */
     public function renderSettings( $data ) {
+        $this->View->setTitle( $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-cog3',
                                             'text' => $this->L10n->getContents('LANG_EMPLOYEE_SETTINGS') ) );
@@ -99,6 +100,7 @@ class EmployeeView {
      * @return string
      */
     public function renderUserList( ) {
+        $this->View->setTitle( $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') );
         $this->View->setBreadcrumbs( array( 'link' => 'list',
                                             'icon' => 'icon-users4',
                                             'text' => $this->L10n->getContents('LANG_EMPLOYEE_DIRECTORY') ) );
@@ -426,9 +428,6 @@ class EmployeeView {
 
             $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_START'),
                                                 'TPLVAR_VALUE' => $empInfo['startDate'] ? $empInfo['startDate']->format('jS M Y') . $duration : '--' );
-
-            /*$vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_END_DATE'),
-                                                'TPLVAR_VALUE' => $empInfo['endDate'] ? $empInfo['endDate'] : '--' );*/
 
             $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_CONFIRM'),
                                                 'TPLVAR_VALUE' => $empInfo['confirmDate'] ? $empInfo['confirmDate']->format('jS M Y') : '--' );

@@ -100,6 +100,7 @@ class CalendarView extends AdminView {
         $DayIntListView->setClass('selectList');
         $DayIntListView->setClass('selectList repeatList');
 
+        $this->setTitle( $this->CalendarRes->getContents('LANG_CALENDAR') );
         $this->setBreadcrumbs( array( 'link' => 'admin/calendar',
                                       'icon' => 'icon-users4',
                                       'text' => $this->CalendarRes->getContents('LANG_CALENDAR') ) );
