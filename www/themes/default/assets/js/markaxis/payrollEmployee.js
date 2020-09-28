@@ -168,12 +168,9 @@ var MarkaxisPayrollEmployee = (function( ) {
             that.modalCalPayroll.on("show.bs.modal", function(e) {
                 var $invoker = $(e.relatedTarget);
 
-                $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                $(this).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
                     $invoker.attr("data-id") + "/" + $("#pID").val( ), function() {
                     $(".itemType").select2( );
-
-                    var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-                    var icon = iconWrapper.find(".icon")
 
                     $('[data-popup="tooltip"]').tooltip();
 
@@ -428,15 +425,9 @@ var MarkaxisPayrollEmployee = (function( ) {
                             return;
                         }
                         else {
-                            $(document).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                            $(document).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
                                 $("#userID").val( ) + "/" + $("#pID").val( ), function() {
                                 $(".itemType").select2( );
-
-                                var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-                                var icon = iconWrapper.find(".icon")
-
-                                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
-                                icon.parent().attr( "class", "addItem" );
 
                                 var pu = $("#process" + $("#userID").val( ) );
                                 pu.attr("data-saved", 0);
@@ -450,6 +441,13 @@ var MarkaxisPayrollEmployee = (function( ) {
                                     that.haveSaved = false;
                                     $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", true);
                                 }
+
+                                var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+                                var icon = iconWrapper.find(".icon")
+
+                                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
+                                icon.parent().attr( "class", "addItem" );
+
                                 swal.close()
                             });
                         }
