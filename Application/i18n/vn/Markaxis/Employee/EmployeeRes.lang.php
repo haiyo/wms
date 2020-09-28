@@ -36,8 +36,10 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_CONTRACT_TYPE'] = 'Thể loại hợp đồng';
         $this->contents['LANG_WORK_PASS'] = 'Work Pass';
         $this->contents['LANG_EMPLOYMENT_START_DATE'] = 'Ngày bắt đầu làm việc';
+        $this->contents['LANG_EMPLOYMENT_START'] = 'Bắt đầu việc làm';
         $this->contents['LANG_EMPLOYMENT_END_DATE'] = 'Ngày kết thúc việc làm';
         $this->contents['LANG_EMPLOYMENT_CONFIRM_DATE'] = 'Ngày xác nhận việc làm';
+        $this->contents['LANG_EMPLOYMENT_CONFIRM'] = 'Xác nhận việc làm';
         $this->contents['LANG_SEARCH_NAME_EMAIL'] = 'Tìm kiếm Tên hoặc Email';
         $this->contents['LANG_FILTER_BY_DESIGNATION'] = 'Lọc theo chỉ định';
         $this->contents['LANG_FILTER_BY_DEPARTMENT'] = 'Lọc theo phòng ban';

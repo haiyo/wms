@@ -424,13 +424,13 @@ class EmployeeView {
             $duration .= $empInfo['joinDay'] . $this->L10n->getContents('LANG_DIFF_DAY');
             $duration .= ')';
 
-            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_START_DATE'),
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_START'),
                                                 'TPLVAR_VALUE' => $empInfo['startDate'] ? $empInfo['startDate']->format('jS M Y') . $duration : '--' );
 
             /*$vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_END_DATE'),
                                                 'TPLVAR_VALUE' => $empInfo['endDate'] ? $empInfo['endDate'] : '--' );*/
 
-            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_CONFIRM_DATE'),
+            $vars['dynamic']['list'][] = array( 'TPLVAR_KEY' => $this->L10n->getContents('LANG_EMPLOYMENT_CONFIRM'),
                                                 'TPLVAR_VALUE' => $empInfo['confirmDate'] ? $empInfo['confirmDate']->format('jS M Y') : '--' );
 
             $col_2 = $this->View->render( 'markaxis/payroll/processHeader.tpl', $vars );

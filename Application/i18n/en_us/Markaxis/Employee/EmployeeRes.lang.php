@@ -36,8 +36,10 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_CONTRACT_TYPE'] = 'Contract Type';
         $this->contents['LANG_WORK_PASS'] = 'Work Pass';
         $this->contents['LANG_EMPLOYMENT_START_DATE'] = 'Employment Start Date';
+        $this->contents['LANG_EMPLOYMENT_START'] = 'Employment Start';
         $this->contents['LANG_EMPLOYMENT_END_DATE'] = 'Employment End Date';
         $this->contents['LANG_EMPLOYMENT_CONFIRM_DATE'] = 'Employment Confirmation Date';
+        $this->contents['LANG_EMPLOYMENT_CONFIRM'] = 'Employment Confirmation';
         $this->contents['LANG_SEARCH_NAME_EMAIL'] = 'Search Name or Email';
         $this->contents['LANG_FILTER_BY_DESIGNATION'] = 'Filter By Designation';
         $this->contents['LANG_FILTER_BY_DEPARTMENT'] = 'Filter By Department';
