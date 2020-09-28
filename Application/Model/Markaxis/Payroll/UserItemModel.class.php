@@ -41,7 +41,7 @@ class UserItemModel extends \Model {
      * @return int
      */
     public function getExistingItem( $data ) {
-        if( isset( $data['payrollUser'] ) ) {
+        if( isset( $data['payrollUser']['puID'] ) ) {
             $listItems = $this->getByPuID( $data['payrollUser']['puID'] );
 
             if( sizeof( $listItems ) > 0 ) {
