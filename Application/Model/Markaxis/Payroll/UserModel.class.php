@@ -4,26 +4,26 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollUserModel.class.php, v 2.0 Exp $
+ * @version $Id: UserModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollUserModel extends \Model {
+class UserModel extends \Model {
 
 
     // Properties
-    protected $PayrollUser;
+    protected $User;
 
 
 
     /**
-     * PayrollUserModel Constructor
+     * UserModel Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
 
-        $this->PayrollUser = new PayrollUser( );
+        $this->User = new User( );
     }
 
 
@@ -33,7 +33,7 @@ class PayrollUserModel extends \Model {
      */
     public function isFound( $data ) {
         if( isset( $data['pID'] ) ) {
-            return $this->PayrollUser->isFound( $data['pID'] );
+            return $this->User->isFound( $data['pID'] );
         }
         return 0;
     }
@@ -44,7 +44,7 @@ class PayrollUserModel extends \Model {
      * @return int
      */
     public function getUserPayroll( $pID, $userID ) {
-        return $this->PayrollUser->getUserPayroll( $pID, $userID );
+        return $this->User->getUserPayroll( $pID, $userID );
     }
 
 
@@ -53,15 +53,15 @@ class PayrollUserModel extends \Model {
      * @return int
      */
     public function savePayroll( $data ) {
-        if( isset( $data['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
-            if( $payrollUserInfo = $this->getUserPayroll( $data['pID'], $data['empInfo']['userID'] ) ) {
+        if( isset( $data['payrollInfo']['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
+            if( $payrollUserInfo = $this->getUserPayroll( $data['payrollInfo']['pID'], $data['empInfo']['userID'] ) ) {
                 return $payrollUserInfo['puID'];
             }
             else {
                 $info = array( );
-                $info['pID'] = $data['pID'];
+                $info['pID'] = $data['payrollInfo']['pID'];
                 $info['userID'] = $data['empInfo']['userID'];
-                return $this->PayrollUser->insert('payroll_user', $info );
+                return $this->User->insert('payroll_user', $info );
             }
         }
     }
@@ -72,10 +72,10 @@ class PayrollUserModel extends \Model {
      * @return int
      */
     public function deletePayroll( $data ) {
-        if( isset( $data['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
-            if( $payrollUserInfo = $this->getUserPayroll( $data['pID'], $data['empInfo']['userID'] ) ) {
-                $this->PayrollUser->delete('payroll_user', 'WHERE pID = "' . (int)$data['pID'] . '" AND
-                                                                             userID = "' . (int)$data['empInfo']['userID'] . '"' );
+        if( isset( $data['payrollInfo']['pID'] ) && isset( $data['empInfo']['userID'] ) ) {
+            if( $payrollUserInfo = $this->getUserPayroll( $data['payrollInfo']['pID'], $data['empInfo']['userID'] ) ) {
+                $this->User->delete('payroll_user', 'WHERE pID = "' . (int)$data['payrollInfo']['pID'] . '" AND
+                                                           userID = "' . (int)$data['empInfo']['userID'] . '"' );
                 return $payrollUserInfo['puID'];
             }
         }
@@ -96,9 +96,8 @@ class PayrollUserModel extends \Model {
                 if( $this->getUserPayroll( $data['pID'], $userID ) ) {
                     $info = array( );
                     $info['released'] = 1;
-                    $this->PayrollUser->update('payroll_user', $info,
-                                               'WHERE pID = "' . (int)$data['pID'] . '" AND
-                                                             userID = "' . (int)$userID . '"' );
+                    $this->User->update('payroll_user', $info, 'WHERE pID = "' . (int)$data['pID'] . '" AND
+                                                                      userID = "' . (int)$userID . '"' );
                     $released++;
                 }
             }
@@ -115,7 +114,7 @@ class PayrollUserModel extends \Model {
         if( isset( $data['pID'] ) ) {
             $info = array( );
             $info['released'] = 1;
-            $this->PayrollUser->update('payroll_user', $info,'WHERE pID = "' . (int)$data['pID'] . '"' );
+            $this->User->update('payroll_user', $info,'WHERE pID = "' . (int)$data['pID'] . '"' );
         }
     }
 }

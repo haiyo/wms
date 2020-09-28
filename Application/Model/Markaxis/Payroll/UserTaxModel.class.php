@@ -4,26 +4,26 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollUserTaxModel.class.php, v 2.0 Exp $
+ * @version $Id: UserTaxModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollUserTaxModel extends \Model {
+class UserTaxModel extends \Model {
 
 
     // Properties
-    protected $PayrollUserTax;
+    protected $UserTax;
 
 
 
     /**
-     * PayrollUserTaxModel Constructor
+     * UserTaxModel Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
 
-        $this->PayrollUserTax = new PayrollUserTax( );
+        $this->UserTax = new UserTax( );
     }
 
 
@@ -32,7 +32,7 @@ class PayrollUserTaxModel extends \Model {
      * @return int
      */
     public function getByPuID( $puID ) {
-        return $this->PayrollUserTax->getByPuID( $puID );
+        return $this->UserTax->getByPuID( $puID );
     }
 
 
@@ -43,22 +43,22 @@ class PayrollUserTaxModel extends \Model {
     public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $data['items'] ) && sizeof( $data['items'] ) ) {
-            foreach( $data['items'] as $item ) {
+        if( isset( $data['itemRow'] ) && sizeof( $data['itemRow'] ) ) {
+            foreach( $data['itemRow'] as $item ) {
                 if( isset( $item['trID'] ) ) {
                     $info = array( );
                     $info['puID'] = $data['puID'];
                     $info['trID'] = $item['trID'];
+                    $info['title'] = $item['title'];
                     $info['amount'] = $item['amount'];
-                    $info['remark'] = $item['remark'];
-                    array_push($success, $this->PayrollUserTax->insert( 'payroll_user_tax', $info ) );
+                    array_push($success, $this->UserTax->insert( 'payroll_user_tax', $info ) );
                 }
             }
         }
         if( sizeof( $success ) > 0 ) {
-            $this->PayrollUserTax->delete('payroll_user_tax',
-                                           'WHERE putID NOT IN(' . implode(',', $success ) . ') AND 
-                                                        puID = "' . (int)$data['puID'] . '"');
+            $this->UserTax->delete( 'payroll_user_tax',
+                                    'WHERE putID NOT IN(' . implode(',', $success ) . ') AND 
+                                           puID = "' . (int)$data['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );
@@ -73,7 +73,7 @@ class PayrollUserTaxModel extends \Model {
      */
     public function deletePayroll( $data ) {
         if( isset( $data['puID'] ) ) {
-            $this->PayrollUserTax->delete('payroll_user_tax','WHERE puID = "' . (int)$data['puID'] . '"');
+            $this->UserTax->delete('payroll_user_tax','WHERE puID = "' . (int)$data['puID'] . '"');
         }
     }
 }

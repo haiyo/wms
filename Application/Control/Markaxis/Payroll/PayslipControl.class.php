@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Control;
+use \Library\Runtime\Registry;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -44,6 +45,26 @@ class PayslipControl {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->PayslipModel->getResults( $post ) );
         exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function viewslip( ) {
+        $Registry = Registry::getInstance( );
+        $Authenticator = $Registry->get( HKEY_CLASS, 'Authenticator' );
+        $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+        $data = Control::getOutputArray( );
+
+        if( Control::hasPermission('Markaxis', 'process_payroll' ) ||
+            $userInfo['userID'] == $data['empInfo']['userID'] ) {
+
+            $this->PayslipView->renderSlip( $data, $Authenticator->getKeyManager( )->decrypt( $userInfo['kek'], $userInfo['password'] ) );
+            exit;
+        }
     }
 }
 ?>

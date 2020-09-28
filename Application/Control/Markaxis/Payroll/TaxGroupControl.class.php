@@ -65,6 +65,43 @@ class TaxGroupControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'taxGroups' => $this->TaxGroupModel->getByUserID( $data['empInfo']['userID'], 'et.*' ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewslip( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function settings( ) {
         Control::setOutputArray( array( 'groupList' => $this->TaxGroupView->renderSettings( ) ) );
     }

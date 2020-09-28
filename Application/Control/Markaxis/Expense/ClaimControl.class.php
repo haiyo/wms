@@ -107,7 +107,16 @@ class ClaimControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'claims' => $this->ClaimModel->processPayroll( $data ) ) );
+        Control::setOutputArray( array( 'claims' => $this->ClaimModel->getClaimsByRange( $data ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
     }
 
 

@@ -226,12 +226,12 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $userID, $data ) {
+    public function processPayroll( $data ) {
         if( isset( $data['payCal']['rangeStart'] ) && isset( $data['payCal']['rangeEnd'] ) && isset( $data['office']['workDaysOfMonth'] ) ) {
 
             $rangeStart = $data['payCal']['rangeStart']->format('Y-m-d');
             $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d');
-            $applyInfo  = $this->getUnPaidByUserID( $userID, $rangeStart, $rangeEnd );
+            $applyInfo  = $this->getUnPaidByUserID( $data['empInfo']['userID'], $rangeStart, $rangeEnd );
 
             if( sizeof( $applyInfo ) > 0 ) {
                 $OfficeModel = OfficeModel::getInstance( );

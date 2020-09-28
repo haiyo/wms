@@ -4,11 +4,11 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollLevy.class.php, v 2.0 Exp $
+ * @version $Id: Contribution.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollLevy extends \DAO {
+class Contribution extends \DAO {
 
 
     // Properties
@@ -19,7 +19,7 @@ class PayrollLevy extends \DAO {
      * @return mixed
      */
     public function getByPuID( $puID ) {
-        $sql = $this->DB->select( 'SELECT * FROM payroll_levy
+        $sql = $this->DB->select( 'SELECT * FROM payroll_contribution 
                                    WHERE puID = "' . (int)$puID . '"',
                                    __FILE__, __LINE__ );
 
@@ -41,7 +41,7 @@ class PayrollLevy extends \DAO {
     public function getChart( $date ) {
         $date = addslashes( $date );
 
-        $sql = $this->DB->select( 'SELECT p.startDate, COALESCE(SUM(ps.levy), 0) AS levy
+        $sql = $this->DB->select( 'SELECT p.startDate, COALESCE(SUM(ps.contribution), 0) AS contribution
                                     FROM (SELECT DATE("' . $date . '") as thedate union all
                                           SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 1 MONTH)) UNION ALL
                                           SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 2 MONTH)) UNION ALL
@@ -63,7 +63,7 @@ class PayrollLevy extends \DAO {
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
-                $list[] = (int)$row['levy'];
+                $list[] = (int)$row['contribution'];
             }
         }
         return $list;

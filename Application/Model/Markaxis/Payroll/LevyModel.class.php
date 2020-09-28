@@ -4,25 +4,25 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollLevyModel.class.php, v 2.0 Exp $
+ * @version $Id: LevyModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollLevyModel extends \Model {
+class LevyModel extends \Model {
 
 
     // Properties
-    protected $PayrollLevy;
+    protected $Levy;
 
 
     /**
-     * PayrollLevyModel Constructor
+     * LevyModel Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
 
-        $this->PayrollLevy = new PayrollLevy( );
+        $this->Levy = new Levy( );
     }
 
 
@@ -31,7 +31,7 @@ class PayrollLevyModel extends \Model {
      * @return int
      */
     public function getByPuID( $puID ) {
-        return $this->PayrollLevy->getByPuID( $puID );
+        return $this->Levy->getByPuID( $puID );
     }
 
 
@@ -40,7 +40,7 @@ class PayrollLevyModel extends \Model {
      * @return mixed
      */
     public function getChart( $date ) {
-        return array( 'levies' => $this->PayrollLevy->getChart( $date ) );
+        return array( 'levies' => $this->Levy->getChart( $date ) );
     }
 
 
@@ -57,13 +57,12 @@ class PayrollLevyModel extends \Model {
                 $info['puID'] = $data['puID'];
                 $info['title'] = $levy['title'];
                 $info['amount'] = $levy['amount'];
-                array_push($success, $this->PayrollLevy->insert( 'payroll_levy', $info ) );
+                array_push($success, $this->Levy->insert( 'payroll_levy', $info ) );
             }
         }
         if( sizeof( $success ) > 0 ) {
-            $this->PayrollLevy->delete('payroll_levy',
-                                       'WHERE plID NOT IN(' . implode(',', $success ) . ') AND 
-                                                    puID = "' . (int)$data['puID'] . '"');
+            $this->Levy->delete('payroll_levy', 'WHERE plID NOT IN(' . implode(',', $success ) . ') AND 
+                                                       puID = "' . (int)$data['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );
@@ -77,7 +76,7 @@ class PayrollLevyModel extends \Model {
      */
     public function deletePayroll( $data ) {
         if( isset( $data['puID'] ) ) {
-            $this->PayrollLevy->delete('payroll_levy','WHERE puID = "' . (int)$data['puID'] . '"');
+            $this->Levy->delete('payroll_levy','WHERE puID = "' . (int)$data['puID'] . '"');
         }
     }
 }

@@ -5,23 +5,23 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: PayrollContributionControl.class.php, v 2.0 Exp $
+ * @version $Id: LevyControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollContributionControl {
+class LevyControl {
 
 
     // Properties
-    protected $PayrollContributionModel;
+    protected $LevyModel;
 
 
     /**
-     * PayrollContributionControl Constructor
+     * LevyControl Constructor
      * @return void
      */
     function __construct( ) {
-        $this->PayrollContributionModel = PayrollContributionModel::getInstance( );
+        $this->LevyModel = LevyModel::getInstance( );
     }
 
 
@@ -35,7 +35,7 @@ class PayrollContributionControl {
 
         if( isset( $post['date'] ) ) {
             $vars['bool'] = 1;
-            Control::setOutputArrayAppend( array( 'data' => $this->PayrollContributionModel->getChart( $post['date'] ) ) );
+            Control::setOutputArrayAppend( array( 'data' => $this->LevyModel->getChart( $post['date'] ) ) );
         }
     }
 
@@ -46,7 +46,7 @@ class PayrollContributionControl {
      */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        $this->PayrollContributionModel->savePayroll( $data );
+        $this->LevyModel->savePayroll( $data );
     }
 
 
@@ -56,7 +56,7 @@ class PayrollContributionControl {
      */
     public function deletePayroll( ) {
         $data = Control::getOutputArray( );
-        $this->PayrollContributionModel->deletePayroll( $data );
+        $this->LevyModel->deletePayroll( $data );
     }
 }
 ?>

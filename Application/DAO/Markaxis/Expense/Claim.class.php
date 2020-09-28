@@ -64,12 +64,13 @@ class Claim extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getByUserIDStatus( $userID, $status ) {
+    public function getByUserIDStatus( $userID, $startDate, $endDate, $status ) {
         $sql = $this->DB->select( 'SELECT ec.*, u.name AS uploadName, u.hashName
                                    FROM expense_claim ec
                                    LEFT JOIN upload u ON ( u.uID = ec.uID )
                                    WHERE ec.userID = "' . (int)$userID . '" AND 
                                          ec.status = "' . (int)$status . '" AND
+                                         ec.created BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '" AND
                                          ec.cancelled <> "1"',
                                    __FILE__, __LINE__ );
 

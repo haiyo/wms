@@ -33,7 +33,7 @@ class TaxFileControl {
      */
     public function taxfile( ) {
 
-        $endpoint = 'https://apisandbox.iras.gov.sg/iras/devportal/sb/Authentication/CorpPassAuth?';
+        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassAuth';
 
         // Registered callback
         //https://staging.hrmscloud.net/admin/iras_sandbox

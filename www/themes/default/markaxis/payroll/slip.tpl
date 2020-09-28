@@ -27,7 +27,7 @@
 
 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="table">
     <tr>
-        <td width="48%" style="padding:2px;" class="td"><span class="title"><?LANG_EMPLOYER_NAME?>:</span> <?TPLVAR_FNAME?> <?TPLVAR_LNAME?></td>
+        <td width="48%" style="padding:2px;" class="td"><span class="title"><?LANG_EMPLOYER_NAME?>:</span> <?TPLVAR_NAME?></td>
         <td width="48%" style="padding:2px;" class="td"><span class="title"><?LANG_JOIN_DATE?>:</span> <?TPLVAR_START_DATE?></td>
     </tr>
     <tr>
@@ -42,7 +42,7 @@
 
 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="table" style="margin:50px 0;">
     <tr>
-        <td class="title" style="padding:5px;background-color:#efefef;"><?LANG_ITEM_TYPE?></td>
+        <td width="320" class="title" style="padding:5px;background-color:#efefef;"><?LANG_ITEM_TYPE?></td>
         <td class="title" style="padding:5px;background-color:#efefef;"><?LANG_AMOUNT?></td>
         <td class="title" style="padding:5px;background-color:#efefef;"><?LANG_REMARK?></td>
     </tr>
@@ -74,3 +74,7 @@
         <td style="padding:5px;"><?TPLVAR_CURRENCY?><?TPLVAR_NET_AMOUNT?></td>
     </tr>
 </table>
+
+<div style="width:88%;position:absolute;bottom:10px;font-size:11px;text-align:center;">
+    This is a computer generated statement and does not require any signature.
+</div>

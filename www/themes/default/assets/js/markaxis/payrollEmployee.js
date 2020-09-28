@@ -84,7 +84,7 @@ var MarkaxisPayrollEmployee = (function( ) {
             $("#employeeForm-step-0 .stepy-navigator").insertAfter("#employeeForm-step-0 .dataTables_filter");
 
             $(document).on("change", "#office", function(e) {
-                that.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/employee/" + $("#processDate").val( ) + "/" + $("#office").val( ) ).load();
+                that.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/employee/" + $("#pID").val( ) + "/" + $("#office").val( ) ).load();
             });
 
             var ids = [];
@@ -169,22 +169,30 @@ var MarkaxisPayrollEmployee = (function( ) {
                 var $invoker = $(e.relatedTarget);
 
                 $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
-                    $invoker.attr("data-id") + "/" + $("#processDate").val( ), function() {
+                    $invoker.attr("data-id") + "/" + $("#pID").val( ), function() {
                     $(".itemType").select2( );
 
                     var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
                     var icon = iconWrapper.find(".icon")
 
-                    icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
-                    icon.parent().attr( "class", "addItem" );
-
                     $('[data-popup="tooltip"]').tooltip();
 
                     if( $invoker.attr("data-saved") == 1 ) {
+                        var iconWrapper = $("#itemWrapper").find(".itemRow").find(".iconWrapper");
+                        var icon = iconWrapper.find(".icon");
+
+                        icon.addClass("hide");
+
                         $(".processBtn").attr("id", "reprocessPayroll");
                         $(".processBtn").text( Markaxis.i18n.PayrollRes.LANG_REPROCESS_PAYROLL );
                     }
                     else {
+                        var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+                        var icon = iconWrapper.find(".icon");
+
+                        icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
+                        icon.parent().attr( "class", "addItem" );
+
                         $(".processBtn").attr("id", "savePayroll");
                         $(".processBtn").text( Markaxis.i18n.PayrollRes.LANG_SAVE_PAYROLL );
                     }
@@ -273,12 +281,12 @@ var MarkaxisPayrollEmployee = (function( ) {
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#processDate").val( ), data );
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
         },
 
 
         downloadCPF: function( ) {
-            Aurora.WebService.download( "admin/payroll/downloadCPF/" + $("#processDate").val( ) );
+            Aurora.WebService.download( "admin/payroll/downloadCPF/" + $("#pID").val( ) );
         },
 
 
@@ -355,7 +363,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#processDate").val( ), data );
+            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
         },
 
 
@@ -391,7 +399,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/savePayroll/" + $("#userID").val( ) + "/" + $("#processDate").val( ), data );
+            Aurora.WebService.AJAX( "admin/payroll/savePayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
         },
 
 
@@ -421,7 +429,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                         }
                         else {
                             $(document).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
-                                $("#userID").val( ) + "/" + $("#processDate").val( ), function() {
+                                $("#userID").val( ) + "/" + $("#pID").val( ), function() {
                                 $(".itemType").select2( );
 
                                 var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
@@ -447,7 +455,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                         }
                     }
                 };
-                Aurora.WebService.AJAX("admin/payroll/deletePayroll/" + $("#userID").val( ), data);
+                Aurora.WebService.AJAX("admin/payroll/deletePayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data);
             });
         },
 
@@ -506,7 +514,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     $(nRow).attr('id', 'row' + aData['userID']);
                 },
                 ajax: {
-                    url: Aurora.ROOT_URL + "admin/payroll/employee/" + $("#processDate").val( ) + "/" + $("#office").val( ),
+                    url: Aurora.ROOT_URL + "admin/payroll/employee/" + $("#pID").val( ) + "/" + $("#office").val( ),
                     type: "POST",
                     data: function ( d ) {
                         d.ajaxCall = 1;

@@ -23,33 +23,5 @@ class TaxControl {
     function __construct( ) {
         $this->TaxModel = TaxModel::getInstance( );
     }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function processPayroll( ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'taxGroups' => $this->TaxModel->getByUserID( $data['empInfo']['userID'], 'et.*' ) ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function reprocessPayroll( ) {
-        $this->processPayroll( );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function savePayroll( ) {
-        $this->reprocessPayroll( );
-    }
 }
 ?>

@@ -41,15 +41,6 @@ class TaxModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getByUserID( $userID, $column ) {
-        return $this->Tax->getByUserID( $userID, $column );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
     public function getListByUserID( $userID ) {
         return $this->info = $this->Tax->getListByUserID( $userID );
     }

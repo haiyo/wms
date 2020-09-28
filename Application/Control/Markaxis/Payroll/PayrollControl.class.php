@@ -1,6 +1,8 @@
 <?php
 namespace Markaxis\Payroll;
 use \Control;
+use \Library\Http\HttpResponse;
+use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -41,7 +43,7 @@ class PayrollControl {
      * @return void
      */
     public function employee( $args ) {
-        // processDate && officeID
+        // pID && officeID
         if( isset( $args[1] ) && isset( $args[2] ) ) {
             $post = Control::getRequest( )->request( POST );
             echo json_encode( $this->PayrollModel->getResults( $post, $args[1], $args[2] ) );
@@ -119,10 +121,17 @@ class PayrollControl {
      * @return string
      */
     public function processPayroll( $args ) {
-        if( isset( $args[1] ) && isset( $args[2] ) ) {
-            $data = Control::getOutputArray( );
-            echo $this->PayrollView->renderProcessForm( $args[1], $args[2], $data );
-            exit;
+        try {
+            if( isset( $args[2] ) && $payrollInfo = $this->PayrollModel->getBypID( $args[2] ) ) {
+                Control::setOutputArray( array( 'payrollInfo' => $payrollInfo ) );
+            }
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+            }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
         }
     }
 
@@ -131,14 +140,8 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( ) {
-        $data = Control::getOutputArray( );
-        $vars = array( );
-        $vars['bool'] = 1;
-        $vars['data'] = $data;
-        $vars['summary'] = $this->PayrollView->renderProcessSummary( $data );
-        echo json_encode( $vars );
-        exit;
+    public function reprocessPayroll( $args ) {
+        $this->processPayroll( $args );
     }
 
 
@@ -146,11 +149,8 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setOutputArray( array( 'pID' => $this->PayrollModel->savePayroll( $post ),
-                                        'summary' => $this->PayrollModel->processSummary( $data ) ) );
+    public function savePayroll( $args ) {
+        $this->processPayroll( $args );
     }
 
 
@@ -158,9 +158,17 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function deletePayroll( ) {
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setOutputArray( array( 'pID' => $this->PayrollModel->savePayroll( $post ) ) );
+    public function viewslip( $args ) {
+        $this->processPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( $args ) {
+        $this->processPayroll( $args );
     }
 
 

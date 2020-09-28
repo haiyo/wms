@@ -38,10 +38,10 @@ class LeaveView {
      * Render main navigation
      * @return mixed
      */
-    public function renderProcessForm( $userID ) {
+    public function renderProcessForm( $data ) {
         $LeaveBalanceModel = LeaveBalanceModel::getInstance( );
 
-        if( $lvInfo = $LeaveBalanceModel->getByUserID( $userID, 3 ) ) {
+        if( $lvInfo = $LeaveBalanceModel->getByUserID( $data['empInfo']['userID'], 3 ) ) {
             $vars = array_merge( $this->L10n->getContents( ),
                     array( 'TPLVAR_TITLE_KEY' => $this->L10n->getContents('LANG_LEAVE_BALANCE'),
                            'TPLVAR_TITLE_VALUE' => '' ) );

@@ -4,11 +4,11 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollUser.class.php, v 2.0 Exp $
+ * @version $Id: User.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollUser extends \DAO {
+class User extends \DAO {
 
 
     // Properties

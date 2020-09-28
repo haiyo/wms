@@ -102,7 +102,7 @@ class TaxPayItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $data, $post=false ) {
+    public function processPayroll( $data, $post=false, $addGross=false ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $payItemRules = $this->getBytrIDs( $trIDs );
@@ -113,6 +113,19 @@ class TaxPayItemModel extends \Model {
                 // if so then we get all the related piID from the items
                 $piIDs = array_unique( array_column( $post['postItems'], 'piID' ) );
             }
+
+            // If already saved, do we have existing itemRow?
+            if( isset( $data['itemRow'] ) ) {
+                // if so then we get all the related piID from the items
+                $itemRow = array_unique( array_column( $data['itemRow'], 'piID' ) );
+
+                if( sizeof( $itemRow ) > 0 ) {
+                    foreach( $itemRow as $piID) {
+                        array_push($piIDs, $piID );
+                    }
+                }
+            }
+
             foreach( $payItemRules as $rule ) {
                 // 1. If list of $payItemRules doesnt even exist in items, we just unset;
                 // 2. OR if we do have items but our payItemRules doesn't apply, unset;
@@ -120,6 +133,7 @@ class TaxPayItemModel extends \Model {
                     unset( $data['taxRules'][$rule['trID']] );
                 }
             }
+            $data = $this->processFormula( $data, $addGross );
         }
         return $data;
     }
@@ -134,7 +148,7 @@ class TaxPayItemModel extends \Model {
             return $data;
         }
 
-        $data = $this->processPayroll( $data, $post );
+        $data = $this->processPayroll( $data, $post, true );
 
         foreach( $post['postItems'] as $postItem ) {
             if( $data['items']['deduction']['piID'] == $postItem['piID'] ) {
@@ -142,7 +156,6 @@ class TaxPayItemModel extends \Model {
             }
             else {
                 // Find all ordinary
-                //
                 $ordinaryPiIDs = array_unique( array_column( $data['items']['ordinary'],'piID' ) );
 
                 if( in_array( $postItem['piID'], $ordinaryPiIDs ) ) {
@@ -150,134 +163,141 @@ class TaxPayItemModel extends \Model {
                 }
             }
         }
+        return $data;
+    }
 
-        if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
-            $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
 
-            $itemInfo = $this->getBytrIDs( $trIDs );
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function processFormula( $data, $addGross=true ) {
+        $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
 
-            if( sizeof( $itemInfo ) > 0 ) {
-                $PayrollModel = PayrollModel::getInstance( );
-                $M_OfficeModel = M_OfficeModel::getInstance( );
+        $itemInfo = $this->getBytrIDs( $trIDs );
 
-                foreach( $itemInfo as $row ) {
-                    if( $row['valueType'] == 'formula' && $row['value'] ) {
+        if( sizeof( $itemInfo ) > 0 ) {
+            $PayrollModel = PayrollModel::getInstance( );
+            $M_OfficeModel = M_OfficeModel::getInstance( );
 
-                        // Get total ordinary of the Year and add current month ordinary as well.
-                        $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'] );
-                        $totalOrdinary['amount'] += $data['items']['totalOrdinary'];
+            foreach( $itemInfo as $item ) {
+                if( $item['valueType'] == 'formula' && $item['value'] ) {
 
-                        /*if( isset( $data['taxRules'][$row['trID']]['capped'] ) ) {
-                            $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'],
-                                                                                       $data['taxRules'][$row['trID']]['capped'] );
-                        }
-                        else {
-                            $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'] );
-                        }*/
+                    // Get total ordinary of the Year and add current month ordinary as well.
+                    $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'] );
+                    $totalOrdinary['amount'] += $data['items']['totalOrdinary'];
 
-                        /*if( $totalOrdinary['months'] < 12 ) {
-                            $currSalary = $data['items']['totalOrdinaryNett'];
+                    $totalWorkDaysOfYear = $M_OfficeModel->getWorkingDaysByRange( $data['office']['oID'],
+                        new \DateTime( $data['payCal']['processDate']->format('Y-01-01' ) ),
+                        new \DateTime(date('Y-m-d', strtotime('last day of december ' .
+                                            $data['payCal']['processDate']->format('Y') ) ) . ' 23:59:59' ) );
 
-                            if( isset( $data['taxRules'][$row['trID']]['capped'] ) &&
-                                $data['empInfo']['salary'] > $data['taxRules'][$row['trID']]['capped'] ) {
-                                $currSalary = $data['taxRules'][$row['trID']]['capped'];
+                    $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $item['value'] );
+                    $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
+                    $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
+                    $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
+
+                    $Formula = new Formula( );
+                    $calculatedAmount = round( $Formula->calculate( $formula ) );
+                    $data['inputRemark'] = '';
+
+                    if( isset( $data['taxRules'][$item['trID']]['applyType'] ) &&
+                        isset( $data['taxRules'][$item['trID']]['applyValueType'] ) &&
+                        isset( $data['taxRules'][$item['trID']]['applyValue'] ) &&
+                        isset( $data['taxRules'][$item['trID']]['applyCapped'] ) ) {
+
+                        $applyType = $data['taxRules'][$item['trID']]['applyType'];
+                        $applyValueType = $data['taxRules'][$item['trID']]['applyValueType'];
+                        $applyValue = $data['taxRules'][$item['trID']]['applyValue'];
+                        $applyCapped = $data['taxRules'][$item['trID']]['applyCapped'];
+
+                        if( $applyValueType == 'percentage' && $applyValue ) {
+                            $amountAfter = $calculatedAmount*$applyValue/100;
+
+                            if( $applyCapped ) {
+                                $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $item['value'] );
+                                $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
+                                $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
+                                $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
+
+                                $capAmount = round( $Formula->calculate( $formula ) );
+
+                                if( $amountAfter > $capAmount ) {
+                                    //$amount = $capAmount;
+
+                                    $data['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
+                                                                            $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
+                                }
                             }
-                            $totalOrdinary['amount'] += $currSalary;
-                        }*/
 
-                        $totalWorkDaysOfYear = $M_OfficeModel->getWorkingDaysByRange( $data['office']['oID'],
-                                                                new \DateTime( $data['payCal']['processDate']->format('Y-01-01' ) ),
-                                                                new \DateTime(date('Y-m-d', strtotime('last day of december ' .
-                                                                                $data['payCal']['processDate']->format('Y') ) ) . ' 23:59:59' ) );
+                            if( $applyType == 'deductionAW' ) {
+                                // $remark = $data['taxRules'][$row['trID']]['title']; //. $remark;
 
-                        $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $row['value'] );
-                        $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
-                        $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
-                        $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
+                                foreach( $data['taxGroups']['mainGroup'] as $taxGroup ) {
+                                    // First find all the childs in this group and see if we have any summary=1
+                                    if( isset( $taxGroup['child'] ) ) {
+                                        $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
 
-                        $Formula = new Formula( );
-                        $calculatedAmount = round( $Formula->calculate( $formula ) );
-                        $data['inputRemark'] = '';
-
-                        //$amount = $data['items']['totalOrdinary'];
-                        //$total = $this->getTotalAWPostCount( $data, $post );
-
-                        /*if( $data['totalPostAW'] && $data['totalPostAW'] > $capAmount ) {
-                            $amount = $capAmount;
-                            $remark .= ' (Capped at ' . $data['office']['currencyCode'] .
-                                                        $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
-                        }*/
-
-                        if( isset( $data['taxRules'][$row['trID']]['applyType'] ) &&
-                            isset( $data['taxRules'][$row['trID']]['applyValueType'] ) &&
-                            isset( $data['taxRules'][$row['trID']]['applyValue'] ) &&
-                            isset( $data['taxRules'][$row['trID']]['applyCapped'] ) ) {
-
-                            $applyType = $data['taxRules'][$row['trID']]['applyType'];
-                            $applyValueType = $data['taxRules'][$row['trID']]['applyValueType'];
-                            $applyValue = $data['taxRules'][$row['trID']]['applyValue'];
-                            $applyCapped = $data['taxRules'][$row['trID']]['applyCapped'];
-
-                            if( $applyValueType == 'percentage' && $applyValue ) {
-                                $amountAfter = $calculatedAmount*$applyValue/100;
-
-                                if( $applyCapped ) {
-                                    $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $row['value'] );
-                                    $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
-                                    $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
-                                    $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
-
-                                    $capAmount = round( $Formula->calculate( $formula ) );
-
-                                    if( $amountAfter > $capAmount ) {
-                                        //$amount = $capAmount;
-
-                                        $data['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
-                                                                                $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
+                                        if( isset( $data['taxRules'][$item['trID']]['tgID'] ) && in_array( $data['taxRules'][$item['trID']]['tgID'], $tgIDChilds ) ) {
+                                            foreach( $taxGroup['child'] as $child ) {
+                                                if( isset( $child['tgID'] ) && $child['tgID'] == $data['taxRules'][$item['trID']]['tgID'] ) {
+                                                    if( $child['summary'] ) {
+                                                        $ruleTitle = $child['title'];
+                                                        break 2;
+                                                    }
+                                                    else {
+                                                        $ruleTitle = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                                        break 2;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if( $taxGroup['tgID'] == $data['taxRules'][$item['trID']]['tgID'] ) {
+                                        $ruleTitle = $taxGroup['title'];
+                                        break;
                                     }
                                 }
 
-                                if( $applyType == 'deductionAW' ) {
-                                    // $remark = $data['taxRules'][$row['trID']]['title']; //. $remark;
+                                $data['itemRow'][] = //$data['addItem'][] =
+                                    array( 'piID' => $data['items']['deductionAW']['piID'],
+                                           'trID' => $item['trID'],
+                                           'tgID' => $data['taxRules'][$item['trID']]['tgID'],
+                                           'deductionAW' => 1,
+                                           'title' => $ruleTitle,
+                                           'amount' => $amountAfter,
+                                           'remark' => $data['inputRemark'] );
 
-                                    $data['itemRow'][] = //$data['addItem'][] =
-                                        array( 'piID' => $data['items']['deductionAW']['piID'],
-                                               'trID' => $row['trID'],
-                                               'tgID' => $data['taxRules'][$row['trID']]['tgID'],
-                                               'deductionAW' => 1,
-                                               'amount' => $amountAfter,
-                                               'remark' => $data['inputRemark'] );
-
+                                if( $addGross ) {
                                     $data['addGross'][] = $data['inputAmount'] = $calculatedAmount;
-                                    //$data['items']['totalGross'] += $calculatedAmount;
+                                }
+                                //$data['items']['totalGross'] += $calculatedAmount;
+                            }
+
+                            if( $applyType == 'contribution' ) {
+                                $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $item['value'] );
+                                $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
+                                $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
+                                $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
+
+                                $capAmount = round( $Formula->calculate( $formula ) );
+
+                                if( $amountAfter > $capAmount ) {
+                                    $amountAfter = $capAmount;
+                                    $data['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
+                                                                            $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
                                 }
 
-
-                                if( $applyType == 'contribution' ) {
-                                    $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $row['value'] );
-                                    $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
-                                    $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
-                                    $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
-
-                                    $capAmount = round( $Formula->calculate( $formula ) );
-
-                                    if( $amountAfter > $capAmount ) {
-                                        $amountAfter = $capAmount;
-                                        $data['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
-                                                                                $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
-                                    }
-
-                                    $data['contribution'][] = array( 'title' => $data['taxRules'][$row['trID']]['title'],
-                                                                     'trID' => $row['trID'],
-                                                                     'amount' => round( $amountAfter ),
-                                                                     'remark' => $data['inputRemark'] );
-                                }
+                                $data['contribution'][] = array( 'title' => $data['taxRules'][$item['trID']]['title'],
+                                                                 'trID' => $item['trID'],
+                                                                 'amount' => round( $amountAfter ),
+                                                                 'remark' => $data['inputRemark'] );
                             }
                         }
-                        $data['inputAmount'] = $data['office']['currencyCode'] .
-                                               $data['office']['currencySymbol'] . Money::format( $calculatedAmount );
-                        unset( $data['taxRules'][$row['trID']] );
                     }
+                    $data['inputAmount'] = $data['office']['currencyCode'] .
+                                           $data['office']['currencySymbol'] . Money::format( $calculatedAmount );
+                    unset( $data['taxRules'][$item['trID']] );
                 }
             }
         }

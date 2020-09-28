@@ -5,23 +5,42 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: PayrollUserControl.class.php, v 2.0 Exp $
+ * @version $Id: UserControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollUserControl {
+class UserControl {
 
 
     // Properties
-    protected $PayrollUserModel;
+    protected $UserModel;
 
 
     /**
-     * PayrollUserControl Constructor
+     * UserControl Constructor
      * @return void
      */
     function __construct( ) {
-        $this->PayrollUserModel = PayrollUserModel::getInstance( );
+        $this->UserModel = UserModel::getInstance( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'payrollUser' => $this->UserModel->getUserPayroll( $data['payrollInfo']['pID'], $data['empInfo']['userID'] ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewslip( ) {
+        $this->processPayroll( );
     }
 
 
@@ -31,7 +50,7 @@ class PayrollUserControl {
      */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'puID' => $this->PayrollUserModel->savePayroll( $data ) ) );
+        Control::setOutputArray( array( 'puID' => $this->UserModel->savePayroll( $data ) ) );
     }
 
 
@@ -41,8 +60,8 @@ class PayrollUserControl {
      */
     public function deletePayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'puID' => $this->PayrollUserModel->deletePayroll( $data ),
-                                        'userProcessCount' => $this->PayrollUserModel->isFound( $data ) ) );
+        Control::setOutputArray( array( 'puID' => $this->UserModel->deletePayroll( $data ),
+                                        'userProcessCount' => $this->UserModel->isFound( $data ) ) );
     }
 
 
@@ -54,12 +73,12 @@ class PayrollUserControl {
         if( Control::hasPermission( 'Markaxis', 'process_payroll' ) ) {
             $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-            if( $vars['count'] = $this->PayrollUserModel->release( $post ) ) {
+            if( $vars['count'] = $this->UserModel->release( $post ) ) {
                 $vars['bool'] = 1;
             }
             else {
                 $vars['bool'] = 0;
-                $vars['errMsg'] = $this->PayrollUserModel->getErrMsg( );
+                $vars['errMsg'] = $this->UserModel->getErrMsg( );
             }
             echo json_encode( $vars );
             exit;
@@ -74,7 +93,7 @@ class PayrollUserControl {
     public function releaseAll( ) {
         if( Control::hasPermission( 'Markaxis', 'process_payroll' ) ) {
             $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-            $this->PayrollUserModel->releaseAll( $post );
+            $this->UserModel->releaseAll( $post );
 
             $vars = array( );
             $vars['bool'] = 1;

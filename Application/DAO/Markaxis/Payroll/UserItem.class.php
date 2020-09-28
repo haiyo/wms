@@ -15,13 +15,12 @@ class UserItem extends \DAO {
 
 
     /**
-     * Return total count of records
-     * @return int
+     * Retrieve all user by name and role
+     * @return mixed
      */
-    public function getUserItem( $userID, $piID ) {
-        $sql = $this->DB->select( 'SELECT * FROM payroll_user_item pui
-                                   WHERE pui.userID = "' . (int)$userID . '" AND 
-                                         pui.piID = "' . (int)$piID . '"',
+    public function getByPuID( $puID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll_user_item 
+                                   WHERE puID = "' . (int)$puID . '"',
                                    __FILE__, __LINE__ );
 
         $list = array( );

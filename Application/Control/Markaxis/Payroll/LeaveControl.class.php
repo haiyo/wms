@@ -29,8 +29,9 @@ class LeaveControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args ) {
-        Control::setOutputArray( $this->LeaveView->renderProcessForm( $args[1] ) );
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->LeaveView->renderProcessForm( $data) );
     }
 }
 ?>

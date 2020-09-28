@@ -4,11 +4,11 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollSummary.class.php, v 2.0 Exp $
+ * @version $Id: Finalized.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollSummary extends \DAO {
+class Finalized extends \DAO {
 
 
     // Properties
@@ -35,20 +35,6 @@ class PayrollSummary extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getCountByDate( $date ) {
-        $sql = $this->DB->select( 'SELECT COUNT(*) FROM payroll_summary ps 
-                                    LEFT JOIN payroll p ON ( p.pID = ps.pID ) 
-                                    WHERE p.startDate = "' . addslashes( $date ) . '"',
-                                    __FILE__, __LINE__ );
-
-        return $this->DB->resultData( $sql );
-    }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
     public function getResults( $processDate, $officeID, $q='', $order='name ASC' ) {
         if( $q ) {
             $q = $q ? addslashes( $q ) : '';
@@ -56,22 +42,19 @@ class PayrollSummary extends \DAO {
         }
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
-                                          ps.gross, ps.deduction, ps.net, ps.claim, pl.levies, pc.contributions,
-                                          pm.method, CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency
+                                          b.name AS bankName, eb.number, eb.code, eb.branchCode, eb.holderName, eb.swiftCode, 
+                                          ps.net, pm.method, pu.released,
+                                          CONCAT( cty.currencyCode, "", cty.currencySymbol ) AS currency
                                    FROM payroll_user pu
                                    LEFT JOIN payroll p ON (p.pID = pu.pID)
                                    LEFT JOIN payroll_summary ps ON (ps.puID = pu.puID)
-                                   LEFT JOIN ( SELECT puID, SUM(amount) AS levies 
-                                                FROM payroll_levy 
-                                                GROUP BY puID ) pl ON (pl.puID = pu.puID)
-                                   LEFT JOIN ( SELECT puID, SUM(amount) AS contributions 
-                                                FROM payroll_contribution 
-                                                GROUP BY puID ) pc ON (pc.puID = pu.puID)
-                                   LEFT JOIN user u ON ( u.userID = pu.userID )
-                                   LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN user u ON (u.userID = pu.userID)
+                                   LEFT JOIN employee e ON (e.userID = u.userID)
                                    LEFT JOIN office o ON ( o.oID = e.officeID )
                                    LEFT JOIN country cty ON ( cty.cID = o.countryID )
-                                   LEFT JOIN payment_method pm ON ( pm.pmID = e.paymentMethodID )
+                                   LEFT JOIN employee_bank eb ON (eb.userID = u.userID)
+                                   LEFT JOIN bank b ON (b.bkID = eb.bkID)
+                                   LEFT JOIN payment_method pm ON (pm.pmID = e.paymentMethodID)
                                    WHERE p.startDate = "' . addslashes( $processDate ) . '" AND
                                          e.officeID = "' . (int)$officeID . '" ' . $q . '
                                    GROUP BY u.userID

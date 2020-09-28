@@ -47,6 +47,15 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getBypID( $pID ) {
+        return $this->Payroll->getBypID( $pID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
     public function getByRange( $startDate, $endDate, $userID=false ) {
         return $this->Payroll->getByRange( $startDate, $endDate, $userID );
     }
@@ -56,9 +65,18 @@ class PayrollModel extends \Model {
      * Return total count of records
      * @return int
      */
+    public function getProcessByDate( $processDate, $completed='' ) {
+        return $this->Payroll->getProcessByDate( $processDate, $completed );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+
     public function getCalculateUserInfo( $userID ) {
         return $this->Payroll->getCalculateUserInfo( $userID );
-    }
+    } */
 
 
     /**
@@ -82,7 +100,7 @@ class PayrollModel extends \Model {
      * Get File Information
      * @return mixed
      */
-    public function getResults( $post, $processDate, $officeID ) {
+    public function getResults( $post, $pID, $officeID ) {
         $this->Payroll->setLimit( $post['start'], $post['length'] );
 
         $order = 'name';
@@ -110,7 +128,7 @@ class PayrollModel extends \Model {
                     break;
             }
         }
-        $results = $this->Payroll->getResults( $processDate, $officeID, $post['search']['value'], $order . $dir );
+        $results = $this->Payroll->getResults( $pID, $officeID, $post['search']['value'], $order . $dir );
 
         if( $results ) {
             $UserImageModel = UserImageModel::getInstance( );
@@ -129,15 +147,6 @@ class PayrollModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function getProcessByDate( $processDate, $completed='' ) {
-        return $this->Payroll->getProcessByDate( $processDate, $completed );
     }
 
 
@@ -235,106 +244,11 @@ class PayrollModel extends \Model {
 
     /**
      * Return total count of records
-     * @return mixed
-     */
-    public function processSummary( $data ) {
-        $summary['gross'] = $summary['net'] = (float)$data['items']['totalOrdinary'];
-
-        $summary['deduction'] = $summary['claim'] = $summary['fwl'] = $summary['sdl'] =
-        $summary['levy'] = $summary['contribution'] = $summary['totalContribution'] = 0;
-
-        if( isset( $data['addGross'] ) ) {
-            foreach( $data['addGross'] as $addGross ) {
-                $summary['gross'] += (float)$addGross;
-                $summary['net']   += (float)$addGross;
-            }
-        }
-
-        if( isset( $data['deductGross'] ) ) {
-            foreach( $data['deductGross'] as $addGross ) {
-                $summary['gross'] -= (float)$addGross;
-                $summary['net']   -= (float)$addGross;
-            }
-        }
-
-        if( isset( $data['claims'] ) ) {
-            foreach( $data['claims'] as $claims ) {
-                if( isset( $claims['eiID'] ) ) {
-                    $summary['claim'] += (float)$claims['amount'];
-                    $summary['net'] += (float)$claims['amount'];
-                }
-            }
-        }
-
-        if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
-            foreach( $data['itemRow'] as $item ) {
-                if( isset( $item['deductGross'] ) ) {
-                    $summary['gross'] -= (float)$item['amount'];
-                }
-                if( isset($item['deduction']) || isset( $item['deductionAW'] ) ) {
-                    $summary['net'] -= (float)$item['amount'];
-                }
-
-                foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
-                    // First find all the childs in this group and see if we have any summary=1
-                    if( isset( $taxGroup['child'] ) ) {
-                        $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
-
-                        if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
-                            foreach( $taxGroup['child'] as $childKey => $child ) {
-                                if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
-                                    if( $child['summary'] ) {
-                                        $summary['itemGroups'][$childKey]['title'] = $child['title'];
-                                        $summary['itemGroups'][$childKey]['remark'] = $item['remark'];
-                                    }
-                                    else {
-                                        $summary['itemGroups'][$childKey]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
-                                    }
-
-                                    if( isset( $summary['itemGroups'][$childKey]['amount'] ) ) {
-                                        $summary['itemGroups'][$childKey]['amount'] += (float)$item['amount'];
-                                    }
-                                    else {
-                                        $summary['itemGroups'][$childKey]['amount'] = (float)$item['amount'];
-                                    }
-                                    break 2;
-                                }
-                            }
-                        }
-                    }
-                    else if( isset( $taxGroup['tgID'] ) && isset( $item['tgID'] ) && $taxGroup['tgID'] == $item['tgID'] ) {
-                        // If children not found with summary=1, fallback to parent
-                        $summary['itemGroups'][$key]['title'] = $taxGroup['title'];
-                        $summary['itemGroups'][$key]['amount'] = (float)$item['amount'];
-                        break;
-                    }
-                }
-            }
-        }
-/*
-        if( isset( $data['skillLevy'] ) ) {
-            $summary['sdl'] += (float)$data['skillLevy']['amount'];
-            $summary['levy'] += (float)$data['skillLevy']['amount'];
-        }
-        if( isset( $data['foreignLevy'] ) ) {
-            $summary['fwl'] += (float)$data['foreignLevy']['amount'];
-            $summary['levy'] += (float)$data['foreignLevy']['amount'];
-        }
-        */
-        return $summary;
-    }
-
-
-    /**
-     * Return total count of records
      * @return int
      */
     public function savePayroll( $post ) {
         if( $processInfo = $this->getProcessByDate( $post['data']['processDate'],0 ) ) {
             return $processInfo['pID'];
-        }
-        else {
-            return $this->createPayroll( $post['data']['processDate'] );
         }
     }
 }

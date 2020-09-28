@@ -15,14 +15,13 @@ class UserItemModel extends \Model {
     protected $UserItem;
 
 
+
     /**
      * UserItemModel Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
-        $i18n = $this->Registry->get( HKEY_CLASS, 'i18n' );
-        $this->L10n = $i18n->loadLanguage('Markaxis/Payroll/PayrollRes');
 
         $this->UserItem = new UserItem( );
     }
@@ -30,9 +29,72 @@ class UserItemModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getByPuID( $puID ) {
+        return $this->UserItem->getByPuID( $puID );
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
-    public function getUserItem( $userID, $piID ) {
-        return $this->UserItem->getUserItem( $userID, $piID );
+    public function getExistingItem( $data ) {
+        if( isset( $data['payrollUser'] ) ) {
+            $listItems = $this->getByPuID( $data['payrollUser']['puID'] );
+
+            if( sizeof( $listItems ) > 0 ) {
+                foreach( $listItems as $item ) {
+                    $data['addGross'][] = $item['amount'];
+
+                    $data['itemRow'][] = array( 'piID' => $item['piID'],
+                                                'amount' => $item['amount'],
+                                                'remark' => $item['remark'] );
+                }
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data, $post ) {
+        $success = array( );
+
+        if( isset( $post['postItems'] ) ) {
+            foreach( $post['postItems'] as $item ) {
+                $info = array( );
+                $info['puID'] = $data['puID'];
+                $info['piID'] = $item['piID'];
+                $info['amount'] = $item['amount'];
+                $info['remark'] = $item['remark'];
+                array_push($success, $this->UserItem->insert('payroll_user_item', $info ) );
+            }
+        }
+        if( sizeof( $success ) > 0 ) {
+            $this->UserItem->delete('payroll_user_item',
+                                    'WHERE puiID NOT IN(' . implode(',', $success ) . ') AND 
+                                                  puID = "' . (int)$data['puID'] . '"');
+        }
+        else {
+            $this->deletePayroll( $data );
+        }
+        return $data;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function deletePayroll( $data ) {
+        if( isset( $data['puID'] ) ) {
+            $this->UserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['puID'] . '"');
+        }
     }
 }
+?>
