@@ -32,6 +32,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_LEAVE_BALANCE_STATUS'] = 'Để lại số dư và trạng thái';
         $this->contents['LANG_LEAVE_BALANCE'] = 'Trung bình còn lại';
         $this->contents['LANG_LEAVE_SETTINGS'] = 'Rời khỏi Cài đặt';
+        $this->contents['LANG_LEAVE_TYPE_SETTINGS'] = 'Rời khỏi Cài đặt Loại';
         $this->contents['LANG_CREATE_NEW_LEAVE_TYPE'] = 'Tạo loại rời mới';
         $this->contents['LANG_LEAVE_OVERVIEW'] = 'Rời khỏi Tổng quan';
         $this->contents['LANG_APPLY_LEAVE_STATUS'] = 'Đăng ký nghỉ / Trạng thái';

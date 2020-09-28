@@ -130,6 +130,8 @@ class DashboardView {
         if( isset( $output['js'] ) ) {;
             $this->View->setJScript( $output['js'] );
         }
+
+        $this->View->setTitle( $this->L10n->getContents('LANG_DASHBOARD') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-home2',
                                             'text' => $this->L10n->getContents('LANG_DASHBOARD') ) );

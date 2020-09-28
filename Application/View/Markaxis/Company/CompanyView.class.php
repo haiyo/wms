@@ -63,6 +63,7 @@ class CompanyView {
      * @return string
      */
     public function renderSettings( $data ) {
+        $this->View->setTitle( $this->L10n->getContents('LANG_COMPANY_SETTINGS') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-cog3',
                                             'text' => $this->L10n->getContents('LANG_COMPANY_SETTINGS') ) );

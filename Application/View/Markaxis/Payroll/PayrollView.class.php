@@ -125,6 +125,7 @@ class PayrollView {
                                             'target' => '',
                                             'text' => $this->L10n->getContents('LANG_PAYROLL_ARCHIVE') ) );
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-stats-bars2',
                                             'text' => $this->L10n->getContents('LANG_PAYROLL_OVERVIEW') ) );
@@ -144,6 +145,7 @@ class PayrollView {
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_PAYROLL_SETTINGS') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-cog2',
                                             'text' => $this->L10n->getContents('LANG_PAYROLL_SETTINGS') ) );
@@ -188,6 +190,8 @@ class PayrollView {
             $vars['TPLVAR_PID'] = $this->PayrollModel->createPayroll( $processDate );
 
         }
+
+        $this->View->setTitle( $this->L10n->getContents('LANG_PROCESS_PAYROLL') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-calculator2',
                                             'text' => $this->L10n->getContents('LANG_PROCESS_PAYROLL') ) );

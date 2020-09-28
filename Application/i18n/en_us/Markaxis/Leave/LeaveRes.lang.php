@@ -32,6 +32,7 @@ class LeaveRes extends Resource {
         $this->contents['LANG_LEAVE_BALANCE_STATUS'] = 'Leave Balance &amp; Status';
         $this->contents['LANG_LEAVE_BALANCE'] = 'Leave Balance';
         $this->contents['LANG_LEAVE_SETTINGS'] = 'Leave Settings';
+        $this->contents['LANG_LEAVE_TYPE_SETTINGS'] = 'Leave Type Settings';
         $this->contents['LANG_CREATE_NEW_LEAVE_TYPE'] = 'Create New Leave Type';
         $this->contents['LANG_LEAVE_OVERVIEW'] = 'Leave Overview';
         $this->contents['LANG_APPLY_LEAVE_STATUS'] = 'Apply Leave / Status';

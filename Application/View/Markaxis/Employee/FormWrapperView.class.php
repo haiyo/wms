@@ -52,6 +52,7 @@ class FormWrapperView {
     public function renderProfile( $form, $userInfo, $photo ) {
         $this->formWrapper = 'formProfileWrapper';
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_EDIT_PROFILE') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-user-plus',
                                             'text' => $this->L10n->getContents('LANG_EDIT_PROFILE') ) );
@@ -69,6 +70,7 @@ class FormWrapperView {
     public function renderAdd( $form ) {
         $this->formWrapper = 'formWrapper';
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') );
         $this->View->setBreadcrumbs( array( 'link' => 'admin/employee/add',
                                             'icon' => 'icon-user-plus',
                                             'text' => $this->L10n->getContents('LANG_ADD_NEW_EMPLOYEE') ) );
@@ -84,6 +86,7 @@ class FormWrapperView {
     public function renderEdit( $form, $userInfo, $photo ) {
         $this->formWrapper = 'formWrapper';
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-user-plus',
                                             'text' => $this->L10n->getContents('LANG_EDIT_EMPLOYEE_INFO') ) );

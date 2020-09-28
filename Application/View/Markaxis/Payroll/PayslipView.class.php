@@ -48,6 +48,7 @@ class PayslipView {
      * @return mixed
      */
     public function renderPayslipList( ) {
+        $this->View->setTitle( $this->L10n->getContents('LANG_VIEW_DOWNLOAD_PAYSLIPS') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-download',
                                             'text' => $this->L10n->getContents('LANG_VIEW_DOWNLOAD_PAYSLIPS') ) );

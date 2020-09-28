@@ -54,6 +54,7 @@ class LeaveView {
 
         $vars = array_merge( $this->L10n->getContents( ), array( ) );
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_LEAVE_BALANCE_STATUS') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'mi-schedule',
                                             'text' => $this->L10n->getContents('LANG_LEAVE_BALANCE_STATUS') ) );
@@ -110,6 +111,7 @@ class LeaveView {
     public function renderSettings( $form ) {
         $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_FORM' => $form ) );
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_LEAVE_SETTINGS') );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-cog2',
                                             'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
@@ -135,6 +137,7 @@ class LeaveView {
                 array( 'TPLVAR_LEAVE_TYPE_ID' => $ltID,
                        'TPL_FORM' => $form ) );
 
+        $this->View->setTitle( $this->L10n->getContents('LANG_LEAVE_TYPE_SETTINGS') );
         $this->View->setBreadcrumbs( array( 'link' => 'settings',
                                             'icon' => 'icon-cog2',
                                             'text' => $this->L10n->getContents('LANG_LEAVE_SETTINGS') ) );
