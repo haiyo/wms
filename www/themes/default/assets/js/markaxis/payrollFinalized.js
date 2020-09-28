@@ -218,8 +218,8 @@ var MarkaxisPayrollFinalized = (function( ) {
                     className : "text-center",
                     data: 'userID',
                     render: function( data ) {
-                        return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/processPayroll/' + data + '/' +
-                            $("#processDate").val( ) + '/slip" target="_blank">' + Markaxis.i18n.PayrollRes.LANG_VIEW_PDF + '</a>';
+                        return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/viewslip/' + data + '/' +
+                            $("#pID").val( ) + '" target="_blank">' + Markaxis.i18n.PayrollRes.LANG_VIEW_PDF + '</a>';
                     }
                 },{
                     targets: [7],

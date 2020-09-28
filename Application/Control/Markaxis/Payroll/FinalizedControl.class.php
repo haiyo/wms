@@ -5,24 +5,24 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: PayrollFinalizedControl.class.php, v 2.0 Exp $
+ * @version $Id: FinalizedControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollFinalizedControl {
+class FinalizedControl {
 
 
     // Properties
-    protected $PayrollFinalizedModel;
-    protected $PayrollFinalizedView;
+    protected $FinalizedModel;
+    protected $FinalizedView;
 
 
     /**
-     * PayrollFinalizedControl Constructor
+     * FinalizedControl Constructor
      * @return void
      */
     function __construct( ) {
-        $this->PayrollFinalizedModel = PayrollFinalizedModel::getInstance( );
+        $this->FinalizedModel = FinalizedModel::getInstance( );
     }
 
 
@@ -34,7 +34,7 @@ class PayrollFinalizedControl {
         // processDate && officeID
         if( isset( $args[1] ) && isset( $args[2] ) ) {
             $post = Control::getRequest( )->request( POST );
-            echo json_encode( $this->PayrollFinalizedModel->getResults( $post, $args[1], $args[2] ) );
+            echo json_encode( $this->FinalizedModel->getResults( $post, $args[1], $args[2] ) );
             exit;
         }
     }

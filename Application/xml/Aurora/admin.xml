@@ -191,9 +191,6 @@
     <task type="payroll/downloadCPF">
         <observer controller="Markaxis/Payroll/CPFControl"/>
     </task>
-    <task type="payroll/getPayrollEvents,payroll/process">
-        <observer controller="Markaxis/Payroll/PayrollControl"/>
-    </task>
     <task type="payroll/getGroupList">
         <observer controller="Markaxis/Payroll/TaxGroupControl"/>
     </task>
@@ -211,10 +208,10 @@
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/getChart">
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
+        <observer controller="Markaxis/Payroll/SummaryControl"/>
         <observer controller="Markaxis/Expense/ClaimControl"/>
-        <observer controller="Markaxis/Payroll/PayrollLevyControl"/>
-        <observer controller="Markaxis/Payroll/PayrollContributionControl"/>
+        <observer controller="Markaxis/Payroll/LevyControl"/>
+        <observer controller="Markaxis/Payroll/ContributionControl"/>
         <observer controller="Markaxis/Payroll/ChartControl"/>
     </task>
     <task type="payroll/getProcessPass">
@@ -227,7 +224,10 @@
         <observer controller="Markaxis/Payroll/PayslipControl"/>
     </task>
     <task type="payroll/release,payroll/releaseAll">
-        <observer controller="Markaxis/Payroll/PayrollUserControl"/>
+        <observer controller="Markaxis/Payroll/UserControl"/>
+    </task>
+    <task type="payroll/getPayrollEvents,payroll/process">
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/processPayroll">
         <!--
@@ -237,6 +237,7 @@
         Render header process HTML
         -->
         <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
         <!--
         array payCal
         Get Pay Calendar
@@ -257,6 +258,8 @@
         Get Additional
         -->
         <observer controller="Markaxis/Payroll/ItemControl"/>
+        <observer controller="Markaxis/Payroll/UserControl"/>
+        <observer controller="Markaxis/Payroll/UserItemControl"/>
         <!--
         array claims
         Get employee claims - return array list with remark and amount
@@ -264,7 +267,6 @@
         <observer controller="Markaxis/Expense/ClaimControl"/>
 
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
-        <!--<observer controller="Markaxis/Payroll/PayrollSummaryControl"/>-->
         <!--
         array competency
         Get employee competency
@@ -274,7 +276,7 @@
         array taxGroups
         Get employee applied tax groups
         -->
-        <observer controller="Markaxis/Employee/TaxControl"/>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
         <!--
         array taxRules
         Get employee tax rules belong to groups
@@ -312,56 +314,75 @@
         <!--
         Render process form and summary
         -->
-        <observer controller="Markaxis/Payroll/PayrollControl"/>
+        <observer controller="Markaxis/Payroll/SummaryControl"/>
     </task>
     <task type="payroll/payment,payroll/setCompleted">
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/reprocessPayroll,payroll/savePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
         <observer controller="Markaxis/Payroll/CalendarControl"/>
         <observer controller="Markaxis/Company/OfficeControl" />
         <observer controller="Markaxis/Payroll/ItemControl"/>
         <observer controller="Markaxis/Expense/ClaimControl"/>
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <observer controller="Markaxis/Employee/CompetencyControl"/>
-        <observer controller="Markaxis/Employee/TaxControl"/>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
         <observer controller="Markaxis/Payroll/TaxRuleControl"/>
         <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
         <observer controller="Markaxis/Payroll/TaxRaceControl"/>
         <observer controller="Markaxis/Payroll/TaxComputingControl"/>
         <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
         <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
-        <observer controller="Markaxis/Payroll/PayrollControl"/>
         <!-- All below are only use for savePayroll -->
-        <observer controller="Markaxis/Payroll/PayrollUserControl"/>
-        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"/>
-        <observer controller="Markaxis/Payroll/PayrollUserItemControl"/>
-        <observer controller="Markaxis/Payroll/PayrollLevyControl"/>
-        <observer controller="Markaxis/Payroll/PayrollContributionControl"/>
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
+        <observer controller="Markaxis/Payroll/UserControl"/>
+        <observer controller="Markaxis/Payroll/UserTaxControl"/>
+        <observer controller="Markaxis/Payroll/UserItemControl"/>
+        <observer controller="Markaxis/Payroll/LevyControl"/>
+        <observer controller="Markaxis/Payroll/ContributionControl"/>
+        <observer controller="Markaxis/Payroll/SummaryControl"/>
+    </task>
+    <task type="payroll/viewslip">
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
+        <observer controller="Markaxis/Payroll/CalendarControl"/>
+        <observer controller="Markaxis/Company/OfficeControl" />
+        <observer controller="Markaxis/Payroll/ItemControl"/>
+        <observer controller="Markaxis/Payroll/UserControl"/>
+        <observer controller="Markaxis/Payroll/UserItemControl"/>
+        <observer controller="Markaxis/Payroll/TaxGroupControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleControl"/>
+        <observer controller="Markaxis/Payroll/TaxCompetencyControl"/>
+        <observer controller="Markaxis/Payroll/TaxRaceControl"/>
+        <observer controller="Markaxis/Payroll/TaxComputingControl"/>
+        <observer controller="Markaxis/Payroll/TaxPayItemControl"/>
+        <observer controller="Markaxis/Payroll/TaxRuleWrapperControl"/>
+        <observer controller="Markaxis/Payroll/PayslipControl"/>
     </task>
     <task type="payroll/getAdditional">
         <observer controller="Markaxis/Payroll/AdditionalControl"/>
     </task>
     <task type="payroll/deletePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/Payroll/PayrollControl"/>
+        <observer controller="Markaxis/Payroll/CalendarControl"/>
         <observer controller="Markaxis/Expense/ClaimControl"/>
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <observer controller="Markaxis/Payroll/PayrollControl"/>
-        <observer controller="Markaxis/Payroll/PayrollUserControl"/>
-        <observer controller="Markaxis/Payroll/PayrollUserTaxControl"/>
-        <observer controller="Markaxis/Payroll/PayrollUserItemControl"/>
-        <observer controller="Markaxis/Payroll/PayrollLevyControl"/>
-        <observer controller="Markaxis/Payroll/PayrollContributionControl"/>
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
+        <observer controller="Markaxis/Payroll/UserControl"/>
+        <observer controller="Markaxis/Payroll/UserTaxControl"/>
+        <observer controller="Markaxis/Payroll/UserItemControl"/>
+        <observer controller="Markaxis/Payroll/LevyControl"/>
+        <observer controller="Markaxis/Payroll/ContributionControl"/>
+        <observer controller="Markaxis/Payroll/SummaryControl"/>
     </task>
 
     <task type="payroll/getAllProcessed">
-        <observer controller="Markaxis/Payroll/PayrollSummaryControl"/>
+        <observer controller="Markaxis/Payroll/SummaryControl"/>
     </task>
     <task type="payroll/getAllFinalized">
-        <observer controller="Markaxis/Payroll/PayrollFinalizedControl"/>
+        <observer controller="Markaxis/Payroll/FinalizedControl"/>
     </task>
     <task type="payroll/getTaxGroup,payroll/saveTaxGroup">
         <observer controller="Markaxis/Payroll/TaxGroupControl"/>

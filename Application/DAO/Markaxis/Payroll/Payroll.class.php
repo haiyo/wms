@@ -72,7 +72,7 @@ class Payroll extends \DAO {
     /**
      * Retrieve all user by name and role
      * @return mixed
-     */
+
     public function getCalculateUserInfo( $userID ) {
         $sql = $this->DB->select( 'SELECT u.fname, u.lname, u.birthday, n.nationality, emp.idnumber, emp.salary,
                                           dpt.name AS department, dsg.title AS designation, cont.type AS contractType, 
@@ -93,6 +93,22 @@ class Payroll extends \DAO {
                                           LEFT JOIN pass_type pt ON ( emp.passTypeID = pt.ptID )
                                    WHERE u.userID = "' . (int)$userID . '"
                                    GROUP BY u.userID, emp.idnumber',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }  */
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getBypID( $pID ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll p 
+                                   WHERE pID = "' . (int)$pID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -129,7 +145,27 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getResults( $processDate, $officeID, $q='', $order='name ASC' ) {
+    public function getProcessByDate( $processDate, $completed ) {
+        if( is_numeric( $completed ) ) {
+            $completed = ' AND completed = "' . (int)$completed . '"';
+        }
+        $sql = $this->DB->select( 'SELECT * FROM payroll p 
+                                   WHERE startDate = "' . addslashes( $processDate ) . '"' .
+            $completed,
+            __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
+    public function getResults( $pID, $officeID, $q='', $order='name ASC' ) {
         $list = array( );
 
         if( $q == 'active' ) {
@@ -153,7 +189,7 @@ class Payroll extends \DAO {
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN ( SELECT pu.userID, COUNT(pu.puID) AS puCount FROM payroll_user pu
                                                LEFT JOIN payroll p ON ( p.pID = pu.pID )
-                                               WHERE p.startDate = "' . addslashes( $processDate ) . '" 
+                                               WHERE p.pID = "' . (int)$pID . '" 
                                                GROUP BY pu.userID ) pu ON pu.userID = u.userID
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
@@ -172,26 +208,6 @@ class Payroll extends \DAO {
         $row = $this->DB->fetch( $sql );
         $list['recordsTotal'] = $row['FOUND_ROWS()'];
         return $list;
-    }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
-    public function getProcessByDate( $processDate, $completed ) {
-        if( is_numeric( $completed ) ) {
-            $completed = ' AND completed = "' . (int)$completed . '"';
-        }
-        $sql = $this->DB->select( 'SELECT * FROM payroll p 
-                                   WHERE startDate = "' . addslashes( $processDate ) . '"' .
-                                         $completed,
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
     }
 }
 ?>

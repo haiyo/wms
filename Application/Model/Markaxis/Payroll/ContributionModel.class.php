@@ -4,25 +4,25 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollContributionModel.class.php, v 2.0 Exp $
+ * @version $Id: ContributionModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollContributionModel extends \Model {
+class ContributionModel extends \Model {
 
 
     // Properties
-    protected $PayrollContribution;
+    protected $Contribution;
 
 
     /**
-     * PayrollContributionModel Constructor
+     * ContributionModel Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
 
-        $this->PayrollContribution = new PayrollContribution( );
+        $this->Contribution = new Contribution( );
     }
 
 
@@ -31,7 +31,7 @@ class PayrollContributionModel extends \Model {
      * @return int
      */
     public function getByPuID( $puID ) {
-        return $this->PayrollContribution->getByPuID( $puID );
+        return $this->Contribution->getByPuID( $puID );
     }
 
 
@@ -40,7 +40,7 @@ class PayrollContributionModel extends \Model {
      * @return mixed
      */
     public function getChart( $date ) {
-        return array( 'contributions' => $this->PayrollContribution->getChart( $date ) );
+        return array( 'contributions' => $this->Contribution->getChart( $date ) );
     }
 
 
@@ -58,13 +58,13 @@ class PayrollContributionModel extends \Model {
                 $info['title'] = $contribution['title'];
                 $info['trID'] = $contribution['trID'];
                 $info['amount'] = $contribution['amount'];
-                array_push($success, $this->PayrollContribution->insert( 'payroll_contribution', $info ) );
+                array_push($success, $this->Contribution->insert( 'payroll_contribution', $info ) );
             }
         }
         if( sizeof( $success ) > 0 ) {
-            $this->PayrollContribution->delete('payroll_contribution',
-                                               'WHERE pcID NOT IN(' . implode(',', $success ) . ') AND 
-                                                    puID = "' . (int)$data['puID'] . '"');
+            $this->Contribution->delete('payroll_contribution',
+                                        'WHERE pcID NOT IN(' . implode(',', $success ) . ') AND 
+                                                      puID = "' . (int)$data['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );
@@ -78,7 +78,7 @@ class PayrollContributionModel extends \Model {
      */
     public function deletePayroll( $data ) {
         if( isset( $data['puID'] ) ) {
-            $this->PayrollContribution->delete('payroll_contribution','WHERE puID = "' . (int)$data['puID'] . '"');
+            $this->Contribution->delete('payroll_contribution','WHERE puID = "' . (int)$data['puID'] . '"');
         }
     }
 }

@@ -227,7 +227,7 @@ class CalendarModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getPayCal( $processDate, $data ) {
+    public function getPayCal( $data ) {
         // Get employee pay calendar
         $EmpPayrollModel = EmpPayrollModel::getInstance( );
         $payCalInfo = $EmpPayrollModel->getByUserID( $data['empInfo']['userID'], 'payPeriod, paymentDate' );
@@ -236,7 +236,7 @@ class CalendarModel extends \Model {
         $payCalDay = explode('-', $payCalInfo['paymentDate'] )[2];
 
         // Convert all to DateTime obj and get this month end payroll range date
-        $payCalInfo['processDate'] = new \DateTime( $processDate );
+        $payCalInfo['processDate'] = new \DateTime( $data['payrollInfo']['startDate'] );
         $payCalInfo['paymentDate'] = new \DateTime( $payCalInfo['paymentDate'] );
         $payCalInfo['rangeEnd']    = new \DateTime( $payCalInfo['processDate']->format('Y-m-') . $payCalDay . ' 23:59:59' );
 
@@ -244,62 +244,6 @@ class CalendarModel extends \Model {
         $payCalInfo['rangeStart']->modify('-1 month');
 
         return $payCalInfo;
-
-        /*if( $payCalInfo && $data['empInfo']['startDate'] ) {
-            // Get pay calendar day
-            $payCalDay = explode('-', $payCalInfo['paymentDate'] )[2];
-
-            // Get this month end payroll date
-            $processDate = new \DateTime( $processDate );
-            $data['paymentDate'] = new \DateTime( $processDate->format('Y-m-') . $payCalDay );
-
-            $data['previousDate'] = clone $data['paymentDate'];
-            $data['previousDate']->modify('-1 month');
-            $data['previousDate']->modify('+1 day');
-
-            // Get employee join duration
-            $empStartDate = \DateTime::createFromFormat('jS M Y', $data['empInfo']['startDate'] );
-
-            $dateDiff = $data['paymentDate']->diff( $empStartDate );
-            $data['empInfo']['joinYear'] = $dateDiff->y;
-            $data['empInfo']['joinMonth'] = $dateDiff->m;
-            $data['empInfo']['joinDay'] = $dateDiff->d; // Include Sat, Sun and P.H
-
-            // Get the total workDays for this month
-            $OfficeModel = OfficeModel::getInstance( );
-            $data['officeInfo'] = $OfficeModel->getByoID( $data['empInfo']['officeID'] );
-
-            $data['workDays'] = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
-                                                                     $data['previousDate']->format('Y-m-d'),
-                                                                     $data['paymentDate']->format('Y-m-d'),
-                                                                     $data['empInfo']['countryCode'] );
-
-            if( $empStartDate->format('Y-m') == $data['paymentDate']->format('Y-m') ) {
-                $data['empInfo']['joinDay'] = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
-                                                                                   $empStartDate->format('Y-m-d'),
-                                                                                   $data['paymentDate']->format('Y-m-d'),
-                                                                                   $data['empInfo']['countryCode'] );
-
-                if( isset( $data['basic'] ) && $data['basic']['formula'] ) {
-                    //{salary}*{daysWorkedInMonth}/{workDaysOfMonth}
-                    $formula = str_replace('{salary}', $data['empInfo']['salary'], $data['basic']['formula'] );
-                    $formula = str_replace('{workDaysOfMonth}', $data['workDays'], $formula );
-                    $formula = str_replace('{daysWorkedInMonth}', $data['empInfo']['joinDay'], $formula );
-
-                    $Formula = new Formula( );
-                    $data['totalOrdinary'] = round( $Formula->calculate( $formula ) );
-                }
-            }
-            else {
-                $data['empInfo']['joinDay'] = $OfficeModel->getWorkingDaysByRange( $data['empInfo']['officeID'],
-                                                                                   $data['previousDate']->format('Y-m-d'),
-                                                                                   $data['paymentDate']->format('Y-m-d'),
-                                                                                   $data['empInfo']['countryCode'] );
-
-                $data['totalOrdinary'] = $data['empInfo']['salary'];
-            }
-        }
-        return $data;*/
     }
 
 

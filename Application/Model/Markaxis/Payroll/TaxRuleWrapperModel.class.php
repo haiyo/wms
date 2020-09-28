@@ -114,6 +114,7 @@ class TaxRuleWrapperModel extends \Model {
                                             'trID' => $rules['trID'],
                                             'tgID' => $rules['tgID'],
                                             'deduction' => 1,
+                                            'title' => $ruleTitle,
                                             'amount' => $amount,
                                             'remark' => $remark );
             }

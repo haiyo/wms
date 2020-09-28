@@ -94,9 +94,9 @@ class CalendarControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args ) {
+    public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'payCal' => $this->CalendarModel->getPayCal( $args[2], $data ) ) );
+        Control::setOutputArray( array( 'payCal' => $this->CalendarModel->getPayCal( $data ) ) );
     }
 
 
@@ -104,8 +104,8 @@ class CalendarControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( $args ) {
-        $this->processPayroll( $args );
+    public function reprocessPayroll( ) {
+        $this->processPayroll( );
     }
 
 
@@ -113,7 +113,25 @@ class CalendarControl {
      * Render main navigation
      * @return string
      */
-    public function savePayroll( $args ) {
+    public function viewslip( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( $args ) {
         $this->processPayroll( $args );
     }
 

@@ -61,6 +61,15 @@ class TaxGroupModel extends \Model {
 
     /**
      * Return total count of records
+     * @return int
+     */
+    public function getByUserID( $userID, $column ) {
+        return $this->TaxGroup->getByUserID( $userID, $column );
+    }
+
+
+    /**
+     * Return total count of records
      * @return mixed
      */
     public function getByParentTgID( $parentTgID ) {

@@ -71,6 +71,15 @@ class TaxCompetencyControl {
      * Render main navigation
      * @return string
      */
+    public function viewslip( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayroll( ) {
         $this->reprocessPayroll( );
     }

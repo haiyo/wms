@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Employee;
 use \Aurora\User\UserImageModel, \Aurora\Component\PaymentMethodModel;
-use \Aurora\Component\DesignationModel, \Aurora\Component\DepartmentModel;
+use \Aurora\Component\DesignationModel;
 use \Aurora\Component\SalaryTypeModel, \Aurora\Component\OfficeModel, \Aurora\Component\ContractModel;
 use \Aurora\Component\PassTypeModel, \Aurora\User\UserModel, \Aurora\Component\AuditLogModel;
 use \Library\Util\Date, \Library\Validator\Validator;
@@ -195,7 +195,7 @@ class EmployeeModel extends \Model {
     public function getLogsByUserID( $post, $userID ) {
         $User = new \Aurora\User\User( );
 
-        if( $userInfo = $User->getFieldByUserID( $userID, 'userID, fname, lname' ) ) {
+        if( $User->getFieldByUserID( $userID, 'userID, fname, lname' ) ) {
             $this->Employee->setLimit( $post['start'], $post['length'] );
 
             $order = 'created';
@@ -234,24 +234,29 @@ class EmployeeModel extends \Model {
      * @return mixed
      */
     public function getProcessInfo( $userID ) {
-        $data = $this->Employee->getProcessInfo( $userID );
-        $data['joinYear'] = $data['joinMonth'] = $data['joinDay'] = false;
+        if( $data = $this->Employee->getProcessInfo( $userID ) ) {
+            $UserImageModel = UserImageModel::getInstance( );
+            $data['photo'] = $UserImageModel->getImgLinkByUserID( $data['userID'] );
 
-        if( $data['startDate'] ) {
-            // Get employee join duration
-            $data['startDate'] = \DateTime::createFromFormat('Y-m-d', $data['startDate'] );
-            $currentDate = new \DateTime( );
+            $data['joinYear'] = $data['joinMonth'] = $data['joinDay'] = false;
 
-            $dateDiff = $currentDate->diff( $data['startDate'] );
-            $data['joinYear'] = $dateDiff->y;
-            $data['joinMonth'] = $dateDiff->m;
-            $data['joinDay'] = $dateDiff->d; // Include Sat, Sun and P.H
+            if( $data['startDate'] ) {
+                // Get employee join duration
+                $data['startDate'] = \DateTime::createFromFormat('Y-m-d', $data['startDate'] );
+                $currentDate = new \DateTime( );
+
+                $dateDiff = $currentDate->diff( $data['startDate'] );
+                $data['joinYear'] = $dateDiff->y;
+                $data['joinMonth'] = $dateDiff->m;
+                $data['joinDay'] = $dateDiff->d; // Include Sat, Sun and P.H
+            }
+
+            if( $data['confirmDate'] ) {
+                $data['confirmDate'] = \DateTime::createFromFormat('Y-m-d', $data['confirmDate'] );
+            }
+            return $data;
         }
-
-        if( $data['confirmDate'] ) {
-            $data['confirmDate'] = \DateTime::createFromFormat('Y-m-d', $data['confirmDate'] );
-        }
-        return $data;
+        return false;
     }
 
 

@@ -1,9 +1,5 @@
 <?php
 namespace Markaxis\Payroll;
-use \Aurora\Component\OfficeModel AS A_OfficeModel;
-use \Markaxis\Company\OfficeModel AS M_OfficeModel;
-use \Markaxis\Leave\LeaveApplyModel;
-use \Library\Util\Formula;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -210,7 +206,6 @@ class ItemModel extends \Model {
                     $piID = str_replace('p-', '', $item );
 
                     if( $this->isFound( $piID ) ) {
-
                         $amount = str_replace($data['office']['currencyCode'] . $data['office']['currencySymbol'],
                                               '', $post['data']['amount_' . $id] );
                         $amount = (int)str_replace(',', '', $amount );
@@ -221,7 +216,6 @@ class ItemModel extends \Model {
                     }
                 }
             }
-
             return $post;
         }
     }

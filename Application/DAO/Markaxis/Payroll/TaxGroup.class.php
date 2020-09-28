@@ -28,6 +28,41 @@ class TaxGroup extends \DAO {
 
 
     /**
+     * Retrieve a user list normally use for building select list
+     * @return mixed
+     */
+    public function getByUserID( $userID, $column ) {
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ', tg.title, tg.summary
+                                   FROM employee_tax et
+                                   LEFT JOIN tax_group tg ON ( tg.tgID = et.tgID )
+                                   WHERE userID = "' . (int)$userID . '" AND
+                                         tg.deleted = "0"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list['mainGroup'][$row['tgID']] = $row;
+
+                $sql2 = $this->DB->select( 'SELECT tgID, title, parent, summary
+                                            FROM ( SELECT * FROM tax_group WHERE deleted = "0" ORDER BY parent, tgID) tax_group,
+                                            ( SELECT @pv := "' . (int)$row['tgID'] . '" ) initialisation
+                                              WHERE find_in_set( parent, @pv ) > 0 AND @pv := concat( @pv, ",", tgID )',
+                                            __FILE__, __LINE__ );
+
+                if( $this->DB->numrows( $sql2 ) > 0 ) {
+                    while( $child = $this->DB->fetch( $sql2 ) ) {
+                        $list['mainGroup'][$row['tgID']]['child'][] = $child;
+                    }
+                }
+            }
+        }
+        return $list;
+    }
+
+
+    /**
      * Retrieve all user by name and role
      * @return mixed
      */

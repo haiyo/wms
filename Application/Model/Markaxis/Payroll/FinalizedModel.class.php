@@ -5,25 +5,25 @@ use \Aurora\User\UserImageModel;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: PayrollSummaryModel.class.php, v 2.0 Exp $
+ * @version $Id: FinalizedModel.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class PayrollSummaryModel extends \Model {
+class FinalizedModel extends \Model {
 
 
     // Properties
-    protected $PayrollSummary;
+    protected $Finalized;
 
 
     /**
-     * PayrollSummaryModel Constructor
+     * FinalizedModel Constructor
      * @return void
      */
     function __construct( ) {
         parent::__construct( );
 
-        $this->PayrollSummary = new PayrollSummary( );
+        $this->Finalized = new Finalized( );
     }
 
 
@@ -32,16 +32,7 @@ class PayrollSummaryModel extends \Model {
      * @return int
      */
     public function getByPuID( $puID ) {
-        return $this->PayrollSummary->getByPuID( $puID );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return mixed
-     */
-    public function getCountByDate( $date ) {
-        return array( 'empCount' => $this->PayrollSummary->getCountByDate( $date ) );
+        return $this->Finalized->getByPuID( $puID );
     }
 
 
@@ -50,7 +41,7 @@ class PayrollSummaryModel extends \Model {
      * @return mixed
      */
     public function getResults( $post, $processDate, $officeID ) {
-        $this->PayrollSummary->setLimit( $post['start'], $post['length'] );
+        $this->Finalized->setLimit( $post['start'], $post['length'] );
 
         $order = 'name';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
@@ -77,7 +68,7 @@ class PayrollSummaryModel extends \Model {
                     break;
             }
         }
-        $results = $this->PayrollSummary->getResults( $processDate, $officeID, $post['search']['value'], $order . $dir );
+        $results = $this->Finalized->getResults( $processDate, $officeID, $post['search']['value'], $order . $dir );
 
         if( $results ) {
             $UserImageModel = UserImageModel::getInstance( );
@@ -96,46 +87,6 @@ class PayrollSummaryModel extends \Model {
                       'recordsFiltered' => $total,
                       'recordsTotal' => $total,
                       'data' => $results );
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function savePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $info = array( );
-            $info['pID'] = $data['pID'];
-            $info['puID'] = $data['puID'];
-            $info['gross'] = $data['summary']['gross'];
-            $info['deduction'] = $data['summary']['deduction'];
-            $info['levy'] = $data['summary']['levy'];
-            $info['contribution'] = $data['summary']['contribution'];
-            $info['net'] = $data['summary']['net'];
-            $info['claim'] = $data['summary']['claim'];
-
-            if( $summaryInfo = $this->getByPuID( $data['puID'] ) ) {
-                $this->PayrollSummary->update( 'payroll_summary', $info,
-                                               'WHERE psID = "' . (int)$summaryInfo['psID'] . '"' );
-
-                return $summaryInfo['psID'];
-            }
-            else {
-                return $this->PayrollSummary->insert('payroll_summary', $info );
-            }
-        }
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function deletePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $this->PayrollSummary->delete('payroll_summary','WHERE puID = "' . (int)$data['puID'] . '"');
-        }
     }
 }
 ?>

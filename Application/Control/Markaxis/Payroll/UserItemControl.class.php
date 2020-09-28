@@ -14,7 +14,6 @@ class UserItemControl {
 
     // Properties
     protected $UserItemModel;
-    protected $UserItemView;
 
 
     /**
@@ -23,7 +22,45 @@ class UserItemControl {
      */
     function __construct( ) {
         $this->UserItemModel = UserItemModel::getInstance( );
-        $this->UserItemView = new UserItemView( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->UserItemModel->getExistingItem( $data ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewslip( ) {
+        $this->processPayroll( );
+    }
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $data = Control::getOutputArray( );
+        $post = Control::getPostData( );
+        Control::setOutputArray( $this->UserItemModel->savePayroll( $data, $post ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function deletePayroll( ) {
+        $data = Control::getOutputArray( );
+        $this->UserItemModel->deletePayroll( $data );
     }
 }
 ?>
