@@ -132,6 +132,12 @@ class SummaryModel extends \Model {
             }
         }
 
+         if( isset( $data['contribution'] ) ) {
+             foreach( $data['contribution'] as $contribution ) {
+                 $summary['contribution'] += (float)$contribution['amount'];
+             }
+         }
+
         if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
             foreach( $data['itemRow'] as $item ) {
                 if( isset( $item['deductGross'] ) ) {

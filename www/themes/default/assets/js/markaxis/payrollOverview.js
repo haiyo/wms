@@ -213,6 +213,9 @@ var MarkaxisPayrollOverview = (function( ) {
                     count++;
                 }
             }
+            if( total == 0 ) {
+                return Aurora.currency + 0;
+            }
             return Aurora.currency +  Math.round( total/count ).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(/\.00/g, '');
         },
 
