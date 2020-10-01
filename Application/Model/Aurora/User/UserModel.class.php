@@ -310,22 +310,11 @@ class UserModel extends \Model {
 
 
     /**
-    * Delete user account
-    * @return int
-    */
-    public function delete( $userID ) {
-        $info = array( );
-        $info['deleted'] = 1;
-        $this->User->update( 'user', $info, 'WHERE userID = "' . (int)$userID . '"' );
-    }
-
-
-    /**
      * Get File Information
      * @return mixed
      */
     public function setSuspendStatus( $post ) {
-        if( $this->User->isFound( $post['userID'] ) ) {
+        if( $this->isFound( $post['userID'] ) ) {
             $info = array( );
             $info['suspended'] = $post['status'] == 1 ? 1 : 0;;
             $this->User->update( 'user', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
@@ -342,6 +331,31 @@ class UserModel extends \Model {
             $info['descript'] = addslashes( $post['reason'] );
             $info['created'] = date( 'Y-m-d H:i:s' );
             unset( $info['suspended'] );
+            $AuditLogModel->log( $info );
+        }
+    }
+
+
+    /**
+     * Delete user account
+     * @return int
+     */
+    public function delete( $post ) {
+        if( $this->isFound( $post['userID'] ) ) {
+            $info = array( );
+            $info['deleted'] = 1;
+            $this->User->update( 'user', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
+
+            $AuditLogModel = new AuditLogModel( );
+
+            $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+            $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+            $info['fromUserID'] = $userInfo['userID'];
+            $info['toUserID'] = $post['userID'];
+            $info['eventType'] = 'employee';
+            $info['action'] = 'deleted';
+            $info['created'] = date( 'Y-m-d H:i:s' );
             $AuditLogModel->log( $info );
         }
     }

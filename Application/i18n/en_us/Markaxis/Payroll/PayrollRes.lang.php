@@ -220,6 +220,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_SAVE_PAYROLL'] = 'Save Payroll';
         $this->contents['LANG_SAVED'] = 'Saved';
         $this->contents['LANG_SUSPENDED'] = 'Suspended';
+        $this->contents['LANG_RESIGNED'] = 'Resigned';
         $this->contents['LANG_EXPIRED_SOON'] = 'Expired Soon';
         $this->contents['LANG_ACTIVE'] = 'Active';
         $this->contents['LANG_PROCESS'] = 'Process';

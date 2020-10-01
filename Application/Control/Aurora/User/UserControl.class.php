@@ -124,12 +124,29 @@ class UserControl {
      */
     public function setSuspendStatus( ) {
         $post = Control::getRequest( )->request( POST );
+        $this->UserModel->setSuspendStatus( $post );
 
         $vars = array( );
-        $vars['bool'] = $this->UserModel->setSuspendStatus( $post );
-
+        $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
+    public function delete( ) {
+        if( Control::hasPermission('Markaxis', 'add_modify_employee' ) ) {
+            $post = Control::getRequest( )->request( POST );
+            $this->UserModel->delete( $post );
+
+            $vars = array( );
+            $vars['bool'] = 1;
+            echo json_encode( $vars );
+            exit;
+        }
     }
 }
 ?>

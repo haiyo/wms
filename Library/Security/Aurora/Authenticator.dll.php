@@ -82,9 +82,9 @@ class Authenticator {
     */
     public function login( $username, $password, $setSession=true ) {
         try {
-            $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek' );
+            $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek, suspended, deleted' );
 
-            if( $userInfo ) {
+            if( $userInfo && !$userInfo['suspended'] && !$userInfo['deleted'] ) {
                 $decrypted = $this->getKeyManager( )->decrypt( $userInfo['kek'], $userInfo['password'] );
 
                 if( $decrypted == $password ) {

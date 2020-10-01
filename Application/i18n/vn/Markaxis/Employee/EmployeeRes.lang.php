@@ -90,16 +90,24 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_PROVIDE_REASON'] = 'Cung cấp lý do nếu có';
         $this->contents['LANG_UNSUSPEND_EMPLOYEE'] = 'Nhân viên không sử dụng';
         $this->contents['LANG_SUSPENDED'] = 'Đình chỉ';
+        $this->contents['LANG_RESIGNED'] = 'Đã từ chức';
         $this->contents['LANG_SUSPEND_EMPLOYEE'] = 'Đình chỉ nhân viên';
         $this->contents['LANG_ACTIVE'] = 'Hoạt động';
         $this->contents['LANG_SUCCESSFULLY_SUSPENDED'] = '{name} đã bị đình chỉ thành công!';
         $this->contents['LANG_SUCCESSFULLY_UNSUSPENDED'] = '{name} đã được hủy tạm dừng thành công!';
         $this->contents['LANG_SET_RESIGNED_EMPLOYEE'] = 'Đặt {name} làm Nhân viên đã thôi việc?';
+        $this->contents['LANG_SET_UNRESIGNED_EMPLOYEE'] = 'Đặt {name} là Nhân viên chưa được bổ nhiệm?';
         $this->contents['LANG_CONFIRM_RESIGN'] = 'Xác nhận từ chức';
+        $this->contents['LANG_CONFIRM_UNRESIGN'] = 'Xác nhận Hủy thiết kế';
         $this->contents['LANG_SUCCESSFULLY_RESIGNED'] = '{name} đã được đặt thành công thành Đã từ chức!';
+        $this->contents['LANG_SUCCESSFULLY_UNRESIGNED'] = '{name} đã được đặt thành công thành chưa được chỉ định!';
         $this->contents['LANG_INACTIVE_SOON'] = 'Không hoạt động sớm';
         $this->contents['LANG_EDIT_EMPLOYEE_INFO'] = 'Chỉnh sửa nhân viên';
         $this->contents['LANG_EMPLOYEE_RESIGNED'] = 'Nhân viên đã từ chức';
+        $this->contents['LANG_EMPLOYEE_UNRESIGNED'] = 'Nhân viên chưa được thuê';
+        $this->contents['LANG_DELETE_EMPLOYEE'] = 'Xóa nhân viên';
+        $this->contents['LANG_DELETE_EMPLOYEE_NAME'] = 'Xóa nhân viên - {name}';
+        $this->contents['LANG_CONFIRM_DELETE'] = 'Xác nhận Xóa';
         $this->contents['LANG_SEARCH_EMPLOYEE'] = 'Tìm kiếm nhân viên, chức vụ hoặc loại hợp đồng';
 
         $this->contents['LANG_ENTER_VALID_CHILD'] = 'Vui lòng nhập thông tin con hợp lệ';

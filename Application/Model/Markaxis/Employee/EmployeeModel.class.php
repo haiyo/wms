@@ -370,9 +370,9 @@ class EmployeeModel extends \Model {
         if( $UserModel->isFound( $post['userID'] ) ) {
             $info = array( );
             $info['resigned'] = $post['status'] == 1 ? 1 : 0;
-            $info['endDate'] = date( 'Y-m-d H:i:s' );
             $this->Employee->update( 'employee', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
 
+            $post['reason'] = '';
             $UserModel->setSuspendStatus( $post );
 
             $AuditLogModel = new AuditLogModel( );
@@ -384,7 +384,7 @@ class EmployeeModel extends \Model {
             $info['toUserID'] = $post['userID'];
             $info['eventType'] = 'employee';
             $info['action'] = $info['resigned'] ? 'resign' : 'reinstate';
-            $info['descript'] = addslashes( $post['reason'] );
+            $info['descript'] = '';
             $info['created'] = date( 'Y-m-d H:i:s' );
             unset( $info['resigned'] );
             $AuditLogModel->log( $info );
