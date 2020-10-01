@@ -38,7 +38,7 @@ var MarkaxisContract = (function( ) {
             var that = this;
 
             $(document).on("click", ".contractDelete", function(e) {
-                that.contractDelete( );
+                that.contractDelete( $(this).attr("data-id") );
                 e.preventDefault( );
             });
 
@@ -164,10 +164,9 @@ var MarkaxisContract = (function( ) {
          * Delete
          * @return void
          */
-        contractDelete: function( ) {
+        contractDelete: function( id ) {
             var that = this;
-            var id = $(this).attr("data-id");
-            var title = $("#contractTable-row" + id).find("td").eq(1).text( );
+            var title = $("#contractType" + id).text( );
             var cID = new Array( );
             cID.push( id );
 

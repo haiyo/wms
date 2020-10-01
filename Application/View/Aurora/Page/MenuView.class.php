@@ -107,7 +107,7 @@ class MenuView {
             foreach( $actions as $namespace_action ) {
                 $perm = explode( '.', $namespace_action );
 
-                if( $this->Authorization->hasPermission( $perm[0], $perm[1] ) ) {
+                if( isset( $perm[0] ) && isset( $perm[1] ) && $this->Authorization->hasPermission( $perm[0], $perm[1] ) ) {
                     $count = 1;
                     break;
                 }

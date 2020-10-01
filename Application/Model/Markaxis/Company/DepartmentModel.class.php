@@ -128,8 +128,9 @@ class DepartmentModel extends \Model {
         if( $A_DepartmentModel->isFoundByID( $dID ) ) {
             $info = array( );
             $info['deleted'] = 1;
-            $this->Department->update( 'department', $info, 'WHERE dID = "' . (int)$dID . '"' );
+            return $this->Department->update( 'department', $info, 'WHERE dID = "' . (int)$dID . '"' );
         }
+        return false;
     }
 }
 ?>

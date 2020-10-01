@@ -191,7 +191,7 @@ var MarkaxisOffice = (function( ) {
 
         officeDelete: function( oID ) {
             var that = this;
-            var title = $("#officeTable-row" + oID).find("td").eq(0).text( );
+            var title = $("#officeName" + oID).text( );
 
             swal({
                 title: Aurora.i18n.GlobalRes.LANG_ARE_YOU_SURE_DELETE.replace('{title}', title),
@@ -262,9 +262,9 @@ var MarkaxisOffice = (function( ) {
                         var main = "";
 
                         if( full["main"] == 1 ) {
-                            main = '<span class="badge badge-primary badge-criteria">' + Markaxis.i18n.OfficeRes.LANG_MAIN + '</span>';
+                            main = ' &nbsp;&nbsp;<span class="badge badge-primary badge-criteria">' + Markaxis.i18n.OfficeRes.LANG_MAIN + '</span>';
                         }
-                        return '<span id="officeName' + full['oID'] + '">' + data + ' &nbsp;&nbsp;' + main + '</span>';
+                        return '<span id="officeName' + full['oID'] + '">' + data + '</span>' + main;
                     }
                 },{
                     targets: [1],

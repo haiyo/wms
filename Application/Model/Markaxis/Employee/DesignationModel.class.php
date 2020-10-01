@@ -173,8 +173,11 @@ class DesignationModel extends \Model {
 
         if( is_array( $data['data'] ) ) {
             foreach( $data['data'] as $dID ) {
-                if( isset( $data['group'] ) ) {
-                    $this->Designation->delete('designation', 'WHERE parent = "' . (int)$dID . '"');
+                if( isset( $data['group'] ) && $data['group'] ) {
+                    $info = array( );
+                    $info['deleted'] = 1;
+                    $this->Designation->update('designation', $info,'WHERE parent = "' . (int)$dID . '"');
+                    $this->Designation->update('designation', $info,'WHERE dID = "' . (int)$dID . '"');
                 }
                 else {
                     $info = array( );
@@ -197,7 +200,9 @@ class DesignationModel extends \Model {
         $count = sizeof( $emptyGroups );
 
         if( $count > 0 ) {
-            $this->Designation->delete('designation',
+            $info = array( );
+            $info['deleted'] = 1;
+            $this->Designation->update('designation', $info,
                                       'WHERE dID IN (' . implode( ',', $emptyGroups ) . ')');
         }
         return $count;

@@ -39,7 +39,7 @@ var MarkaxisCompetency = (function( ) {
             var that = this;
 
             $(document).on("click", ".competencyDelete", function(e) {
-                that.competencyDelete( );
+                that.competencyDelete( $(this).attr("data-id") );
                 e.preventDefault( );
             });
 
@@ -207,10 +207,9 @@ var MarkaxisCompetency = (function( ) {
          * Delete
          * @return void
          */
-        competencyDelete: function( ) {
+        competencyDelete: function( id ) {
             var that = this;
-            var id = $(this).attr("data-id");
-            var title = $("#competencyTable-row" + id).find("td").eq(1).text( );
+            var title = $("#competency" + id).text( );
             var cID = new Array( );
             cID.push( id );
 
@@ -435,7 +434,7 @@ var MarkaxisCompetency = (function( ) {
                             '<i class="icon-pencil5"></i> ' + Markaxis.i18n.CompetencyRes.LANG_EDIT_COMPETENCY + '</a>' +
                             '<div class="divider"></div>' +
                             '<a class="dropdown-item competencyDelete" data-id="' + data + '">' +
-                            '<i class="icon-bin"></i> ' + Markaxis.i18n.CompetencyRes.LANG_EDIT_COMPETENCY + '</a>' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.CompetencyRes.LANG_DELETE_COMPETENCY + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';

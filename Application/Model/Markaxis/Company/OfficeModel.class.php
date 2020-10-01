@@ -284,10 +284,15 @@ class OfficeModel extends \Model {
     public function delete( $oID ) {
         $A_OfficeModel = A_OfficeModel::getInstance( );
 
-        if( $A_OfficeModel->isFound( $oID ) ) {
+        if( $officeInfo = $A_OfficeModel->getByoID( $oID ) ) {
+            if( $officeInfo['main'] ) {
+                $this->setErrMsg( $this->L10n->getContents('LANG_MUST_AT_LEAST_ONE_MAIN') );
+                return false;
+            }
             $info = array( );
             $info['deleted'] = 1;
             $this->Office->update( 'office', $info, 'WHERE oID = "' . (int)$oID . '"' );
+            return true;
         }
     }
 }

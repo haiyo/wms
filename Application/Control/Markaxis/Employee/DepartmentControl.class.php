@@ -41,7 +41,7 @@ class DepartmentControl {
      * @return string
      */
     public function saveUser( ) {
-        if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
+        if( Control::hasPermission('Markaxis', 'add_modify_department' ) ) {
             $this->DepartmentModel->save( Control::getPostData( ) );
         }
     }

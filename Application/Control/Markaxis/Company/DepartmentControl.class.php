@@ -88,11 +88,7 @@ class DepartmentControl {
     public function deleteDepartment( ) {
         if( Control::hasPermission( 'Markaxis', 'add_modify_department' ) ) {
             $dID = Control::getRequest( )->request( POST, 'data' );
-
-            $this->DepartmentModel->delete( $dID );
-            $vars['bool'] = 1;
-            echo json_encode( $vars );
-            exit;
+            Control::setOutputArray( array( 'delete' => $this->DepartmentModel->delete( $dID ) ) );
         }
     }
 }

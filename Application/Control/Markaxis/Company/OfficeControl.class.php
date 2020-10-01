@@ -137,8 +137,13 @@ class OfficeControl {
     public function deleteOffice( ) {
         $oID = Control::getRequest( )->request( POST, 'data' );
 
-        $this->OfficeModel->delete( $oID );
-        $vars['bool'] = 1;
+        if( $this->OfficeModel->delete( $oID ) ) {
+            $vars['bool'] = 1;
+        }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->OfficeModel->getErrMsg( );
+        }
         echo json_encode( $vars );
         exit;
     }

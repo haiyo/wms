@@ -66,7 +66,7 @@ class NewsAnnouncementModel extends \Model {
         $this->NewsAnnouncement->setLimit( $post['start'], $post['length'] );
 
         $order = 'created';
-        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'asc' ? ' asc' : ' desc';
 
         if( isset( $post['order'][0]['column'] ) ) {
             switch( $post['order'][0]['column'] ) {

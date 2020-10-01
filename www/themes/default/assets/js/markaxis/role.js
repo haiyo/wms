@@ -247,6 +247,7 @@ var MarkaxisRole = (function( ) {
                         swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                         return;
                     }
+                    $("#modalPermission").modal("hide");
                     swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.RolePermRes.LANG_PERMISSIONS_SAVED, "success");
                 }
             };
@@ -259,6 +260,7 @@ var MarkaxisRole = (function( ) {
          * @return void
          */
         roleDelete: function( roleID ) {
+            var that = this;
             var title = $("#roleTitle" + roleID).text( );
 
             swal({

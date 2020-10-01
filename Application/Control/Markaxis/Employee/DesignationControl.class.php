@@ -110,7 +110,7 @@ class DesignationControl {
 
             if( $vars['count'] = $this->DesignationModel->delete( $post ) ) {
                 $vars['bool'] = 1;
-                if( $post['group'] ) {
+                if( isset( $post['group'] ) && $post['group'] ) {
                     $vars['groupListUpdate'] = $this->DesignationView->renderGroupList( );
                 }
             }
