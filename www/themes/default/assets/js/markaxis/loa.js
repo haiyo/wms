@@ -140,7 +140,7 @@ var MarkaxisLOA = (function( ) {
                                 }
                                 else {
                                     that.table.ajax.reload();
-                                    swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", Markaxis.i18n.LOARes.LANG_LOA_SUCCESSFULLY_CREATED, "success");
+                                    swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.LOARes.LANG_LOA_SUCCESSFULLY_CREATED, "success");
                                     $("#modalLOA").modal('hide');
                                 }
                             }

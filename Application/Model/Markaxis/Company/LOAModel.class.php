@@ -65,7 +65,7 @@ class LOAModel extends \Model {
         $this->LOA->setLimit( $post['start'], $post['length'] );
 
         $order = 'lastUpdated';
-        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
+        $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'asc' ? ' asc' : ' desc';
 
         if( isset( $post['order'][0]['column'] ) ) {
             switch( $post['order'][0]['column'] ) {
@@ -149,7 +149,8 @@ class LOAModel extends \Model {
 
         if( sizeof( $validIDs ) > 0 ) {
             $validIDs = implode(',', $validIDs );
-            $this->LOA->delete('loa_designation','WHERE loadID NOT IN(' . addslashes( $validIDs ) . ')');
+            $this->LOA->delete('loa_designation','WHERE loaID = "' . (int)$this->info['loaID'] . '" AND
+                                                                    loadID NOT IN(' . addslashes( $validIDs ) . ')');
         }
 
         return $this->info['loaID'];
@@ -163,6 +164,7 @@ class LOAModel extends \Model {
     public function delete( $loaID ) {
         if( $this->isFound( $loaID ) ) {
             $this->LOA->delete( 'loa', 'WHERE loaID = "' . (int)$loaID . '"' );
+            $this->LOA->delete('loa_designation','WHERE loaID = "' . (int)$loaID . '"');
         }
     }
 }

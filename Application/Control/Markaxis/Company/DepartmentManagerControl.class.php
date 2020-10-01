@@ -61,29 +61,38 @@ class DepartmentManagerControl {
     public function saveDepartment( ) {
         $post = Control::getPostData( );
 
-        if( $this->DepartmentManagerModel->isValid( $post ) ) {
-            $this->DepartmentManagerModel->save( );
+        if( isset( $post['managers'] ) && $post['managers'] ) {
+            if( $this->DepartmentManagerModel->isValid( $post ) ) {
+                $this->DepartmentManagerModel->save( );
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->DepartmentManagerModel->getErrMsg( );
+                echo json_encode( $vars );
+                exit;
+            }
         }
-        else {
-            $vars['bool'] = 0;
-            $vars['errMsg'] = $this->DepartmentManagerModel->getErrMsg( );
-            echo json_encode( $vars );
-            exit;
-        }
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
     }
 
 
     /**
      * Render main navigation
      * @return string
-
+     */
     public function deleteDepartment( ) {
-        $oID = Control::getRequest( )->request( POST, 'data' );
+        $data = Control::getOutputArray( );
 
-        $this->DepartmentModel->delete( $oID );
+        if( isset( $data['delete'] ) && $data['delete'] ) {
+            $dID = Control::getRequest( )->request( POST, 'data' );
+            $this->DepartmentManagerModel->delete( $dID );
+        }
+
         $vars['bool'] = 1;
         echo json_encode( $vars );
         exit;
-    } */
+    }
 }
 ?>

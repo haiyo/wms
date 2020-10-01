@@ -61,7 +61,9 @@ class Designation extends \DAO {
 
         $sql = $this->DB->select( 'SELECT d.dID FROM designation d
                                    LEFT JOIN designation dd ON d.dID = dd.parent
-                                   WHERE d.parent = 0 AND dd.dID IS NULL',
+                                   WHERE d.parent = 0 AND 
+                                         (dd.dID IS NULL OR dd.deleted = "1")
+                                   GROUP BY d.dID',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

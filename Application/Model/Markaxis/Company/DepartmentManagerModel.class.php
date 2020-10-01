@@ -65,7 +65,7 @@ class DepartmentManagerModel extends \Model {
      * @return bool
      */
     public function isValid( $data ) {
-        if( isset( $data['dID'] ) && isset( $data['managers'] ) ) {
+        if( isset( $data['dID'] ) ) {
             $ManagerModel = ManagerModel::getInstance( );
 
             if( $ManagerModel->isValid( $data ) ) {
@@ -116,15 +116,10 @@ class DepartmentManagerModel extends \Model {
     /**
      * Delete Pay Item
      * @return int
-
+     */
     public function delete( $dID ) {
-        $A_DepartmentModel = A_DepartmentModel::getInstance( );
-
-        if( $A_DepartmentModel->isFound( $dID ) ) {
-            $info = array( );
-            $info['deleted'] = 1;
-            $this->Department->update( 'department', $info, 'WHERE dID = "' . (int)$dID . '"' );
-        }
-    } */
+        $this->DepartmentManager->delete('department_manager',
+                                        'WHERE departmentID = "' . (int)$dID . '"' );
+    }
 }
 ?>

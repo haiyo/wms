@@ -58,6 +58,10 @@
     <task type="cityList">
         <observer controller="Aurora/Component/CityControl"/>
     </task>
+    <task type="company/saveDepartment">
+        <observer controller="Markaxis/Company/DepartmentControl"/>
+        <observer controller="Markaxis/Company/DepartmentManagerControl"/>
+    </task>
     <task type="company">
         <observer controller="Markaxis/Company/DepartmentControl"/>
         <observer controller="Markaxis/Company/DepartmentManagerControl"/>
@@ -165,7 +169,7 @@
     <task type="employee/deleteOrphanGroups,employee/deleteDesignation">
         <observer controller="Markaxis/Employee/DesignationControl"/>
     </task>
-    <task type="employee/getContract,employee/saveContract">
+    <task type="employee/getContract,employee/saveContract,employee/deleteContract">
         <observer controller="Markaxis/Employee/ContractControl"/>
     </task>
     <task type="employee/getDesignation,employee/saveDesignation">

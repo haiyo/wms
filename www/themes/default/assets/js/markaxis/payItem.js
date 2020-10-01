@@ -205,6 +205,7 @@ var MarkaxisPayItem = (function( ) {
 
 
         payItemDelete: function( id ) {
+            var that = this;
             var title = $("#payItemTable-row" + id).find("td").eq(0).text( );
             var piID = [];
             piID.push( id );

@@ -189,6 +189,7 @@ var MarkaxisPayCal = (function( ) {
 
 
         deletePayCal: function( pcID ) {
+            var that = this;
             var title = $("#payCalTable-row" + pcID).find("td").eq(1).text( );
 
             swal({

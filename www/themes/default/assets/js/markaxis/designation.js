@@ -40,7 +40,7 @@ var MarkaxisDesignation = (function( ) {
             var that = this;
 
             $(document).on("click", ".designationDelete", function(e) {
-                that.designationDelete( );
+                that.designationDelete( $(this).attr("data-id"), $(this).hasClass("group") ? true : false );
                 e.preventDefault( );
             });
 
@@ -176,19 +176,21 @@ var MarkaxisDesignation = (function( ) {
          * Delete
          * @return void
          */
-        designationDelete: function( ) {
+        designationDelete: function( id, isGroup ) {
             var that = this;
-            var id = $(this).attr("data-id");
-            var title = $("#designationTable-row" + id).find("td").eq(1).text( );
             var dID = new Array( );
             dID.push( id );
 
             var text = Aurora.i18n.GlobalRes.LANG_CANNOT_UNDONE_DELETED;
             var group = 0;
 
-            if( $(this).hasClass("group") ) {
+            if( isGroup ) {
+                var title = $("#designationTable-row" + id).find("td").eq(1).text( );
                 text = Markaxis.i18n.DesignationRes.LANG_DESIGNATIONS_UNDER_GROUP_DELETED;
                 group = 1;
+            }
+            else {
+                var title = $("#designationTitle" + id).text( );
             }
 
             swal({
@@ -216,9 +218,13 @@ var MarkaxisDesignation = (function( ) {
                         }
                         else {
                             that.table.ajax.reload();
-                            $("#dID").select2("destroy").remove( );
-                            $("#groupUpdate").html( obj.groupListUpdate );
-                            $("#dID").select2( );
+
+                            if( isGroup ) {
+                                $("#dID").select2("destroy").remove( );
+                                $("#groupUpdate").html( obj.groupListUpdate );
+                                $("#dID").select2( );
+                            }
+
                             swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', title), "success");
                             return;
                         }
