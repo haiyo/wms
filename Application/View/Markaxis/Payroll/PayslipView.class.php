@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Markaxis\Company\CompanyModel;
-use \Markaxis\Expense\ExpenseModel, \Markaxis\Expense\ClaimModel;
+use \Markaxis\Expense\ExpenseModel, \Markaxis\Leave\LeaveApplyModel, \Markaxis\Expense\ClaimModel;
 use \Aurora\Admin\AdminView;
 use \Library\Util\Money;
 use \Library\Runtime\Registry;
@@ -103,73 +103,54 @@ class PayslipView {
             $vars['dynamic']['website'][] = array( 'TPLVAR_COMPANY_WEBSITE' => $companyInfo['website'] );
         }
 
-        $UserItemModel = UserItemModel::getInstance( );
-        $itemInfo = $UserItemModel->getByPuID( $data['payrollUser']['puID'] );
+        $ItemModel = ItemModel::getInstance( );
+        $ExpenseModel = ExpenseModel::getInstance( );
+        $itemList = $ItemModel->getList( );
+        $expenseList = $ExpenseModel->getList( );
 
-        $vars['dynamic']['deductionSummary'] = false;
-        $vars['dynamic']['item'] = false;
-        $totalClaim = 0;
+        if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
+            foreach( $data['itemRow'] as $item ) {
+                if( isset( $item['piID'] ) ) {
+                    $title = $itemList[$item['piID']]['title'];
+                }
+                else {
+                    $title = $expenseList[$item['eiID']];
+                }
 
-        if( isset( $data['items']['basic'] ) && $data['items']['totalOrdinary'] ) {
-            $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $data['items']['basic']['title'],
-                                                'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
-                                                                   $data['office']['currencySymbol'] . Money::format( $data['items']['totalOrdinary'] ),
-                                                'TPLVAR_REMARK' => '' );
-        }
-
-        $ClaimModel = ClaimModel::getInstance( );
-        $claimList = $ClaimModel->getApprovedByUserID( $data['empInfo']['userID'], $data['payrollInfo']['startDate'], $data['payrollInfo']['endDate'] );
-
-        if( sizeof( $claimList ) > 0 ) {
-            $ExpenseModel = ExpenseModel::getInstance( );
-            $expenseList = $ExpenseModel->getList( );
-
-            foreach( $claimList as $claim ) {
-                $totalClaim += $claim['amount'];
-
-                $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $expenseList[$claim['eiID']],
-                    'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
-                        $data['office']['currencySymbol'] . Money::format( $claim['amount'] ),
-                    'TPLVAR_REMARK' => $claim['descript'] );
-            }
-
-            if( $totalClaim ) {
-                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-                    'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                    'TPLVAR_AMOUNT' => Money::format( $totalClaim ) );
-            }
-        }
-
-        if( sizeof( $itemInfo ) > 0 ) {
-            $ItemModel = ItemModel::getInstance( );
-            $itemList = $ItemModel->getList( );
-
-            foreach( $itemInfo as $item ) {
-                $vars['dynamic']['item'][] = array( 'TPLVAR_PAYROLL_ITEM' => $itemList[$item['piID']]['title'],
+                $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => '',
+                                                    'TPLVAR_HIDDEN_ID' => '',
+                                                    'TPLVAR_DEDUCTION' => '',
+                                                    'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
                                                     'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
                                                                        $data['office']['currencySymbol'] . Money::format( $item['amount'] ),
+                                                    'TPLVAR_TITLE' => $title,
                                                     'TPLVAR_REMARK' => $item['remark'] );
             }
         }
 
         $SummaryModel = SummaryModel::getInstance( );
-        $summary = $SummaryModel->getByPuID( $data['payrollUser']['puID'] );
+        $summary = $SummaryModel->getByPID( $data['payrollInfo']['pID'] );
 
-        $UserTaxModel = UserTaxModel::getInstance( );
-        $userTaxInfo = $UserTaxModel->getByPuID( $data['payrollUser']['puID'] );
-
-        if( sizeof( $userTaxInfo ) ) {
-            foreach( $userTaxInfo as $userTax ) {
+        if( isset( $data['userTax'] ) ) {
+            foreach( $data['userTax'] as $userTax ) {
                 $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $userTax['title'],
-                                                                'TPLVAR_CURRENCY' => $data['office']['currencyCode'] .
-                                                                                     $data['office']['currencySymbol'],
-                                                                'TPLVAR_AMOUNT' => Money::format( $userTax['amount'] ) );
+                                                                'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                                'TPLVAR_AMOUNT' => Money::format( $userTax['amount'] ),
+                                                                'TPLVAR_SHOW_TIP' => 'hide',
+                                                                'TPLVAR_REMARK' => $userTax['remark'] );
             }
+        }
+
+        if( $summary['claim'] ) {
+            $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                                                            'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                            'TPLVAR_AMOUNT' => Money::format( $summary['claim'] ),
+                                                            'TPLVAR_SHOW_TIP' => 'hide',
+                                                            'TPLVAR_REMARK' => '' );
         }
 
         $vars['TPLVAR_CURRENCY'] = $data['office']['currencyCode'] . $data['office']['currencySymbol'];
         $vars['TPLVAR_GROSS_AMOUNT'] = Money::format( $summary['gross'] );
-        $vars['TPLVAR_CLAIM_AMOUNT'] = Money::format( $summary['claim'] );
         $vars['TPLVAR_NET_AMOUNT'] = Money::format( $summary['net'] );
 
         $html = $this->View->renderHeader( );

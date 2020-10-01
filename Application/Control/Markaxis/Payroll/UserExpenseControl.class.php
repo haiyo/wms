@@ -5,38 +5,23 @@ use \Control;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Tuesday, July 10th, 2012
- * @version $Id: ContributionControl.class.php, v 2.0 Exp $
+ * @version $Id: UserExpenseControl.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class ContributionControl {
+class UserExpenseControl {
 
 
     // Properties
-    protected $ContributionModel;
+    protected $UserExpenseModel;
 
 
     /**
-     * ContributionControl Constructor
+     * UserExpenseControl Constructor
      * @return void
      */
     function __construct( ) {
-        $this->ContributionModel = ContributionModel::getInstance( );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function getChart( ) {
-        $vars = array( );
-        $post = Control::getRequest( )->request( POST );
-
-        if( isset( $post['date'] ) ) {
-            $vars['bool'] = 1;
-            Control::setOutputArrayAppend( array( 'data' => $this->ContributionModel->getChart( $post['date'] ) ) );
-        }
+        $this->UserExpenseModel = UserExpenseModel::getInstance( );
     }
 
 
@@ -46,7 +31,7 @@ class ContributionControl {
      */
     public function viewSaved( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'contributions' => $this->ContributionModel->getExistingContributions( $data ) ) );
+        Control::setOutputArray( $this->UserExpenseModel->getExistingItems( $data ) );
     }
 
 
@@ -58,14 +43,14 @@ class ContributionControl {
         $this->viewSaved( );
     }
 
-
     /**
      * Render main navigation
      * @return string
      */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
-        $this->ContributionModel->savePayroll( $data );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        Control::setOutputArray( $this->UserExpenseModel->savePayroll( $data, $post ) );
     }
 
 
@@ -75,7 +60,7 @@ class ContributionControl {
      */
     public function deletePayroll( ) {
         $data = Control::getOutputArray( );
-        $this->ContributionModel->deletePayroll( $data );
+        $this->UserExpenseModel->deletePayroll( $data );
     }
 }
 ?>

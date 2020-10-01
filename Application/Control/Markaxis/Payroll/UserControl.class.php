@@ -39,7 +39,16 @@ class UserControl {
      * Render main navigation
      * @return string
      */
-    public function viewslip( ) {
+    public function viewSlip( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSaved( ) {
         $this->processPayroll( );
     }
 

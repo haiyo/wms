@@ -189,9 +189,9 @@ class LeaveApply extends \DAO {
 
 
     /**
- * Retrieve a user column by userID
- * @return mixed
- */
+     * Retrieve a user column by userID
+     * @return mixed
+     */
     public function getUnPaidByUserID( $userID, $startDate='', $endDate='' ) {
         $date = '';
         if( $startDate && $endDate ) {
@@ -206,6 +206,32 @@ class LeaveApply extends \DAO {
                                          la.cancelled = "0" AND
                                          lt.paidLeave = "0" AND
                                          lt.deleted = "0"' . $date,
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
+    public function getByUserIDStatus( $userID, $startDate, $endDate, $status ) {
+        $sql = $this->DB->select( 'SELECT la.*, lt.name, lt.formula FROM leave_apply la
+                                   LEFT JOIN leave_type lt ON ( lt.ltID = la.ltID )
+                                   WHERE la.userID = "' . (int)$userID . '" AND 
+                                         la.status = "' . (int)$status . '" AND
+                                         la.cancelled = "0" AND
+                                         lt.paidLeave = "0" AND
+                                         lt.deleted = "0" AND 
+                                         ( la.startDate BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '" OR
+                                           la.endDate BETWEEN "' . addslashes( $startDate ) . '" AND "' . addslashes( $endDate ) . '" )',
                                    __FILE__, __LINE__ );
 
         $list = array( );

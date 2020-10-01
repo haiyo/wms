@@ -38,6 +38,15 @@ class SummaryModel extends \Model {
 
     /**
      * Return total count of records
+     * @return int
+     */
+    public function getByPID( $pID ) {
+        return $this->Summary->getByPID( $pID );
+    }
+
+
+    /**
+     * Return total count of records
      * @return mixed
      */
     public function getCountByDate( $date ) {
@@ -117,9 +126,14 @@ class SummaryModel extends \Model {
         }
 
         if( isset( $data['deductGross'] ) ) {
-            foreach( $data['deductGross'] as $addGross ) {
-                $summary['gross'] -= (float)$addGross;
-                $summary['net']   -= (float)$addGross;
+            foreach( $data['deductGross'] as $deductGross ) {
+                $summary['gross'] -= (float)$deductGross;
+                $summary['net']   -= (float)$deductGross;
+            }
+        }
+        if( isset( $data['deductNet'] ) ) {
+            foreach( $data['deductNet'] as $deductNet ) {
+                $summary['net'] -= (float)$deductNet;
             }
         }
 
@@ -132,20 +146,20 @@ class SummaryModel extends \Model {
             }
         }
 
-         if( isset( $data['contribution'] ) ) {
-             foreach( $data['contribution'] as $contribution ) {
+         if( isset( $data['contributions'] ) ) {
+             foreach( $data['contributions'] as $contribution ) {
                  $summary['contribution'] += (float)$contribution['amount'];
              }
          }
 
         if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
             foreach( $data['itemRow'] as $item ) {
-                if( isset( $item['deductGross'] ) ) {
+                /*if( isset( $item['deductGross'] ) ) {
                     $summary['gross'] -= (float)$item['amount'];
                 }
                 if( isset($item['deduction']) || isset( $item['deductionAW'] ) ) {
                     $summary['net'] -= (float)$item['amount'];
-                }
+                }*/
 
                 foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
                     // First find all the childs in this group and see if we have any summary=1

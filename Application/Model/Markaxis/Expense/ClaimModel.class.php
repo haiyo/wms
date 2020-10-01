@@ -63,8 +63,8 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getApprovedByUserID( $userID, $startDate='', $endDate='' ) {
-        return $this->Claim->getApprovedByUserID( $userID, $startDate, $endDate );
+    public function getByUserIDStatus( $userID, $startDate, $endDate, $status ) {
+        return $this->Claim->getByUserIDStatus( $userID, $startDate, $endDate, $status );
     }
 
 
@@ -72,7 +72,7 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
 
-    public function getByUserIDStatus( $userID, $startDate, $endDate, $status ) {
+    public function getApprovedByUserID( $userID, $startDate, $endDate, $status ) {
         return $this->Claim->getByUserIDStatus( $userID, $startDate, $endDate, $status );
     } */
 
@@ -157,13 +157,14 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getClaimsByRange( $data ) {
+    public function getByRange( $data, $status ) {
+        $claims = array( );
+
         if( isset( $data['payCal']['rangeStart'] ) && isset( $data['payCal']['rangeEnd'] ) ) {
             $rangeStart = $data['payCal']['rangeStart']->format('Y-m-d');
-            $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d');
+            $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d 23:59:59');
 
-            $claimInfo = $this->getApprovedByUserID( $data['empInfo']['userID'], $rangeStart, $rangeEnd );
-            $claims = array( );
+            $claimInfo = $this->getByUserIDStatus( $data['empInfo']['userID'], $rangeStart, $rangeEnd, $status );
 
             if( sizeof( $claimInfo ) > 0 ) {
                 foreach( $claimInfo as $value ) {
@@ -173,8 +174,8 @@ class ClaimModel extends \Model {
                                        'amount' => $value['amount'] );
                 }
             }
-            return $claims;
         }
+        return $claims;
     }
 
 
@@ -201,7 +202,7 @@ class ClaimModel extends \Model {
     public function deletePayroll( $data ) {
         if( isset( $data['empInfo']['userID'] ) && isset( $data['payCal']['rangeStart'] ) && isset( $data['payCal']['rangeEnd'] ) ) {
             $rangeStart = $data['payCal']['rangeStart']->format('Y-m-d');
-            $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d');
+            $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d H:i:s');
 
             $this->Claim->update('expense_claim', array( 'status' => 1 ),
                                  'WHERE userID = "' . (int)$data['empInfo']['userID'] . '" AND

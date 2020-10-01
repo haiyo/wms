@@ -87,7 +87,16 @@ class OfficeControl {
      * Render main navigation
      * @return string
      */
-    public function viewslip( ) {
+    public function viewSaved( ) {
+        $this->processPayroll( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSlip( ) {
         $this->processPayroll( );
     }
 

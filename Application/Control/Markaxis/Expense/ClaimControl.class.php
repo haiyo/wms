@@ -107,7 +107,7 @@ class ClaimControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'claims' => $this->ClaimModel->getClaimsByRange( $data ) ) );
+        Control::setOutputArray( array( 'claims' => $this->ClaimModel->getByRange( $data, 1 ) ) );
     }
 
 
@@ -115,7 +115,7 @@ class ClaimControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( ) {
+    public function viewSaved( ) {
         $this->processPayroll( );
     }
 

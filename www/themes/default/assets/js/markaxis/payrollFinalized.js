@@ -218,7 +218,7 @@ var MarkaxisPayrollFinalized = (function( ) {
                     className : "text-center",
                     data: 'userID',
                     render: function( data ) {
-                        return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/viewslip/' + data + '/' +
+                        return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/viewSlip/' + data + '/' +
                             $("#pID").val( ) + '" target="_blank">' + Markaxis.i18n.PayrollRes.LANG_VIEW_PDF + '</a>';
                     }
                 },{

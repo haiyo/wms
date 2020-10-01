@@ -65,10 +65,19 @@ class ItemModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getBypiID( $piID ) {
         return $this->Item->getBypiID( $piID );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getByPuID( $puID ) {
+        return $this->Item->getByPuID( $puID );
     }
 
 
@@ -151,9 +160,9 @@ class ItemModel extends \Model {
         unset( $results['recordsTotal'] );
 
         return array( 'draw' => (int)$data['draw'],
-            'recordsFiltered' => $total,
-            'recordsTotal' => $total,
-            'data' => $results );
+                      'recordsFiltered' => $total,
+                      'recordsTotal' => $total,
+                      'data' => $results );
     }
 
 
@@ -178,6 +187,29 @@ class ItemModel extends \Model {
             $items['totalOrdinary'] = $data['empInfo']['salary'];
         }
         return $items;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getExistingItems( $data ) {
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            $listItems = $this->getByPuID( $data['payrollUser']['puID'] );
+
+            if( sizeof( $listItems ) > 0 ) {
+                foreach( $listItems as $item ) {
+                    $data['addGross'][] = $item['amount'];
+
+                    $data['itemRow'][] = array( 'piID' => $item['piID'],
+                                                'title' => $item['title'],
+                                                'amount' => $item['amount'],
+                                                'remark' => $item['remark'] );
+                }
+            }
+        }
+        return $data;
     }
 
 
@@ -219,7 +251,6 @@ class ItemModel extends \Model {
             return $post;
         }
     }
-
 
 
     /**

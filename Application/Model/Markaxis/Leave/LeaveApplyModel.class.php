@@ -64,6 +64,15 @@ class LeaveApplyModel extends \Model {
      * Return total count of records
      * @return mixed
      */
+    public function getByUserIDStatus( $userID, $startDate, $endDate, $status ) {
+        return $this->LeaveApply->getByUserIDStatus( $userID, $startDate, $endDate, $status );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
     public function getByUserLeaveTypeCurrYear( $userID, $leaveTypes ) {
         foreach( $leaveTypes as $key => $type ) {
             $leaveApplied = $this->LeaveApply->getByUserLeaveTypeCurrYear( $userID, $type['ltID'] );

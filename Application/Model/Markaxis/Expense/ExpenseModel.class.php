@@ -124,46 +124,6 @@ class ExpenseModel extends \Model {
 
 
     /**
-     * Return total count of records
-     * @return int
-     */
-    public function reprocessPayroll( $data, $post ) {
-        if( isset( $post['data'] ) ) {
-            $preg = '/^itemType_(\d)+/';
-            $callback = function( $val ) use( $preg ) {
-                if( preg_match( $preg, $val, $match ) ) {
-                    return $match;
-                } else {
-                    return false;
-                }
-            };
-            $criteria = array_filter( $post['data'], $callback,ARRAY_FILTER_USE_KEY );
-            $post['postItems'] = array( );
-
-            foreach( $criteria as $key => $item ) {
-                preg_match( $preg, $key, $match );
-
-                if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'e-' ) ) {
-                    $id   = $match[1];
-                    $eiID = str_replace('e-', '', $item );
-
-                    if( $this->isFound( $eiID ) && isset( $post['data']['amount_' . $id] ) ) {
-                        $amount = str_replace( $data['empInfo']['currency'], '', $post['data']['amount_' . $id] );
-                        $amount = (int)str_replace(',', '', $amount );
-                        $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
-
-                        if( $amount > 0 ) {
-                            $post['postItems'][] = array( 'eiID' => $eiID, 'amount' => $amount, 'remark' => $remark );
-                        }
-                    }
-                }
-            }
-            return $post;
-        }
-    }
-
-
-    /**
      * Get File Information
      * @return mixed
      */

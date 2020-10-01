@@ -33,7 +33,7 @@ class TaxFileControl {
      */
     public function taxfile( ) {
 
-        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassAuth';
+        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassAuth?';
 
         // Registered callback
         //https://staging.hrmscloud.net/admin/iras_sandbox
@@ -45,8 +45,8 @@ class TaxFileControl {
 
         $fields = array(
             'scope' => 'EmpIncomeSub',
-            'callback_url' => 'http%3A%2F%2Flocalhost%2Fwms%2Fadmin%2Fpayroll%2Firas%2F',
-            'state' => 'dunno',
+            'callback_url' => urlencode('https://www.markaxis.com/admin/iras_sandbox'),
+            'state' => '390b25fa-4427-4b10-9ae2-34d6e0cd91a1',
             'tax_agent' => 'false'
         );
 

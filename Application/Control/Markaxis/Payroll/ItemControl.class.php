@@ -69,6 +69,7 @@ class ItemControl {
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( array( 'items' => $this->ItemModel->getAllItems( $data ) ) );
+        Control::setOutputArray( $this->ItemModel->getExistingItems( $data ) );
     }
 
 
@@ -80,6 +81,15 @@ class ItemControl {
         $data = Control::getOutputArray( );
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         Control::setPostData( $this->ItemModel->reprocessPayroll( $data, $post ) );
+        Control::setOutputArray( array( 'items' => $this->ItemModel->getAllItems( $data ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSaved( ) {
         $this->processPayroll( );
     }
 
@@ -88,7 +98,7 @@ class ItemControl {
      * Render main navigation
      * @return string
      */
-    public function viewslip( ) {
+    public function viewSlip( ) {
         $this->processPayroll( );
     }
 

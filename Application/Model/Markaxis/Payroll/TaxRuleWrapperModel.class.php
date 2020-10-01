@@ -110,6 +110,8 @@ class TaxRuleWrapperModel extends \Model {
                     $amount = $rules['applyValue'];
                     $remark = '';
                 }
+                $data['deductNet'][] = $amount;
+
                 $data['itemRow'][] = array( 'piID' => $data['items']['deduction']['piID'],
                                             'trID' => $rules['trID'],
                                             'tgID' => $rules['tgID'],
@@ -134,10 +136,10 @@ class TaxRuleWrapperModel extends \Model {
                 if( $rules['applyValueType'] == 'fixed' ) {
                     $amount = $rules['applyValue'];
                 }
-                $data['contribution'][$rules['trID']] = array( 'title' => $ruleTitle,
-                                                               'trID' => $rules['trID'],
-                                                               'amount' => $amount,
-                                                               'remark' => $remark );
+                $data['contributions'][$rules['trID']] = array( 'title' => $ruleTitle,
+                                                                'trID' => $rules['trID'],
+                                                                'amount' => $amount,
+                                                                'remark' => $remark );
             }
 
             if( ( $rules['applyType'] == 'skillLevy' || $rules['applyType'] == 'foreignLevy' ) &&

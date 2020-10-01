@@ -88,7 +88,7 @@ class Claim extends \DAO {
     /**
      * Retrieve a user column by userID
      * @return mixed
-     */
+
     public function getApprovedByUserID( $userID, $startDate='', $endDate='' ) {
         $date = '';
         if( $startDate && $endDate ) {
@@ -110,7 +110,7 @@ class Claim extends \DAO {
             }
         }
         return $list;
-    }
+    }  */
 
 
     /**

@@ -40,7 +40,7 @@ class UserItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getExistingItem( $data ) {
+    public function getExistingItems( $data ) {
         if( isset( $data['payrollUser']['puID'] ) ) {
             $listItems = $this->getByPuID( $data['payrollUser']['puID'] );
 
@@ -49,6 +49,7 @@ class UserItemModel extends \Model {
                     $data['addGross'][] = $item['amount'];
 
                     $data['itemRow'][] = array( 'piID' => $item['piID'],
+                                                'title' => $item['title'],
                                                 'amount' => $item['amount'],
                                                 'remark' => $item['remark'] );
                 }

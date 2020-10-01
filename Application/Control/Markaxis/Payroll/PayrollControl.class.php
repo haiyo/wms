@@ -149,6 +149,15 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
+    public function viewSaved( $args ) {
+        $this->processPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayroll( $args ) {
         $this->processPayroll( $args );
     }
@@ -158,7 +167,7 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function viewslip( $args ) {
+    public function viewSlip( $args ) {
         $this->processPayroll( $args );
     }
 

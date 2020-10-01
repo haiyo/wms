@@ -29,9 +29,9 @@ class UserItemControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( ) {
+    public function viewSaved( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->UserItemModel->getExistingItem( $data ) );
+        Control::setOutputArray( $this->UserItemModel->getExistingItems( $data ) );
     }
 
 
@@ -39,8 +39,8 @@ class UserItemControl {
      * Render main navigation
      * @return string
      */
-    public function viewslip( ) {
-        $this->processPayroll( );
+    public function viewSlip( ) {
+        $this->viewSaved( );
     }
 
     /**
