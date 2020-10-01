@@ -44,6 +44,25 @@ class LevyControl {
      * Render main navigation
      * @return string
      */
+    public function viewSaved( ) {
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( array( 'levies' => $this->LevyModel->getExistingLevies( $data ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSlip( ) {
+        $this->viewSaved( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $this->LevyModel->savePayroll( $data );

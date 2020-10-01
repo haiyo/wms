@@ -144,8 +144,9 @@ class LeaveBalanceModel extends \Model {
                 return false;
             }
 
-            $startDate  = \DateTime::createFromFormat('d M Y', $data['startDate'] );
-            $endDate    = \DateTime::createFromFormat('d M Y', $data['endDate'] );
+            $startDate = \DateTime::createFromFormat('d M Y', $data['startDate'] );
+            $endDate   = \DateTime::createFromFormat('d M Y', $data['endDate'] );
+            $endDate   = new \DateTime($endDate->format('Y-m-d') . ' 23:59:59' );
 
             $EmployeeModel = EmployeeModel::getInstance( );
             $empInfo = $EmployeeModel->getInfo( );

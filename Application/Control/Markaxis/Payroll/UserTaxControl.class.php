@@ -29,6 +29,28 @@ class UserTaxControl {
      * Render main navigation
      * @return string
      */
+    public function viewSaved( ) {
+        $data = Control::getOutputArray( );
+
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            Control::setOutputArray( array( 'userTax' => $this->UserTaxModel->getByPuID( $data['payrollUser']['puID'] ) ) );
+        }
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSlip( ) {
+        $this->viewSaved( );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->UserTaxModel->savePayroll( $data ) );

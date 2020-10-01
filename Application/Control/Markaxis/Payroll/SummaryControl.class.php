@@ -86,6 +86,17 @@ class SummaryControl {
      * Render main navigation
      * @return string
      */
+    public function viewSaved( ) {
+        $data = Control::getOutputArray( );
+        echo $this->SummaryView->renderSavedForm( $data );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $this->SummaryModel->savePayroll( $data );

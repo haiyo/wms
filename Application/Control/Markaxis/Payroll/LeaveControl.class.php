@@ -33,5 +33,14 @@ class LeaveControl {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->LeaveView->renderProcessForm( $data) );
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSaved( ) {
+        $this->processPayroll( );
+    }
 }
 ?>

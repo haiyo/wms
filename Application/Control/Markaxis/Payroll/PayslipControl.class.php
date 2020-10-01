@@ -52,7 +52,7 @@ class PayslipControl {
      * Render main navigation
      * @return void
      */
-    public function viewslip( ) {
+    public function viewSlip( ) {
         $Registry = Registry::getInstance( );
         $Authenticator = $Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );

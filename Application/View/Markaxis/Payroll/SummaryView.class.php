@@ -74,7 +74,7 @@ class SummaryView {
         $SelectGroupListView = new SelectGroupListView( );
         $SelectGroupListView->includeBlank(false );
         $SelectGroupListView->setClass("itemType");
-        $SelectGroupListView->isDisabled(true );
+        //$SelectGroupListView->isDisabled(true );
         $SelectGroupListView->enableSort(false );
         $vars['dynamic']['item'] = $vars['dynamic']['hiddenField'] = false;
         $id = 0;
@@ -91,34 +91,8 @@ class SummaryView {
                                                                    $data['office']['currencySymbol'] . Money::format( $data['items']['totalOrdinary'] ),
                                                 'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                 'TPLVAR_REMARK' => '',
-                                                'TPLVAR_DISABLED' => 'disabled',
                                                 'TPL_ICON' => '' );
             $id++;
-        }
-
-        if( isset( $data['claims'] ) ) {
-            $SelectGroupListView->isDisabled(true );
-
-            foreach( $data['claims'] as $claim ) {
-                if( isset( $claim['eiID'] ) ) {
-                    $selected = 'e-' . $claim['eiID'];
-                    $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
-
-                    $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
-                                                        'TPLVAR_HIDDEN_ID' => 'claim' . $claim['ecID'],
-                                                        'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                                                        'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
-                                                                           $data['office']['currencySymbol'] . Money::format( $claim['amount'] ),
-                                                        'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                        'TPLVAR_REMARK' => $claim['remark'],
-                                                        'TPLVAR_DISABLED' => '' );
-
-                    $vars['dynamic']['hiddenField'][] = array( 'TPLVAR_HIDDEN_ID' => 'claim' . $claim['ecID'],
-                                                               'TPLVAR_HIDDEN_NAME' => 'claim[]',
-                                                               'TPLVAR_VALUE' => $claim['ecID'] );
-                    $id++;
-                }
-            }
         }
 
         if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
@@ -131,15 +105,15 @@ class SummaryView {
                     $selected  = 'p-' . $item['piID'];
                     $deduction = $hiddenID = '';
 
-                    $SelectGroupListView->isDisabled(false );
+                    //$SelectGroupListView->isDisabled(false );
 
                     if( $item['piID'] == $data['items']['deduction']['piID'] || $item['piID'] == $data['items']['deductionAW']['piID'] ) {
                         $deduction = 'deduction';
                     }
 
-                    if( ( isset( $item['disabled'] ) && $item['disabled'] ) || isset( $data['payrollUser']['puID'] ) ) {
+                    /*if( ( isset( $item['disabled'] ) && $item['disabled'] ) || isset( $data['payrollUser']['puID'] ) ) {
                         $SelectGroupListView->isDisabled(true );
-                    }
+                    }*/
 
                     $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected,'Select Payroll Item' );
 
@@ -158,14 +132,39 @@ class SummaryView {
                                                         'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
                                                                            $data['office']['currencySymbol'] . Money::format( $item['amount'] ),
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,
-                                                        'TPLVAR_REMARK' => $item['remark'],
-                                                        'TPLVAR_DISABLED' => '' );
+                                                        'TPLVAR_REMARK' => $item['remark'] );
                     $id++;
                 }
             }
         }
-        $SelectGroupListView->isDisabled(false );
+
+        if( isset( $data['claims'] ) ) {
+            //$SelectGroupListView->isDisabled(true );
+
+            foreach( $data['claims'] as $claim ) {
+                if( isset( $claim['eiID'] ) ) {
+                    $selected = 'e-' . $claim['eiID'];
+                    $itemType = $SelectGroupListView->build('itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
+
+                    $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => $id,
+                                                        'TPLVAR_HIDDEN_ID' => 'claim' . $claim['ecID'],
+                                                        'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                        'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
+                                                            $data['office']['currencySymbol'] . Money::format( $claim['amount'] ),
+                                                        'TPL_PAYROLL_ITEM_LIST' => $itemType,
+                                                        'TPLVAR_REMARK' => $claim['remark'] );
+
+                    $vars['dynamic']['hiddenField'][] = array( 'TPLVAR_HIDDEN_ID' => 'claim' . $claim['ecID'],
+                                                               'TPLVAR_HIDDEN_NAME' => 'claim[]',
+                                                               'TPLVAR_VALUE' => $claim['ecID'] );
+                    $id++;
+                }
+            }
+        }
+
+        //$SelectGroupListView->isDisabled(false );
         $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
+        $vars['TPL_ITEM_LIST'] = $this->View->render( 'markaxis/payroll/itemInput.tpl', $vars );
         $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
 
         if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
@@ -205,26 +204,6 @@ class SummaryView {
 
         $vars['dynamic']['employerItem'] = $vars['dynamic']['deductionSummary'] = false;
         $itemGroups = array( );*/
-
-        $totalClaim = 0;
-
-        if( isset( $data['claims'] ) ) {
-
-            foreach( $data['claims'] as $claims ) {
-                if( isset( $claims['eiID'] ) ) {
-                    $totalClaim += $claims['amount'];
-                    //$vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
-                }
-            }
-
-            if( $totalClaim > 0 ) {
-                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-                                                                'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                                                                'TPLVAR_AMOUNT' => Money::format( $totalClaim ),
-                                                                'TPLVAR_SHOW_TIP' => 'hide',
-                                                                'TPLVAR_REMARK' => '' );
-            }
-        }
 
         if( isset( $summary['itemGroups'] ) ) {
             foreach( $summary['itemGroups'] as $groups ) {
@@ -268,8 +247,8 @@ class SummaryView {
 
         $totalContribution = 0;
 
-        if( isset( $data['contribution'] ) && is_array( $data['contribution'] ) ) {
-            foreach( $data['contribution'] as $contribution ) {
+        if( isset( $data['contributions'] ) && is_array( $data['contributions'] ) ) {
+            foreach( $data['contributions'] as $contribution ) {
                 $totalContribution += $contribution['amount'];
 
                 $showTips = 'hide';
@@ -281,10 +260,10 @@ class SummaryView {
                 }
 
                 $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $contribution['title'],
-                    'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                    'TPLVAR_AMOUNT' => Money::format( $contribution['amount'] ),
-                    'TPLVAR_SHOW_TIP' => $showTips,
-                    'TPLVAR_REMARK' => $remark );
+                                                            'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                            'TPLVAR_AMOUNT' => Money::format( $contribution['amount'] ),
+                                                            'TPLVAR_SHOW_TIP' => $showTips,
+                                                            'TPLVAR_REMARK' => $remark );
             }
             if( $totalContribution ) {
                 $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_CONTRIBUTION'),
@@ -294,14 +273,141 @@ class SummaryView {
             }
         }
 
+        $totalClaim = 0;
+
+        if( isset( $data['claims'] ) ) {
+
+            foreach( $data['claims'] as $claims ) {
+                if( isset( $claims['eiID'] ) ) {
+                    $totalClaim += $claims['amount'];
+                    //$vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
+                }
+            }
+
+            if( $totalClaim > 0 ) {
+                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                    'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                    'TPLVAR_AMOUNT' => Money::format( $totalClaim ),
+                    'TPLVAR_SHOW_TIP' => 'hide',
+                    'TPLVAR_REMARK' => '' );
+            }
+        }
+
         $vars['TPLVAR_CURRENCY'] = $data['office']['currencyCode'] . $data['office']['currencySymbol'];
         $vars['TPLVAR_GROSS_AMOUNT'] = Money::format( $summary['gross'] );
-        $vars['TPLVAR_CLAIM_AMOUNT'] = Money::format( $summary['claim'] );
-        $vars['TPLVAR_DEDUCTION_AMOUNT'] = Money::format( $summary['deduction'] );
         $vars['TPLVAR_NET_AMOUNT'] = Money::format( $summary['net'] );
-        $vars['TPLVAR_TOTAL_CONTRIBUTION'] = Money::format( $summary['contribution'] );
-        $vars['TPLVAR_SDL_AMOUNT'] = Money::format( $summary['sdl'] );
-        $vars['TPLVAR_FWL_AMOUNT'] = Money::format( $summary['fwl'] );
+
+        return $this->View->render('markaxis/payroll/processSummary.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderSavedForm( $data ) {
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_IMAGE' => $data['empInfo']['photo'],
+                       'TPLVAR_USERID' => $data['empInfo']['userID'],
+                       'TPLVAR_NAME' => $data['empInfo']['name'],
+                       'TPLVAR_PROCESS_DATE' => $data['payrollInfo']['startDate'] ) );
+
+        $SelectListView = new SelectListView( );
+        $SelectListView->setClass('itemType');
+
+        $ItemModel = ItemModel::getInstance( );
+        $ExpenseModel = ExpenseModel::getInstance( );
+        $itemList = $ItemModel->getList( );
+        $expenseList = $ExpenseModel->getList( );
+
+        $vars['dynamic']['item'] = $vars['dynamic']['hiddenField'] = false;
+
+        if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
+            foreach( $data['itemRow'] as $item ) {
+                if( isset( $item['piID'] ) ) {
+                    $title = $itemList[$item['piID']]['title'];
+                }
+                else {
+                    $title = $expenseList[$item['eiID']];
+                }
+
+                $vars['dynamic']['item'][] = array( 'TPLVAR_ID' => '',
+                                                    'TPLVAR_HIDDEN_ID' => '',
+                                                    'TPLVAR_DEDUCTION' => '',
+                                                    'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                    'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
+                                                                       $data['office']['currencySymbol'] . Money::format( $item['amount'] ),
+                                                    'TPL_PAYROLL_ITEM_LIST' => $title,
+                                                    'TPLVAR_REMARK' => $item['remark'] );
+            }
+        }
+
+        $vars['TPL_PAYROLL_ITEM_LIST'] = '';
+        $vars['TPL_ITEM_LIST'] = $this->View->render( 'markaxis/payroll/item.tpl', $vars );
+        $vars['TPL_PROCESS_SUMMARY'] = $this->renderSavedSummary( $data );
+
+        if( isset( $data['col_1'] ) ) $vars['TPL_COL_1'] = $data['col_1'];
+        if( isset( $data['col_2'] ) ) $vars['TPL_COL_2'] = $data['col_2'];
+        if( isset( $data['col_3'] ) ) $vars['TPL_COL_3'] = $data['col_3'];
+        return $this->View->render( 'markaxis/payroll/processForm.tpl', $vars );
+    }
+
+
+    /**
+     * Render summary on first process!
+     * @return string
+     */
+    public function renderSavedSummary( $data ) {
+        $summary = $this->SummaryModel->getByPID( $data['payrollInfo']['pID'] );
+
+        if( isset( $data['userTax'] ) ) {
+            foreach( $data['userTax'] as $userTax ) {
+                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $userTax['title'],
+                                                                'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                                'TPLVAR_AMOUNT' => Money::format( $userTax['amount'] ),
+                                                                'TPLVAR_SHOW_TIP' => 'hide',
+                                                                'TPLVAR_REMARK' => $userTax['remark'] );
+            }
+        }
+
+        if( $summary['claim'] ) {
+            $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
+                                                            'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                            'TPLVAR_AMOUNT' => Money::format( $summary['claim'] ),
+                                                            'TPLVAR_SHOW_TIP' => 'hide',
+                                                            'TPLVAR_REMARK' => '' );
+        }
+
+        if( isset( $data['levies'] ) ) {
+            foreach( $data['levies'] as $levy ) {
+                $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $levy['title'],
+                                                            'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                            'TPLVAR_AMOUNT' => Money::format( $levy['amount'] ),
+                                                            'TPLVAR_SHOW_TIP' => 'hide',
+                                                            'TPLVAR_REMARK' => '' );
+            }
+        }
+
+        if( isset( $data['contributions'] ) && is_array( $data['contributions'] ) ) {
+            foreach( $data['contributions'] as $contribution ) {
+                $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $contribution['title'],
+                                                            'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                            'TPLVAR_AMOUNT' => Money::format( $contribution['amount'] ),
+                                                            'TPLVAR_SHOW_TIP' => 'hide',
+                                                            'TPLVAR_REMARK' => '' );
+
+
+            }
+            $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_CONTRIBUTION'),
+                                                        'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                        'TPLVAR_AMOUNT' => Money::format( $summary['contribution'] ),
+                                                        'TPLVAR_SHOW_TIP' => 'hide',
+                                                        'TPLVAR_REMARK' => '' );
+        }
+
+        $vars['TPLVAR_CURRENCY'] = $data['office']['currencyCode'] . $data['office']['currencySymbol'];
+        $vars['TPLVAR_GROSS_AMOUNT'] = Money::format( $summary['gross'] );
+        $vars['TPLVAR_NET_AMOUNT'] = Money::format( $summary['net'] );
 
         return $this->View->render('markaxis/payroll/processSummary.tpl', array_merge( $this->L10n->getContents( ), $vars ) );
     }

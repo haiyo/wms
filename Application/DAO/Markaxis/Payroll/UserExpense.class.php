@@ -4,11 +4,11 @@ namespace Markaxis\Payroll;
 /**
  * @author Andy L.W.L <support@markaxis.com>
  * @since Saturday, August 4th, 2012
- * @version $Id: UserItem.class.php, v 2.0 Exp $
+ * @version $Id: UserExpense.class.php, v 2.0 Exp $
  * @copyright Copyright (c) 2010, Markaxis Corporation
  */
 
-class UserItem extends \DAO {
+class UserExpense extends \DAO {
 
 
     // Properties
@@ -19,10 +19,9 @@ class UserItem extends \DAO {
      * @return mixed
      */
     public function getByPuID( $puID ) {
-        $sql = $this->DB->select( 'SELECT * FROM payroll_user_item pui
-                                   LEFT JOIN payroll_item pi ON ( pi.piID = pui.piID )
-                                   WHERE pui.puID = "' . (int)$puID . '"
-                                   ORDER BY puiID DESC',
+        $sql = $this->DB->select( 'SELECT * FROM payroll_user_expense pue
+                                   LEFT JOIN expense_item ei ON ( ei.eiID = pue.eiID )
+                                   WHERE pue.puID = "' . (int)$puID . '"',
                                    __FILE__, __LINE__ );
 
         $list = array( );

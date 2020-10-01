@@ -174,8 +174,17 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
-    public function viewslip( $args ) {
-        $this->processPayroll( $args,true );
+    public function viewSaved( $args ) {
+        $this->processPayroll( $args );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function viewSlip( $args ) {
+        $this->processPayroll( $args );
     }
 
 
@@ -184,9 +193,7 @@ class EmployeeControl {
      * @return string
      */
     public function savePayroll( $args ) {
-        if( Control::hasPermission('Markaxis', 'process_payroll' ) ) {
-            $this->processPayroll( $args,true );
-        }
+        $this->processPayroll( $args,true );
     }
 
 
@@ -195,9 +202,7 @@ class EmployeeControl {
      * @return string
      */
     public function deletePayroll( $args ) {
-        if( Control::hasPermission('Markaxis', 'process_payroll' ) ) {
-            $this->processPayroll( $args,true );
-        }
+        $this->processPayroll( $args,true );
     }
 
 

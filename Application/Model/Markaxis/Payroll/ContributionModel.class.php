@@ -28,7 +28,7 @@ class ContributionModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
     public function getByPuID( $puID ) {
         return $this->Contribution->getByPuID( $puID );
@@ -46,13 +46,34 @@ class ContributionModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getExistingContributions( $data ) {
+        $contributions = array( );
+
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            $listContri = $this->getByPuID( $data['payrollUser']['puID'] );
+
+            if( sizeof( $listContri ) > 0 ) {
+                foreach( $listContri as $contri ) {
+                    $contributions[] = array( 'title' => $contri['title'],
+                                              'amount' => $contri['amount'] );
+                }
+            }
+        }
+        return $contributions;
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $data['puID'] ) && isset( $data['contribution'] ) && sizeof( $data['contribution'] ) ) {
-            foreach( $data['contribution'] as $contribution ) {
+        if( isset( $data['puID'] ) && isset( $data['contributions'] ) && sizeof( $data['contributions'] ) ) {
+            foreach( $data['contributions'] as $contribution ) {
                 $info = array( );
                 $info['puID'] = $data['puID'];
                 $info['title'] = $contribution['title'];

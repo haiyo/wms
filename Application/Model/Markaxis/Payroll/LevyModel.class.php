@@ -46,6 +46,27 @@ class LevyModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getExistingLevies( $data ) {
+        $levies = array( );
+
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            $listLevies = $this->getByPuID( $data['payrollUser']['puID'] );
+
+            if( sizeof( $listLevies ) > 0 ) {
+                foreach( $listLevies as $levy ) {
+                    $levies[] = array( 'title' => $levy['title'],
+                                       'amount' => $levy['amount'] );
+                }
+            }
+        }
+        return $levies;
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function savePayroll( $data ) {

@@ -95,7 +95,7 @@ var MarkaxisPayslip = (function( ) {
                     className : "text-center",
                     render: function( data, type, full, meta ) {
                         if( data ) {
-                            return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/viewslip/' + data + '/' +
+                            return '<a href="' + Aurora.ROOT_URL + 'admin/payroll/viewSlip/' + data + '/' +
                                 full['pID'] + '" target="_blank">' + Markaxis.i18n.PayrollRes.LANG_VIEW_PDF + '</a>';
                         }
                         else {

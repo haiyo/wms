@@ -7,7 +7,7 @@
     <tr>
         <td valign="top"><img src="<?TPLVAR_LOGO?>" width="250" /></td>
         <td style="text-align:right;">
-            <h3>PAYSLIP</h3>
+            <h3 style="font-weight:bold;">PAYSLIP</h3>
             <?TPLVAR_COMPANY_NAME?><br />
             <!-- BEGIN DYNAMIC BLOCK: address -->
             <?TPLVAR_COMPANY_ADDRESS?><br />
@@ -27,16 +27,16 @@
 
 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="table">
     <tr>
-        <td width="48%" style="padding:2px;" class="td"><span class="title"><?LANG_EMPLOYER_NAME?>:</span> <?TPLVAR_NAME?></td>
-        <td width="48%" style="padding:2px;" class="td"><span class="title"><?LANG_JOIN_DATE?>:</span> <?TPLVAR_START_DATE?></td>
+        <td width="48%" style="padding:5px;" class="td"><span class="title"><?LANG_EMPLOYER_NAME?>:</span> <?TPLVAR_NAME?></td>
+        <td width="48%" style="padding:5px;" class="td"><span class="title"><?LANG_JOIN_DATE?>:</span> <?TPLVAR_START_DATE?></td>
     </tr>
     <tr>
-        <td style="padding:2px;" class="td"><span class="title"><?LANG_DEPARTMENT?>:</span> <?TPLVAR_DEPARTMENT?></td>
-        <td style="padding:2px;" class="td"><span class="title"><?LANG_CONTRACT_TYPE?>:</span> <?TPLVAR_CONTRACT_TYPE?></td>
+        <td style="padding:5px;" class="td"><span class="title"><?LANG_DEPARTMENT?>:</span> <?TPLVAR_DEPARTMENT?></td>
+        <td style="padding:5px;" class="td"><span class="title"><?LANG_CONTRACT_TYPE?>:</span> <?TPLVAR_CONTRACT_TYPE?></td>
     </tr>
     <tr>
-        <td style="padding:2px;" class="td"><span class="title"><?LANG_DESIGNATION?>:</span> <?TPLVAR_DESIGNATION?></td>
-        <td style="padding:2px;" class="td"><span class="title"><?LANG_PAY_PERIOD?>:</span> <?TPLVAR_PAY_PERIOD?></td>
+        <td style="padding:5px;" class="td"><span class="title"><?LANG_DESIGNATION?>:</span> <?TPLVAR_DESIGNATION?></td>
+        <td style="padding:5px;" class="td"><span class="title"><?LANG_PAY_PERIOD?>:</span> <?TPLVAR_PAY_PERIOD?></td>
     </tr>
 </table>
 
@@ -51,7 +51,7 @@
     </tr>
     <!-- BEGIN DYNAMIC BLOCK: item -->
     <tr>
-        <td style="padding:5px;padding-bottom:10px;border-bottom:1px solid #ccc;"><?TPLVAR_PAYROLL_ITEM?></td>
+        <td style="padding:5px;padding-bottom:10px;border-bottom:1px solid #ccc;"><?TPLVAR_TITLE?></td>
         <td style="padding:5px;padding-bottom:10px;margin-bottom:5px;border-bottom:1px solid #ccc;"><?TPLVAR_AMOUNT?></td>
         <td style="padding:5px;padding-bottom:10px;margin-bottom:5px;border-bottom:1px solid #ccc;"><?TPLVAR_REMARK?></td>
     </tr>

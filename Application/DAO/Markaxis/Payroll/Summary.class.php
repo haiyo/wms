@@ -35,6 +35,21 @@ class Summary extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
+    public function getByPID( $pID ) {
+        $sql = $this->DB->select( 'SELECT ps.* FROM payroll_summary ps WHERE ps.pID = "' . (int)$pID . '"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve all user by name and role
+     * @return mixed
+     */
     public function getCountByDate( $date ) {
         $sql = $this->DB->select( 'SELECT COUNT(*) FROM payroll_summary ps 
                                     LEFT JOIN payroll p ON ( p.pID = ps.pID ) 
