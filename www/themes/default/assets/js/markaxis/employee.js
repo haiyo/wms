@@ -36,12 +36,17 @@ var MarkaxisEmployee = (function( ) {
             var that = this;
 
             $(document).on("click", ".setSuspend", function(e) {
-                that.setSuspend( $(this).attr("data-id"), $(this).attr("data-name") );
+                that.setSuspend( $(this).attr("data-id"), $(this).attr("data-name"), $(this).attr("data-status") );
                 e.preventDefault( );
             });
 
             $(document).on("click", ".setResign", function (e) {
-                that.setResign( $(this).attr("data-id"), $(this).attr("data-name") );
+                that.setResign( $(this).attr("data-id"), $(this).attr("data-name"), $(this).attr("data-status") );
+                e.preventDefault( );
+            });
+
+            $(document).on("click", ".deleteEmployee", function (e) {
+                that.deleteEmployee( $(this).attr("data-id"), $(this).attr("data-name") );
                 e.preventDefault( );
             });
         },
@@ -55,15 +60,18 @@ var MarkaxisEmployee = (function( ) {
         },
 
 
-        setSuspend: function( userID, name ) {
-            if( $("#status" + userID).hasClass("label-success") ) {
-                status = 1;
+        setSuspend: function( userID, name, status ) {
+            var that = this;
+            if( status == 0 ) {
+                setStatus = 1;
+                swalType = "input";
                 title = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_SUSPEND_NAME.replace('{name}', name);
                 text  = Markaxis.i18n.EmployeeRes.LANG_NO_LOGIN_HRS;
                 confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_SUSPEND;
             }
             else {
-                status = 0;
+                setStatus = 0;
+                swalType = "warning";
                 title = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_UNSUSPEND.replace('{name}', name);
                 text  = Markaxis.i18n.EmployeeRes.LANG_ABLE_LOGIN_HRS;
                 confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_UNSUSPEND;
@@ -72,7 +80,7 @@ var MarkaxisEmployee = (function( ) {
             swal({
                 title: title,
                 text: text,
-                type: "input",
+                type: swalType,
                 inputPlaceholder: Markaxis.i18n.EmployeeRes.LANG_PROVIDE_REASON,
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -85,7 +93,7 @@ var MarkaxisEmployee = (function( ) {
                 var data = {
                     bundle: {
                         userID : userID,
-                        status : status,
+                        status : setStatus,
                         reason: isConfirm
                     },
                     success: function( res ) {
@@ -95,16 +103,14 @@ var MarkaxisEmployee = (function( ) {
                             return;
                         }
                         else {
-                            var reason = isConfirm ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + isConfirm     + '"' : "";
+                            that.table.ajax.reload();
 
-                            if( status == 1 ) {
-                                $("#menuSetStatus" + userID).html('<i class="icon-user-check"></i> ' + Markaxis.i18n.EmployeeRes.LANG_UNSUSPEND_EMPLOYEE);
-                                $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_SUSPENDED + '</span>');
+                            //var reason = isConfirm ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + isConfirm     + '"' : "";
+
+                            if( setStatus == 1 ) {
                                 swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_SUSPENDED.replace('{name}', name), "success");
                             }
                             else {
-                                $("#menuSetStatus" + userID).html('<i class="icon-user-block"></i> ' + Markaxis.i18n.EmployeeRes.LANG_SUSPEND_EMPLOYEE);
-                                $("#status" + userID).replaceWith('<span id="status' + userID + '" class="label label-success"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_ACTIVE + '</span>');
                                 swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_UNSUSPENDED.replace('{name}', name), "success");
                             }
                             Popups.init();
@@ -117,14 +123,68 @@ var MarkaxisEmployee = (function( ) {
         },
 
 
-        setResign: function( userID, name ) {
+        setResign: function( userID, name, status ) {
+            var that = this;
+            if( status == 0 ) {
+                setStatus = 1;
+                title = Markaxis.i18n.EmployeeRes.LANG_SET_RESIGNED_EMPLOYEE.replace('{name}', name);
+                confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_RESIGN;
+            }
+            else {
+                setStatus = 0;
+                title = Markaxis.i18n.EmployeeRes.LANG_SET_UNRESIGNED_EMPLOYEE.replace('{name}', name);
+                confirmButtonText = Markaxis.i18n.EmployeeRes.LANG_CONFIRM_UNRESIGN;
+            }
+
             swal({
-                title: Markaxis.i18n.EmployeeRes.LANG_SET_RESIGNED_EMPLOYEE.replace('{name}', name),
-                type: "input",
+                title: title,
+                type: "warning",
                 inputPlaceholder: Markaxis.i18n.EmployeeRes.LANG_PROVIDE_REASON,
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: Markaxis.i18n.EmployeeRes.LANG_CONFIRM_RESIGN,
+                confirmButtonText: confirmButtonText,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm === false) return;
+
+                var data = {
+                    bundle: {
+                        userID: userID,
+                        status: setStatus
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.bool == 0) {
+                            swal("Error!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            that.table.ajax.reload();
+
+                            if( setStatus == 1 ) {
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_RESIGNED.replace('{name}', name), "success");
+                            }
+                            else {
+                                swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_UNRESIGNED.replace('{name}', name), "success");
+                            }
+                            return;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/employee/setResignStatus", data);
+            });
+        },
+
+
+        deleteEmployee: function( userID, name ) {
+            var that = this;
+            swal({
+                title: Markaxis.i18n.EmployeeRes.LANG_DELETE_EMPLOYEE_NAME.replace('{name}', name),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: Markaxis.i18n.EmployeeRes.LANG_CONFIRM_DELETE,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
@@ -138,18 +198,18 @@ var MarkaxisEmployee = (function( ) {
                     },
                     success: function (res) {
                         var obj = $.parseJSON(res);
-                        if (obj.bool == 0) {
+                        if( obj.bool == 0 ) {
                             swal("Error!", obj.errMsg, "error");
                             return;
                         }
                         else {
-                            $("#row" + userID).fadeOut("slow");
-                            swal( Aurora.i18n.GlobalRes.LANG_DONE + "!", Markaxis.i18n.EmployeeRes.LANG_SUCCESSFULLY_RESIGNED.replace('{name}', name), "success");
+                            that.table.ajax.reload();
+                            swal("Done!", Aurora.i18n.GlobalRes.LANG_SUCCESSFULLY_DELETE.replace('{title}', name), "success");
                             return;
                         }
                     }
                 };
-                Aurora.WebService.AJAX("admin/employee/setResignStatus", data);
+                Aurora.WebService.AJAX("admin/employee/delete", data);
             });
         },
 
@@ -205,9 +265,16 @@ var MarkaxisEmployee = (function( ) {
                     width: '190px',
                     className : "text-center",
                     render: function(data, type, full, meta) {
-                        var reason = full['suspendReason'] ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
+                        var reason = "";
 
-                        if( full['suspended'] == 1 ) {
+                        if( full['suspendReason'] != null && full['suspendReason'] != "true" ) {
+                            reason = full['suspendReason'] != "true" ? ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
+                        }
+
+                        if( full['resigned'] == 1 ) {
+                            return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_RESIGNED + '</span>';
+                        }
+                        else if( full['suspended'] == 1 ) {
                             return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_SUSPENDED + '</span>';
                         }
                         else {
@@ -240,6 +307,7 @@ var MarkaxisEmployee = (function( ) {
                     render: function(data, type, full, meta) {
                         var name   = full["name"];
                         var statusText = full['suspended'] == 1 ? Markaxis.i18n.EmployeeRes.LANG_UNSUSPEND_EMPLOYEE : Markaxis.i18n.EmployeeRes.LANG_SUSPEND_EMPLOYEE;
+                        var resignText = full['resigned']  == 1 ? Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_UNRESIGNED : Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_RESIGNED;
 
                         return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
@@ -249,10 +317,13 @@ var MarkaxisEmployee = (function( ) {
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/user/edit/' + data + '">' +
                             '<i class="icon-pencil5"></i> ' + Markaxis.i18n.EmployeeRes.LANG_EDIT_EMPLOYEE_INFO + '</a>' +
                             '<div class="divider"></div>' +
-                            '<a class="dropdown-item setSuspend" href="#" data-id="' + data + '" data-name="' + name + '">' +
+                            '<a class="dropdown-item setSuspend" href="#" data-id="' + data + '" data-name="' + name + '" data-status="' + full['suspended'] + '">' +
                             '<i class="icon-user-block"></i> ' + statusText + '</a>' +
-                            '<a class="dropdown-item setResign" href="#" data-id="' + data + '" data-name="' + name + '">' +
-                            '<i class="icon-exit3"></i> ' + Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_RESIGNED + '</a>' +
+                            '<a class="dropdown-item setResign" href="#" data-id="' + data + '" data-name="' + name + '" data-status="' + full['resigned'] + '">' +
+                            '<i class="icon-exit3"></i> ' + resignText + '</a>' +
+                            '<div class="divider"></div>' +
+                            '<a class="dropdown-item deleteEmployee" href="#" data-id="' + data + '" data-name="' + name + '">' +
+                            '<i class="icon-bin"></i> ' + Markaxis.i18n.EmployeeRes.LANG_DELETE_EMPLOYEE + '</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';

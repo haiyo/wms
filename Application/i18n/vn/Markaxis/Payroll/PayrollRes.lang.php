@@ -220,6 +220,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_SAVE_PAYROLL'] = 'Lưu bảng lương';
         $this->contents['LANG_SAVED'] = 'Đã lưu';
         $this->contents['LANG_SUSPENDED'] = 'Đình chỉ';
+        $this->contents['LANG_RESIGNED'] = 'Đã từ chức';
         $this->contents['LANG_EXPIRED_SOON'] = 'Sắp hết hạn';
         $this->contents['LANG_ACTIVE'] = 'Hoạt động';
         $this->contents['LANG_PROCESS'] = 'Quá trình';

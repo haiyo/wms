@@ -88,16 +88,24 @@ class EmployeeRes extends Resource {
         $this->contents['LANG_PROVIDE_REASON'] = 'Provide reason(s) if any';
         $this->contents['LANG_UNSUSPEND_EMPLOYEE'] = 'Unsuspend Employee';
         $this->contents['LANG_SUSPENDED'] = 'Suspended';
+        $this->contents['LANG_RESIGNED'] = 'Resigned';
         $this->contents['LANG_SUSPEND_EMPLOYEE'] = 'Suspend Employee';
         $this->contents['LANG_ACTIVE'] = 'Active';
         $this->contents['LANG_SUCCESSFULLY_SUSPENDED'] = '{name} has been successfully suspended!';
         $this->contents['LANG_SUCCESSFULLY_UNSUSPENDED'] = '{name} has been successfully unsuspended!';
         $this->contents['LANG_SET_RESIGNED_EMPLOYEE'] = 'Set {name} as Resigned Employee?';
+        $this->contents['LANG_SET_UNRESIGNED_EMPLOYEE'] = 'Reinstate {name} as Employee?';
         $this->contents['LANG_CONFIRM_RESIGN'] = 'Confirm Resign';
-        $this->contents['LANG_SUCCESSFULLY_RESIGNED'] = '{name} has been successfully set to Resigned!';
+        $this->contents['LANG_CONFIRM_UNRESIGN'] = 'Confirm Reinstate';
+        $this->contents['LANG_SUCCESSFULLY_RESIGNED'] = '{name} has been successfully set to resigned!';
+        $this->contents['LANG_SUCCESSFULLY_UNRESIGNED'] = '{name} has been successfully reinstate!';
         $this->contents['LANG_INACTIVE_SOON'] = 'Inactive Soon';
         $this->contents['LANG_EDIT_EMPLOYEE_INFO'] = 'Edit Employee Info';
         $this->contents['LANG_EMPLOYEE_RESIGNED'] = 'Employee Resigned';
+        $this->contents['LANG_EMPLOYEE_UNRESIGNED'] = 'Reinstate Employee';
+        $this->contents['LANG_DELETE_EMPLOYEE'] = 'Delete Employee';
+        $this->contents['LANG_DELETE_EMPLOYEE_NAME'] = 'Delete Employee - {name}';
+        $this->contents['LANG_CONFIRM_DELETE'] = 'Confirm Delete';
         $this->contents['LANG_SEARCH_EMPLOYEE'] = 'Search Employee, Designation or Contract Type';
 
         $this->contents['LANG_ENTER_VALID_CHILD'] = 'Please enter valid child information';

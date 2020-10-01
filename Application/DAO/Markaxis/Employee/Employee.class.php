@@ -22,7 +22,7 @@ class Employee extends \DAO {
         $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
                                    WHERE eID = "' . (int)$eID . '" AND 
-                                         u.deleted <> "1" AND e.resigned <> "1"',
+                                         u.deleted <> "1"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -37,7 +37,7 @@ class Employee extends \DAO {
         $sql = $this->DB->select( 'SELECT COUNT(eID) FROM employee e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
                                    WHERE u.userID = "' . (int)$userID . '" AND
-                                         u.deleted <> "1" AND e.resigned <> "1"',
+                                         u.deleted <> "1"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
@@ -95,7 +95,7 @@ class Employee extends \DAO {
                                                LEFT JOIN department dpt ON ( dpt.dID = ed.departmentID )
                                                WHERE dpt.deleted <> "1"
                                                GROUP BY ed.userID ) ed ON ed.userID = u.userID
-                                   WHERE e.resigned <> "1" AND u.suspended <> "1" AND u.deleted <> "1" ' . $q .
+                                   WHERE u.deleted <> "1" ' . $q .
                                          $exclude . $department . $designation . '
                                    ORDER BY name ASC', __FILE__, __LINE__ );
 
@@ -115,7 +115,7 @@ class Employee extends \DAO {
     public function getFieldByUserID( $userID, $column ) {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
-                                   WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1" AND e.resigned <> "1"',
+                                   WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1"',
                                     __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -142,7 +142,7 @@ class Employee extends \DAO {
                        OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
-                                          u.email1, u.mobile, u.suspended, e.startdate, d.title AS designation,
+                                          u.email1, u.mobile, u.suspended, e.resigned, e.startdate, d.title AS designation,
                                           e.idnumber, e.salary, e.endDate, c.type,
                                           ad.descript AS suspendReason
                                    FROM user u
@@ -152,7 +152,7 @@ class Employee extends \DAO {
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
-                                   WHERE u.deleted <> "1" AND e.resigned <> "1" ' . $q . '
+                                   WHERE u.deleted <> "1" ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 
@@ -191,7 +191,7 @@ class Employee extends \DAO {
                                    LEFT JOIN designation d ON ( d.dID = e.designationID )
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN pass_type pt ON ( pt.ptID = e.passTypeID )
-                                   WHERE e.resigned <> "1" AND e.userID = "' . (int)$userID . '"',
+                                   WHERE e.userID = "' . (int)$userID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

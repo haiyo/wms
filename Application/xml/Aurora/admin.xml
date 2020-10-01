@@ -129,7 +129,7 @@
     <task type="role/getRole">
         <observer controller="Aurora/User/RoleControl"/>
     </task>
-    <task type="user/list,employee/getList">
+    <task type="user/list,employee/getList,employee/setResignStatus">
         <observer controller="Markaxis/Employee/EmployeeControl"/>
     </task>
     <task type="employee/getOffice">
@@ -515,7 +515,7 @@
     <task type="positionList">
         <observer controller="Markaxis/Employee/PositionControl"/>
     </task>
-    <task type="user/profile,user/settings">
+    <task type="user/profile,user/settings,employee/setSuspendStatus,employee/delete">
         <observer controller="Aurora/User/UserControl"/>
     </task>
     <task type="userRole">

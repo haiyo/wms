@@ -249,10 +249,10 @@ class EmployeeControl {
     public function setResignStatus( ) {
         if( Control::hasPermission('Markaxis', 'add_modify_employee' ) ) {
             $post = Control::getRequest( )->request( POST );
+            $this->EmployeeModel->setResignStatus( $post );
 
             $vars = array( );
-            $vars['bool'] = $this->EmployeeModel->setResignStatus( $post );
-
+            $vars['bool'] = 1;
             echo json_encode( $vars );
             exit;
         }

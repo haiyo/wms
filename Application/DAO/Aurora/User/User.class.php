@@ -153,7 +153,7 @@ class User extends \DAO {
                                    FROM user u 
                                    WHERE MONTH( u.birthday ) >= MONTH( "' . addslashes( $startDate ) . '" ) AND 
                                          MONTH( u.birthday ) <= MONTH( "' . addslashes( $endDate ) . '" ) AND
-                                         u.suspended <> "1" AND u.deleted <> "1"',
+                                         u.deleted <> "1"',
                                    __FILE__, __LINE__ );
 
         $list = array( );

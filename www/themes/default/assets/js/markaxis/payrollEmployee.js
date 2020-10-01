@@ -568,6 +568,9 @@ var MarkaxisPayrollEmployee = (function( ) {
                         if( full['suspended'] == 1 ) {
                             return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_SUSPENDED + '</span>';
                         }
+                        else if( full['resigned'] == 1 ) {
+                            return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_RESIGNED + '</span>';
+                        }
                         else {
                             if( full['endDate'] ) {
                                 if( that.dateDiff( full['endDate'] ) <= 30 ) {
