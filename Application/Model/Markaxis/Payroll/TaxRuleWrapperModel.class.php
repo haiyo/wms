@@ -151,9 +151,9 @@ class TaxRuleWrapperModel extends \Model {
                 if ($rules['applyValueType'] == 'percentage') {
                     $amount = $totalGross*$rules['applyValue'] / 100;
                 }
-                $data['levy'][] = array( 'title' => $ruleTitle,
-                                         'amount' => $amount,
-                                         'levyType' => $rules['applyType']);
+                $data['levies'][] = array( 'title' => $ruleTitle,
+                                           'amount' => $amount,
+                                           'levyType' => $rules['applyType']);
             }
         }
         return $data;

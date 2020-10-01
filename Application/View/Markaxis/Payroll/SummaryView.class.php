@@ -181,30 +181,6 @@ class SummaryView {
     public function renderProcessSummary( $data ) {
         $summary = $this->SummaryModel->processSummary( $data );
 
-        /*$vars['TPLVAR_DEDUCTION_AMOUNT'] = $vars['TPLVAR_CLAIM_AMOUNT'] =
-        $vars['TPLVAR_FWL_AMOUNT'] = $vars['TPLVAR_SDL_AMOUNT'] =
-        $vars['TPLVAR_TOTAL_LEVY'] = $vars['TPLVAR_TOTAL_CONTRIBUTION'] = 0;
-
-        $vars['TPLVAR_GROSS_AMOUNT'] = (float)$data['items']['totalGross'];
-        $vars['TPLVAR_NET_AMOUNT'] = (float)$data['items']['totalGross'];
-
-        if( isset( $data['addGross'] ) ) {
-            foreach( $data['addGross'] as $addGross ) {
-                $vars['TPLVAR_GROSS_AMOUNT'] += (float)$addGross;
-                $vars['TPLVAR_NET_AMOUNT'] += (float)$addGross;
-            }
-        }
-
-        if( isset( $data['deductGross'] ) ) {
-            foreach( $data['deductGross'] as $addGross ) {
-                $vars['TPLVAR_GROSS_AMOUNT'] -= (float)$addGross;
-                $vars['TPLVAR_NET_AMOUNT'] -= (float)$addGross;
-            }
-        }
-
-        $vars['dynamic']['employerItem'] = $vars['dynamic']['deductionSummary'] = false;
-        $itemGroups = array( );*/
-
         if( isset( $summary['itemGroups'] ) ) {
             foreach( $summary['itemGroups'] as $groups ) {
                 if( isset( $groups['amount'] ) ) {
@@ -227,8 +203,8 @@ class SummaryView {
 
         $totalLevy = 0;
 
-        if( isset( $data['levy'] ) ) {
-            foreach( $data['levy'] as $levy ) {
+        if( isset( $data['levies'] ) ) {
+            foreach( $data['levies'] as $levy ) {
                 $totalLevy += $levy['amount'];
 
                 $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $levy['title'],
@@ -237,12 +213,6 @@ class SummaryView {
                                                             'TPLVAR_SHOW_TIP' => 'hide',
                                                             'TPLVAR_REMARK' => '' );
             }
-
-            /*if( $totalLevy ) {
-                $vars['dynamic']['employerItem'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_EMPLOYER_LEVY'),
-                                                            'TPLVAR_CURRENCY' => $data['empInfo']['currency'],
-                                                            'TPLVAR_AMOUNT' => number_format( $totalLevy,2 ) );
-            }*/
         }
 
         $totalContribution = 0;
@@ -276,11 +246,9 @@ class SummaryView {
         $totalClaim = 0;
 
         if( isset( $data['claims'] ) ) {
-
             foreach( $data['claims'] as $claims ) {
                 if( isset( $claims['eiID'] ) ) {
                     $totalClaim += $claims['amount'];
-                    //$vars['TPLVAR_NET_AMOUNT'] += (float)$claims['amount'];
                 }
             }
 

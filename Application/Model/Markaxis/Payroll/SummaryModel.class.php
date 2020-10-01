@@ -146,11 +146,17 @@ class SummaryModel extends \Model {
             }
         }
 
-         if( isset( $data['contributions'] ) ) {
-             foreach( $data['contributions'] as $contribution ) {
-                 $summary['contribution'] += (float)$contribution['amount'];
-             }
-         }
+        if( isset( $data['contributions'] ) ) {
+            foreach( $data['contributions'] as $contribution ) {
+                $summary['contribution'] += (float)$contribution['amount'];
+            }
+        }
+
+        if( isset( $data['levies'] ) ) {
+            foreach( $data['levies'] as $levy ) {
+                $summary['levy'] += (float)$levy['amount'];
+            }
+        }
 
         if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
             foreach( $data['itemRow'] as $item ) {
