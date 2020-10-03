@@ -194,29 +194,6 @@ class ItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getExistingItems( $data ) {
-        if( isset( $data['payrollUser']['puID'] ) ) {
-            $listItems = $this->getByPuID( $data['payrollUser']['puID'] );
-
-            if( sizeof( $listItems ) > 0 ) {
-                foreach( $listItems as $item ) {
-                    $data['addGross'][] = $item['amount'];
-
-                    $data['itemRow'][] = array( 'piID' => $item['piID'],
-                                                'title' => $item['title'],
-                                                'amount' => $item['amount'],
-                                                'remark' => $item['remark'] );
-                }
-            }
-        }
-        return $data;
-    }
-
-
-    /**
-     * Return total count of records
-     * @return int
-     */
     public function reprocessPayroll( $data, $post ) {
         if( isset( $post['data'] ) ) {
             $preg = '/^itemType_(\d)+/';

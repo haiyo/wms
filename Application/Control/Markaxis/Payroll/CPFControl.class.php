@@ -35,11 +35,11 @@ class CPFControl {
         if( isset( $args[1] ) ) {
             $data = $this->CPFModel->generateFTPFile( $args[1] );
 
-            header('Content-Disposition: attachment; filename="' . 'test.txt' . '"' );
+            /*header('Content-Disposition: attachment; filename="' . 'test.txt' . '"' );
             header('Content-Type: application/octet-stream' );
             header('Content-Length: ' . strlen( $data ) );
             header('Connection: close' );
-            echo $data;
+            echo $data;*/
         }
     }
 }

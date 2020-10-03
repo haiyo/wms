@@ -69,7 +69,6 @@ class ItemControl {
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( array( 'items' => $this->ItemModel->getAllItems( $data ) ) );
-        Control::setOutputArray( $this->ItemModel->getExistingItems( $data ) );
     }
 
 

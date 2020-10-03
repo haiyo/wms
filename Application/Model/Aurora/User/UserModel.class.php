@@ -64,7 +64,7 @@ class UserModel extends \Model {
     public function getCurrUser( ) {
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo  = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
-        return $this->User->getFieldByUserID( $userInfo['userID'], '*' );
+        return $this->User->getFieldByUserID( $userInfo['userID'], 'u.*' );
     }
 
 

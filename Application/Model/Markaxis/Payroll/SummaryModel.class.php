@@ -154,40 +154,34 @@ class SummaryModel extends \Model {
 
         if( isset( $data['levies'] ) ) {
             foreach( $data['levies'] as $levy ) {
-                $summary['levy'] += (float)$levy['amount'];
+                $summary['contribution'] += (float)$levy['amount'];
             }
         }
 
         if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
             foreach( $data['itemRow'] as $item ) {
-                /*if( isset( $item['deductGross'] ) ) {
-                    $summary['gross'] -= (float)$item['amount'];
-                }
-                if( isset($item['deduction']) || isset( $item['deductionAW'] ) ) {
-                    $summary['net'] -= (float)$item['amount'];
-                }*/
-
                 foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
                     // First find all the childs in this group and see if we have any summary=1
                     if( isset( $taxGroup['child'] ) ) {
                         $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
 
                         if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
-                            foreach( $taxGroup['child'] as $childKey => $child ) {
+
+                            foreach( $taxGroup['child'] as $child ) {
                                 if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
                                     if( $child['summary'] ) {
-                                        $summary['itemGroups'][$childKey]['title'] = $child['title'];
-                                        $summary['itemGroups'][$childKey]['remark'] = $item['remark'];
+                                        $summary['itemGroups'][$key]['title'] = $child['title'];
+                                        $summary['itemGroups'][$key]['remark'] = $item['remark'];
                                     }
                                     else {
-                                        $summary['itemGroups'][$childKey]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                        $summary['itemGroups'][$key]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
                                     }
 
-                                    if( isset( $summary['itemGroups'][$childKey]['amount'] ) ) {
-                                        $summary['itemGroups'][$childKey]['amount'] += (float)$item['amount'];
+                                    if( isset( $summary['itemGroups'][$key]['amount'] ) ) {
+                                        $summary['itemGroups'][$key]['amount'] += (float)$item['amount'];
                                     }
                                     else {
-                                        $summary['itemGroups'][$childKey]['amount'] = (float)$item['amount'];
+                                        $summary['itemGroups'][$key]['amount'] = (float)$item['amount'];
                                     }
                                     break 2;
                                 }

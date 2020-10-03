@@ -149,6 +149,10 @@ var MarkaxisEmployeeForm = (function( ) {
                 rules: {
                     fname : "required",
                     lname : "required",
+                    dobMonth: "required",
+                    dobDay: "required",
+                    dobYear: "required",
+                    race: "required",
                     idnumber : "required",
                     office: "required",
                     pcID: "required",

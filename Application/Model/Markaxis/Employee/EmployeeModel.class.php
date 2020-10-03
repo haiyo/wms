@@ -195,7 +195,7 @@ class EmployeeModel extends \Model {
     public function getLogsByUserID( $post, $userID ) {
         $User = new \Aurora\User\User( );
 
-        if( $User->getFieldByUserID( $userID, 'userID, fname, lname' ) ) {
+        if( $User->getFieldByUserID( $userID, 'u.userID, u.fname, u.lname' ) ) {
             $this->Employee->setLimit( $post['start'], $post['length'] );
 
             $order = 'created';
