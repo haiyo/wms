@@ -72,8 +72,8 @@ class LevyModel extends \Model {
     public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $data['puID'] ) && isset( $data['levy'] ) && sizeof( $data['levy'] ) ) {
-            foreach( $data['levy'] as $levy ) {
+        if( isset( $data['puID'] ) && isset( $data['levies'] ) && sizeof( $data['levies'] ) ) {
+            foreach( $data['levies'] as $levy ) {
                 $info = array( );
                 $info['puID'] = $data['puID'];
                 $info['title'] = $levy['title'];

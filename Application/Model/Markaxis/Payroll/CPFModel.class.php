@@ -88,8 +88,12 @@ class CPFModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function generateFTPFile( $date ) {
-        if( $processDate = DateTime::createFromFormat('Y-m-d', $date ) ) {
+    public function generateFTPFile( $pID ) {
+        $PayrollModel = PayrollModel::getInstance( );
+
+        if( $payrollInfo = $PayrollModel->getBypID( $pID ) ) {
+            $processDate = DateTime::createFromFormat('Y-m-d', $payrollInfo['startDate'] );
+
             $CompanyModel = CompanyModel::getInstance( );
             $regNumber = str_pad( $CompanyModel->getRegNumber( ),10 ,' ',STR_PAD_LEFT );
             $serialNo = '01';
@@ -105,24 +109,25 @@ class CPFModel extends \Model {
             // Summary Record
             $starter = $this->buildRecordStarter(0, $regNumber, $serialNo, $adviceCode, $yearMonth );
 
-            $data .= $this->getTotalByDate( $starter, $date,'CPF','01' );
+            $data .= $this->getTotalByDate( $starter, $payrollInfo['startDate'],'CPF','01' );
+
             $this->totalLineRecords++;
 
-            $data .= $this->getTotalByDate( $starter, $date,'MBMF','02' );
+            $data .= $this->getTotalByDate( $starter, $payrollInfo['startDate'],'MBMF','02' );
             $this->totalLineRecords++;
 
-            $data .= $this->getTotalByDate( $starter, $date,'SINDA','03' );
+            $data .= $this->getTotalByDate( $starter, $payrollInfo['startDate'],'SINDA','03' );
             $this->totalLineRecords++;
 
-            $data .= $this->getTotalByDate( $starter, $date,'CDAC','04' );
+            $data .= $this->getTotalByDate( $starter, $payrollInfo['startDate'],'CDAC','04' );
             $this->totalLineRecords++;
 
-            $data .= $this->getTotalByDate( $starter, $date,'ECF','05' );
+            $data .= $this->getTotalByDate( $starter, $payrollInfo['startDate'],'ECF','05' );
             $this->totalLineRecords++;
 
             // Detail Record
 
-            $records = $this->CPF->getTaxByUserDate( $date );
+            $records = $this->CPF->getTaxByUserDate( $payrollInfo['startDate'] );
 
             if( sizeof( $records ) > 0 ) {
                 $starter = $this->buildRecordStarter(1, $regNumber, $serialNo, $adviceCode, $yearMonth );
@@ -153,12 +158,12 @@ class CPFModel extends \Model {
                         }
                     }
 
-                    if( stristr( $rec['remark'],'cpf' ) ) {
+                    if( stristr( $rec['title'],'cpf' ) ) {
                         $userRow[$rec['userID']]['ordinary'] = str_pad( $this->makeMoneyWorks( $this->CPF->getGrossBypuID( $rec['puID'] ) ), 10, 0,STR_PAD_LEFT );
                         $userRow[$rec['userID']]['contribution'] = str_pad( $this->makeMoneyWorks( $rec['amount'] ), 12, 0,STR_PAD_LEFT );
                     }
 
-                    if( stristr( $rec['remark'],'additional' ) ) {
+                    if( stristr( $rec['title'],'additional' ) ) {
                         $userRow[$rec['userID']]['additional'] = str_pad( $this->makeMoneyWorks( $rec['amount'] ), 10, 0,STR_PAD_LEFT );
                     }
                 }
@@ -175,23 +180,23 @@ class CPFModel extends \Model {
                 }
 
                 foreach( $records as $rec ) {
-                    if( stristr( $rec['remark'],'self-help' ) ) {
-                        if( stristr( $rec['remark'],'mbmf' ) ) {
+                    if( stristr( $rec['title'],'self-help' ) ) {
+                        if( stristr( $rec['title'],'mbmf' ) ) {
                             $data .= $this->buildSelfHelp( $starter, '02', $rec['nric'], $rec['amount'], $rec['name'] ) . $this->newline;
                             $this->totalLineRecords++;
                         }
 
-                        if( stristr( $rec['remark'],'sinda' ) ) {
+                        if( stristr( $rec['title'],'sinda' ) ) {
                             $data .= $this->buildSelfHelp( $starter, '03', $rec['nric'], $rec['amount'], $rec['name'] ) . $this->newline;
                             $this->totalLineRecords++;
                         }
 
-                        if( stristr( $rec['remark'],'cdac' ) ) {
+                        if( stristr( $rec['title'],'cdac' ) ) {
                             $data .= $this->buildSelfHelp( $starter, '04', $rec['nric'], $rec['amount'], $rec['name'] )  . $this->newline;
                             $this->totalLineRecords++;
                         }
 
-                        if( stristr( $rec['remark'],'ecf' ) ) {
+                        if( stristr( $rec['title'],'ecf' ) ) {
                             $data .= $this->buildSelfHelp( $starter, '05', $rec['nric'], $rec['amount'], $rec['name'] ) . $this->newline;
                             $this->totalLineRecords++;
                         }
@@ -206,7 +211,7 @@ class CPFModel extends \Model {
             $totalAmount = str_pad( $totalAmount, 15, 0, STR_PAD_LEFT );
 
             $data .= $starter . $totalLines . $totalAmount;
-
+echo $data; exit;
             return $data;
         }
     }

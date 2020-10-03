@@ -519,8 +519,9 @@
     <task type="positionList">
         <observer controller="Markaxis/Employee/PositionControl"/>
     </task>
-    <task type="user/profile,user/settings,employee/setSuspendStatus,employee/delete">
+    <task type="user/settings,employee/setSuspendStatus,employee/delete">
         <observer controller="Aurora/User/UserControl"/>
+
     </task>
     <task type="userRole">
         <observer controller="Aurora/User/UserRoleControl"/>

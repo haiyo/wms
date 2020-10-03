@@ -25,7 +25,7 @@ class CPF extends \DAO {
                                    FROM payroll_user_tax put
                                    LEFT JOIN payroll_user pu ON ( pu.puID = put.puID )
                                    LEFT JOIN payroll p ON ( p.pID = pu.pID )
-                                   WHERE put.remark LIKE "%' . addslashes( $type ) . '%" AND
+                                   WHERE put.title LIKE "%' . addslashes( $type ) . '%" AND
                                          p.startDate = "' . addslashes( $date ) . '" AND
                                          p.completed = "1"
                                    GROUP BY p.pID',
@@ -47,7 +47,7 @@ class CPF extends \DAO {
 
         $sql = $this->DB->select( 'SELECT u.userID, CONCAT(fname," ",lname) AS name, u.nric, 
                                           e.resigned, e.startDate, e.endDate,  pu.puID,
-                                          put.amount, put.remark
+                                          put.amount, put.title
                                    FROM payroll_user_tax put
                                    LEFT JOIN payroll_user pu ON ( pu.puID = put.puID )
                                    LEFT JOIN user u ON ( u.userID = pu.userID )

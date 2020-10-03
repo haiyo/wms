@@ -326,7 +326,7 @@ class SummaryView {
      * @return string
      */
     public function renderSavedSummary( $data ) {
-        $summary = $this->SummaryModel->getByPID( $data['payrollInfo']['pID'] );
+        $summary = $this->SummaryModel->getByPuID( $data['payrollUser']['puID'] );
 
         if( isset( $data['userTax'] ) ) {
             foreach( $data['userTax'] as $userTax ) {
@@ -338,7 +338,7 @@ class SummaryView {
             }
         }
 
-        if( $summary['claim'] ) {
+        if( $summary['claim'] && $summary['claim'] > 0 ) {
             $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
                                                             'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
                                                             'TPLVAR_AMOUNT' => Money::format( $summary['claim'] ),

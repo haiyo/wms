@@ -28,7 +28,7 @@
             <input type="email" name="email2" id="email2" class="form-control" placeholder="julia@email.com" value="<?TPLVAR_EMAIL2?>" />
         </div>
         <div class="col-md-6">
-            <label><?LANG_DATE_OF_BIRTH?>:</label>
+            <label><?LANG_DATE_OF_BIRTH?>: <span class="text-danger-400">*</span></label>
             <div class="form-group">
                 <div class="col-md-4 no-padding-left">
                     <div class="form-group">
@@ -98,7 +98,7 @@
             <?TPL_RELIGION_LIST?>
         </div>
         <div class="col-md-3">
-            <label class="display-block"><?LANG_RACE?>:</label>
+            <label class="display-block"><?LANG_RACE?>: <span class="text-danger-400">*</span></label>
             <?TPL_RACE_LIST?>
         </div>
         <div class="col-md-2">
