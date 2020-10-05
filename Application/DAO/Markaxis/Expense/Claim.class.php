@@ -212,22 +212,18 @@ class Claim extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getChart( $date ) {
+    public function getChart( $date, $range ) {
         $date = addslashes( $date );
 
-        $sql = $this->DB->select( 'SELECT p.startDate, COALESCE(SUM(ps.claim), 0) AS claim
-                                    FROM (SELECT DATE("' . $date . '") as thedate union all
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 1 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 2 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 3 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 4 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 5 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 6 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 7 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 8 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 9 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 10 MONTH)) UNION ALL
-                                          SELECT DATE(DATE_SUB( "' . $date . '", INTERVAL 11 MONTH))) d 
+        $date  = addslashes( $date );
+        $union = 'SELECT DATE("' . $date . '") as thedate';
+
+        for( $i=1; $i<$range; $i++ ) {
+            $union .= ' UNION ALL SELECT DATE(DATE_ADD( "' . $date . '", INTERVAL ' . $i . ' MONTH))';
+        }
+
+        $sql = $this->DB->select( 'SELECT d.thedate, COALESCE(SUM(ps.claim), 0) AS claim
+                                    FROM (' . $union . ') d 
                                     LEFT OUTER JOIN payroll p on p.startDate = d.thedate 
                                     LEFT OUTER JOIN payroll_summary ps ON ( ps.pID = p.pID ) 
                                     GROUP BY thedate

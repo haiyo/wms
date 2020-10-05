@@ -138,8 +138,8 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getChart( $date ) {
-        return array( 'claims' => $this->Claim->getChart( $date ) );
+    public function getChart( $data ) {
+        return array( 'claims' => $this->Claim->getChart( $data['dateStart'], $data['totalRange'] ) );
     }
 
 

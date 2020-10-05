@@ -87,6 +87,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_DEDUCTION'] = 'Deduction';
         $this->contents['LANG_DEDUCTION_AW'] = 'Deduction AW';
         $this->contents['LANG_ADDITIONAL'] = 'Additional';
+        $this->contents['LANG_TAXABLE'] = 'Taxable';
         $this->contents['LANG_ENTER_PAY_ITEM_TITLE'] = 'Enter a title for this pay item';
         $this->contents['LANG_FORMULA'] = 'Formula';
         $this->contents['LANG_ENTER_FORMULA'] = 'Enter formula (optional)';

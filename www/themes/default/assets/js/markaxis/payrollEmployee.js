@@ -572,12 +572,6 @@ var MarkaxisPayrollEmployee = (function( ) {
                             return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_RESIGNED + '</span>';
                         }
                         else {
-                            if( full['endDate'] ) {
-                                if( that.dateDiff( full['endDate'] ) <= 30 ) {
-                                    reason = ' title="" data-placement="bottom" data-original-title="Expire on ' + full['endDate'] + '"'
-                                    return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_EXPIRED_SOON + '</span>';
-                                }
-                            }
                             return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_ACTIVE + '</span>';
                         }
                     }

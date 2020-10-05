@@ -33,18 +33,28 @@ class ChartModel extends \Model {
      * @return mixed
      */
     public function getChart( $date ) {
-        $from = new \DateTime( $date );
+        $originalDate = new \DateTime( $date );
+        $dateStart = $originalDate->format('Y-01-01');
+
+        $fromDate = $dateStart;
+        $from = new \DateTime( $fromDate );
+
         $to = new \DateTime( $date );
-        $to->modify('-11 month');
+        $toDate = $to->format('Y-m-01');
 
         $range = array( );
-        while( $to<=$from ) {
-            array_push($range, $to->format('M Y') );
-            $to->modify('+1 month');
+        while( $fromDate<=$toDate ) {
+            array_push($range, $from->format('M Y') );
+            $from->modify('+1 month');
+            $fromDate = $from->format('Y-m-01');
         }
 
+        $totalRange = sizeof( $range );
+
         return array( 'range' => $range,
-                      'salaries' => $this->Chart->getChart( $date ) );
+                      'totalRange' => $totalRange,
+                      'dateStart' => $dateStart,
+                      'salaries' => $this->Chart->getChart( $dateStart, $totalRange ) );
     }
 }
 ?>

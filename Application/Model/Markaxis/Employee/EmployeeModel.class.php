@@ -370,6 +370,7 @@ class EmployeeModel extends \Model {
         if( $UserModel->isFound( $post['userID'] ) ) {
             $info = array( );
             $info['resigned'] = $post['status'] == 1 ? 1 : 0;
+            $info['endDate'] = date('Y-m-d H:i:s');
             $this->Employee->update( 'employee', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
 
             $post['reason'] = '';

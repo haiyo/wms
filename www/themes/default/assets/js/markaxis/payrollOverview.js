@@ -271,7 +271,10 @@ var MarkaxisPayrollOverview = (function( ) {
                     containLabel: true
                 },
                 legend: {
-                    data: [Markaxis.i18n.PayrollRes.LANG_TOTAL_SALARIES, Markaxis.i18n.PayrollRes.LANG_TOTAL_CLAIMS, Markaxis.i18n.PayrollRes.LANG_TOTAL_LEVIES, Markaxis.i18n.PayrollRes.LANG_CONTRIBUTIONS],
+                    data: [ Markaxis.i18n.PayrollRes.LANG_TOTAL_SALARIES,
+                            Markaxis.i18n.PayrollRes.LANG_TOTAL_CLAIMS,
+                            Markaxis.i18n.PayrollRes.LANG_TOTAL_LEVIES,
+                            Markaxis.i18n.PayrollRes.LANG_CONTRIBUTIONS],
                     itemHeight: 8,
                     itemGap: 20,
                     textStyle: {

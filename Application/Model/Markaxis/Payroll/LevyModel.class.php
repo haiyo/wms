@@ -39,8 +39,8 @@ class LevyModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getChart( $date ) {
-        return array( 'levies' => $this->Levy->getChart( $date ) );
+    public function getChart( $data ) {
+        return array( 'levies' => $this->Levy->getChart( $data['dateStart'], $data['totalRange'] ) );
     }
 
 

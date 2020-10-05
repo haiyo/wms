@@ -238,6 +238,7 @@ class ItemModel extends \Model {
         $this->info['piID'] = (int)$data['piID'];
         $this->info['title'] = Validator::stripTrim( $data['payItemTitle'] );
         $this->info['formula'] = trim( $data['formula'] );
+        $this->info['taxable'] = isset( $data['taxable'] ) ? 1 : 0;
 
         $Validator = new Validator( );
         $Validator->addModule( 'payItemTitle', new IsEmpty( $this->info['title'] ) );

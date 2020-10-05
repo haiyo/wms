@@ -39,8 +39,8 @@ class ContributionModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function getChart( $date ) {
-        return array( 'contributions' => $this->Contribution->getChart( $date ) );
+    public function getChart( $data ) {
+        return array( 'contributions' => $this->Contribution->getChart( $data['dateStart'], $data['totalRange'] ) );
     }
 
 
