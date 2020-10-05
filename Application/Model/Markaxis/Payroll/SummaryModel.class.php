@@ -154,6 +154,7 @@ class SummaryModel extends \Model {
 
         if( isset( $data['levies'] ) ) {
             foreach( $data['levies'] as $levy ) {
+                $summary['levy'] += (float)$levy['amount'];
                 $summary['contribution'] += (float)$levy['amount'];
             }
         }
@@ -197,16 +198,6 @@ class SummaryModel extends \Model {
                 }
             }
         }
-        /*
-        if( isset( $data['skillLevy'] ) ) {
-            $summary['sdl'] += (float)$data['skillLevy']['amount'];
-            $summary['levy'] += (float)$data['skillLevy']['amount'];
-        }
-        if( isset( $data['foreignLevy'] ) ) {
-            $summary['fwl'] += (float)$data['foreignLevy']['amount'];
-            $summary['levy'] += (float)$data['foreignLevy']['amount'];
-        }
-        */
         return $summary;
     }
 

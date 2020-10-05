@@ -212,11 +212,11 @@
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="payroll/getChart">
-        <observer controller="Markaxis/Payroll/SummaryControl"/>
+        <observer controller="Markaxis/Payroll/ChartControl"/>
         <observer controller="Markaxis/Expense/ClaimControl"/>
         <observer controller="Markaxis/Payroll/LevyControl"/>
         <observer controller="Markaxis/Payroll/ContributionControl"/>
-        <observer controller="Markaxis/Payroll/ChartControl"/>
+        <observer controller="Markaxis/Payroll/SummaryControl"/>
     </task>
     <task type="payroll/getProcessPass">
         <observer controller="Markaxis/Payroll/PayrollControl"/>
@@ -328,7 +328,7 @@
         <observer controller="Markaxis/Company/OfficeControl" />
         <observer controller="Markaxis/Payroll/ItemControl"/>
         <observer controller="Markaxis/Expense/ClaimControl"/>
-        <!--<observer controller="Markaxis/Leave/LeaveApplyControl"/>-->
+        <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <observer controller="Markaxis/Employee/CompetencyControl"/>
         <observer controller="Markaxis/Payroll/TaxGroupControl"/>
         <observer controller="Markaxis/Payroll/TaxRuleControl"/>

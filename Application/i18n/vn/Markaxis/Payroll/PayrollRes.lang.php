@@ -88,6 +88,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_DEDUCTION'] = 'Khấu trừ';
         $this->contents['LANG_DEDUCTION_AW'] = 'Khấu trừ AW';
         $this->contents['LANG_ADDITIONAL'] = 'Bổ sung';
+        $this->contents['LANG_TAXABLE'] = 'Chịu thuế';
         $this->contents['LANG_ENTER_PAY_ITEM_TITLE'] = 'Nhập tiêu đề cho mặt hàng trả tiền này';
         $this->contents['LANG_FORMULA'] = 'Công thức';
         $this->contents['LANG_ENTER_FORMULA'] = 'Nhập công thức (tùy chọn)';

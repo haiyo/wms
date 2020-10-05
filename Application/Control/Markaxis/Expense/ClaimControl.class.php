@@ -41,12 +41,10 @@ class ClaimControl {
      * @return string
      */
     public function getChart( ) {
-        $vars = array( );
-        $post = Control::getRequest( )->request( POST );
+        $data = Control::getOutputArray( );
 
-        if( isset( $post['date'] ) ) {
-            $vars['bool'] = 1;
-            Control::setOutputArrayAppend( array( 'data' => $this->ClaimModel->getChart( $post['date'] ) ) );
+        if( isset( $data['data']['dateStart'] ) ) {
+            Control::setOutputArrayAppend( array( 'data' => $this->ClaimModel->getChart( $data['data'] ) ) );
         }
     }
 

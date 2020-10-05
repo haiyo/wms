@@ -20,6 +20,7 @@
             <th><?LANG_DEDUCTION?></th>
             <th><?LANG_DEDUCTION_AW?></th>
             <th><?LANG_ADDITIONAL?></th>
+            <th><?LANG_TAXABLE?></th>
             <th><?LANG_ACTIONS?></th>
         </tr>
         </thead>
@@ -38,11 +39,19 @@
                 <input type="hidden" id="piID" name="piID" value="0" />
                 <input type="hidden" id="payItemType" name="payItemType" value="" />
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-9">
                         <div class="form-group">
                             <label><?LANG_PAY_ITEM_TITLE?>:</label>
                             <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
                                    placeholder="<?LANG_ENTER_PAY_ITEM_TITLE?>" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="display-block">&nbsp;</label>
+                            <input type="checkbox" class="dt-checkboxes check-input" id="taxable" name="taxable" value="1" />
+                            <label for="taxable" class="ml-5"><?LANG_TAXABLE?></label>
                         </div>
                     </div>
 

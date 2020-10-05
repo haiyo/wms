@@ -50,8 +50,13 @@ class SummaryControl {
         $post = Control::getRequest( )->request( POST );
 
         if( isset( $post['date'] ) ) {
-            $vars['bool'] = 1;
             Control::setOutputArrayAppend( array( 'data' => $this->SummaryModel->getCountByDate( $post['date'] ) ) );
+
+            $output = Control::getOutputArray( );
+            $vars['bool'] = 1;
+            $vars['data'] = $output['data'];
+            echo json_encode( $vars );
+            exit;
         }
     }
 

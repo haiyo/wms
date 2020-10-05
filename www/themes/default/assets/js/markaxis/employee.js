@@ -278,12 +278,6 @@ var MarkaxisEmployee = (function( ) {
                             return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_SUSPENDED + '</span>';
                         }
                         else {
-                            if( full['endDate'] ) {
-                                if( that.dateDiff( full['endDate'] ) <= 30 ) {
-                                    reason = ' data-popup="tooltip" title="" data-placement="bottom" data-original-title="Expire on ' + full['endDate'] + '"'
-                                    return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_INACTIVE_SOON + '</span>';
-                                }
-                            }
                             return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>' + Markaxis.i18n.EmployeeRes.LANG_ACTIVE + '</span>';
                         }
                     }

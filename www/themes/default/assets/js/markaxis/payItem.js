@@ -55,6 +55,8 @@ var MarkaxisPayItem = (function( ) {
                 $("#piID").val(0);
                 $("#payItemTitle").val("");
                 $("#formula").val("");
+                $("#taxable").prop("checked", false);
+                $.uniform.update('#taxable');
                 that.selectPayItemType( "none" );
             });
 
@@ -75,6 +77,11 @@ var MarkaxisPayItem = (function( ) {
                                 $("#piID").val( obj.data.piID );
                                 $("#payItemTitle").val( obj.data.title );
                                 $("#formula").val( obj.data.formula );
+
+                                if( obj.data.taxable == 1 ) {
+                                    $("#taxable").prop("checked", true);
+                                    $.uniform.update('#taxable');
+                                }
 
                                 if( obj.data.basic == 1 ) {
                                     that.selectPayItemType("basic");
@@ -101,8 +108,10 @@ var MarkaxisPayItem = (function( ) {
                 }
                 else {
                     $("#modalPayItem .modal-title").text( Markaxis.i18n.PayrollRes.LANG_CREATE_NEW_PAY_ITEM );
-                    $("#payItemTitle").val("")
-                    $("#formula").val("")
+                    $("#payItemTitle").val("");
+                    $("#formula").val("");
+                    $("#taxable").prop("checked", false);
+                    $.uniform.update('#taxable');
                 }
             });
 
@@ -393,8 +402,23 @@ var MarkaxisPayItem = (function( ) {
                             return '<span id="additional' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
                         }
                     }
-                }, {
+                },{
                     targets: [6],
+                    orderable: true,
+                    searchable: false,
+                    width: "100px",
+                    data: "taxable",
+                    className : "text-center",
+                    render: function( data, type, full ) {
+                        if( data === '0' ) {
+                            return '<span id="additional' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
+                        }
+                        else {
+                            return '<span id="additional' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
+                        }
+                    }
+                },{
+                    targets: [7],
                     orderable: false,
                     searchable: false,
                     width:"100px",

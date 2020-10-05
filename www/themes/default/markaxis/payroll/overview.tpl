@@ -9,7 +9,7 @@
             <li>
                 <a class="tab <?TPLVAR_STATUS_TAB?> <?TPLVAR_MONTH?>" href="#<?TPLVAR_MONTH?>Month" data-id="<?TPLVAR_MONTH?>" data-date="<?TPLVAR_DATA_DATE?>" data-toggle="tab">
                     <h4><?TPLVAR_MONTH?></h4>
-                    <div><?TPLVAR_YEAR?></div>
+                    <div>YTD <?TPLVAR_YEAR?></div>
                     <div class="status"><?TPLVAR_STATUS?></div>
                 </a>
             </li>
