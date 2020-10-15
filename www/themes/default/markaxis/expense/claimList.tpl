@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label><?LANG_SELECT_EXPENSE_TYPE?>: <span class="requiredField">*</span></label>
+                                <label><?LANG_SELECT_EXPENSE_ITEM?>: <span class="requiredField">*</span></label>
                                 <?TPLVAR_EXPENSE_LIST?>
                             </div>
                         </div>

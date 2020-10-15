@@ -64,10 +64,10 @@ class TaxCompetencyModel extends \Model {
         if( isset( $data['taxRules'] ) && is_array( $data['taxRules'] ) ) {
             foreach( $data['taxRules'] as $key => $taxRule ) {
                 if( $cInfo = $this->getBytrID( $taxRule['trID'] ) ) {
-                    $taxRules[$key]['competency'] = $cInfo;
+                    $data['taxRules'][$key]['competency'] = $cInfo;
                 }
             }
-            return $taxRules;
+            return $data;
         }
     }
 

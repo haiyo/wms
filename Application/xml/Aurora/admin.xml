@@ -184,6 +184,9 @@
     <task type="expense/getMaxAmount">
         <observer controller="Markaxis/Expense/ExpenseControl"/>
     </task>
+    <task type="expense/getCurrency">
+        <observer controller="Markaxis/Expense/ExpenseControl"/>
+    </task>
     <task type="expense">
         <observer controller="Markaxis/Expense/ClaimControl"/>
         <observer controller="Markaxis/Expense/ManagerControl"/>
@@ -233,7 +236,7 @@
     <task type="payroll/getPayrollEvents,payroll/process">
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
-    <task type="payroll/processPayroll">
+    <task type="payroll/processPayroll,payroll/savePayroll">
         <!--
         array empInfo
         Get Employee Information
@@ -264,12 +267,12 @@
         <observer controller="Markaxis/Payroll/ItemControl"/>
         <observer controller="Markaxis/Payroll/UserControl"/>
         <observer controller="Markaxis/Payroll/UserItemControl"/>
-        <observer controller="Markaxis/Payroll/UserExpenseControl"/>
         <!--
         array claims
         Get employee claims - return array list with remark and amount
         -->
         <observer controller="Markaxis/Expense/ClaimControl"/>
+        <observer controller="Markaxis/Payroll/UserExpenseControl"/>
 
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <!--
@@ -319,9 +322,13 @@
         <!--
         Render process form and summary
         -->
+        <observer controller="Markaxis/Payroll/UserTaxControl"/>
+        <observer controller="Markaxis/Payroll/LevyControl"/>
+        <observer controller="Markaxis/Payroll/ContributionControl"/>
         <observer controller="Markaxis/Payroll/SummaryControl"/>
     </task>
-    <task type="payroll/reprocessPayroll,payroll/savePayroll">
+
+    <task type="payroll/savePayroll">
         <observer controller="Markaxis/Employee/EmployeeControl"/>
         <observer controller="Markaxis/Payroll/PayrollControl"/>
         <observer controller="Markaxis/Payroll/CalendarControl"/>
@@ -462,7 +469,7 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
-    <task type="payroll/taxfile">
+    <task type="payroll/taxfile,payroll/getTaxFileResults,payroll/newTaxFiling">
         <observer controller="Markaxis/Payroll/TaxFileControl"/>
     </task>
     <task type="leave/getDateDiff,leave/apply,leave/upload,leave/setLeaveAction">

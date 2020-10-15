@@ -36,7 +36,7 @@ class TaxPayItemControl {
 
         if( isset( $taxRule['trID'] ) ) {
             if( isset( $data[2] ) && $data[2] == 'html' ) {
-                Control::setOutputArray( array( 'payItem' => $this->TaxPayItemView->renderTaxRule( $taxRule ) ) );
+                //Control::setOutputArray( array( 'payItem' => $this->TaxPayItemView->renderTaxRule( $taxRule ) ) );
             }
             else {
                 Control::setOutputArray( array( 'payItem' => $this->TaxPayItemModel->getBytrID( $taxRule['trID'] ) ) );
@@ -48,11 +48,11 @@ class TaxPayItemControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function getAllTaxRules( ) {
-        $taxRules = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxPayItemView->renderAll( $taxRules ) );
-    }
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->TaxPayItemView->renderAll( $data ) );
+    } */
 
 
     /**
@@ -61,18 +61,8 @@ class TaxPayItemControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( $this->TaxPayItemModel->processPayroll( $data ) );
-    }
-
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function reprocessPayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getPostData( );
-        Control::setOutputArray( $this->TaxPayItemModel->reprocessPayroll( $data, $post ) );
+        $post = Control::getRequest( )->request( POST );
+        Control::setOutputArray( $this->TaxPayItemModel->processPayroll( $data, $post ) );
     }
 
 
@@ -81,7 +71,7 @@ class TaxPayItemControl {
      * @return string
      */
     public function savePayroll( ) {
-        $this->reprocessPayroll( );
+        $this->processPayroll( );
     }
 
 

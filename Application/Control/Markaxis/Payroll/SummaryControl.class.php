@@ -67,6 +67,16 @@ class SummaryControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
+        $post = Control::getRequest( )->request( POST );
+
+        if( isset( $post['processAgain'] ) ) {
+            $vars = array( );
+            $vars['bool'] = 1;
+            $vars['data'] = $data;
+            $vars['summary'] = $this->SummaryView->renderProcessSummary( $data );
+            echo json_encode( $vars );
+            exit;
+        }
         echo $this->SummaryView->renderProcessForm( $data );
         exit;
     }
@@ -75,7 +85,7 @@ class SummaryControl {
     /**
      * Render main navigation
      * @return string
-     */
+
     public function reprocessPayroll( ) {
         $data = Control::getOutputArray( );
         $vars = array( );
@@ -84,7 +94,7 @@ class SummaryControl {
         $vars['summary'] = $this->SummaryView->renderProcessSummary( $data );
         echo json_encode( $vars );
         exit;
-    }
+    } */
 
 
     /**

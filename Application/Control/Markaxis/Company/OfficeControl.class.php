@@ -78,7 +78,7 @@ class OfficeControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( ) {
+    public function recalculate( ) {
         $this->processPayroll( );
     }
 

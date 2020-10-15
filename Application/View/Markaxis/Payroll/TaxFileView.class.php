@@ -40,7 +40,8 @@ class TaxFileView {
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
-                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ) ) );
+                                        'jquery' => array( 'mark.min.js', 'jquery.validate.min.js' ),
+                                        'markaxis' => 'taxfile.js' ) );
     }
 
 
@@ -86,7 +87,7 @@ class TaxFileView {
 
         $DesignationModel = DesignationModel::getInstance( );
         $SelectGroupListView = new SelectGroupListView( );
-        $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getList( ), $empInfo['designationID'], 'Select Designation' );
+        $designationList = $SelectGroupListView->build( 'designation', $DesignationModel->getGroupList( ), $empInfo['designationID'], 'Select Designation' );
 
         $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
         $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );

@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView;
+use \Library\Util\Money;
 use \Library\Runtime\Registry;
 
 /**
@@ -87,6 +88,7 @@ class TaxComputingView {
                     array_push($criteriaSet, $txt );
                 }
             }
+
             $criteriaSet = $this->renderPayTags('Ordinary wage ', $ordinary, $criteriaSet, $taxRule );
             return $this->renderPayTags('All pay items ', $allPayItem, $criteriaSet, $taxRule );
         }
@@ -104,19 +106,22 @@ class TaxComputingView {
             $txt = $typeText;
 
             if( $typeSet[0]['computing'] == 'gt' ) {
-                $txt .= 'more than ' . $currency . number_format( $typeSet[0]['value'],2 );
+                $txt .= 'more than ' . $currency . Money::format( $typeSet[0]['value'] );
+            }
+            if( $typeSet[0]['computing'] == 'gte' ) {
+                $txt .= 'not more than ' . $currency . Money::format( $typeSet[0]['value'] );
             }
             if( $typeSet[0]['computing'] == 'lt' ) {
-                $txt .= 'less than ' . $currency . number_format( $typeSet[0]['value'],2 );
+                $txt .= 'less than ' . $currency . Money::format( $typeSet[0]['value'] );
             }
             if( $typeSet[0]['computing'] == 'lte' ) {
-                $txt .= $currency . number_format( $typeSet[0]['value'],2 ) . ' and below';
+                $txt .= $currency . Money::format( $typeSet[0]['value'] ) . ' and below';
             }
             if( $typeSet[0]['computing'] == 'ltec' ) {
-                $txt .= 'less than and capped at ' . $currency . number_format( $typeSet[0]['value'],2 );
+                $txt .= 'less than and capped at ' . $currency . Money::format( $typeSet[0]['value'] );
             }
             if( $typeSet[0]['computing'] == 'eq' ) {
-                $txt .= $currency . number_format( $typeSet[0]['value'],2 );
+                $txt .= $currency . Money::format( $typeSet[0]['value'] );
             }
             array_push($criteriaSet, $txt );
         }
@@ -124,14 +129,16 @@ class TaxComputingView {
         if( sizeof( $typeSet ) == 2 ) {
             if( $typeSet[0]['value'] < $typeSet[1]['value'] ) {
                 $txt  = $typeText . 'more than ';
-                $txt .= $currency . number_format( $typeSet[0]['value'],2 ) . ' to ' .
-                        $currency . number_format( $typeSet[1]['value'],2 );
+                $txt .= $currency . Money::format( $typeSet[0]['value'] ) . ' to ' .
+                        $currency . Money::format( $typeSet[1]['value'] );
+
                 array_push($criteriaSet, $txt );
             }
             if( $typeSet[0]['value'] > $typeSet[1]['value'] ) {
                 $txt  = $typeText . 'more than ';
-                $txt .= $currency . number_format( $typeSet[1]['value'],2 ) . ' to ' .
-                        $currency . number_format( $typeSet[0]['value'],2 );
+                $txt .= $currency . Money::format( $typeSet[1]['value'] ) . ' to ' .
+                        $currency . Money::format( $typeSet[0]['value'] );
+
                 array_push($criteriaSet, $txt );
             }
         }
@@ -143,11 +150,13 @@ class TaxComputingView {
      * Get File Information
      * @return mixed
      */
-    public function renderAll( $taxRules ) {
-        foreach( $taxRules as $key => $taxRule ) {
-            $taxRules[$key]['computing'] = $this->renderTaxRule( $taxRule );
+    public function renderAll( $data ) {
+        if( isset( $data['taxRules'] ) ) {
+            foreach( $data['taxRules'] as $key => $taxRule ) {
+                $data['taxRules'][$key]['computing'] = $this->renderTaxRule( $taxRule );
+            }
+            return $data;
         }
-        return $taxRules;
     }
 }
 ?>

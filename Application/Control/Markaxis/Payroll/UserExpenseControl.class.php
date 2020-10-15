@@ -29,6 +29,27 @@ class UserExpenseControl {
      * Render main navigation
      * @return string
      */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        Control::setOutputArray( $this->UserExpenseModel->processPayroll( $data, $post ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function savePayroll( ) {
+        $this->processPayroll( );
+        Control::setOutputArray( $this->UserExpenseModel->savePayroll( Control::getOutputArray( ) ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
     public function viewSaved( ) {
         $data = Control::getOutputArray( );
         Control::setOutputArray( $this->UserExpenseModel->getExistingItems( $data ) );
@@ -41,16 +62,6 @@ class UserExpenseControl {
      */
     public function viewSlip( ) {
         $this->viewSaved( );
-    }
-
-    /**
-     * Render main navigation
-     * @return string
-     */
-    public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-        Control::setOutputArray( $this->UserExpenseModel->savePayroll( $data, $post ) );
     }
 
 

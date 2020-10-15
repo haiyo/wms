@@ -32,6 +32,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_CREATE_NEW_PAY_RUN'] = 'Create New Pay Run';
         $this->contents['LANG_PAYSLIP_RECORDS'] = 'Payslip Records';
         $this->contents['LANG_PAYROLL_SETTINGS'] = 'Payroll Settings';
+        $this->contents['LANG_FILTER_OFFICE_LOCATION'] = 'Filter by Office / Location';
         $this->contents['LANG_ADD_PAY_CALENDAR'] = 'Add Pay Calendar';
         $this->contents['LANG_WHICH_OFFICE'] = 'Which Office';
         $this->contents['LANG_SELECT_OFFICE'] = 'Select Office';
@@ -55,6 +56,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_DECLARATION_FOR_INDIVIDUAL_EMPLOYEE'] = 'Declaration For Individual Employee (Optional)';
         $this->contents['LANG_FILE_TAX_FOR_YEAR'] = 'File Tax For Year';
         $this->contents['LANG_SELECT_OFFICE'] = 'Select Office';
+        $this->contents['LANG_SELECT_AUTHORIZED'] = 'Select Authorized Personnel ';
         $this->contents['LANG_AUTHORIZED_SUBMITTING_PERSONNEL'] = 'Authorized Submitting Personnel';
         $this->contents['LANG_FIRST_NAME_LAST_NAME'] = 'First Name &amp; Last Name';
         $this->contents['LANG_DESIGNATION'] = 'Designation';
@@ -79,8 +81,9 @@ class PayrollRes extends Resource {
         $this->contents['LANG_PAYMENT_CYCLE_DATE'] = 'Payment Cycle Date';
         $this->contents['LANG_PAY_CALENDAR'] = 'Pay Calendars';
         $this->contents['LANG_PAY_ITEMS'] = 'Pay Items';
-        $this->contents['LANG_EXPENSES_ITEM'] = 'Expenses Item';
+        $this->contents['LANG_EXPENSE_ITEMS'] = 'Expense Items';
         $this->contents['LANG_TAX_RULES'] = 'Tax Rules';
+        $this->contents['LANG_ADVANCED_TAX_RULES'] = 'Advanced Tax Rules';
         $this->contents['LANG_PAY_ITEM_TITLE'] = 'Pay Item Title';
         $this->contents['LANG_BASIC'] = 'Basic';
         $this->contents['LANG_ORDINARY'] = 'Ordinary';
@@ -126,9 +129,10 @@ class PayrollRes extends Resource {
         $this->contents['LANG_TAX_RULE_TITLE'] = 'Tax Rule Title';
         $this->contents['LANG_ENTER_TAX_RULE_TITLE'] = 'Enter a title for this tax rule';
         $this->contents['LANG_APPLY_WHICH_COUNTRY'] = 'Apply To Which Country';
-        $this->contents['LANG_BELONG_TO_GROUP'] = 'Belong to Group';
+        $this->contents['LANG_BELONG_TO_GROUP'] = 'Belong To Group';
         $this->contents['LANG_SELECT_CRITERIA'] = 'Select Criteria';
         $this->contents['LANG_COMPUTING_VARIABLE'] = 'Computing Variables';
+        $this->contents['LANG_AGE_GROUP'] = 'Age Group';
         $this->contents['LANG_AGE'] = 'Age';
         $this->contents['LANG_PAY_ITEM'] = 'Pay Item';
         $this->contents['LANG_ALL_PAY_ITEM'] = 'All Pay Item';
@@ -167,7 +171,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_TYPE_OF_VALUE'] = 'Type of Value';
         $this->contents['LANG_CAPPED_AMOUNT_FORMULA'] = 'Capped (Amount / Formula)';
         $this->contents['LANG_TOTAL_GROSS'] = 'Total Gross';
-        $this->contents['LANG_TOTAL_NET_PAYABLE'] = 'Total Net Payable';
+        $this->contents['LANG_TOTAL_NET_PAYABLE'] = 'Total Nett Payable';
         $this->contents['LANG_PAYMENT'] = 'Payment';
         $this->contents['LANG_PROCESS_PERIOD'] = 'Process Period';
         $this->contents['LANG_SELECT_EMPLOYEE_TO_PROCESS'] = 'Select Employee to Process Payroll';

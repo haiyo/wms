@@ -40,7 +40,7 @@ class TaxFileControl {
      * Render main navigation
      * @return string
      */
-    public function getTaxFiledResults( ) {
+    public function getTaxFileResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->TaxFileModel->getResults( $post ) );
         exit;

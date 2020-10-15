@@ -27,6 +27,7 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_CREATE_NEW_EXPENSE_TYPE'] = 'Tạo loại chi phí mới';
         $this->contents['LANG_INVALID_CLAIM_TYPE'] = 'Loại xác nhận quyền sở hữu không hợp lệ';
         $this->contents['LANG_INVALID_CURRENCY'] = 'Tiền tệ không hợp lệ';
+        $this->contents['LANG_INVALID_COUNTRY'] = 'Quốc gia không hợp lệ';
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Yêu cầu xác nhận quyền sở hữu';
         $this->contents['LANG_MAX_AMOUNT_CLAIMABLE'] = 'Số tiền tối đa có thể yêu cầu: {maxAmount}';
         $this->contents['LANG_AMOUNT_OVER_MAX'] = 'Số tiền yêu cầu của bạn vượt quá giới hạn tối đa là {maxAmount}.';
@@ -38,14 +39,17 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_STATUS'] = 'Trạng thái';
         $this->contents['LANG_MANAGERS'] = 'Giám đốc';
         $this->contents['LANG_DATE_CREATED'] = 'Ngày tạo';
-        $this->contents['LANG_SELECT_EXPENSE_TYPE'] = 'Chọn loại chi phí';
+        $this->contents['LANG_SELECT_EXPENSE_ITEM'] = 'Chọn loại chi phí';
         $this->contents['LANG_ENTER_DESCRIPTION_CLAIM'] = 'Nhập mô tả cho yêu cầu này';
         $this->contents['LANG_AMOUNT_TO_CLAIM'] = 'Số tiền Yêu cầu';
         $this->contents['LANG_ENTER_CLAIM_AMOUNT'] = 'Nhập số tiền yêu cầu';
 
         $this->contents['LANG_EXPENSE_ITEM_TITLE'] = 'Tiêu đề khoản chi phí';
+        $this->contents['LANG_COUNTRY'] = 'Quốc gia';
         $this->contents['LANG_MAX_AMOUT'] = 'Số tiền tối đa';
         $this->contents['LANG_EXPENSE_TYPE'] = 'Loại phí';
+        $this->contents['LANG_APPLY_COUNTRY'] = 'Áp dụng cho quốc gia nào';
+        $this->contents['LANG_SELECT_COUNTRY'] = 'Chọn quốc gia';
         $this->contents['LANG_ENTER_TITLE_EXPENSE_TYPE'] = 'Nhập tiêu đề cho loại chi phí này';
         $this->contents['LANG_MAX_ALLOWED_CLAIM'] = 'Số tiền tối đa được phép yêu cầu';
         $this->contents['LANG_ENTER_AMOUNT'] = 'Nhập số tiền (Nhập 0 để không giới hạn)';
@@ -63,6 +67,7 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_EDIT_EXPENSE_TYPE'] = 'Chỉnh sửa Loại Chi phí';
         $this->contents['LANG_ENTER_EXPENSE_TYPE'] = 'Vui lòng nhập Tiêu đề Loại Chi phí';
         $this->contents['LANG_ENTER_MAX_AMOUNT'] = 'Vui lòng nhập số tiền tối đa';
+        $this->contents['LANG_PLEASE_SELECT_COUNTRY'] = 'Vui lòng chọn quốc gia';
         $this->contents['LANG_EXPENSE_CREATED_SUCCESSFULLY'] = 'Đã tạo thành công loại chi phí';
         $this->contents['LANG_EXPENSE_CREATED_SUCCESSFULLY_DESCRIPT'] = 'Loại chi phí mới đã được tạo thành công';
         $this->contents['LANG_EXPENSE_UPDATED_SUCCESSFULLY'] = 'Đã cập nhật thành công loại chi phí';

@@ -58,8 +58,8 @@ class UserControl {
      * @return string
      */
     public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'puID' => $this->UserModel->savePayroll( $data ) ) );
+        $this->UserModel->savePayroll( Control::getOutputArray( ) );
+        $this->processPayroll( );
     }
 
 

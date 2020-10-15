@@ -164,7 +164,7 @@ class PayrollView {
 
         $SelectListView = new SelectListView( );
         $officeList = $SelectListView->build( 'office', $A_OfficeModel->getList( ), $mainInfo['oID'],
-                                              '-- Filter by Office / Location --' );
+                                              '-- ' . $this->L10n->getContents('LANG_FILTER_OFFICE_LOCATION') . ' --' );
 
         $vars = array_merge( $this->L10n->getContents( ),
                              array( 'TPLVAR_PROCESS_DATE' => $processDate,

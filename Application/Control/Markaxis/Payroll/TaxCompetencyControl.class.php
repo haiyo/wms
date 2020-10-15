@@ -44,7 +44,7 @@ class TaxCompetencyControl {
      */
     public function getAllTaxRules( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'taxCompetency' => $this->TaxCompetencyModel->getAll( $data ) ) );
+        Control::setOutputArray( $this->TaxCompetencyModel->getAll( $data ) );
     }
 
 

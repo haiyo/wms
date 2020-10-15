@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Library\Validator\Validator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -63,13 +64,68 @@ class UserItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function savePayroll( $data, $post ) {
+    public function processPayroll( $data, $post ) {
+        if( isset( $post['data'] ) ) {
+            $preg = '/^itemType_(\d)+/';
+            $callback = function( $val ) use( $preg ) {
+                if( preg_match( $preg, $val, $match ) ) {
+                    return $match;
+                } else {
+                    return false;
+                }
+            };
+            $criteria = array_filter( $post['data'], $callback,ARRAY_FILTER_USE_KEY );
+
+            foreach( $criteria as $key => $item ) {
+                preg_match( $preg, $key, $match );
+
+                if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'p-' ) ) {
+                    $id   = $match[1];
+                    $piID = str_replace('p-', '', $item );
+
+                    if( isset( $data['items']['ordinary'][$piID] ) || $data['items']['additional']['piID'] == $piID ||
+                        $data['items']['deduction']['piID'] == $piID ) {
+
+                        $amount = str_replace($data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                              '', $post['data']['amount_' . $id] );
+                        $amount = (int)str_replace(',', '', $amount );
+
+                        $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
+
+                        $postItem = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
+
+                        if( $data['items']['additional']['piID'] == $piID ) {
+                            $postItem['additional'] = 1;
+                        }
+
+                        if( isset( $data['items']['ordinary'][$piID] ) ) {
+                            $data['addGross'][] = $amount;
+                        }
+                        else if( $data['items']['deduction']['piID'] == $piID ) {
+                            $postItem['additional'] = 0;
+                            $data['deductGross'][] = $amount;
+                        }
+
+                        $data['postItems'][] = $postItem;
+                    }
+                }
+            }
+            return $data;
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $post['postItems'] ) ) {
-            foreach( $post['postItems'] as $item ) {
+        if( isset( $data['postItems'] ) ) {
+            foreach( $data['postItems'] as $item ) {
                 $info = array( );
-                $info['puID'] = $data['puID'];
+                $info['puID'] = $data['payrollUser']['puID'];
                 $info['piID'] = $item['piID'];
                 $info['amount'] = $item['amount'];
                 $info['remark'] = $item['remark'];
@@ -79,7 +135,7 @@ class UserItemModel extends \Model {
         if( sizeof( $success ) > 0 ) {
             $this->UserItem->delete('payroll_user_item',
                                     'WHERE puiID NOT IN(' . implode(',', $success ) . ') AND 
-                                                  puID = "' . (int)$data['puID'] . '"');
+                                                  puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );
@@ -93,8 +149,8 @@ class UserItemModel extends \Model {
      * @return int
      */
     public function deletePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $this->UserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['puID'] . '"');
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            $this->UserItem->delete('payroll_user_item','WHERE puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
     }
 }

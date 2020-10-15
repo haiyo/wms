@@ -366,6 +366,7 @@ class EmployeeView {
                        'TPLVAR_START_YEAR' => $startYear,
                        'TPLVAR_END_YEAR' => $endYear,
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
+                       'TPLVAR_CURRENCY' => $officeInfo['currencyCode'] . $officeInfo['currencySymbol'],
                        'TPLVAR_SALARY' => $officeInfo['currencyCode'] .
                                           $officeInfo['currencySymbol'] .
                                           Money::format( $this->info['salary'] ),

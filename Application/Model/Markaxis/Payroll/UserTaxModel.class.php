@@ -43,14 +43,15 @@ class UserTaxModel extends \Model {
     public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $data['itemRow'] ) && sizeof( $data['itemRow'] ) ) {
-            foreach( $data['itemRow'] as $item ) {
-                if( isset( $item['trID'] ) ) {
+        if( isset( $data['userTaxes'] ) && sizeof( $data['userTaxes'] ) ) {
+            foreach( $data['userTaxes'] as $userTax ) {
+                if( isset( $userTax['trID'] ) ) {
                     $info = array( );
-                    $info['puID'] = $data['puID'];
-                    $info['trID'] = $item['trID'];
-                    $info['title'] = $item['title'];
-                    $info['amount'] = $item['amount'];
+                    $info['puID'] = $data['payrollUser']['puID'];
+                    $info['trID'] = $userTax['trID'];
+                    $info['title'] = $userTax['title'];
+                    $info['amount'] = $userTax['amount'];
+                    $info['remark'] = $userTax['remark'];
                     array_push($success, $this->UserTax->insert( 'payroll_user_tax', $info ) );
                 }
             }
@@ -58,7 +59,7 @@ class UserTaxModel extends \Model {
         if( sizeof( $success ) > 0 ) {
             $this->UserTax->delete( 'payroll_user_tax',
                                     'WHERE putID NOT IN(' . implode(',', $success ) . ') AND 
-                                           puID = "' . (int)$data['puID'] . '"');
+                                           puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );
@@ -72,8 +73,8 @@ class UserTaxModel extends \Model {
      * @return int
      */
     public function deletePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $this->UserTax->delete('payroll_user_tax','WHERE puID = "' . (int)$data['puID'] . '"');
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            $this->UserTax->delete('payroll_user_tax','WHERE puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
     }
 }

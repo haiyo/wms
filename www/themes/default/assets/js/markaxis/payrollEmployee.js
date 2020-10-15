@@ -12,7 +12,6 @@ var MarkaxisPayrollEmployee = (function( ) {
      */
     MarkaxisPayrollEmployee = function( ) {
         this.table = null;
-        this.itemAdded = false;
         this.haveSaved = false;
         this.detailRows = [];
         this.modalCalPayroll = $("#modalCalPayroll");
@@ -110,20 +109,17 @@ var MarkaxisPayrollEmployee = (function( ) {
             });
 
             $(document).on("click", ".addItem", function(e) {
-                that.itemAdded = that.addItem( false );
+                that.addItem( false );
                 e.preventDefault( );
             });
 
             $(document).on("click", ".removeItem", function(e) {
-                var href = $(this).attr("href");
-                var id = $(this).attr("id");
-                $("#itemRowWrapper_" + href).remove();
-                $("#" + id).remove();
+                that.removeItem( $(this).attr("href"), $(this).attr("id") );
                 e.preventDefault( );
             });
 
             $(document).on("blur", ".amountInput", function(e) {
-                that.amountInput( $(this).val( ) );
+                that.recalculate( );
                 e.preventDefault( );
             });
 
@@ -173,7 +169,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                 $(document).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/' + path + '/' +
                     $invoker.attr("data-id") + "/" + $("#pID").val( ), function() {
 
-                    $(".itemType").select2( );
+                    that.itemTypeRebuild( );
 
                     $('[data-popup="tooltip"]').tooltip();
 
@@ -188,10 +184,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     }
                     else {
                         var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-                        var icon = iconWrapper.find(".icon");
-
-                        icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
-                        icon.parent().attr( "class", "addItem" );
+                        iconWrapper.append('<a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>');
 
                         $(".processBtn").attr("id", "savePayroll");
                         $(".processBtn").text( Markaxis.i18n.PayrollRes.LANG_SAVE_PAYROLL );
@@ -232,71 +225,29 @@ var MarkaxisPayrollEmployee = (function( ) {
         },
 
 
-        amountInput: function( amount ) {
-            var that = this;
-
-            if( !that.itemAdded ) {
-                return;
-            }
-            var data = {
-                bundle: {
-                    itemType: $("#itemType_" + that.itemAdded).val( ),
-                    amountInput: amount,
-                    data: Aurora.WebService.serializePost("#processForm")
-                },
-                success: function( res ) {
-                    if( res ) {
-                        var obj = $.parseJSON( res );
-
-                        if( obj.bool === 0 ) {
-                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
-                            return;
-                        }
-                        else {
-                            if( obj.data.addItem && obj.data.addItem.length > 0 ) {
-                                var deduction = false;
-
-                                for( var i=0; i<obj.data.addItem.length; i++ ) {
-                                    if( obj.data.addItem[i]['deduction'] === 1 ) {
-                                        deduction = true;
-                                    }
-
-                                    var id = that.addItem( deduction );
-                                    that.itemAdded--;
-
-                                    $("#itemType_" + id).val( "p-" + obj.data.addItem[i]['piID'] ).trigger("change");
-                                    $("#amount_" + id).val( Aurora.String.formatMoney( obj.data.addItem[i]['amount'] + "" ) );
-                                    $("#remark_" + id).val( obj.data.addItem[i]['remark'] );
-                                }
-                                if( deduction ) {
-                                    $(".deduction").remove( );
-                                    $(".deduction1").removeClass("deduction1").addClass("deduction");
-                                }
-                            }
-                            $("#processSummary").html( obj.summary );
-                            $("body").tooltip({
-                                selector: '.icon-info22'
-                            });
-                        }
-                    }
-                }
-            }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
+        downloadCPF: function( ) {
+            Aurora.WebService.download( "admin/payroll/downloadCPF/" + $("#pID").val( ) );
         },
 
 
-        downloadCPF: function( ) {
-            Aurora.WebService.download( "admin/payroll/downloadCPF/" + $("#pID").val( ) );
+        itemTypeRebuild: function( ) {
+            $('.itemType option').prop("disabled", false);
+
+            $("#itemWrapper .itemType").each( function( ) {
+                var val = $(this).val( );
+                $('.itemType option[value="' + val + '"]').prop("disabled", true);
+
+                var id = $(this).attr("id");
+                $("#" + id + ' option[value="' + val + '"]').prop("disabled", false);
+            });
+            $(".itemType").select2( );
         },
 
 
         addItem: function( deduction ) {
             var that = this;
             var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-            var icon = iconWrapper.find(".icon");
-
-            icon.removeClass("icon-plus-circle2").addClass("icon-minus-circle2");
-            icon.parent().attr( "class", "removeItem" );
+            iconWrapper.find(".addItem").remove( );
 
             var length = $(".itemRow").length;
             var item = $("#itemTemplate").html( );
@@ -319,25 +270,40 @@ var MarkaxisPayrollEmployee = (function( ) {
             var itemWrapper = $("#itemWrapper");
             itemWrapper.animate({ scrollTop: itemWrapper.prop("scrollHeight") - itemWrapper.height() }, 300).promise().done(function () {
                 $("#itemType_" + length).on("select2:select", function(e) {
-                    var data = e.params.data;
-                    var type = $(this).find('option[value="'+ data.element.value +'"]').attr("class");
-
-                    if( type == "additional" ) {
-                        var id =  $(this).attr("id");
-                        id = id.replace("itemType_", "");
-
-                        that.getAdditional( id );
-                    }
+                    var id =  $(this).attr("id");
+                    id = id.replace("itemType_", "");
+                    that.recalculate( id );
+                    that.itemTypeRebuild( );
+                    $("#amount_" +id).focus( );
                 });
-            });;
+            });
             return length;
         },
 
 
-        getAdditional: function( id ) {
+        removeItem: function( href ) {
+            // Is this the last item?
+            var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+            var lasthref = iconWrapper.find(".removeItem").attr("href");
+
+            $("#itemRowWrapper_" + href).remove();
+            $("#" + href).remove();
+
+            if( lasthref == href ) {
+                iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
+                iconWrapper.append('<a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>');
+            }
+            this.itemTypeRebuild( );
+            this.recalculate( );
+        },
+
+
+        recalculate: function( id ) {
             var data = {
                 bundle: {
-                    data: Aurora.WebService.serializePost("#processForm")
+                    data: Aurora.WebService.serializePost("#processForm"),
+                    processID: $("#itemType_" + id).val( ),
+                    processAgain: 1
                 },
                 success: function( res ) {
                     if( res ) {
@@ -348,13 +314,11 @@ var MarkaxisPayrollEmployee = (function( ) {
                             return;
                         }
                         else {
-                            if( obj.data.inputAmount ) {
-                                $("#amount_" + id).val( obj.data.inputAmount );
+                            if( id != undefined && obj.data.populate ) {
+                                $("#amount_" + id).val( obj.data.populate["inputAmount"] );
+                                $("#remark_" + id).val( obj.data.populate["inputRemark"] );
                             }
 
-                            if( obj.data.inputRemark ) {
-                                $("#remark_" + id).val( obj.data.inputRemark );
-                            }
                             $("#processSummary").html( obj.summary );
                             $("body").tooltip({
                                 selector: '.icon-info22'
@@ -363,7 +327,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                     }
                 }
             }
-            Aurora.WebService.AJAX( "admin/payroll/reprocessPayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
+            Aurora.WebService.AJAX( "admin/payroll/processPayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
         },
 
 

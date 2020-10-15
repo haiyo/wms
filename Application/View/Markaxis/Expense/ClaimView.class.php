@@ -59,7 +59,7 @@ class ClaimView {
         $ExpenseModel = ExpenseModel::getInstance( );
 
         $SelectListView = new SelectListView( );
-        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', $this->ExpenseRes->getContents('LANG_SELECT_EXPENSE_TYPE') );
+        $expenseList  = $SelectListView->build( 'expense', $ExpenseModel->getList( ), '', $this->ExpenseRes->getContents('LANG_SELECT_EXPENSE_ITEM') );
 
         $vars = array_merge( $this->ExpenseRes->getContents( ), array( 'TPLVAR_EXPENSE_LIST' => $expenseList ) );
 

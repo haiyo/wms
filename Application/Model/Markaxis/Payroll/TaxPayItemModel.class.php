@@ -102,16 +102,52 @@ class TaxPayItemModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function processPayroll( $data, $post=false, $addGross=false ) {
+    public function getTitle( $data, $tgID ) {
+        $ruleTitle = '';
+
+        foreach( $data['taxGroups']['mainGroup'] as $taxGroup ) {
+            // First find all the childs in this group and see if we have any summary=1
+            if( isset( $taxGroup['child'] ) ) {
+                $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
+
+                if( in_array( $tgID, $tgIDChilds ) ) {
+                    foreach( $taxGroup['child'] as $child ) {
+                        if( isset( $child['tgID'] ) && $child['tgID'] == $tgID ) {
+                            if( $child['summary'] ) {
+                                $ruleTitle = $child['title'];
+                                break 2;
+                            }
+                            else {
+                                $ruleTitle = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
+                                break 2;
+                            }
+                        }
+                    }
+                }
+            }
+            else if( $taxGroup['tgID'] == $tgID ) {
+                $ruleTitle = $taxGroup['title'];
+                break;
+            }
+        }
+        return $ruleTitle;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function processPayroll( $data, $post ) {
         if( isset( $data['taxRules'] ) && sizeof( $data['taxRules'] ) > 0 ) {
             $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
             $payItemRules = $this->getBytrIDs( $trIDs );
             $piIDs = array( );
 
             // Firstly do we have items coming in?
-            if( isset( $post['postItems'] ) ) {
+            if( isset( $data['postItems'] ) ) {
                 // if so then we get all the related piID from the items
-                $piIDs = array_unique( array_column( $post['postItems'], 'piID' ) );
+                $piIDs = array_unique( array_column( $data['postItems'], 'piID' ) );
             }
 
             // If already saved, do we have existing itemRow?
@@ -133,33 +169,75 @@ class TaxPayItemModel extends \Model {
                     unset( $data['taxRules'][$rule['trID']] );
                 }
             }
-            $data = $this->processFormula( $data, $addGross );
-        }
-        return $data;
-    }
-
-
-    /**
-     * Return total count of records
-     * @return mixed
-    */
-    public function reprocessPayroll( $data, $post ) {
-        if( !isset( $post['postItems'] ) ) {
-            return $data;
         }
 
-        $data = $this->processPayroll( $data, $post, true );
+        if( isset( $data['postItems'] ) ) {
+            // if so then we get all the related piID from the items
+            $trIDs = implode(', ', array_column( $data['taxRules'],'trID' ) );
+            $taxPayItem = $this->getBytrIDs( $trIDs );
 
-        foreach( $post['postItems'] as $postItem ) {
-            if( $data['items']['deduction']['piID'] == $postItem['piID'] ) {
-                $data['deductGross'][] = $postItem['amount'];
+            $PayrollModel = PayrollModel::getInstance( );
+            $M_OfficeModel = M_OfficeModel::getInstance( );
+
+            // Get total ordinary of the Year and add current month ordinary as well.
+            $totalOrdinary = $PayrollModel->getUserTotalOWByRange( $data['empInfo']['userID'] );
+
+            // For this month, minus off any deduction.
+            if( isset( $data['deductGross'] ) ) {
+                foreach( $data['deductGross'] as $deductGross ) {
+                    $totalOrdinary -= (float)$deductGross;
+                }
             }
-            else {
-                // Find all ordinary
-                $ordinaryPiIDs = array_unique( array_column( $data['items']['ordinary'],'piID' ) );
 
-                if( in_array( $postItem['piID'], $ordinaryPiIDs ) ) {
-                    //$data['addGross'][] = $postItem['amount'];
+            $totalWorkDaysOfYear = $M_OfficeModel->getWorkingDaysByRange( $data['office']['oID'],
+                new \DateTime( $data['payCal']['processDate']->format('Y-01-01' ) ),
+                new \DateTime(date('Y-m-d', strtotime('last day of december ' .
+                        $data['payCal']['processDate']->format('Y') ) ) . ' 23:59:59' ) );
+
+            $processID = isset( $post['processID'] ) ? str_replace('p-', '', $post['processID'] ) : 0;
+
+            foreach( $data['postItems'] as $postItem ) {
+                $amount = (int)$postItem['amount'];
+
+                if( isset( $postItem['additional'] ) ) {
+                    foreach( $taxPayItem as $item ) {
+                        if( $postItem['piID'] == $item['piID'] && !$amount ) {
+                            $amount = $this->calculateAmount( $data, $item, $totalOrdinary, $totalWorkDaysOfYear );
+                        }
+
+                        if( isset( $data['taxRules'][$item['trID']] ) ) {
+                            $ruleTitle = $this->getTitle( $data, $data['taxRules'][$item['trID']]['tgID'] );
+
+                            $info = $this->processFormula( $data, $item, $amount, $totalOrdinary, $totalWorkDaysOfYear );
+
+                            if( $data['taxRules'][$item['trID']]['applyType'] == 'deductionAW' ) {
+                                $data['userTaxes'][] = array( 'trID' => $item['trID'],
+                                                              'tgID' => $data['taxRules'][$item['trID']]['tgID'],
+                                                              'title' => $ruleTitle,
+                                                              'amount' => (int)$info['amount'],
+                                                              'remark' => $info['inputRemark'] );
+
+                                $data['deductNet'][] = (int)$info['amount'];
+                                $data['addGrossAW'][] = $data['inputAmount'] = $amount;
+                            }
+
+                            if( $data['taxRules'][$item['trID']]['applyType'] == 'contribution' ) {
+                                $data['contributions'][] = array( 'title' => $ruleTitle,
+                                    'trID' => $item['trID'],
+                                    'amount' => ceil( $info['amount'] ),
+                                    'remark' => $info['inputRemark'] );
+                            }
+
+                            if( $postItem['piID'] == $processID ) {
+                                $data['populate'] = array( 'processID' => $post['processID'],
+                                                           'inputRemark' => $info['inputRemark'],
+                                                           'inputAmount' => $data['office']['currencyCode'] .
+                                                                            $data['office']['currencySymbol'] . Money::format( $amount ) );
+                            }
+
+                            unset( $data['taxRules'][$item['trID']] );
+                        }
+                    }
                 }
             }
         }
@@ -171,137 +249,62 @@ class TaxPayItemModel extends \Model {
      * Return total count of records
      * @return mixed
      */
-    public function processFormula( $data, $addGross=true ) {
-        $trIDs = implode(', ', array_column( $data['taxRules'], 'trID' ) );
+    public function calculateAmount( $data, $item, $totalOrdinary, $totalWorkDaysOfYear ) {
+        $formula = str_replace('{basic}', $data['empInfo']['salary'], $item['value'] );
+        $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
+        $formula = str_replace('{totalOrdinary}', $totalOrdinary, $formula );
+        $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
 
-        $itemInfo = $this->getBytrIDs( $trIDs );
+        $Formula = new Formula( );
+        return round( $Formula->calculate( $formula ) );
+    }
 
-        if( sizeof( $itemInfo ) > 0 ) {
-            $PayrollModel = PayrollModel::getInstance( );
-            $M_OfficeModel = M_OfficeModel::getInstance( );
 
-            foreach( $itemInfo as $item ) {
-                if( $item['valueType'] == 'formula' && $item['value'] ) {
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function processFormula( $data, $rules, $calculatedAmount, $totalOrdinary, $totalWorkDaysOfYear ) {
+        $info = array( );
+        $info['amount'] = 0;
+        $info['inputRemark'] = '';
 
-                    // Get total ordinary of the Year and add current month ordinary as well.
-                    $totalOrdinary = $PayrollModel->calculateCurrYearOrdinary( $data['empInfo']['userID'] );
-                    $totalOrdinary['amount'] += $data['items']['totalOrdinary'];
+        if( $rules['valueType'] == 'formula' && $rules['value'] ) {
+            if( isset( $data['taxRules'][$rules['trID']]['applyType'] ) &&
+                isset( $data['taxRules'][$rules['trID']]['applyValueType'] ) &&
+                isset( $data['taxRules'][$rules['trID']]['applyValue'] ) &&
+                isset( $data['taxRules'][$rules['trID']]['applyCapped'] ) ) {
 
-                    $totalWorkDaysOfYear = $M_OfficeModel->getWorkingDaysByRange( $data['office']['oID'],
-                        new \DateTime( $data['payCal']['processDate']->format('Y-01-01' ) ),
-                        new \DateTime(date('Y-m-d', strtotime('last day of december ' .
-                                            $data['payCal']['processDate']->format('Y') ) ) . ' 23:59:59' ) );
+                $applyType = $data['taxRules'][$rules['trID']]['applyType'];
+                $applyValueType = $data['taxRules'][$rules['trID']]['applyValueType'];
+                $applyValue = $data['taxRules'][$rules['trID']]['applyValue'];
+                $applyCapped = $data['taxRules'][$rules['trID']]['applyCapped'];
 
-                    $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $item['value'] );
-                    $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
-                    $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
-                    $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
+                if( $applyValueType == 'percentage' && $applyValue ) {
+                    if( $applyCapped ) {
+                        $formula = str_replace('{basic}', $data['empInfo']['salary'], $applyCapped );
+                        $formula = str_replace('{totalOrdinary}', $totalOrdinary, $formula );
+                        $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
+                        $formula = str_replace('{totalOrdinary}', $totalOrdinary, $formula );
+                        $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
 
-                    $Formula = new Formula( );
-                    $calculatedAmount = round( $Formula->calculate( $formula ) );
-                    $data['inputRemark'] = '';
+                        $Formula = new Formula( );
+                        $capAmount = round( $Formula->calculate( $formula ) );
 
-                    if( isset( $data['taxRules'][$item['trID']]['applyType'] ) &&
-                        isset( $data['taxRules'][$item['trID']]['applyValueType'] ) &&
-                        isset( $data['taxRules'][$item['trID']]['applyValue'] ) &&
-                        isset( $data['taxRules'][$item['trID']]['applyCapped'] ) ) {
+                        if( $calculatedAmount > $capAmount ) {
+                            $info['amount'] = $capAmount*$applyValue/100;
 
-                        $applyType = $data['taxRules'][$item['trID']]['applyType'];
-                        $applyValueType = $data['taxRules'][$item['trID']]['applyValueType'];
-                        $applyValue = $data['taxRules'][$item['trID']]['applyValue'];
-                        $applyCapped = $data['taxRules'][$item['trID']]['applyCapped'];
-
-                        if( $applyValueType == 'percentage' && $applyValue ) {
-                            $amountAfter = $calculatedAmount*$applyValue/100;
-
-                            if( $applyCapped ) {
-                                $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $item['value'] );
-                                $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
-                                $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
-                                $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
-
-                                $capAmount = round( $Formula->calculate( $formula ) );
-
-                                if( $amountAfter > $capAmount ) {
-                                    //$amount = $capAmount;
-
-                                    $data['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
-                                                                            $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
-                                }
-                            }
-
-                            if( $applyType == 'deductionAW' ) {
-                                // $remark = $data['taxRules'][$row['trID']]['title']; //. $remark;
-
-                                foreach( $data['taxGroups']['mainGroup'] as $taxGroup ) {
-                                    // First find all the childs in this group and see if we have any summary=1
-                                    if( isset( $taxGroup['child'] ) ) {
-                                        $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
-
-                                        if( isset( $data['taxRules'][$item['trID']]['tgID'] ) && in_array( $data['taxRules'][$item['trID']]['tgID'], $tgIDChilds ) ) {
-                                            foreach( $taxGroup['child'] as $child ) {
-                                                if( isset( $child['tgID'] ) && $child['tgID'] == $data['taxRules'][$item['trID']]['tgID'] ) {
-                                                    if( $child['summary'] ) {
-                                                        $ruleTitle = $child['title'];
-                                                        break 2;
-                                                    }
-                                                    else {
-                                                        $ruleTitle = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
-                                                        break 2;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if( $taxGroup['tgID'] == $data['taxRules'][$item['trID']]['tgID'] ) {
-                                        $ruleTitle = $taxGroup['title'];
-                                        break;
-                                    }
-                                }
-
-                                $data['itemRow'][] = //$data['addItem'][] =
-                                    array( 'piID' => $data['items']['deductionAW']['piID'],
-                                           'trID' => $item['trID'],
-                                           'tgID' => $data['taxRules'][$item['trID']]['tgID'],
-                                           'deductionAW' => 1,
-                                           'title' => $ruleTitle,
-                                           'amount' => $amountAfter,
-                                           'remark' => $data['inputRemark'] );
-
-                                if( $addGross ) {
-                                    $data['addGross'][] = $data['inputAmount'] = $calculatedAmount;
-                                }
-                                //$data['items']['totalGross'] += $calculatedAmount;
-                            }
-
-                            if( $applyType == 'contribution' ) {
-                                $formula = str_replace('{basic}', $data['items']['totalOrdinary'], $item['value'] );
-                                $formula = str_replace('{totalWorkDaysOfYear}', $totalWorkDaysOfYear, $formula );
-                                $formula = str_replace('{totalOrdinary}', $totalOrdinary['amount'], $formula );
-                                $formula = str_replace('{durationMonth}', $data['empInfo']['joinMonth'], $formula );
-
-                                $capAmount = round( $Formula->calculate( $formula ) );
-
-                                if( $amountAfter > $capAmount ) {
-                                    $amountAfter = $capAmount;
-                                    $data['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
-                                                                            $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
-                                }
-
-                                $data['contribution'][] = array( 'title' => $data['taxRules'][$item['trID']]['title'],
-                                                                 'trID' => $item['trID'],
-                                                                 'amount' => round( $amountAfter ),
-                                                                 'remark' => $data['inputRemark'] );
-                            }
+                            $info['inputRemark'] .= '(Capped at ' . $data['office']['currencyCode'] .
+                                                                    $data['office']['currencySymbol'] . Money::format( $capAmount ) . ')';
+                        }
+                        else {
+                            $info['amount'] = $calculatedAmount*$applyValue/100;
                         }
                     }
-                    $data['inputAmount'] = $data['office']['currencyCode'] .
-                                           $data['office']['currencySymbol'] . Money::format( $calculatedAmount );
-                    unset( $data['taxRules'][$item['trID']] );
                 }
             }
         }
-        return $data;
+        return $info;
     }
 
 

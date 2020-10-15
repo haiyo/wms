@@ -27,6 +27,7 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_CREATE_NEW_EXPENSE_TYPE'] = 'Create New Expense Type';
         $this->contents['LANG_INVALID_CLAIM_TYPE'] = 'Invalid Claim Type';
         $this->contents['LANG_INVALID_CURRENCY'] = 'Invalid Currency';
+        $this->contents['LANG_INVALID_COUNTRY'] = 'Invalid Country';
         $this->contents['LANG_PENDING_ROW_GROUP'] = 'Claim Request';
         $this->contents['LANG_MAX_AMOUNT_CLAIMABLE'] = 'Maximum amount claimable: {maxAmount}';
         $this->contents['LANG_AMOUNT_OVER_MAX'] = 'Your claim amount is over the maximum limit of {maxAmount}.';
@@ -38,14 +39,17 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_STATUS'] = 'Status';
         $this->contents['LANG_MANAGERS'] = 'Manager(s)';
         $this->contents['LANG_DATE_CREATED'] = 'Date Created';
-        $this->contents['LANG_SELECT_EXPENSE_TYPE'] = 'Select Expense Type';
+        $this->contents['LANG_SELECT_EXPENSE_ITEM'] = 'Select Expense Item';
         $this->contents['LANG_ENTER_DESCRIPTION_CLAIM'] = 'Enter description for this claim';
         $this->contents['LANG_AMOUNT_TO_CLAIM'] = 'Amount To Claim';
         $this->contents['LANG_ENTER_CLAIM_AMOUNT'] = 'Enter claim amount';
 
         $this->contents['LANG_EXPENSE_ITEM_TITLE'] = 'Expense Item Title';
+        $this->contents['LANG_COUNTRY'] = 'Country';
         $this->contents['LANG_MAX_AMOUT'] = 'Max Amount';
         $this->contents['LANG_EXPENSE_TYPE'] = 'Expense Type';
+        $this->contents['LANG_APPLY_COUNTRY'] = 'Apply To Which Country';
+        $this->contents['LANG_SELECT_COUNTRY'] = 'Select Country';
         $this->contents['LANG_ENTER_TITLE_EXPENSE_TYPE'] = 'Enter a title for this expense type';
         $this->contents['LANG_MAX_ALLOWED_CLAIM'] = 'Maximum Amount Allowed For Claim';
         $this->contents['LANG_ENTER_AMOUNT'] = 'Enter an amount (Enter 0 for unlimited)';
@@ -63,6 +67,7 @@ class ExpenseRes extends Resource {
         $this->contents['LANG_EDIT_EXPENSE_TYPE'] = 'Edit Expense Type';
         $this->contents['LANG_ENTER_EXPENSE_TYPE'] = 'Please enter a Expense Type Title';
         $this->contents['LANG_ENTER_MAX_AMOUNT'] = 'Please enter a maximum amount';
+        $this->contents['LANG_PLEASE_SELECT_COUNTRY'] = 'Please select country';
         $this->contents['LANG_EXPENSE_CREATED_SUCCESSFULLY'] = 'Expense Type Created Successfully';
         $this->contents['LANG_EXPENSE_CREATED_SUCCESSFULLY_DESCRIPT'] = 'New expense type has been successfully created';
         $this->contents['LANG_EXPENSE_UPDATED_SUCCESSFULLY'] = 'Expense Type Updated Successfully';

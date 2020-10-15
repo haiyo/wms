@@ -36,6 +36,15 @@ class CountryModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBycID( $cID ) {
+        return $this->Country->getBycID( $cID );
+    }
+
+
+    /**
      * Return user data by userID
      * @return mixed
      */

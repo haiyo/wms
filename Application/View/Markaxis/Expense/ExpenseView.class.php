@@ -1,7 +1,7 @@
 <?php
 namespace Markaxis\Expense;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView;
-use \Library\Helper\Aurora\CurrencyHelper;
+use \Aurora\Component\CountryModel;
 use \Library\Runtime\Registry;
 
 /**
@@ -50,7 +50,15 @@ class ExpenseView {
      * @return string
      */
     public function renderSettings( ) {
-        $vars = array_merge( $this->L10n->getContents( ), array( ) );
+        $SelectListView = new SelectListView( );
+        $SelectListView->includeBlank(false);
+        $SelectListView->isMultiple(false);
+
+        $CountryModel = CountryModel::getInstance( );
+        $countries = $CountryModel->getList( );
+        $countryList = $SelectListView->build( 'expenseCountry', $countries, '', $this->L10n->getContents('LANG_SELECT_COUNTRY') );
+
+        $vars = array_merge( $this->L10n->getContents( ), array( 'TPL_COUNTRY_LIST' => $countryList ) );
 
         return $this->View->render( 'markaxis/expense/expenseList.tpl', $vars );
     }

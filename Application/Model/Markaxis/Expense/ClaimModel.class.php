@@ -158,8 +158,6 @@ class ClaimModel extends \Model {
      * @return mixed
      */
     public function getByRange( $data, $status ) {
-        $claims = array( );
-
         if( isset( $data['payCal']['rangeStart'] ) && isset( $data['payCal']['rangeEnd'] ) ) {
             $rangeStart = $data['payCal']['rangeStart']->format('Y-m-d');
             $rangeEnd   = $data['payCal']['rangeEnd']->format('Y-m-d 23:59:59');
@@ -168,14 +166,14 @@ class ClaimModel extends \Model {
 
             if( sizeof( $claimInfo ) > 0 ) {
                 foreach( $claimInfo as $value ) {
-                    $claims[] = array( 'ecID' => $value['ecID'],
-                                       'eiID' => $value['eiID'],
-                                       'remark' => $value['descript'],
-                                       'amount' => $value['amount'] );
+                    $data['claims'][] = array( 'ecID' => $value['ecID'],
+                                               'eiID' => $value['eiID'],
+                                               'remark' => $value['descript'],
+                                               'amount' => $value['amount'] );
                 }
             }
         }
-        return $claims;
+        return $data;
     }
 
 
@@ -183,13 +181,11 @@ class ClaimModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function savePayroll( $data, $post ) {
-        if( isset( $data['empInfo'] ) && isset( $post['data']['claim'] ) && is_array( $post['data']['claim'] ) ) {
-            foreach( $post['data']['claim'] as $ecID ) {
-                if( $this->isFoundByEcIDUserID( $ecID, $data['empInfo']['userID'],1 ) ) {
-                    $this->Claim->update('expense_claim', array( 'status' => 2 ),
-                                         'WHERE ecID = "' . (int)$ecID . '"' );
-                }
+    public function savePayroll( $data ) {
+        if( isset( $data['claims'] ) && is_array( $data['claims'] ) ) {
+            foreach( $data['claims'] as $claim ) {
+                $this->Claim->update('expense_claim', array( 'status' => 2 ),
+                                     'WHERE ecID = "' . (int)$claim['ecID'] . '"' );
             }
         }
     }

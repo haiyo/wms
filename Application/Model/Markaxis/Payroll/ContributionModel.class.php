@@ -72,10 +72,10 @@ class ContributionModel extends \Model {
     public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $data['puID'] ) && isset( $data['contributions'] ) && sizeof( $data['contributions'] ) ) {
+        if( isset( $data['payrollUser']['puID'] ) && isset( $data['contributions'] ) && sizeof( $data['contributions'] ) ) {
             foreach( $data['contributions'] as $contribution ) {
                 $info = array( );
-                $info['puID'] = $data['puID'];
+                $info['puID'] = $data['payrollUser']['puID'];
                 $info['title'] = $contribution['title'];
                 $info['trID'] = $contribution['trID'];
                 $info['amount'] = $contribution['amount'];
@@ -85,7 +85,7 @@ class ContributionModel extends \Model {
         if( sizeof( $success ) > 0 ) {
             $this->Contribution->delete('payroll_contribution',
                                         'WHERE pcID NOT IN(' . implode(',', $success ) . ') AND 
-                                                      puID = "' . (int)$data['puID'] . '"');
+                                                      puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );
