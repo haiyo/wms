@@ -143,11 +143,11 @@ class LeaveApplyControl {
      * For No Pay Leave
      * @return string
      */
-    public function savePayroll( $args ) {
+    public function savePayroll( ) {
         $data = Control::getOutputArray( );
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
 
-        $this->processPayroll( $args );
+        $this->processPayroll( );
         $this->LeaveApplyModel->savePayroll( $data, $post );
     }
 

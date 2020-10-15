@@ -22,7 +22,7 @@ class UserItem extends \DAO {
         $sql = $this->DB->select( 'SELECT * FROM payroll_user_item pui
                                    LEFT JOIN payroll_item pi ON ( pi.piID = pui.piID )
                                    WHERE pui.puID = "' . (int)$puID . '"
-                                   ORDER BY puiID DESC',
+                                   ORDER BY puiID ASC',
                                    __FILE__, __LINE__ );
 
         $list = array( );
