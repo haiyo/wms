@@ -266,15 +266,14 @@
         -->
         <observer controller="Markaxis/Payroll/ItemControl"/>
         <observer controller="Markaxis/Payroll/UserControl"/>
-        <observer controller="Markaxis/Payroll/UserItemControl"/>
         <!--
         array claims
         Get employee claims - return array list with remark and amount
         -->
         <observer controller="Markaxis/Expense/ClaimControl"/>
         <observer controller="Markaxis/Payroll/UserExpenseControl"/>
-
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
+        <observer controller="Markaxis/Payroll/UserItemControl"/>
         <!--
         array competency
         Get employee competency

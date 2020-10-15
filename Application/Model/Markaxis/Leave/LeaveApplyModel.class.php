@@ -290,14 +290,13 @@ class LeaveApplyModel extends \Model {
 
                     $data['deductGross'][] = $totalUnpaidAmount;
 
-                    $data['itemRow'][] = array( 'hiddenName' => 'leaveApply[]',
-                                                'hiddenValue' => $value['laID'],
-                                                'hiddenID' => 'leaveApply' . $value['laID'],
-                                                'piID' => $data['items']['deduction']['piID'],
-                                                //'triD'
-                                                'amount' => $totalUnpaidAmount,
-                                                'disabled' => 1,
-                                                'remark' => $remark . ' (' . $this->L10n->getText( 'LANG_APPLY_DAYS', $totalUnpaidDays ) . ')' );
+                    $row = array( 'piID' => $data['items']['deduction']['piID'],
+                                  'amount' => $totalUnpaidAmount,
+                                  'disabled' => 1,
+                                  'remark' => $remark . ' (' . $this->L10n->getText( 'LANG_APPLY_DAYS', $totalUnpaidDays ) . ')' );
+
+                    $data['postItems'][] = $row;
+                    $data['itemRow'][] = $row;
                 }
             }
         }

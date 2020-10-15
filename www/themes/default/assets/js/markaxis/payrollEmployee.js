@@ -410,11 +410,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                                 }
 
                                 var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-                                var icon = iconWrapper.find(".icon")
-
-                                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
-                                icon.parent().attr( "class", "addItem" );
-
+                                iconWrapper.append('<a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>');
                                 swal.close()
                             });
                         }
@@ -529,11 +525,11 @@ var MarkaxisPayrollEmployee = (function( ) {
                     render: function(data, type, full, meta) {
                         var reason = full['suspendReason'] ? ' title="" data-placement="bottom" data-original-title="' + full['suspendReason'] + '"' : "";
 
-                        if( full['suspended'] == 1 ) {
-                            return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_SUSPENDED + '</span>';
-                        }
-                        else if( full['resigned'] == 1 ) {
+                        if( full['resigned'] == 1 ) {
                             return '<span id="status' + full['userID'] + '" class="label label-pending"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_RESIGNED + '</span>';
+                        }
+                        else if( full['suspended'] == 1 ) {
+                            return '<span id="status' + full['userID'] + '" class="label label-danger"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_SUSPENDED + '</span>';
                         }
                         else {
                             return '<span id="status' + full['userID'] + '" class="label label-success"' + reason + '>' + Markaxis.i18n.PayrollRes.LANG_ACTIVE + '</span>';
