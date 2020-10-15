@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Expense;
+use \Aurora\Component\CountryModel;
 use \Control;
 
 /**
@@ -43,6 +44,27 @@ class ExpenseControl {
     public function getExpensesResults( ) {
         $post = Control::getRequest( )->request( POST );
         echo json_encode( $this->ExpenseModel->getResults( $post ) );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function getCurrency( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        $vars = array( );
+        $vars['bool'] = 0;
+
+        if( isset( $post['cID'] ) ) {
+            $CountryModel = CountryModel::getInstance( );
+            $vars = array( );
+            $vars['data'] = $CountryModel->getBycID( $post['cID'] );
+            $vars['bool'] = 1;
+        }
+        echo json_encode( $vars );
         exit;
     }
 

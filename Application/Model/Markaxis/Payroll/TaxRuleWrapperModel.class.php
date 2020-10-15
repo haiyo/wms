@@ -48,6 +48,12 @@ class TaxRuleWrapperModel extends \Model {
 
         $totalGross = $data['items']['totalOrdinary'];
 
+        if( isset( $data['addGross'] ) ) {
+            foreach( $data['addGross'] as $addGross ) {
+                $totalGross += $addGross;
+            }
+        }
+
         if( isset( $data['deductGross'] ) ) {
             foreach( $data['deductGross'] as $deduction ) {
                 $totalGross -= $deduction;
@@ -112,13 +118,13 @@ class TaxRuleWrapperModel extends \Model {
                 }
                 $data['deductNet'][] = $amount;
 
-                $data['itemRow'][] = array( 'piID' => $data['items']['deduction']['piID'],
-                                            'trID' => $rules['trID'],
-                                            'tgID' => $rules['tgID'],
-                                            'deduction' => 1,
-                                            'title' => $ruleTitle,
-                                            'amount' => $amount,
-                                            'remark' => $remark );
+                $data['userTaxes'][] = array( 'piID' => $data['items']['deduction']['piID'],
+                                              'trID' => $rules['trID'],
+                                              'tgID' => $rules['tgID'],
+                                              'deduction' => 1,
+                                              'title' => $ruleTitle,
+                                              'amount' => $amount,
+                                              'remark' => $remark );
             }
 
             if( $rules['applyType'] == 'contribution' && $rules['applyValueType'] ) {
@@ -138,7 +144,7 @@ class TaxRuleWrapperModel extends \Model {
                 }
                 $data['contributions'][$rules['trID']] = array( 'title' => $ruleTitle,
                                                                 'trID' => $rules['trID'],
-                                                                'amount' => $amount,
+                                                                'amount' => ceil( $amount ),
                                                                 'remark' => $remark );
             }
 

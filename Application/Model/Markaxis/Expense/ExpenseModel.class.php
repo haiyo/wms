@@ -1,6 +1,9 @@
 <?php
 namespace Markaxis\Expense;
 use \Markaxis\Employee\EmployeeModel;
+use \Markaxis\Company\OfficeModel;
+use \Aurora\Component\CountryModel;
+use \Library\Util\Money;
 use \Library\Validator\Validator;
 
 /**
@@ -45,16 +48,12 @@ class ExpenseModel extends \Model {
      * @return int
      */
     public function getByeiID( $eiID ) {
-        return $this->Expense->getByeiID( $eiID );
-    }
+        $eInfo = $this->Expense->getByeiID( $eiID );
 
-
-    /**
-     * Return user data by userID
-     * @return mixed
-     */
-    public function getByUserID( $userID ) {
-        return $this->Expense->getByUserID( $userID );
+        if( $eInfo ) {
+            $eInfo['max_amount'] = Money::format( $eInfo['max_amount'] );
+        }
+        return $eInfo;
     }
 
 
@@ -66,7 +65,14 @@ class ExpenseModel extends \Model {
         if( $this->expenseList ) {
             return $this->expenseList;
         }
-        return $this->expenseList = $this->Expense->getList( );
+
+        $EmployeeModel = EmployeeModel::getInstance( );
+        $empInfo = $EmployeeModel->getInfo( );
+
+        $OfficeModel = OfficeModel::getInstance( );
+        $officeInfo = $OfficeModel->getByoID( $empInfo['officeID'] );
+
+        return $this->expenseList = $this->Expense->getList( $officeInfo['countryID'] );
     }
 
 
@@ -76,11 +82,9 @@ class ExpenseModel extends \Model {
      */
     public function getMaxAmount( $eiID ) {
         if( $exInfo = $this->getByeiID( $eiID ) ) {
-            $EmployeeModel = EmployeeModel::getInstance( );
-            $empInfo = $EmployeeModel->getInfo( );
-
             if( $exInfo['max_amount'] ) {
-                return $this->L10n->strReplace( 'maxAmount', $empInfo['currency'] . $exInfo['max_amount'],
+                return $this->L10n->strReplace( 'maxAmount', $exInfo['currencyCode'] .
+                                                             $exInfo['currencySymbol'] . $exInfo['max_amount'],
                                                 'LANG_MAX_AMOUNT_CLAIMABLE' );
             }
         }
@@ -113,6 +117,15 @@ class ExpenseModel extends \Model {
         }
         $results = $this->Expense->getResults( $post['search']['value'], $order . $dir );
 
+        if( $results ) {
+            foreach( $results as $key => $row ) {
+                if( isset( $row['countryID'] ) && $row['countryID'] ) {
+                    $results[$key]['max_amount'] = $row['currencyCode'] .
+                                                   $row['currencySymbol'] . Money::format( $row['max_amount'] );
+                }
+            }
+        }
+
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
@@ -124,20 +137,36 @@ class ExpenseModel extends \Model {
 
 
     /**
+     * Return user data by userID
+     * @return mixed
+     */
+    public function getAllItems( $data ) {
+        return $this->Expense->getList( $data['office']['countryID'] );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
     public function saveExpenseType( $data ) {
         $eiID = (int)$data['eiID'];
         $this->info['title'] = Validator::stripTrim( $data['expenseTitle'] );
+        $this->info['countryID'] = (int)$data['expenseCountry'];
         $this->info['max_amount'] = Validator::stripTrim( $data['expenseAmount'] );
 
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getInfo( );
-        $this->info['max_amount'] = number_format( str_replace( $empInfo['currency'],'',$this->info['max_amount'] ) );
+        $CountryModel = CountryModel::getInstance( );
+
+        if( !$CountryModel->isFound( $this->info['countryID'] ) ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_COUNTRY') );
+            return false;
+        }
+
+        $this->info['max_amount'] = preg_replace("/[^0-9]/",'', $this->info['max_amount'] );
 
         if( $this->isFoundByeiID( $eiID ) ) {
             $this->Expense->update( 'expense_item', $this->info, 'WHERE eiID = "' . (int)$eiID . '"' );
+            $this->info['eiID'] = $eiID;
         }
         else {
             $this->info['eiID'] = $this->Expense->insert('expense_item', $this->info );

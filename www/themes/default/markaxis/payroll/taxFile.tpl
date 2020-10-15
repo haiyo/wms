@@ -23,14 +23,13 @@
     </div>
 </div>
 
-    <table class="table table-hover datatable tableLayoutFixed payItemTable">
+    <table class="table table-hover datatable tableLayoutFixed taxfileTable">
         <thead>
         <tr>
             <th>Year</th>
             <th>Authorized Person</th>
             <th>Submission Type</th>
             <th>No. of Employee</th>
-            <th>A8A Required</th>
             <th>Actions</th>
         </tr>
         </thead>

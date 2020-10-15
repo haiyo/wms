@@ -139,14 +139,14 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
-    public function processPayroll( $args, $reprocess=false ) {
+    public function processPayroll( $args, $recalculate=false ) {
         try {
             if( Control::hasPermission('Markaxis', 'process_payroll' ) &&
                 isset( $args[1] ) && $empInfo = $this->EmployeeModel->getProcessInfo( $args[1] ) ) {
 
                 Control::setOutputArray( array( 'empInfo' => $empInfo ) );
 
-                if( !$reprocess ) {
+                if( !$recalculate ) {
                     Control::setOutputArray( $this->EmployeeView->renderProcessForm( $empInfo ) );
                 }
             }
@@ -165,7 +165,7 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( $args ) {
+    public function recalculate( $args ) {
         $this->processPayroll( $args,true );
     }
 

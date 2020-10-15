@@ -50,14 +50,16 @@ class TaxFile extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getItemResults( $q, $order='pi.title DESC' ) {
+    public function getResults( $q, $order='pi.title DESC' ) {
         $list = array( );
 
         $q = $q ? addslashes( $q ) : '';
         $q = $q ? 'AND pi.title LIKE "%' . $q . '%"' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM payroll_item pi
-                                   WHERE pi.deleted <> "1" ' . $q . '
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS *, CONCAT( u.fname, \' \', u.lname ) AS name
+                                   FROM taxfile tf
+                                   LEFT JOIN user u ON ( u.userID = tf.authUserID )
+                                   WHERE 1 = 1 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
 

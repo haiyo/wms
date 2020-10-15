@@ -44,7 +44,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label><?LANG_BASIC_SALARY?>:</label>
-                <input type="text" name="salary" placeholder="5000" class="form-control amountInput" value="<?TPLVAR_SALARY?>" />
+                <input type="text" name="salary" placeholder="5000" class="form-control amountInput" value="<?TPLVAR_SALARY?>" data-currency="<?TPLVAR_CURRENCY?>" />
             </div>
         </div>
 

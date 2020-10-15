@@ -8,17 +8,18 @@
         <div class="col-md-3 amount">
             <input type="text" name="amount_<?TPLVAR_ID?>" id="amount_<?TPLVAR_ID?>" class="form-control amountInput"
                    data-currency="<?TPLVAR_CURRENCY?>"
+                   disabled="disabled"
                    value="<?TPLVAR_AMOUNT?>" placeholder="" />
         </div>
 
         <div class="col-md-4 remark">
             <input type="text" name="remark_<?TPLVAR_ID?>" id="remark_<?TPLVAR_ID?>" class="form-control remark"
-                   value="<?TPLVAR_REMARK?>" placeholder="" autocomplete="off" data-fouc />
+                   value="<?TPLVAR_REMARK?>" placeholder="" disabled="disabled" autocomplete="off" data-fouc />
         </div>
 
         <div class="col-lg-1 sm-addrm text-center">
             <div class="mt-5 iconWrapper">
-                <a href="<?TPLVAR_ID?>" id="<?TPLVAR_HIDDEN_ID?>" class="removeItem"><i id="plus_<?TPLVAR_ID?>" class="icon icon-minus-circle2"></i></a>
+
             </div>
         </div>
     </div>

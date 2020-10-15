@@ -43,14 +43,25 @@ class UserItemControl {
         $this->viewSaved( );
     }
 
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function processPayroll( ) {
+        $data = Control::getOutputArray( );
+        $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
+        Control::setOutputArray( $this->UserItemModel->processPayroll( $data, $post ) );
+    }
+
+
     /**
      * Render main navigation
      * @return string
      */
     public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getPostData( );
-        Control::setOutputArray( $this->UserItemModel->savePayroll( $data, $post ) );
+        $this->processPayroll( );
+        $this->UserItemModel->savePayroll( Control::getOutputArray( ) );
     }
 
 

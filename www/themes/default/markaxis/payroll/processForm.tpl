@@ -49,6 +49,7 @@
 
         <div class="col-lg-1 sm-addrm text-center">
             <div class="mt-5 iconWrapper">
+                <a href="{id}" id="{id}" class="removeItem mr-20"><i id="plus_0" class="icon icon-minus-circle2"></i></a>
                 <a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>
             </div>
         </div>

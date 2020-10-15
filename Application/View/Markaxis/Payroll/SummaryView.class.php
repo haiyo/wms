@@ -62,8 +62,8 @@ class SummaryView {
 
         $fullList[] = array( 'id' => 1, 'title' => 'Pay Items', 'parent' => 0 );
         foreach( $itemList as $key => $value ) {
-            $class = $value['additional'] ? 'additional' : '';
-            $fullList[] = array( 'id' => 'p-' . $key, 'title' => $value['title'], 'class' => $class, 'parent' => 1 );
+            //$class = $value['additional'] ? 'additional' : '';
+            $fullList[] = array( 'id' => 'p-' . $key, 'title' => $value['title'], 'parent' => 1 );
         }
 
         $fullList[] = array( 'id' => 2, 'title' => 'Expenses', 'parent' => 0 );
@@ -74,12 +74,12 @@ class SummaryView {
         $SelectGroupListView = new SelectGroupListView( );
         $SelectGroupListView->includeBlank(false );
         $SelectGroupListView->setClass("itemType");
-        //$SelectGroupListView->isDisabled(true );
+        $SelectGroupListView->isDisabled(true );
         $SelectGroupListView->enableSort(false );
         $vars['dynamic']['item'] = $vars['dynamic']['hiddenField'] = false;
         $id = 0;
 
-        if( isset( $data['items']['basic'] ) && $data['items']['totalOrdinary'] ) {
+        /*if( isset( $data['items']['basic'] ) && $data['items']['totalOrdinary'] ) {
             $selected = 'p-' . $data['items']['basic']['piID'];
             $itemType = $SelectGroupListView->build( 'itemType_' . $id, $fullList, $selected, 'Select Payroll Item' );
 
@@ -93,7 +93,7 @@ class SummaryView {
                                                 'TPLVAR_REMARK' => '',
                                                 'TPL_ICON' => '' );
             $id++;
-        }
+        }*/
 
         if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
             foreach( $data['itemRow'] as $item ) {
@@ -107,7 +107,7 @@ class SummaryView {
 
                     //$SelectGroupListView->isDisabled(false );
 
-                    if( $item['piID'] == $data['items']['deduction']['piID'] || $item['piID'] == $data['items']['deductionAW']['piID'] ) {
+                    if( $item['piID'] == $data['items']['deduction']['piID'] ) {
                         $deduction = 'deduction';
                     }
 
@@ -150,7 +150,7 @@ class SummaryView {
                                                         'TPLVAR_HIDDEN_ID' => 'claim' . $claim['ecID'],
                                                         'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
                                                         'TPLVAR_AMOUNT' => $data['office']['currencyCode'] .
-                                                            $data['office']['currencySymbol'] . Money::format( $claim['amount'] ),
+                                                                           $data['office']['currencySymbol'] . Money::format( $claim['amount'] ),
                                                         'TPL_PAYROLL_ITEM_LIST' => $itemType,
                                                         'TPLVAR_REMARK' => $claim['remark'] );
 
@@ -162,7 +162,7 @@ class SummaryView {
             }
         }
 
-        //$SelectGroupListView->isDisabled(false );
+        $SelectGroupListView->isDisabled(false );
         $vars['TPL_PAYROLL_ITEM_LIST'] = $SelectGroupListView->build('itemType_{id}', $fullList, '', 'Select Payroll Item' );
         $vars['TPL_ITEM_LIST'] = $this->View->render( 'markaxis/payroll/itemInput.tpl', $vars );
         $vars['TPL_PROCESS_SUMMARY'] = $this->renderProcessSummary( $data );
@@ -181,7 +181,7 @@ class SummaryView {
     public function renderProcessSummary( $data ) {
         $summary = $this->SummaryModel->processSummary( $data );
 
-        if( isset( $summary['itemGroups'] ) ) {
+        /*if( isset( $summary['itemGroups'] ) ) {
             foreach( $summary['itemGroups'] as $groups ) {
                 if( isset( $groups['amount'] ) ) {
                     $showTips = 'hide';
@@ -198,6 +198,18 @@ class SummaryView {
                                                                     'TPLVAR_SHOW_TIP' => $showTips,
                                                                     'TPLVAR_REMARK' => $remark );
                 }
+            }
+        }*/
+
+        if( isset( $data['userTaxes'] ) ) {
+            foreach( $data['userTaxes'] as $userTax ) {
+                $showTips = $userTax['remark'] ?  '' : 'hide';
+
+                $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $userTax['title'],
+                                                                'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                                'TPLVAR_AMOUNT' => Money::format( $userTax['amount'] ),
+                                                                'TPLVAR_SHOW_TIP' => $showTips,
+                                                                'TPLVAR_REMARK' => $userTax['remark'] );
             }
         }
 
@@ -254,10 +266,10 @@ class SummaryView {
 
             if( $totalClaim > 0 ) {
                 $vars['dynamic']['deductionSummary'][] = array( 'TPLVAR_TITLE' => $this->L10n->getContents('LANG_TOTAL_CLAIM'),
-                    'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                    'TPLVAR_AMOUNT' => Money::format( $totalClaim ),
-                    'TPLVAR_SHOW_TIP' => 'hide',
-                    'TPLVAR_REMARK' => '' );
+                                                                'TPLVAR_CURRENCY' => $data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                                                'TPLVAR_AMOUNT' => Money::format( $totalClaim ),
+                                                                'TPLVAR_SHOW_TIP' => 'hide',
+                                                                'TPLVAR_REMARK' => '' );
             }
         }
 

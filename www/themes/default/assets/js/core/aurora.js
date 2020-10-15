@@ -789,7 +789,7 @@ $(document).ready( function( ) {
             if( currency != undefined ) {
                 return currency + n;
             }
-            else if( !isNaN(element) ) {
+            else if( isNaN(element) ) {
                 return element.attr("data-currency") + n;
             }
             return Aurora.currency + n;

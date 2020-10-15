@@ -32,6 +32,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_CREATE_NEW_PAY_RUN'] = 'Tạo chi phí chạy mới';
         $this->contents['LANG_PAYSLIP_RECORDS'] = 'Bản ghi Payslip';
         $this->contents['LANG_PAYROLL_SETTINGS'] = 'Cài đặt bảng lương';
+        $this->contents['LANG_FILTER_OFFICE_LOCATION'] = 'Lọc theo Văn phòng / Vị trí';
         $this->contents['LANG_ADD_PAY_CALENDAR'] = 'Thêm lịch trả tiền';
         $this->contents['LANG_WHICH_OFFICE'] = 'Văn phòng nào';
         $this->contents['LANG_SELECT_OFFICE'] = 'Chọn văn phòng';
@@ -80,8 +81,9 @@ class PayrollRes extends Resource {
         $this->contents['LANG_PAYMENT_CYCLE_DATE'] = 'Ngày chu kỳ thanh toán';
         $this->contents['LANG_PAY_CALENDAR'] = 'Lịch trả tiền';
         $this->contents['LANG_PAY_ITEMS'] = 'Thanh toán các mặt hàng';
-        $this->contents['LANG_EXPENSES_ITEM'] = 'Khoản mục Chi phí';
+        $this->contents['LANG_EXPENSE_ITEMS'] = 'Khoản mục Chi phí';
         $this->contents['LANG_TAX_RULES'] = 'Quy tắc thuế';
+        $this->contents['LANG_ADVANCED_TAX_RULES'] = 'Quy tắc thuế nâng cao';
         $this->contents['LANG_PAY_ITEM_TITLE'] = 'Trả tiêu đề mặt hàng';
         $this->contents['LANG_BASIC'] = 'Căn bản';
         $this->contents['LANG_ORDINARY'] = 'Bình thường';
@@ -149,7 +151,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_TYPE_OF_VALUE'] = 'Loại giá trị';
         $this->contents['LANG_CAPPED_AMOUNT_FORMULA'] = 'Giới hạn (Số lượng / Công thức)';
         $this->contents['LANG_TOTAL_GROSS'] = 'Tổng doanh thu';
-        $this->contents['LANG_TOTAL_NET_PAYABLE'] = 'Tổng phải trả ròng';
+        $this->contents['LANG_TOTAL_NET_PAYABLE'] = 'Tổng Nett phải trả';
         $this->contents['LANG_PAYMENT'] = 'Thanh toán';
         $this->contents['LANG_PROCESS_PERIOD'] = 'Thời gian quy trình';
         $this->contents['LANG_SELECT_EMPLOYEE_TO_PROCESS'] = 'Chọn nhân viên để xử lý bảng lương';

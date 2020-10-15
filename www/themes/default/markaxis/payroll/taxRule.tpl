@@ -2,7 +2,7 @@
     <div class="list-group-item" data-toggle="collapse">
         <span id="taxRuleTitle_<?TPLVAR_TRID?>"><?TPLVAR_RULE_TITLE?></span><br />
         <!-- BEGIN DYNAMIC BLOCK: criteria -->
-        <span class="badge badge-primary badge-criteria"><?TPLVAR_CRITERIA?></span>
+        <span class="badge badge-primary badge-criteria mt-5"><?TPLVAR_CRITERIA?></span>
         <!-- END DYNAMIC BLOCK: criteria -->
         <span class="badge badge-<?TPLVAR_BADGE?> applyAs"><?TPLVAR_APPLY_AS?></span>
     </div>

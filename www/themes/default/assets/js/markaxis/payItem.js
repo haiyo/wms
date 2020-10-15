@@ -83,17 +83,11 @@ var MarkaxisPayItem = (function( ) {
                                     $.uniform.update('#taxable');
                                 }
 
-                                if( obj.data.basic == 1 ) {
-                                    that.selectPayItemType("basic");
-                                }
-                                else if( obj.data.ordinary == 1 ) {
+                                if( obj.data.ordinary == 1 ) {
                                     that.selectPayItemType("ordinary");
                                 }
                                 else if( obj.data.deduction == 1 ) {
                                     that.selectPayItemType("deduction");
-                                }
-                                else if( obj.data.deductionAW == 1 ) {
-                                    that.selectPayItemType("deductionAW");
                                 }
                                 else if( obj.data.additional == 1 ) {
                                     that.selectPayItemType("additional");
@@ -186,11 +180,7 @@ var MarkaxisPayItem = (function( ) {
         selectPayItemType: function( type ) {
             $(".payItemBtn").addClass("btn-light").removeClass("btn-dark btn-green");
 
-            if( type === "basic" ) {
-                $("#payItemBasic").addClass("btn-green");
-                $("#payItemType").val("basic");
-            }
-            else if( type === "ordinary" ) {
+            if( type === "ordinary" ) {
                 $("#payItemOrdinary").addClass("btn-green");
                 $("#payItemType").val("ordinary");
             }
@@ -198,17 +188,9 @@ var MarkaxisPayItem = (function( ) {
                 $("#payItemDeduction").addClass("btn-green");
                 $("#payItemType").val("deduction");
             }
-            else if( type === "deductionAW" ) {
-                $("#payItemDeductionAW").addClass("btn-green");
-                $("#payItemType").val("deductionAW");
-            }
             else if( type === "additional" ) {
                 $("#payItemAdditional").addClass("btn-green");
                 $("#payItemType").val("additional");
-            }
-            else {
-                $("#payItemNone").addClass("btn-dark");
-                $("#payItemType").val("none");
             }
         },
 
@@ -325,85 +307,10 @@ var MarkaxisPayItem = (function( ) {
                 columnDefs: [{
                     targets: [0],
                     orderable: true,
-                    width: "200px",
+                    width: "500px",
                     data: "title"
                 },{
                     targets: [1],
-                    orderable: true,
-                    searchable: false,
-                    width: "100px",
-                    data: "basic",
-                    className : "text-center",
-                    render: function( data ) {
-                        if( data === '0' ) {
-                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
-                        }
-                        else {
-                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
-                        }
-                    }
-                },{
-                    targets: [2],
-                    orderable: true,
-                    searchable: false,
-                    width: "100px",
-                    data: "ordinary",
-                    className : "text-center",
-                    render: function( data ) {
-                        if( data === '0' ) {
-                            return '<span class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
-                        }
-                        else {
-                            return '<span class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
-                        }
-                    }
-                },{
-                    targets: [3],
-                    orderable: true,
-                    searchable: false,
-                    width: "100px",
-                    data: "deduction",
-                    className : "text-center",
-                    render: function( data, type, full ) {
-                        if( data === '0' ) {
-                            return '<span id="deduction' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
-                        }
-                        else {
-                            return '<span id="deduction' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
-                        }
-                    }
-                },{
-                    targets: [4],
-                    orderable: true,
-                    searchable: false,
-                    width: "100px",
-                    data: "deductionAW",
-                    className : "text-center",
-                    render: function( data, type, full ) {
-                        if( data === '0' ) {
-                            return '<span id="deductionAW' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
-                        }
-                        else {
-                            return '<span id="deductionAW' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
-                        }
-                    }
-                },{
-                    targets: [5],
-                    orderable: true,
-                    searchable: false,
-                    width: "100px",
-                    data: "additional",
-                    className : "text-center",
-                    render: function( data, type, full ) {
-                        if( data === '0' ) {
-                            return '<span id="additional' + full['piID'] + '" class="label label-pending">' + Aurora.i18n.GlobalRes.LANG_NO + '</span>';
-                        }
-                        else {
-                            return '<span id="additional' + full['piID'] + '" class="label label-success">' + Aurora.i18n.GlobalRes.LANG_YES + '</span>';
-                        }
-                    }
-                },{
-                    targets: [6],
                     orderable: true,
                     searchable: false,
                     width: "100px",
@@ -418,10 +325,10 @@ var MarkaxisPayItem = (function( ) {
                         }
                     }
                 },{
-                    targets: [7],
+                    targets: [2],
                     orderable: false,
                     searchable: false,
-                    width:"100px",
+                    width:"80px",
                     className:"text-center",
                     data:"piID",
                     render: function( data ) {

@@ -124,11 +124,21 @@ class SummaryModel extends \Model {
                 $summary['net']   += (float)$addGross;
             }
         }
-
+        if( isset( $data['addGrossAW'] ) ) {
+            foreach( $data['addGrossAW'] as $addGrossAW ) {
+                $summary['gross'] += (float)$addGrossAW;
+                $summary['net']   += (float)$addGrossAW;
+            }
+        }
         if( isset( $data['deductGross'] ) ) {
             foreach( $data['deductGross'] as $deductGross ) {
                 $summary['gross'] -= (float)$deductGross;
                 $summary['net']   -= (float)$deductGross;
+            }
+        }
+        if( isset( $data['addNet'] ) ) {
+            foreach( $data['addNet'] as $addNet ) {
+                $summary['net'] += (float)$addNet;
             }
         }
         if( isset( $data['deductNet'] ) ) {
@@ -158,46 +168,6 @@ class SummaryModel extends \Model {
                 $summary['contribution'] += (float)$levy['amount'];
             }
         }
-
-        if( isset( $data['itemRow'] ) && is_array( $data['itemRow'] ) ) {
-            foreach( $data['itemRow'] as $item ) {
-                foreach( $data['taxGroups']['mainGroup'] as $key => $taxGroup ) {
-                    // First find all the childs in this group and see if we have any summary=1
-                    if( isset( $taxGroup['child'] ) ) {
-                        $tgIDChilds = array_unique( array_column( $taxGroup['child'],'tgID' ) );
-
-                        if( isset( $item['tgID'] ) && in_array( $item['tgID'], $tgIDChilds ) ) {
-
-                            foreach( $taxGroup['child'] as $child ) {
-                                if( isset( $child['tgID'] ) && $child['tgID'] == $item['tgID'] ) {
-                                    if( $child['summary'] ) {
-                                        $summary['itemGroups'][$key]['title'] = $child['title'];
-                                        $summary['itemGroups'][$key]['remark'] = $item['remark'];
-                                    }
-                                    else {
-                                        $summary['itemGroups'][$key]['title'] = $data['taxGroups']['mainGroup'][$child['parent']]['title'];
-                                    }
-
-                                    if( isset( $summary['itemGroups'][$key]['amount'] ) ) {
-                                        $summary['itemGroups'][$key]['amount'] += (float)$item['amount'];
-                                    }
-                                    else {
-                                        $summary['itemGroups'][$key]['amount'] = (float)$item['amount'];
-                                    }
-                                    break 2;
-                                }
-                            }
-                        }
-                    }
-                    else if( isset( $taxGroup['tgID'] ) && isset( $item['tgID'] ) && $taxGroup['tgID'] == $item['tgID'] ) {
-                        // If children not found with summary=1, fallback to parent
-                        $summary['itemGroups'][$key]['title'] = $taxGroup['title'];
-                        $summary['itemGroups'][$key]['amount'] = (float)$item['amount'];
-                        break;
-                    }
-                }
-            }
-        }
         return $summary;
     }
 
@@ -207,12 +177,12 @@ class SummaryModel extends \Model {
      * @return int
      */
     public function savePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
+        if( isset( $data['payrollUser']['puID'] ) ) {
             $summary = $this->processSummary( $data );
 
             $info = array( );
             $info['pID'] = $data['payrollInfo']['pID'];
-            $info['puID'] = $data['puID'];
+            $info['puID'] = $data['payrollUser']['puID'];
             $info['gross'] = $summary['gross'];
             $info['deduction'] = $summary['deduction'];
             $info['levy'] = $summary['levy'];
@@ -220,7 +190,7 @@ class SummaryModel extends \Model {
             $info['net'] = $summary['net'];
             $info['claim'] = $summary['claim'];
 
-            if( $summaryInfo = $this->getByPuID( $data['puID'] ) ) {
+            if( $summaryInfo = $this->getByPuID( $data['payrollUser']['puID'] ) ) {
                 $this->Summary->update( 'payroll_summary', $info,
                                                'WHERE psID = "' . (int)$summaryInfo['psID'] . '"' );
 
@@ -238,8 +208,8 @@ class SummaryModel extends \Model {
      * @return int
      */
     public function deletePayroll( $data ) {
-        if( isset( $data['puID'] ) ) {
-            $this->Summary->delete('payroll_summary','WHERE puID = "' . (int)$data['puID'] . '"');
+        if( isset( $data['payrollUser']['puID'] ) ) {
+            $this->Summary->delete('payroll_summary','WHERE puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
     }
 }

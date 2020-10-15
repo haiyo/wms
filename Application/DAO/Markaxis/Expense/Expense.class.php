@@ -32,7 +32,9 @@ class Expense extends \DAO {
      * @return mixed
      */
     public function getByeiID( $eiID ) {
-        $sql = $this->DB->select( 'SELECT * FROM expense_item
+        $sql = $this->DB->select( 'SELECT ei.*, c.currencyCode, c.currencySymbol
+                                   FROM expense_item ei
+                                   LEFT JOIN country c ON ( c.cID = ei.countryID )
                                    WHERE deleted <> "1" AND
                                          eiID = "' . (int)$eiID . '"',
                                     __FILE__, __LINE__ );
@@ -48,9 +50,9 @@ class Expense extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
-    public function getList( ) {
+    public function getList( $countryID ) {
         $sql = $this->DB->select( 'SELECT eiID AS id, title FROM expense_item
-                                   WHERE deleted <> "1"
+                                   WHERE countryID = "' . (int)$countryID . '" AND deleted <> "1"
                                    ORDER BY title', __FILE__, __LINE__ );
 
         $list = array( );
@@ -73,7 +75,9 @@ class Expense extends \DAO {
         $q = $q ? addslashes( $q ) : '';
         $q = $q ? 'AND ( ei.title LIKE "%' . $q . '%" OR ei.max_amount LIKE "%' . $q . '%" )' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM expense_item ei
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS ei.*, c.currencyCode, c.currencySymbol,
+                                          c.name AS country FROM expense_item ei
+                                   LEFT JOIN country c ON ( c.cID = ei.countryID )
                                    WHERE deleted <> "1"' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );

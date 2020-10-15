@@ -27,6 +27,18 @@ class Country extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getBycID( $cID ) {
+        $sql = $this->DB->select( 'SELECT * FROM country WHERE cID = "' . (int)$cID . '"',
+                                   __FILE__, __LINE__ );
+
+        return $this->DB->fetch( $sql );
+    }
+
+
+    /**
      * Retrieve a user column by userID
      * @return mixed
      */

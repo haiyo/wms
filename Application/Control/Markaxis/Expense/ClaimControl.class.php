@@ -105,7 +105,7 @@ class ClaimControl {
      */
     public function processPayroll( ) {
         $data = Control::getOutputArray( );
-        Control::setOutputArray( array( 'claims' => $this->ClaimModel->getByRange( $data, 1 ) ) );
+        Control::setOutputArray( $this->ClaimModel->getByRange( $data, 1 ) );
     }
 
 
@@ -123,11 +123,8 @@ class ClaimControl {
      * @return string
      */
     public function savePayroll( ) {
-        $data = Control::getOutputArray( );
-        $post = Control::getRequest( )->request( POST );
-
         $this->processPayroll( );
-        $this->ClaimModel->savePayroll( $data, $post );
+        $this->ClaimModel->savePayroll( Control::getOutputArray( ) );
     }
 
 

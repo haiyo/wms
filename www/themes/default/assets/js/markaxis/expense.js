@@ -38,9 +38,17 @@ var MarkaxisExpense = (function( ) {
         initEvents: function( ) {
             var that = this;
 
+            $("#expenseCountry").select2( );
+
             $(document).on("click", ".deleteExpense", function(e) {
                 that.deleteExpense( $(this).attr("data-id") );
                 e.preventDefault( );
+            });
+
+            $("#expenseCountry").on("change", function( ) {
+                if( $(this).val( ) != null ) {
+                    that.setCurrency( $(this).val( ) );
+                }
             });
 
             that.modalExpense.on("show.bs.modal", function(e) {
@@ -56,10 +64,12 @@ var MarkaxisExpense = (function( ) {
                                 return;
                             }
                             else {
+                                console.log(obj.data)
                                 $("#modalExpense .modal-title").text( Markaxis.i18n.ExpenseRes.LANG_EDIT_EXPENSE_TYPE );
                                 $("#eiID").val( obj.data.eiID );
                                 $("#expenseTitle").val( obj.data.title );
-                                $("#expenseAmount").val( obj.data.max_amount ).blur();
+                                $("#expenseCountry").val( obj.data.countryID ).trigger("change");
+                                $("#expenseAmount").val( obj.data.currencyCode + obj.data.currencySymbol + obj.data.max_amount );
                             }
                         }
                     }
@@ -69,6 +79,7 @@ var MarkaxisExpense = (function( ) {
                     $("#modalExpense .modal-title").text( Markaxis.i18n.ExpenseRes.LANG_CREATE_NEW_EXPENSE_TYPE );
                     $("#eiID").val(0);
                     $("#expenseTitle").val("");
+                    $("#expenseCountry").val("").trigger("change");
                     $("#expenseAmount").val("");
                 }
             });
@@ -77,14 +88,23 @@ var MarkaxisExpense = (function( ) {
                 $("#expenseTitle").focus( );
             });
 
+            that.modalExpense.on("hidden.bs.modal", function() {
+                $("#eiID").val(0);
+                $("#expenseTitle").val("");
+                $("#expenseCountry").val("").trigger("change");
+                $("#expenseAmount").val("");
+            });
+
             $("#saveExpenseType").validate({
                 rules: {
                     expenseTitle: { required: true },
-                    expenseAmount: { required: true }
+                    expenseAmount: { required: true },
+                    expenseCountry: { required: true }
                 },
                 messages: {
                     expenseTitle: Markaxis.i18n.ExpenseRes.LANG_ENTER_EXPENSE_TYPE,
-                    expenseAmount: Markaxis.i18n.ExpenseRes.LANG_ENTER_MAX_AMOUNT
+                    expenseAmount: Markaxis.i18n.ExpenseRes.LANG_ENTER_MAX_AMOUNT,
+                    expenseCountry: Markaxis.i18n.ExpenseRes.LANG_PLEASE_SELECT_COUNTRY
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass("border-danger");
@@ -132,6 +152,32 @@ var MarkaxisExpense = (function( ) {
                     Aurora.WebService.AJAX( "admin/expense/saveExpenseType", data );
                 }
             });
+        },
+
+
+        /**
+         * setCurrency
+         * @return void
+         */
+        setCurrency: function( cID ) {
+            var that = this;
+
+            var data = {
+                bundle: {
+                    cID: cID
+                },
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+                    if( obj.bool == 0 ) {
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                        return;
+                    }
+                    else {
+                        $("#expenseAmount").attr("data-currency", obj.data.currencyCode + obj.data.currencySymbol );
+                    }
+                }
+            };
+            Aurora.WebService.AJAX("admin/expense/getCurrency", data);
         },
 
 
@@ -206,10 +252,16 @@ var MarkaxisExpense = (function( ) {
                     targets: [0],
                     orderable: true,
                     searchable: false,
-                    width: "450px",
+                    width: "300px",
                     data: "title",
                 },{
                     targets: [1],
+                    orderable: true,
+                    searchable: false,
+                    width: "300px",
+                    data: "country",
+                },{
+                    targets: [2],
                     orderable: true,
                     searchable: false,
                     width: "100px",
@@ -218,10 +270,10 @@ var MarkaxisExpense = (function( ) {
                         if( data == null ) {
                             return ' &mdash; ';
                         }
-                        return Aurora.currency + data;
+                        return data;
                     }
                 },{
-                    targets: [2],
+                    targets: [3],
                     orderable: false,
                     searchable: false,
                     width:"100px",

@@ -140,7 +140,7 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function reprocessPayroll( $args ) {
+    public function recalculate( $args ) {
         $this->processPayroll( $args );
     }
 

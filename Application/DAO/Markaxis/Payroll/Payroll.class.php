@@ -72,39 +72,6 @@ class Payroll extends \DAO {
     /**
      * Retrieve all user by name and role
      * @return mixed
-
-    public function getCalculateUserInfo( $userID ) {
-        $sql = $this->DB->select( 'SELECT u.fname, u.lname, u.birthday, n.nationality, emp.idnumber, emp.salary,
-                                          dpt.name AS department, dsg.title AS designation, cont.type AS contractType, 
-                                          pm.method AS paymentMethod, pt.title AS passType, emp_bk.*, bk.name AS bankName,
-                                          DATE_FORMAT(emp.startDate, "%D %b %Y") AS startDate, 
-                                          DATE_FORMAT(emp.confirmDate, "%D %b %Y") AS confirmDate, 
-                                          DATE_FORMAT(emp.endDate, "%D %b %Y") AS endDate
-                                   FROM user u
-                                          LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
-                                          LEFT JOIN employee emp ON ( u.userID = emp.userID )
-                                          LEFT JOIN employee_bank emp_bk ON ( u.userID = emp_bk.userID )
-                                          LEFT JOIN bank bk ON ( emp_bk.bkID = bk.bkID )
-                                          LEFT JOIN employee_department emp_dept ON ( u.userID = emp_dept.userID )
-                                          LEFT JOIN department dpt ON ( dpt.dID = emp_dept.departmentID )
-                                          LEFT JOIN designation dsg ON ( emp.designationID = dsg.dID )
-                                          LEFT JOIN contract cont ON ( emp.contractID = cont.cID )
-                                          LEFT JOIN payment_method pm ON ( emp.paymentMethodID = pm.pmID )
-                                          LEFT JOIN pass_type pt ON ( emp.passTypeID = pt.ptID )
-                                   WHERE u.userID = "' . (int)$userID . '"
-                                   GROUP BY u.userID, emp.idnumber',
-                                   __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
-    }  */
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
      */
     public function getBypID( $pID ) {
         $sql = $this->DB->select( 'SELECT * FROM payroll p 
@@ -122,19 +89,42 @@ class Payroll extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByRange( $startDate, $endDate, $userID=false ) {
-        $userID = $userID ? ' AND p.userID = "' . (int)$userID . '"' : '';
-
+    public function getByRange( $startDate, $endDate ) {
         $sql = $this->DB->select( 'SELECT *, CONCAT( MONTH(startDate), "", YEAR(startDate) ) AS startIndex 
-                                   FROM payroll p WHERE startDate 
+                                   FROM payroll p
+                                   WHERE startDate 
                                    BETWEEN "' . addslashes( $startDate ) . '" AND 
-                                           "' . addslashes( $endDate ) . '"' . $userID,
+                                           "' . addslashes( $endDate ) . '"',
                                    __FILE__, __LINE__ );
 
         $list = array( );
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {
                 $list[$row['startIndex']] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getUserTotalOWByRange( $startDate, $endDate, $userID ) {
+        $sql = $this->DB->select( 'SELECT ps.gross FROM payroll p
+                                   LEFT JOIN payroll_user pu ON ( pu.pID = p.pID )
+                                   LEFT JOIN payroll_summary ps ON ( ps.puID = pu.puID )
+                                   WHERE pu.userID = "' . (int)$userID . '" AND
+                                         p.startDate
+                                   BETWEEN "' . addslashes( $startDate ) . '" AND 
+                                           "' . addslashes( $endDate ) . '"',
+                                   __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[] = $row;
             }
         }
         return $list;

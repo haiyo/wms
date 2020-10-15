@@ -15,6 +15,7 @@
         <thead>
         <tr>
             <th><?LANG_EXPENSE_ITEM_TITLE?></th>
+            <th><?LANG_COUNTRY?></th>
             <th><?LANG_MAX_AMOUT?></th>
             <th><?LANG_ACTIONS?></th>
         </tr>
@@ -43,11 +44,19 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label><?LANG_APPLY_COUNTRY?>:</label>
+                            <?TPL_COUNTRY_LIST?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label><?LANG_MAX_ALLOWED_CLAIM?>:</label>
                             <div class="form-group">
                                 <div class="col-md-12 p-0">
                                     <input type="text" name="expenseAmount" id="expenseAmount" class="form-control amountInput"
                                            value=""
+                                           data-currency=""
                                            placeholder="<?LANG_ENTER_AMOUNT?>" />
                                 </div>
                             </div>

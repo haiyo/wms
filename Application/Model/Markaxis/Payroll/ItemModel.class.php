@@ -112,15 +112,6 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getDeductionAW( ) {
-        return $this->Item->getDeductionAW( );
-    }
-
-
-    /**
-     * Return user data by userID
-     * @return mixed
-     */
     public function getAdditional( ) {
         return $this->Item->getAdditional( );
     }
@@ -170,63 +161,30 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getAllItems( $data ) {
-        $items = array( );
-        $items['basic'] = $this->getBasic( );
-        $items['ordinary'] = $this->getOrdinary( );
-        $items['deduction'] = $this->getDeduction( );
-        $items['deductionAW'] = $this->getDeductionAW( );
-        $items['additional'] = $this->getAdditional( );
+    public function getAllItems( $data, $viewSaved ) {
+        $data['items']['basic'] = $this->getBasic( );
+        $data['items']['ordinary'] = $this->getOrdinary( );
+        $data['items']['deduction'] = $this->getDeduction( );
+        $data['items']['additional'] = $this->getAdditional( );
 
-        $items['basic']['amount'] = $items['totalOrdinary'] = 0;
+        $data['items']['basic']['amount'] = $data['items']['totalOrdinary'] = 0;
 
-        if( isset( $data['empInfo']['salary'] ) && isset( $items['basic'] ) && is_numeric( $data['empInfo']['salary'] ) &&
+        if( $data['items']['basic'] && isset( $data['empInfo']['salary'] ) && is_numeric( $data['empInfo']['salary'] ) &&
             $data['empInfo']['salary'] > 0 ) {
 
-            $items['basic']['amount'] = $data['empInfo']['salary'];
-            $items['totalOrdinary'] = $data['empInfo']['salary'];
-        }
-        return $items;
-    }
+            $data['items']['totalOrdinary'] = $data['empInfo']['salary'];
 
+            $row = array( 'piID' => $data['items']['basic']['piID'],
+                          'amount' => $data['empInfo']['salary'],
+                          'remark' => '' );
 
-    /**
-     * Return total count of records
-     * @return int
-     */
-    public function reprocessPayroll( $data, $post ) {
-        if( isset( $post['data'] ) ) {
-            $preg = '/^itemType_(\d)+/';
-            $callback = function( $val ) use( $preg ) {
-                if( preg_match( $preg, $val, $match ) ) {
-                    return $match;
-                } else {
-                    return false;
-                }
-            };
-            $criteria = array_filter( $post['data'], $callback,ARRAY_FILTER_USE_KEY );
-            $post['postItems'] = array( );
+            $data['postItems'][] = $row;
 
-            foreach( $criteria as $key => $item ) {
-                preg_match( $preg, $key, $match );
-
-                if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'p-' ) ) {
-                    $id   = $match[1];
-                    $piID = str_replace('p-', '', $item );
-
-                    if( $this->isFound( $piID ) ) {
-                        $amount = str_replace($data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                                              '', $post['data']['amount_' . $id] );
-                        $amount = (int)str_replace(',', '', $amount );
-
-                        $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
-
-                        $post['postItems'][] = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
-                    }
-                }
+            if( !$viewSaved ) {
+                $data['itemRow'][] = $row;
             }
-            return $post;
         }
+        return $data;
     }
 
 
@@ -238,6 +196,7 @@ class ItemModel extends \Model {
         $this->info['piID'] = (int)$data['piID'];
         $this->info['title'] = Validator::stripTrim( $data['payItemTitle'] );
         $this->info['formula'] = trim( $data['formula'] );
+        $this->info['ordinary'] = 1;
         $this->info['taxable'] = isset( $data['taxable'] ) ? 1 : 0;
 
         $Validator = new Validator( );
@@ -249,24 +208,6 @@ class ItemModel extends \Model {
         catch( ValidatorException $e ) {
             $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
             return false;
-        }
-
-        $this->info['ordinary'] = 0;
-        $this->info['deduction'] = 0;
-        $this->info['deductionAW'] = 0;
-        $this->info['additional'] = 0;
-
-        if( $data['payItemType'] == 'ordinary' ) {
-            $this->info['ordinary'] = 1;
-        }
-        else if( $data['payItemType'] == 'deduction' ) {
-            $this->info['deduction'] = 1;
-        }
-        else if( $data['payItemType'] == 'deductionAW' ) {
-            $this->info['deductionAW'] = 1;
-        }
-        else if( $data['payItemType'] == 'additional' ) {
-            $this->info['additional'] = 1;
         }
         return true;
     }

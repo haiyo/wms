@@ -72,10 +72,10 @@ class LevyModel extends \Model {
     public function savePayroll( $data ) {
         $success = array( );
 
-        if( isset( $data['puID'] ) && isset( $data['levies'] ) && sizeof( $data['levies'] ) ) {
+        if( isset( $data['payrollInfo']['pID'] ) && isset( $data['levies'] ) && sizeof( $data['levies'] ) ) {
             foreach( $data['levies'] as $levy ) {
                 $info = array( );
-                $info['puID'] = $data['puID'];
+                $info['puID'] = $data['payrollUser']['puID'];
                 $info['title'] = $levy['title'];
                 $info['amount'] = $levy['amount'];
                 array_push($success, $this->Levy->insert( 'payroll_levy', $info ) );
@@ -83,7 +83,7 @@ class LevyModel extends \Model {
         }
         if( sizeof( $success ) > 0 ) {
             $this->Levy->delete('payroll_levy', 'WHERE plID NOT IN(' . implode(',', $success ) . ') AND 
-                                                       puID = "' . (int)$data['puID'] . '"');
+                                                       puID = "' . (int)$data['payrollUser']['puID'] . '"');
         }
         else {
             $this->deletePayroll( $data );

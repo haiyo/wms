@@ -1,5 +1,6 @@
 <?php
 namespace Markaxis\Payroll;
+use \Aurora\User\UserImageModel;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -37,7 +38,7 @@ class TaxFileModel extends \Model {
      * @return int
      */
     public function isFound( $piID ) {
-        return $this->Item->isFound( $piID );
+        return $this->TaxFile->isFound( $piID );
     }
 
 
@@ -46,7 +47,7 @@ class TaxFileModel extends \Model {
      * @return mixed
      */
     public function getList( ) {
-        return $this->Item->getList( );
+        return $this->TaxFile->getList( );
     }
 
 
@@ -63,20 +64,31 @@ class TaxFileModel extends \Model {
         if( isset( $data['order'][0]['column'] ) ) {
             switch( $data['order'][0]['column'] ) {
                 case 1:
-                    $order = 'pi.title';
+                    $order = 'tf.year';
                     break;
                 case 2:
-                    $order = 'pi.basic';
+                    $order = 'tf.authUserID';
                     break;
                 case 3:
-                    $order = 'pi.deduction';
+                    $order = 'tf.subType';
                     break;
                 default:
-                    $order = 'pi.claim';
+                    $order = 'tf.empCount';
                     break;
             }
         }
-        $results = $this->Item->getItemResults( $data['search']['value'], $order . $dir );
+        $results = $this->TaxFile->getResults( $data['search']['value'], $order . $dir );
+
+        if( $results ) {
+            $UserImageModel = UserImageModel::getInstance( );
+
+            foreach( $results as $key => $row ) {
+                if( isset( $row['userID'] ) ) {
+                    $results[$key]['photo'] = $UserImageModel->getImgLinkByUserID( $row['authUserID'] );
+                }
+            }
+        }
+
         $total = $results['recordsTotal'];
         unset( $results['recordsTotal'] );
 
@@ -97,7 +109,7 @@ class TaxFileModel extends \Model {
         $this->info['piID'] = (int)$data['piID'];
         $this->info['title'] = Validator::stripTrim( $data['payItemTitle'] );
 
-        $Validator->addModule( 'payItemTitle', new IsEmpty( $this->info['title'] ) );
+        $Validator->addModule('payItemTitle', new IsEmpty( $this->info['title'] ) );
 
         try {
             $Validator->validate( );
