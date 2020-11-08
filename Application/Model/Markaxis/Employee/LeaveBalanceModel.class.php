@@ -103,7 +103,7 @@ class LeaveBalanceModel extends \Model {
 
                 $balInfo = $this->getByltIDUserID( $type['ltID'], $empInfo['userID'] );
 
-                if( !$balInfo['elbID'] ) {
+                if( !isset( $balInfo['elbID'] ) ) {
                     $info['ltID'] = $type['ltID'];
                     $info['userID'] = (int)$empInfo['userID'];
                     $this->LeaveBalance->insert('employee_leave_bal', $info );
