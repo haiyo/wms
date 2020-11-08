@@ -44,7 +44,8 @@ class LeaveBalance extends \DAO {
                                                     userID = "' . (int)$userID . '" AND
                                                     status = "1") la2 ON la2.ltID = lb.ltID
                                    WHERE lb.ltID = "' . (int)$ltID . '" AND
-                                         lb.userID = "' . (int)$userID . '"',
+                                         lb.userID = "' . (int)$userID . '"
+                                         GROUP BY lb.elbID, la.totalPending, la2.totalConsumed',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
