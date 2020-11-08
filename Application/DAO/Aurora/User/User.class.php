@@ -85,7 +85,7 @@ class User extends \DAO {
     */
     public function getFieldByEmail( $email, $column ) {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user
-                                   WHERE ( email = "' . addslashes( $email ) . '"" )',
+                                   WHERE email = "' . addslashes( $email ) . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
