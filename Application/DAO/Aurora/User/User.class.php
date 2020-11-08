@@ -85,8 +85,7 @@ class User extends \DAO {
     */
     public function getFieldByEmail( $email, $column ) {
         $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user
-                                   WHERE ( email = "' . addslashes( $email ) . '" OR 
-                                           email2 = "' . addslashes( $email ) . '" )',
+                                   WHERE ( email = "' . addslashes( $email ) . '"" )',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -176,7 +175,7 @@ class User extends \DAO {
         $list = array( );
         $sql = $this->DB->select( 'SELECT userID, CONCAT(fname," ",lname) as name FROM user
                                    WHERE CONCAT(fname," ",lname) LIKE "%' . addslashes( $name ) . '%"',
-            __FILE__, __LINE__ );
+                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
             while( $row = $this->DB->fetch( $sql ) ) {

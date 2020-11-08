@@ -5,7 +5,7 @@ use \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Aurora\Component\AuditLogModel, \Aurora\Component\NationalityModel;
 use \Library\Security\Aurora\Authenticator, \Library\Util\Date;
-use \Library\Validator\Validator;
+use \Library\Helper\Aurora\IDTypeHelper, \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
 use \Library\Exception\ValidatorException;
 
@@ -257,6 +257,14 @@ class UserModel extends \Model {
         $CountryModel = CountryModel::getInstance( );
         if( $CountryModel->isFound( $data['country'] ) ) {
             $this->info['countryID'] = (int)$data['country'];
+        }
+
+        //$IDTypeHelper = IDTypeHelper::getL10nList( )
+        if( in_array( $data['idType'], IDTypeHelper::getList( ) ) ) {
+            $this->info['idType'] = (int)$data['idType'];
+        }
+        else {
+            $this->info['idType'] = 1;
         }
 
         $NationalityModel = NationalityModel::getInstance( );
