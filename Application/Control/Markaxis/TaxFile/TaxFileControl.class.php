@@ -150,5 +150,15 @@ class TaxFileControl {
             exit;
         }
     }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function iras_sandbox( $args ) {
+        // tfID
+        var_dump($args); exit;
+    }
 }
 ?>
