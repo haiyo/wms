@@ -1,21 +1,23 @@
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
         <h4>IRAS AUTO-INCLUSION SCHEME (AIS)</h4>
         File tax and submit directly to IRAS through the AUTO-INCLUSION SCHEME (AIS).
         Click <a href="#" data-toggle="modal" data-target="#modalIrasInfo">HERE</a> to understand more.
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <div class="list-action-btns payItems-list-action-btns">
             <ul class="icons-list">
                 <li>
-                    <a href="<?TPLVAR_ROOT_URL?>admin/payroll/newTaxFiling" type="button" class="btn bg-purple-400 btn-labeled">
+                    <a href="<?TPLVAR_ROOT_URL?>admin/taxfile/taxFiling" type="button" class="btn bg-purple-400 btn-labeled">
                         <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_NEW_TAX_FILING?>
-                    </a>&nbsp;&nbsp;&nbsp;
-                    <a href="<?TPLVAR_ROOT_URL?>admin/payroll/newAmendment" type="button" class="btn bg-purple-400 btn-labeled">
-                        <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_AMENDMENT?>
                     </a>
+
+
+                    <!--<a href="<?TPLVAR_ROOT_URL?>admin/payroll/newAmendment" type="button" class="btn bg-purple-400 btn-labeled">
+                        <b><i class="icon-file-plus2"></i></b> <?LANG_CREATE_AMENDMENT?>
+                    </a>-->
 
                 </li>
             </ul>
@@ -26,10 +28,12 @@
     <table class="table table-hover datatable tableLayoutFixed taxfileTable">
         <thead>
         <tr>
-            <th>Year</th>
+            <th>File For Year</th>
             <th>Authorized Person</th>
             <th>Submission Type</th>
             <th>No. of Employee</th>
+            <th>Status</th>
+            <th>Submission To IRAS</th>
             <th>Actions</th>
         </tr>
         </thead>

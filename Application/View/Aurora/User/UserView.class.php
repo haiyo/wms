@@ -1,7 +1,8 @@
 <?php
 namespace Aurora\User;
 use \Aurora\Admin\AdminView, \Aurora\Form\RadioView, \Aurora\Form\SelectListView, \Aurora\Form\DayIntListView;
-use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\YesNoHelper, \Library\Helper\Aurora\MonthHelper;
+use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\IDTypeHelper, \Library\Helper\Aurora\YesNoHelper;
+use \Library\Helper\Aurora\MonthHelper;
 use \Library\Helper\Aurora\MaritalHelper, \Aurora\Component\NationalityModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Library\Runtime\Registry;
@@ -87,8 +88,8 @@ class UserView {
      */
     public function renderForm( ) {
         $RadioView = new RadioView( );
-        $genderRadio = $RadioView->build( 'gender', GenderHelper::getL10nList( ), $this->userInfo['gender'] );
-        $childrenRadio = $RadioView->build( 'children', YesNoHelper::getL10nList( ), $this->userInfo['children'] );
+        $genderRadio = $RadioView->build('gender', GenderHelper::getL10nList( ), $this->userInfo['gender'] );
+        $childrenRadio = $RadioView->build('children', YesNoHelper::getL10nList( ), $this->userInfo['children'] );
 
         $dobDay = $dobMonth = $dobYear = '';
         if( $this->userInfo['birthday'] ) {
@@ -110,6 +111,9 @@ class UserView {
 
         $langList = $SelectListView->build('language', $this->i18n->getLanguages( ), $this->userInfo['lang'],
                                                $this->L10n->getContents('LANG_SELECT_LANGUAGE') );
+
+        $idTypeList = $SelectListView->build( 'idType', IDTypeHelper::getL10nList( ), $this->userInfo['idType'],
+            $this->L10n->getContents('LANG_SELECT_ID_TYPE') );
 
         $NationalityModel = NationalityModel::getInstance( );
         $nationalities = $NationalityModel->getList( );
@@ -147,17 +151,18 @@ class UserView {
                        'TPLVAR_LNAME' => $this->userInfo['lname'],
                        'TPLVAR_NRIC' => $this->userInfo['nric'],
                        'TPLVAR_USERNAME' => $this->userInfo['username'],
-                       'TPLVAR_EMAIL1' => $this->userInfo['email1'],
-                       'TPLVAR_EMAIL2' => $this->userInfo['email2'],
+                       'TPLVAR_EMAIL' => $this->userInfo['email'],
                        'TPLVAR_PHONE' => $this->userInfo['phone'],
                        'TPLVAR_MOBILE' => $this->userInfo['mobile'],
                        'TPLVAR_DOB_YEAR' => $dobYear,
-                       'TPLVAR_ADDRESS1' => $this->userInfo['address1'],
+                       'TPLVAR_HOUSE_NO' => $this->userInfo['houseNo'],
+                       'TPLVAR_STREET_NAME' => $this->userInfo['streetName'],
+                       'TPLVAR_LEVEL_UNIT' => $this->userInfo['levelUnit'],
                        'TPL_LANGUAGE_LIST' => $langList,
-                       //'TPLVAR_ADDRESS2' => $this->userInfo['address2'],
                        'TPLVAR_POSTAL' => $this->userInfo['postal'],
                        'TPLVAR_CITY' => $this->userInfo['city'],
                        'TPLVAR_STATE' => $this->userInfo['state'],
+                       'TPL_IDTYPE_LIST' => $idTypeList,
                        'TPL_NATIONALITY_LIST' => $nationalityList,
                        'TPL_RELIGION_LIST' => $religionList,
                        'TPL_RACE_LIST' => $raceList,

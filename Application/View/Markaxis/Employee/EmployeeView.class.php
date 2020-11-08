@@ -197,7 +197,7 @@ class EmployeeView {
                 $list = array( 'TPLVAR_IMAGE' => $value['image'],
                                'TPLVAR_FNAME' => $value['fname'],
                                'TPLVAR_LNAME' => $value['lname'],
-                               'TPLVAR_EMAIL' => $value['email1'],
+                               'TPLVAR_EMAIL' => $value['email'],
                                'TPLVAR_IDNUMBER' => $value['idnumber'],
                                'TPLVAR_DESIGNATION' => $value['designation'] );
 

@@ -107,8 +107,7 @@ class Item extends \DAO {
      * @return mixed
      */
     public function getOrdinary( ) {
-        $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.ordinary 
-                                   FROM payroll_item pi 
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item pi 
                                    WHERE pi.ordinary = "1" AND 
                                          pi.deleted <> "1"',
                                    __FILE__, __LINE__ );

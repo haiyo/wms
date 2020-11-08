@@ -96,7 +96,8 @@ class ItemControl {
      * @return string
      */
     public function viewSlip( ) {
-        $this->processPayroll( );
+        $data = Control::getOutputArray( );
+        Control::setOutputArray( $this->ItemModel->getAllItems( $data, true ) );
     }
 
 

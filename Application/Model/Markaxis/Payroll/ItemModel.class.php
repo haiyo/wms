@@ -1,5 +1,8 @@
 <?php
 namespace Markaxis\Payroll;
+use \Library\Helper\Markaxis\ItemCategoryHelper;
+use \Library\Helper\Markaxis\AllowanceTypeHelper;
+use \Library\Helper\Markaxis\LumpSumTypeHelper;
 use \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty;
 use \Library\Exception\ValidatorException;
@@ -198,6 +201,49 @@ class ItemModel extends \Model {
         $this->info['formula'] = trim( $data['formula'] );
         $this->info['ordinary'] = 1;
         $this->info['taxable'] = isset( $data['taxable'] ) ? 1 : 0;
+
+        if( isset( $data['category'] ) && in_array( $data['category'], ItemCategoryHelper::getList( ) ) ) {
+            if( $data['category'] == 'a' && isset( $data['allowanceType'] ) && in_array( $data['allowanceType'], AllowanceTypeHelper::getList( ) ) ) {
+                if( $data['allowanceType'] == 't' ) {
+                    $this->info['transport'] = 1;
+                }
+                else if( $data['allowanceType'] == 'e' ) {
+                    $this->info['entertainment'] = 1;
+                }
+                else if( $data['allowanceType'] == 'o' ) {
+                    $this->info['allowanceOthers'] = 1;
+                }
+            }
+            else if( $data['category'] == 'l' && isset( $data['lumpSumType'] ) && in_array( $data['lumpSumType'], LumpSumTypeHelper::getList( ) ) ) {
+                if( $data['lumpSumType'] == 'g' ) {
+                    $this->info['gratuity'] = 1;
+                }
+                else if( $data['lumpSumType'] == 'n' ) {
+                    $this->info['notice'] = 1;
+                }
+                else if( $data['lumpSumType'] == 'e' ) {
+                    $this->info['exgratia'] = 1;
+                }
+                else if( $data['lumpSumType'] == 'o' ) {
+                    $this->info['lumpSumOthers'] = 1;
+                }
+            }
+            else if( $data['category'] == 'd' ) {
+                $this->info['directorFee'] = 1;
+            }
+            else if( $data['category'] == 'p' ) {
+                $this->info['pension'] = 1;
+            }
+            else if( $data['category'] == 'c' ) {
+                $this->info['commission'] = 1;
+            }
+            else if( $data['category'] == 'b' ) {
+                $this->info['benefits'] = 1;
+            }
+            else if( $data['category'] == 's' ) {
+                $this->info['stock'] = 1;
+            }
+        }
 
         $Validator = new Validator( );
         $Validator->addModule( 'payItemTitle', new IsEmpty( $this->info['title'] ) );

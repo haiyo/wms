@@ -70,12 +70,37 @@ class Employee extends \DAO {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function getIR8AInfo( $userID ) {
+        $sql = $this->DB->select( 'SELECT DISTINCT u.userID, u.nric, CONCAT( u.fname, " ", u.lname ) AS name, u.email AS email,
+                                          u.gender, u.houseNo, u.streetName, u.levelUnit, u.nationalityID, u.postal, u.birthday, u.mobile, 
+                                          d.title AS designation, n.nationality,
+                                          e.*, b.bkID, b.name AS bankName
+                                   FROM user u
+                                   LEFT JOIN nationality n ON ( n.nID = u.nationalityID )
+                                   LEFT JOIN employee e ON ( e.userID = u.userID )
+                                   LEFT JOIN employee_bank eb ON ( eb.userID = u.userID )
+                                   LEFT JOIN bank b ON ( b.bkID = eb.bkID )
+                                   LEFT JOIN designation d ON ( e.designationID = d.dID )
+                                   WHERE u.userID = "' . (int)$userID . '" AND u.deleted <> "1"',
+                                   __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user list normally use for building select list
      * @return mixed
      */
     public function getList( $q='', $departmentID, $designationID, $excludeUserID='' ) {
         $q = $q ? addslashes( $q ) : '';
-        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" OR u.email1 LIKE "%' . $q . '%" )' : '';
+        $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" OR u.email LIKE "%' . $q . '%" )' : '';
 
         $exclude = $excludeUserID ? ' AND u.userID NOT IN(' . addslashes( $excludeUserID ) . ')' : '';
         $department = $departmentID ? ' AND FIND_IN_SET("' . (int)$departmentID . '", ed.departmentID)' : '';
@@ -83,7 +108,7 @@ class Employee extends \DAO {
 
         $list = array( );
 
-        $sql = $this->DB->select( 'SELECT DISTINCT u.userID, CONCAT( u.fname, " ", u.lname ) AS name, u.email1 AS email,
+        $sql = $this->DB->select( 'SELECT DISTINCT u.userID, CONCAT( u.fname, " ", u.lname ) AS name, u.email AS email,
                                           u.mobile, d.title AS designation,
                                           IFNULL(ed.department, "" ) AS department
                                    FROM user u
@@ -138,11 +163,11 @@ class Employee extends \DAO {
         else {
             $q = $q ? addslashes( $q ) : '';
             $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
-                       OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
+                       OR e.idnumber = "' . $q . '" OR u.email LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
                        OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
-                                          u.email1, u.mobile, u.suspended, e.resigned, e.startdate, d.title AS designation,
+                                          u.email, u.mobile, u.suspended, e.resigned, e.startdate, d.title AS designation,
                                           e.idnumber, e.salary, e.endDate, c.type,
                                           ad.descript AS suspendReason
                                    FROM user u

@@ -164,12 +164,12 @@ class Payroll extends \DAO {
         else {
             $q = $q ? addslashes( $q ) : '';
             $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%" 
-                       OR e.idnumber = "' . $q . '" OR u.email1 LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
+                       OR e.idnumber = "' . $q . '" OR u.email LIKE "%' . $q . '%" OR e.startdate LIKE "%' . $q . '%"
                        OR c.type LIKE "%' . $q . '%" OR d.title LIKE "%' . $q . '%")' : '';
         }
 
         $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS u.userID, CONCAT( u.fname, \' \', u.lname ) AS name,
-                                          u.email1, u.mobile,
+                                          u.email, u.mobile,
                                           u.suspended, e.resigned, e.startdate, d.title AS designation,
                                           e.idnumber, e.salary, e.endDate, c.type,
                                           ad.descript AS suspendReason, pu.puCount

@@ -135,6 +135,15 @@ class EmployeeModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getIR8AInfo( $userID ) {
+        return $this->Employee->getIR8AInfo( $userID );
+    }
+
+
+    /**
      * Get File Information
      * @return mixed
      */
@@ -156,7 +165,7 @@ class EmployeeModel extends \Model {
                     $order = 'd.title';
                     break;
                 case 4:
-                    $order = 'e.email1';
+                    $order = 'e.email';
                     break;
                 case 5:
                     $order = 'u.mobile';

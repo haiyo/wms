@@ -34,7 +34,7 @@ class RadioView {
         $radio = array();
         foreach( $arrayList as $value => $key ) {
             if( $key != '' ) {
-                if( $selected !== '' && $value == $selected ) {
+                if( $selected != NULL && $selected !== '' && $value == $selected ) {
                     $select = ' checked="checked"';
                 }
                 else {

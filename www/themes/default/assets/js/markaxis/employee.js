@@ -285,7 +285,7 @@ var MarkaxisEmployee = (function( ) {
                     targets: [4],
                     orderable: true,
                     width: '220px',
-                    data: 'email1'
+                    data: 'email'
                 },{
                     targets: [5],
                     orderable: true,

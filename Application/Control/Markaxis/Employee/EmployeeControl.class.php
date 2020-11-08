@@ -47,7 +47,7 @@ class EmployeeControl {
      */
     public function getList( $args ) {
         if( isset( $args[1] ) ) {
-            $includeOwn = isset( $args[2] ) ? true : false;
+            $includeOwn = isset( $args[2] );
             echo json_encode( $this->EmployeeModel->getList( $args[1], 0, 0, $includeOwn ) );
             exit;
         }
@@ -58,14 +58,27 @@ class EmployeeControl {
      * Render main navigation
      * @return void
      */
-    public function getCountList( $data ) {
-        if( Control::hasPermission('Markaxis', 'add_modify_employee' ) ) {
+    public function getCountList( ) {
+        if( Control::hasPermission('Markaxis','add_modify_employee' ) ) {
             $output = Control::getOutputArray( );
 
             if( isset( $output['list'] ) ) {
                 echo $this->EmployeeView->renderCountList( $output['list'] );
                 exit;
             }
+        }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function prepareUserDeclaration( ) {
+        $post = Control::getRequest( )->request( POST );
+
+        if( isset( $post['userID'] ) ) {
+            Control::setOutputArrayAppend( array( 'empIR8AInfo' => $this->EmployeeModel->getIR8AInfo( $post['userID'] ) ) );
         }
     }
 

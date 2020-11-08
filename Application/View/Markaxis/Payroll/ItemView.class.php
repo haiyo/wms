@@ -1,6 +1,10 @@
 <?php
 namespace Markaxis\Payroll;
 use \Aurora\Admin\AdminView;
+use \Aurora\Form\RadioView;
+use \Library\Helper\Markaxis\ItemCategoryHelper;
+use \Library\Helper\Markaxis\AllowanceTypeHelper;
+use \Library\Helper\Markaxis\LumpSumTypeHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -42,7 +46,15 @@ class ItemView {
      * @return string
      */
     public function renderSettings( ) {
-        $vars = array_merge( $this->L10n->getContents( ), array( ) );
+        $RadioView = new RadioView( );
+        $categoryRadio = $RadioView->build('category', ItemCategoryHelper::getL10nList( ), 'n' );
+        $allowanceTypeRadio = $RadioView->build('allowanceType', AllowanceTypeHelper::getL10nList( ), 'o' );
+        $lumpSumTypeRadio = $RadioView->build('lumpSumType', LumpSumTypeHelper::getL10nList( ), 'g' );
+
+        $vars = array_merge( $this->L10n->getContents( ),
+                array( 'TPLVAR_ALLOWANCE_BENEFITS_STOCKS' => $categoryRadio,
+                       'TPLVAR_ALLOWANCE_TYPE' => $allowanceTypeRadio,
+                       'TPLVAR_LUMP_SUM_TYPE' => $lumpSumTypeRadio ) );
 
         return $this->View->render( 'markaxis/payroll/itemList.tpl', $vars );
     }

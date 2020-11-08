@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/Library/vendor/fpdm/src" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/apiclient" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/apiclient-services" />
       <excludeFolder url="file://$MODULE_DIR$/Library/vendor/google/auth" />

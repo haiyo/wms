@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <label><?LANG_ASSIGN_PAYROLL_CALENDAR?>:</label>
+            <label><?LANG_ASSIGN_PAYROLL_CALENDAR?>: <span class="text-danger-400">*</span></label>
             <?TPL_PAYROLL_CAL_LIST?>
         </div>
         <div class="col-md-4">

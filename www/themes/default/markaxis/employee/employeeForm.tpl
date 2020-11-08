@@ -13,7 +13,7 @@
         </div>
 
         <div class="col-md-6">
-            <label><?LANG_OFFICE_LOCATION?>:</label>
+            <label><?LANG_OFFICE_LOCATION?>: <span class="text-danger-400">*</span></label>
             <?TPL_OFFICE_LIST?>
         </div>
 
@@ -85,7 +85,7 @@
         </div>
 
         <div class="col-md-6">
-            <label><?LANG_EMPLOYMENT_START_DATE?>:</label>
+            <label><?LANG_EMPLOYMENT_START_DATE?>: <span class="text-danger-400">*</span></label>
             <div class="form-group">
                 <div class="col-md-4 no-padding-left">
                     <div class="form-group">

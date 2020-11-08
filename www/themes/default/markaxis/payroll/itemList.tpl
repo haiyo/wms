@@ -30,41 +30,71 @@
             </div>
 
             <form id="savePayItem" name="savePayItem" method="post" action="">
-            <div class="modal-body overflow-y-visible">
-                <input type="hidden" id="piID" name="piID" value="0" />
-                <input type="hidden" id="payItemType" name="payItemType" value="" />
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <label><?LANG_PAY_ITEM_TITLE?>:</label>
-                            <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
-                                   placeholder="<?LANG_ENTER_PAY_ITEM_TITLE?>" />
+                <div class="modal-body overflow-y-visible">
+                    <input type="hidden" id="piID" name="piID" value="0" />
+                    <input type="hidden" id="payItemType" name="payItemType" value="" />
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label><?LANG_PAY_ITEM_TITLE?>:</label>
+                                <input type="text" name="payItemTitle" id="payItemTitle" class="form-control" value=""
+                                       placeholder="<?LANG_ENTER_PAY_ITEM_TITLE?>" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="display-block">&nbsp;</label>
+                        <div class="col-md-3">
+                            <label class="display-block mt-5">&nbsp;</label>
                             <input type="checkbox" class="dt-checkboxes check-input" id="taxable" name="taxable" value="1" />
                             <label for="taxable" class="ml-5"><?LANG_TAXABLE?></label>
                         </div>
-                    </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label><?LANG_FORMULA?>:</label>
-                            <input type="text" name="formula" id="formula" class="form-control" value=""
-                                   placeholder="<?LANG_ENTER_FORMULA?>" />
+                        <div id="categoryType" class="col-md-12 mb-15">
+                            <?TPLVAR_ALLOWANCE_BENEFITS_STOCKS?>
+                        </div>
+
+                        <div id="allowanceType" class="col-md-12 mb-15 hide">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h7 class="mb-0 ml-10 font-weight-bold">Allowance Type</h7>
+                                    <div class="card">
+                                        <div class="card-body allowanceRadio">
+                                            <?TPLVAR_ALLOWANCE_TYPE?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="lumpSumType" class="col-md-12 mb-15 hide">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h7 class="mb-0 ml-10 font-weight-bold">Lump Sum Type</h7>
+                                    <div class="card">
+                                        <div class="card-body lumpSumRadio">
+                                            <?TPLVAR_LUMP_SUM_TYPE?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><?LANG_FORMULA?>:</label>
+                                <input type="text" name="formula" id="formula" class="form-control" value=""
+                                       placeholder="<?LANG_ENTER_FORMULA?>" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
-                    <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
+                <div class="modal-footer">
+                    <div class="modal-footer-btn">
+                        <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                        <button type="submit" class="btn btn-primary"><?LANG_SUBMIT?></button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>

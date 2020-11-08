@@ -111,7 +111,7 @@ var MarkaxisProfile = (function( ) {
                     fname : "required",
                     lname : "required",
                     idnumber : "required",
-                    email1: {
+                    email: {
                         validEmail: true,
                         required: true
                     },
