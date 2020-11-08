@@ -376,7 +376,8 @@ class TaxFileModel extends \Model {
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_URL => $endpoint . $fields_string,
                 //CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_HTTPHEADER => array( 'x-ibm-client-id: ' . urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
+                CURLOPT_HTTPHEADER => array(
+                    'x-ibm-client-id: ' . urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
                     'x-ibm-client-secret: ' . urlencode('H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1'),
                     'content-type: application/json',
                     'accept: application/json' )
@@ -384,7 +385,9 @@ class TaxFileModel extends \Model {
             $result = curl_exec($ch);
             $result = json_decode( $result );
 
-            var_dump($result); exit;
+            if( isset( $result->returnCode ) && $result->returnCode == 10 && isset( $result->data->url ) ) {
+                header('location: ' . $result->data->url );
+            }
         }
     }
 }
