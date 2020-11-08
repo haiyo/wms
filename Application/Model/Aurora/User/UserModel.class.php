@@ -34,7 +34,7 @@ class UserModel extends \Model {
         $this->info['gender'] = $this->info['birthday'] = $this->info['countryID'] =
         $this->info['houseNo'] = $this->info['streetName'] = $this->info['levelUnit'] =
         $this->info['postal'] = $this->info['city'] = $this->info['state'] =
-        $this->info['phone'] = $this->info['mobile'] = $this->info['nric'] =
+        $this->info['phone'] = $this->info['mobile'] = $this->info['idType'] = $this->info['nric'] =
         $this->info['marital'] = $this->info['nationalityID'] = $this->info['username'] =
         $this->info['lang'] = $this->info['image'] = '';
 
