@@ -66,7 +66,8 @@ class UserRes extends Resource {
         $this->contents['LANG_REMOVE_PHOTO'] = 'Remove Photo';
         $this->contents['LANG_FIRST_NAME'] = 'First Name';
         $this->contents['LANG_LAST_NAME'] = 'Last Name / Surname';
-        $this->contents['LANG_SSN'] = 'SSN / NRIC / Passport';
+        $this->contents['LANG_SSN'] = 'NRIC / FIN / Passport';
+        $this->contents['LANG_ID_TYPE'] = 'ID Type';
         $this->contents['LANG_NATIONALITY'] = 'Nationality';
         $this->contents['LANG_PRIMARY_EMAIL'] = 'Primary Email Address';
         $this->contents['LANG_SECONDARY_EMAIL'] = 'Secondary Email Address';
@@ -117,6 +118,7 @@ class UserRes extends Resource {
         $this->contents['LANG_MONTH'] = 'Month';
         $this->contents['LANG_DAY'] = 'Day';
         $this->contents['LANG_SELECT_COUNTRY'] = 'Select Country';
+        $this->contents['LANG_SELECT_ID_TYPE'] = 'Select ID Type';
         $this->contents['LANG_SELECT_NATIONALITY'] = 'Select Nationality';
         $this->contents['LANG_SELECT_RACE'] = 'Select Race';
         $this->contents['LANG_SELECT_STATUS'] = 'Select Status';

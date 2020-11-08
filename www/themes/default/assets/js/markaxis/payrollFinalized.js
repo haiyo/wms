@@ -251,6 +251,11 @@ var MarkaxisPayrollFinalized = (function( ) {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 }
             });
+
+            $(".dataTables_length select").select2({
+                minimumResultsForSearch: Infinity,
+                width: "auto"
+            });
         }
     }
     return MarkaxisPayrollFinalized;

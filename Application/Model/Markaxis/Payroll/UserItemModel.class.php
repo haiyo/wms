@@ -39,6 +39,132 @@ class UserItemModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getTotalGrossByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalGrossByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalAdditionalByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalAdditionalByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalDirectorFeeByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalDirectorFeeByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalTransportByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalTransportByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalEntertainmentByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalEntertainmentByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalOtherAllowanceByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalOtherAllowanceByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalCommissionByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalCommissionByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalPensionByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalPensionByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalGratuityByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalGratuityByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalNoticeByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalNoticeByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalExGratiaByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalExGratiaByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalOtherLumpsumByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalOtherLumpsumByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalStockByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalStockByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalBenefitsByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserItem->getTotalBenefitsByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function getExistingItems( $data ) {
@@ -66,7 +192,7 @@ class UserItemModel extends \Model {
      */
     public function processPayroll( $data, $post ) {
         if( isset( $post['data'] ) ) {
-            $preg = '/^itemType_(\d)+/';
+            $preg = '/^itemType_(\d+)+/';
             $callback = function( $val ) use( $preg ) {
                 if( preg_match( $preg, $val, $match ) ) {
                     return $match;
@@ -82,6 +208,7 @@ class UserItemModel extends \Model {
                 if( isset( $match[1] ) && is_numeric( $match[1] ) && strstr( $item,'p-' ) ) {
                     $id   = $match[1];
                     $piID = str_replace('p-', '', $item );
+                    $processID = isset( $post['processID'] ) ? str_replace('p-', '', $post['processID'] ) : 0;
 
                     if( isset( $data['items']['ordinary'][$piID] ) || $data['items']['additional']['piID'] == $piID ||
                         $data['items']['deduction']['piID'] == $piID ) {
@@ -91,6 +218,11 @@ class UserItemModel extends \Model {
                         $amount = (int)str_replace(',', '', $amount );
 
                         $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
+
+                        if( $piID == $processID && isset( $data['items']['ordinary'][$piID] ) && $data['items']['ordinary'][$piID]['directorFee'] ) {
+                            $data['populate'] = array( 'processID' => $post['processID'],
+                                'placeHolder' => 'AGM Approved Date (E.g: 01/12/2020)' );
+                        }
 
                         $postItem = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
 

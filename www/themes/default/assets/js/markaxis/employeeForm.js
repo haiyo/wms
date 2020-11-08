@@ -131,6 +131,9 @@ var MarkaxisEmployeeForm = (function( ) {
                     else {
                         $(element).addClass("border-danger");
                     }
+                    if( $(element).attr("type") == "radio" ) {
+                        $(element).parent().addClass("border-danger");
+                    }
                 },
                 unhighlight: function( element, errorClass ) {
                     var selectEle = $(element).next().find(".select2-selection");
@@ -149,6 +152,7 @@ var MarkaxisEmployeeForm = (function( ) {
                 rules: {
                     fname : "required",
                     lname : "required",
+                    gender : "required",
                     dobMonth: "required",
                     dobDay: "required",
                     dobYear: "required",
@@ -156,13 +160,16 @@ var MarkaxisEmployeeForm = (function( ) {
                     idnumber : "required",
                     office: "required",
                     pcID: "required",
-                    email1: {
+                    email: {
                         validEmail: true,
                         required: true
                     },
                     children: {
                         validChildren: true
-                    }
+                    },
+                    startMonth: "required",
+                    startDay: "required",
+                    startYear: "required",
                 }
             };
 
@@ -173,6 +180,7 @@ var MarkaxisEmployeeForm = (function( ) {
 
             $("#dobMonth").select2({minimumResultsForSearch: -1});
             $("#dobDay").select2({minimumResultsForSearch: -1});
+            $("#idType").select2({minimumResultsForSearch: -1});
             $("#nationality").select2( );
             $("#country").select2( );
             $("#state").select2( );

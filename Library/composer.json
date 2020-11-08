@@ -2,6 +2,7 @@
     "require": {
         "google/apiclient": "^2.0",
         "mpdf/mpdf": "^8.0",
-        "google/cloud-kms": "^1.10"
+        "google/cloud-kms": "^1.10",
+        "mikehaertl/php-pdftk": "^0.9.1"
     }
 }

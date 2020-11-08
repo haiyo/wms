@@ -250,6 +250,21 @@ class PayrollRes extends Resource {
         $this->contents['LANG_DEPARTMENT'] = 'Phòng ban';
         $this->contents['LANG_EMPLOYER_NAME'] = 'Tên nhà tuyển dụng';
         $this->contents['LANG_JOIN_DATE'] = 'Ngày tham gia';
+        $this->contents['LANG_NONE'] = 'None';
+        $this->contents['LANG_ALLOWANCE'] = 'Allowance';
+        $this->contents['LANG_DIRECTORS_FEE'] = 'Director\'s Fee';
+        $this->contents['LANG_BENEFITS_IN_KIND'] = 'Benefits-In-Kind';
+        $this->contents['LANG_STOCK_OPTIONS'] = 'Stock Options';
+        $this->contents['LANG_TRANSPORT'] = 'Transport';
+        $this->contents['LANG_ENTERTAINMENT'] = 'Entertainment';
+        $this->contents['LANG_OTHERS'] = 'Others';
+        $this->contents['LANG_COMMISSION'] = 'Gross Commission';
+        $this->contents['LANG_PENSION'] = 'Pension';
+        $this->contents['LANG_LUMP_SUM'] = 'Lump Sum';
+        $this->contents['LANG_GRATUITY'] = 'Gratuity';
+        $this->contents['LANG_NOTICE_PAY'] = 'Notice Pay';
+        $this->contents['LANG_EX_GRATIA_PAYMENT'] = 'Ex-Gratia Payment';
+        $this->contents['LANG_COMPENSATION_LOSS_OFFICE'] = 'Compensation Loss of Office';
     }
 }
 ?>

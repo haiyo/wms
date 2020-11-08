@@ -136,7 +136,7 @@ class PayrollModel extends \Model {
                     $order = 'd.title';
                     break;
                 case 4:
-                    $order = 'e.email1';
+                    $order = 'e.email';
                     break;
                 case 5:
                     $order = 'u.mobile';

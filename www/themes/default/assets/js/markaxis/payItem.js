@@ -36,6 +36,10 @@ var MarkaxisPayItem = (function( ) {
         initEvents: function( ) {
             var that = this;
 
+            $(".styled").uniform({
+                radioClass: 'choice'
+            });
+
             $(".payItemBtn").on("click", function(e) {
                 that.selectPayItemType( $(this).val( ) );
                 e.preventDefault( );
@@ -51,12 +55,32 @@ var MarkaxisPayItem = (function( ) {
                 e.preventDefault( );
             });
 
+            $('input:radio[name="category"]').change(function( ) {
+                if( $(this).val( ) == 'a' ) {
+                    $("#allowanceType").removeClass("hide");
+                }
+                else {
+                    $("#allowanceType").addClass("hide");
+                }
+
+                if( $(this).val( ) == 'l' ) {
+                    $("#lumpSumType").removeClass("hide");
+                }
+                else {
+                    $("#lumpSumType").addClass("hide");
+                }
+            });
+
             that.modalPayItem.on("hidden.bs.modal", function (e) {
                 $("#piID").val(0);
                 $("#payItemTitle").val("");
                 $("#formula").val("");
                 $("#taxable").prop("checked", false);
-                $.uniform.update('#taxable');
+                $("#category1").prop("checked", true);
+                $("#allowanceType3").prop("checked", true);
+                $.uniform.update( );
+                $("#allowanceType").addClass("hide");
+                $("#lumpSumType").addClass("hide");
                 that.selectPayItemType( "none" );
             });
 
@@ -80,21 +104,46 @@ var MarkaxisPayItem = (function( ) {
 
                                 if( obj.data.taxable == 1 ) {
                                     $("#taxable").prop("checked", true);
-                                    $.uniform.update('#taxable');
                                 }
 
-                                if( obj.data.ordinary == 1 ) {
-                                    that.selectPayItemType("ordinary");
+                                if( obj.data.transport == 1 || obj.data.entertainment == 1 || obj.data.allowanceOthers == 1 ) {
+                                    $("#category2").prop("checked", true);
+                                    $("#allowanceType").removeClass("hide");
+                                    if( obj.data.transport == 1 ) $("#allowanceType1").prop("checked", true);
+                                    if( obj.data.entertainment == 1 ) $("#allowanceType2").prop("checked", true);
+                                    if( obj.data.allowanceOthers == 1 ) $("#allowanceType3").prop("checked", true);
                                 }
-                                else if( obj.data.deduction == 1 ) {
-                                    that.selectPayItemType("deduction");
+
+                                if( obj.data.gratuity == 1 || obj.data.notice == 1 || obj.data.exgratia == 1 || obj.data.lumpSumOthers == 1 ) {
+                                    $("#category5").prop("checked", true);
+                                    $("#lumpSumType").removeClass("hide");
+                                    if( obj.data.gratuity == 1 ) $("#lumpSumType1").prop("checked", true);
+                                    if( obj.data.notice == 1 ) $("#lumpSumType2").prop("checked", true);
+                                    if( obj.data.exgratia == 1 ) $("#lumpSumType3").prop("checked", true);
+                                    if( obj.data.lumpSumOthers == 1 ) $("#lumpSumType4").prop("checked", true);
                                 }
-                                else if( obj.data.additional == 1 ) {
-                                    that.selectPayItemType("additional");
+
+                                if( obj.data.directorFee == 1 ) {
+                                    $("#category3").prop("checked", true);
                                 }
-                                else {
-                                    that.selectPayItemType("none");
+
+                                if( obj.data.commission == 1 ) {
+                                    $("#category4").prop("checked", true);
                                 }
+
+                                if( obj.data.pension == 1 ) {
+                                    $("#category5").prop("checked", true);
+                                }
+
+                                if( obj.data.benefits == 1 ) {
+                                    $("#category7").prop("checked", true);
+                                }
+
+                                if( obj.data.stock == 1 ) {
+                                    $("#category8").prop("checked", true);
+                                }
+
+                                $.uniform.update( );
                             }
                         }
                     }
@@ -105,7 +154,11 @@ var MarkaxisPayItem = (function( ) {
                     $("#payItemTitle").val("");
                     $("#formula").val("");
                     $("#taxable").prop("checked", false);
-                    $.uniform.update('#taxable');
+                    $("#category1").prop("checked", true);
+                    $("#allowanceType3").prop("checked", true);
+                    $("#allowanceType").addClass("hide");
+                    $("#lumpSumType").addClass("hide");
+                    $.uniform.update( );
                 }
             });
 

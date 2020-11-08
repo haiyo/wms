@@ -103,7 +103,7 @@ class Department extends \DAO {
      * @return mixed
      */
     public function getCountList( $dID ) {
-        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email1, u.mobile, n.nationality, e.idnumber,
+        $sql = $this->DB->select( 'SELECT u.userID, u.fname, u.lname, u.email, u.mobile, n.nationality, e.idnumber,
                                           IFNULL(ed2.department, "" ) AS department, dsg.title AS designation
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )

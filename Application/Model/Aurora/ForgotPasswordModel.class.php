@@ -71,7 +71,7 @@ class ForgotPasswordModel extends \Model {
     public function isValidEmail( $email ) {
         $Validator = new Validator( );
         $this->info['email']  = Validator::stripTrim( $email );
-        $Validator->addModule( 'email1', new IsEmail( $this->info['email'] ) );
+        $Validator->addModule( 'email', new IsEmail( $this->info['email'] ) );
 
         try {
             $Validator->validate( );

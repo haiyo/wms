@@ -41,7 +41,13 @@ var MarkaxisTaxFile = (function( ) {
 
             $("#year").select2({minimumResultsForSearch: Infinity});
             $("#office").select2({minimumResultsForSearch: Infinity});
-            $("#designation").select2({minimumResultsForSearch: Infinity});
+            $("#sourceType").select2({minimumResultsForSearch: Infinity});
+            $("#paymentType").select2({minimumResultsForSearch: Infinity});
+            $("#orgIDType").select2({minimumResultsForSearch: Infinity});
+
+            $(".styled").uniform({
+                radioClass: 'choice'
+            });
 
             $.fn.stepy.defaults.legend = false;
             $.fn.stepy.defaults.transition = 'fade';
@@ -50,16 +56,28 @@ var MarkaxisTaxFile = (function( ) {
             $.fn.stepy.defaults.nextLabel = Aurora.i18n.GlobalRes.LANG_NEXT + ' <i class="icon-arrow-right14 position-right"></i>';
 
             $(".stepy").stepy({
-                titleClick: true,
+                titleClick: false,
                 validate: false,
                 block: true,
                 back: function (index) {
 
                 },
                 next: function (index) {
-
+                    if( index == 2 ) {
+                        that.createForm( );
+                    }
+                    else if( index == 3 ) {
+                        if( markaxisTaxFileEmployee.selected.length == 0 ) {
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", "Please select employee", "error");
+                        }
+                        else {
+                            markaxisTaxFileDeclare.initTable( );
+                            $(".stepy").stepy("step", 3);
+                        }
+                    }
+                    return false;
                 },
-                finish: function (index) {
+                finish: function(index) {
                     //that.confirmFinalize();
                     return false;
                 }
@@ -68,6 +86,29 @@ var MarkaxisTaxFile = (function( ) {
             var stepy = $(".stepy-step");
             stepy.find(".button-next").addClass("btn btn-primary btn-next");
             stepy.find(".button-back").addClass("btn btn-default");
+        },
+
+
+        createForm: function( ) {
+            var data = {
+                bundle: {
+                    data: Aurora.WebService.serializePost("#irasForm")
+                },
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+                    if( obj.bool === 0 ) {
+                        swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                        return;
+                    }
+                    else {
+                        if( obj.data != "update" ) {
+                            $("#ir8aID").val( obj.data );
+                        }
+                        $(".stepy").stepy("step", 2);
+                    }
+                }
+            };
+            Aurora.WebService.AJAX("admin/taxfile/createForm", data);
         },
 
 
@@ -85,7 +126,7 @@ var MarkaxisTaxFile = (function( ) {
                     $(nRow).attr('id', 'row' + aData['userID']);
                 },
                 ajax: {
-                    url: Aurora.ROOT_URL + "admin/payroll/getTaxFileResults/",
+                    url: Aurora.ROOT_URL + "admin/taxfile/getTaxFileResults/",
                     type: "POST",
                     data: function ( d ) {
                         d.ajaxCall = 1;
@@ -107,12 +148,12 @@ var MarkaxisTaxFile = (function( ) {
                     targets: [0],
                     orderable: true,
                     width: '150px',
-                    data: 'year'
+                    data: 'fileYear'
                 },{
                     targets: [1],
                     orderable: true,
-                    width: '200px',
-                    data: 'name',
+                    width: '250px',
+                    data: 'authName',
                     render: function(data, type, full, meta) {
                         return '<img src="' + full['photo'] + '" class="user-table-photo" />' + data;
                     }
@@ -120,14 +161,42 @@ var MarkaxisTaxFile = (function( ) {
                     targets: [2],
                     orderable: true,
                     width: '180px',
-                    data: 'subType'
+                    data: 'batch',
+                    className : "text-center"
                 },{
                     targets: [3],
                     orderable: true,
-                    width: '220px',
-                    data: 'empCount'
+                    width: '150px',
+                    data: 'empCount',
+                    className : "text-center"
                 },{
                     targets: [4],
+                    orderable: true,
+                    width: '200px',
+                    data: 'completed',
+                    className : "text-center",
+                    render: function(data, type, full, meta) {
+                        if( data == 0 ) {
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-warning">Action Required</span>';
+                        }
+                        return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Completed</span>';
+                    }
+                },{
+                    targets: [5],
+                    orderable: true,
+                    width: '200px',
+                    data: 'submitted',
+                    className : "text-center",
+                    render: function(data, type, full, meta) {
+                        if( data == 0 ) {
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Submitted</span>';
+                        }
+                        else{
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Submitted</span>';
+                        }
+                    }
+                },{
+                    targets: [6],
                     orderable: false,
                     searchable : false,
                     width: '100px',
@@ -139,8 +208,14 @@ var MarkaxisTaxFile = (function( ) {
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
-                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/user/edit/' + data + '">' +
-                            '<i class="icon-pencil5"></i> sdf</a>' +
+                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/taxFiling/' + data + '">' +
+                            '<i class="icon-pencil5"></i> Edit Batch</a>' +
+                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadIR8A/' + data + '">' +
+                            '<i class="icon-pencil5"></i> Download IRAS XML</a>' +
+                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +
+                            '<i class="icon-pencil5"></i> Download Appendix 8A XML</a>' +
+                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/submitIRAS/' + data + '">' +
+                            '<i class="icon-pencil5"></i> Submit To IRAS</a>' +
                             '</div>' +
                             '</div>' +
                             '</div>';
@@ -161,6 +236,11 @@ var MarkaxisTaxFile = (function( ) {
                 preDrawCallback: function() {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 }
+            });
+
+            $(".dataTables_length select").select2({
+                minimumResultsForSearch: Infinity,
+                width: "auto"
             });
         }
     }

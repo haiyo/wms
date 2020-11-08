@@ -199,7 +199,7 @@ class TaxPayItemModel extends \Model {
             foreach( $data['postItems'] as $postItem ) {
                 $amount = (int)$postItem['amount'];
 
-                if( isset( $postItem['additional'] ) ) {
+                if( isset( $postItem['additional'] ) && $postItem['additional'] == 1 ) {
                     foreach( $taxPayItem as $item ) {
                         if( $postItem['piID'] == $item['piID'] && !$amount ) {
                             $amount = $this->calculateAmount( $data, $item, $totalOrdinary, $totalWorkDaysOfYear );

@@ -74,7 +74,7 @@ class Office extends \DAO {
      * @return mixed
      */
     public function getList( ) {
-        $sql = $this->DB->select( 'SELECT * FROM office WHERE deleted <> "1"',
+        $sql = $this->DB->select( 'SELECT * FROM office WHERE deleted <> "1" ORDER BY main DESC',
                                    __FILE__, __LINE__ );
 
         $list = array( );

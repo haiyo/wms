@@ -9,24 +9,29 @@
             <label><?LANG_LAST_NAME?>: <span class="text-danger-400">*</span></label>
             <input type="text" name="lname" id="lname" placeholder="Koh" class="form-control" value="<?TPLVAR_LNAME?>" />
         </div>
+
+        <div class="col-md-3">
+            <label><?LANG_ID_TYPE?>:</label>
+            <?TPL_IDTYPE_LIST?>
+        </div>
+
         <div class="col-md-3">
             <label><?LANG_SSN?>:</label>
             <input type="text" name="nric" id="nric" placeholder="0000000001" class="form-control" value="<?TPLVAR_NRIC?>" />
         </div>
-        <div class="col-md-3">
-            <label><?LANG_NATIONALITY?>:</label>
-            <?TPL_NATIONALITY_LIST?>
-        </div>
+
     </div>
     <div class="row">
         <div class="col-md-3">
             <label><?LANG_PRIMARY_EMAIL?>: <span class="text-danger-400">*</span></label>
-            <input type="text" name="email1" id="email1" class="form-control" placeholder="julia@email.com" value="<?TPLVAR_EMAIL1?>" />
+            <input type="text" name="email" id="email" class="form-control" placeholder="julia@email.com" value="<?TPLVAR_EMAIL?>" />
         </div>
+
         <div class="col-md-3">
-            <label><?LANG_SECONDARY_EMAIL?>:</label>
-            <input type="email" name="email2" id="email2" class="form-control" placeholder="julia@email.com" value="<?TPLVAR_EMAIL2?>" />
+            <label><?LANG_NATIONALITY?>:</label>
+            <?TPL_NATIONALITY_LIST?>
         </div>
+
         <div class="col-md-6">
             <label><?LANG_DATE_OF_BIRTH?>: <span class="text-danger-400">*</span></label>
             <div class="form-group">
@@ -62,18 +67,22 @@
             <?TPL_COUNTRY_LIST?>
         </div>
         <div class="col-md-3">
-            <label class="display-block"><?LANG_GENDER?>:</label>
+            <label class="display-block"><?LANG_GENDER?>:  <span class="text-danger-400">*</span></label>
             <?TPL_GENDER_RADIO?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <label><?LANG_PREFERRED_LANGUAGE?>:</label>
-            <?TPL_LANGUAGE_LIST?>
+            <label>Block / House No.:</label>
+            <input type="text" name="houseNo" placeholder="456" class="form-control" value="<?TPLVAR_HOUSE_NO?>" />
         </div>
         <div class="col-md-3">
-            <label><?LANG_PRIMARY_ADDRESS?>:</label>
-            <input type="text" name="address1" placeholder="Ring street 12" class="form-control" value="<?TPLVAR_ADDRESS1?>" />
+            <label>Street Name:</label>
+            <input type="text" name="streetName" placeholder="Ring street" class="form-control" value="<?TPLVAR_STREET_NAME?>" />
+        </div>
+        <div class="col-md-2">
+            <label>Level / Unit No.:</label>
+            <input type="text" name="levelUnit" placeholder="07-1199" class="form-control" value="<?TPLVAR_LEVEL_UNIT?>" />
         </div>
         <div class="col-md-2">
             <label><?LANG_ZIP_CODE?>:</label>
@@ -85,19 +94,20 @@
                 <option value=""><?LANG_SELECT_STATE?></option>
             </select>
         </div>
-        <div class="col-md-2">
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <label><?LANG_CITY?>:</label>
             <select name="city" data-placeholder="<?LANG_SELECT_CITY?>" placeholder="<?LANG_SELECT_CITY?>" id="city" class="form-control select ">
                 <option value=""><?LANG_SELECT_CITY?></option>
             </select>
         </div>
-    </div>
-    <div class="row">
+
         <div class="col-md-3">
             <label><?LANG_RELIGION?>:</label>
             <?TPL_RELIGION_LIST?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label class="display-block"><?LANG_RACE?>: <span class="text-danger-400">*</span></label>
             <?TPL_RACE_LIST?>
         </div>
@@ -254,9 +264,14 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-3">
+                        <label><?LANG_PREFERRED_LANGUAGE?>:</label>
+                        <?TPL_LANGUAGE_LIST?>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
 </fieldset>

@@ -55,7 +55,6 @@ class ContractControl extends Control {
      */
     public function getContractResults( ) {
         $post = Control::getRequest( )->request( POST );
-
         echo json_encode( $this->ContractModel->getResults( $post ) );
         exit;
     }

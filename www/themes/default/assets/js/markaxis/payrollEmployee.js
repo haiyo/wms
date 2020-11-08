@@ -86,28 +86,6 @@ var MarkaxisPayrollEmployee = (function( ) {
                 that.table.ajax.url( Aurora.ROOT_URL + "admin/payroll/employee/" + $("#pID").val( ) + "/" + $("#office").val( ) ).load();
             });
 
-            var ids = [];
-            $(document).on("change", "input[class='dt-checkboxes']", function(e) {
-                var found = $.inArray( $(this).val( ), ids );
-
-                if( e.target.checked ) {
-                    if( found < 0 ) {
-                        ids.push( $(this).val( ) );
-                    }
-                    else {
-                        ids.splice( found, 1);
-                    }
-                }
-            });
-
-            that.table.on("click", "tr", function (e) {
-                if( e.target.type != "checkbox" ){
-                    var cb = $(this).find("input[class=dt-checkboxes]");
-                    cb.prop("checked", true).trigger("change");
-                }
-                e.preventDefault( );
-            });
-
             $(document).on("click", ".addItem", function(e) {
                 that.addItem( false );
                 e.preventDefault( );
@@ -314,9 +292,18 @@ var MarkaxisPayrollEmployee = (function( ) {
                             return;
                         }
                         else {
-                            if( id != undefined && obj.data.populate ) {
-                                $("#amount_" + id).val( obj.data.populate["inputAmount"] );
-                                $("#remark_" + id).val( obj.data.populate["inputRemark"] );
+                            if( id != undefined ) {
+                                if( obj.data.populate ) {
+                                    $("#amount_" + id).val( obj.data.populate["inputAmount"] );
+                                    $("#remark_" + id).val( obj.data.populate["inputRemark"] );
+
+                                    if( obj.data.populate.placeHolder ) {
+                                        $("#remark_" + id).attr("placeholder", obj.data.populate.placeHolder );
+                                    }
+                                }
+                                else {
+                                    $("#remark_" + id).attr("placeholder", "" );
+                                }
                             }
 
                             $("#processSummary").html( obj.summary );
@@ -364,60 +351,6 @@ var MarkaxisPayrollEmployee = (function( ) {
                 }
             }
             Aurora.WebService.AJAX( "admin/payroll/savePayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
-        },
-
-
-        reprocessPayroll: function( ) {
-            var that = this;
-
-            swal({
-                title: Markaxis.i18n.PayrollRes.LANG_REPROCESS_CONFIRMATION.replace('{username}', $("#userName").val( )),
-                text: Markaxis.i18n.PayrollRes.LANG_REPROCESS_CONFIRMATION_DESCRIPT,
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: Markaxis.i18n.PayrollRes.LANG_CONFIRM_REPROCESS,
-                closeOnConfirm: false
-            }, function( isConfirm ) {
-                if( !isConfirm ) return;
-
-                var data = {
-                    bundle: {
-                        data: Aurora.WebService.serializePost("#processForm")
-                    },
-                    success: function (res) {
-                        var obj = $.parseJSON(res);
-                        if( obj.bool === 0 ) {
-                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
-                            return;
-                        }
-                        else {
-                            $(document).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
-                                $("#userID").val( ) + "/" + $("#pID").val( ), function() {
-                                $(".itemType").select2( );
-
-                                var pu = $("#process" + $("#userID").val( ) );
-                                pu.attr("data-saved", 0);
-                                pu.text("Process");
-
-                                var processBtn = $(".processBtn");
-                                processBtn.attr("id", "savePayroll");
-                                processBtn.text( Markaxis.i18n.PayrollRes.LANG_SAVE_PAYROLL );
-
-                                if( obj.data.userProcessCount == 0 ) {
-                                    that.haveSaved = false;
-                                    $("#employeeForm-step-0 .stepy-navigator a").attr("disabled", true);
-                                }
-
-                                var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-                                iconWrapper.append('<a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>');
-                                swal.close()
-                            });
-                        }
-                    }
-                };
-                Aurora.WebService.AJAX("admin/payroll/deletePayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data);
-            });
         },
 
 
@@ -571,6 +504,11 @@ var MarkaxisPayrollEmployee = (function( ) {
                 preDrawCallback: function() {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 }
+            });
+
+            $(".dataTables_length select").select2({
+                minimumResultsForSearch: Infinity,
+                width: "auto"
             });
         }
     }

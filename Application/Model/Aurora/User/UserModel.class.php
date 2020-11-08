@@ -30,9 +30,9 @@ class UserModel extends \Model {
     function __construct( ) {
         parent::__construct( );
 
-        $this->info['fname'] = $this->info['lname'] = $this->info['email1'] =
-        $this->info['email2'] = $this->info['gender'] = $this->info['birthday'] =
-        $this->info['countryID'] = $this->info['address1'] = $this->info['address2'] =
+        $this->info['fname'] = $this->info['lname'] = $this->info['email'] =
+        $this->info['gender'] = $this->info['birthday'] = $this->info['countryID'] =
+        $this->info['houseNo'] = $this->info['streetName'] = $this->info['levelUnit'] =
         $this->info['postal'] = $this->info['city'] = $this->info['state'] =
         $this->info['phone'] = $this->info['mobile'] = $this->info['nric'] =
         $this->info['marital'] = $this->info['nationalityID'] = $this->info['username'] =
@@ -161,11 +161,11 @@ class UserModel extends \Model {
         $this->info['userID']  = (int)$data['userID'];
         $this->info['fname']   = Validator::stripTrim( $data['fname'] );
         $this->info['lname']   = Validator::stripTrim( $data['lname'] );
-        $this->info['email1']  = Validator::stripTrim( $data['email1'] );
+        $this->info['email']  = Validator::stripTrim( $data['email'] );
 
         $Validator->addModule( 'fname', new IsEmpty( $this->info['fname'] ) );
         $Validator->addModule( 'lname', new IsEmpty( $this->info['lname'] ) );
-        $Validator->addModule( 'email1', new IsEmail( $this->info['email1'] ) );
+        $Validator->addModule( 'email', new IsEmail( $this->info['email'] ) );
 
         try {
             $Validator->validate( );
@@ -175,24 +175,24 @@ class UserModel extends \Model {
                 $this->setErrMsg( $this->L10n->getContents('LANG_ENTER_REQUIRED_FIELDS') );
                 return false;
             }
-            if( $e->getModuleName( ) == 'email1' ) {
+            if( $e->getModuleName( ) == 'email' ) {
                 $this->setErrMsg( $this->L10n->getContents('LANG_INVALID_EMAIL') );
                 return false;
             }
         }
 
-        if( $this->info['userID'] == 0 && $this->getFieldByEmail( $this->info['email1'], 'email1' ) ) {
+        if( $this->info['userID'] == 0 && $this->getFieldByEmail( $this->info['email'], 'email' ) ) {
             $this->setErrMsg( $this->L10n->getContents('LANG_EMAIL_ALREADY_EXIST') );
             return false;
         }
 
         $this->info['nric']     = Validator::stripTrim( $data['nric'] );
         $this->info['gender']   = isset( $data['gender'] ) ? Validator::stripTrim( $data['gender'] ) : '';
-        $this->info['email2']   = Validator::stripTrim( $data['email2'] );
         $this->info['username'] = Validator::stripTrim( $data['loginUsername'] );
         $this->info['postal']   = Validator::stripTrim( $data['postal'] );
-        $this->info['address1'] = Validator::stripTrim( $data['address1'] );
-        //$this->info['address2'] = Validator::stripTrim( $data['address2'] );
+        $this->info['houseNo'] = Validator::stripTrim( $data['houseNo'] );
+        $this->info['streetName'] = Validator::stripTrim( $data['streetName'] );
+        $this->info['levelUnit'] = Validator::stripTrim( $data['levelUnit'] );
         $this->info['phone']    = Validator::stripTrim( $data['phone'] );
         $this->info['mobile']   = Validator::stripTrim( $data['mobile'] );
         $this->info['children'] = (int)$data['children'];

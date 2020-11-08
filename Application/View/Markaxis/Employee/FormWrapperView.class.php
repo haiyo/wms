@@ -114,8 +114,8 @@ class FormWrapperView {
             $vars['dynamic']['name'] = false;
         }
 
-        if( isset( $userInfo['email1'] ) && $userInfo['email1'] ) {
-            $vars['dynamic']['email'][] = array( 'TPLVAR_EMAIL' => $userInfo['email1'] );
+        if( isset( $userInfo['email'] ) && $userInfo['email'] ) {
+            $vars['dynamic']['email'][] = array( 'TPLVAR_EMAIL' => $userInfo['email'] );
         }
         else {
             $vars['dynamic']['email'] = false;

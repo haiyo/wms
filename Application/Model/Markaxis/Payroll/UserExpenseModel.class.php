@@ -119,7 +119,7 @@ class UserExpenseModel extends \Model {
      */
     public function processPayroll( $data, $post ) {
         if( isset( $post['data'] ) ) {
-            $preg = '/^itemType_(\d)+/';
+            $preg = '/^itemType_(\d+)+/';
             $callback = function( $val ) use( $preg ) {
                 if( preg_match( $preg, $val, $match ) ) {
                     return $match;

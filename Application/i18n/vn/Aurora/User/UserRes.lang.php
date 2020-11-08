@@ -68,6 +68,7 @@ class UserRes extends Resource {
         $this->contents['LANG_FIRST_NAME'] = 'Họ';
         $this->contents['LANG_LAST_NAME'] = 'Họ/ Tên';
         $this->contents['LANG_SSN'] = 'Số hộ chiếu';
+        $this->contents['LANG_ID_TYPE'] = 'ID Type';
         $this->contents['LANG_NATIONALITY'] = 'Quốc tịch';
         $this->contents['LANG_PRIMARY_EMAIL'] = 'Địa chỉ Email Chính';
         $this->contents['LANG_SECONDARY_EMAIL'] = 'Địa chỉ Email Phụ';
@@ -118,6 +119,7 @@ class UserRes extends Resource {
         $this->contents['LANG_MONTH'] = 'Tháng';
         $this->contents['LANG_DAY'] = 'Ngày';
         $this->contents['LANG_SELECT_COUNTRY'] = 'Chọn quốc gia';
+        $this->contents['LANG_SELECT_ID_TYPE'] = 'Select ID Type';
         $this->contents['LANG_SELECT_NATIONALITY'] = 'Chọn quốc tịch';
         $this->contents['LANG_SELECT_RACE'] = 'Chọn cuộc đua';
         $this->contents['LANG_SELECT_STATUS'] = 'Chọn trạng thái';

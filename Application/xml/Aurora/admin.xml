@@ -468,8 +468,37 @@
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
-    <task type="payroll/taxfile,payroll/getTaxFileResults,payroll/newTaxFiling">
-        <observer controller="Markaxis/Payroll/TaxFileControl"/>
+    <task type="taxfile/list,taxfile/createForm,taxfile/employee,taxfile/getTaxFileResults,taxfile/taxFiling,
+                taxfile/editIr8a,taxfile/editA8a">
+        <observer controller="Markaxis/TaxFile/TaxFileControl"/>
+    </task>
+    <task type="taxfile/downloadIR8A">
+        <observer controller="Markaxis/TaxFile/IR8AControl"/>
+    </task>
+    <task type="taxfile/downloadA8A">
+        <observer controller="Markaxis/TaxFile/IRA8AControl"/>
+    </task>
+    <task type="taxfile/submitIRAS">
+        <observer controller="Markaxis/TaxFile/TaxFileControl"/>
+    </task>
+    <task type="iras_sandbox,iras">
+        <observer controller="Markaxis/TaxFile/TaxFileControl"/>
+    </task>
+    <task type="taxfile/viewIr8a">
+        <observer controller="Markaxis/TaxFile/IR8AControl"/>
+        <observer controller="Markaxis/TaxFile/TaxFileControl"/>
+    </task>
+    <task type="taxfile/saveIr8a">
+        <observer controller="Markaxis/TaxFile/IR8AControl"/>
+    </task>
+    <task type="taxfile/saveIra8a">
+        <observer controller="Markaxis/TaxFile/IRA8AControl"/>
+    </task>
+    <task type="taxfile/getDeclarationResults,taxfile/prepareUserDeclaration">
+        <observer controller="Markaxis/Employee/EmployeeControl"/>
+        <observer controller="Markaxis/TaxFile/IR8AControl"/>
+        <observer controller="Markaxis/TaxFile/IRA8AControl"/>
+        <observer controller="Markaxis/TaxFile/TaxFileControl"/>
     </task>
     <task type="leave/getDateDiff,leave/apply,leave/upload,leave/setLeaveAction">
         <observer controller="Markaxis/Employee/LeaveBalanceControl"/>

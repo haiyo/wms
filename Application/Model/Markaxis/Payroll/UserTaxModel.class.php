@@ -38,6 +38,24 @@ class UserTaxModel extends \Model {
 
     /**
      * Return total count of records
+     * @return mixed
+     */
+    public function getTotalCPFByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserTax->getTotalCPFByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
+     * @return mixed
+     */
+    public function getTotalDonationByUserIDRange( $userID, $startDate, $endDate ) {
+        return $this->UserTax->getTotalDonationByUserIDRange( $userID, $startDate, $endDate );
+    }
+
+
+    /**
+     * Return total count of records
      * @return int
      */
     public function savePayroll( $data ) {

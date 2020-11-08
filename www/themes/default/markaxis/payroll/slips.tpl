@@ -77,7 +77,7 @@
                 targets: [5],
                 orderable: true,
                 width: '220px',
-                data: 'email1'
+                data: 'email'
             },{
                 targets: [6],
                 orderable: true,

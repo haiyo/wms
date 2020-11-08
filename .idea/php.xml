@@ -25,6 +25,7 @@
       <path value="$PROJECT_DIR$/Library/vendor/google/gax" />
       <path value="$PROJECT_DIR$/Library/vendor/google/cloud-kms" />
       <path value="$PROJECT_DIR$/Library/vendor/grpc/grpc" />
+      <path value="$PROJECT_DIR$/Library/vendor/fpdm/src" />
     </include_path>
   </component>
 </project>
