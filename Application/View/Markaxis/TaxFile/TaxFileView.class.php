@@ -78,12 +78,14 @@ class TaxFileView {
      * @return string
      */
     public function renderTaxFileForm( $tfID ) {
+        $year = date('Y');
+
         if( $tfID ) {
             $tfInfo = $this->TaxFileModel->getByTFID( $tfID );
-            $year = $tfInfo['fileYear'];
-        }
-        else {
-            $year = date('Y');
+
+            if( isset( $tfInfo['fileYear'] ) ) {
+                $year = $tfInfo['fileYear'];
+            }
         }
 
         $SelectListView = new SelectListView( );
