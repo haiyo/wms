@@ -374,12 +374,14 @@ class TaxFileModel extends \Model {
             ////https://www.hrmscloud.net/admin/iras_sandbox?code=3d7fd5f0bb506e4dd903cba3e59441625c16a0e6&state=390b25fa-4427-4b10-9ae2-34d6e0cd91a1
             //exit;
 
-            $stateCode = MD5( microtime( ) );
+            $info = array( );
+            $info['stateCode'] = MD5( microtime( ) );
+            $this->TaxFile->update('taxfile', $info, 'WHERE tfID = "' . (int)$tfID . '"' );
 
             $fields = array(
                 'scope' => 'EmpIncomeSub',
                 'callback_url' => 'https://www.hrmscloud.net/admin/iras_sandbox',
-                'state' => serialize(ROOT_URL . '-' . $stateCode),
+                'state' => serialize(ROOT_URL . '-' . $info['stateCode'] ),
                 'tax_agent' => 'false'
             );
 
