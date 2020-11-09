@@ -118,6 +118,7 @@ class CompanyModel extends \Model {
             }
 
             $this->Company->update('company', $this->info,'' );
+            return true;
         }
     }
 
