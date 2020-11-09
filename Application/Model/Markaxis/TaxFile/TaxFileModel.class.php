@@ -322,6 +322,15 @@ class TaxFileModel extends \Model {
             $EmployeeModel = new EmployeeModel( );
             $authUser = $EmployeeModel->getIR8AInfo( $userInfo['userID'] );
 
+            if( !$authUser['mobile'] ) {
+                $this->setErrMsg('Please make sure contact number is not empty.' );
+                return false;
+            }
+            if( !$authUser['designation'] ) {
+                $this->setErrMsg('Please make sure designation is not empty.' );
+                return false;
+            }
+
             $this->info['authUserID'] = $authUser['userID'];
             $this->info['authName'] = $authUser['name'];
             $this->info['authDesignation'] = $authUser['designation'];
