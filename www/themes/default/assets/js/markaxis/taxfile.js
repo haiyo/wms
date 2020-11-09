@@ -254,7 +254,7 @@ var MarkaxisTaxFile = (function( ) {
                             '<i class="icon-pencil5"></i> Download IRAS XML</a>' +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +
                             '<i class="icon-pencil5"></i> Download Appendix 8A XML</a>' +
-                            '<a class="dropdown-item" class="submitIRAS" data-id="' + data + '">' +
+                            '<a class="dropdown-item submitIRAS" data-id="' + data + '">' +
                             '<i class="icon-pencil5"></i> Submit To IRAS</a>' +
                             '</div>' +
                             '</div>' +
