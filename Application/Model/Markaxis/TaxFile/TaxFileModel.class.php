@@ -398,7 +398,7 @@ class TaxFileModel extends \Model {
             ));
             $result = curl_exec($ch);
             $result = json_decode( $result );
-
+var_dump($result);exit;
             if( isset( $result->returnCode ) && $result->returnCode == 10 && isset( $result->data->url ) ) {
                 header('location: ' . $result->data->url );
             }
