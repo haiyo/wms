@@ -146,8 +146,9 @@ class TaxFileControl {
     public function submitIRAS( $args ) {
         // tfID
         if( isset( $args[1] ) ) {
-            echo $this->TaxFileModel->submitIRAS( $args[1] );
-            exit;
+            if( !$this->TaxFileModel->submitIRAS( $args[1] ) ) {
+
+            }
         }
     }
 
