@@ -143,13 +143,20 @@ class TaxFileControl {
      * Render main navigation
      * @return string
      */
-    public function submitIRAS( $args ) {
-        // tfID
-        if( isset( $args[1] ) ) {
-            if( !$this->TaxFileModel->submitIRAS( $args[1] ) ) {
+    public function submitIRAS( ) {
+        $vars = array( );
+        $post = Control::getRequest( )->request( POST );
 
-            }
+        if( isset( $post['tfID'] ) && $url = $this->TaxFileModel->submitIRAS( $post['tfID'] ) ) {
+            $vars['bool'] = 1;
+            $vars['url'] = $url;
         }
+        else {
+            $vars['bool'] = 0;
+            $vars['errMsg'] = $this->TaxFileModel->getErrMsg( );
+        }
+        echo json_encode( $vars );
+        exit;
     }
 
 

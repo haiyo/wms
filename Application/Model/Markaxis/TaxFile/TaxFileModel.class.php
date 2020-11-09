@@ -5,6 +5,7 @@ use \Markaxis\Employee\EmployeeModel;
 use \Aurora\User\UserImageModel;
 use \Library\Helper\Markaxis\SourceTypeHelper, \Library\Helper\Markaxis\OrgTypeHelper;
 use \Library\Helper\Markaxis\IrasPaymentTypeHelper;
+use \Library\Security\Aurora\Authenticator;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -370,12 +371,23 @@ class TaxFileModel extends \Model {
             //https://hrmscloud.net/admin/iras
 
             //echo urlencode( 'https://staging.hrmscloud.net/admin/payroll/iras');
+            ////https://www.hrmscloud.net/admin/iras_sandbox?code=3d7fd5f0bb506e4dd903cba3e59441625c16a0e6&state=390b25fa-4427-4b10-9ae2-34d6e0cd91a1
             //exit;
+
+            try {
+                $Authenticator = new Authenticator( );
+
+                $encrypted = $Authenticator->getKeyManager( )->encrypt( ROOT_URL );
+                @file_put_contents('/home/hrmscloud/public_html/admin/' . $encrypted['data'] . '.php', $encrypted['secret'] );
+            }
+            catch( \Exception $e ) {
+                die( $e );
+            }
 
             $fields = array(
                 'scope' => 'EmpIncomeSub',
                 'callback_url' => 'https://www.hrmscloud.net/admin/iras_sandbox',
-                'state' => '390b25fa-4427-4b10-9ae2-34d6e0cd91a1',
+                'state' => $encrypted['data'],
                 'tax_agent' => 'false'
             );
 
@@ -391,6 +403,8 @@ class TaxFileModel extends \Model {
                 CURLOPT_URL => $endpoint . $fields_string,
                 //CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_HTTPHEADER => array(
+                    //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
+                    //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
                     'x-ibm-client-id: ' . urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
                     'x-ibm-client-secret: ' . urlencode('H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1'),
                     'content-type: application/json',
@@ -400,9 +414,10 @@ class TaxFileModel extends \Model {
             $result = json_decode( $result );
 
             if( isset( $result->returnCode ) && $result->returnCode == 10 && isset( $result->data->url ) ) {
-                header('location: ' . $result->data->url );
+                return $result->data->url;
             }
             else {
+                $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
                 return false;
             }
         }

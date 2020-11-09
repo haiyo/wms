@@ -39,6 +39,11 @@ var MarkaxisTaxFile = (function( ) {
         initEvents: function( ) {
             var that = this;
 
+            $(document).on("click", ".submitIRAS", function (e) {
+                that.submitIRAS( $(this).attr("data-id") );
+                e.preventDefault( );
+            });
+
             $("#year").select2({minimumResultsForSearch: Infinity});
             $("#office").select2({minimumResultsForSearch: Infinity});
             $("#sourceType").select2({minimumResultsForSearch: Infinity});
@@ -109,6 +114,41 @@ var MarkaxisTaxFile = (function( ) {
                 }
             };
             Aurora.WebService.AJAX("admin/taxfile/createForm", data);
+        },
+
+
+        submitIRAS: function( tfID ) {
+            swal({
+                title: "Confirm submit to IRAS?",
+                text: "You will be redirected to CorpPass website for authentication. Please have your CorpPass login information ready.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Proceed to CorpPass Authentication",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm === false) return;
+
+                $(".icon-bin").removeClass("icon-bin").addClass("icon-spinner2 spinner");
+
+                var data = {
+                    bundle: {
+                        tfID: tfID
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool === 0 ) {
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            location.href = obj.url;
+                        }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/taxfile/submitIRAS", data);
+            });
         },
 
 
@@ -214,7 +254,7 @@ var MarkaxisTaxFile = (function( ) {
                             '<i class="icon-pencil5"></i> Download IRAS XML</a>' +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +
                             '<i class="icon-pencil5"></i> Download Appendix 8A XML</a>' +
-                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/submitIRAS/' + data + '">' +
+                            '<a class="dropdown-item" class="submitIRAS" data-id="' + data + '">' +
                             '<i class="icon-pencil5"></i> Submit To IRAS</a>' +
                             '</div>' +
                             '</div>' +
