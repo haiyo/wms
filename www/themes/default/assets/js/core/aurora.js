@@ -34,8 +34,10 @@ $(document).ready( function( ) {
                 $(this).val( Aurora.String.unFormatMoney( $(this).val( ) ) );
             });
             $(document).on("blur", ".amountInput", function(e) {
-                var amountInput = Aurora.String.formatMoney( $(this) );
-                $(this).val( amountInput );
+                if( $(this).val( ) > 0 ) {
+                    var amountInput = Aurora.String.formatMoney( $(this) );
+                    $(this).val( amountInput );
+                }
             });
 
             /*$(document).on("change", "#country", function(e) {
