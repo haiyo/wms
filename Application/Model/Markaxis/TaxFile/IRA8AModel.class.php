@@ -87,6 +87,8 @@ class IRA8AModel extends \Model {
             }
         }
         else {
+            $TaxFileModel = TaxFileModel::getInstance( );
+            $TaxFileModel->setCompleted( $data['ir8a']['tfID'] );
             return false;
         }
     }
