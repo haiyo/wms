@@ -164,8 +164,7 @@ class TaxFileControl {
      * Render main navigation
      * @return string
      */
-    public function iras_sandbox( $args ) {
-        // tfID
+    public function authCode( $args ) {
         var_dump($args); exit;
     }
 }

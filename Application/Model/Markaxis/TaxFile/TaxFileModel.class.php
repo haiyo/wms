@@ -374,20 +374,12 @@ class TaxFileModel extends \Model {
             ////https://www.hrmscloud.net/admin/iras_sandbox?code=3d7fd5f0bb506e4dd903cba3e59441625c16a0e6&state=390b25fa-4427-4b10-9ae2-34d6e0cd91a1
             //exit;
 
-            try {
-                $Authenticator = new Authenticator( );
-
-                $encrypted = $Authenticator->getKeyManager( )->encrypt( ROOT_URL );
-                @file_put_contents('/home/hrmscloud/public_html/admin/' . $encrypted['data'] . '.php', $encrypted['secret'] );
-            }
-            catch( \Exception $e ) {
-                die( $e );
-            }
+            $stateCode = MD5( microtime( ) );
 
             $fields = array(
                 'scope' => 'EmpIncomeSub',
                 'callback_url' => 'https://www.hrmscloud.net/admin/iras_sandbox',
-                'state' => $encrypted['data'],
+                'state' => serialize(ROOT_URL . '-' . $stateCode),
                 'tax_agent' => 'false'
             );
 
