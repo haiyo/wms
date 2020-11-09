@@ -114,7 +114,7 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><?LANG_COMPANY_NAME?>:</label>
+                                <label><?LANG_COMPANY_NAME?>: <span class="text-danger-400">*</span></label>
                                 <input type="text" name="name" id="name" placeholder="Example Corporation"
                                        class="form-control" value="<?TPLVAR_NAME?>" />
                             </div>
@@ -122,7 +122,7 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><?LANG_COMPANY_ADDRESS?>:</label>
+                                <label><?LANG_COMPANY_ADDRESS?>: <span class="text-danger-400">*</span></label>
                                 <input type="text" name="address" id="address" placeholder="111 San Francisco, CA 94110"
                                        class="form-control" value="<?TPLVAR_ADDRESS?>" />
                             </div>

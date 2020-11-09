@@ -111,6 +111,12 @@ class CompanyModel extends \Model {
             $this->info['buttonColor'] = Validator::stripTrim( $post['data']['buttonColor'] );
             $this->info['buttonHoverColor'] = Validator::stripTrim( $post['data']['buttonHoverColor'] );
             $this->info['buttonFocusColor'] = Validator::stripTrim( $post['data']['buttonFocusColor'] );
+
+            if( !$this->info['regNumber'] || !$this->info['name'] || !$this->info['address'] ) {
+                $this->setErrMsg('Please enter all required fields.' );
+                return false;
+            }
+
             $this->Company->update('company', $this->info,'' );
         }
     }

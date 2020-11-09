@@ -97,8 +97,14 @@ class CompanyControl {
     public function saveCompanySettings( ) {
         if( Control::hasPermission('Markaxis', 'modify_company_settings' ) ) {
             $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
-            $this->CompanyModel->save( $post );
-            $vars['bool'] = 1;
+
+            if( $this->CompanyModel->save( $post ) ) {
+                $vars['bool'] = 1;
+            }
+            else {
+                $vars['bool'] = 0;
+                $vars['errMsg'] = $this->IR8AModel->getErrMsg( );
+            }
             echo json_encode( $vars );
             exit;
         }
