@@ -292,6 +292,11 @@ class TaxFileModel extends \Model {
             $this->info['companyName'] = $companyInfo['name'];
             $this->info['companyAddress'] = $companyInfo['address'];
 
+            if( !$this->info['regNumber'] ) {
+                $this->setErrMsg('Please make sure Organisation ID Number is not empty.' );
+                return false;
+            }
+
             if( in_array( $post['data']['sourceType'], SourceTypeHelper::getList( ) ) ) {
                 $this->info['sourceType'] = $post['data']['sourceType'];
             }
@@ -323,7 +328,7 @@ class TaxFileModel extends \Model {
             $authUser = $EmployeeModel->getIR8AInfo( $userInfo['userID'] );
 
             if( !$authUser['mobile'] ) {
-                $this->setErrMsg('Please make sure contact number is not empty.' );
+                $this->setErrMsg('Please make sure mobile number is not empty.' );
                 return false;
             }
             if( !$authUser['designation'] ) {

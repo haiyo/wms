@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label><?LANG_CONTACT_NUMBER?>: <span class="text-danger-400">*</span></label>
+                                                <label>Mobile Number: <span class="text-danger-400">*</span></label>
                                                 <input type="text" disabled="disabled" class="form-control" value="<?TPLVAR_MOBILE?>" />
                                             </div>
                                         </div>
