@@ -77,7 +77,7 @@ class IR8AModel extends \Model {
                         'empName' => $empInfo['name'],
                         'empDOB' => $empInfo['birthday'],
                         'empGender' => $empInfo['gender'],
-                        'empNationality' => $empInfo['nationalityID'],
+                        'empNationality' => $empInfo['irasID'],
                         'empAddress' => $empInfo['houseNo'] . ' ' . $empInfo['streetName'] . ' ' . $empInfo['levelUnit'] . ' ' . $empInfo['postal'],
                         'empDesignation' => $empInfo['designation'],
                         'empBank' => $empInfo['bkID'] ? $empInfo['bkID'] : NULL );

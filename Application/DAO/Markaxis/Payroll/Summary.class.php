@@ -89,7 +89,7 @@ class Summary extends \DAO {
                                    LEFT JOIN payment_method pm ON ( pm.pmID = e.paymentMethodID )
                                    WHERE p.startDate = "' . addslashes( $processDate ) . '" AND
                                          e.officeID = "' . (int)$officeID . '" ' . $q . '
-                                   GROUP BY u.userID
+                                   GROUP BY u.userID, ps.gross, ps.deduction, ps.net, ps.claim, pl.levies, pc.contributions, pm.method
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
         $list = array( );

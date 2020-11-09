@@ -57,9 +57,10 @@ class Finalized extends \DAO {
                                    LEFT JOIN payment_method pm ON (pm.pmID = e.paymentMethodID)
                                    WHERE p.startDate = "' . addslashes( $processDate ) . '" AND
                                          e.officeID = "' . (int)$officeID . '" ' . $q . '
-                                   GROUP BY u.userID
+                                   GROUP BY u.userID, b.name, eb.number, eb.code, eb.branchCode, eb.holderName, eb.swiftCode, ps.net, pm.method, pu.released
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );
+
         $list = array( );
 
         if( $this->DB->numrows( $sql ) > 0 ) {

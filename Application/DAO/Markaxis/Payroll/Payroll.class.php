@@ -185,7 +185,7 @@ class Payroll extends \DAO {
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
                                    WHERE u.deleted <> "1" AND e.officeID = "' . (int)$officeID . '" ' . $q . '
-                                   GROUP BY u.userID
+                                   GROUP BY u.userID, e.resigned, e.startDate, d.title, e.idnumber, e.salary, e.endDate, c.type, ad.descript
                                    ORDER BY ' . $order . $this->limit,
                                     __FILE__, __LINE__ );
 
