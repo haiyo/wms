@@ -360,6 +360,11 @@ class EmployeeView {
         $departmentList = $SelectListView->build( 'department',  $CompanyDepartment->getList( ), $deptGroup,
                                                     $this->L10n->getContents('LANG_SELECT_DEPARTMENTS') );
 
+        $salary = '';
+        if( $this->info['salary'] > 0 ) {
+            $salary = $officeInfo['currencyCode'] . $officeInfo['currencySymbol'] . Money::format( $this->info['salary'] );
+        }
+
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IDNUMBER' => $this->info['idnumber'],
                        'TPLVAR_CONFIRM_YEAR' => $confirmYear,
@@ -367,9 +372,7 @@ class EmployeeView {
                        'TPLVAR_END_YEAR' => $endYear,
                        'TPLVAR_PASS_EXPIRY_YEAR' => $passExpiryYear,
                        'TPLVAR_CURRENCY' => $officeInfo['currencyCode'] . $officeInfo['currencySymbol'],
-                       'TPLVAR_SALARY' => $officeInfo['currencyCode'] .
-                                          $officeInfo['currencySymbol'] .
-                                          Money::format( $this->info['salary'] ),
+                       'TPLVAR_SALARY' => $salary,
                        'TPLVAR_PASS_NUMBER' => $this->info['passNumber'],
                        'TPL_OFFICE_LIST' => $officeList,
                        'TPL_DEPARTMENT_LIST' => $departmentList,
