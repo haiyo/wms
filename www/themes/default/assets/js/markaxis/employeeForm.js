@@ -1277,7 +1277,7 @@ var MarkaxisEmployeeForm = (function( ) {
                             return;
                         }
                         else {
-                            if( $("#userID").val( ) === 0 ) {
+                            if( $("#userID").val( ) == 0 ) {
                                 title = Markaxis.i18n.EmployeeRes.LANG_EMPLOYEE_ADDED_SUCCESSFULLY;
                                 goToURL = Aurora.ROOT_URL + "admin/user/add";
                                 backToURL = Aurora.ROOT_URL + "admin/employee/settings";

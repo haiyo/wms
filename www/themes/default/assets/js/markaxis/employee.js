@@ -376,7 +376,7 @@ var MarkaxisEmployee = (function( ) {
             // ------------------------------
 
             // Enable Select2 select for the length option
-            $('.employeeTable .dataTables_length select').select2({
+            $('#employeeList .dataTables_length select').select2({
                 minimumResultsForSearch: Infinity,
                 width: 'auto'
             });
