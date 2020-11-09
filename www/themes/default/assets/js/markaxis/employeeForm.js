@@ -160,6 +160,10 @@ var MarkaxisEmployeeForm = (function( ) {
                     idnumber : "required",
                     office: "required",
                     pcID: "required",
+                    idType: "required",
+                    nric: "required",
+                    nationality: "required",
+                    country: "required",
                     email: {
                         validEmail: true,
                         required: true

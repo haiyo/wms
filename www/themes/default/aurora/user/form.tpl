@@ -11,12 +11,12 @@
         </div>
 
         <div class="col-md-3">
-            <label><?LANG_ID_TYPE?>:</label>
+            <label><?LANG_ID_TYPE?>: <span class="text-danger-400">*</span></label>
             <?TPL_IDTYPE_LIST?>
         </div>
 
         <div class="col-md-3">
-            <label><?LANG_SSN?>:</label>
+            <label><?LANG_SSN?>: <span class="text-danger-400">*</span></label>
             <input type="text" name="nric" id="nric" placeholder="0000000001" class="form-control" value="<?TPLVAR_NRIC?>" />
         </div>
 
@@ -28,7 +28,7 @@
         </div>
 
         <div class="col-md-3">
-            <label><?LANG_NATIONALITY?>:</label>
+            <label><?LANG_NATIONALITY?>: <span class="text-danger-400">*</span></label>
             <?TPL_NATIONALITY_LIST?>
         </div>
 
@@ -63,7 +63,7 @@
             <input type="text" class="form-control" name="mobile" data-mask="(999) 999-9999" placeholder="<?LANG_ENTER_PHONE?>" value="<?TPLVAR_MOBILE?>" />
         </div>
         <div class="col-md-3">
-            <label><?LANG_COUNTRY_BIRTH?>:</label>
+            <label><?LANG_COUNTRY_BIRTH?>: <span class="text-danger-400">*</span></label>
             <?TPL_COUNTRY_LIST?>
         </div>
         <div class="col-md-3">
