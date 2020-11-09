@@ -57,7 +57,7 @@ class LockMethod extends Authenticator {
      * @return bool
      */
     public function allow( $method ) {
-        if( sizeof( $this->lock ) > 0 ) {
+        if( is_array( $this->lock ) && sizeof( $this->lock ) > 0 ) {
             if( isset( $this->lock[$method] ) ) {
                 // Regardless who using it if more than an hour, invalidate lock
                 if( ( $this->lock[$method]['time']+$this->lockWindow ) < time( ) ) {
