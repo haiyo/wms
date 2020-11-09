@@ -103,7 +103,7 @@ class CompanyControl {
             }
             else {
                 $vars['bool'] = 0;
-                $vars['errMsg'] = $this->IR8AModel->getErrMsg( );
+                $vars['errMsg'] = $this->CompanyModel->getErrMsg( );
             }
             echo json_encode( $vars );
             exit;
