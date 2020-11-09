@@ -357,7 +357,9 @@ class EmployeeModel extends \Model {
             unset( $saveInfo['endDate'] );
         }*/
 
-        if( $info = $this->getFieldByUserID( $data['userID'], 'e.eID' ) ) {
+        $info = $this->getFieldByUserID( $data['userID'], 'e.eID' );
+
+        if( isset( $info['eID'] ) && $info['eID'] != NULL ) {
             $eID = $info['eID'];
             $this->Employee->update( 'employee', $saveInfo, 'WHERE eID = "' . (int)$eID . '"' );
         }

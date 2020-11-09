@@ -259,7 +259,6 @@ class UserModel extends \Model {
             $this->info['countryID'] = (int)$data['country'];
         }
 
-        //$IDTypeHelper = IDTypeHelper::getL10nList( )
         if( in_array( $data['idType'], IDTypeHelper::getList( ) ) ) {
             $this->info['idType'] = (int)$data['idType'];
         }
