@@ -451,8 +451,8 @@ class TaxFileModel extends \Model {
             $fields['inputType'] = 'xml';
             $fields['bypass'] = 'false';
             $fields['validateOnly'] = 'true';
-            $fields['ir8aInput'] = $IR8AView->renderXML( $tfID );
-            $fields['a8aInput'] = $IRA8AView->renderXML( $tfID );
+            $fields['ir8aInput'] = $IR8AView->renderXML( $tfID, true );
+            $fields['a8aInput'] = $IRA8AView->renderXML( $tfID, true );
 
             $ch = curl_init();
             curl_setopt_array($ch, array(

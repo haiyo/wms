@@ -48,7 +48,7 @@ class IRA8AView {
      * Render main navigation
      * @return string
      */
-    public function renderXML( $tfID ) {
+    public function renderXML( $tfID, $readonly=false ) {
         $TaxFileModel = TaxFileModel::getInstance( );
         $tfInfo = $TaxFileModel->getByTFID( $tfID );
         $ira8aInfo = $this->IRA8AModel->getByTFID( $tfID );
@@ -159,6 +159,9 @@ class IRA8AView {
             $xml .= '</Details>
 </A8A2015>';
 
+            if( $readonly ) {
+                return $xml;
+            }
             header('Content-Type: text/xml');
             header('Content-Length: '.strlen( $xml ));
             header('Content-disposition: attachment; filename="A8A.xml');
