@@ -424,17 +424,12 @@ class TaxFileModel extends \Model {
             'state' => serialize(ROOT_URL . '-' . $tfID . '-' . $state )
         );
 
-        $fields_string = '';
-        foreach($fields as $key => $value) {
-            $fields_string .= $key . '=' . $value . '&';
-        }
-        $fields_string = rtrim($fields_string, '&');
-
         $ch = curl_init();
         curl_setopt_array($ch, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $endpoint . $fields_string,
-            //CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_URL => $endpoint,
+            CURLOPT_POST => 1,
+            CURLOPT_POSTFIELDS => json_encode( $fields ),
             CURLOPT_HTTPHEADER => array(
                 //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
                 //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
