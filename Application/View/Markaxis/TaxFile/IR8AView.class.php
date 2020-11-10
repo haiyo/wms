@@ -70,7 +70,7 @@ class IR8AView {
 <FileHeaderST>
 <RecordType>0</RecordType>
 <Source>' . $tfInfo['sourceType'] . '</Source>
-<BasisYear>' . ($tfInfo['fileYear']+1) . '</BasisYear>
+<BasisYear>' . $tfInfo['fileYear'] . '</BasisYear>
 <PaymentType>08</PaymentType>
 <OrganizationID>' . $tfInfo['orgIDType'] . '</OrganizationID>
 <OrganizationIDNo>' . $tfInfo['regNumber'] . '</OrganizationIDNo>
