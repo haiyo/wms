@@ -301,15 +301,12 @@ var MarkaxisPayrollEmployee = (function( ) {
                             return;
                         }
                         else {
-                            $(document).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
+                            $(document).find("#modalCalPayroll .modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
                                 $("#userID").val( ) + "/" + $("#pID").val( ), function() {
                                 $(".itemType").select2( );
 
                                 var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
-                                var icon = iconWrapper.find(".icon")
-
-                                icon.removeClass("icon-minus-circle2").addClass("icon-plus-circle2");
-                                icon.parent().attr( "class", "addItem" );
+                                iconWrapper.append('<a href="#" class="addItem"><i id="plus_{id}" class="icon icon-plus-circle2"></i></a>');
 
                                 var pu = $("#process" + $("#userID").val( ) );
                                 pu.attr("data-saved", 0);
