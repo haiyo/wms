@@ -113,13 +113,18 @@ class TaxFileView {
         }
 
         $yearList = $SelectListView->build( 'year',  $yearList, $selected, 'Select Year' );
-        $sourceTypeList = $SelectListView->build( 'sourceType', SourceTypeHelper::getL10nList( ),6, $this->TaxFileRes->getContents('LANG_SELECT_SOURCE_TYPE') );
-        $orgIDTypeList = $SelectListView->build( 'orgIDType', OrgTypeHelper::getL10nList( ),7, $this->TaxFileRes->getContents('LANG_ORGANISATION_ID_TYPE') );
+
+        $sourceType = isset( $tfInfo['sourceType'] ) ? $tfInfo['sourceType'] : 6;
+        $sourceTypeList = $SelectListView->build( 'sourceType', SourceTypeHelper::getL10nList( ),$sourceType, $this->TaxFileRes->getContents('LANG_SELECT_SOURCE_TYPE') );
+
+        $orgIDType = isset( $tfInfo['$orgIDType'] ) ? $tfInfo['$orgIDType'] : 8;
+        $orgIDTypeList = $SelectListView->build( 'orgIDType', OrgTypeHelper::getL10nList( ),$orgIDType, $this->TaxFileRes->getContents('LANG_ORGANISATION_ID_TYPE') );
         $paymentTypeList = $SelectListView->build( 'paymentType', IrasPaymentTypeHelper::getL10nList( ),'08', $this->TaxFileRes->getContents('LANG_SELECT_PAYMENT_TYPE') );
 
         $RadioView = new RadioView( );
         $batchOption = array( 'O' => 'Original', 'A' => 'Amendment' );
-        $batchRadio = $RadioView->build('batch', $batchOption,'O' );
+        $batch = isset( $tfInfo['batch'] ) ? $tfInfo['batch'] : 'O';
+        $batchRadio = $RadioView->build('batch', $batchOption, $batch );
 
         $CompanyModel = CompanyModel::getInstance( );
         $companyInfo = $CompanyModel->loadInfo( );
