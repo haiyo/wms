@@ -74,8 +74,7 @@ class Payroll extends \DAO {
      * @return mixed
      */
     public function getBypID( $pID ) {
-        $sql = $this->DB->select( 'SELECT * FROM payroll p 
-                                   WHERE pID = "' . (int)$pID . '"',
+        $sql = $this->DB->select( 'SELECT * FROM payroll p WHERE pID = "' . (int)$pID . '"',
                                    __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
