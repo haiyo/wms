@@ -402,9 +402,7 @@ class TaxFileModel extends \Model {
                 return $result->data->url;
             }
             else {
-                $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.
-                Alternatively, you may contact us by providing the following error message from IRAS: ReturnCode=' . $result->returnCode . '
-                Error Message=' . $result->info->message . ' fields=' . $fields_string );
+                $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
                 return false;
             }
         }
@@ -475,9 +473,7 @@ class TaxFileModel extends \Model {
             var_dump($result); exit;
         }
         else {
-            $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.
-                Alternatively, you may contact us by providing the following error message from IRAS: ReturnCode=' . $result->returnCode . '
-                Error Message=' . $result->info->message );
+            $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
             return false;
         }
     }
