@@ -137,10 +137,10 @@ class IRA8AModel extends \Model {
                     }
                 }
 
-                if( $ira8aInfo['totalBenefits'] != $totalAmt ) {
+                /*if( $ira8aInfo['totalBenefits'] != $totalAmt ) {
                     $this->setErrMsg( 'Amount does not tally with the Total Value of Benefits-In-Kind!' );
                     return false;
-                }
+                }*/
 
                 if( checkdate( (int)$post['data']['fromMonth'], (int)$post['data']['fromDay'], (int)$post['data']['fromYear'] ) ) {
                     $this->info['periodFrom'] = $post['data']['fromYear'] . '-' .
