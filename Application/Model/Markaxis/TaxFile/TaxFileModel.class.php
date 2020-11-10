@@ -361,33 +361,25 @@ class TaxFileModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function submitIRAS( $tfID ) {
+    public function authIRAS( $tfID ) {
         if( $tfInfo = $this->getByTFID( $tfID ) ) {
             $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassAuth?';
 
-            // Registered callback
-            //https://staging.hrmscloud.net/admin/iras_sandbox
-            //https://hrmscloud.net/admin/iras_sandbox
-            //https://hrmscloud.net/admin/iras
-
-            //echo urlencode( 'https://staging.hrmscloud.net/admin/payroll/iras');
-            ////https://www.hrmscloud.net/admin/iras_sandbox?code=3d7fd5f0bb506e4dd903cba3e59441625c16a0e6&state=390b25fa-4427-4b10-9ae2-34d6e0cd91a1
-            //exit;
-
             $info = array( );
             $info['stateCode'] = MD5( microtime( ) );
+            $info['stateCode'] = serialize(ROOT_URL . '-' . $tfInfo['tfID'] . '-' . $info['stateCode'] );
             $this->TaxFile->update('taxfile', $info, 'WHERE tfID = "' . (int)$tfID . '"' );
 
             $fields = array(
                 'scope' => 'EmpIncomeSub',
                 'callback_url' => 'https://www.hrmscloud.net/admin/iras_sandbox',
-                'state' => serialize(ROOT_URL . '-' . $info['stateCode'] ),
+                'state' => $info['stateCode'],
                 'tax_agent' => 'false'
             );
 
-            $fields_string = "";
+            $fields_string = '';
             foreach($fields as $key => $value) {
-                $fields_string .= $key.'='.$value.'&';
+                $fields_string .= $key . '=' . $value . '&';
             }
             $fields_string = rtrim($fields_string, '&');
 
@@ -415,6 +407,45 @@ class TaxFileModel extends \Model {
                 return false;
             }
         }
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function getAccessToken( $code, $tfID, $state ) {
+        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/Authentication/CorpPassToken';
+
+        $fields = array(
+            'scope' => 'EmpIncomeSub',
+            'callback_url' => 'https://www.hrmscloud.net/admin/iras_sandbox',
+            'code' => $code,
+            'state' => $state
+        );
+
+        $fields_string = '';
+        foreach($fields as $key => $value) {
+            $fields_string .= $key . '=' . $value . '&';
+        }
+        $fields_string = rtrim($fields_string, '&');
+
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $endpoint . $fields_string,
+            //CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER => array(
+                //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
+                //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
+                'x-ibm-client-id: ' . urlencode('1425d73f-1459-4dc6-9528-7b2b3b76a249' ),
+                'x-ibm-client-secret: ' . urlencode('H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1'),
+                'content-type: application/json',
+                'accept: application/json' )
+        ));
+        $result = curl_exec($ch);
+        $result = json_decode( $result );
+        var_dump($result); exit;
     }
 }
 ?>

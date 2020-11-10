@@ -39,8 +39,8 @@ var MarkaxisTaxFile = (function( ) {
         initEvents: function( ) {
             var that = this;
 
-            $(document).on("click", ".submitIRAS", function (e) {
-                that.submitIRAS( $(this).attr("data-id") );
+            $(document).on("click", ".authIRAS", function (e) {
+                that.authIRAS( $(this).attr("data-id") );
                 e.preventDefault( );
             });
 
@@ -117,7 +117,7 @@ var MarkaxisTaxFile = (function( ) {
         },
 
 
-        submitIRAS: function( tfID ) {
+        authIRAS: function( tfID ) {
             swal({
                 title: "Confirm submit to IRAS?",
                 text: "You will be redirected to CorpPass website for authentication. Please have your CorpPass login information ready.",
@@ -147,7 +147,7 @@ var MarkaxisTaxFile = (function( ) {
                         }
                     }
                 };
-                Aurora.WebService.AJAX("admin/taxfile/submitIRAS", data);
+                Aurora.WebService.AJAX("admin/taxfile/authIRAS", data);
             });
         },
 
@@ -254,7 +254,7 @@ var MarkaxisTaxFile = (function( ) {
                             '<i class="icon-pencil5"></i> Download IRAS XML</a>' +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +
                             '<i class="icon-pencil5"></i> Download Appendix 8A XML</a>' +
-                            '<a class="dropdown-item submitIRAS" data-id="' + data + '">' +
+                            '<a class="dropdown-item authIRAS" data-id="' + data + '">' +
                             '<i class="icon-pencil5"></i> Submit To IRAS</a>' +
                             '</div>' +
                             '</div>' +

@@ -143,11 +143,11 @@ class TaxFileControl {
      * Render main navigation
      * @return string
      */
-    public function submitIRAS( ) {
+    public function authIRAS( ) {
         $vars = array( );
         $post = Control::getRequest( )->request( POST );
 
-        if( isset( $post['tfID'] ) && $url = $this->TaxFileModel->submitIRAS( $post['tfID'] ) ) {
+        if( isset( $post['tfID'] ) && $url = $this->TaxFileModel->authIRAS( $post['tfID'] ) ) {
             $vars['bool'] = 1;
             $vars['url'] = $url;
         }
@@ -165,7 +165,12 @@ class TaxFileControl {
      * @return string
      */
     public function authCode( $args ) {
-        var_dump($args); exit;
+        // code & tfID & state
+        if( isset( $args[1] ) && isset( $args[2] ) ) {
+            if( $this->TaxFileModel->getAccessToken( $args[1], $args[2], $args[3] ) ) {
+                $this->TaxFileModel->submitIRAS( );
+            }
+        }
     }
 }
 ?>
