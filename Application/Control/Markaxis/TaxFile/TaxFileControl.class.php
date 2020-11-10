@@ -165,9 +165,9 @@ class TaxFileControl {
      * @return string
      */
     public function authCode( $args ) {
-        // code & state
-        if( isset( $args[1] ) && isset( $args[2] ) ) {
-            if( $this->TaxFileModel->getAccessToken( $args[1], urldecode( $args[2] ) ) ) {
+        // code & tfID & state
+        if( isset( $args[1] ) && isset( $args[2] ) && isset( $args[3] ) ) {
+            if( $this->TaxFileModel->getAccessToken( $args[1], $args[2], $args[3] ) ) {
                 $this->TaxFileModel->submitIRAS( );
             }
         }

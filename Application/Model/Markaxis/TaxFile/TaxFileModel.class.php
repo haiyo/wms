@@ -421,7 +421,7 @@ class TaxFileModel extends \Model {
             'scope' => 'EmpIncomeSub',
             'callback_url' => 'https://www.hrmscloud.net/admin/iras_sandbox',
             'code' => $code,
-            'state' => $state
+            'state' => serialize(ROOT_URL . '-' . $tfID . '-' . $state )
         );
 
         $fields_string = '';
