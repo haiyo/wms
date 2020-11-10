@@ -373,7 +373,7 @@ class TaxFileView {
                        'TPLVAR_TFID' => $tfID,
                        'TPLVAR_EMP_ID' => $empInfo['nric'],
                        'TPLVAR_EMP_NAME' =>  $empInfo['name'],
-                       'TPLVAR_ADDRESS' => isset( $ira8aInfo['address'] ) ? $ira8aInfo['address'] : $empInfo['address'],
+                       'TPLVAR_ADDRESS' => isset( $ira8aInfo['empAddress'] ) ? $ira8aInfo['empAddress'] : $empInfo['address'],
                        'TPLVAR_DAYS' => $ira8aInfo['days'],
                        'TPLVAR_NUMBER_SHARE' => $ira8aInfo['numberShare'],
                        'TPLVAR_ANNUAL_VALUE' => $ira8aInfo['annualValue'],
