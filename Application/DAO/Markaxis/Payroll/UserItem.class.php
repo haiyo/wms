@@ -94,7 +94,8 @@ class UserItem extends \DAO {
                                                              CAST("' . addslashes( $endDate ) . '" AS DATE) AND
                                          pu.userID = "' . (int)$userID . '" AND
                                          pi.directorFee = "1" AND
-                                         p.completed = "1"',
+                                         p.completed = "1"
+                                   GROUP BY pui.remark',
                                     __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
@@ -304,7 +305,8 @@ class UserItem extends \DAO {
                                                              CAST("' . addslashes( $endDate ) . '" AS DATE) AND
                                          pu.userID = "' . (int)$userID . '" AND
                                          pi.lumpSumOthers = "1" AND
-                                         p.completed = "1"',
+                                         p.completed = "1"
+                                   GROUP BY pui.remark',
                                     __FILE__, __LINE__ );
 
         if( $this->DB->numrows( $sql ) > 0 ) {
