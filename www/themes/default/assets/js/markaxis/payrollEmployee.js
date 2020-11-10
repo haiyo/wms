@@ -302,7 +302,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                         }
                         else {
                             $(document).find(".modal-body").load( Aurora.ROOT_URL + 'admin/payroll/processPayroll/' +
-                                $("#userID").val( ) + "/" + $("#processDate").val( ), function() {
+                                $("#userID").val( ) + "/" + $("#pID").val( ), function() {
                                 $(".itemType").select2( );
 
                                 var iconWrapper = $("#itemWrapper").find(".itemRow:last-child").find(".iconWrapper");
