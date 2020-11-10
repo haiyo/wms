@@ -107,7 +107,7 @@ var MarkaxisPayrollEmployee = (function( ) {
             });
 
             $(document).on("click", "#reprocessPayroll", function(e) {
-                that.reprocessPayroll( );
+                that.recalculate( );
                 e.preventDefault( );
             });
 
