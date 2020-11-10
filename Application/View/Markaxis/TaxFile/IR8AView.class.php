@@ -57,7 +57,7 @@ class IR8AView {
      * Render main navigation
      * @return string
      */
-    public function renderXML( $tfID ) {
+    public function renderXML( $tfID, $readonly=false ) {
         $TaxFileModel = TaxFileModel::getInstance( );
         $tfInfo = $TaxFileModel->getByTFID( $tfID );
         $ir8aInfo = $this->IR8AModel->getByTFID( $tfID );
@@ -339,6 +339,10 @@ class IR8AView {
 </ESubmissionSDSC>
 </IR8ATrailer>
 </IR8A>';
+
+            if( $readonly ) {
+                return $xml;
+            }
 
             header('Content-Type: text/xml');
             header('Content-Length: '.strlen( $xml ));
