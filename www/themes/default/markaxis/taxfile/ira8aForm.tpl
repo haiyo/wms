@@ -32,7 +32,7 @@
     </div>
 
     <div class="col-md-3">
-        <label>Number of employee(s) sharing: <span class="text-danger-400">*</span></label>
+        <label>No. of employee(s) sharing: <span class="text-danger-400">*</span></label>
         <input type="number" name="numberShare" id="numberShare" class="form-control" value="<?TPLVAR_NUMBER_SHARE?>" />
     </div>
 
