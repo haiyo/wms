@@ -387,7 +387,6 @@ class TaxFileModel extends \Model {
             curl_setopt_array($ch, array(
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_URL => $endpoint . $fields_string,
-                //CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_HTTPHEADER => array(
                     //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
                     //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
@@ -403,7 +402,9 @@ class TaxFileModel extends \Model {
                 return $result->data->url;
             }
             else {
-                $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
+                $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.
+                Alternatively, you may contact us by providing the following error message from IRAS: ReturnCode=' . $result->returnCode . '
+                Error Message=' . $result->info->message );
                 return false;
             }
         }
@@ -451,8 +452,8 @@ class TaxFileModel extends \Model {
             $fields['inputType'] = 'xml';
             $fields['bypass'] = 'false';
             $fields['validateOnly'] = 'true';
-            $fields['ir8aInput'] = $IR8AView->renderXML( $tfID, true );
-            $fields['a8aInput'] = $IRA8AView->renderXML( $tfID, true );
+            $fields['ir8aInput'] = $IR8AView->renderXML( $tfID,true );
+            $fields['a8aInput'] = $IRA8AView->renderXML( $tfID,true );
 
             $ch = curl_init();
             curl_setopt_array($ch, array(
@@ -474,7 +475,9 @@ class TaxFileModel extends \Model {
             var_dump($result); exit;
         }
         else {
-            $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
+            $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.
+                Alternatively, you may contact us by providing the following error message from IRAS: ReturnCode=' . $result->returnCode . '
+                Error Message=' . $result->info->message );
             return false;
         }
     }
