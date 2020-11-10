@@ -124,7 +124,7 @@ var MarkaxisTaxFile = (function( ) {
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Proceed to CorpPass Authentication",
+                confirmButtonText: "Proceed to CorpPass",
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
