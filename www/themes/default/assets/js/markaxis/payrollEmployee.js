@@ -328,7 +328,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                         }
                     }
                 };
-                Aurora.WebService.AJAX("admin/payroll/deletePayroll/" + $("#userID").val( ), data);
+                Aurora.WebService.AJAX("admin/payroll/deletePayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data);
             });
         },
 
