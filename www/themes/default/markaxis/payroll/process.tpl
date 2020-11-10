@@ -19,26 +19,7 @@
         </div>
     </div>
 </div>
-<div id="modalPayment" class="modal fade">
-    <div class="modal-dialog modal-med">
-        <div class="modal-content">
-            <div class="modal-header bg-info">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title"><?LANG_PAYMENT?></h6>
-            </div>
 
-            <div class="modal-body modal-payment overflow-y-visible">
-
-            </div>
-            <div class="modal-footer">
-                <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
-                    <button id="savePayroll" type="submit" class="btn btn-primary processBtn"><?LANG_SUBMIT?></button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <form id="employeeForm" class="stepy processEmployee" action="#">
     <input type="hidden" id="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
     <input type="hidden" id="completed" value="<?TPLVAR_COMPLETED?>" />
