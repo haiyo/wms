@@ -440,7 +440,43 @@ class TaxFileModel extends \Model {
         ));
         $result = curl_exec($ch);
         $result = json_decode( $result );
-        var_dump($result); exit;
+
+        if( isset( $result->returnCode ) && $result->returnCode == 10 && isset( $result->data->token ) ) {
+            $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/EmpIncomeRecords/Submit';
+
+            $IR8AView = new IR8AView( );
+            $IRA8AView = new IRA8AView( );
+
+            $fields = array( );
+            $fields['inputType'] = 'xml';
+            $fields['bypass'] = 'false';
+            $fields['validateOnly'] = 'true';
+            $fields['ir8aInput'] = $IR8AView->renderXML( $tfID );
+            $fields['a8aInput'] = $IRA8AView->renderXML( $tfID );
+
+            $ch = curl_init();
+            curl_setopt_array($ch, array(
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_URL => $endpoint,
+                CURLOPT_POST => 1,
+                CURLOPT_POSTFIELDS => json_encode( $fields ),
+                CURLOPT_HTTPHEADER => array(
+                    //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
+                    //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
+                    'x-ibm-client-id: 1425d73f-1459-4dc6-9528-7b2b3b76a249',
+                    'x-ibm-client-secret: H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1',
+                    'access_token: ' . $result->data->token,
+                    'content-type: application/json',
+                    'accept: application/json' )
+            ));
+            $result = curl_exec($ch);
+            $result = json_decode( $result );
+            var_dump($result); exit;
+        }
+        else {
+            $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
+            return false;
+        }
     }
 }
 ?>
