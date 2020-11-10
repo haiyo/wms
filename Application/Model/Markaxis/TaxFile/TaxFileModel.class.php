@@ -404,7 +404,7 @@ class TaxFileModel extends \Model {
             else {
                 $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.
                 Alternatively, you may contact us by providing the following error message from IRAS: ReturnCode=' . $result->returnCode . '
-                Error Message=' . $result->info->message );
+                Error Message=' . $result->info->message . ' fields=' . $fields_string );
                 return false;
             }
         }

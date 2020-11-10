@@ -70,7 +70,7 @@ class IR8AView {
 <FileHeaderST>
 <RecordType>0</RecordType>
 <Source>' . $tfInfo['sourceType'] . '</Source>
-<BasisYear>' . $tfInfo['fileYear'] . '</BasisYear>
+<BasisYear>' . ($tfInfo['fileYear']+1) . '</BasisYear>
 <PaymentType>08</PaymentType>
 <OrganizationID>' . $tfInfo['orgIDType'] . '</OrganizationID>
 <OrganizationIDNo>' . $tfInfo['regNumber'] . '</OrganizationIDNo>
@@ -121,11 +121,9 @@ class IR8AView {
                     }
                 }
 
+                $benefitsInKind = '';
                 if( $info['benefitsInKind'] ) {
                     $benefitsInKind = 'Y';
-                }
-                else {
-                    $benefitsInKind = 'N';
                 }
 
                 $IncomeTaxBorneByEmployer = '';
