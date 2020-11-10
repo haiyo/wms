@@ -367,7 +367,7 @@ class TaxFileModel extends \Model {
 
             $info = array( );
             $info['stateCode'] = MD5( microtime( ) );
-            $info['stateCode'] = urlencode(ROOT_URL . '-' . $tfInfo['tfID'] . '-' . $info['stateCode'] );
+            $info['stateCode'] = serialize(ROOT_URL . '-' . $tfInfo['tfID'] . '-' . $info['stateCode'] );
             $this->TaxFile->update('taxfile', $info, 'WHERE tfID = "' . (int)$tfID . '"' );
 
             $fields = array(
