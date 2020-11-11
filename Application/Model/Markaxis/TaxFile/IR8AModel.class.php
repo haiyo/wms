@@ -318,8 +318,8 @@ class IR8AModel extends \Model {
                 $check['insurance'] = (float)$post['data']['insurance'];
 
                 foreach( $check as $key => $value ) {
-                    if( $value > 0 ) {
-                        $this->info[$key] = $value;
+                    if( $value < 1 ) {
+                        $this->info[$key] = NULL;
                     }
                 }
 
