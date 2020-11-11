@@ -85,10 +85,10 @@ class IRA8AModel extends \Model {
                 'tfID' => $data['ir8a']['tfID'],
                 'userID' => $data['ir8a']['userID'],
                 'empIDNo' => $userInfo['nric'],
-                'empName' => $userInfo['fname'] . ' ' . $userInfo['lname'] );
+                'empName' => $userInfo['fname'] . ' ' . $userInfo['lname'],
+                'totalBenefits' => (float)$data['ir8a']['benefitsInKind'] );
 
             if( $iraInfo = $this->getByUserIDTFID( $data['ir8a']['userID'], $data['ir8a']['tfID'] ) ) {
-                $this->info['totalBenefits'] = $iraInfo['totalBenefits'] = (float)$data['ir8a']['benefitsInKind'];
                 $this->IRA8A->update('ira8a', $this->info,
                                      'WHERE userID = "' . (int)$data['ir8a']['userID'] . '" AND 
                                                    tfID = "' . (int)$data['ir8a']['tfID'] . '"' );
