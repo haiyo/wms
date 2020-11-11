@@ -174,15 +174,18 @@ class IRA8AModel extends \Model {
                     $this->info['totalTaxableUtilities'] = (float)$totalUtilities;
                 }
 
-                if( $this->info['hotel'] > 0 && $this->info['hotel'] < $this->info['hotelPaidEmployee'] ) {
-                    $this->setErrMsg('Actual Cost of Hotel should not be less than Amount paid by Employee.' );
-                    return false;
-                }
+                $this->info['hotelTotal'] = '';
 
-                $totalHotel = ($this->info['hotel']-$this->info['hotelPaidEmployee']);
-
-                if( $totalHotel > 0 ) {
-                    $this->info['hotelTotal'] = (float)$totalHotel;
+                if( $this->info['hotel'] > 0 ) {
+                    if( $this->info['hotelPaidEmployee'] > 0 ) {
+                        $totalHotel = (float)($this->info['hotel']-$this->info['hotelPaidEmployee']);
+                        $this->info['hotelTotal'] = $totalHotel < 0 ? 0 : $totalHotel; // if negative default to 0;
+                    }
+                    else {
+                        // Give this a value 0 for iras to compute -.-
+                        $this->info['hotelPaidEmployee'] = 0;
+                        $this->info['hotelTotal'] = (float)$this->info['hotel'];
+                    }
                 }
 
                 $totalBenefits = ($this->info['totalTaxablePlace']+$this->info['totalTaxableUtilities']+$this->info['hotelTotal']+
