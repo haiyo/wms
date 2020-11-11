@@ -36,7 +36,7 @@ class IRA8AModel extends \Model {
         $this->info['totalTaxableUtilities'] = $this->info['hotel'] = $this->info['hotelPaidEmployee'] = $this->info['hotelTotal'] =
         $this->info['incidentalBenefits'] = $this->info['interestPayment'] = $this->info['insurance'] =
         $this->info['holidays'] = $this->info['education'] = $this->info['recreation'] = $this->info['assetGain'] =
-        $this->info['vehicleGain'] = $this->info['carBenefits'] = $this->info['otherBenefits'] = '';
+        $this->info['vehicleGain'] = $this->info['carBenefits'] = $this->info['otherBenefits'] = $this->info['totalBenefits'] = '';
     }
 
 
