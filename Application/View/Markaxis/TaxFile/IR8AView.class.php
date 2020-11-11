@@ -205,7 +205,7 @@ class IR8AView {
 
                 $Others = ($info['pension']+$info['transport']+$info['entertainment']+$info['others']+
                            $info['amtAccrued93']+$info['contriOutSGWithoutTax']+
-                    $info['excessContriByEmployer']+$info['gainsProfitESOP']+$info['benefitsInKind']);
+                           $info['excessContriByEmployer']+$info['gainsProfitESOP']+$info['benefitsInKind']);
 
                 if( $GrossCommissionAmount ) {
                     $Others += $GrossCommissionAmount;

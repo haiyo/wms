@@ -297,23 +297,31 @@ class IR8AModel extends \Model {
             if( $this->isFoundByUserIDTFID( $post['data']['userID'], $post['data']['tfID'] ) ) {
                 $this->info = array( );
                 $this->info['otherLumpSumRemark'] = Validator::stripTrim( $post['data']['otherLumpSumRemark'] );
-                $this->info['compensation'] = (float)$post['data']['compensation'];
                 $this->info['reasonPayment'] = Validator::stripTrim( $post['data']['reasonPayment'] );
                 $this->info['basisPayment'] = Validator::stripTrim( $post['data']['basisPayment'] );
                 $this->info['retireFundName'] = Validator::stripTrim( $post['data']['retireFundName'] );
-                $this->info['amtAccrued92'] = (float)$post['data']['amtAccrued92'];
-                $this->info['amtAccrued93'] = (float)$post['data']['amtAccrued93'];
-                $this->info['contriOutSGWithoutTax'] = (float)$post['data']['contriOutSGWithoutTax'];
                 $this->info['overseasFundName'] = Validator::stripTrim( $post['data']['overseasFundName'] );
-                $this->info['overseasFundAmt'] = (float)$post['data']['overseasFundAmt'];
-                $this->info['excessContriByEmployer'] = (float)$post['data']['excessContriByEmployer'];
-                $this->info['benefitsInKind'] = (float)$post['data']['benefitsInKind'];
-                $this->info['remissionAmt'] = (float)$post['data']['remissionAmt'];
-                $this->info['exemptIncome'] = (float)$post['data']['exemptIncome'];
-                $this->info['employerTaxBorne'] = (float)$post['data']['employerTaxBorne'];
-                $this->info['empTaxPaid'] = (float)$post['data']['empTaxPaid'];
-                $this->info['contriMosque'] = (float)$post['data']['contriMosque'];
-                $this->info['insurance'] = (float)$post['data']['insurance'];
+
+                $check = array( );
+                $check['compensation'] = (float)$post['data']['compensation'];
+                $check['amtAccrued92'] = (float)$post['data']['amtAccrued92'];
+                $check['amtAccrued93'] = (float)$post['data']['amtAccrued93'];
+                $check['contriOutSGWithoutTax'] = (float)$post['data']['contriOutSGWithoutTax'];
+                $check['overseasFundAmt'] = (float)$post['data']['overseasFundAmt'];
+                $check['excessContriByEmployer'] = (float)$post['data']['excessContriByEmployer'];
+                $check['benefitsInKind'] = (float)$post['data']['benefitsInKind'];
+                $check['remissionAmt'] = (float)$post['data']['remissionAmt'];
+                $check['exemptIncome'] = (float)$post['data']['exemptIncome'];
+                $check['employerTaxBorne'] = (float)$post['data']['employerTaxBorne'];
+                $check['empTaxPaid'] = (float)$post['data']['empTaxPaid'];
+                $check['contriMosque'] = (float)$post['data']['contriMosque'];
+                $check['insurance'] = (float)$post['data']['insurance'];
+
+                foreach( $check as $key => $value ) {
+                    if( $value > 0 ) {
+                        $this->info[$key] = $value;
+                    }
+                }
 
                 if( checkdate( (int)$post['data']['approvedMonth'], (int)$post['data']['approvedDay'], (int)$post['data']['approvedYear'] ) ) {
                     $this->info['approveDate'] = $post['data']['approvedYear'] . '-' .
