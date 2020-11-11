@@ -89,7 +89,6 @@ class IRA8AView {
                 $upkeep = $info['upkeep'] > 0 ? $info['upkeep'] : '';
                 $totalTaxableUtilities = $info['totalTaxableUtilities'] > 0 ? $info['totalTaxableUtilities'] : '';
                 $hotel = $info['hotel'] > 0 ? $info['hotel'] : '';
-                $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : '';
                 $hotelTotal = $info['hotelTotal'] > 0 ? $info['hotelTotal'] : '';
                 $incidentalBenefits = $info['incidentalBenefits'] > 0 ? $info['incidentalBenefits'] : '';
                 $interestPayment = $info['interestPayment'] > 0 ? $info['interestPayment'] : '';
@@ -102,6 +101,10 @@ class IRA8AView {
                 $carBenefits = $info['carBenefits'] > 0 ? $info['carBenefits'] : '';
                 $otherBenefits = $info['otherBenefits'] > 0 ? $info['otherBenefits'] : '';
                 $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : '';
+
+                // Must be zero for IRAs to de-the-fucking-duct!
+                if( $hotel > 0 )
+                $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : 0;
 
                 $xml .= '<A8ARecord>
 <ESubmissionSDSC xmlns="http://tempuri.org/ESubmissionSDSC.xsd">
