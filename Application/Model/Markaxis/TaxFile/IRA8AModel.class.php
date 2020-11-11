@@ -130,6 +130,9 @@ class IRA8AModel extends \Model {
                     if( $value < 1 ) {
                         $this->info[$key] = NULL;
                     }
+                    else {
+                        $this->info[$key] = $value;
+                    }
                 }
 
                 if( checkdate( (int)$post['data']['fromMonth'], (int)$post['data']['fromDay'], (int)$post['data']['fromYear'] ) ) {
