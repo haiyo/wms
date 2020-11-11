@@ -107,7 +107,7 @@ var MarkaxisTaxFile = (function( ) {
                     }
                     else {
                         if( obj.data != "update" ) {
-                            $("#ir8aID").val( obj.data );
+                            $("#tfID").val( obj.data );
                         }
                         $(".stepy").stepy("step", 2);
                     }
