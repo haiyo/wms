@@ -349,7 +349,7 @@ class TaxFileView {
 
         $fromDay = $fromMonth = $fromYear = $toDay = $toMonth = $toYear = '';
 
-        if( $ira8aInfo['periodFrom'] ) {
+        if( isset( $ira8aInfo['periodFrom'] ) ) {
             $periodFrom = explode( '-', $ira8aInfo['periodFrom'] );
             $fromDay   = $periodFrom[2];
             $fromMonth = $periodFrom[1];
@@ -359,7 +359,7 @@ class TaxFileView {
         $fromDayList   = $DayIntListView->getList('fromDay', $fromDay, 'Day' );
         $fromMonthList = $SelectListView->build('fromMonth', MonthHelper::getL10nList( ), $fromMonth, 'Month' );
 
-        if( $ira8aInfo['periodTo'] ) {
+        if( isset( $ira8aInfo['periodTo'] ) ) {
             $periodTo = explode( '-', $ira8aInfo['periodTo'] );
             $toDay   = $periodTo[2];
             $toMonth = $periodTo[1];

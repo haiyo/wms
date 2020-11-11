@@ -28,6 +28,15 @@ class IRA8AModel extends \Model {
         $this->L10n = $i18n->loadLanguage('Markaxis/TaxFile/TaxFileRes');
 
         $this->IRA8A = new IRA8A( );
+
+        $this->info['empAddress'] = $this->info['days'] = $this->info['numberShare'] =
+        $this->info['annualValue'] = $this->info['furnitureValue'] = $this->info['rentPaidEmployer'] =
+        $this->info['taxableValue'] = $this->info['rentPaidEmployee'] = $this->info['totalTaxablePlace'] =
+        $this->info['utilities'] = $this->info['driver'] = $this->info['upkeep'] =
+        $this->info['totalTaxableUtilities'] = $this->info['hotel'] = $this->info['hotelPaidEmployee'] = $this->info['hotelTotal'] =
+        $this->info['incidentalBenefits'] = $this->info['interestPayment'] = $this->info['insurance'] =
+        $this->info['holidays'] = $this->info['education'] = $this->info['recreation'] = $this->info['assetGain'] =
+        $this->info['vehicleGain'] = $this->info['carBenefits'] = $this->info['otherBenefits'] = '';
     }
 
 
@@ -54,7 +63,12 @@ class IRA8AModel extends \Model {
      * @return int
      */
     public function getByUserIDTFID( $userID, $tfID ) {
-        return $this->IRA8A->getByUserIDTFID( $userID, $tfID );
+        $info = $this->IRA8A->getByUserIDTFID( $userID, $tfID );
+
+        if( !$info ) {
+            return $this->info;
+        }
+        return $info;
     }
 
 
