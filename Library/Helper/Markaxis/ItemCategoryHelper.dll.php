@@ -50,8 +50,8 @@ class ItemCategoryHelper implements IListHelper {
                       'c' => $L10n->getContents('LANG_COMMISSION'),
                       'p' => $L10n->getContents('LANG_PENSION'),
                       'l' => $L10n->getContents('LANG_LUMP_SUM'),
-                      'b' => $L10n->getContents('LANG_BENEFITS_IN_KIND'),
-                      's' => $L10n->getContents('LANG_STOCK_OPTIONS') );
+                      /*'b' => $L10n->getContents('LANG_BENEFITS_IN_KIND'),
+                      's' => $L10n->getContents('LANG_STOCK_OPTIONS')*/ );
     }
 }
 ?>

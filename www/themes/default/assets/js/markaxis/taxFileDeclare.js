@@ -113,8 +113,16 @@ var MarkaxisTaxFileDeclare = (function( ) {
                         $("#empIDNo8A").prop("disabled", true);
                         $("#empName8A").prop("disabled", true);
                     }, 200 );
+
+                    $(document).on("blur", "#saveIra8a input", function(e) {
+                        that.computeTaxableValue( );
+                        that.computeTotalTaxableValue( );
+                        that.computeTotalUtilities( );
+                        that.computeTaxableHotel( );
+                    });
                 });
             });
+
 
             that.ir8aValidate = {
                 ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
@@ -235,34 +243,180 @@ var MarkaxisTaxFileDeclare = (function( ) {
             });
 
             $("#submitIra8a").on("click", function(e) {
-                var data = {
-                    bundle: {
-                        data: Aurora.WebService.serializePost("#saveIra8a")
-                    },
-                    success: function (res) {
-                        var obj = $.parseJSON(res);
-                        if( obj.bool === 0 ) {
-                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
-                            return;
-                        }
-                        else {
-                            swal({
-                                title: $("#empName8A").val() + "'s Appendix 8A form has been successfully updated!",
-                                type: "success"
-                            }, function( isConfirm ) {
-                                that.table.ajax.reload( );
-                                $("#modalA8A").modal("hide");
+                if( that.computeTotalBenefits( ) ) {
+                    var data = {
+                        bundle: {
+                            data: Aurora.WebService.serializePost("#saveIra8a")
+                        },
+                        success: function (res) {
+                            var obj = $.parseJSON(res);
+                            if( obj.bool === 0 ) {
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                                return;
+                            }
+                            else {
+                                swal({
+                                    title: $("#empName8A").val() + "'s Appendix 8A form has been successfully updated!",
+                                    type: "success"
+                                }, function( isConfirm ) {
+                                    that.table.ajax.reload( );
+                                    $("#modalA8A").modal("hide");
 
-                                setTimeout( function( ) {
-                                    that.prepareUserDeclaration(0);
-                                }, 500 );
-                            });
+                                    setTimeout( function( ) {
+                                        that.prepareUserDeclaration(0);
+                                    }, 500 );
+                                });
+                            }
                         }
-                    }
-                };
-                Aurora.WebService.AJAX("admin/taxfile/saveIra8a", data);
+                    };
+                    Aurora.WebService.AJAX("admin/taxfile/saveIra8a", data);
+                }
                 return false;
             });
+        },
+
+
+        computeTaxableValue: function( ) {
+            if( ($("#annualValue").val( ) != "" || $("#furnitureValue").val( ) != "") && $("#rentPaidEmployer").val( ) != "" ) {
+                $("#annualValue").addClass("border-danger");
+                $("#furnitureValue").addClass("border-danger");
+                $("#rentPaidEmployer").addClass("border-danger");
+
+                if( $(".modal-footer .error").length > 0 ) {
+                    $(".modal-footer .error").remove( );
+                }
+                $(".modal-footer").append('<label class="error">If you entered 2a and 2b, 2c must be blank. You may also enter 2c but leave blank for 2a and 2b.</label>');
+                return false;
+            }
+
+            $("#annualValue").removeClass("border-danger");
+            $("#furnitureValue").removeClass("border-danger");
+            $("#rentPaidEmployer").removeClass("border-danger");
+            $(".modal-footer .error").remove( );
+
+            if( $("#annualValue").val( ) != "" || $("#furnitureValue").val( ) != "" ) {
+                var annualValue = parseFloat( $("#annualValue").val( ) );
+                var furnitureValue = parseFloat( $("#furnitureValue").val( ) );
+                annualValue = isNaN( annualValue ) ? 0 : annualValue;
+                furnitureValue = isNaN( furnitureValue ) ? 0 : furnitureValue;
+                $("#taxableValue").val( (annualValue+furnitureValue) );
+            }
+            else if( $("#rentPaidEmployer").val( ) != "" ) {
+                $("#taxableValue").val( $("#rentPaidEmployer").val( ) );
+            }
+        },
+
+
+        computeTotalTaxableValue: function( ) {
+            var taxableValue = parseFloat( $("#taxableValue").val( ) );
+            var rentPaidEmployee = parseFloat( $("#rentPaidEmployee").val( ) );
+            taxableValue = isNaN( taxableValue ) ? 0 : taxableValue;
+            rentPaidEmployee = isNaN( rentPaidEmployee ) ? 0 : rentPaidEmployee;
+
+            if( taxableValue > 0 ) {
+                if( rentPaidEmployee > 0 && taxableValue < rentPaidEmployee ) {
+                    $("#taxableValue").addClass("border-danger");
+                    $("#rentPaidEmployee").addClass("border-danger");
+
+                    $(".modal-footer").append('<label class="error">Taxable value should not be less than Rent paid by Employee</label>');
+                    return false;
+                }
+
+                $("#taxableValue").removeClass("border-danger");
+                $("#rentPaidEmployee").removeClass("border-danger");
+                $(".modal-footer .error").remove( );
+
+                $("#totalTaxablePlace").val( (taxableValue-rentPaidEmployee) );
+            }
+        },
+
+
+        computeTotalUtilities: function( ) {
+            var utilities = parseFloat( $("#utilities").val( ) );
+            var driver = parseFloat( $("#driver").val( ) );
+            var upkeep = parseFloat( $("#upkeep").val( ) );
+
+            utilities = isNaN( utilities ) ? 0 : utilities;
+            driver = isNaN( driver ) ? 0 : driver;
+            upkeep = isNaN( upkeep ) ? 0 : upkeep;
+
+            var total = (utilities+driver+upkeep);
+
+            if( total > 0 ) {
+                $("#totalTaxableUtilities").val( total );
+            }
+        },
+
+
+        computeTaxableHotel: function( ) {
+            var hotel = parseFloat( $("#hotel").val( ) );
+            var hotelPaidEmployee = parseFloat( $("#hotelPaidEmployee").val( ) );
+
+            hotel = isNaN( hotel ) ? 0 : hotel;
+            hotelPaidEmployee = isNaN( hotelPaidEmployee ) ? 0 : hotelPaidEmployee;
+
+            if( hotel > 0 && hotel < hotelPaidEmployee ) {
+                $("#hotel").addClass("border-danger");
+                $("#hotelPaidEmployee").addClass("border-danger");
+
+                $(".modal-footer").append('<label class="error">Actual Cost of Hotel should not be less than Amount paid by Employee</label>');
+                return false;
+            }
+
+            $("#hotel").removeClass("border-danger");
+            $("#hotelPaidEmployee").removeClass("border-danger");
+            $(".modal-footer .error").remove( );
+
+            var total = (hotel-hotelPaidEmployee);
+
+            if( total > 0 ) {
+                $("#hotelTotal").val( total );
+            }
+        },
+
+
+        computeTotalBenefits: function( ) {
+            var totalTaxablePlace = parseFloat( $("#totalTaxablePlace").val( ) );
+            var totalTaxableUtilities = parseFloat( $("#totalTaxableUtilities").val( ) );
+            var hotelTotal = parseFloat( $("#hotelTotal").val( ) );
+            var incidentalBenefits = parseFloat( $("#incidentalBenefits").val( ) );
+            var interestPayment = parseFloat( $("#interestPayment").val( ) );
+            var insurance = parseFloat( $("#insurance").val( ) );
+            var holidays = parseFloat( $("#holidays").val( ) );
+            var education = parseFloat( $("#education").val( ) );
+            var recreation = parseFloat( $("#recreation").val( ) );
+            var assetGain = parseFloat( $("#assetGain").val( ) );
+            var vehicleGain = parseFloat( $("#vehicleGain").val( ) );
+            var carBenefits = parseFloat( $("#carBenefits").val( ) );
+            var otherBenefits = parseFloat( $("#otherBenefits").val( ) );
+
+            totalTaxablePlace = isNaN( totalTaxablePlace ) ? 0 : totalTaxablePlace;
+            totalTaxableUtilities = isNaN( totalTaxableUtilities ) ? 0 : totalTaxableUtilities;
+            hotelTotal = isNaN( hotelTotal ) ? 0 : hotelTotal;
+            incidentalBenefits = isNaN( incidentalBenefits ) ? 0 : incidentalBenefits;
+            interestPayment = isNaN( interestPayment ) ? 0 : interestPayment;
+            insurance = isNaN( insurance ) ? 0 : insurance;
+            holidays = isNaN( holidays ) ? 0 : holidays;
+            education = isNaN( education ) ? 0 : education;
+            recreation = isNaN( recreation ) ? 0 : recreation;
+            assetGain = isNaN( assetGain ) ? 0 : assetGain;
+            vehicleGain = isNaN( vehicleGain ) ? 0 : vehicleGain;
+            carBenefits = isNaN( carBenefits ) ? 0 : carBenefits;
+            otherBenefits = isNaN( otherBenefits ) ? 0 : otherBenefits;
+
+            var totalBenefits = (totalTaxablePlace+totalTaxableUtilities+hotelTotal+
+                incidentalBenefits+interestPayment+insurance+holidays+education+recreation+
+                assetGain+vehicleGain+carBenefits+otherBenefits);
+
+            if( $("#totalBenefits").val( ) != totalBenefits ) {
+                $("#totalBenefits").addClass("border-danger");
+
+                $(".modal-footer").append('<label class="error">Your total benefits value does not compute to the Total Value of Benefits-In-Kind.</label>');
+                return false;
+            }
+            $("#totalBenefits").removeClass("border-danger");
+            $(".modal-footer .error").remove( );
+            return true;
         },
 
 

@@ -156,15 +156,6 @@ class UserItemModel extends \Model {
 
     /**
      * Return total count of records
-     * @return mixed
-     */
-    public function getTotalBenefitsByUserIDRange( $userID, $startDate, $endDate ) {
-        return $this->UserItem->getTotalBenefitsByUserIDRange( $userID, $startDate, $endDate );
-    }
-
-
-    /**
-     * Return total count of records
      * @return int
      */
     public function getExistingItems( $data ) {
