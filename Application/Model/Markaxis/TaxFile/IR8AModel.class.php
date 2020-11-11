@@ -209,7 +209,7 @@ class IR8AModel extends \Model {
             }
         }
 
-        $pensionAmt = $gratuityAmt = $noticeAmt = $exGratiaAmt = $stockAmt = $benefitsAmt = $otherLumpsumAmt = NULL;
+        $pensionAmt = $gratuityAmt = $noticeAmt = $exGratiaAmt = $stockAmt = $otherLumpsumAmt = NULL;
 
         if( isset( $pension['amount'] ) ) {
             $pensionAmt = $pension['amount'];

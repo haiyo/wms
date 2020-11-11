@@ -74,13 +74,13 @@ class IRA8AModel extends \Model {
                 'empName' => $userInfo['fname'] . ' ' . $userInfo['lname'] );
 
             if( $iraInfo = $this->getByUserIDTFID( $data['ir8a']['userID'], $data['ir8a']['tfID'] ) ) {
+                $this->info['totalBenefits'] = (float)$data['ir8a']['benefitsInKind'];
                 $this->IRA8A->update('ira8a', $this->info,
                                      'WHERE userID = "' . (int)$data['ir8a']['userID'] . '" AND 
                                                    tfID = "' . (int)$data['ir8a']['tfID'] . '"' );
                 return $iraInfo;
             }
             else {
-                $this->info['totalBenefits'] = (float)$data['ir8a']['benefitsInKind'];
                 $this->info['completed'] = 0;
                 $this->IRA8A->insert('ira8a', $this->info );
                 return $this->info;
