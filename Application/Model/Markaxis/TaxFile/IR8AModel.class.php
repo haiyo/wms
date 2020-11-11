@@ -135,7 +135,6 @@ class IR8AModel extends \Model {
         $exGratia = $UserItemModel->getTotalExGratiaByUserIDRange( $data['empIR8AInfo']['userID'], $startDate, $endDate );
         $otherLumpsum = $UserItemModel->getTotalOtherLumpsumByUserIDRange( $data['empIR8AInfo']['userID'], $startDate, $endDate );
         $stock = $UserItemModel->getTotalStockByUserIDRange( $data['empIR8AInfo']['userID'], $startDate, $endDate );
-        $benefits = $UserItemModel->getTotalBenefitsByUserIDRange( $data['empIR8AInfo']['userID'], $startDate, $endDate );
 
         $UserTaxModel = UserTaxModel::getInstance( );
         $cpf = $UserTaxModel->getTotalCPFByUserIDRange( $data['empIR8AInfo']['userID'], $startDate, $endDate );
@@ -237,11 +236,6 @@ class IR8AModel extends \Model {
             $total += $stockAmt;
         }
 
-        if( isset( $benefits['amount'] ) ) {
-            $benefitsAmt = $benefits['amount'];
-            $total += $benefitsAmt;
-        }
-
         if( isset( $otherLumpsum['amount'] ) ) {
             $otherLumpsumAmt = $otherLumpsum['amount'];
             $total += $otherLumpsumAmt;
@@ -274,7 +268,6 @@ class IR8AModel extends \Model {
             'otherLumpSum' => $otherLumpsumAmt ? $otherLumpsumAmt : NULL,
             'lengthService' =>  $lengthYear . $lengthMonth . $lengthDay,
             'gainsProfitESOP' => $stockAmt ? $stockAmt : NULL,
-            'benefitsInKind' => $benefitsAmt ? $benefitsAmt : NULL,
             'total' => $total,
             'deductFundName' => isset( $cpf['amount'] ) ? 'CPF' : NULL,
             'cpf' => isset( $cpf['amount'] ) ? $cpf['amount'] : NULL,
@@ -288,6 +281,7 @@ class IR8AModel extends \Model {
 
             $this->info['tfID'] = $post['tfID'];
             $this->info['userID'] = $data['empIR8AInfo']['userID'];
+            $this->info['benefitsInKind'] = $ir8aInfo['benefitsInKind'];
             $this->info['completed'] = $ir8aInfo['completed'];
             return $this->info;
         }
@@ -313,6 +307,7 @@ class IR8AModel extends \Model {
                 $this->info['overseasFundName'] = Validator::stripTrim( $post['data']['overseasFundName'] );
                 $this->info['overseasFundAmt'] = (float)$post['data']['overseasFundAmt'];
                 $this->info['excessContriByEmployer'] = (float)$post['data']['excessContriByEmployer'];
+                $this->info['benefitsInKind'] = (float)$post['data']['benefitsInKind'];
                 $this->info['remissionAmt'] = (float)$post['data']['remissionAmt'];
                 $this->info['exemptIncome'] = (float)$post['data']['exemptIncome'];
                 $this->info['employerTaxBorne'] = (float)$post['data']['employerTaxBorne'];

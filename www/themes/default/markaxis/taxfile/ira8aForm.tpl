@@ -87,58 +87,58 @@
 <div class="row">
     <div class="col-md-4">
         <label>(a) Annual Value of Premises for the period:</label>
-        <input type="number" name="annualValue" class="form-control" value="<?TPLVAR_ANNUAL_VALUE?>" placeholder="Enter amount" />
+        <input type="number" id="annualValue" name="annualValue" class="form-control" value="<?TPLVAR_ANNUAL_VALUE?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(b) Value of Furniture &amp; Fitting:</label>
-        <input type="number" name="furnitureValue" class="form-control" value="<?TPLVAR_FURNITURE_VALUE?>" placeholder="Enter amount" />
+        <input type="number" id="furnitureValue" name="furnitureValue" class="form-control" value="<?TPLVAR_FURNITURE_VALUE?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(c) Rent paid by employer:</label>
-        <input type="number" name="rentPaidEmployer" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYER?>" placeholder="Enter amount" />
+        <input type="number" id="rentPaidEmployer" name="rentPaidEmployer" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYER?>" placeholder="Enter amount" />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <label>(d) Taxable Value of Residence : (2a+2b) or 2c:</label>
-        <input type="number" name="taxableValue" class="form-control" value="<?TPLVAR_TAXABLE_VALUE?>" placeholder="Enter amount" />
+        <input type="number" id="taxableValue" name="taxableValue" class="form-control" value="<?TPLVAR_TAXABLE_VALUE?>" placeholder="(2a+2b) or 2c" disabled="disabled" />
     </div>
 
     <div class="col-md-4">
         <label>(e) Total Rent paid by employee for Residence:</label>
-        <input type="number" name="rentPaidEmployee" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYEE?>" placeholder="Enter amount" />
+        <input type="number" id="rentPaidEmployee" name="rentPaidEmployee" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYEE?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(f) Total Taxable Value of Residence (2d-2e):</label>
-        <input type="number" name="totalTaxablePlace" class="form-control" value="<?TPLVAR_TOTAL_TAXABLE_PLACE?>" placeholder="Enter amount" />
+        <input type="number" id="totalTaxablePlace" name="totalTaxablePlace" class="form-control" value="<?TPLVAR_TOTAL_TAXABLE_PLACE?>" placeholder="(2d-2e)" disabled="disabled" />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <label>(g) Utilities/Phone/Electronic (e.g. Laptop):</label>
-        <input type="number" name="utilities" class="form-control" value="<?TPLVAR_UTILITIES?>" placeholder="Enter amount" />
+        <input type="number" id="utilities" name="utilities" class="form-control" value="<?TPLVAR_UTILITIES?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(h) Driver - Annual W.*(Private/Total Mileage):</label>
-        <input type="number" name="driver" class="form-control" value="<?TPLVAR_DRIVER?>" placeholder="Enter amount" />
+        <input type="number" id="driver" name="driver" class="form-control" value="<?TPLVAR_DRIVER?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(i) Upkeep of Compound:</label>
-        <input type="number" name="upkeep" class="form-control" value="<?TPLVAR_UPKEEP?>" placeholder="Enter amount" />
+        <input type="number" id="upkeep" name="upkeep" class="form-control" value="<?TPLVAR_UPKEEP?>" placeholder="Enter amount" />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <label>(j) Taxable value of utilities (2g+2h+2i):</label>
-        <input type="number" name="totalTaxableUtilities" class="form-control" value="<?TPLVAR_TOTAL_UTILITIES?>" placeholder="Enter amount" />
+        <input type="number" id="totalTaxableUtilities" name="totalTaxableUtilities" class="form-control" value="<?TPLVAR_TOTAL_UTILITIES?>" placeholder="Enter amount" disabled="disabled" />
     </div>
 </div>
 
@@ -147,15 +147,15 @@
 <div class="row">
     <div class="col-md-4">
         <label>(a) Actual cost of Hotel accommodation:</label>
-        <input type="number" name="hotel" class="form-control" value="<?TPLVAR_HOTEL?>" placeholder="Enter amount" />
+        <input type="number" id="hotel" name="hotel" class="form-control" value="<?TPLVAR_HOTEL?>" placeholder="Enter amount" />
     </div>
     <div class="col-md-4">
         <label>(b) Amount paid by the employee:</label>
-        <input type="number" name="hotelPaidEmployee" class="form-control" value="<?TPLVAR_HOTEL_PAID_EMPLOYEE?>" placeholder="Enter amount" />
+        <input type="number" id="hotelPaidEmployee" name="hotelPaidEmployee" class="form-control" value="<?TPLVAR_HOTEL_PAID_EMPLOYEE?>" placeholder="Enter amount" />
     </div>
     <div class="col-md-4">
         <label>(c) Taxable Value of Hotel (3a-3b):</label>
-        <input type="number" name="hotelTotal" class="form-control" value="<?TPLVAR_HOTEL_TOTAL?>" placeholder="Enter amount" />
+        <input type="number" id="hotelTotal" name="hotelTotal" class="form-control" value="<?TPLVAR_HOTEL_TOTAL?>" placeholder="Enter amount" disabled="disabled" />
     </div>
 </div>
 
@@ -164,62 +164,62 @@
 <div class="row">
     <div class="col-md-4">
         <label>(a) Home leave passages and benefits:</label>
-        <input type="number" name="incidentalBenefits" class="form-control" value="<?TPLVAR_INCIDENTAL_BENEFITS?>" placeholder="Enter amount" />
+        <input type="number" id="incidentalBenefits" name="incidentalBenefits" class="form-control" value="<?TPLVAR_INCIDENTAL_BENEFITS?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(b) Interest payment made by the employer:</label>
-        <input type="number" name="interestPayment" class="form-control" value="<?TPLVAR_INTEREST_PAYMENT?>" placeholder="Enter amount" />
+        <input type="number" id="interestPayment" name="interestPayment" class="form-control" value="<?TPLVAR_INTEREST_PAYMENT?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(c) Insurance premiums paid by the employer:</label>
-        <input type="number" name="insurance" class="form-control" value="<?TPLVAR_INSURANCE?>" placeholder="Enter amount" />
+        <input type="number" id="insurance" name="insurance" class="form-control" value="<?TPLVAR_INSURANCE?>" placeholder="Enter amount" />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <label>(d) Free or subsidised holidays including air passage, etc.:</label>
-        <input type="number" name="holidays" class="form-control" value="<?TPLVAR_HOLIDAYS?>" placeholder="Enter amount" />
+        <input type="number" id="holidays" name="holidays" class="form-control" value="<?TPLVAR_HOLIDAYS?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(e) Educational expenses including tutor provided:</label>
-        <input type="number" name="education" class="form-control" value="<?TPLVAR_EDUCATION?>" placeholder="Enter amount" />
+        <input type="number" id="education" name="education" class="form-control" value="<?TPLVAR_EDUCATION?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(f) Entrance/transfer fees and annual subscription to social or recreational clubs:</label>
-            <input type="number" name="recreation" class="form-control" value="<?TPLVAR_RECREATION?>" placeholder="Enter amount" />
+            <input type="number" id="recreation" name="recreation" class="form-control" value="<?TPLVAR_RECREATION?>" placeholder="Enter amount" />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <label>(g) Gains from assets, e.g. vehicles, property, etc. sold to employees:</label>
-        <input type="number" name="assetGain" class="form-control" value="<?TPLVAR_ASSET_GAIN?>" placeholder="Enter amount" />
+        <input type="number" id="assetGain" name="assetGain" class="form-control" value="<?TPLVAR_ASSET_GAIN?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(h) Full cost of motor vehicles given to employee:</label>
-        <input type="number" name="vehicleGain" class="form-control" value="<?TPLVAR_VEHICLE_GAIN?>" placeholder="Enter amount" />
+        <input type="number" id="vehicleGain" name="vehicleGain" class="form-control" value="<?TPLVAR_VEHICLE_GAIN?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>(i) Full cost of motor vehicles given to employee:</label>
-        <input type="number" name="carBenefits" class="form-control" value="<?TPLVAR_CAR_BENEFITS?>" placeholder="Enter amount" />
+        <input type="number" id="carBenefits" name="carBenefits" class="form-control" value="<?TPLVAR_CAR_BENEFITS?>" placeholder="Enter amount" />
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <label>(j) Other non-monetary awards/benefits:</label>
-        <input type="number" name="otherBenefits" class="form-control" value="<?TPLVAR_OTHER_BENEFITS?>" placeholder="Enter amount" />
+        <input type="number" id="otherBenefits" name="otherBenefits" class="form-control" value="<?TPLVAR_OTHER_BENEFITS?>" placeholder="Enter amount" />
     </div>
 
     <div class="col-md-4">
         <label>Total Value of Benefits-In-Kind (Items 2-4):</label>
-        <input type="number" name="totalBenefits" class="form-control" value="<?TPLVAR_TOTAL_BENEFITS?>" placeholder="Enter amount" disabled="disabled" />
+        <input type="number" id="totalBenefits" name="totalBenefits" class="form-control" value="<?TPLVAR_TOTAL_BENEFITS?>" placeholder="Enter amount" disabled="disabled" />
     </div>
 </div>

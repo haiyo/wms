@@ -337,28 +337,5 @@ class UserItem extends \DAO {
         }
         return false;
     }
-
-
-    /**
-     * Retrieve all user by name and role
-     * @return mixed
-     */
-    public function getTotalBenefitsByUserIDRange( $userID, $startDate, $endDate ) {
-        $sql = $this->DB->select( 'SELECT SUM(pui.amount) AS amount FROM `payroll` p
-                                   LEFT JOIN payroll_user pu ON ( pu.pID = p.pID )
-                                   LEFT JOIN payroll_user_item pui ON ( pui.puID = pu.puID )
-                                   LEFT JOIN payroll_item pi ON ( pi.piID = pui.piID )
-                                   WHERE p.startDate BETWEEN CAST("' . addslashes( $startDate ) . '" AS DATE) AND 
-                                                             CAST("' . addslashes( $endDate ) . '" AS DATE) AND
-                                         pu.userID = "' . (int)$userID . '" AND
-                                         pi.benefits = "1" AND
-                                         p.completed = "1"',
-                                __FILE__, __LINE__ );
-
-        if( $this->DB->numrows( $sql ) > 0 ) {
-            return $this->DB->fetch( $sql );
-        }
-        return false;
-    }
 }
 ?>
