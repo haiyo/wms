@@ -229,7 +229,7 @@ var MarkaxisTaxFile = (function( ) {
                     className : "text-center",
                     render: function(data, type, full, meta) {
                         if( data == 0 ) {
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Submitted</span>';
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Validated</span>';
                         }
                         else{
                             return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Submitted</span>';
@@ -237,6 +237,20 @@ var MarkaxisTaxFile = (function( ) {
                     }
                 },{
                     targets: [6],
+                    orderable: true,
+                    width: '200px',
+                    data: 'submitted',
+                    className : "text-center",
+                    render: function(data, type, full, meta) {
+                        if( data == 0 ) {
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Submitted</span>';
+                        }
+                        else{
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Submitted</span>';
+                        }
+                    }
+                },{
+                    targets: [7],
                     orderable: false,
                     searchable : false,
                     width: '100px',

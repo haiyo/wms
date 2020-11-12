@@ -33,6 +33,7 @@
             <th>Submission Type</th>
             <th>No. of Employee</th>
             <th>Status</th>
+            <th>IRAS Validated</th>
             <th>Submission To IRAS</th>
             <th>Actions</th>
         </tr>
