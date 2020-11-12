@@ -278,6 +278,14 @@ var MarkaxisTaxFileDeclare = (function( ) {
 
 
         validatePeriod: function( ) {
+            if( $("#fromYear").val( ) == "" || $("#fromMonth").val( ) == "" || $("#fromDay").val( ) == "" ||
+                $("#toYear").val( ) == "" || $("#toMonth").val( ) == "" || $("#toDay").val( ) == "" ) {
+                $("#saveIra8a .select2-selection").addClass("border-danger");
+                $("#fromYear").addClass("border-danger");
+                $("#toYear").addClass("border-danger");
+                return false;
+            }
+
             var periodFrom = new Date( $("#fromYear").val( ), $("#fromMonth").val( ), $("#fromDay").val( ) );
             var periodTo = new Date( $("#toYear").val( ), $("#toMonth").val( ), $("#toDay").val( ) );
 
