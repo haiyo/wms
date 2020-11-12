@@ -301,7 +301,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 $("#fromYear").addClass("border-danger");
                 $("#toYear").addClass("border-danger");
 
-                $(".modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
+                $("#saveIra8a .modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
                 return false;
             }
             $("#saveIra8a .select2-selection").removeClass("border-danger");
@@ -320,7 +320,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 if( $(".modal-footer .error").length > 0 ) {
                     $(".modal-footer .error").remove( );
                 }
-                $(".modal-footer").append('<label class="error">If you entered 2a and 2b, 2c must be blank. You may also enter 2c but leave blank for 2a and 2b.</label>');
+                $("#saveIra8a .modal-footer").append('<label class="error">If you entered 2a and 2b, 2c must be blank. You may also enter 2c but leave blank for 2a and 2b.</label>');
                 return false;
             }
 
@@ -353,7 +353,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     $("#taxableValue").addClass("border-danger");
                     $("#rentPaidEmployee").addClass("border-danger");
 
-                    $(".modal-footer").append('<label class="error">Taxable value should not be less than Rent paid by Employee</label>');
+                    $("#saveIra8a .modal-footer").append('<label class="error">Taxable value should not be less than Rent paid by Employee</label>');
                     return false;
                 }
 
@@ -394,7 +394,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 $("#hotel").addClass("border-danger");
                 $("#hotelPaidEmployee").addClass("border-danger");
 
-                $(".modal-footer").append('<label class="error">Actual Cost of Hotel should not be less than Amount paid by Employee</label>');
+                $("#saveIra8a .modal-footer").append('<label class="error">Actual Cost of Hotel should not be less than Amount paid by Employee</label>');
                 return false;
             }
 
@@ -446,7 +446,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
             if( $("#totalBenefits").val( ) != totalBenefits ) {
                 $("#totalBenefits").addClass("border-danger");
 
-                $(".modal-footer").append('<label class="error">Your total benefits value does not compute to the Total Value of Benefits-In-Kind.</label>');
+                $("#saveIra8a .modal-footer").append('<label class="error">Total benefits value does not compute to the Total Value of Benefits-In-Kind.</label>');
                 return false;
             }
             $("#totalBenefits").removeClass("border-danger");
