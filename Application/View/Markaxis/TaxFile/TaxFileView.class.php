@@ -1,16 +1,14 @@
 <?php
 namespace Markaxis\TaxFile;
 use \Markaxis\Employee\EmployeeModel;
-use \Markaxis\Company\CompanyModel;
-use \Markaxis\Payroll\UserItemModel;
-use \Markaxis\Payroll\UserTaxModel;
+use \Markaxis\Company\CompanyModel, \Library\Helper\Markaxis\IrasExemptHelper;
 use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\RadioView;
 use \Aurora\Form\DayIntListView, \Aurora\Component\NationalityModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\DesignationModel;
 use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Helper\Markaxis\SourceTypeHelper, \Library\Helper\Markaxis\OrgTypeHelper;
 use \Library\Helper\Markaxis\IrasPaymentTypeHelper;
-use \Library\Util\Date, \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\GenderHelper;
+use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\GenderHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -243,7 +241,6 @@ class TaxFileView {
          $irasApprovedRadio = $RadioView->build('approveIRAS', YesNoHelper::getL10nList( ), $ir8aInfo['approveIRAS'] );
          $contriMandRadio = $RadioView->build('overseasContriMand', YesNoHelper::getL10nList( ), $ir8aInfo['overseasContriMand'] );
          $contributionChargedRadio = $RadioView->build('contributionCharged', YesNoHelper::getL10nList( ), $ir8aInfo['contributionCharged'] );
-         $overseasPostingRadio = $RadioView->build('overseasPosting', YesNoHelper::getL10nList( ), $ir8aInfo['overseasPosting'] );
          $taxBorneRadio = $RadioView->build('taxBorne', YesNoHelper::getL10nList( ), $ir8aInfo['taxBorne'] );
 
          $approvedDay = $approvedMonth = $approvedYear = '';
@@ -258,6 +255,7 @@ class TaxFileView {
          $DayIntListView->isDisabled(false);
          $approvedDayList   = $DayIntListView->getList('approvedDay', $approvedDay, 'Day' );
          $approvedMonthList = $SelectListView->build('approvedMonth', MonthHelper::getL10nList( ), $approvedMonth, 'Month' );
+         $exemptIndicator   = $SelectListView->build('exemptIndicator', IrasExemptHelper::getL10nList( ), $ir8aInfo['exemptIndicator'], 'Select Exempt Indicator' );
 
          $vars = array( 'TPLVAR_USERID' => $userID,
                          'TPLVAR_TFID' => $tfID,
@@ -317,8 +315,7 @@ class TaxFileView {
                          'TPLVAR_EXCESS_CONTRI' => $ir8aInfo['excessContriByEmployer'],
                          'TPLVAR_GAINS_PROFIT' => $ir8aInfo['gainsProfitESOP'],
                          'TPLVAR_BENEFITS_IN_KIND' => $ir8aInfo['benefitsInKind'],
-                         'TPLVAR_REMISSION' => $ir8aInfo['remissionAmt'],
-                         'TPL_OVERSEAS_POSTING_RADIO' => $overseasPostingRadio,
+                         'TPL_EXEMPT_INDICATOR' => $exemptIndicator,
                          'TPLVAR_EXEMPT_INCOME' => $ir8aInfo['exemptIncome'],
                          'TPL_TAX_BORNE_RADIO' => $taxBorneRadio,
                          'TPLVAR_EMP_TAX_BORNE' => $ir8aInfo['employerTaxBorne'],

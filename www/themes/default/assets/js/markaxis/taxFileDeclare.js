@@ -58,6 +58,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     $("#commToDay").select2({minimumResultsForSearch: Infinity});
                     $("#approvedMonth").select2({minimumResultsForSearch: Infinity});
                     $("#approvedDay").select2({minimumResultsForSearch: Infinity});
+                    $("#exemptIndicator").select2({minimumResultsForSearch: Infinity});
 
                     $(".styled").uniform({
                         radioClass: 'choice'
