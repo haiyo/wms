@@ -281,21 +281,25 @@ var MarkaxisTaxFileDeclare = (function( ) {
             var periodFrom = new Date( $("#fromYear").val( ), $("#fromMonth").val( ), $("#fromDay").val( ) );
             var periodTo = new Date( $("#toYear").val( ), $("#toMonth").val( ), $("#toDay").val( ) );
 
-            if( periodFrom != "Invalid Date" && periodTo != "Invalid Date" ) {
-                if( periodFrom > periodTo ) {
-                    $("#saveIra8a .select2-selection").addClass("border-danger");
-                    $("#fromYear").addClass("border-danger");
-                    $("#toYear").addClass("border-danger");
-
-                    $(".modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
-                    return false;
-                }
-                $("#saveIra8a .select2-selection").removeClass("border-danger");
-                $("#fromYear").removeClass("border-danger");
-                $("#toYear").removeClass("border-danger");
-                return true;
+            if( periodFrom == "Invalid Date" || periodTo == "Invalid Date" ) {
+                $("#saveIra8a .select2-selection").addClass("border-danger");
+                $("#fromYear").addClass("border-danger");
+                $("#toYear").addClass("border-danger");
+                return false;
             }
-            return false;
+
+            if( periodFrom > periodTo ) {
+                $("#saveIra8a .select2-selection").addClass("border-danger");
+                $("#fromYear").addClass("border-danger");
+                $("#toYear").addClass("border-danger");
+
+                $(".modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
+                return false;
+            }
+            $("#saveIra8a .select2-selection").removeClass("border-danger");
+            $("#fromYear").removeClass("border-danger");
+            $("#toYear").removeClass("border-danger");
+            return true;
         },
 
 
