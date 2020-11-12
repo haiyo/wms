@@ -84,8 +84,8 @@ class IRA8AModel extends \Model {
             $this->info = array(
                 'tfID' => $data['ir8a']['tfID'],
                 'userID' => $data['ir8a']['userID'],
-                'empIDNo' => $data['empIR8AInfo']['name'],
-                'empName' => $data['empIR8AInfo']['nric'],
+                'empIDNo' => $data['empIR8AInfo']['nric'],
+                'empName' => $data['empIR8AInfo']['name'],
                 'totalBenefits' => (float)$data['ir8a']['benefitsInKind'] );
 
             if( $iraInfo = $this->getByUserIDTFID( $data['ir8a']['userID'], $data['ir8a']['tfID'] ) ) {
