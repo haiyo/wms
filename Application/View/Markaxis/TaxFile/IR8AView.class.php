@@ -169,15 +169,6 @@ class IR8AView {
                     }
                 }
 
-                if( $info['empEndDate'] ) {
-                    // Date of cessation is not blank and is within the Income Year in the Header Record
-                    $endYear = date('Y', strtotime( $info['empEndDate'] ) );
-
-                    if( $endYear == $tfInfo['fileYear'] ) {
-                        $CessationProvisions = 'Y';
-                    }
-                }
-
                 $PaymentPeriodFromDate = $tfInfo['fileYear'] . '0101';
                 $PaymentPeriodToDate = $tfInfo['fileYear'] . '1231';
 
@@ -299,7 +290,7 @@ class IR8AView {
 <ApprovalDate xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['approveDate'] ) . '</ApprovalDate>
 <CessationProvisions xmlns="http://www.iras.gov.sg/IR8A">' . $CessationProvisions . '</CessationProvisions>
 <IR8SApplicable xmlns="http://www.iras.gov.sg/IR8A">' . $IR8SApplicable . '</IR8SApplicable>
-<ExemptOrRemissionIncomeIndicator xmlns="http://www.iras.gov.sg/IR8A"/>
+<ExemptOrRemissionIncomeIndicator xmlns="http://www.iras.gov.sg/IR8A">' . $info['exemptIndicator'] . '</ExemptOrRemissionIncomeIndicator>
 <CompensationAndGratuity xmlns="http://www.iras.gov.sg/IR8A"/>
 <GrossCommissionAmount xmlns="http://www.iras.gov.sg/IR8A">' . $GrossCommissionAmount . '</GrossCommissionAmount>
 <GrossCommissionPeriodFrom xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['grossCommFromDate'] ) . '</GrossCommissionPeriodFrom>
@@ -310,7 +301,7 @@ class IR8AView {
 <EntertainmentAllowance xmlns="http://www.iras.gov.sg/IR8A">' . $info['entertainment'] . '</EntertainmentAllowance>
 <OtherAllowance xmlns="http://www.iras.gov.sg/IR8A">' . $info['others'] . '</OtherAllowance>
 <GratuityNoticePymExGratia xmlns="http://www.iras.gov.sg/IR8A">' . $GratuityNoticePymExGratia . '</GratuityNoticePymExGratia>
-<RetrenchmentBenefits xmlns="http://www.iras.gov.sg/IR8A">' . ($info['amtAccrued92']+$info['amtAccrued93']) . '</RetrenchmentBenefits>
+<RetrenchmentBenefits xmlns="http://www.iras.gov.sg/IR8A">' . $info['compensation'] . '</RetrenchmentBenefits>
 <RetrenchmentBenefitsUpto311292 xmlns="http://www.iras.gov.sg/IR8A">' . $info['amtAccrued92'] . '</RetrenchmentBenefitsUpto311292>
 <RetrenchmentBenefitsFrom1993 xmlns="http://www.iras.gov.sg/IR8A">' . $info['amtAccrued93'] . '</RetrenchmentBenefitsFrom1993>
 <EmployerContributionToPensionOrPFOutsideSg xmlns="http://www.iras.gov.sg/IR8A">' . $info['contriOutSGWithoutTax'] . '</EmployerContributionToPensionOrPFOutsideSg>

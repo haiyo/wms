@@ -256,11 +256,11 @@ class IR8AModel extends \Model {
             'transport' => $transportAmt ? $transportAmt : NULL,
             'entertainment' => $entertainmentAmt ? $entertainmentAmt : NULL,
             'others' => $otherAllowanceAmt ? $otherAllowanceAmt : NULL,
-            'allowanceTotal' => $totalAllowance,
+            'allowanceTotal' => $totalAllowance > 0 ? $totalAllowance : NULL,
             'grossCommFromDate' => $grossCommFromDate,
             'grossCommToDate' => $grossCommToDate,
             'commType' => $commSize == 12 ? 0 : 1,
-            'totalComm' => $totalComm,
+            'totalComm' => $totalComm > 0 ? $totalComm : NULL,
             'pension' => $pensionAmt ? $pensionAmt : NULL,
             'gratuity' => $gratuityAmt ? $gratuityAmt : NULL,
             'noticePay' => $noticeAmt ? $noticeAmt : NULL,
@@ -268,7 +268,7 @@ class IR8AModel extends \Model {
             'otherLumpSum' => $otherLumpsumAmt ? $otherLumpsumAmt : NULL,
             'lengthService' =>  $lengthYear . $lengthMonth . $lengthDay,
             'gainsProfitESOP' => $stockAmt ? $stockAmt : NULL,
-            'total' => $total,
+            'total' => $total > 0 ? $total : NULL,
             'deductFundName' => isset( $cpf['amount'] ) ? 'CPF' : NULL,
             'cpf' => isset( $cpf['amount'] ) ? $cpf['amount'] : NULL,
             'donation' => isset( $donation['amount'] ) ? $donation['amount'] : NULL
@@ -301,6 +301,7 @@ class IR8AModel extends \Model {
                 $this->info['basisPayment'] = Validator::stripTrim( $post['data']['basisPayment'] );
                 $this->info['retireFundName'] = Validator::stripTrim( $post['data']['retireFundName'] );
                 $this->info['overseasFundName'] = Validator::stripTrim( $post['data']['overseasFundName'] );
+                $this->info['exemptIndicator'] = Validator::stripTrim( $post['data']['exemptIndicator'] );
 
                 $check = array( );
                 $check['compensation'] = (float)$post['data']['compensation'];
@@ -310,7 +311,6 @@ class IR8AModel extends \Model {
                 $check['overseasFundAmt'] = (float)$post['data']['overseasFundAmt'];
                 $check['excessContriByEmployer'] = (float)$post['data']['excessContriByEmployer'];
                 $check['benefitsInKind'] = (float)$post['data']['benefitsInKind'];
-                $check['remissionAmt'] = (float)$post['data']['remissionAmt'];
                 $check['exemptIncome'] = (float)$post['data']['exemptIncome'];
                 $check['employerTaxBorne'] = (float)$post['data']['employerTaxBorne'];
                 $check['empTaxPaid'] = (float)$post['data']['empTaxPaid'];

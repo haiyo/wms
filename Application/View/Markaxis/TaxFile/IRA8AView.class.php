@@ -103,6 +103,7 @@ class IRA8AView {
                 $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : '';
 
                 // Must be 0 for IRAs to de-the-fucking-duct!
+                $hotelPaidEmployee = '';
                 if( $hotel > 0 )
                 $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : 0;
 

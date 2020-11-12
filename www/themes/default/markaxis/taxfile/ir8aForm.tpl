@@ -376,17 +376,17 @@
 
 
 <div class="row">
-    <div class="col-md-4">
-        <label>Remission: Amount of Income:</label>
-        <input type="number" name="remissionAmt" class="form-control" value="<?TPLVAR_REMISSION?>" placeholder="Enter amount" />
+    <div class="col-md-6">
+        <label>Exempt Indicator:</label>
+        <?TPL_EXEMPT_INDICATOR?>
     </div>
 
-    <div class="col-md-4">
+    <!--<div class="col-md-4">
         <label class="display-block">Overseas Posting:</label>
         <?TPL_OVERSEAS_POSTING_RADIO?>
-    </div>
+    </div>-->
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label>Exempt Income:</label>
         <input type="number" name="exemptIncome" class="form-control" value="<?TPLVAR_EXEMPT_INCOME?>" placeholder="Enter amount" />
     </div>
