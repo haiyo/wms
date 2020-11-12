@@ -115,6 +115,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     }, 200 );
 
                     $(document).on("blur", "#saveIra8a input", function(e) {
+                        that.validatePeriod( );
                         that.computeTaxableValue( );
                         that.computeTotalTaxableValue( );
                         that.computeTotalUtilities( );
@@ -273,6 +274,17 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 }
                 return false;
             });
+        },
+
+
+        validatePeriod: function( ) {
+            var periodFrom = new Date( $("#fromYear").val( ), $("#fromMonth").val( ), $("#fromDay").val( ) );
+            var periodTo = new Date( $("#toYear").val( ), $("#toMonth").val( ), $("#toDay").val( ) );
+
+            if( periodFrom != "Invalid Date" && periodTo != "Invalid Date" ) {
+                $(".select2-selection").removeClass("border-danger");
+            }
+            return false;
         },
 
 
