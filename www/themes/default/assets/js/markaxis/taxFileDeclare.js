@@ -115,11 +115,12 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     }, 200 );
 
                     $(document).on("blur", "#saveIra8a input", function(e) {
-                        that.validatePeriod( );
-                        that.computeTaxableValue( );
-                        that.computeTotalTaxableValue( );
-                        that.computeTotalUtilities( );
-                        that.computeTaxableHotel( );
+                        if( that.validatePeriod( ) ) {
+                            that.computeTaxableValue( );
+                            that.computeTotalTaxableValue( );
+                            that.computeTotalUtilities( );
+                            that.computeTaxableHotel( );
+                        }
                     });
                 });
             });
@@ -304,6 +305,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 $("#saveIra8a .modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
                 return false;
             }
+            $(".modal-footer .error").remove( );
             $("#saveIra8a .select2-selection").removeClass("border-danger");
             $("#fromYear").removeClass("border-danger");
             $("#toYear").removeClass("border-danger");
