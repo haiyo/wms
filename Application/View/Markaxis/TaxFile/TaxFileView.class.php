@@ -339,7 +339,7 @@ class TaxFileView {
      */
     public function renderA8aForm( $tfID, $userID ) {
         $IRA8AModel = IRA8AModel::getInstance( );
-        $ira8aInfo = $IRA8AModel->getByUserIDTFID( $userID, $tfID );
+        $ira8aInfo = $IRA8AModel->getByUserIDTFID( $userID, $tfID, true );
 
         $EmployeeModel = EmployeeModel::getInstance( );
         $empInfo = $EmployeeModel->getIR8AInfo( $userID );

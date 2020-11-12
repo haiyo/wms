@@ -60,12 +60,13 @@ class IRA8AModel extends \Model {
 
     /**
      * Return total count of records
-     * @return int
+     * @return mixed
      */
-    public function getByUserIDTFID( $userID, $tfID ) {
+    public function getByUserIDTFID( $userID, $tfID, $returnBlank=false ) {
         $info = $this->IRA8A->getByUserIDTFID( $userID, $tfID );
 
-        if( !$info ) {
+        // For form filling
+        if( !$info && $returnBlank ) {
             return $this->info;
         }
         return $info;
@@ -77,15 +78,14 @@ class IRA8AModel extends \Model {
      * @return mixed
      */
     public function prepareUserDeclaration( $data ) {
-        if( isset( $data['ir8a']['benefitsInKind'] ) && $data['ir8a']['benefitsInKind'] > 0 ) {
-            $UserModel = new UserModel( );
-            $userInfo = $UserModel->getFieldByUserID( $data['ir8a']['userID'], 'u.fname, u.lname, u.nric' );
+        if( isset( $data['ir8a']['benefitsInKind'] ) && $data['ir8a']['benefitsInKind'] > 0 &&
+            isset( $data['empIR8AInfo']['name'] ) && isset( $data['empIR8AInfo']['nric'] ) ) {
 
             $this->info = array(
                 'tfID' => $data['ir8a']['tfID'],
                 'userID' => $data['ir8a']['userID'],
-                'empIDNo' => $userInfo['nric'],
-                'empName' => $userInfo['fname'] . ' ' . $userInfo['lname'],
+                'empIDNo' => $data['empIR8AInfo']['name'],
+                'empName' => $data['empIR8AInfo']['nric'],
                 'totalBenefits' => (float)$data['ir8a']['benefitsInKind'] );
 
             if( $iraInfo = $this->getByUserIDTFID( $data['ir8a']['userID'], $data['ir8a']['tfID'] ) ) {
