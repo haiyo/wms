@@ -120,27 +120,28 @@ class IRA8AModel extends \Model {
                 $this->info['days'] = (int)$post['data']['days'];
                 $this->info['numberShare'] = (int)$post['data']['numberShare'];
 
-                $this->info['annualValue'] = (float)$post['data']['annualValue'];
-                $this->info['furnitureValue'] = (float)$post['data']['furnitureValue'];
-                $this->info['rentPaidEmployer'] = (float)$post['data']['rentPaidEmployer'];
-                $this->info['rentPaidEmployee'] = (float)$post['data']['rentPaidEmployee'];
-                $this->info['utilities'] = (float)$post['data']['utilities'];
-                $this->info['driver'] = (float)$post['data']['driver'];
-                $this->info['upkeep'] = (float)$post['data']['upkeep'];
-                $this->info['hotel'] = (float)$post['data']['hotel'];
-                $this->info['hotelPaidEmployee'] = (float)$post['data']['hotelPaidEmployee'];
-                $this->info['incidentalBenefits'] = (float)$post['data']['incidentalBenefits'];
-                $this->info['interestPayment'] = (float)$post['data']['interestPayment'];
-                $this->info['insurance'] = (float)$post['data']['insurance'];
-                $this->info['holidays'] = (float)$post['data']['holidays'];
-                $this->info['education'] = (float)$post['data']['education'];
-                $this->info['recreation'] = (float)$post['data']['recreation'];
-                $this->info['assetGain'] = (float)$post['data']['assetGain'];
-                $this->info['vehicleGain'] = (float)$post['data']['vehicleGain'];
-                $this->info['carBenefits'] = (float)$post['data']['carBenefits'];
-                $this->info['otherBenefits'] = (float)$post['data']['otherBenefits'];
+                $check = array( );
+                $check['annualValue'] = (float)$post['data']['annualValue'];
+                $check['furnitureValue'] = (float)$post['data']['furnitureValue'];
+                $check['rentPaidEmployer'] = (float)$post['data']['rentPaidEmployer'];
+                $check['rentPaidEmployee'] = (float)$post['data']['rentPaidEmployee'];
+                $check['utilities'] = (float)$post['data']['utilities'];
+                $check['driver'] = (float)$post['data']['driver'];
+                $check['upkeep'] = (float)$post['data']['upkeep'];
+                $check['hotel'] = (float)$post['data']['hotel'];
+                $check['hotelPaidEmployee'] = (float)$post['data']['hotelPaidEmployee'];
+                $check['incidentalBenefits'] = (float)$post['data']['incidentalBenefits'];
+                $check['interestPayment'] = (float)$post['data']['interestPayment'];
+                $check['insurance'] = (float)$post['data']['insurance'];
+                $check['holidays'] = (float)$post['data']['holidays'];
+                $check['education'] = (float)$post['data']['education'];
+                $check['recreation'] = (float)$post['data']['recreation'];
+                $check['assetGain'] = (float)$post['data']['assetGain'];
+                $check['vehicleGain'] = (float)$post['data']['vehicleGain'];
+                $check['carBenefits'] = (float)$post['data']['carBenefits'];
+                $check['otherBenefits'] = (float)$post['data']['otherBenefits'];
 
-                foreach( $this->info as $key => $value ) {
+                foreach( $check as $key => $value ) {
                     if( $value < 1 ) {
                         $this->info[$key] = NULL;
                     }
@@ -205,10 +206,59 @@ class IRA8AModel extends \Model {
                     }
                 }
 
-                $totalBenefits = ($this->info['totalTaxablePlace']+$this->info['totalTaxableUtilities']+$this->info['hotelTotal']+
-                    $this->info['incidentalBenefits']+$this->info['interestPayment']+$this->info['insurance']+
-                    $this->info['holidays']+$this->info['education']+$this->info['recreation']+
-                    $this->info['assetGain']+$this->info['vehicleGain']+$this->info['carBenefits']+$this->info['otherBenefits']);
+                $totalBenefits = 0;
+
+                if( $this->info['totalTaxablePlace'] > 0 ) {
+                    $totalBenefits += $this->info['totalTaxablePlace'];
+                }
+
+                if( $this->info['totalTaxableUtilities'] > 0 ) {
+                    $totalBenefits += $this->info['totalTaxableUtilities'];
+                }
+
+                if( $this->info['hotelTotal'] > 0 ) {
+                    $totalBenefits += $this->info['hotelTotal'];
+                }
+
+                if( $this->info['incidentalBenefits'] > 0 ) {
+                    $totalBenefits += $this->info['incidentalBenefits'];
+                }
+
+                if( $this->info['interestPayment'] > 0 ) {
+                    $totalBenefits += $this->info['interestPayment'];
+                }
+
+                if( $this->info['insurance'] > 0 ) {
+                    $totalBenefits += $this->info['insurance'];
+                }
+
+                if( $this->info['holidays'] > 0 ) {
+                    $totalBenefits += $this->info['holidays'];
+                }
+
+                if( $this->info['education'] > 0 ) {
+                    $totalBenefits += $this->info['education'];
+                }
+
+                if( $this->info['recreation'] > 0 ) {
+                    $totalBenefits += $this->info['recreation'];
+                }
+
+                if( $this->info['assetGain'] > 0 ) {
+                    $totalBenefits += $this->info['assetGain'];
+                }
+
+                if( $this->info['vehicleGain'] > 0 ) {
+                    $totalBenefits += $this->info['vehicleGain'];
+                }
+
+                if( $this->info['carBenefits'] > 0 ) {
+                    $totalBenefits += $this->info['carBenefits'];
+                }
+
+                if( $this->info['otherBenefits'] > 0 ) {
+                    $totalBenefits += $this->info['otherBenefits'];
+                }
 
                 if( $ira8aInfo['totalBenefits'] != $totalBenefits ) {
                     $this->setErrMsg('Your total benefits value does not compute to the Total Value of Benefits-In-Kind.' );
