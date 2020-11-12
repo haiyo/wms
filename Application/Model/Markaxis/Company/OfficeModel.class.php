@@ -178,8 +178,8 @@ class OfficeModel extends \Model {
         // If employee just join within this month, calculate the exact days
         if( $data['empInfo']['startDate']->format('Y-m') == $data['payCal']['paymentDate']->format('Y-m') ) {
             $data['empInfo']['joinDay'] = $this->getWorkingDaysByRange( $data['empInfo']['officeID'],
-                                                                        $data['empInfo']['startDate']->format('Y-m-d'),
-                                                                        $data['payCal']['paymentDate']->format('Y-m-d') );
+                                                                        $data['empInfo']['startDate'],
+                                                                        $data['payCal']['paymentDate'] );
         }
         return $officeInfo;
     }
