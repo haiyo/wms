@@ -207,47 +207,47 @@ class IR8AView {
 
                 // Make sure all drop the fucking decimals of the sum in items
                 if( $info['pension'] > 0 ) {
-                    $Others += floor($info['pension']*100 ) / 100;
+                    $Others += (int)$info['pension'];
                 }
 
                 if( $info['transport'] > 0 ) {
-                    $Others += floor($info['transport']*100 ) / 100;
+                    $Others += (int)$info['transport'];
                 }
 
                 if( $info['entertainment'] > 0 ) {
-                    $Others += floor($info['entertainment']*100 ) / 100;
+                    $Others += (int)$info['entertainment'];
                 }
 
                 if( $info['others'] > 0 ) {
-                    $Others += floor($info['others']*100 ) / 100;
+                    $Others += (int)$info['others'];
                 }
 
                 if( $info['amtAccrued93'] > 0 ) {
-                    $Others += floor($info['amtAccrued93']*100 ) / 100;
+                    $Others += (int)$info['amtAccrued93'];
                 }
 
                 if( $info['contriOutSGWithoutTax'] > 0 ) {
-                    $Others += floor($info['contriOutSGWithoutTax']*100 ) / 100;
+                    $Others += (int)$info['contriOutSGWithoutTax'];
                 }
 
                 if( $info['excessContriByEmployer'] > 0 ) {
-                    $Others += floor($info['excessContriByEmployer']*100 ) / 100;
+                    $Others += (int)$info['excessContriByEmployer'];
                 }
 
                 if( $info['gainsProfitESOP'] > 0 ) {
-                    $Others += floor($info['gainsProfitESOP']*100 ) / 100;
+                    $Others += (int)$info['gainsProfitESOP'];
                 }
 
                 if( $info['benefitsInKind'] > 0 ) {
-                    $Others += floor($info['benefitsInKind']*100 ) / 100;
+                    $Others += (int)$info['benefitsInKind'];
                 }
 
                 if( $GrossCommissionAmount ) {
-                    $Others += floor($GrossCommissionAmount*100 ) / 100;
+                    $Others += (int)$GrossCommissionAmount;
                 }
 
                 if( $GratuityNoticePymExGratia ) {
-                    $Others += floor($GratuityNoticePymExGratia*100 ) / 100;
+                    $Others += (int)$GratuityNoticePymExGratia;
                 }
 
                 $Amount = ($info['gross']+$info['bonus']+$info['directorFee']+$Others);
