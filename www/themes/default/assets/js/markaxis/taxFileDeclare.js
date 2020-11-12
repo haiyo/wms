@@ -282,7 +282,18 @@ var MarkaxisTaxFileDeclare = (function( ) {
             var periodTo = new Date( $("#toYear").val( ), $("#toMonth").val( ), $("#toDay").val( ) );
 
             if( periodFrom != "Invalid Date" && periodTo != "Invalid Date" ) {
-                $(".select2-selection").removeClass("border-danger");
+                if( periodFrom > periodTo ) {
+                    $("#saveIra8a .select2-selection").addClass("border-danger");
+                    $("#fromYear").addClass("border-danger");
+                    $("#toYear").addClass("border-danger");
+
+                    $(".modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
+                    return false;
+                }
+                $("#saveIra8a .select2-selection").removeClass("border-danger");
+                $("#fromYear").removeClass("border-danger");
+                $("#toYear").removeClass("border-danger");
+                return true;
             }
             return false;
         },
