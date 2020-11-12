@@ -192,7 +192,7 @@ class IRA8AModel extends \Model {
                     $this->info['totalTaxableUtilities'] = (float)$totalUtilities;
                 }
 
-                $this->info['hotelTotal'] = '';
+                $this->info['hotelTotal'] = NULL;
 
                 if( $this->info['hotel'] > 0 ) {
                     if( $this->info['hotelPaidEmployee'] > 0 ) {
@@ -212,8 +212,8 @@ class IRA8AModel extends \Model {
                     $totalBenefits += $this->info['totalTaxablePlace'];
                 }
 
-                if( $this->info['totalTaxableUtilities'] > 0 ) {
-                    $totalBenefits += $this->info['totalTaxableUtilities'];
+                if( $totalUtilities > 0 ) {
+                    $totalBenefits += $totalUtilities;
                 }
 
                 if( $this->info['hotelTotal'] > 0 ) {
