@@ -181,6 +181,9 @@ class SummaryView {
     public function renderProcessSummary( $data ) {
         $summary = $this->SummaryModel->processSummary( $data );
 
+        $vars['dynamic']['deductionSummary'] = false;
+        $vars['dynamic']['employerItem'] = false;
+
         /*if( isset( $summary['itemGroups'] ) ) {
             foreach( $summary['itemGroups'] as $groups ) {
                 if( isset( $groups['amount'] ) ) {
