@@ -479,7 +479,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
-                            else {
+                            /*else {
                                 var ir8a = $("#ir8a_" + obj.data.ir8a.userID);
 
                                 if( obj.data.ir8a.completed == 1 ) {
@@ -509,7 +509,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 if( i != markaxisTaxFileEmployee.selected.length ) {
                                     that.prepareUserDeclaration( i );
                                 }
-                            }
+                            }*/
                         }
                     };
                     Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
@@ -575,10 +575,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     width: '100px',
                     className : "text-center",
                     render: function(data, type, full, meta) {
-                        if( !that.prepared.includes( full['userID'] ) ) {
-                            return '<span id="a8a_' + full['userID'] + '" class="label label-pending">Preparing <div class="loader"></div></span>';
-                        }
-                        return '<span id="a8a_' + full['userID'] + '" class="label label-success">Prepared</span>';
+                        return '<span id="a8a_' + full['userID'] + '" class="label label-default">No Benefits In Kind</span>';
                     }
                 },{
                     targets: [3],
