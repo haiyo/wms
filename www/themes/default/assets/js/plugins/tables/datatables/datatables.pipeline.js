@@ -8,7 +8,7 @@ $.fn.dataTable.pipeline = function ( opts ) {
         url: '',      // script url
         data: null,   // function or object with parameters to send to the server
                       // matching how `ajax.data` works in DataTables
-        method: 'GET' // Ajax HTTP method
+        method: 'POST' // Ajax HTTP method
     }, opts );
 
     // Private variables for storing the cache

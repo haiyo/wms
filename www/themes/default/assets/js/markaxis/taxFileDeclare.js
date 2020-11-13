@@ -538,7 +538,6 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 ajax: $.fn.dataTable.pipeline( {
                     url: Aurora.ROOT_URL + "admin/taxfile/getDeclarationResults/",
                     pages: 5,
-                    type: "POST",
                     data: function ( d ) {
                         d.ajaxCall = 1;
                         d.csrfToken = Aurora.CSRF_TOKEN;
