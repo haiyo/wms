@@ -78,42 +78,30 @@ class IRA8AView {
 <Details>';
 
             foreach( $ira8aInfo as $info ) {
-                $annualValue = $info['annualValue'] > 0 ? $info['annualValue'] : '';
-                $rentPaidEmployer = $info['rentPaidEmployer'] > 0 ? $info['rentPaidEmployer'] : '';
-                $taxableValue = $info['taxableValue'] > 0 ? $info['taxableValue'] : '';
-                $rentPaidEmployee = $info['rentPaidEmployee'] > 0 ? $info['rentPaidEmployee'] : '';
-                $totalTaxablePlace = $info['totalTaxablePlace'] > 0 ? $info['totalTaxablePlace'] : '';
-                $utilities = $info['utilities'] > 0 ? $info['utilities'] : '';
-                $driver = $info['driver'] > 0 ? $info['driver'] : '';
-                $upkeep = $info['upkeep'] > 0 ? $info['upkeep'] : '';
-                $totalTaxableUtilities = $info['totalTaxableUtilities'] > 0 ? $info['totalTaxableUtilities'] : '';
-                $hotel = $info['hotel'] > 0 ? $info['hotel'] : '';
-                $hotelTotal = $info['hotelTotal'] > 0 ? $info['hotelTotal'] : '';
-                $incidentalBenefits = $info['incidentalBenefits'] > 0 ? $info['incidentalBenefits'] : '';
-                $interestPayment = $info['interestPayment'] > 0 ? $info['interestPayment'] : '';
-                $insurance = $info['insurance'] > 0 ? $info['insurance'] : '';
-                $holidays = $info['holidays'] > 0 ? $info['holidays'] : '';
-                $education = $info['education'] > 0 ? $info['education'] : '';
-                $recreation = $info['recreation'] > 0 ? $info['recreation'] : '';
-                $assetGain = $info['assetGain'] > 0 ? $info['assetGain'] : '';
-                $vehicleGain = $info['vehicleGain'] > 0 ? $info['vehicleGain'] : '';
-                $carBenefits = $info['carBenefits'] > 0 ? $info['carBenefits'] : '';
-                $otherBenefits = $info['otherBenefits'] > 0 ? $info['otherBenefits'] : '';
-                $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : '';
-
-                // Must be 0 for IRAs to de-the-fucking-duct!
-                $furnitureValue = '';
-                if( $annualValue > 0 ) {
-                    $furnitureValue = $info['furnitureValue'];
-                }
-
-                if( $rentPaidEmployer ) {
-                    $annualValue = $furnitureValue = 0;
-                }
-
-                $hotelPaidEmployee = '';
-                if( $hotel > 0 )
+                $annualValue = $info['annualValue'] > 0 ? $info['annualValue'] : 0;
+                $furnitureValue = $info['furnitureValue'] > 0 ? $info['furnitureValue'] : 0;
+                $rentPaidEmployer = $info['rentPaidEmployer'] > 0 ? $info['rentPaidEmployer'] : 0;
+                $taxableValue = $info['taxableValue'] > 0 ? $info['taxableValue'] : 0;
+                $rentPaidEmployee = $info['rentPaidEmployee'] > 0 ? $info['rentPaidEmployee'] : 0;
+                $totalTaxablePlace = $info['totalTaxablePlace'] > 0 ? $info['totalTaxablePlace'] : 0;
+                $utilities = $info['utilities'] > 0 ? $info['utilities'] : 0;
+                $driver = $info['driver'] > 0 ? $info['driver'] : 0;
+                $upkeep = $info['upkeep'] > 0 ? $info['upkeep'] : 0;
+                $totalTaxableUtilities = $info['totalTaxableUtilities'] > 0 ? $info['totalTaxableUtilities'] : 0;
+                $hotel = $info['hotel'] > 0 ? $info['hotel'] : 0;
                 $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : 0;
+                $hotelTotal = $info['hotelTotal'] > 0 ? $info['hotelTotal'] : 0;
+                $incidentalBenefits = $info['incidentalBenefits'] > 0 ? $info['incidentalBenefits'] : 0;
+                $interestPayment = $info['interestPayment'] > 0 ? $info['interestPayment'] : 0;
+                $insurance = $info['insurance'] > 0 ? $info['insurance'] : 0;
+                $holidays = $info['holidays'] > 0 ? $info['holidays'] : 0;
+                $education = $info['education'] > 0 ? $info['education'] : 0;
+                $recreation = $info['recreation'] > 0 ? $info['recreation'] : 0;
+                $assetGain = $info['assetGain'] > 0 ? $info['assetGain'] : 0;
+                $vehicleGain = $info['vehicleGain'] > 0 ? $info['vehicleGain'] : 0;
+                $carBenefits = $info['carBenefits'] > 0 ? $info['carBenefits'] : 0;
+                $otherBenefits = $info['otherBenefits'] > 0 ? $info['otherBenefits'] : 0;
+                $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : 0;
 
                 $xml .= '<A8ARecord>
 <ESubmissionSDSC xmlns="http://tempuri.org/ESubmissionSDSC.xsd">
