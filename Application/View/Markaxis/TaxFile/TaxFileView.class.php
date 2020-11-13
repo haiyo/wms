@@ -257,6 +257,11 @@ class TaxFileView {
          $approvedMonthList = $SelectListView->build('approvedMonth', MonthHelper::getL10nList( ), $approvedMonth, 'Month' );
          $exemptIndicator   = $SelectListView->build('exemptIndicator', IrasExemptHelper::getL10nList( ), $ir8aInfo['exemptIndicator'], 'Select Exempt Indicator' );
 
+         $designation = '';
+         if( $dInfo = $DesignationModel->getByID( $empInfo['designationID'] ) ) {
+             $designation = $dInfo['title'];
+         }
+
          $vars = array( 'TPLVAR_USERID' => $userID,
                          'TPLVAR_TFID' => $tfID,
                          'TPLVAR_YEAR' => ($ir8aInfo['fileYear']-1),
@@ -274,7 +279,7 @@ class TaxFileView {
                          'TPLVAR_END_YEAR' => $endYear,
                          'TPL_NATIONALITY_LIST' => $nationalityList,
                          'TPL_GENDER_RADIO' => $genderRadio,
-                         'TPLVAR_DESIGNATION' => $DesignationModel->getByID( $empInfo['designationID'] )['title'],
+                         'TPLVAR_DESIGNATION' => $designation,
                          'TPLVAR_ADDRESS' => $empInfo['houseNo'] . ' ' . $empInfo['streetName'] . ' ' . $empInfo['levelUnit'],
                          'TPLVAR_BANK_NAME' => $empInfo['bankName'],
                          'TPLVAR_SALARY' => $ir8aInfo['gross'],
