@@ -172,6 +172,9 @@ class TaxPayItemModel extends \Model {
         }
 
         if( isset( $data['postItems'] ) ) {
+            if( !isset( $data['taxRules'] ) || !$data['taxRules'] ) {
+                $data['taxRules'] = array( );
+            }
             // if so then we get all the related piID from the items
             $trIDs = implode(', ', array_column( $data['taxRules'],'trID' ) );
             $taxPayItem = $this->getBytrIDs( $trIDs );
