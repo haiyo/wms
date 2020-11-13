@@ -171,21 +171,24 @@ class Payroll extends \DAO {
                                           u.email, u.mobile,
                                           u.suspended, e.resigned, e.startdate, d.title AS designation,
                                           e.idnumber, e.salary, e.endDate, c.type,
-                                          ad.descript AS suspendReason, pu.puCount
+                                          ad.descript AS suspendReason, pu2.puCount
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
                                    LEFT JOIN designation d ON ( d.dID = e.designationID )
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
+                                   LEFT JOIN payroll_user pu ON ( pu.userID = u.userID )
+                                   LEFT JOIN payroll p ON ( p.pID = pu.pID )
                                    LEFT JOIN ( SELECT p.startDate, pu.userID, COUNT(pu.puID) AS puCount FROM payroll_user pu
                                                LEFT JOIN payroll p ON ( p.pID = pu.pID )
                                                LEFT JOIN employee e ON ( e.userID = pu.userID )
                                                WHERE p.pID = "' . (int)$pID . '" AND 
                                                      e.startDate >= p.startDate
-                                               GROUP BY pu.userID ) pu ON pu.userID = u.userID
+                                               GROUP BY pu.userID ) pu2 ON pu2.userID = u.userID
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
                                    WHERE u.deleted <> "1" AND
+                                         e.startDate >= p.startDate AND
                                          e.officeID = "' . (int)$officeID . '" ' . $q . '
                                    GROUP BY u.userID, e.resigned, e.startDate, d.title, e.idnumber, e.salary, e.endDate, c.type, ad.descript
                                    ORDER BY ' . $order . $this->limit,
