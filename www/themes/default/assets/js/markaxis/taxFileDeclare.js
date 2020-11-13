@@ -14,6 +14,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
         this.table = null;
         this.selected = [];
         this.selectAll = [];
+        this.prepared = [];
         this.modalIR8A = $("#modalIR8A");
         this.ir8aValidate = false;
         this.ira8aValidate = false;
@@ -463,52 +464,56 @@ var MarkaxisTaxFileDeclare = (function( ) {
             if( markaxisTaxFileEmployee.selected.length > 0 ) {
                 var userID = markaxisTaxFileEmployee.selected[i];
 
-                var data = {
-                    bundle: {
-                        userID: userID,
-                        tfID: $("#tfID").val( ),
-                        year: $("#year").val( )
-                    },
-                    success: function (res) {
-                        var obj = $.parseJSON(res);
-                        if( obj.bool === 0 ) {
-                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
-                            return;
-                        }
-                        else {
-                            var ir8a = $("#ir8a_" + obj.data.ir8a.userID);
+                if( !that.selected.includes( row.userID ) ) {
+                    that.prepared.push( userID );
 
-                            if( obj.data.ir8a.completed == 1 ) {
-                                ir8a.removeClass("label-pending").addClass("label-success").text("Prepared");
+                    var data = {
+                        bundle: {
+                            userID: userID,
+                            tfID: $("#tfID").val( ),
+                            year: $("#year").val( )
+                        },
+                        success: function (res) {
+                            var obj = $.parseJSON(res);
+                            if( obj.bool === 0 ) {
+                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                                return;
                             }
                             else {
-                                ir8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
-                            }
+                                var ir8a = $("#ir8a_" + obj.data.ir8a.userID);
 
-                            var a8a = $("#a8a_" + obj.data.ir8a.userID);
-                            a8a.removeClass("label-pending");
-
-                            if( obj.data.ira8a.completed != undefined ) {
-                                if( obj.data.ira8a.completed == 0 ) {
-                                    a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
+                                if( obj.data.ir8a.completed == 1 ) {
+                                    ir8a.removeClass("label-pending").addClass("label-success").text("Prepared");
                                 }
                                 else {
-                                    a8a.removeClass("label-pending").addClass("label-success").text("Prepared");
+                                    ir8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
+                                }
+
+                                var a8a = $("#a8a_" + obj.data.ir8a.userID);
+                                a8a.removeClass("label-pending");
+
+                                if( obj.data.ira8a.completed != undefined ) {
+                                    if( obj.data.ira8a.completed == 0 ) {
+                                        a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
+                                    }
+                                    else {
+                                        a8a.removeClass("label-pending").addClass("label-success").text("Prepared");
+                                    }
+                                }
+                                else {
+                                    a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
+                                }
+
+                                i++;
+
+                                if( i != markaxisTaxFileEmployee.selected.length ) {
+                                    that.prepareUserDeclaration( i );
                                 }
                             }
-                            else {
-                                a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
-                            }
-
-                            i++;
-
-                            if( i != markaxisTaxFileEmployee.selected.length ) {
-                                that.prepareUserDeclaration( i );
-                            }
                         }
-                    }
-                };
-                Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
+                    };
+                    Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
+                }
             }
         },
 
@@ -530,8 +535,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 fnCreatedRow: function (nRow, aData, iDataIndex) {
                     $(nRow).attr('id', 'row' + aData['userID']);
                 },
-                ajax: {
+                ajax: $.fn.dataTable.pipeline( {
                     url: Aurora.ROOT_URL + "admin/taxfile/getDeclarationResults/",
+                    pages: 5,
                     type: "POST",
                     data: function ( d ) {
                         d.ajaxCall = 1;
@@ -541,16 +547,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                         d.tfID = $("#tfID").val( );
                         d.officeID = $("#office").val( );
                     }
-                },
-                initComplete: function() {
-                    /*var api = this.api();
-                    var that = this;
-                    $('input').on('keyup change', function() {
-                        if (that.search() !== this.value) {
-                            that.search(this.value).draw();
-                        }
-                    });*/
-                },
+                }),
                 autoWidth: false,
                 mark: true,
                 columnDefs: [{

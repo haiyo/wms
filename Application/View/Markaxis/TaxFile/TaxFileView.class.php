@@ -45,7 +45,7 @@ class TaxFileView {
         $this->TaxFileModel = TaxFileModel::getInstance( );
 
         $this->View->setJScript( array( 'plugins/moment' => 'moment.min.js',
-                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'checkboxes.min.js'),
+                                        'plugins/tables/datatables' => array( 'datatables.min.js', 'datatables.pipeline.js', 'checkboxes.min.js'),
                                         'plugins/forms' => array( 'wizards/stepy.min.js', 'tags/tokenfield.min.js', 'input/typeahead.bundle.min.js' ),
                                         'plugins/buttons' => array( 'spin.min.js', 'ladda.min.js' ),
                                         'plugins/pickers' => array( 'picker.js', 'picker.date.js', 'daterangepicker.js' ),
