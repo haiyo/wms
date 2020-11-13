@@ -479,7 +479,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
                                 return;
                             }
-                            /*else {
+                            else {
                                 var ir8a = $("#ir8a_" + obj.data.ir8a.userID);
 
                                 if( obj.data.ir8a.completed == 1 ) {
@@ -489,7 +489,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                     ir8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
                                 }
 
-                                var a8a = $("#a8a_" + obj.data.ir8a.userID);
+                                /*var a8a = $("#a8a_" + obj.data.ir8a.userID);
                                 a8a.removeClass("label-pending");
 
                                 if( obj.data.ira8a.completed != undefined ) {
@@ -502,14 +502,14 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 }
                                 else {
                                     a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
-                                }
+                                }*/
 
                                 i++;
 
                                 if( i != markaxisTaxFileEmployee.selected.length ) {
                                     that.prepareUserDeclaration( i );
                                 }
-                            }*/
+                            }
                         }
                     };
                     Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
