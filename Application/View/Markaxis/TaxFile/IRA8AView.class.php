@@ -79,7 +79,6 @@ class IRA8AView {
 
             foreach( $ira8aInfo as $info ) {
                 $annualValue = $info['annualValue'] > 0 ? $info['annualValue'] : '';
-                $furnitureValue = $info['furnitureValue'] > 0 ? $info['furnitureValue'] : '';
                 $rentPaidEmployer = $info['rentPaidEmployer'] > 0 ? $info['rentPaidEmployer'] : '';
                 $taxableValue = $info['taxableValue'] > 0 ? $info['taxableValue'] : '';
                 $rentPaidEmployee = $info['rentPaidEmployee'] > 0 ? $info['rentPaidEmployee'] : '';
@@ -103,6 +102,11 @@ class IRA8AView {
                 $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : '';
 
                 // Must be 0 for IRAs to de-the-fucking-duct!
+                $furnitureValue = '';
+                if( $annualValue > 0 ) {
+                    $furnitureValue = $info['furnitureValue'];
+                }
+
                 $hotelPaidEmployee = '';
                 if( $hotel > 0 )
                 $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : 0;
@@ -123,7 +127,6 @@ class IRA8AView {
 <NoOfDays xmlns="http://www.iras.gov.sg/A8A2015">' . $info['days'] . '</NoOfDays>
 <NoOfEmployeeSharePremises xmlns="http://www.iras.gov.sg/A8A2015">' . $info['numberShare'] . '</NoOfEmployeeSharePremises>
 <AVOfPremises xmlns="http://www.iras.gov.sg/A8A2015">' . $annualValue . '</AVOfPremises>
-<ValueFurnitureFittingInd xmlns="http://www.iras.gov.sg/A8A2015">F</ValueFurnitureFittingInd>
 <ValueFurnitureFitting xmlns="http://www.iras.gov.sg/A8A2015">' . $furnitureValue . '</ValueFurnitureFitting>
 <RentPaidToLandlord xmlns="http://www.iras.gov.sg/A8A2015">' . $rentPaidEmployer . '</RentPaidToLandlord>
 <TaxableValuePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $taxableValue . '</TaxableValuePlaceOfResidence>
