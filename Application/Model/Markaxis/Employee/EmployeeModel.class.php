@@ -278,7 +278,7 @@ class EmployeeModel extends \Model {
         $saveInfo['idnumber'] = Validator::stripTrim( $data['idnumber'] );
         $saveInfo['passNumber'] = Validator::stripTrim( $data['passNumber'] );
         $saveInfo['salary'] = str_replace(',', '', Validator::stripTrim( $data['salary'] ) );
-        $saveInfo['salary'] = preg_replace('/[^0-9,.]/', '', $saveInfo['salary'] );
+        $saveInfo['salary'] = (int)preg_replace('/[^0-9,.]/', '', $saveInfo['salary'] );
 
         if( isset( $data['salaryType'] ) ) {
             $SalaryTypeModel = SalaryTypeModel::getInstance( );

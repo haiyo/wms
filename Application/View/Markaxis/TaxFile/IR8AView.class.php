@@ -243,6 +243,8 @@ class IR8AView {
 
                 $Amount = ($info['gross']+$info['bonus']+$info['directorFee']+$Others);
 
+                $deductFundName = $info['deductFundName'] == 'CPF' ? 'Central Provident Fund' : $info['deductFundName'];
+
                 $xml .= '
 <IR8ARecord>
 <ESubmissionSDSC xmlns="http://tempuri.org/ESubmissionSDSC.xsd">
@@ -315,7 +317,7 @@ class IR8AView {
 <BonusDecalrationDate xmlns="http://www.iras.gov.sg/IR8A">' . $BonusDecalrationDate . '</BonusDecalrationDate>
 <DirectorsFeesApprovalDate xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['directorFeeDate'] ) . '</DirectorsFeesApprovalDate>
 <RetirementBenefitsFundName xmlns="http://www.iras.gov.sg/IR8A">' . $info['entertainment'] . '</RetirementBenefitsFundName>
-<DesignatedPensionOrProvidentFundName xmlns="http://www.iras.gov.sg/IR8A">' . $info['deductFundName'] . '</DesignatedPensionOrProvidentFundName>
+<DesignatedPensionOrProvidentFundName xmlns="http://www.iras.gov.sg/IR8A">' . $deductFundName . '</DesignatedPensionOrProvidentFundName>
 <BankName xmlns="http://www.iras.gov.sg/IR8A">' . $info['empBank'] . '</BankName>
 <PayrollDate xmlns="http://www.iras.gov.sg/IR8A">' . $tfInfo['fileYear'] . '1212</PayrollDate>
 <Filler xmlns="http://www.iras.gov.sg/IR8A">MARKAXIS</Filler>
