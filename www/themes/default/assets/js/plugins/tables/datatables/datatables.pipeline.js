@@ -75,7 +75,7 @@ $.fn.dataTable.pipeline = function ( opts ) {
                 $.extend( request, conf.data );
             }
 
-            return $.ajax( {
+            return $.ajax({
                 "type":     conf.method,
                 "url":      conf.url,
                 "data":     request,
@@ -93,7 +93,7 @@ $.fn.dataTable.pipeline = function ( opts ) {
 
                     drawCallback( json );
                 }
-            } );
+            });
         }
         else {
             json = $.extend( true, {}, cacheLastJson );
