@@ -178,13 +178,14 @@ class Payroll extends \DAO {
                                    LEFT JOIN contract c ON ( c.cID = e.contractID )
                                    LEFT JOIN ( SELECT p.startDate, pu.userID, COUNT(pu.puID) AS puCount FROM payroll_user pu
                                                LEFT JOIN payroll p ON ( p.pID = pu.pID )
-                                               WHERE p.pID = "' . (int)$pID . '" 
+                                               LEFT JOIN employee e ON ( e.userID = pu.userID )
+                                               WHERE p.pID = "' . (int)$pID . '" AND 
+                                                     e.startDate >= p.startDate
                                                GROUP BY pu.userID ) pu ON pu.userID = u.userID
                                    LEFT JOIN ( SELECT toUserID, descript FROM audit_log 
                                                WHERE eventType = "employee" AND ( action = "suspend" OR action = "unsuspend" )
                                                ORDER BY created DESC LIMIT 1 ) ad ON ad.toUserID = u.userID
-                                   WHERE u.deleted <> "1" AND 
-                                         e.startDate >= pu.startDate AND
+                                   WHERE u.deleted <> "1" AND
                                          e.officeID = "' . (int)$officeID . '" ' . $q . '
                                    GROUP BY u.userID, e.resigned, e.startDate, d.title, e.idnumber, e.salary, e.endDate, c.type, ad.descript
                                    ORDER BY ' . $order . $this->limit,
