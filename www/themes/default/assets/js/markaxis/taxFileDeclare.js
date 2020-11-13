@@ -489,7 +489,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                     ir8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
                                 }
 
-                                /*var a8a = $("#a8a_" + obj.data.ir8a.userID);
+                                var a8a = $("#a8a_" + obj.data.ir8a.userID);
                                 a8a.removeClass("label-pending");
 
                                 if( obj.data.ira8a.completed != undefined ) {
@@ -502,7 +502,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 }
                                 else {
                                     a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
-                                }*/
+                                }
 
                                 i++;
 
@@ -538,7 +538,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 },
                 ajax: $.fn.dataTable.pipeline({
                     url: Aurora.ROOT_URL + "admin/taxfile/getDeclarationResults/",
-                    pages: 5,
+                    pages: 9999,
                     data: function ( d ) {
                         d.ajaxCall = 1;
                         d.csrfToken = Aurora.CSRF_TOKEN;
