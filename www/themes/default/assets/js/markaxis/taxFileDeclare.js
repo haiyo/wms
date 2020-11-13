@@ -575,7 +575,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     width: '100px',
                     className : "text-center",
                     render: function(data, type, full, meta) {
-                        return '<span id="a8a_' + full['userID'] + '" class="label label-default">No Benefits In Kind</span>';
+                        return '<span id="a8a_' + full['userID'] + '" class="label label-default">Not Required</span>';
                     }
                 },{
                     targets: [3],
