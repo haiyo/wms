@@ -13,6 +13,8 @@ var MarkaxisTaxFileDeclare = (function( ) {
     MarkaxisTaxFileDeclare = function( ) {
         this.table = null;
         this.prepared = [];
+        this.requireA8A = [];
+        this.preparedA8A = [];
         this.modalIR8A = $("#modalIR8A");
         this.ir8aValidate = false;
         this.ira8aValidate = false;
@@ -262,12 +264,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                     title: $("#empName8A").val() + "'s Appendix 8A form has been successfully updated!",
                                     type: "success"
                                 }, function( isConfirm ) {
-                                    that.table.ajax.reload( );
                                     $("#modalA8A").modal("hide");
-
-                                    setTimeout( function( ) {
-                                        that.prepareUserDeclaration(0);
-                                    }, 500 );
+                                    $("#a8a_" + $("#userID").val( )).removeClass("label-warning").addClass("label-success");
+                                    $("#a8a_" + $("#userID").val( )).text('Prepared');
                                 });
                             }
                         }
@@ -496,6 +495,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
 
                             if( obj.data.ira8a.completed != undefined ) {
                                 if( obj.data.ira8a.completed == 0 ) {
+                                    that.requireA8A.push( userID );
                                     a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
                                 }
                                 else {
@@ -518,10 +518,6 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     }
                 };
                 Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
-
-
-
-
             }
         },
 
@@ -583,6 +579,12 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     width: '100px',
                     className : "text-center",
                     render: function(data, type, full, meta) {
+                        if( that.requireA8A.includes( full['userID'] ) ) {
+                            return '<span id="a8a_' + full['userID'] + '" class="label label-warning">Action Required</span>';
+                        }
+                        else if( that.preparedA8A.includes( full['userID'] ) ) {
+                            return '<span id="a8a_' + full['userID'] + '" class="label label-success">Prepared</span>';
+                        }
                         return '<span id="a8a_' + full['userID'] + '" class="label label-default">Not Required</span>';
                     }
                 },{
