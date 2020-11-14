@@ -232,12 +232,17 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 title: $("#empName").val() + "'s IR8A form has been successfully updated!",
                                 type: "success"
                             }, function( isConfirm ) {
-                                that.table.ajax.reload( );
-                                $("#modalIR8A").modal("hide");
+                                if( $.trim( $("#benefitsInKind").val( ) ) != "" ) {
+                                    var key = Object.keys(that.prepared).find(key => that.prepared[key] === $("#userID").val( ));
+                                    that.prepared = that.prepared.filter(e => e !== $("#userID").val( ));
 
-                                setTimeout( function( ) {
-                                    that.prepareUserDeclaration(0);
-                                }, 500 );
+                                    that.prepareUserDeclaration(key);
+                                }
+                                /*unction getKeyByValue(object, value) {
+                                    return Object.keys(object).find(key => object[key] === value);
+                                }*/
+                                //that.table.ajax.reload( );
+                                $("#modalIR8A").modal("hide");
                             });
                         }
                     }
@@ -505,7 +510,6 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 }
 
                                 i++;
-
                                 if( i != markaxisTaxFileEmployee.selected.length ) {
                                     that.prepareUserDeclaration( i );
                                 }
