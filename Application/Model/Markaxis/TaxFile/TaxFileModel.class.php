@@ -448,8 +448,8 @@ class TaxFileModel extends \Model {
 
             $fields = array( );
             $fields['inputType'] = 'xml';
-            $fields['bypass'] = 'false';
-            $fields['validateOnly'] = 'true';
+            $fields['bypass'] = 'true';
+            $fields['validateOnly'] = 'false';
             $fields['ir8aInput'] = $IR8AView->renderXML( $tfID,true );
             $fields['a8aInput'] = $IRA8AView->renderXML( $tfID,true );
 
