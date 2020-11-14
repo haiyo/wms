@@ -265,6 +265,10 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                     type: "success"
                                 }, function( isConfirm ) {
                                     $("#modalA8A").modal("hide");
+
+                                    that.requireA8A = that.requireA8A.filter(e => e !== $("#userID").val( ));
+                                    that.preparedA8A.push( $("#userID").val( ) );
+
                                     $("#a8a_" + $("#userID").val( )).removeClass("label-warning").addClass("label-success");
                                     $("#a8a_" + $("#userID").val( )).text('Prepared');
                                 });
