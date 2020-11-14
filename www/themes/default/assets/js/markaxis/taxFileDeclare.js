@@ -503,6 +503,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                     a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
                                 }
                                 else {
+                                    that.preparedA8A.push( obj.data.ir8a.userID );
                                     a8a.removeClass("label-pending").addClass("label-success").text("Prepared");
                                 }
                             }
