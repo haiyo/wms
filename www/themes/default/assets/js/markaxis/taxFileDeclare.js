@@ -106,6 +106,10 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     $("#toMonth").select2({minimumResultsForSearch: Infinity});
                     $("#toDay").select2({minimumResultsForSearch: Infinity});
 
+                    $(".styled").uniform({
+                        radioClass: 'choice'
+                    });
+
                     setTimeout( function( ) {
                         $("#saveIra8a").validate( that.ira8aValidate );
                         $("#saveIra8a").valid();
