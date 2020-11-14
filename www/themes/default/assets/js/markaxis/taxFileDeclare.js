@@ -12,9 +12,6 @@ var MarkaxisTaxFileDeclare = (function( ) {
      */
     MarkaxisTaxFileDeclare = function( ) {
         this.table = null;
-        this.selected = [];
-        this.selectAll = [];
-        this.prepared = [];
         this.modalIR8A = $("#modalIR8A");
         this.ir8aValidate = false;
         this.ira8aValidate = false;
@@ -233,14 +230,10 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 type: "success"
                             }, function( isConfirm ) {
                                 if( $.trim( $("#benefitsInKind").val( ) ) != "" ) {
-                                    var key = Object.keys(that.prepared).find(key => that.prepared[key] === $("#userID").val( ));
-                                    that.prepared = that.prepared.filter(e => e !== $("#userID").val( ));
-
-                                    that.prepareUserDeclaration(key);
+                                    var key = Object.keys(markaxisTaxFileEmployee.selected).find(key => markaxisTaxFileEmployee.selected[key] === $("#userID").val( ));
+                                    //markaxisTaxFileEmployee.selected = markaxisTaxFileEmployee.selected.filter(e => e !== $("#userID").val( ));
+                                    that.prepareUserDeclaration( key, false );
                                 }
-                                /*unction getKeyByValue(object, value) {
-                                    return Object.keys(object).find(key => object[key] === value);
-                                }*/
                                 //that.table.ajax.reload( );
                                 $("#modalIR8A").modal("hide");
                             });
@@ -464,60 +457,63 @@ var MarkaxisTaxFileDeclare = (function( ) {
         },
 
 
-        prepareUserDeclaration: function( i ) {
+        prepareUserDeclaration: function( i, firstLoad ) {
             var that = this;
+
             if( markaxisTaxFileEmployee.selected.length > 0 ) {
                 var userID = markaxisTaxFileEmployee.selected[i];
 
-                if( !that.prepared.includes( userID ) ) {
-                    that.prepared.push( userID );
+                var data = {
+                    bundle: {
+                        userID: userID,
+                        tfID: $("#tfID").val( ),
+                        year: $("#year").val( )
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if( obj.bool === 0 ) {
+                            swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
+                            return;
+                        }
+                        else {
+                            var ir8a = $("#ir8a_" + obj.data.ir8a.userID);
 
-                    var data = {
-                        bundle: {
-                            userID: userID,
-                            tfID: $("#tfID").val( ),
-                            year: $("#year").val( )
-                        },
-                        success: function (res) {
-                            var obj = $.parseJSON(res);
-                            if( obj.bool === 0 ) {
-                                swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", obj.errMsg, "error");
-                                return;
+                            if( obj.data.ir8a.completed == 1 ) {
+                                ir8a.removeClass("label-pending").addClass("label-success").text("Prepared");
                             }
                             else {
-                                var ir8a = $("#ir8a_" + obj.data.ir8a.userID);
+                                ir8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
+                            }
 
-                                if( obj.data.ir8a.completed == 1 ) {
-                                    ir8a.removeClass("label-pending").addClass("label-success").text("Prepared");
+                            var a8a = $("#a8a_" + obj.data.ir8a.userID);
+                            a8a.removeClass("label-pending");
+
+                            if( obj.data.ira8a.completed != undefined ) {
+                                if( obj.data.ira8a.completed == 0 ) {
+                                    a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
                                 }
                                 else {
-                                    ir8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
+                                    a8a.removeClass("label-pending").addClass("label-success").text("Prepared");
                                 }
+                            }
+                            else {
+                                a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
+                            }
 
-                                var a8a = $("#a8a_" + obj.data.ir8a.userID);
-                                a8a.removeClass("label-pending");
-
-                                if( obj.data.ira8a.completed != undefined ) {
-                                    if( obj.data.ira8a.completed == 0 ) {
-                                        a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
-                                    }
-                                    else {
-                                        a8a.removeClass("label-pending").addClass("label-success").text("Prepared");
-                                    }
-                                }
-                                else {
-                                    a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
-                                }
-
+                            if( firstLoad ) {
                                 i++;
                                 if( i != markaxisTaxFileEmployee.selected.length ) {
                                     that.prepareUserDeclaration( i );
                                 }
                             }
                         }
-                    };
-                    Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
-                }
+                    }
+                };
+                Aurora.WebService.AJAX("admin/taxfile/prepareUserDeclaration", data);
+
+
+
+
             }
         },
 
@@ -662,7 +658,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 },
                 initComplete: function( settings, json ) {
-                    that.prepareUserDeclaration(0);
+                    that.prepareUserDeclaration( 0, true );
                 }
             });
 
