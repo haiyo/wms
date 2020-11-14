@@ -178,7 +178,7 @@ class IRA8AModel extends \Model {
                 }
 
 
-                if( $this->info['taxableValue'] > 0 ) {
+                if( isset( $this->info['taxableValue'] ) && $this->info['taxableValue'] > 0 ) {
                     if( $this->info['rentPaidEmployee'] > 0 && $this->info['taxableValue'] < $this->info['rentPaidEmployee'] ) {
                         $this->setErrMsg('Taxable value should not be less than Rent paid by Employee.' );
                         return false;
