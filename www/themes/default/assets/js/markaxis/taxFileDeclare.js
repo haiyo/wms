@@ -233,7 +233,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                         }
                         else {
                             swal({
-                                title: $("#empName").val() + "'s IR8A form has been successfully updated!",
+                                title: $("#empName").val( ) + "'s IR8A form has been successfully updated!",
                                 type: "success"
                             }, function( isConfirm ) {
                                 if( $.trim( $("#benefitsInKind").val( ) ) != "" ) {
@@ -310,6 +310,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 $("#fromYear").addClass("border-danger");
                 $("#toYear").addClass("border-danger");
 
+                if( $(".modal-footer .error").length > 0 ) {
+                    $(".modal-footer .error").remove( );
+                }
                 $("#saveIra8a .modal-footer").append('<label class="error">Period From cannot be earlier than Period To.</label>');
                 return false;
             }
