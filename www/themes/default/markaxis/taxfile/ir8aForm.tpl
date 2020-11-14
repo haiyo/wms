@@ -370,7 +370,7 @@
 
     <div class="col-md-6">
         <label>Value of Benefits-in-kind [Complete Appendix 8A]:</label>
-        <input type="number" name="benefitsInKind" class="form-control" value="<?TPLVAR_BENEFITS_IN_KIND?>" placeholder="Enter amount" />
+        <input type="number" id="benefitsInKind" name="benefitsInKind" class="form-control" value="<?TPLVAR_BENEFITS_IN_KIND?>" placeholder="Enter amount" />
     </div>
 </div>
 
