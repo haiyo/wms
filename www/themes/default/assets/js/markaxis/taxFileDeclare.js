@@ -506,14 +506,13 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 a8a.removeClass("label-pending").addClass("label-default").text("Not Required");
                             }
 
+                            that.prepared.push( userID );
+
                             if( firstLoad ) {
                                 i++;
                                 if( i != markaxisTaxFileEmployee.selected.length ) {
                                     that.prepareUserDeclaration( i, true );
                                 }
-                            }
-                            else {
-                                that.prepared.push( userID )
                             }
                         }
                     }
