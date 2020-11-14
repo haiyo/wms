@@ -231,7 +231,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
                             }, function( isConfirm ) {
                                 if( $.trim( $("#benefitsInKind").val( ) ) != "" ) {
                                     var key = Object.keys(markaxisTaxFileEmployee.selected).find(key => markaxisTaxFileEmployee.selected[key] === $("#userID").val( ));
-                                    //markaxisTaxFileEmployee.selected = markaxisTaxFileEmployee.selected.filter(e => e !== $("#userID").val( ));
+
+                                    // Filter away first for column to load
+                                    markaxisTaxFileEmployee.selected = markaxisTaxFileEmployee.selected.filter(e => e !== $("#userID").val( ));
                                     that.prepareUserDeclaration( key, false );
                                 }
                                 //that.table.ajax.reload( );
@@ -506,6 +508,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                     that.prepareUserDeclaration( i );
                                 }
                             }
+                            else {
+                                markaxisTaxFileEmployee.selected.push( userID );
+                            }
                         }
                     }
                 };
@@ -564,7 +569,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     width: '100px',
                     className : "text-center",
                     render: function(data, type, full, meta) {
-                        if( !that.prepared.includes( full['userID'] ) ) {
+                        if( !markaxisTaxFileEmployee.selected.includes( full['userID'] ) ) {
                             return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Preparing <div class="loader"></div></span>';
                         }
                         return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Prepared</span>';
