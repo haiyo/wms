@@ -171,6 +171,11 @@ class IRA8AModel extends \Model {
                 }
 
                 if( $this->info['annualValue'] || $this->info['furnitureValue'] ) {
+                    if( $this->info['furnitureValue'] && !isset( $post['data']['furnitureInd'] ) ) {
+                        $this->setErrMsg('Please indicate the type of furnishing for Furniture and Fitting.' );
+                        return false;
+                    }
+                    $this->info['furnitureInd'] = $post['data']['furnitureInd'] == 'P' ? 'P' : 'F';
                     $this->info['taxableValue'] = (float)($this->info['annualValue']+$this->info['furnitureValue']);
                 }
                 else if( $this->info['rentPaidEmployer'] ) {
