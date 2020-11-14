@@ -12,6 +12,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
      */
     MarkaxisTaxFileDeclare = function( ) {
         this.table = null;
+        this.prepared = [];
         this.modalIR8A = $("#modalIR8A");
         this.ir8aValidate = false;
         this.ira8aValidate = false;
@@ -230,11 +231,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 type: "success"
                             }, function( isConfirm ) {
                                 if( $.trim( $("#benefitsInKind").val( ) ) != "" ) {
-                                    var key = Object.keys(markaxisTaxFileEmployee.selected).find(key => markaxisTaxFileEmployee.selected[key] === $("#userID").val( ));
-
                                     // Filter away first for column to load
-                                    markaxisTaxFileEmployee.selected = markaxisTaxFileEmployee.selected.filter(e => e !== $("#userID").val( ));
-                                    that.prepareUserDeclaration( key, false );
+                                    that.prepared = that.prepared.filter(e => e !== $("#userID").val( ));
+                                    that.prepareUserDeclaration( $("#userID").val( ), false );
                                 }
                                 //that.table.ajax.reload( );
                                 $("#modalIR8A").modal("hide");
@@ -463,7 +462,12 @@ var MarkaxisTaxFileDeclare = (function( ) {
             var that = this;
 
             if( markaxisTaxFileEmployee.selected.length > 0 ) {
-                var userID = markaxisTaxFileEmployee.selected[i];
+                if( firstLoad ) {
+                    var userID = markaxisTaxFileEmployee.selected[i];
+                }
+                else {
+                    userID = i;
+                }
 
                 var data = {
                     bundle: {
@@ -505,11 +509,11 @@ var MarkaxisTaxFileDeclare = (function( ) {
                             if( firstLoad ) {
                                 i++;
                                 if( i != markaxisTaxFileEmployee.selected.length ) {
-                                    that.prepareUserDeclaration( i );
+                                    that.prepareUserDeclaration( i, true );
                                 }
                             }
                             else {
-                                markaxisTaxFileEmployee.selected.push( userID );
+                                that.prepared.push( userID )
                             }
                         }
                     }
@@ -569,7 +573,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     width: '100px',
                     className : "text-center",
                     render: function(data, type, full, meta) {
-                        if( !markaxisTaxFileEmployee.selected.includes( full['userID'] ) ) {
+                        if( !that.prepared.includes( full['userID'] ) ) {
                             return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Preparing <div class="loader"></div></span>';
                         }
                         return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Prepared</span>';
