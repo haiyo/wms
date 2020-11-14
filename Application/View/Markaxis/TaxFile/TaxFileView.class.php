@@ -371,6 +371,16 @@ class TaxFileView {
         $toDayList   = $DayIntListView->getList('toDay', $toDay, 'Day' );
         $toMonthList = $SelectListView->build('toMonth', MonthHelper::getL10nList( ), $toMonth, 'Month' );
 
+        $furnitureIndType = array( 'P' => 'Partially Furnished', 'F' => 'Fully Furnished' );
+        $furnitureInd = '';
+
+        if( isset( $ira8aInfo['furnitureInd'] ) ) {
+            $furnitureInd = $ira8aInfo['furnitureInd'];
+        }
+
+        $RadioView = new RadioView( );
+        $furnitureIndicator = $RadioView->build('furnitureInd', $furnitureIndType, $furnitureInd );
+
         $vars = array( 'TPLVAR_USERID' => $userID,
                        'TPLVAR_TFID' => $tfID,
                        'TPLVAR_EMP_ID' => $empInfo['nric'],
@@ -380,6 +390,7 @@ class TaxFileView {
                        'TPLVAR_NUMBER_SHARE' => $ira8aInfo['numberShare'],
                        'TPLVAR_ANNUAL_VALUE' => $ira8aInfo['annualValue'],
                        'TPLVAR_FURNITURE_VALUE' => $ira8aInfo['furnitureValue'],
+                       'TPL_FURNITURE_IND_RADIO' => $furnitureIndicator,
                        'TPLVAR_RENT_PAID_EMPLOYER' => $ira8aInfo['rentPaidEmployer'],
                        'TPLVAR_TAXABLE_VALUE' => $ira8aInfo['taxableValue'],
                        'TPLVAR_RENT_PAID_EMPLOYEE' => $ira8aInfo['rentPaidEmployee'],

@@ -119,7 +119,7 @@ class IRA8AView {
 <NoOfDays xmlns="http://www.iras.gov.sg/A8A2015">' . $info['days'] . '</NoOfDays>
 <NoOfEmployeeSharePremises xmlns="http://www.iras.gov.sg/A8A2015">' . $info['numberShare'] . '</NoOfEmployeeSharePremises>
 <AVOfPremises xmlns="http://www.iras.gov.sg/A8A2015">' . $annualValue . '</AVOfPremises>
-<ValueFurnitureFittingInd xmlns="http://www.iras.gov.sg/A8A2015"/>
+<ValueFurnitureFittingInd xmlns="http://www.iras.gov.sg/A8A2015">' . $info['furnitureInd'] . '</ValueFurnitureFittingInd>
 <ValueFurnitureFitting xmlns="http://www.iras.gov.sg/A8A2015">' . $furnitureValue . '</ValueFurnitureFitting>
 <RentPaidToLandlord xmlns="http://www.iras.gov.sg/A8A2015">' . $rentPaidEmployer . '</RentPaidToLandlord>
 <TaxableValuePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $taxableValue . '</TaxableValuePlaceOfResidence>

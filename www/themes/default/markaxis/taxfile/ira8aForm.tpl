@@ -96,12 +96,17 @@
     </div>
 
     <div class="col-md-4">
-        <label>(c) Rent paid by employer:</label>
-        <input type="number" id="rentPaidEmployer" name="rentPaidEmployer" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYER?>" placeholder="Enter amount" />
+        <label>Value of Furniture &amp; Fitting Indicator:</label>
+        <?TPL_FURNITURE_IND_RADIO?>
     </div>
 </div>
 
 <div class="row">
+    <div class="col-md-4">
+        <label>(c) Rent paid by employer:</label>
+        <input type="number" id="rentPaidEmployer" name="rentPaidEmployer" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYER?>" placeholder="Enter amount" />
+    </div>
+
     <div class="col-md-4">
         <label>(d) Taxable Value of Residence : (2a+2b) or 2c:</label>
         <input type="number" id="taxableValue" name="taxableValue" class="form-control" value="<?TPLVAR_TAXABLE_VALUE?>" placeholder="(2a+2b) or 2c" disabled="disabled" />
@@ -111,14 +116,14 @@
         <label>(e) Total Rent paid by employee for Residence:</label>
         <input type="number" id="rentPaidEmployee" name="rentPaidEmployee" class="form-control" value="<?TPLVAR_RENT_PAID_EMPLOYEE?>" placeholder="Enter amount" />
     </div>
+</div>
 
+<div class="row">
     <div class="col-md-4">
         <label>(f) Total Taxable Value of Residence (2d-2e):</label>
         <input type="number" id="totalTaxablePlace" name="totalTaxablePlace" class="form-control" value="<?TPLVAR_TOTAL_TAXABLE_PLACE?>" placeholder="(2d-2e)" disabled="disabled" />
     </div>
-</div>
 
-<div class="row">
     <div class="col-md-4">
         <label>(g) Utilities/Phone/Electronic (e.g. Laptop):</label>
         <input type="number" id="utilities" name="utilities" class="form-control" value="<?TPLVAR_UTILITIES?>" placeholder="Enter amount" />
@@ -128,14 +133,14 @@
         <label>(h) Driver - Annual W.*(Private/Total Mileage):</label>
         <input type="number" id="driver" name="driver" class="form-control" value="<?TPLVAR_DRIVER?>" placeholder="Enter amount" />
     </div>
+</div>
 
+<div class="row">
     <div class="col-md-4">
         <label>(i) Upkeep of Compound:</label>
         <input type="number" id="upkeep" name="upkeep" class="form-control" value="<?TPLVAR_UPKEEP?>" placeholder="Enter amount" />
     </div>
-</div>
 
-<div class="row">
     <div class="col-md-4">
         <label>(j) Taxable value of utilities (2g+2h+2i):</label>
         <input type="number" id="totalTaxableUtilities" name="totalTaxableUtilities" class="form-control" value="<?TPLVAR_TOTAL_UTILITIES?>" placeholder="Enter amount" disabled="disabled" />
