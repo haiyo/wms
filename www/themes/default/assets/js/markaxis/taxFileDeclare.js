@@ -238,8 +238,8 @@ var MarkaxisTaxFileDeclare = (function( ) {
                             }, function( isConfirm ) {
                                 if( $.trim( $("#benefitsInKind").val( ) ) != "" ) {
                                     // Filter away first for column to load
-                                    that.prepared = that.prepared.filter(e => e !== $("#userID").val( ));
-                                    that.prepareUserDeclaration( $("#userID").val( ), false );
+                                    that.prepared = that.prepared.filter(e => e !== $("#saveIr8a #userID").val( ));
+                                    that.prepareUserDeclaration( $("#saveIr8a #userID").val( ), false );
                                 }
                                 //that.table.ajax.reload( );
                                 $("#modalIR8A").modal("hide");
@@ -270,11 +270,11 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 }, function( isConfirm ) {
                                     $("#modalA8A").modal("hide");
 
-                                    that.requireA8A = that.requireA8A.filter(e => e !== $("#userID").val( ));
-                                    that.preparedA8A.push( $("#userID").val( ) );
+                                    that.requireA8A = that.requireA8A.filter(e => e !== $("#saveIr8a #userID").val( ));
+                                    that.preparedA8A.push( $("#saveIr8a #userID").val( ) );
 
-                                    $("#a8a_" + $("#userID").val( )).removeClass("label-warning").addClass("label-success");
-                                    $("#a8a_" + $("#userID").val( )).text('Prepared');
+                                    $("#a8a_" + $("#saveIr8a #userID").val( )).removeClass("label-warning").addClass("label-success");
+                                    $("#a8a_" + $("#saveIr8a #userID").val( )).text('Prepared');
                                 });
                             }
                         }
