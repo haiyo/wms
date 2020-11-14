@@ -270,11 +270,12 @@ var MarkaxisTaxFileDeclare = (function( ) {
                                 }, function( isConfirm ) {
                                     $("#modalA8A").modal("hide");
 
-                                    that.requireA8A = that.requireA8A.filter(e => e !== $("#saveIr8a #userID").val( ));
-                                    that.preparedA8A.push( $("#saveIr8a #userID").val( ) );
+                                    var userID = $("#saveIr8a").find("#userID").val( );
 
-                                    $("#a8a_" + $("#saveIr8a #userID").val( )).removeClass("label-warning").addClass("label-success");
-                                    $("#a8a_" + $("#saveIr8a #userID").val( )).text('Prepared');
+                                    that.requireA8A = that.requireA8A.filter(e => e !== userID);
+                                    that.preparedA8A.push( userID );
+
+                                    $("#a8a_" + userID).removeClass("label-warning").addClass("label-success").text('Prepared');
                                 });
                             }
                         }
