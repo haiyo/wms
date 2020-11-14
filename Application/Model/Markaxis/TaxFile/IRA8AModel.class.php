@@ -208,7 +208,7 @@ class IRA8AModel extends \Model {
 
                 $totalBenefits = 0;
 
-                if( $this->info['totalTaxablePlace'] > 0 ) {
+                if( isset( $this->info['totalTaxablePlace'] ) && $this->info['totalTaxablePlace'] > 0 ) {
                     $totalBenefits += $this->info['totalTaxablePlace'];
                 }
 
