@@ -169,6 +169,7 @@ class TaxFileControl {
         if( isset( $args[1] ) && isset( $args[2] ) && isset( $args[3] ) ) {
             if( $token = $this->TaxFileModel->getAccessToken( $args[1], $args[2], $args[3] ) ) {
                 $this->TaxFileModel->submitIRAS( $args[2], $args[3], $token );
+                header( 'location: ' . ROOT_URL . 'admin/taxfile/list');
             }
         }
     }
