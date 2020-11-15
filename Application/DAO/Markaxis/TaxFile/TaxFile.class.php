@@ -230,7 +230,7 @@ class TaxFile extends \DAO {
     public function isValidState( $tfID, $state ) {
         $sql = $this->DB->select( 'SELECT COUNT(*) FROM taxfile 
                                    WHERE tfID = "' . (int)$tfID . '" AND 
-                                         state = "' . addslashes( $state ) . '"',
+                                         stateCode = "' . addslashes( $state ) . '"',
                                     __FILE__, __LINE__ );
 
         return $this->DB->resultData( $sql );
