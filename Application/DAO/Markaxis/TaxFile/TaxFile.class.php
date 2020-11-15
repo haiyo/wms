@@ -221,5 +221,19 @@ class TaxFile extends \DAO {
 
         return $this->DB->resultData( $sql );
     }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function isValidState( $tfID, $state ) {
+        $sql = $this->DB->select( 'SELECT COUNT(*) FROM taxfile 
+                                   WHERE tfID = "' . (int)$tfID . '" AND 
+                                         state = "' . addslashes( $state ) . '"',
+                                    __FILE__, __LINE__ );
+
+        return $this->DB->resultData( $sql );
+    }
 }
 ?>

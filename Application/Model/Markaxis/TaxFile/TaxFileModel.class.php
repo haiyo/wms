@@ -90,6 +90,15 @@ class TaxFileModel extends \Model {
 
 
     /**
+     * Return total count of records
+     * @return int
+     */
+    public function isValidState( $tfID, $state ) {
+        return $this->TaxFile->isValidState( $tfID, $state );
+    }
+
+
+    /**
      * Get Table Results
      * @return mixed
      */
@@ -440,41 +449,76 @@ class TaxFileModel extends \Model {
         $result = curl_exec($ch);
         $result = json_decode( $result );
 
-        if( isset( $result->returnCode ) && $result->returnCode == 10 && isset( $result->data->token ) ) {
-            $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/EmpIncomeRecords/Submit';
-
-            $IR8AView = new IR8AView( );
-            $IRA8AView = new IRA8AView( );
-
-            $fields = array( );
-            $fields['inputType'] = 'xml';
-            $fields['bypass'] = 'true';
-            $fields['validateOnly'] = 'false';
-            $fields['ir8aInput'] = $IR8AView->renderXML( $tfID,true );
-            $fields['a8aInput'] = $IRA8AView->renderXML( $tfID,true );
-
-            $ch = curl_init();
-            curl_setopt_array($ch, array(
-                CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => $endpoint,
-                CURLOPT_POST => 1,
-                CURLOPT_POSTFIELDS => json_encode( $fields ),
-                CURLOPT_HTTPHEADER => array(
-                    //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
-                    //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
-                    'x-ibm-client-id: 1425d73f-1459-4dc6-9528-7b2b3b76a249',
-                    'x-ibm-client-secret: H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1',
-                    'access_token: ' . $result->data->token,
-                    'content-type: application/json',
-                    'accept: application/json' )
-            ));
-            $result = curl_exec($ch);
-            $result = json_decode( $result );
-            var_dump($result); exit;
+        if( isset( $result->data->token ) ) {
+            return $result->data->token;
         }
-        else {
-            $this->setErrMsg('IRAS Submission is currently unavailable or could be under maintenance. Please try again later.' );
-            return false;
+        return false;
+    }
+
+
+    /**
+     * Return total count of records
+     * @return int
+     */
+    public function submitIRAS( $tfID, $state, $token ) {
+        $endpoint = 'https://apisandbox.iras.gov.sg/iras/sb/EmpIncomeRecords/Submit';
+
+        $IR8AView = new IR8AView( );
+        $IRA8AView = new IRA8AView( );
+
+        $fields = array( );
+        $fields['inputType'] = 'xml';
+        $fields['bypass'] = 'true';
+        $fields['validateOnly'] = 'false';
+        $fields['ir8aInput'] = $IR8AView->renderXML( $tfID,true );
+        $fields['a8aInput'] = $IRA8AView->renderXML( $tfID,true );
+
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $endpoint,
+            CURLOPT_POST => 1,
+            CURLOPT_POSTFIELDS => json_encode( $fields ),
+            CURLOPT_HTTPHEADER => array(
+                //'x-ibm-client-id: ' . urlencode('78b96726-e5b9-401c-bedd-fe8516b43aaa' ),
+                //'x-ibm-client-secret: ' . urlencode('dC6qU3mL2nC1nT2pP5bS7xV3uV1hC3hA6yJ4pN4uW1tY5xS5oI'),
+                'x-ibm-client-id: 1425d73f-1459-4dc6-9528-7b2b3b76a249',
+                'x-ibm-client-secret: H4yH5vG6aW3uN7cM3eT5dX0bT5yV4gO7eL5wC4bD1cB5kX0mU1',
+                'access_token: ' . $token,
+                'content-type: application/json',
+                'accept: application/json' )
+        ));
+        $result = curl_exec($ch);
+        $result = json_decode( $result );
+
+        if( isset( $result->statusCode ) ) {
+            if( !$this->isValidState( $tfID, $state ) ) {
+                $statusMsg = array( );
+
+                if( $result->statusCode == 400 ) {
+                    if( isset( $result->a8a->errors ) && is_array( $result->a8a->errors ) ) {
+                        $statusMsg['a8a'] = $result->a8a->errors;
+                    }
+                    if( isset( $result->ir8a->errors ) && is_array( $result->ir8a->errors ) ) {
+                        $statusMsg['ir8a'] = $result->ir8a->errors;
+                    }
+                }
+
+                if( $result->statusCode == 200 ) {
+                    if( isset( $result->a8a->output ) ) {
+                        $statusMsg['a8a'] = $result->a8a->output;
+                    }
+                    if( isset( $result->ir8a->output ) ) {
+                        $statusMsg['ir8a'] = $result->ir8a->output;
+                    }
+                }
+
+                $info = array( );
+                $info['statusCode'] = (int)$result->statusCode;
+                $info['statusMsg'] = serialize( $statusMsg );
+                $this->TaxFile->update('taxfile', $this->info, 'WHERE tfID = "' . (int)$tfID . '"' );
+                return 'update';
+            }
         }
     }
 }
