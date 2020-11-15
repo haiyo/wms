@@ -103,6 +103,24 @@ class IRA8AView {
                 $otherBenefits = $info['otherBenefits'] > 0 ? $info['otherBenefits'] : 0;
                 $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : 0;
 
+                $address1 = $info['address'];
+                $address2 = $address3 = '';
+
+                if( strlen( $info['address'] ) > 30 ) {
+                    $address = chunk_split( $info['address'], 30 ) . "\n";
+                    $address = explode("\n", $address );
+
+                    if( isset( $address[0] ) ) {
+                        $address1 = $address[0];
+                    }
+                    if( isset( $address[1] ) ) {
+                        $address2 = $address[1];
+                    }
+                    if( isset( $address[2] ) ) {
+                        $address3 = $address[2];
+                    }
+                }
+
                 $xml .= '<A8ARecord>
 <ESubmissionSDSC xmlns="http://tempuri.org/ESubmissionSDSC.xsd">
 <A8A2015ST>
@@ -111,9 +129,9 @@ class IRA8AView {
 <IDNo xmlns="http://www.iras.gov.sg/A8A2015">' . $info['empIDNo'] . '</IDNo>
 <NameLine1 xmlns="http://www.iras.gov.sg/A8A2015">' . $info['empName'] . '</NameLine1>
 <NameLine2 xmlns="http://www.iras.gov.sg/A8A2015"/>
-<ResidenceAddressLine1 xmlns="http://www.iras.gov.sg/A8A2015">' . $info['address'] . '</ResidenceAddressLine1>
-<ResidenceAddressLine2 xmlns="http://www.iras.gov.sg/A8A2015"/>
-<ResidenceAddressLine3 xmlns="http://www.iras.gov.sg/A8A2015"/>
+<ResidenceAddressLine1 xmlns="http://www.iras.gov.sg/A8A2015">' . $address1 . '</ResidenceAddressLine1>
+<ResidenceAddressLine2 xmlns="http://www.iras.gov.sg/A8A2015">' . $address2 . '</ResidenceAddressLine2>
+<ResidenceAddressLine3 xmlns="http://www.iras.gov.sg/A8A2015">' . $address3 . '</ResidenceAddressLine3>
 <OccupationFromDate xmlns="http://www.iras.gov.sg/A8A2015">' . str_replace('-','', $info['periodFrom'] ) . '</OccupationFromDate>
 <OccupationToDate xmlns="http://www.iras.gov.sg/A8A2015">' . str_replace('-','', $info['periodTo'] ) . '</OccupationToDate>
 <NoOfDays xmlns="http://www.iras.gov.sg/A8A2015">' . $info['days'] . '</NoOfDays>
