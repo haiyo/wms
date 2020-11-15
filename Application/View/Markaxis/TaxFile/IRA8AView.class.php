@@ -78,31 +78,6 @@ class IRA8AView {
 <Details>';
 
             foreach( $ira8aInfo as $info ) {
-                $annualValue = $info['annualValue'] > 0 ? $info['annualValue'] : '';
-                $furnitureValue = $info['furnitureValue'] > 0 ? $info['furnitureValue'] : '';
-                $rentPaidEmployer = $info['rentPaidEmployer'] > 0 ? $info['rentPaidEmployer'] : '';
-                $taxableValue = $info['taxableValue'] > 0 ? $info['taxableValue'] : '';
-                $rentPaidEmployee = $info['rentPaidEmployee'] > 0 ? $info['rentPaidEmployee'] : '';
-                $totalTaxablePlace = $info['totalTaxablePlace'] > 0 ? $info['totalTaxablePlace'] : 0;
-                $utilities = $info['utilities'] > 0 ? $info['utilities'] : '';
-                $driver = $info['driver'] > 0 ? $info['driver'] : '';
-                $upkeep = $info['upkeep'] > 0 ? $info['upkeep'] : '';
-                $totalTaxableUtilities = $info['totalTaxableUtilities'] > 0 ? $info['totalTaxableUtilities'] : 0;
-                $hotel = $info['hotel'] > 0 ? $info['hotel'] : '';
-                $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : '';
-                $hotelTotal = $info['hotelTotal'] > 0 ? $info['hotelTotal'] : '';
-                $incidentalBenefits = $info['incidentalBenefits'] > 0 ? $info['incidentalBenefits'] : '';
-                $interestPayment = $info['interestPayment'] > 0 ? $info['interestPayment'] : '';
-                $insurance = $info['insurance'] > 0 ? $info['insurance'] : '';
-                $holidays = $info['holidays'] > 0 ? $info['holidays'] : '';
-                $education = $info['education'] > 0 ? $info['education'] : '';
-                $recreation = $info['recreation'] > 0 ? $info['recreation'] : '';
-                $assetGain = $info['assetGain'] > 0 ? $info['assetGain'] : '';
-                $vehicleGain = $info['vehicleGain'] > 0 ? $info['vehicleGain'] : '';
-                $carBenefits = $info['carBenefits'] > 0 ? $info['carBenefits'] : '';
-                $otherBenefits = $info['otherBenefits'] > 0 ? $info['otherBenefits'] : '';
-                $totalBenefits = $info['totalBenefits'] > 0 ? $info['totalBenefits'] : '';
-
                 $address1 = $info['address'];
                 $address2 = $address3 = '';
 
@@ -136,36 +111,36 @@ class IRA8AView {
 <OccupationToDate xmlns="http://www.iras.gov.sg/A8A2015">' . str_replace('-','', $info['periodTo'] ) . '</OccupationToDate>
 <NoOfDays xmlns="http://www.iras.gov.sg/A8A2015">' . $info['days'] . '</NoOfDays>
 <NoOfEmployeeSharePremises xmlns="http://www.iras.gov.sg/A8A2015">' . $info['numberShare'] . '</NoOfEmployeeSharePremises>
-<AVOfPremises xmlns="http://www.iras.gov.sg/A8A2015">' . $annualValue . '</AVOfPremises>
+<AVOfPremises xmlns="http://www.iras.gov.sg/A8A2015">' . $info['annualValue'] . '</AVOfPremises>
 <ValueFurnitureFittingInd xmlns="http://www.iras.gov.sg/A8A2015">' . $info['furnitureInd'] . '</ValueFurnitureFittingInd>
-<ValueFurnitureFitting xmlns="http://www.iras.gov.sg/A8A2015">' . $furnitureValue . '</ValueFurnitureFitting>
-<RentPaidToLandlord xmlns="http://www.iras.gov.sg/A8A2015">' . $rentPaidEmployer . '</RentPaidToLandlord>
-<TaxableValuePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $taxableValue . '</TaxableValuePlaceOfResidence>
-<TotalRentPaidByEmployeePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $rentPaidEmployee . '</TotalRentPaidByEmployeePlaceOfResidence>
-<TotalTaxableValuePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $totalTaxablePlace . '</TotalTaxableValuePlaceOfResidence>
-<UtilitiesTelPagerSuitCaseAccessories xmlns="http://www.iras.gov.sg/A8A2015">' . $utilities . '</UtilitiesTelPagerSuitCaseAccessories>
-<Driver xmlns="http://www.iras.gov.sg/A8A2015">' . $driver . '</Driver>
-<ServantGardener xmlns="http://www.iras.gov.sg/A8A2015">' . $upkeep . '</ServantGardener>
-<TaxableValueUtilitiesHouseKeeping xmlns="http://www.iras.gov.sg/A8A2015">' . $totalTaxableUtilities . '</TaxableValueUtilitiesHouseKeeping>
-<ActualHotelAccommodation xmlns="http://www.iras.gov.sg/A8A2015">' . $hotel . '</ActualHotelAccommodation>
-<AmountPaidByEmployee xmlns="http://www.iras.gov.sg/A8A2015">' . $hotelPaidEmployee . '</AmountPaidByEmployee>
-<TaxableValueHotelAccommodation xmlns="http://www.iras.gov.sg/A8A2015">' . $hotelTotal . '</TaxableValueHotelAccommodation>
-<CostOfLeavePassageAndIncidentalBenefits xmlns="http://www.iras.gov.sg/A8A2015">' . $incidentalBenefits . '</CostOfLeavePassageAndIncidentalBenefits>
+<ValueFurnitureFitting xmlns="http://www.iras.gov.sg/A8A2015">' . $info['furnitureValue'] . '</ValueFurnitureFitting>
+<RentPaidToLandlord xmlns="http://www.iras.gov.sg/A8A2015">' . $info['rentPaidEmployer'] . '</RentPaidToLandlord>
+<TaxableValuePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $info['taxableValue'] . '</TaxableValuePlaceOfResidence>
+<TotalRentPaidByEmployeePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $info['rentPaidEmployee'] . '</TotalRentPaidByEmployeePlaceOfResidence>
+<TotalTaxableValuePlaceOfResidence xmlns="http://www.iras.gov.sg/A8A2015">' . $info['totalTaxablePlace'] . '</TotalTaxableValuePlaceOfResidence>
+<UtilitiesTelPagerSuitCaseAccessories xmlns="http://www.iras.gov.sg/A8A2015">' . $info['utilities'] . '</UtilitiesTelPagerSuitCaseAccessories>
+<Driver xmlns="http://www.iras.gov.sg/A8A2015">' . $info['driver'] . '</Driver>
+<ServantGardener xmlns="http://www.iras.gov.sg/A8A2015">' . $info['upkeep'] . '</ServantGardener>
+<TaxableValueUtilitiesHouseKeeping xmlns="http://www.iras.gov.sg/A8A2015">' . $info['totalTaxableUtilities'] . '</TaxableValueUtilitiesHouseKeeping>
+<ActualHotelAccommodation xmlns="http://www.iras.gov.sg/A8A2015">' . $info['hotel'] . '</ActualHotelAccommodation>
+<AmountPaidByEmployee xmlns="http://www.iras.gov.sg/A8A2015">' . $info['hotelPaidEmployee'] . '</AmountPaidByEmployee>
+<TaxableValueHotelAccommodation xmlns="http://www.iras.gov.sg/A8A2015">' . $info['hotelTotal'] . '</TaxableValueHotelAccommodation>
+<CostOfLeavePassageAndIncidentalBenefits xmlns="http://www.iras.gov.sg/A8A2015">' . $info['incidentalBenefits'] . '</CostOfLeavePassageAndIncidentalBenefits>
 <NoOfLeavePassageSelf xmlns="http://www.iras.gov.sg/A8A2015"/>
 <NoOfLeavePassageSpouse xmlns="http://www.iras.gov.sg/A8A2015"/>
 <NoOfLeavePassageChildren xmlns="http://www.iras.gov.sg/A8A2015"/>
 <OHQStatus xmlns="http://www.iras.gov.sg/A8A2015"/>
-<InterestPaidByEmployer xmlns="http://www.iras.gov.sg/A8A2015">' . $interestPayment . '</InterestPaidByEmployer>
-<LifeInsurancePremiumsPaidByEmployer xmlns="http://www.iras.gov.sg/A8A2015">' . $insurance . '</LifeInsurancePremiumsPaidByEmployer>
-<FreeOrSubsidisedHoliday xmlns="http://www.iras.gov.sg/A8A2015">' . $holidays . '</FreeOrSubsidisedHoliday>
-<EducationalExpenses xmlns="http://www.iras.gov.sg/A8A2015">' . $education . '</EducationalExpenses>
+<InterestPaidByEmployer xmlns="http://www.iras.gov.sg/A8A2015">' . $info['interestPayment'] . '</InterestPaidByEmployer>
+<LifeInsurancePremiumsPaidByEmployer xmlns="http://www.iras.gov.sg/A8A2015">' . $info['insurance'] . '</LifeInsurancePremiumsPaidByEmployer>
+<FreeOrSubsidisedHoliday xmlns="http://www.iras.gov.sg/A8A2015">' . $info['holidays'] . '</FreeOrSubsidisedHoliday>
+<EducationalExpenses xmlns="http://www.iras.gov.sg/A8A2015">' . $info['education'] . '</EducationalExpenses>
 <NonMonetaryAwardsForLongService xmlns="http://www.iras.gov.sg/A8A2015"/>
-<EntranceOrTransferFeesToSocialClubs xmlns="http://www.iras.gov.sg/A8A2015">' . $recreation . '</EntranceOrTransferFeesToSocialClubs>
-<GainsFromAssets xmlns="http://www.iras.gov.sg/A8A2015">' . $assetGain . '</GainsFromAssets>
-<FullCostOfMotorVehicle xmlns="http://www.iras.gov.sg/A8A2015">' . $vehicleGain . '</FullCostOfMotorVehicle>
-<CarBenefit xmlns="http://www.iras.gov.sg/A8A2015">' . $carBenefits . '</CarBenefit>
-<OthersBenefits xmlns="http://www.iras.gov.sg/A8A2015">' . $otherBenefits . '</OthersBenefits>
-<TotalBenefitsInKind xmlns="http://www.iras.gov.sg/A8A2015">' . $totalBenefits . '</TotalBenefitsInKind>
+<EntranceOrTransferFeesToSocialClubs xmlns="http://www.iras.gov.sg/A8A2015">' . $info['recreation'] . '</EntranceOrTransferFeesToSocialClubs>
+<GainsFromAssets xmlns="http://www.iras.gov.sg/A8A2015">' . $info['assetGain'] . '</GainsFromAssets>
+<FullCostOfMotorVehicle xmlns="http://www.iras.gov.sg/A8A2015">' . $info['vehicleGain'] . '</FullCostOfMotorVehicle>
+<CarBenefit xmlns="http://www.iras.gov.sg/A8A2015">' . $info['carBenefits'] . '</CarBenefit>
+<OthersBenefits xmlns="http://www.iras.gov.sg/A8A2015">' . $info['otherBenefits'] . '</OthersBenefits>
+<TotalBenefitsInKind xmlns="http://www.iras.gov.sg/A8A2015">' . $info['totalBenefits'] . '</TotalBenefitsInKind>
 <Filler xmlns="http://www.iras.gov.sg/A8A2015"/>
 <FieldReserved xmlns="http://www.iras.gov.sg/A8A2015"/>
 </A8A2015ST>
