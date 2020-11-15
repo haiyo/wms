@@ -83,11 +83,11 @@ class IRA8AView {
                 $rentPaidEmployer = $info['rentPaidEmployer'] > 0 ? $info['rentPaidEmployer'] : '';
                 $taxableValue = $info['taxableValue'] > 0 ? $info['taxableValue'] : '';
                 $rentPaidEmployee = $info['rentPaidEmployee'] > 0 ? $info['rentPaidEmployee'] : '';
-                $totalTaxablePlace = $info['totalTaxablePlace'] > 0 ? $info['totalTaxablePlace'] : '';
+                $totalTaxablePlace = $info['totalTaxablePlace'] > 0 ? $info['totalTaxablePlace'] : 0;
                 $utilities = $info['utilities'] > 0 ? $info['utilities'] : '';
                 $driver = $info['driver'] > 0 ? $info['driver'] : '';
                 $upkeep = $info['upkeep'] > 0 ? $info['upkeep'] : '';
-                $totalTaxableUtilities = $info['totalTaxableUtilities'] > 0 ? $info['totalTaxableUtilities'] : '';
+                $totalTaxableUtilities = $info['totalTaxableUtilities'] > 0 ? $info['totalTaxableUtilities'] : 0;
                 $hotel = $info['hotel'] > 0 ? $info['hotel'] : '';
                 $hotelPaidEmployee = $info['hotelPaidEmployee'] > 0 ? $info['hotelPaidEmployee'] : '';
                 $hotelTotal = $info['hotelTotal'] > 0 ? $info['hotelTotal'] : '';
