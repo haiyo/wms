@@ -225,14 +225,17 @@ var MarkaxisTaxFile = (function( ) {
                     targets: [5],
                     orderable: true,
                     width: '200px',
-                    data: 'submitted',
+                    data: 'statusCode',
                     className : "text-center",
                     render: function(data, type, full, meta) {
-                        if( data == 0 ) {
+                        if( data == null ) {
                             return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Validated</span>';
                         }
+                        else if( data == 400 ) {
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-warning">Error</span>';
+                        }
                         else{
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Submitted</span>';
+                            return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Pass</span>';
                         }
                     }
                 },{
