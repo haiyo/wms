@@ -516,7 +516,7 @@ class TaxFileModel extends \Model {
                 $info = array( );
                 $info['statusCode'] = (int)$result->statusCode;
                 $info['statusMsg'] = serialize( $statusMsg );
-                $this->TaxFile->update('taxfile', $this->info, 'WHERE tfID = "' . (int)$tfID . '"' );
+                $this->TaxFile->update('taxfile', $info, 'WHERE tfID = "' . (int)$tfID . '"' );
                 return 'update';
             }
         }
