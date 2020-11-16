@@ -418,6 +418,9 @@ var MarkaxisTaxFileDeclare = (function( ) {
             if( total > 0 ) {
                 $("#hotelTotal").val( total );
             }
+            else {
+                $("#hotelTotal").val("");
+            }
         },
 
 
