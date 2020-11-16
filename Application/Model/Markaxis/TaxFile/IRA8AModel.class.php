@@ -164,7 +164,7 @@ class IRA8AModel extends \Model {
                                               $post['data']['toDay'];
                 }
 
-                if( $this->info['periodFrom'] && $this->info['periodTo'] ) {
+                if( isset( $this->info['periodFrom'] ) && isset( $this->info['periodTo'] ) ) {
                     $periodFrom = new \DateTime( $this->info['periodFrom'] );
                     $periodTo = new \DateTime( $this->info['periodTo'] );
 
