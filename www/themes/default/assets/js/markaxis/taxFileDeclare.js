@@ -208,7 +208,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 rules: {
                     empName : "required",
                     empIDNo : "required",
-                    address : "required",
+                    /*address : "required",
                     days: "required",
                     numberShare: "required",
                     fromMonth: "required",
@@ -216,7 +216,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     fromYear: "required",
                     toMonth: "required",
                     toDay: "required",
-                    toYear: "required",
+                    toYear: "required",*/
                 }
             };
 
