@@ -22,17 +22,17 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label>Residential Address: <span class="text-danger-400">*</span></label>
+        <label>Residential Address:</label>
         <input type="text" name="address" id="address" class="form-control" value="<?TPLVAR_ADDRESS?>" />
     </div>
 
     <div class="col-md-3">
-        <label>No. of days: <span class="text-danger-400">*</span></label>
+        <label>No. of days:</label>
         <input type="number" name="days" id="days" class="form-control" value="<?TPLVAR_DAYS?>" />
     </div>
 
     <div class="col-md-3">
-        <label>No. of employee(s) sharing: <span class="text-danger-400">*</span></label>
+        <label>No. of employee(s) sharing:</label>
         <input type="number" name="numberShare" id="numberShare" class="form-control" value="<?TPLVAR_NUMBER_SHARE?>" />
     </div>
 
@@ -40,7 +40,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label>Period of occupation (From): <span class="text-danger-400">*</span></label>
+        <label>Period of occupation (From):</label>
         <div class="form-group">
             <div class="col-md-4 no-padding-left">
                 <div class="form-group">
@@ -61,7 +61,7 @@
     </div>
 
     <div class="col-md-6">
-        <label>Period of occupation (To): <span class="text-danger-400">*</span></label>
+        <label>Period of occupation (To):</label>
         <div class="form-group">
             <div class="col-md-4 no-padding-left">
                 <div class="form-group">

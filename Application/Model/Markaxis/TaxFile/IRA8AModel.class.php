@@ -150,24 +150,28 @@ class IRA8AModel extends \Model {
                     }
                 }
 
-                if( checkdate( (int)$post['data']['fromMonth'], (int)$post['data']['fromDay'], (int)$post['data']['fromYear'] ) ) {
+                if( $post['data']['fromMonth'] && $post['data']['fromDay'] && $post['data']['fromYear'] &&
+                    checkdate( (int)$post['data']['fromMonth'], (int)$post['data']['fromDay'], (int)$post['data']['fromYear'] ) ) {
                     $this->info['periodFrom'] = $post['data']['fromYear'] . '-' .
                                                 $post['data']['fromMonth'] . '-' .
                                                 $post['data']['fromDay'];
                 }
 
-                if( checkdate( (int)$post['data']['toMonth'], (int)$post['data']['toDay'], (int)$post['data']['toYear'] ) ) {
+                if( $post['data']['toMonth'] && $post['data']['toDay'] && $post['data']['toYear'] &&
+                    checkdate( (int)$post['data']['toMonth'], (int)$post['data']['toDay'], (int)$post['data']['toYear'] ) ) {
                     $this->info['periodTo'] = $post['data']['toYear'] . '-' .
                                               $post['data']['toMonth'] . '-' .
                                               $post['data']['toDay'];
                 }
 
-                $periodFrom = new \DateTime( $this->info['periodFrom'] );
-                $periodTo = new \DateTime( $this->info['periodTo'] );
+                if( $this->info['periodFrom'] && $this->info['periodTo'] ) {
+                    $periodFrom = new \DateTime( $this->info['periodFrom'] );
+                    $periodTo = new \DateTime( $this->info['periodTo'] );
 
-                if( $periodTo < $periodFrom ) {
-                    $this->setErrMsg('Period To date cannot be earlier than Period From.' );
-                    return false;
+                    if( $periodTo < $periodFrom ) {
+                        $this->setErrMsg('Period To date cannot be earlier than Period From.' );
+                        return false;
+                    }
                 }
 
                 if( $this->info['annualValue'] || $this->info['furnitureValue'] ) {
