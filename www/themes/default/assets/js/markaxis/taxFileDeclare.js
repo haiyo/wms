@@ -53,13 +53,13 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     $("#endMonth").select2({minimumResultsForSearch: Infinity});
                     $("#endDay").select2({minimumResultsForSearch: Infinity});
                     $("#nationality").select2({minimumResultsForSearch: Infinity});
-                    $("#commFromMonth").select2({minimumResultsForSearch: Infinity});
-                    $("#commFromDay").select2({minimumResultsForSearch: Infinity});
-                    $("#commToMonth").select2({minimumResultsForSearch: Infinity});
-                    $("#commToDay").select2({minimumResultsForSearch: Infinity});
-                    $("#approvedMonth").select2({minimumResultsForSearch: Infinity});
-                    $("#approvedDay").select2({minimumResultsForSearch: Infinity});
-                    $("#exemptIndicator").select2({minimumResultsForSearch: Infinity});
+                    $("#commFromMonth").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#commFromDay").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#commToMonth").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#commToDay").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#approvedMonth").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#approvedDay").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#exemptIndicator").select2({allowClear:true,minimumResultsForSearch: Infinity});
 
                     $(".styled").uniform({
                         radioClass: 'choice'
@@ -101,10 +101,10 @@ var MarkaxisTaxFileDeclare = (function( ) {
                 var $invoker = $(e.relatedTarget);
 
                 $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/taxfile/editA8a/' + $("#tfID").val( ) + '/' + $invoker.attr("data-id"), function() {
-                    $("#fromMonth").select2({minimumResultsForSearch: Infinity});
-                    $("#fromDay").select2({minimumResultsForSearch: Infinity});
-                    $("#toMonth").select2({minimumResultsForSearch: Infinity});
-                    $("#toDay").select2({minimumResultsForSearch: Infinity});
+                    $("#fromMonth").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#fromDay").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#toMonth").select2({allowClear:true,minimumResultsForSearch: Infinity});
+                    $("#toDay").select2({allowClear:true,minimumResultsForSearch: Infinity});
 
                     $(".styled").uniform({
                         radioClass: 'choice'
