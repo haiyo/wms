@@ -120,6 +120,18 @@ class IRA8AModel extends \Model {
                 $this->info['days'] = (int)$post['data']['days'];
                 $this->info['numberShare'] = (int)$post['data']['numberShare'];
 
+                if( !$this->info['address'] ) {
+                    $this->info['address'] = NULL;
+                }
+
+                if( !$this->info['days'] ) {
+                    $this->info['days'] = NULL;
+                }
+
+                if( !$this->info['numberShare'] ) {
+                    $this->info['numberShare'] = NULL;
+                }
+
                 $check = array( );
                 $check['annualValue'] = (float)$post['data']['annualValue'];
                 $check['furnitureValue'] = (float)$post['data']['furnitureValue'];
