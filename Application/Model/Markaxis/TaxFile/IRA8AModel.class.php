@@ -173,6 +173,10 @@ class IRA8AModel extends \Model {
                         return false;
                     }
                 }
+                else {
+                    $this->info['periodFrom'] = NULL;
+                    $this->info['periodTo'] = NULL;
+                }
 
                 if( $this->info['annualValue'] || $this->info['furnitureValue'] ) {
                     if( $this->info['furnitureValue'] && !isset( $post['data']['furnitureInd'] ) ) {
