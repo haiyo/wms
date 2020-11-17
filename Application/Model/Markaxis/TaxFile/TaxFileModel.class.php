@@ -504,7 +504,11 @@ class TaxFileModel extends \Model {
                     }
                 }
 
+                $info = array( );
+
                 if( $result->statusCode == 200 ) {
+                    $info['submitted'] = 1;
+
                     if( isset( $result->a8a->output ) ) {
                         $statusMsg['a8a'] = $result->a8a->output;
                     }
@@ -513,7 +517,6 @@ class TaxFileModel extends \Model {
                     }
                 }
 
-                $info = array( );
                 $info['statusCode'] = (int)$result->statusCode;
                 $info['statusMsg'] = serialize( $statusMsg );
                 $this->TaxFile->update('taxfile', $info, 'WHERE tfID = "' . (int)$tfID . '"' );

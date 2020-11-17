@@ -84,6 +84,7 @@ class TaxFileView {
                 $vars['TPLVAR_REG_NUMBER'] = $tfInfo['regNumber'];
                 $vars['TPLVAR_AUTH_NAME'] = $tfInfo['authName'];
                 $vars['TPLVAR_FILE_YEAR'] = $tfInfo['fileYear'];
+                $vars['TPLVAR_YEAR_ASSESS'] = ($tfInfo['fileYear']+1);
 
                 $statusMsg = unserialize( $tfInfo['statusMsg'] );
 
