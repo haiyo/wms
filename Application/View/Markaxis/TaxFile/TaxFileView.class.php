@@ -147,11 +147,11 @@ class TaxFileView {
                                         array( 'TPLVAR_FNAME' => $user[$error->recordIdentifier]['fname'],
                                                'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
                                                'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
-                                               'TPLVAR_ERROR' => '&bull; ' . $error->error. '<br />' );
+                                               'TPLVAR_ERROR' => '&bull; ' . $error->recordField . ' - ' . $error->error. '<br />' );
                                 }
                                 else {
                                     // already parse user
-                                    $vars['dynamic']['A8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->error . '<br />';
+                                    $vars['dynamic']['A8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->recordField . ' - ' . $error->error . '<br />';
                                 }
                             }
                         }
@@ -169,13 +169,13 @@ class TaxFileView {
 
                                     $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier] =
                                         array( 'TPLVAR_FNAME' => $user[$error->recordIdentifier]['fname'],
-                                            'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
-                                            'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
-                                            'TPLVAR_ERROR' => '&bull; ' . $error->error. '<br />' );
+                                               'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
+                                               'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
+                                               'TPLVAR_ERROR' => '&bull; ' . $error->recordField . ' - ' . $error->error. '<br />' );
                                 }
                                 else {
                                     // already parse user
-                                    $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->error . '<br />';
+                                    $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->recordField . ' - ' . $error->error . '<br />';
                                 }
                             }
                         }
