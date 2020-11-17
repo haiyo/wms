@@ -80,6 +80,18 @@ class TaxFileControl {
 
     /**
      * Render main navigation
+     * @return string
+     */
+    public function showStatus( $args ) {
+        if( isset( $args[1] ) ) {
+            echo $this->TaxFileView->renderStatus( $args[1] );
+            exit;
+        }
+    }
+
+
+    /**
+     * Render main navigation
      * @return void
      */
     public function createForm( ) {

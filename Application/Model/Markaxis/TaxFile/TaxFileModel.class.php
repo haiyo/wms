@@ -496,10 +496,10 @@ class TaxFileModel extends \Model {
                 $statusMsg = array( );
 
                 if( $result->statusCode == 400 ) {
-                    if( isset( $result->a8a->errors ) && is_array( $result->a8a->errors ) ) {
+                    if( isset( $result->a8a->errors ) && is_array( $result->a8a->errors ) && sizeof( $result->a8a->errors ) > 0 ) {
                         $statusMsg['a8a'] = $result->a8a->errors;
                     }
-                    if( isset( $result->ir8a->errors ) && is_array( $result->ir8a->errors ) ) {
+                    if( isset( $result->ir8a->errors ) && is_array( $result->ir8a->errors ) && sizeof( $result->ir8a->errors ) > 0 ) {
                         $statusMsg['ir8a'] = $result->ir8a->errors;
                     }
                 }

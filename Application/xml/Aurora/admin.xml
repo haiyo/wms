@@ -469,7 +469,7 @@
         <observer controller="Markaxis/Payroll/PayrollControl"/>
     </task>
     <task type="taxfile/list,taxfile/createForm,taxfile/employee,taxfile/getTaxFileResults,taxfile/taxFiling,
-                taxfile/editIr8a,taxfile/editA8a,taxfile/authIRAS,taxfile/authCode">
+                taxfile/editIr8a,taxfile/editA8a,taxfile/authIRAS,taxfile/authCode,taxfile/showStatus">
         <observer controller="Markaxis/TaxFile/TaxFileControl"/>
     </task>
     <task type="taxfile/downloadIR8A">

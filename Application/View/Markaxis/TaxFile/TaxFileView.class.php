@@ -2,7 +2,7 @@
 namespace Markaxis\TaxFile;
 use \Markaxis\Employee\EmployeeModel;
 use \Markaxis\Company\CompanyModel, \Library\Helper\Markaxis\IrasExemptHelper;
-use \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\RadioView;
+use \Aurora\User\UserModel, \Aurora\Admin\AdminView, \Aurora\Form\SelectListView, \Aurora\Form\RadioView;
 use \Aurora\Form\DayIntListView, \Aurora\Component\NationalityModel;
 use \Aurora\Component\OfficeModel, \Aurora\Component\DesignationModel;
 use \Library\Helper\Aurora\YesNoHelper;
@@ -68,6 +68,122 @@ class TaxFileView {
 
         $vars = array_merge( $this->TaxFileRes->getContents( ), $vars );
         $this->View->printAll( $this->View->render( 'markaxis/taxfile/taxFile.tpl', $vars ) );
+    }
+
+
+    /**
+     * Render main navigation
+     * @return string
+     */
+    public function renderStatus( $tfID ) {
+        if( $tfInfo = $this->TaxFileModel->getByTFID( $tfID ) ) {
+            if( $tfInfo['statusMsg'] ) {
+                $vars = array( );
+                $vars['TPLVAR_YEAR'] = $tfInfo['fileYear'];
+                $vars['TPLVAR_COMPANY_NAME'] = $tfInfo['companyName'];
+                $vars['TPLVAR_REG_NUMBER'] = $tfInfo['regNumber'];
+                $vars['TPLVAR_AUTH_NAME'] = $tfInfo['authName'];
+                $vars['TPLVAR_FILE_YEAR'] = $tfInfo['fileYear'];
+
+                $statusMsg = unserialize( $tfInfo['statusMsg'] );
+
+                if( $tfInfo['statusCode'] == 200 ) {
+                    $a8a = explode('|', $statusMsg['a8a'] );
+
+                    $day = substr( $a8a[5],0,2 );
+                    $month = substr( $a8a[5],2,2 );
+                    $year = substr( $a8a[5],4,2 );
+                    $hour = substr( $a8a[5],6,2 );
+                    $min = substr( $a8a[5],8,2 );
+
+                    $date = date('jS F Y H:i', mktime( $hour, $min, 0, $month, $day, $year ) );
+
+                    $vars['TPLVAR_IR8A_DATE_TIME'] = $date;
+                    $vars['TPLVAR_IR8A_REF'] = $a8a[0];
+                    $vars['TPLVAR_IR8A_FILE_TYPE'] = $a8a[4] == 'O' ? 'Original' : 'Amendment';
+                    $vars['TPLVAR_IR8A_RECORDS'] = $a8a[7];
+
+                    $ir8a = explode('|', $statusMsg['ir8a'] );
+
+                    $day = substr( $ir8a[5],0,2 );
+                    $month = substr( $ir8a[5],2,2 );
+                    $year = substr( $ir8a[5],4,2 );
+                    $hour = substr( $ir8a[5],6,2 );
+                    $min = substr( $ir8a[5],8,2 );
+
+                    $date = date('jS F Y H:i', mktime( $hour, $min, 0, $month, $day, $year ) );
+
+                    $vars['TPLVAR_A8A_DATE_TIME'] = $date;
+                    $vars['TPLVAR_A8A_REF'] = $ir8a[0];
+                    $vars['TPLVAR_A8A_FILE_TYPE'] = $ir8a[4] == 'O' ? 'Original' : 'Amendment';
+                    $vars['TPLVAR_A8A_RECORDS'] = $ir8a[7];
+
+                    $vars = array_merge( $this->TaxFileRes->getContents( ), $vars );
+                    return $this->View->render( 'markaxis/taxfile/statusPass.tpl', $vars );
+                }
+                else {
+                    $vars['dynamic']['ErrorDescript'] = true;
+                    $vars['dynamic']['PassDescript'] = false;
+                    $vars['dynamic']['A8A'] = false;
+                    $vars['dynamic']['IR8A'] = false;
+                    $vars['dynamic']['A8AErrorSet'] = false;
+                    $vars['dynamic']['IR8AErrorSet'] = false;
+
+                    $UserModel = UserModel::getInstance( );
+
+                    if( isset( $statusMsg['a8a'] ) ) {
+                        $user = array( );
+
+                        $vars['dynamic']['A8A'] = true;
+
+                        foreach( $statusMsg['a8a'] as $error ) {
+                            if( isset( $error->recordIdentifier ) ) {
+                                // New user
+                                if( !isset( $user[$error->recordIdentifier] ) ) {
+                                    $user[$error->recordIdentifier] = $UserModel->getFieldByNRIC( $error->recordIdentifier, 'fname, lname, nric' );
+
+                                    $vars['dynamic']['A8AErrorSet'][$error->recordIdentifier] =
+                                        array( 'TPLVAR_FNAME' => $user[$error->recordIdentifier]['fname'],
+                                               'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
+                                               'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
+                                               'TPLVAR_ERROR' => '&bull; ' . $error->error. '<br />' );
+                                }
+                                else {
+                                    // already parse user
+                                    $vars['dynamic']['A8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->error . '<br />';
+                                }
+                            }
+                        }
+                    }
+                    if( isset( $statusMsg['ir8a'] ) ) {
+                        $user = array( );
+
+                        $vars['dynamic']['IR8A'] = true;
+
+                        foreach( $statusMsg['ir8a'] as $error ) {
+                            if( isset( $error->recordIdentifier ) ) {
+                                // New user
+                                if( !isset( $user[$error->recordIdentifier] ) ) {
+                                    $user[$error->recordIdentifier] = $UserModel->getFieldByNRIC( $error->recordIdentifier, 'fname, lname, nric' );
+
+                                    $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier] =
+                                        array( 'TPLVAR_FNAME' => $user[$error->recordIdentifier]['fname'],
+                                            'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
+                                            'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
+                                            'TPLVAR_ERROR' => '&bull; ' . $error->error. '<br />' );
+                                }
+                                else {
+                                    // already parse user
+                                    $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->error . '<br />';
+                                }
+                            }
+                        }
+                    }
+                    $vars = array_merge( $this->TaxFileRes->getContents( ), $vars );
+                    return $this->View->render( 'markaxis/taxfile/statusError.tpl', $vars );
+                }
+            }
+        }
     }
 
 

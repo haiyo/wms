@@ -39,6 +39,7 @@ class UserRes extends Resource {
         $this->contents['LANG_INVALID_EMAIL'] = 'Invalid email address.';
         $this->contents['LANG_USERNAME_ALREADY_EXIST'] = 'The username already exist in record.';
         $this->contents['LANG_EMAIL_ALREADY_EXIST'] = 'The email already exist in record.';
+        $this->contents['LANG_NRIC_ALREADY_EXIST'] = 'The NRIC already exist in record.';
         $this->contents['LANG_MUST_CHECK_USER'] = 'Click the checkbox to select one or more user accounts.';
         $this->contents['LANG_CONFIRM_DELETE'] = 'You have selected to delete {n} user account.|accounts. Deleting will remove all information connected to the account.\n\nIt is advisable to first suspend the account and verify all the information before deletion.\n\nThis action cannot be undone.';
         $this->contents['LANG_CONFIRM_DELETE_CURRENT'] = 'Are you sure you want to delete {name}\'s account? Deleting will remove all information connected to the account.\n\nIt is advisable to first suspend the account and verify all the information before deletion.\n\nThis action cannot be undone.';

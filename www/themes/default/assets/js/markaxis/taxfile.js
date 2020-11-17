@@ -91,6 +91,14 @@ var MarkaxisTaxFile = (function( ) {
             var stepy = $(".stepy-step");
             stepy.find(".button-next").addClass("btn btn-primary btn-next");
             stepy.find(".button-back").addClass("btn btn-default");
+
+            $("#modalStatus").on("show.bs.modal", function(e) {
+                var $invoker = $(e.relatedTarget);
+
+                $(this).find(".modal-body").load( Aurora.ROOT_URL + 'admin/taxfile/showStatus/' + $invoker.attr("data-id"), function() {
+                    $("#statusTxt").text( $invoker.attr("data-status") );
+                });
+            });
         },
 
 
@@ -217,9 +225,9 @@ var MarkaxisTaxFile = (function( ) {
                     className : "text-center",
                     render: function(data, type, full, meta) {
                         if( data == 0 ) {
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-warning">Action Required</span>';
+                            return '<span id="ir8a_' + full['tfID'] + '" class="label label-warning">Action Required</span>';
                         }
-                        return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Completed</span>';
+                        return '<span id="ir8a_' + full['tfID'] + '" class="label label-success">Completed</span>';
                     }
                 },{
                     targets: [5],
@@ -229,13 +237,13 @@ var MarkaxisTaxFile = (function( ) {
                     className : "text-center",
                     render: function(data, type, full, meta) {
                         if( data == null ) {
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Validated</span>';
+                            return '<span id="ir8a_' + full['tfID'] + '" class="label label-pending">Not Validated</span>';
                         }
                         else if( data == 400 ) {
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-warning">Error</span>';
+                            return '<a id="ir8a_' + full['tfID'] + '" data-id="' + full['tfID'] + '" data-status="Error Status" data-toggle="modal" data-target="#modalStatus" class="label label-warning">Error</a>';
                         }
                         else{
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Pass</span>';
+                            return '<a id="ir8a_' + full['tfID'] + '" data-id="' + full['tfID'] + '"  data-status="Pass Status" data-toggle="modal" data-target="#modalStatus" class="label label-success">Pass</a>';
                         }
                     }
                 },{
@@ -246,10 +254,10 @@ var MarkaxisTaxFile = (function( ) {
                     className : "text-center",
                     render: function(data, type, full, meta) {
                         if( data == 0 ) {
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-pending">Not Submitted</span>';
+                            return '<span id="ir8a_' + full['tfID'] + '" class="label label-pending">Not Submitted</span>';
                         }
                         else{
-                            return '<span id="ir8a_' + full['userID'] + '" class="label label-success">Submitted</span>';
+                            return '<span id="ir8a_' + full['tfID'] + '" class="label label-success">Submitted</span>';
                         }
                     }
                 },{
