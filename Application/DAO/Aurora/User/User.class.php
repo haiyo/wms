@@ -96,6 +96,22 @@ class User extends \DAO {
 
 
     /**
+     * Retrieve a user column by Email
+     * @return mixed
+     */
+    public function getFieldByNRIC( $nric, $column ) {
+        $sql = $this->DB->select( 'SELECT ' . addslashes( $column ) . ' FROM user
+                                   WHERE nric = "' . addslashes( $nric ) . '"',
+                                    __FILE__, __LINE__ );
+
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            return $this->DB->fetch( $sql );
+        }
+        return false;
+    }
+
+
+    /**
      * Retrieve a user column by searching fname and lname
      * @return mixed
      */

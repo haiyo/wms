@@ -125,6 +125,15 @@ class UserModel extends \Model {
 
 
     /**
+     * Return user data by email
+     * @return mixed
+     */
+    public function getFieldByNRIC( $nric, $column ) {
+        return $this->User->getFieldByNRIC( $nric, $column );
+    }
+
+
+    /**
      * Search name
      * @return mixed
      */
@@ -158,10 +167,11 @@ class UserModel extends \Model {
     public function isValid( $data ) {
         $Validator = new Validator( );
 
-        $this->info['userID']  = (int)$data['userID'];
-        $this->info['fname']   = Validator::stripTrim( $data['fname'] );
-        $this->info['lname']   = Validator::stripTrim( $data['lname'] );
+        $this->info['userID'] = (int)$data['userID'];
+        $this->info['fname']  = Validator::stripTrim( $data['fname'] );
+        $this->info['lname']  = Validator::stripTrim( $data['lname'] );
         $this->info['email']  = Validator::stripTrim( $data['email'] );
+        $this->info['nric']   = Validator::stripTrim( $data['nric'] );
 
         $Validator->addModule( 'fname', new IsEmpty( $this->info['fname'] ) );
         $Validator->addModule( 'lname', new IsEmpty( $this->info['lname'] ) );
@@ -186,7 +196,11 @@ class UserModel extends \Model {
             return false;
         }
 
-        $this->info['nric']     = Validator::stripTrim( $data['nric'] );
+        if( $this->info['userID'] == 0 && $this->getFieldByNRIC( $this->info['nric'], 'nric' ) ) {
+            $this->setErrMsg( $this->L10n->getContents('LANG_NRIC_ALREADY_EXIST') );
+            return false;
+        }
+
         $this->info['gender']   = isset( $data['gender'] ) ? Validator::stripTrim( $data['gender'] ) : '';
         $this->info['username'] = Validator::stripTrim( $data['loginUsername'] );
         $this->info['postal']   = Validator::stripTrim( $data['postal'] );

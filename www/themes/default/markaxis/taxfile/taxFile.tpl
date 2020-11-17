@@ -40,6 +40,24 @@
         </thead>
     </table>
 </div>
+<div id="modalStatus" class="modal fade">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title" id="statusTxt"></h6>
+            </div>
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-btn">
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="modalIrasInfo" class="modal fade">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
