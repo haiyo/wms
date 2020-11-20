@@ -52,7 +52,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-btn">
-                    <button type="button" class="btn btn-link" data-dismiss="modal"><?LANG_CANCEL?></button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal"><Close></Close></button>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
                         <div class="row">
                             <h4>LEARN ABOUT AIS</h4>
                             <div class="divider"></div>
-                            <div class="row">
+                            <div>
                                 <a target="_blank" href="https://elearn.iras.gov.sg/iraslearning/web/courseware/viewCourse.aspx?cid=introtoais">Introduction to AIS for Employment Income.</a><br />
                                 <a target="_blank" href="https://mytax.iras.gov.sg/ESVWeb/default.aspx?target=ESubQueryEmployerSubStatusSearch">Check if an employer is in the AIS here.</a>
                             </div>
@@ -94,7 +94,7 @@
                         <div class="row">
                             <h4>THINGS TO DO BEFORE SUBMISSION</h4>
                             <div class="divider"></div>
-                            <div class="row">
+                            <div>
                                 <ol>
                                     <li>
                                         <strong>Register for the AIS and Authorise Staff</strong><br />
@@ -118,7 +118,7 @@
                         <div class="row">
                             <h4>THINGS TO DO AFTER SUBMISSION</h4>
                             <div class="divider"></div>
-                            <div class="row">
+                            <div>
                                 <strong>Inform Employees</strong><br />
                                 <a target="_blank" href="https://www.iras.gov.sg/irashome/Businesses/Employers/Auto-Inclusion-Scheme--AIS-/Inform-Employees-to-File-Tax-Returns/">Inform employees to file their tax returns</a><br /><br />
                             </div>
@@ -127,10 +127,8 @@
                         <div class="row">
                             <h4>IMPORTANT NOTES</h4>
                             <div class="divider"></div>
-                            <div class="row">
-                                The submission commences on 6th Jan and the <strong style="text-decoration:underline">due date is on 1st Mar every year.</strong>
-                                Employers are encouraged to <strong style="text-decoration:underline">submit by 10th Feb</strong> to avoid rushing during the peak period.
-                                <strong style="text-decoration:underline">Amendment files must be submitted by 31st Mar.</strong>
+                            <div>
+                                The submission commences on 6th Jan and the <strong style="text-decoration:underline">due date is on 1st Mar every year.</strong> Employers are encouraged to <strong style="text-decoration:underline">submit by 10th Feb</strong> to avoid rushing during the peak period. <strong style="text-decoration:underline">Amendment files must be submitted by 31st Mar.</strong>
                             </div>
                         </div>
                     </div>

@@ -114,9 +114,8 @@ var MarkaxisTaxFile = (function( ) {
                         return;
                     }
                     else {
-                        if( obj.data != "update" ) {
-                            $("#tfID").val( obj.data );
-                        }
+                        $("#tfID").val( obj.data );
+                        markaxisTaxFileEmployee.table.ajax.reload( );
                         $(".stepy").stepy("step", 2);
                     }
                 }
@@ -268,13 +267,18 @@ var MarkaxisTaxFile = (function( ) {
                     className : "text-center p-0",
                     data: 'tfID',
                     render: function(data, type, full, meta) {
+                        var edit = "";
+                        if( full['submitted'] == 0 ) {
+                            edit = '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/taxFiling/' + data + '">' +
+                            '<i class="icon-pencil5"></i> Edit Batch</a>';
+                        }
+
                         return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
                             '<i class="icon-menu7"></i></a>' +
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
-                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/taxFiling/' + data + '">' +
-                            '<i class="icon-pencil5"></i> Edit Batch</a>' +
+                            edit +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadIR8A/' + data + '">' +
                             '<i class="icon-pencil5"></i> Download IRAS XML</a>' +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +

@@ -62,6 +62,7 @@ class TaxFileView {
     public function renderTaxFile( ) {
         $vars = array( );
 
+        $this->View->setTitle( 'Tax Filing (IRAS)' );
         $this->View->setBreadcrumbs( array( 'link' => '',
                                             'icon' => 'icon-coins',
                                             'text' => $this->TaxFileRes->getContents('LANG_TAX_FILING') ) );
@@ -147,11 +148,11 @@ class TaxFileView {
                                         array( 'TPLVAR_FNAME' => $user[$error->recordIdentifier]['fname'],
                                                'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
                                                'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
-                                               'TPLVAR_ERROR' => '&bull; ' . $error->error. '<br />' );
+                                               'TPLVAR_ERROR' => '&bull; ' . $error->recordField . ' - ' . $error->error. '<br />' );
                                 }
                                 else {
                                     // already parse user
-                                    $vars['dynamic']['A8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->error . '<br />';
+                                    $vars['dynamic']['A8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->recordField . ' - ' . $error->error . '<br />';
                                 }
                             }
                         }
@@ -169,13 +170,13 @@ class TaxFileView {
 
                                     $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier] =
                                         array( 'TPLVAR_FNAME' => $user[$error->recordIdentifier]['fname'],
-                                            'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
-                                            'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
-                                            'TPLVAR_ERROR' => '&bull; ' . $error->error. '<br />' );
+                                               'TPLVAR_LNAME' => $user[$error->recordIdentifier]['lname'],
+                                               'TPLVAR_NRIC'  => $user[$error->recordIdentifier]['nric'],
+                                               'TPLVAR_ERROR' => '&bull; ' . $error->recordField . ' - ' . $error->error. '<br />' );
                                 }
                                 else {
                                     // already parse user
-                                    $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->error . '<br />';
+                                    $vars['dynamic']['IR8AErrorSet'][$error->recordIdentifier]['TPLVAR_ERROR'] .= '&bull; ' . $error->recordField . ' - ' . $error->error . '<br />';
                                 }
                             }
                         }
@@ -192,13 +193,19 @@ class TaxFileView {
      * Render main navigation
      * @return string
      */
-    public function renderTaxFileForm( $tfID ) {
+    public function renderTaxFileForm( $data ) {
+        $tfID = 0;
         $year = date('Y');
 
-        if( $tfID ) {
-            $tfInfo = $this->TaxFileModel->getByTFID( $tfID );
+        if( isset( $data[1] ) ) {
+            $tfInfo = $this->TaxFileModel->getByTFID( $data[1] );
+
+            if( $tfInfo && $tfInfo['submitted'] ) {
+                return;
+            }
 
             if( isset( $tfInfo['fileYear'] ) ) {
+                $tfID = $tfInfo['tfID'];
                 $year = $tfInfo['fileYear'];
             }
         }
@@ -207,7 +214,7 @@ class TaxFileView {
 
         $OfficeModel = OfficeModel::getInstance( );
         $office = $OfficeModel->getList( );
-        $officeList = $SelectListView->build( 'office',  $office, key( $office ), 'Select Office / Location' );
+        $officeList = $SelectListView->build('office',  $office, key( $office ), 'Select Office / Location' );
 
         $currYear = date('Y', strtotime('-0 year') );
         $prevYear = date('Y', strtotime('-3 year') );
@@ -222,10 +229,10 @@ class TaxFileView {
             }
         }
 
-        $tfID = 0;
+        /*$tfID = 0;
         if( $tfInfo = $this->TaxFileModel->getByFileYear( $selected, 'O' ) ) {
             $tfID = $tfInfo['tfID'];
-        }
+        }*/
 
         $yearList = $SelectListView->build( 'year',  $yearList, $selected, 'Select Year' );
 
