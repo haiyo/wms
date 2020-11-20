@@ -270,7 +270,7 @@ class TaxFileModel extends \Model {
 
     /**
      * Set Pay Item Info
-     * @return bool
+     * @return int
      */
     public function createForm( $post ) {
         if( is_numeric( $post['data']['year'] ) && $post['data']['year'] < date('Y')+1 ) {
@@ -284,12 +284,12 @@ class TaxFileModel extends \Model {
 
             // if we already have Original batch, then we should expect Amendment instead..
             if( !$post['data']['tfID'] && $hasOriginal && $hasOriginal['submitted'] && $this->info['batch'] == 'O' ) {
-                $this->setErrMsg('This tax record has already been created.' );
+                $this->setErrMsg('The Original tax record for Year' . $this->info['fileYear'] . ' has already been submitted to IRAS. You can only make Amendments for this record.' );
                 return false;
             }
 
             // If no original but trying to make amendments...
-            if( (!$hasOriginal || !$this->isCompleted( $post['data']['tfID'] ) ) && $this->info['batch'] == 'A' ) {
+            if( (!$hasOriginal || !$this->isCompleted( $hasOriginal['tfID'] ) ) && $this->info['batch'] == 'A' ) {
                 $this->setErrMsg('You have no valid "Original" tax record for the selected year. 
                                           You need to create or complete an original tax record before making amendments.' );
                 return false;
@@ -354,9 +354,16 @@ class TaxFileModel extends \Model {
             $this->info['authDate'] = date('Y-m-d');
             $this->info['created'] = date('Y-m-d');
 
-            if( $post['data']['tfID'] && !$this->isSubmitted( $post['data']['tfID'] ) ) {
+            if( $hasOriginal && !$hasOriginal['submitted'] ) {
+                $this->TaxFile->update('taxfile', $this->info, 'WHERE tfID = "' . (int)$hasOriginal['tfID'] . '"' );
+                return $hasOriginal['tfID'];
+            }
+            else if( $this->info['batch'] == 'A' && $tfInfo = $this->getByFileYear( $this->info['fileYear'],'A' ) ) {
                 $this->TaxFile->update('taxfile', $this->info, 'WHERE tfID = "' . (int)$post['data']['tfID'] . '"' );
-                return 'update';
+                return $tfInfo['tfID'];
+            }
+            else if( $this->info['batch'] == 'A' && !$this->getByFileYear( $this->info['fileYear'],'A' ) ) {
+                return $this->TaxFile->insert('taxfile', $this->info );
             }
             else {
                 return $this->TaxFile->insert('taxfile', $this->info );

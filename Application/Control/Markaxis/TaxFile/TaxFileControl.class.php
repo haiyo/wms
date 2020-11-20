@@ -74,7 +74,7 @@ class TaxFileControl {
      * @return string
      */
     public function taxFiling( $args ) {
-        $this->TaxFileView->renderTaxFileForm( isset( $args[1] ) ? $args[1] : date('Y') );
+        $this->TaxFileView->renderTaxFileForm( $args );
     }
 
 
