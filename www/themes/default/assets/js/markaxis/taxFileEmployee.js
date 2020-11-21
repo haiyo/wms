@@ -63,13 +63,7 @@ var MarkaxisTaxFileEmployee = (function( ) {
                     }
                 },
                 initComplete: function() {
-                    /*var api = this.api();
-                    var that = this;
-                    $('input').on('keyup change', function() {
-                        if (that.search() !== this.value) {
-                            that.search(this.value).draw();
-                        }
-                    });*/
+                    $("#irasForm-step-1 .stepy-navigator").insertAfter("#irasForm-step-1 .dataTables_filter");
                 },
                 autoWidth: false,
                 mark: true,
