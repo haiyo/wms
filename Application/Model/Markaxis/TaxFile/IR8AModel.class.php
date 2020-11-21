@@ -118,6 +118,12 @@ class IR8AModel extends \Model {
      * @return mixed
      */
     public function prepareUserDeclaration( $data, $post ) {
+        $TaxFileModel = TaxFileModel::getInstance( );
+        $tfInfo = $TaxFileModel->getByTFID( $post['tfID'] );
+
+        if( $tfInfo['batch'] == 'A' ) {
+            return array( 'userID' => $data['empIR8AInfo']['userID'], 'completed' => 1);
+        }
         $startDate = Date::parseDateTime($post['year'] . '-01-01');
         $endDate = Date::parseDateTime($post['year'] . '-12-31');
 

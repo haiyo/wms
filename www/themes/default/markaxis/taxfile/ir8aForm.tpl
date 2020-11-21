@@ -1,8 +1,9 @@
 <span style="color:#666;">Only fill in the blanks where applicable.<br />
     (i) Disabled fields are auto generated information based on Year <?TPLVAR_YEAR?> payroll, no changes can be made.<br />
     (ii) If you have fields marked in red, please fill them up by editing the company or employee information in Company / Employee Settings.<br />
-    (iii) If you need help understanding how to fill up the IR8A form, you may refer to <a href="https://www.iras.gov.sg/irashome/Quick-Links/Forms/Businesses/Income-Tax-forms-for-Employers/" target="=_blank">IRAS explanatory notes</a>.<br />
-    (iv) If you think any information is inaccurate, please do not hesitate to contact support.</span>
+    (iii) If you are making Amendments, please only fill up the difference in amount. Refer to <a href="https://www.iras.gov.sg/irashome/uploadedFiles/IRASHome/Businesses/Amendment%20Guide.pdf" target="=_blank">IRAS Submitting an Amendment File</a>.<br />
+    (iv) If you need help understanding how to fill up the IR8A form, refer to <a href="https://www.iras.gov.sg/irashome/Quick-Links/Forms/Businesses/Income-Tax-forms-for-Employers/" target="=_blank">IRAS explanatory notes</a>.<br />
+    (v) If you think any information is inaccurate, please do not hesitate to contact support.</span>
 <div class="display-block" style="border-top:1px solid #ccc;margin: 5px 0 25px;"></div>
 <input type="hidden" id="tfID" name="tfID" value="<?TPLVAR_TFID?>" />
 <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
