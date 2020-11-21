@@ -141,7 +141,7 @@
                         </div>
                     </fieldset>
                     <button type="button" class="btn bg-purple-400 stepy-finish btn-ladda" data-style="slide-right">
-                        <span class="ladda-label">Submit <i class="icon-check position-right"></i></span>
+                        <span class="ladda-label">Done <i class="icon-check position-right"></i></span>
                     </button>
                 </form>
             </div>

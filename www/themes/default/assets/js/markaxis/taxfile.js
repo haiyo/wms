@@ -83,7 +83,7 @@ var MarkaxisTaxFile = (function( ) {
                     return false;
                 },
                 finish: function(index) {
-                    //that.confirmFinalize();
+                    window.location.href = Aurora.ROOT_URL + 'admin/taxfile/list';
                     return false;
                 }
             });

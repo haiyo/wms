@@ -681,6 +681,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 },
                 initComplete: function( settings, json ) {
+                    $("#irasForm-step-2 .stepy-navigator").insertAfter("#irasForm-step-2 .dataTables_filter");
                     that.prepareUserDeclaration( 0, true );
                 }
             });
