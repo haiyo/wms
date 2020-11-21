@@ -29,7 +29,7 @@ class IRA8AModel extends \Model {
 
         $this->IRA8A = new IRA8A( );
 
-        $this->info['empAddress'] = $this->info['days'] = $this->info['numberShare'] =
+        $this->info['address'] = $this->info['days'] = $this->info['numberShare'] =
         $this->info['annualValue'] = $this->info['furnitureValue'] = $this->info['rentPaidEmployer'] =
         $this->info['taxableValue'] = $this->info['rentPaidEmployee'] = $this->info['totalTaxablePlace'] =
         $this->info['utilities'] = $this->info['driver'] = $this->info['upkeep'] =
@@ -100,11 +100,7 @@ class IRA8AModel extends \Model {
                 return $this->info;
             }
         }
-        else {
-            $TaxFileModel = TaxFileModel::getInstance( );
-            $TaxFileModel->setCompleted( $data['ir8a']['tfID'] );
-            return false;
-        }
+        return array( 'userID' => $data['empIR8AInfo']['userID'], 'completed' => NULL );
     }
 
 

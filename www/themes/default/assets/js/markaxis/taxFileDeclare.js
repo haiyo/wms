@@ -505,7 +505,7 @@ var MarkaxisTaxFileDeclare = (function( ) {
                             var a8a = $("#a8a_" + obj.data.ir8a.userID);
                             a8a.removeClass("label-pending");
 
-                            if( obj.data.ira8a.completed != undefined ) {
+                            if( obj.data.ira8a.completed != null ) {
                                 if( obj.data.ira8a.completed == 0 ) {
                                     that.requireA8A.push( userID );
                                     a8a.removeClass("label-pending").addClass("label-warning").text("Action Required");
