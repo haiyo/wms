@@ -542,10 +542,6 @@ var MarkaxisTaxFileDeclare = (function( ) {
         initTable: function( ) {
             var that = this;
 
-            if( that.table ) {
-                that.table.destroy();
-            }
-
             //$('table.dataTable').DataTable().clearPipeline().draw();
             that.table = $(".declareTable").DataTable({
                 processing: true,

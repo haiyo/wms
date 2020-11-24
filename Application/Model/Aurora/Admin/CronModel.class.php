@@ -38,8 +38,7 @@ class CronModel extends \Model {
         if( sizeof( $taskList ) > 0 ) {
             try {
                 foreach( $taskList as $row ) {
-                    $expression = $row['minute'] . ' ' . $row['hour'] . ' ' . $row['day'] . ' ' .
-                                  $row['month'] . ' ' . $row['dayOfWeek'];
+                    $expression = $row['minute'] . ' ' . $row['hour'] . ' ' . $row['day'] . ' ' . $row['month'] . ' ' . $row['dayOfWeek'];
 
                     $Scheduler = new Scheduler( );
                     $Scheduler->php( ROOT . 'cron/' . $row['task'] )->at( $expression )->output(ROOT . 'log/cron.log',true );

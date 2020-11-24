@@ -134,7 +134,7 @@ class Scheduler {
         $job = new Job( $bin . ' ' . $script, $args, $id );
 
         if( !file_exists( $script ) ) {
-            $this->pushFailedJob( $job, new InvalidArgumentException('The script should be a valid path to a file.') );
+            $this->pushFailedJob( $job, new InvalidArgumentException('Script not found: ' . $script) );
         }
         $this->queueJob( $job->configure( $this->config ) );
         return $job;
@@ -253,7 +253,7 @@ class Scheduler {
      * @param  Exception  $e
      * @return Job
      */
-    private function pushFailedJob( Job $job, Exception $e ) {
+    private function pushFailedJob( Job $job, InvalidArgumentException $e ) {
         $this->failedJobs[] = $job;
 
         $compiled = $job->compile( );

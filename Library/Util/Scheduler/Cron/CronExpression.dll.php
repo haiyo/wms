@@ -351,7 +351,7 @@ class CronExpression {
         elseif( $currentTime instanceof DateTime ) {
             //
         }
-        elseif( $currentTime instanceof DateTimeImmutable ) {
+        elseif( $currentTime instanceof \DateTimeImmutable ) {
             $currentTime = DateTime::createFromFormat( 'U', $currentTime->format( 'U' ) );
         }
         else {
@@ -363,7 +363,7 @@ class CronExpression {
         try {
             return $this->getNextRunDate( $currentTime, 0, true )->getTimestamp() === $currentTime->getTimestamp();
         }
-        catch( Exception $e ) {
+        catch( \Exception $e ) {
             return false;
         }
     }

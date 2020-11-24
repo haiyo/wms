@@ -76,7 +76,13 @@ var MarkaxisTaxFile = (function( ) {
                             swal( Aurora.i18n.GlobalRes.LANG_ERROR + "!", "Please select employee", "error");
                         }
                         else {
-                            markaxisTaxFileDeclare.initTable( );
+                            if( markaxisTaxFileDeclare.table == null ) {
+                                markaxisTaxFileDeclare.initTable( );
+                            }
+                            else {
+                                markaxisTaxFileDeclare.table.destroy( )
+                                markaxisTaxFileDeclare.initTable( );
+                            }
                             $(".stepy").stepy("step", 3);
                         }
                     }
