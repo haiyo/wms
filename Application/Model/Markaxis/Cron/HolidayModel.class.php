@@ -64,7 +64,7 @@ class HolidayModel extends \Model {
             $apiURL = 'https://content.googleapis.com/calendar/v3/calendars/' . urlencode( $value ) . '/events'.
                       '?singleEvents=false'.
                       '&timeMax=' . date('Y-m-d', mktime(0, 0, 0,
-                                                                12, 31, date('Y')  ) ) . 'T00:00:00-00:00' .
+                                                                12, 31, date('Y') ) ) . 'T00:00:00-00:00' .
                       '&timeMin=' . date('Y-m-d', mktime(0, 0, 0,
                                                                 1, 1, date('Y')  ) ) . 'T00:00:00-00:00' .
                       '&key=' . $this->apiKey;
