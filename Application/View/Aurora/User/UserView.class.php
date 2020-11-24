@@ -5,6 +5,7 @@ use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\IDTypeHelper, \L
 use \Library\Helper\Aurora\MonthHelper;
 use \Library\Helper\Aurora\MaritalHelper, \Aurora\Component\NationalityModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
+use \Library\Security\Aurora\Authenticator;
 use \Library\Runtime\Registry;
 
 /**
@@ -145,11 +146,19 @@ class UserView {
         $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), '',
                                                      $this->L10n->getContents('LANG_MONTH') );
 
+        try {
+            $Authenticator = new Authenticator( );
+            $decryptedNRIC = $Authenticator->getKeyManager( )->decrypt( $this->userInfo['kek2'], $this->userInfo['nric'] );
+        }
+        catch( \Exception $e ) {
+            die( $e );
+        }
+
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_USERID' => $this->userInfo['userID'],
                        'TPLVAR_FNAME' => $this->userInfo['fname'],
                        'TPLVAR_LNAME' => $this->userInfo['lname'],
-                       'TPLVAR_NRIC' => $this->userInfo['nric'],
+                       'TPLVAR_NRIC' => $decryptedNRIC,
                        'TPLVAR_USERNAME' => $this->userInfo['username'],
                        'TPLVAR_EMAIL' => $this->userInfo['email'],
                        'TPLVAR_PHONE' => $this->userInfo['phone'],

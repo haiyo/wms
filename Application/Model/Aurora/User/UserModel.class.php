@@ -35,7 +35,7 @@ class UserModel extends \Model {
         $this->info['houseNo'] = $this->info['streetName'] = $this->info['levelUnit'] =
         $this->info['postal'] = $this->info['city'] = $this->info['state'] =
         $this->info['phone'] = $this->info['mobile'] = $this->info['idType'] = $this->info['nric'] =
-        $this->info['marital'] = $this->info['nationalityID'] = $this->info['username'] =
+        $this->info['kek2'] = $this->info['marital'] = $this->info['nationalityID'] = $this->info['username'] =
         $this->info['lang'] = $this->info['image'] = '';
 
         $this->info['userID'] = $this->info['suspended'] = $this->info['deleted'] =
@@ -212,12 +212,11 @@ class UserModel extends \Model {
         $this->info['children'] = (int)$data['children'];
         //$this->info['image']    = $info['image'];
 
+        $Authenticator = new Authenticator( );
         $data['loginPassword'] = Validator::stripTrim( $data['loginPassword'] );
 
         if( $data['loginPassword'] ) {
             try {
-                $Authenticator = new Authenticator( );
-
                 $encrypted = $Authenticator->getKeyManager( )->encrypt( $data['loginPassword'] );
                 $this->info['password'] = $encrypted['data'];
                 $this->info['kek'] = $encrypted['secret'];
@@ -225,6 +224,15 @@ class UserModel extends \Model {
             catch( \Exception $e ) {
                 die( $e );
             }
+        }
+
+        try {
+            $encrypted = $Authenticator->getKeyManager( )->encrypt( $this->info['nric'] );
+            $this->info['nric'] = $encrypted['data'];
+            $this->info['kek2'] = $encrypted['secret'];
+        }
+        catch( \Exception $e ) {
+            die( $e );
         }
 
         unset( $this->info['lang'] );
