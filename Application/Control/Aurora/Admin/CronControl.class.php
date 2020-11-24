@@ -55,7 +55,15 @@ class CronControl extends Control {
     */
     public function init( $argv ) {
         try {
-            if( isset( $argv[1] ) && isset( $argv[2] ) ) {
+            $this->connectDB();
+            $i18n = new i18n('Aurora/languages.xml');
+            $i18n->setUserLang( 'en_us' );
+            $this->Registry->set( HKEY_CLASS, 'i18n', $i18n );
+
+            $this->runTasks( );
+            exit;
+
+            /*if( isset( $argv[1] ) && isset( $argv[2] ) ) {
                 parse_str( $argv[1], $username );
                 parse_str( $argv[2], $password );
 
@@ -87,7 +95,7 @@ class CronControl extends Control {
             }
             else {
                 throw new Exceptions("Error: No username and password supplied.\n\n");
-            }
+            }*/
         }
         catch( Exceptions $e ) {
             $e->record( );
