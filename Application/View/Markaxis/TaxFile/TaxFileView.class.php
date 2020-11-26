@@ -9,6 +9,7 @@ use \Library\Helper\Aurora\YesNoHelper;
 use \Library\Helper\Markaxis\SourceTypeHelper, \Library\Helper\Markaxis\OrgTypeHelper;
 use \Library\Helper\Markaxis\IrasPaymentTypeHelper;
 use \Library\Helper\Aurora\MonthHelper, \Library\Helper\Aurora\GenderHelper;
+use \Library\Helper\Google\KeyManagerHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -386,11 +387,23 @@ class TaxFileView {
              $designation = $dInfo['title'];
          }
 
+         $decryptedNRIC = $empInfo['nric'];
+
+         try {
+             if( $empInfo['nric'] && $empInfo['kek2'] ) {
+                 $KeyManagerHelper = new KeyManagerHelper( );
+                 $decryptedNRIC = $KeyManagerHelper->decrypt( $empInfo['kek2'], $empInfo['nric'] );
+             }
+         }
+         catch( \Exception $e ) {
+             die( $e );
+         }
+
          $vars = array( 'TPLVAR_USERID' => $userID,
                          'TPLVAR_TFID' => $tfID,
                          'TPLVAR_YEAR' => ($ir8aInfo['fileYear']-1),
                          'TPLVAR_EMP_REF' => $companyInfo['regNumber'],
-                         'TPLVAR_EMP_ID' => $empInfo['nric'],
+                         'TPLVAR_EMP_ID' => $decryptedNRIC,
                          'TPLVAR_EMP_NAME' =>  $empInfo['name'],
                          'TPL_DOB_MONTH_LIST' => $dobMonthList,
                          'TPL_DOB_DAY_LIST' => $dobDayList,
@@ -505,9 +518,21 @@ class TaxFileView {
         $RadioView = new RadioView( );
         $furnitureIndicator = $RadioView->build('furnitureInd', $furnitureIndType, $furnitureInd );
 
+        $decryptedNRIC = $empInfo['nric'];
+
+        try {
+            if( $empInfo['nric'] && $empInfo['kek2'] ) {
+                $KeyManagerHelper = new KeyManagerHelper( );
+                $decryptedNRIC = $KeyManagerHelper->decrypt( $empInfo['kek2'], $empInfo['nric'] );
+            }
+        }
+        catch( \Exception $e ) {
+            die( $e );
+        }
+
         $vars = array( 'TPLVAR_USERID' => $userID,
                        'TPLVAR_TFID' => $tfID,
-                       'TPLVAR_EMP_ID' => $empInfo['nric'],
+                       'TPLVAR_EMP_ID' => $decryptedNRIC,
                        'TPLVAR_EMP_NAME' =>  $empInfo['name'],
                        'TPLVAR_ADDRESS' => $ira8aInfo['address'],
                        'TPLVAR_DAYS' => $ira8aInfo['days'],

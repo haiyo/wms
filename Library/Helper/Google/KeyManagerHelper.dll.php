@@ -16,15 +16,31 @@ class KeyManagerHelper {
     private $keyRingId;
     private $cryptoKeyId;
 
+    private $kmsConfig = JSON_CONFIG . 'HRMS-Markaxis-75b213b4b0d5.json';
+    private $kmsScope = 'https://www.googleapis.com/auth/cloud-platform';
 
-    public function __construct( Kms $kms, EncryptRequest $encryptRequest, DecryptRequest $decryptRequest, $projectId, $locationId, $keyRingId, $cryptoKeyId ) {
-        $this->kms            = $kms;
-        $this->encryptRequest = $encryptRequest;
-        $this->decryptRequest = $decryptRequest;
-        $this->projectId      = $projectId;
-        $this->locationId     = $locationId;
-        $this->keyRingId      = $keyRingId;
-        $this->cryptoKeyId    = $cryptoKeyId;
+
+    public function __construct( ) {
+        require( ROOT . './Library/vendor/autoload.php' );
+        $this->encryptRequest = new EncryptRequest( );
+        $this->decryptRequest = new DecryptRequest( );
+
+        try {
+            $client = new \Google_Client( );
+            $client->setAuthConfig( $this->kmsConfig );
+            $client->addScope( $this->kmsScope );
+
+            $jsonData = json_decode( file_get_contents( $this->kmsConfig ),true );
+
+            $this->kms = new Kms( $client );
+            $this->projectId   = $jsonData['projectId'];
+            $this->locationId  = $jsonData['locationId'];
+            $this->keyRingId   = $jsonData['keyRingId'];
+            $this->cryptoKeyId = $jsonData['cryptoKeyId'];
+        }
+        catch( \Exception $e ) {
+            die($e->getCode());
+        }
     }
 
 

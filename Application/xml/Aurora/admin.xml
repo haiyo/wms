@@ -487,6 +487,7 @@
     </task>
     <task type="taxfile/saveIr8a">
         <observer controller="Markaxis/TaxFile/IR8AControl"/>
+        <observer controller="Markaxis/TaxFile/IRA8AControl"/>
     </task>
     <task type="taxfile/saveIra8a">
         <observer controller="Markaxis/TaxFile/IRA8AControl"/>

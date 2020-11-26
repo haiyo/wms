@@ -296,7 +296,7 @@ class IR8AModel extends \Model {
 
     /**
      * Set Pay Item Info
-     * @return bool
+     * @return mixed
      */
     public function saveIr8a( $post ) {
         if( isset( $post['data']['tfID'] ) && isset( $post['data']['userID'] ) ) {
@@ -362,7 +362,7 @@ class IR8AModel extends \Model {
                     'WHERE tfID = "' . (int)$post['data']['tfID']  . '" AND
                                               userID = "' . (int)$post['data']['userID'] . '"' );
 
-                return true;
+                return $this->info;
             }
         }
         return false;

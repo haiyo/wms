@@ -5,7 +5,7 @@ use \Markaxis\Company\CompanyModel;
 use \Markaxis\Payroll\UserItemModel;
 use \Markaxis\Payroll\UserTaxModel;
 use \Aurora\Admin\AdminView;
-use \Library\Helper\Markaxis\IRASCountryCodeHelper;
+use \Library\Helper\Google\KeyManagerHelper;
 use \Library\Util\Date;
 use \Library\Runtime\Registry;
 
@@ -96,12 +96,24 @@ class IRA8AView {
                     }
                 }
 
+                $decryptedNRIC = $info['empIDNo'];
+
+                try {
+                    if( $info['empIDNo'] && $info['kek2'] ) {
+                        $KeyManagerHelper = new KeyManagerHelper( );
+                        $decryptedNRIC = $KeyManagerHelper->decrypt( $info['kek2'], $info['nric'] );
+                    }
+                }
+                catch( \Exception $e ) {
+                    die( $e );
+                }
+
                 $xml .= '<A8ARecord>
 <ESubmissionSDSC xmlns="http://tempuri.org/ESubmissionSDSC.xsd">
 <A8A2015ST>
 <RecordType xmlns="http://www.iras.gov.sg/A8A2015">1</RecordType>
 <IDType xmlns="http://www.iras.gov.sg/A8A2015">' . $info['idType'] . '</IDType>
-<IDNo xmlns="http://www.iras.gov.sg/A8A2015">' . $info['empIDNo'] . '</IDNo>
+<IDNo xmlns="http://www.iras.gov.sg/A8A2015">' . $decryptedNRIC . '</IDNo>
 <NameLine1 xmlns="http://www.iras.gov.sg/A8A2015">' . $info['empName'] . '</NameLine1>
 <NameLine2 xmlns="http://www.iras.gov.sg/A8A2015"/>
 <ResidenceAddressLine1 xmlns="http://www.iras.gov.sg/A8A2015">' . $address1 . '</ResidenceAddressLine1>

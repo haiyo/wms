@@ -41,6 +41,21 @@ class IRA8AControl {
      * Render main navigation
      * @return void
      */
+    public function saveIr8a( ) {
+        $data = Control::getOutputArray( );
+        $this->IRA8AModel->prepareUserDeclaration( $data );
+
+        $vars = array( );
+        $vars['bool'] = 1;
+        echo json_encode( $vars );
+        exit;
+    }
+
+
+    /**
+     * Render main navigation
+     * @return void
+     */
     public function saveIra8a( ) {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $vars = array( );

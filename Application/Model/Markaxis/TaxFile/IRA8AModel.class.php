@@ -110,7 +110,11 @@ class IRA8AModel extends \Model {
      */
     public function saveIra8a( $post ) {
         if( isset( $post['data']['tfID'] ) && isset( $post['data']['userID'] ) ) {
-            if( $ira8aInfo = $this->getByUserIDTFID( $post['data']['userID'], $post['data']['tfID'] ) ) {
+            if( !$ira8aInfo = $this->getByUserIDTFID( $post['data']['userID'], $post['data']['tfID'] ) ) {
+                $this->setErrMsg('You need to provide the Total Value of Benefits-in-kind in IR8A form in order to fill up Appendix 8A.');
+                return false;
+            }
+            else {
                 $this->info = array( );
                 $this->info['address'] = Validator::stripTrim( $post['data']['address'] );
                 $this->info['days'] = (int)$post['data']['days'];

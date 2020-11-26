@@ -74,7 +74,7 @@ class Employee extends \DAO {
      * @return int
      */
     public function getIR8AInfo( $userID ) {
-        $sql = $this->DB->select( 'SELECT DISTINCT u.userID, u.nric, CONCAT( u.fname, " ", u.lname ) AS name, u.email AS email,
+        $sql = $this->DB->select( 'SELECT DISTINCT u.userID, u.nric, u.kek2, CONCAT( u.fname, " ", u.lname ) AS name, u.email AS email,
                                           u.gender, u.houseNo, u.streetName, u.levelUnit, u.nationalityID, u.postal, u.birthday, u.mobile, 
                                           d.title AS designation, n.irasID, n.nationality,
                                           e.*, b.bkID, b.name AS bankName
