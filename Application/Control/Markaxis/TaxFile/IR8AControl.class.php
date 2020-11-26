@@ -57,15 +57,15 @@ class IR8AControl {
         $post = Control::getDecodedArray( Control::getRequest( )->request( POST ) );
         $vars = array( );
 
-        if( $vars['data'] = $this->IR8AModel->saveIr8a( $post ) ) {
-            $vars['bool'] = 1;
+        if( $data = $this->IR8AModel->saveIr8a( $post ) ) {
+            Control::setOutputArray( array( 'ir8a' => $data ) );
         }
         else {
             $vars['bool'] = 0;
             $vars['errMsg'] = $this->IR8AModel->getErrMsg( );
+            echo json_encode( $vars );
+            exit;
         }
-        echo json_encode( $vars );
-        exit;
     }
 
 

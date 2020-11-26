@@ -6,9 +6,6 @@ use \Library\Exception\Aurora\AuthLoginException;
 use \Library\Http\HttpResponse;
 use \Library\Runtime\Registry;
 use \Library\Helper\Google\KeyManagerHelper;
-use \Google_Service_CloudKMS as Kms;
-use \Google_Service_CloudKMS_DecryptRequest as DecryptRequest;
-use \Google_Service_CloudKMS_EncryptRequest as EncryptRequest;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>
@@ -24,9 +21,6 @@ class Authenticator {
     protected $Registry;
     protected $UserModel;
     protected $authField;
-
-    private $kmsConfig = JSON_CONFIG . 'HRMS-Markaxis-75b213b4b0d5.json';
-    private $kmsScope = 'https://www.googleapis.com/auth/cloud-platform';
 
 
     /**
@@ -49,33 +43,6 @@ class Authenticator {
 
 
     /**
-     * Performs authentication
-     * @throws AuthLoginException
-     * @return string
-     */
-    public function getKeyManager( ) {
-        try {
-            require( ROOT . './Library/vendor/autoload.php' );
-            $client = new \Google_Client( );
-            $client->setAuthConfig( $this->kmsConfig );
-            $client->addScope( $this->kmsScope );
-
-            $jsonData = json_decode( file_get_contents( $this->kmsConfig ),true );
-
-            return new KeyManagerHelper( new Kms( $client ), new EncryptRequest( ), new DecryptRequest( ),
-                $jsonData['projectId'],
-                $jsonData['locationId'],
-                $jsonData['keyRingId'],
-                $jsonData['cryptoKeyId']
-            );
-        }
-        catch( \Exception $e ) {
-            die($e->getCode());
-        }
-    }
-
-
-    /**
     * Performs authentication
     * @throws AuthLoginException
     * @return bool
@@ -85,7 +52,8 @@ class Authenticator {
             $userInfo = $this->UserModel->getFieldByUsername( $username, 'userID, password, kek, suspended, deleted' );
 
             if( $userInfo && !$userInfo['suspended'] && !$userInfo['deleted'] ) {
-                $decrypted = $this->getKeyManager( )->decrypt( $userInfo['kek'], $userInfo['password'] );
+                $KeyManagerHelper = new KeyManagerHelper( );
+                $decrypted = $KeyManagerHelper->decrypt( $userInfo['kek'], $userInfo['password'] );
 
                 if( $decrypted == $password ) {
                     if( $setSession ) {

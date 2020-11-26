@@ -5,7 +5,7 @@ use \Library\Helper\Aurora\GenderHelper, \Library\Helper\Aurora\IDTypeHelper, \L
 use \Library\Helper\Aurora\MonthHelper;
 use \Library\Helper\Aurora\MaritalHelper, \Aurora\Component\NationalityModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
-use \Library\Security\Aurora\Authenticator;
+use \Library\Helper\Google\KeyManagerHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -146,9 +146,13 @@ class UserView {
         $childDOBMonthList = $SelectListView->build( 'childDobMonth_{id}', MonthHelper::getL10nList( ), '',
                                                      $this->L10n->getContents('LANG_MONTH') );
 
+        $decryptedNRIC = $this->userInfo['nric'];
+
         try {
-            $Authenticator = new Authenticator( );
-            $decryptedNRIC = $Authenticator->getKeyManager( )->decrypt( $this->userInfo['kek2'], $this->userInfo['nric'] );
+            if( $this->userInfo['nric'] && $this->userInfo['kek2'] ) {
+                $KeyManagerHelper = new KeyManagerHelper( );
+                $decryptedNRIC = $KeyManagerHelper->decrypt( $this->userInfo['kek2'], $this->userInfo['nric'] );
+            }
         }
         catch( \Exception $e ) {
             die( $e );

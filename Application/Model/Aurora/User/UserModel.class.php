@@ -7,6 +7,7 @@ use \Aurora\Component\AuditLogModel, \Aurora\Component\NationalityModel;
 use \Library\Security\Aurora\Authenticator, \Library\Util\Date;
 use \Library\Helper\Aurora\IDTypeHelper, \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
+use \Library\Helper\Google\KeyManagerHelper;
 use \Library\Exception\ValidatorException;
 
 /**
@@ -227,7 +228,8 @@ class UserModel extends \Model {
         }
 
         try {
-            $encrypted = $Authenticator->getKeyManager( )->encrypt( $this->info['nric'] );
+            $KeyManagerHelper = new KeyManagerHelper( );
+            $encrypted = $KeyManagerHelper->encrypt( $this->info['nric'] );
             $this->info['nric'] = $encrypted['data'];
             $this->info['kek2'] = $encrypted['secret'];
         }

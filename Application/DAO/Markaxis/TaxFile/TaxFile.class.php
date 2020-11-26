@@ -90,7 +90,9 @@ class TaxFile extends \DAO {
         //$q = $q ? addslashes( $q ) : '';
         //$q = $q ? 'AND pi.title LIKE "%' . $q . '%"' : '';
 
-        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS * FROM taxfile tf
+        $sql = $this->DB->select( 'SELECT SQL_CALC_FOUND_ROWS *,
+                                  ( SELECT COUNT(*) FROM ira8a WHERE tfID = tf.tfID ) AS ira8aCount
+                                   FROM taxfile tf
                                    WHERE 1 = 1 ' . $q . '
                                    ORDER BY ' . $order . $this->limit,
                                    __FILE__, __LINE__ );

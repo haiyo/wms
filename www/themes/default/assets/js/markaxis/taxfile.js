@@ -279,6 +279,12 @@ var MarkaxisTaxFile = (function( ) {
                             '<i class="icon-pencil5"></i> Edit Batch</a>';
                         }
 
+                        var ira8a = "";
+                        if( full['ira8aCount'] > 0 ) {
+                            ira8a = '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +
+                                '<i class="icon-pencil5"></i> Download Appendix 8A XML</a>';
+                        }
+
                         return '<div class="list-icons">' +
                             '<div class="list-icons-item dropdown">' +
                             '<a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown" aria-expanded="false">' +
@@ -286,9 +292,8 @@ var MarkaxisTaxFile = (function( ) {
                             '<div class="dropdown-menu dropdown-menu-right dropdown-menu-sm" x-placement="bottom-end">' +
                             edit +
                             '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadIR8A/' + data + '">' +
-                            '<i class="icon-pencil5"></i> Download IRAS XML</a>' +
-                            '<a class="dropdown-item" href="' + Aurora.ROOT_URL + 'admin/taxfile/downloadA8A/' + data + '">' +
-                            '<i class="icon-pencil5"></i> Download Appendix 8A XML</a>' +
+                            '<i class="icon-pencil5"></i> Download IR8A XML</a>' +
+                            ira8a +
                             '<a class="dropdown-item authIRAS" data-id="' + data + '">' +
                             '<i class="icon-pencil5"></i> Submit To IRAS</a>' +
                             '</div>' +

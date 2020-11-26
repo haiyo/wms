@@ -7,6 +7,7 @@ use \Markaxis\Payroll\UserTaxModel;
 use \Aurora\Admin\AdminView;
 use \Library\Helper\Markaxis\IRASCountryCodeHelper;
 use \Library\Util\Date;
+use \Library\Helper\Google\KeyManagerHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -245,13 +246,25 @@ class IR8AView {
 
                 $deductFundName = $info['deductFundName'] == 'CPF' ? 'Central Provident Fund' : $info['deductFundName'];
 
+                $decryptedNRIC = $info['empIDNo'];
+
+                try {
+                    if( $info['empIDNo'] && $info['kek2'] ) {
+                        $KeyManagerHelper = new KeyManagerHelper( );
+                        $decryptedNRIC = $KeyManagerHelper->decrypt( $info['kek2'], $info['nric'] );
+                    }
+                }
+                catch( \Exception $e ) {
+                    die( $e );
+                }
+
                 $xml .= '
 <IR8ARecord>
 <ESubmissionSDSC xmlns="http://tempuri.org/ESubmissionSDSC.xsd">
 <IR8AST>
 <RecordType xmlns="http://www.iras.gov.sg/IR8A">1</RecordType>
 <IDType xmlns="http://www.iras.gov.sg/IR8A">' . $info['idType'] . '</IDType>
-<IDNo xmlns="http://www.iras.gov.sg/IR8A">' . $info['empIDNo'] . '</IDNo>
+<IDNo xmlns="http://www.iras.gov.sg/IR8A">' . $decryptedNRIC . '</IDNo>
 <NameLine1 xmlns="http://www.iras.gov.sg/IR8A">' . $info['empName'] . '</NameLine1>
 <NameLine2 xmlns="http://www.iras.gov.sg/IR8A"/>
 <AddressType xmlns="http://www.iras.gov.sg/IR8A">' . $addressType . '</AddressType>
