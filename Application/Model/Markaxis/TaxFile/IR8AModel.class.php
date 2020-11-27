@@ -277,19 +277,7 @@ class IR8AModel extends \Model {
             'total' => $total > 0 ? $total : 0,
             'deductFundName' => isset( $cpf['amount'] ) ? 'CENTRAL PROVIDENT FUND' : NULL,
             'cpf' => isset( $cpf['amount'] ) ? $cpf['amount'] : 0,
-            'donation' => isset( $donation['amount'] ) ? $donation['amount'] : 0,
-            'compensation' => 0,
-            'amtAccrued92' => 0,
-            'amtAccrued93' => 0,
-            'contriOutSGWithoutTax' => 0,
-            'overseasFundAmt' => 0,
-            'excessContriByEmployer' => 0,
-            'benefitsInKind' => 0,
-            'exemptIncome' => 0,
-            'employerTaxBorne' => 0,
-            'empTaxPaid' => 0,
-            'contriMosque' => 0,
-            'insurance' => 0
+            'donation' => isset( $donation['amount'] ) ? $donation['amount'] : 0
         );
 
         if( $ir8aInfo = $this->getByUserIDTFID( $data['empIR8AInfo']['userID'], $post['tfID'] ) ) {
