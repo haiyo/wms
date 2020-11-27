@@ -325,7 +325,7 @@ class IR8AModel extends \Model {
 
                 foreach( $check as $key => $value ) {
                     if( $value < 1 ) {
-                        $this->info[$key] = NULL;
+                        $this->info[$key] = 0;
                     }
                     else {
                         $this->info[$key] = $value;
