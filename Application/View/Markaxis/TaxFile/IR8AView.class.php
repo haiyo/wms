@@ -144,13 +144,13 @@ class IR8AView {
                 }
 
                 $GratuityNoticePymExGratiaPaid = $GratuityNoticePymExGratia = '';
-                if( $info['gratuity'] || $info['noticePay'] || $info['exGratia'] || $info['otherLumpSum'] ) {
+                if( $info['gratuity'] > 0 || $info['noticePay'] > 0 || $info['exGratia'] > 0 || $info['otherLumpSum'] > 0 ) {
                     $GratuityNoticePymExGratiaPaid = 'Y';
                     $GratuityNoticePymExGratia = ($info['gratuity']+$info['noticePay']+$info['exGratia']+$info['otherLumpSum'] );
                 }
 
                 $CompensationRetrenchmentBenefitsPaid = $ApprovalObtainedFromIRAS = '';
-                if( $info['compensation'] || $info['approveIRAS'] ) {
+                if( $info['compensation'] > 0 || $info['approveIRAS'] ) {
                     $CompensationRetrenchmentBenefitsPaid = 'Y';
 
                     if( $info['approveIRAS'] ) {
@@ -196,7 +196,7 @@ class IR8AView {
                 }
 
                 $BonusDecalrationDate = '';
-                if( $info['bonus'] ) {
+                if( $info['bonus'] > 0 ) {
                     $BonusDecalrationDate = $tfInfo['fileYear'] . '1231';
                 }
 
