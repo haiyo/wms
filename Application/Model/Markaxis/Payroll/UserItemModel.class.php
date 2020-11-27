@@ -226,11 +226,14 @@ class UserItemModel extends \Model {
 
                         $data['postItems'][] = $postItem;
                     }
-
-                    if( $piID == $processID && isset( $data['items']['directorFee'][$piID] ) ) {
+                    else if( $piID == $processID && isset( $data['items']['directorFee'][$piID] ) ) {
                         $data['populate'] = array( 'processID' => $post['processID'],
                                                    'placeHolder' => 'AGM Approved Date (E.g: 01/12/2020)' );
 
+                        $data['addGrossOnly'][] = $amount;
+                        $data['postItems'][] = $postItem;
+                    }
+                    else {
                         $data['addGrossOnly'][] = $amount;
                         $data['postItems'][] = $postItem;
                     }
