@@ -106,6 +106,15 @@ class ItemModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
+    public function getDirectorFee( ) {
+        return $this->Item->getDirectorFee( );
+    }
+
+
+    /**
+     * Return user data by userID
+     * @return mixed
+     */
     public function getDeduction( ) {
         return $this->Item->getDeduction( );
     }
@@ -167,6 +176,7 @@ class ItemModel extends \Model {
     public function getAllItems( $data, $viewSaved ) {
         $data['items']['basic'] = $this->getBasic( );
         $data['items']['ordinary'] = $this->getOrdinary( );
+        $data['items']['directorFee'] = $this->getDirectorFee( );
         $data['items']['deduction'] = $this->getDeduction( );
         $data['items']['additional'] = $this->getAdditional( );
 

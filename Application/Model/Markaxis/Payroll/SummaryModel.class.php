@@ -124,6 +124,12 @@ class SummaryModel extends \Model {
                 $summary['net']   += (float)$addGross;
             }
         }
+        if( isset( $data['addGrossOnly'] ) ) {
+            foreach( $data['addGrossOnly'] as $addGrossOnly ) {
+                $summary['gross'] += (float)$addGrossOnly;
+                $summary['net']   += (float)$addGrossOnly;
+            }
+        }
         if( isset( $data['addGrossAW'] ) ) {
             foreach( $data['addGrossAW'] as $addGrossAW ) {
                 $summary['gross'] += (float)$addGrossAW;

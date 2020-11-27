@@ -201,21 +201,16 @@ class UserItemModel extends \Model {
                     $piID = str_replace('p-', '', $item );
                     $processID = isset( $post['processID'] ) ? str_replace('p-', '', $post['processID'] ) : 0;
 
+                    $amount = str_replace($data['office']['currencyCode'] . $data['office']['currencySymbol'],
+                                          '', $post['data']['amount_' . $id] );
+                    $amount = (int)str_replace(',', '', $amount );
+
+                    $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
+
+                    $postItem = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
+
                     if( isset( $data['items']['ordinary'][$piID] ) || $data['items']['additional']['piID'] == $piID ||
                         $data['items']['deduction']['piID'] == $piID ) {
-
-                        $amount = str_replace($data['office']['currencyCode'] . $data['office']['currencySymbol'],
-                                              '', $post['data']['amount_' . $id] );
-                        $amount = (int)str_replace(',', '', $amount );
-
-                        $remark = Validator::stripTrim( $post['data']['remark_' . $id] );
-
-                        if( $piID == $processID && isset( $data['items']['ordinary'][$piID] ) && $data['items']['ordinary'][$piID]['directorFee'] ) {
-                            $data['populate'] = array( 'processID' => $post['processID'],
-                                'placeHolder' => 'AGM Approved Date (E.g: 01/12/2020)' );
-                        }
-
-                        $postItem = array( 'piID' => $piID, 'amount' => $amount, 'remark' => $remark );
 
                         if( $data['items']['additional']['piID'] == $piID ) {
                             $postItem['additional'] = 1;
@@ -229,6 +224,14 @@ class UserItemModel extends \Model {
                             $data['deductGross'][] = $amount;
                         }
 
+                        $data['postItems'][] = $postItem;
+                    }
+
+                    if( $piID == $processID && isset( $data['items']['directorFee'][$piID] ) ) {
+                        $data['populate'] = array( 'processID' => $post['processID'],
+                                                   'placeHolder' => 'AGM Approved Date (E.g: 01/12/2020)' );
+
+                        $data['addGrossOnly'][] = $amount;
                         $data['postItems'][] = $postItem;
                     }
                 }

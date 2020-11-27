@@ -126,6 +126,26 @@ class Item extends \DAO {
      * Retrieve a user column by userID
      * @return mixed
      */
+    public function getDirectorFee( ) {
+        $sql = $this->DB->select( 'SELECT * FROM payroll_item pi 
+                                   WHERE pi.directorFee = "1" AND 
+                                         pi.deleted <> "1"',
+                                    __FILE__, __LINE__ );
+
+        $list = array( );
+        if( $this->DB->numrows( $sql ) > 0 ) {
+            while( $row = $this->DB->fetch( $sql ) ) {
+                $list[$row['piID']] = $row;
+            }
+        }
+        return $list;
+    }
+
+
+    /**
+     * Retrieve a user column by userID
+     * @return mixed
+     */
     public function getDeduction( ) {
         $sql = $this->DB->select( 'SELECT pi.piID, pi.title, pi.formula, pi.deduction 
                                    FROM payroll_item pi 

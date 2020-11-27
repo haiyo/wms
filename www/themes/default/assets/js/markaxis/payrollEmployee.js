@@ -97,7 +97,8 @@ var MarkaxisPayrollEmployee = (function( ) {
             });
 
             $(document).on("blur", ".amountInput", function(e) {
-                that.recalculate( );
+                var id = $(this).attr("id");
+                that.recalculate( id.replace("amount_", "") );
                 e.preventDefault( );
             });
 
@@ -348,7 +349,9 @@ var MarkaxisPayrollEmployee = (function( ) {
                         else {
                             if( id != undefined ) {
                                 if( obj.data.populate ) {
-                                    $("#amount_" + id).val( obj.data.populate["inputAmount"] );
+                                    if( obj.data.populate["inputAmount"] > 0 ) {
+                                        $("#amount_" + id).val( obj.data.populate["inputAmount"] );
+                                    }
                                     $("#remark_" + id).val( obj.data.populate["inputRemark"] );
 
                                     if( obj.data.populate.placeHolder ) {
@@ -367,7 +370,7 @@ var MarkaxisPayrollEmployee = (function( ) {
                         }
                     }
                 }
-            }
+            };
             Aurora.WebService.AJAX( "admin/payroll/processPayroll/" + $("#userID").val( ) + "/" + $("#pID").val( ), data );
         },
 
