@@ -170,8 +170,18 @@ class IR8AView {
                     }
                 }
 
-                $PaymentPeriodFromDate = $tfInfo['fileYear'] . '0101';
-                $PaymentPeriodToDate = $tfInfo['fileYear'] . '1231';
+                if( $info['empStartDate'] ) {
+                    $PaymentPeriodFromDate = str_replace('-', '', $info['empStartDate'] );
+                }
+                else {
+                    $PaymentPeriodFromDate = $tfInfo['fileYear'] . '0101';
+                }
+                if( $info['empEndDate'] ) {
+                    $PaymentPeriodToDate = str_replace('-', '', $info['empEndDate'] );
+                }
+                else {
+                    $PaymentPeriodToDate = $tfInfo['fileYear'] . '1231';
+                }
 
                 $GrossCommissionAmount = $GrossCommissionIndicator = '';
                 if( $info['totalComm'] > 0 ) {
@@ -282,7 +292,7 @@ class IR8AView {
 <Sex xmlns="http://www.iras.gov.sg/IR8A">' . strtoupper( $info['gender'] ) . '</Sex>
 <DateOfBirth xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['birthday'] ) . '</DateOfBirth>
 <Amount xmlns="http://www.iras.gov.sg/IR8A">' . $Amount . '</Amount>
-<PaymentPeriodFromDate xmlns="http://www.iras.gov.sg/IR8A">' . $PaymentPeriodFromDate . '</PaymentPeriodFromDate>
+    <PaymentPeriodFromDate xmlns="http://www.iras.gov.sg/IR8A">' . $PaymentPeriodFromDate . '</PaymentPeriodFromDate>
 <PaymentPeriodToDate xmlns="http://www.iras.gov.sg/IR8A">' . $PaymentPeriodToDate . '</PaymentPeriodToDate>
 <MBF xmlns="http://www.iras.gov.sg/IR8A">' . $info['contriMosque'] . '</MBF>
 <Donation xmlns="http://www.iras.gov.sg/IR8A">' . $info['donation'] . '</Donation>
