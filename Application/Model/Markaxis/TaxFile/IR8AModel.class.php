@@ -174,7 +174,7 @@ class IR8AModel extends \Model {
             $lengthDay = $dateDiff->d . ' day';
         }
 
-        $grossCommFromDate = $grossCommToDate = $directorFeeDate = 0;
+        $grossCommFromDate = $grossCommToDate = $directorFeeDate = NULL;
 
         if( isset( $directorFee['remark'] ) && strstr( $directorFee['remark'], '/' ) ) {
             $approvedDate = explode('/', $directorFee['remark'] );
