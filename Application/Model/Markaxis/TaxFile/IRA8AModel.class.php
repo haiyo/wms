@@ -99,8 +99,8 @@ class IRA8AModel extends \Model {
                 $this->IRA8A->insert('ira8a', $this->info );
                 return $this->info;
             }
+            return array( 'userID' => $data['empIR8AInfo']['userID'], 'completed' => NULL );
         }
-        return array( 'userID' => $data['empIR8AInfo']['userID'], 'completed' => NULL );
     }
 
 
