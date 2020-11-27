@@ -183,7 +183,8 @@ class IR8AView {
                     $PaymentPeriodToDate = $tfInfo['fileYear'] . '1231';
                 }
 
-                $GrossCommissionAmount = $GrossCommissionIndicator = '';
+                $GrossCommissionAmount = 0;
+                $GrossCommissionIndicator = '';
                 if( $info['totalComm'] > 0 ) {
                     $GrossCommissionAmount = $info['totalComm'];
 
