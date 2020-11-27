@@ -188,7 +188,7 @@ class IR8AModel extends \Model {
         $gratuityAmt = $noticeAmt = $exGratiaAmt = $otherLumpsumAmt = $total = 0;
 
         if( isset( $transport['amount'] ) ) $transportAmt = $transport['amount'];
-        if( isset( $entertainment['amount'] ) ) $entertainmentAmt = $transport['amount'];
+        if( isset( $entertainment['amount'] ) ) $entertainmentAmt = $entertainment['amount'];
         if( isset( $otherAllowance['amount'] ) ) $otherAllowanceAmt = $otherAllowance['amount'];
         $totalAllowance = $total = number_format( ($transportAmt+$entertainmentAmt+$otherAllowanceAmt), 2 );
 
