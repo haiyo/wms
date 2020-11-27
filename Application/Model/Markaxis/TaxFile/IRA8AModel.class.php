@@ -155,7 +155,7 @@ class IRA8AModel extends \Model {
 
                 foreach( $check as $key => $value ) {
                     if( $value < 1 ) {
-                        $this->info[$key] = NULL;
+                        $this->info[$key] = 0;
                     }
                     else {
                         $this->info[$key] = $value;
@@ -217,7 +217,7 @@ class IRA8AModel extends \Model {
                     $this->info['totalTaxableUtilities'] = (float)$totalUtilities;
                 }
 
-                $this->info['hotelTotal'] = NULL;
+                $this->info['hotelTotal'] = 0;
 
                 if( $this->info['hotel'] > 0 ) {
                     if( $this->info['hotelPaidEmployee'] > 0 ) {

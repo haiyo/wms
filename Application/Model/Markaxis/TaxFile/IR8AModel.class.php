@@ -174,7 +174,7 @@ class IR8AModel extends \Model {
             $lengthDay = $dateDiff->d . ' day';
         }
 
-        $grossCommFromDate = $grossCommToDate = $directorFeeDate = NULL;
+        $grossCommFromDate = $grossCommToDate = $directorFeeDate = 0;
 
         if( isset( $directorFee['remark'] ) && strstr( $directorFee['remark'], '/' ) ) {
             $approvedDate = explode('/', $directorFee['remark'] );
@@ -190,7 +190,7 @@ class IR8AModel extends \Model {
         if( isset( $transport['amount'] ) ) $transportAmt = $transport['amount'];
         if( isset( $entertainment['amount'] ) ) $entertainmentAmt = $entertainment['amount'];
         if( isset( $otherAllowance['amount'] ) ) $otherAllowanceAmt = $otherAllowance['amount'];
-        $totalAllowance = $total = number_format( ($transportAmt+$entertainmentAmt+$otherAllowanceAmt), 2 );
+        $totalAllowance = $total = (float)number_format( ($transportAmt+$entertainmentAmt+$otherAllowanceAmt), 2 );
 
         $commSize = sizeof( $commission );
         if( $commSize > 0 ) {
@@ -215,7 +215,7 @@ class IR8AModel extends \Model {
             }
         }
 
-        $pensionAmt = $gratuityAmt = $noticeAmt = $exGratiaAmt = $stockAmt = $otherLumpsumAmt = NULL;
+        $pensionAmt = $gratuityAmt = $noticeAmt = $exGratiaAmt = $stockAmt = $otherLumpsumAmt = 0;
 
         if( isset( $pension['amount'] ) ) {
             $pensionAmt = $pension['amount'];
@@ -256,28 +256,28 @@ class IR8AModel extends \Model {
             'empEndDate' => $data['empIR8AInfo']['endDate'] ? $data['empIR8AInfo']['endDate'] : NULL,
             'gross' => $gross['amount'],
             'bonusYear' => $post['year'],
-            'bonus' => isset( $additional['amount'] ) ? $additional['amount'] : NULL,
+            'bonus' => isset( $additional['amount'] ) ? $additional['amount'] : 0,
             'directorFeeDate' => $directorFeeDate,
-            'directorFee' => isset( $directorFee['amount'] ) ? $directorFee['amount'] : NULL,
-            'transport' => $transportAmt ? $transportAmt : NULL,
-            'entertainment' => $entertainmentAmt ? $entertainmentAmt : NULL,
-            'others' => $otherAllowanceAmt ? $otherAllowanceAmt : NULL,
-            'allowanceTotal' => $totalAllowance > 0 ? $totalAllowance : NULL,
+            'directorFee' => isset( $directorFee['amount'] ) ? $directorFee['amount'] : 0,
+            'transport' => $transportAmt ? $transportAmt : 0,
+            'entertainment' => $entertainmentAmt ? $entertainmentAmt : 0,
+            'others' => $otherAllowanceAmt ? $otherAllowanceAmt : 0,
+            'allowanceTotal' => $totalAllowance > 0 ? $totalAllowance : 0,
             'grossCommFromDate' => $grossCommFromDate,
             'grossCommToDate' => $grossCommToDate,
             'commType' => $commSize == 12 ? 0 : 1,
-            'totalComm' => $totalComm > 0 ? $totalComm : NULL,
-            'pension' => $pensionAmt ? $pensionAmt : NULL,
-            'gratuity' => $gratuityAmt ? $gratuityAmt : NULL,
-            'noticePay' => $noticeAmt ? $noticeAmt : NULL,
-            'exGratia' => $exGratiaAmt ? $exGratiaAmt : NULL,
-            'otherLumpSum' => $otherLumpsumAmt ? $otherLumpsumAmt : NULL,
+            'totalComm' => $totalComm > 0 ? $totalComm : 0,
+            'pension' => $pensionAmt ? $pensionAmt : 0,
+            'gratuity' => $gratuityAmt ? $gratuityAmt : 0,
+            'noticePay' => $noticeAmt ? $noticeAmt : 0,
+            'exGratia' => $exGratiaAmt ? $exGratiaAmt : 0,
+            'otherLumpSum' => $otherLumpsumAmt ? $otherLumpsumAmt : 0,
             'lengthService' =>  $lengthYear . $lengthMonth . $lengthDay,
-            'gainsProfitESOP' => $stockAmt ? $stockAmt : NULL,
-            'total' => $total > 0 ? $total : NULL,
-            'deductFundName' => isset( $cpf['amount'] ) ? 'CPF' : NULL,
-            'cpf' => isset( $cpf['amount'] ) ? $cpf['amount'] : NULL,
-            'donation' => isset( $donation['amount'] ) ? $donation['amount'] : NULL
+            'gainsProfitESOP' => $stockAmt ? $stockAmt : 0,
+            'total' => $total > 0 ? $total : 0,
+            'deductFundName' => isset( $cpf['amount'] ) ? 'CENTRAL PROVIDENT FUND' : NULL,
+            'cpf' => isset( $cpf['amount'] ) ? $cpf['amount'] : 0,
+            'donation' => isset( $donation['amount'] ) ? $donation['amount'] : 0
         );
 
         if( $ir8aInfo = $this->getByUserIDTFID( $data['empIR8AInfo']['userID'], $post['tfID'] ) ) {
