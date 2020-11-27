@@ -123,7 +123,7 @@ class IR8AView {
                 }
 
                 $benefitsInKind = '';
-                if( $info['benefitsInKind'] ) {
+                if( $info['benefitsInKind'] > 0 ) {
                     $benefitsInKind = 'Y';
                 }
 
