@@ -292,7 +292,7 @@ class IR8AView {
 <Sex xmlns="http://www.iras.gov.sg/IR8A">' . strtoupper( $info['gender'] ) . '</Sex>
 <DateOfBirth xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['birthday'] ) . '</DateOfBirth>
 <Amount xmlns="http://www.iras.gov.sg/IR8A">' . $Amount . '</Amount>
-    <PaymentPeriodFromDate xmlns="http://www.iras.gov.sg/IR8A">' . $PaymentPeriodFromDate . '</PaymentPeriodFromDate>
+<PaymentPeriodFromDate xmlns="http://www.iras.gov.sg/IR8A">' . $PaymentPeriodFromDate . '</PaymentPeriodFromDate>
 <PaymentPeriodToDate xmlns="http://www.iras.gov.sg/IR8A">' . $PaymentPeriodToDate . '</PaymentPeriodToDate>
 <MBF xmlns="http://www.iras.gov.sg/IR8A">' . $info['contriMosque'] . '</MBF>
 <Donation xmlns="http://www.iras.gov.sg/IR8A">' . $info['donation'] . '</Donation>
@@ -314,7 +314,7 @@ class IR8AView {
 <ApprovalObtainedFromIRAS xmlns="http://www.iras.gov.sg/IR8A">' . $ApprovalObtainedFromIRAS . '</ApprovalObtainedFromIRAS>
 <ApprovalDate xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['approveDate'] ) . '</ApprovalDate>
 <CessationProvisions xmlns="http://www.iras.gov.sg/IR8A">' . $CessationProvisions . '</CessationProvisions>
-<IR8SApplicable xmlns="http://www.iras.gov.sg/IR8A">' . $IR8SApplicable . '</IR8SApplicable>
+<IR8SApplicable xmlns="http://www.iras.gov.sg/IR8A"/>
 <ExemptOrRemissionIncomeIndicator xmlns="http://www.iras.gov.sg/IR8A">' . $info['exemptIndicator'] . '</ExemptOrRemissionIncomeIndicator>
 <CompensationAndGratuity xmlns="http://www.iras.gov.sg/IR8A"/>
 <GrossCommissionAmount xmlns="http://www.iras.gov.sg/IR8A">' . $GrossCommissionAmount . '</GrossCommissionAmount>
@@ -339,11 +339,11 @@ class IR8AView {
 <CessationDate xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['empEndDate'] ) . '</CessationDate>
 <BonusDecalrationDate xmlns="http://www.iras.gov.sg/IR8A">' . $BonusDecalrationDate . '</BonusDecalrationDate>
 <DirectorsFeesApprovalDate xmlns="http://www.iras.gov.sg/IR8A">' . str_replace('-','', $info['directorFeeDate'] ) . '</DirectorsFeesApprovalDate>
-<RetirementBenefitsFundName xmlns="http://www.iras.gov.sg/IR8A">' . $info['entertainment'] . '</RetirementBenefitsFundName>
+<RetirementBenefitsFundName xmlns="http://www.iras.gov.sg/IR8A">' . $info['retireFundName'] . '</RetirementBenefitsFundName>
 <DesignatedPensionOrProvidentFundName xmlns="http://www.iras.gov.sg/IR8A">' . $deductFundName . '</DesignatedPensionOrProvidentFundName>
 <BankName xmlns="http://www.iras.gov.sg/IR8A">' . $info['empBank'] . '</BankName>
-<PayrollDate xmlns="http://www.iras.gov.sg/IR8A">' . $tfInfo['fileYear'] . '1212</PayrollDate>
-<Filler xmlns="http://www.iras.gov.sg/IR8A">MARKAXIS</Filler>
+<PayrollDate xmlns="http://www.iras.gov.sg/IR8A"/>
+<Filler xmlns="http://www.iras.gov.sg/IR8A"/>
 <GratuityOrCompensationDetailedInfo xmlns="http://www.iras.gov.sg/IR8A"/>
 <ShareOptionGainsDetailedInfo xmlns="http://www.iras.gov.sg/IR8A"/>
 <Remarks xmlns="http://www.iras.gov.sg/IR8A"/>
