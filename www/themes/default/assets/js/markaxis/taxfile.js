@@ -245,10 +245,10 @@ var MarkaxisTaxFile = (function( ) {
                             return '<span id="ir8a_' + full['tfID'] + '" class="label label-pending">Not Validated</span>';
                         }
                         else if( data == 400 ) {
-                            return '<a id="ir8a_' + full['tfID'] + '" data-id="' + full['tfID'] + '" data-status="Error Status" data-toggle="modal" data-target="#modalStatus" class="label label-warning">Error</a>';
+                            return '<a id="ir8a_' + full['tfID'] + '" data-id="' + full['tfID'] + '" data-status="Error Status" data-toggle="modal" data-target="#modalStatus" class="label label-warning">Error  <i class="icon-search4" style="font-size:11px;"></i></a>';
                         }
                         else{
-                            return '<a id="ir8a_' + full['tfID'] + '" data-id="' + full['tfID'] + '"  data-status="Pass Status" data-toggle="modal" data-target="#modalStatus" class="label label-success">Pass</a>';
+                            return '<a id="ir8a_' + full['tfID'] + '" data-id="' + full['tfID'] + '"  data-status="Pass Status" data-toggle="modal" data-target="#modalStatus" class="label label-success">Pass <i class="icon-search4" style="font-size:11px;"></i></a>';
                         }
                     }
                 },{
