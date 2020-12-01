@@ -80,6 +80,7 @@ var MarkaxisTaxFile = (function( ) {
                                 markaxisTaxFileDeclare.initTable( );
                             }
                             else {
+                                $("#irasForm-step-2 .stepy-navigator").insertAfter("#irasForm-step-2 .row");
                                 markaxisTaxFileDeclare.table.destroy( )
                                 markaxisTaxFileDeclare.initTable( );
                             }
