@@ -174,9 +174,16 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label><?LANG_MAIN_THEME_COLOR?>:</label>
-                                <input type="text" id="mainColor" name="mainColor" class="form-control jscolor" value="<?TPLVAR_MAIN_COLOR?>" />
+                                <input type="text" id="mainColor" name="mainColor" class="form-control jscolor" value="<?TPLVAR_MAIN_COLOR?>"
+                                       onChange="updateMainTheme()" />
                             </div>
                         </div>
+                        <script>
+                            function updateMainTheme( ) {
+                                console.log($("#mainColor").val( )  )
+                                $(".navbar-fixed-top").attr("style", "background-color:#" + $("#mainColor").val( ) + " !important");
+                            }
+                        </script>
 
                         <div class="col-md-3">
                             <div class="form-group">
