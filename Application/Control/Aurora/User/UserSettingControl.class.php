@@ -1,8 +1,6 @@
 <?php
 namespace Aurora\User;
 use \Control;
-use \Library\Http\HttpResponse;
-use \Library\Exception\Aurora\PageNotFoundException;
 
 /**
  * @author Andy L.W.L <support@markaxis.com>

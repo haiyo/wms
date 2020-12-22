@@ -49,7 +49,7 @@
         </div>
 
         <div class="col-md-3">
-            <label><?LANG_CONTRACT_TYPE?>:</label>
+            <label><?LANG_CONTRACT_TYPE?>: <span class="text-danger-400">*</span></label>
             <?TPL_CONTRACT_LIST?>
         </div>
 

@@ -161,6 +161,7 @@ var MarkaxisEmployeeForm = (function( ) {
                     office: "required",
                     pcID: "required",
                     idType: "required",
+                    contractType: "required",
                     nric: "required",
                     nationality: "required",
                     country: "required",
