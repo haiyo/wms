@@ -43,7 +43,7 @@ class EventControl {
     public function getEvents( ) {
         $post = Control::getRequest( )->request( POST );
 
-        if( isset( $post['user'] ) && $post['user'] == 'owner' && $eventInfo = $this->EventModel->getEvents( $post ) ) {
+        if( isset( $post['user'] ) && $eventInfo = $this->EventModel->getEvents( $post ) ) {
             Control::setOutputArrayAppend( array( 'events' => $eventInfo ) );
         }
     }

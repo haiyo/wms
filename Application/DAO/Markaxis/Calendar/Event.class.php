@@ -49,8 +49,9 @@ class Event extends \DAO {
      * @return mixed
      */
     public function getEventsBetweenByColleague( $start, $end, $userID ) {
-        $sql = $this->DB->select( 'SELECT e.*, e.eID AS id, e.start AS startDateTime, e.label AS classNames,
-                                               e.end AS endDateTime 
+        $sql = $this->DB->select( 'SELECT CONCAT( u.fname, " ", u.lname ) AS name,
+                                          e.*, e.eID AS id, e.start AS startDateTime, e.label AS classNames,
+                                          e.end AS endDateTime 
                                    FROM event e
                                    LEFT JOIN user u ON ( u.userID = e.userID )
                                    WHERE u.userID <> "' . (int)$userID . '" AND 
