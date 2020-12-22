@@ -49,23 +49,35 @@ class UserSettingModel extends \Model {
     */
     public function save( $post ) {
         if( isset( $post['userID'] ) && isset( $post['language'] ) ) {
-            $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
-            $langList = $i18n->getLanguages( );
+            if( $post['language'] == '' ) {
+                $post['language'] = 'en_us';
+            }
+            else {
+                $i18n = $this->Registry->get(HKEY_CLASS, 'i18n');
+                $langList = $i18n->getLanguages( );
 
-            if( isset( $langList[$post['language']] ) ) {
-                $info = array( );
-                $info['lang'] = $post['language'];
+                if( isset( $langList[$post['language']] ) ) {
+                    $post['language'] = $langList[$post['language']];
+                }
+            }
 
-                if( $this->isFound( $post['userID'] ) ) {
-                    $this->UserSetting->update( 'user_setting', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
+            $info = array( );
+            $info['lang'] = $post['language'];
 
+            if( $this->isFound( $post['userID'] ) ) {
+                $this->UserSetting->update( 'user_setting', $info, 'WHERE userID = "' . (int)$post['userID'] . '"' );
+
+                $Authenticator = $this->Registry->get( HKEY_CLASS, 'Authenticator' );
+                $userInfo = $Authenticator->getUserModel( )->getInfo( 'userInfo' );
+
+                if( $userInfo['userID'] == $post['userID'] ) {
                     $time = mktime( 0, 0, 0, 1, 1, 1970 );
                     $this->Registry->setCookie( 'lang', $post['language'], $time );
                 }
-                else {
-                    $info['userID'] = (int)$post['userID'];
-                    $this->UserSetting->insert( 'user_setting', $info );
-                }
+            }
+            else {
+                $info['userID'] = (int)$post['userID'];
+                $this->UserSetting->insert( 'user_setting', $info );
             }
         }
     }
