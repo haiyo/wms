@@ -4,7 +4,7 @@ use \Library\Helper\Aurora\MaritalHelper;
 use \Aurora\Component\ReligionModel, \Aurora\Component\RaceModel;
 use \Aurora\Component\CountryModel, \Aurora\Component\StateModel, \Aurora\Component\CityModel;
 use \Aurora\Component\AuditLogModel, \Aurora\Component\NationalityModel;
-use \Library\Security\Aurora\Authenticator, \Library\Util\Date;
+use \Library\Util\Date;
 use \Library\Helper\Aurora\IDTypeHelper, \Library\Validator\Validator;
 use \Library\Validator\ValidatorModule\IsEmpty, \Library\Validator\ValidatorModule\IsEmail;
 use \Library\Helper\Google\KeyManagerHelper;
@@ -213,12 +213,12 @@ class UserModel extends \Model {
         $this->info['children'] = (int)$data['children'];
         //$this->info['image']    = $info['image'];
 
-        $Authenticator = new Authenticator( );
         $data['loginPassword'] = Validator::stripTrim( $data['loginPassword'] );
 
         if( $data['loginPassword'] ) {
             try {
-                $encrypted = $Authenticator->getKeyManager( )->encrypt( $data['loginPassword'] );
+                $KeyManagerHelper = new KeyManagerHelper( );
+                $encrypted = $KeyManagerHelper->encrypt( $data['loginPassword'] );
                 $this->info['password'] = $encrypted['data'];
                 $this->info['kek'] = $encrypted['secret'];
             }
