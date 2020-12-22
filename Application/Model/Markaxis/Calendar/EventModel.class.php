@@ -70,6 +70,10 @@ class EventModel extends \Model {
             }
             else {
                 $eventList = $this->Event->getEventsBetweenByColleague( $startDate, $endDate, $userInfo['userID'] );
+
+                foreach( $eventList as $key => $event ) {
+                    $eventList[$key]['title'] = $event['name'] . ' - ' . $event['title'];
+                }
             }
         }
         return $eventList;
