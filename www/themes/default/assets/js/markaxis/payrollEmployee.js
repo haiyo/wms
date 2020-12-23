@@ -196,7 +196,7 @@ var MarkaxisPayrollEmployee = (function( ) {
             }
             else {
                 $('<button type="button" class="btn btn-primary" data-style="slide-right" ' +
-                    'id="autoProcess">' + Markaxis.i18n.PayrollRes.LANG_AUTO_PROCESS_ALL + ' <i class="icon-loop position-right"></i>').prependTo(".stepy-navigator");
+                    'id="autoProcess">' + Markaxis.i18n.PayrollRes.LANG_AUTO_PROCESS_ALL + ' <i class="icon-loop position-right"></i>').prependTo("#employeeForm-step-0 .stepy-navigator");
 
                 $("#employeeForm-step-0 .stepy-navigator a")
                     .attr("disabled", true)
