@@ -104,6 +104,10 @@ class PayrollRes extends Resource {
         $this->contents['LANG_CURRENT'] = 'Current Date';
         $this->contents['LANG_ACCOUNT_AND_PAYSLIP'] = 'Account & Payslip';
         $this->contents['LANG_RELEASE_PAYSLIPS'] = 'Release Payslips';
+        $this->contents['LANG_AUTO_PROCESS_ALL'] = 'Auto Process All';
+        $this->contents['LANG_AUTO_PROCESS_CONFIRMATION'] = 'Confirm Auto Process All?';
+        $this->contents['LANG_AUTO_PROCESS_CONFIRMATION_DESCRIPT'] = 'Please note that all processed payroll will be reset.';
+        $this->contents['LANG_CONFIRM_AUTO_PROCESS'] = 'Confirm Auto Process All';
         $this->contents['LANG_RELEASE_ALL_PAYSLIPS'] = 'Release All Payslips';
         $this->contents['LANG_DOWNLOAD_CPF_FTP_FILE'] = 'Download CPF FTP File';
         $this->contents['LANG_COMPLETE_PROCESS'] = 'Complete Process';
