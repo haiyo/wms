@@ -44,10 +44,12 @@ class SummaryView {
      * @return string
      */
     public function renderProcessForm( $data ) {
+
         $vars = array_merge( $this->L10n->getContents( ),
                 array( 'TPLVAR_IMAGE' => $data['empInfo']['photo'],
                        'TPLVAR_USERID' => $data['empInfo']['userID'],
                        'TPLVAR_NAME' => $data['empInfo']['name'],
+                       'TPLVAR_PID' => $data['payrollInfo']['pID'],
                        'TPLVAR_PROCESS_DATE' => $data['payrollInfo']['startDate'] ) );
 
         $ItemModel = ItemModel::getInstance( );
@@ -293,6 +295,7 @@ class SummaryView {
                 array( 'TPLVAR_IMAGE' => $data['empInfo']['photo'],
                        'TPLVAR_USERID' => $data['empInfo']['userID'],
                        'TPLVAR_NAME' => $data['empInfo']['name'],
+                       'TPLVAR_PID' => $data['payrollInfo']['pID'],
                        'TPLVAR_PROCESS_DATE' => $data['payrollInfo']['startDate'] ) );
 
         $SelectListView = new SelectListView( );

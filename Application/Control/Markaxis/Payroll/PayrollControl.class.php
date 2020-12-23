@@ -158,8 +158,12 @@ class PayrollControl {
      * Render main navigation
      * @return string
      */
-    public function savePayroll( $args ) {
-        $this->processPayroll( $args );
+    public function savePayroll( ) {
+        $post = Control::getRequest( )->request( POST, 'data' );
+
+        if( isset( $post['pID'] ) ) {
+            $this->processPayroll( array( 2 => $post['pID'] ),true );
+        }
     }
 
 

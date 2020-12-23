@@ -205,8 +205,23 @@ class EmployeeControl {
      * Render main navigation
      * @return string
      */
-    public function savePayroll( $args ) {
-        $this->processPayroll( $args,true );
+    public function savePayroll( ) {
+        try {
+            $post = Control::getRequest( )->request( POST, 'data' );
+
+            if( isset( $post['userID'] ) ) {
+                $this->processPayroll( array( 1 => $post['userID'] ),true );
+            }
+            else {
+                throw( new PageNotFoundException( HttpResponse::HTTP_NOT_FOUND ) );
+            }
+        }
+        catch( PageNotFoundException $e ) {
+            $e->record( );
+            HttpResponse::sendHeader( HttpResponse::HTTP_NOT_FOUND );
+            header( 'location: ' . ROOT_URL . 'admin/notfound' );
+            exit;
+        }
     }
 
 

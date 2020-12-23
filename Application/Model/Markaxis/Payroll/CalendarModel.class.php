@@ -230,6 +230,7 @@ class CalendarModel extends \Model {
     public function getPayCal( $data ) {
         // Get employee pay calendar
         $EmpPayrollModel = EmpPayrollModel::getInstance( );
+
         $payCalInfo = $EmpPayrollModel->getByUserID( $data['empInfo']['userID'], 'payPeriod, paymentDate' );
 
         // Get pay calendar day

@@ -1,5 +1,6 @@
 <form id="processForm" name="processForm" method="post" action="">
     <input type="hidden" id="userID" name="userID" value="<?TPLVAR_USERID?>" />
+    <input type="hidden" id="pID" name="pID" value="<?TPLVAR_PID?>" />
     <input type="hidden" id="userName" name="userName" value="<?TPLVAR_NAME?>" />
     <input type="hidden" id="processDate" name="processDate" value="<?TPLVAR_PROCESS_DATE?>" />
 

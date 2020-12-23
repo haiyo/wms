@@ -119,7 +119,9 @@ class PayrollModel extends \Model {
      * @return mixed
      */
     public function getResults( $post, $pID, $officeID ) {
-        $this->Payroll->setLimit( $post['start'], $post['length'] );
+        if( isset( $post['start'] ) && isset( $post['length'] ) ) {
+            $this->Payroll->setLimit( $post['start'], $post['length'] );
+        }
 
         $order = 'name';
         $dir   = isset( $post['order'][0]['dir'] ) && $post['order'][0]['dir'] == 'desc' ? ' desc' : ' asc';
@@ -146,7 +148,10 @@ class PayrollModel extends \Model {
                     break;
             }
         }
-        $results = $this->Payroll->getResults( $pID, $officeID, $post['search']['value'], $order . $dir );
+
+        $q = isset( $post['search']['value'] ) ? $post['search']['value'] : '';
+
+        $results = $this->Payroll->getResults( $pID, $officeID, $q,$order . $dir );
 
         if( $results ) {
             $UserImageModel = UserImageModel::getInstance( );
