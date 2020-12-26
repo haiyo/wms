@@ -444,6 +444,12 @@
     .visible-xs-block {
         display: block!important;
     }
+    .request-wrapper {
+        margin-left: calc(-420px - 1.55em);
+    }
+    .text-nowrap {
+        white-space: unset;
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1503px) {
@@ -459,6 +465,9 @@
     .request-wrapper {
         margin-left: calc(-420px - 1.55em);
     }
+    .text-nowrap {
+        white-space: unset;
+    }
 }
 @media (max-width: 767px) {
     .request-wrapper {
@@ -469,3 +478,9 @@
     top:30px!important;
     transform: unset!important;
 }
+@media (max-width: 1024px) {
+    .pending-text {
+        padding-left: 0px;
+    }
+}
+
