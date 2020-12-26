@@ -3,13 +3,13 @@
 </tr>
 <!-- BEGIN DYNAMIC BLOCK: list -->
 <tr id="list-<?TPLVAR_ID?>" class="pendingList">
-    <td style="width:25%">
+    <td>
         <div class="col-md-12">
             <div class="col-md-3 pl-0 pr-0" style="width:40px">
                 <img src="<?TPLVAR_PHOTO?>" width="40"
                      height="40" style="padding:0;" class="rounded-circle">
             </div>
-            <div class="col-md-9 pr-0">
+            <div class="col-md-9 pr-0 pending-text">
                 <span class="typeahead-name"><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></span>
                 <div class="text-muted text-size-small"><?TPLVAR_TIME_AGO?></div>
             </div>
