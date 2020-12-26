@@ -22179,7 +22179,7 @@ button.multiselect:hover {
         text-transform: uppercase;
         opacity: .5;
     }
-    .dropdown-toggle::after {
+    /*.dropdown-toggle::after {
         display: inline-block;
         margin-left: -0.8em;
         vertical-align: .255em;
@@ -22188,7 +22188,7 @@ button.multiselect:hover {
         border-right: 0.3em solid transparent;
         border-bottom: 0;
         border-left: .3em solid transparent;
-    }
+    }*/
     bg-purple-400 {
         background-color: #7e57c2 !important;
         border-color: #7e57c2 !important;
