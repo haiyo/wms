@@ -22041,9 +22041,6 @@ button.multiselect:hover {
 }
 
 @media only screen and (max-width: 1160px) and (min-width: 938px) {
-    .page-title {
-        padding: 60px 30px 30px 110px !important;
-    }
     .content {
         top: 110px !important;
     }
