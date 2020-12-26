@@ -23016,3 +23016,8 @@ button[data-dismiss="modal"] {
     cursor: not-allowed;
     background-color: #f3f3f3;
 }
+@media only screen and (max-width: 1000px) {
+    .page-title {
+        padding: 32px 36px 32px 27px !important;
+    }
+}
