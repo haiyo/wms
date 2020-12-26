@@ -86,7 +86,7 @@
 
         <?TPL_CONTENT?>
 
-        <div style="margin-bottom:80px;">
+        <div class="request-wrapper" style="margin-bottom:80px;">
 
             <div id="pendingWrapper">
                 <div class="bg-transparent header-elements-inline">
