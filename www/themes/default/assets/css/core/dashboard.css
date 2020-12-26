@@ -465,3 +465,6 @@
         margin-left: 0;
     }
 }
+.dropdown-menu {
+    transform: unset!important;
+}
