@@ -22104,16 +22104,13 @@ button.multiselect:hover {
     .dropdown-toggle .multiselect::after, .navbar-nav-link::after {
         font-size: 9px;
     }
-    .content {
-        padding: 0 20px 60px 20px;
-    }
     .page-title {
         padding: 100px 30px 30px 30px;
     }
     .content {
         padding: 0 20px 60px 20px;
         position: absolute;
-        top: 160px;
+        top: 98px;
         width: 100%;
         overflow: visible;
     }
