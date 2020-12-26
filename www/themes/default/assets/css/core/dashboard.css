@@ -454,3 +454,14 @@
 .show {
     display: block !important;
 }
+
+@media (max-width: 1280px) {
+    .request-wrapper {
+        margin-left: calc(-420px - 1.55em);
+    }
+}
+@media (max-width: 767px) {
+    .request-wrapper {
+        margin-left: 0;
+    }
+}
