@@ -19,7 +19,34 @@
         </a>
 
         <ul class="nav navbar-nav visible-xs-block">
-            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li class="dropdown dropdown-user">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="<?TPLVAR_PHOTO?>" class="small" />
+                    <span><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></span>
+                    <i class="caret"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-user dropdown-menu-right width-300">
+                    <li class="user-header">
+                        <img src="<?TPLVAR_PHOTO?>" width="90" height="90" />
+
+                        <div class="dropdown-menu-username text-ellipsis"><h4><?TPLVAR_FNAME?> <?TPLVAR_LNAME?></h4></div>
+                        <div><small><?TPLVAR_DESIGNATION?></small></div>
+                        <div><small><?LANG_EMPLOYEE_SINCE?> <?TPLVAR_START_DATE?></small></div>
+                    </li>
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/user/profile"><i class="icon-user"></i> <?LANG_EDIT_PROFILE?></a></li>
+                    <!--<li><a href="<?TPLVAR_ROOT_URL?>admin/user/settings"><i class="icon-cog5"></i> Account settings</a></li>-->
+                    <li><a href="<?TPLVAR_ROOT_URL?>admin/logout"><i class="icon-switch2"></i> <?LANG_LOGOUT?></a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a id="notification" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-bell2"></i>
+                    <span id="notificationCount" class="badge bg-warning-400"></span>
+                </a>
+                <?TPL_NOTIFICATION_WINDOW?>
+            </li>
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-menu3"></i></a></li>
         </ul>
     </div>
 

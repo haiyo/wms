@@ -1,5 +1,5 @@
 
-<ul class="navbar-nav">
+<ul class="navbar-nav menu">
     <!-- BEGIN DYNAMIC BLOCK: firstLevel -->
     <li class="nav-item dropdown">
         <a href="<?TPLVAR_ROOT_URL?><?TPLVAR_URL?>" class="navbar-nav-link <?TPLVAR_TOGGLE_CLASS?>" data-toggle="<?TPLVAR_TOGGLE?>">
