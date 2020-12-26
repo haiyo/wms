@@ -251,6 +251,7 @@
 }
 
 .box1 {
+    display: -webkit-flex;
     max-width: fit-content;
     white-space: nowrap;
     padding: 0 9px;
