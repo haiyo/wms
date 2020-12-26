@@ -1,4 +1,4 @@
-<ul class="navbar-nav">
+<ul class="navbar-nav menu">
     <?TPL_PARENT_LINK?>
     <!-- BEGIN DYNAMIC BLOCK: subMenu -->
     <ul class="subMenu">
