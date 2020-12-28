@@ -1,6 +1,7 @@
 <?php
 namespace Markaxis\Payroll;
 use \Control;
+use \Library\Helper\Google\KeyManagerHelper;
 use \Library\Runtime\Registry;
 
 /**
@@ -62,7 +63,8 @@ class PayslipControl {
         if( Control::hasPermission('Markaxis', 'process_payroll' ) ||
             $userInfo['userID'] == $data['empInfo']['userID'] ) {
 
-            $this->PayslipView->renderSlip( $data, $Authenticator->getKeyManager( )->decrypt( $userInfo['kek'], $userInfo['password'] ) );
+            $KeyManagerHelper = new KeyManagerHelper( );
+            $this->PayslipView->renderSlip( $data, $KeyManagerHelper->decrypt( $userInfo['kek'], $userInfo['password'] ) );
             exit;
         }
     }
