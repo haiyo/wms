@@ -211,8 +211,18 @@ class CPFModel extends \Model {
             $totalAmount = str_pad( $totalAmount, 15, 0, STR_PAD_LEFT );
 
             $data .= $starter . $totalLines . $totalAmount;
-echo $data; exit;
-            return $data;
+
+            $CompanyModel = CompanyModel::getInstance( );
+            $uen = $CompanyModel->getRegNumber( );
+            $date = DateTime::createFromFormat('MY', $payrollInfo['startDate'] );;
+            $filename = $uen . 'PTE01' . $date . '01.DTL';
+
+            header('Content-Disposition: attachment; filename="' . $filename . '"' );
+            header('Content-Type: application/octet-stream' );
+            header('Content-Length: ' . strlen( $data ) );
+            header('Connection: close' );
+            echo $data;
+            exit;
         }
     }
 }
