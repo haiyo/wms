@@ -52,7 +52,6 @@ class SummaryControl {
         if( isset( $post['date'] ) ) {
             Control::setOutputArrayAppend( array( 'data' => $this->SummaryModel->getCountByDate( $post['date'] ) ) );
 
-            header('Access-Control-Allow-Origin: *');
             $output = Control::getOutputArray( );
             $vars['bool'] = 1;
             $vars['data'] = $output['data'];
