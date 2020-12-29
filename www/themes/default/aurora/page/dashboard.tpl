@@ -4,6 +4,11 @@
     .dashboard-header-content{background-color:#<?TPLVAR_DASHBOARD_BG_COLOR?>;}
     .header-inline img{border-color:#<?TPLVAR_DASHBOARD_BG_COLOR?>;}
     .sb8:before{border-right-color:#<?TPLVAR_DASHBOARD_BG_COLOR?>;border-top-color:#<?TPLVAR_DASHBOARD_BG_COLOR?>}
+    @media only screen and (width: 768px) {
+        .content {
+            position: absolute;
+        }
+    }
 </style>
 <div class="d-md-flex">
     <div class="sidebar sidebar-light sidebar-component sidebar-component-left sidebar-expand-md">
