@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div id="userList" class="row">
+    <div id="userList" class="card-row">
         <?TPL_USER_CARD?>
     </div>
 </div>
