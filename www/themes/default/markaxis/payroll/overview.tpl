@@ -43,26 +43,29 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="col-md-4">
+                    <div class="col-lg-3">
+                        <div class="col-md-6">
                             <div class="font-weight-semibold"><?LANG_SALARIES_PAID?></div>
                             <!--<h2 id="<?TPLVAR_MONTH?>empCount"></h2>-->
                             <h2 id="<?TPLVAR_MONTH?>totalSalaries"></h2>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="font-weight-semibold"><?LANG_CLAIMS_PAID?></div>
                             <h2 id="<?TPLVAR_MONTH?>totalClaims"></h2>
                         </div>
-                        <div class="col-md-4">
+
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="col-md-6">
                             <div class="font-weight-semibold"><?LANG_LEVIES_PAID?></div>
                             <h2 id="<?TPLVAR_MONTH?>totalLevies"></h2>
                         </div>
-                    </div>
-
-                    <div class="col-lg-2">
-                        <a type="button" class="btn btn-lg bg-purple-400 btn-labeled mt-10" data-date="<?TPLVAR_DATE?>"
-                           data-toggle="modal" data-target="#modalEnterPassword">
-                            <b><i class="icon-checkmark"></i></b> <?LANG_VIEW_FINALIZED_PAYROLL?></a>
+                        <div class="col-md-6">
+                            <a type="button" class="btn btn-lg bg-purple-400 btn-labeled mt-10" data-date="<?TPLVAR_DATE?>"
+                               data-toggle="modal" data-target="#modalEnterPassword">
+                                <b><i class="icon-checkmark"></i></b> <?LANG_VIEW_FINALIZED_PAYROLL?></a>
+                        </div>
                     </div>
 
                 </div>
