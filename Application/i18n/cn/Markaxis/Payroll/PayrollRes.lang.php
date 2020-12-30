@@ -190,7 +190,7 @@ class PayrollRes extends Resource {
         $this->contents['LANG_SALARIES_PAID'] = 'SALARIES PAID';
         $this->contents['LANG_CLAIMS_PAID'] = 'CLAIMS PAID';
         $this->contents['LANG_LEVIES_PAID'] = 'LEVIES PAID';
-        $this->contents['LANG_VIEW_FINALIZED_PAYROLL'] = 'View Finalized Payroll';
+        $this->contents['LANG_VIEW_FINALIZED_PAYROLL'] = 'View Payroll';
         $this->contents['LANG_VERIFY_CREDENTIAL'] = 'Verify Credential';
         $this->contents['LANG_ENTER_PASSWORD_CONTINUE'] = 'Enter your password to continue';
         $this->contents['LANG_UNLOCK'] = 'Unlock';

@@ -22947,7 +22947,6 @@ a.fc-event {
 }
 
 .payroll-archive {
-    width: 300px;
     text-align: right;
     cursor: pointer;
 }
@@ -23039,3 +23038,67 @@ button[data-dismiss="modal"] {
 @media (max-width:1000px){.col-sm-2{width:30.666667%}.userCard{min-height:calc(30.666667% + 20px + 1.6em + 150px)}}
 @media (max-width:800px){.col-sm-2{width:43.666667%}.userCard{min-height:calc(43.666667% + 20px + 1.6em + 150px)}}
 .card-body{min-height:calc(20px + 1.6em + 125px)}
+@media (max-width: 768px) {
+    #exTab1 .nav-pills {
+        display: flex;
+    }
+    .nav {
+        flex-wrap: nowrap;
+    }
+}
+
+.chart.has-fixed-height {
+    height: 28vw !important;
+    max-height: 400px !important;
+}
+
+.chart.has-fixed-height > :first-child {
+    width: 100% !important;
+    height: 28vw !important;
+    max-height: 400px !important;
+}
+
+.chart.has-fixed-height div canvas {
+    width: 100% !important;
+    height: 28vw !important;
+    max-height: 400px !important;
+}
+
+.chart-container {
+    overflow-x: unset;
+}
+
+.breadcrumb-elements>li, .breadcrumb-elements>li .btn-group {
+    position: relative;
+}
+
+.breadcrumb-elements.visible-elements > :first-child {
+    position: relative !important;
+}
+
+@media (max-width: 1508px) {
+    #exTab1 .row .col-lg-3 {
+        width: 50%;
+        float: left;
+    }
+    #exTab1 .row > .col-lg-3:nth-child(2) {
+        border-right: 0px;
+    }
+    #exTab1 .row .col-lg-4 {
+        width: 73.333333%;
+        float: left;
+    }
+    #exTab1 .row .col-lg-2 {
+        display: inline;
+        width: 220px;
+        float: right;
+    }
+    #exTab1 .row .col-lg-3 .col-md-6 {
+        width: 50%;
+        float: left;
+    }
+    #exTab1 .row .col-lg-4 .col-md-4 {
+        width: 33.33333333%;
+        float: left;
+    }
+}
