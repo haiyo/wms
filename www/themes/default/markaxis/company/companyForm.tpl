@@ -13,6 +13,12 @@
     #error{text-align:left;}
     #error .error{margin-top: 10px;}
 </style>
+<script src="https://cdn.rawgit.com/InventPartners/bootstrap-responsive-tabs/master/jquery.responsivetabs.js"></script>
+<script>
+    $(function() {
+        $('.nav-tabs').responsiveTabs();
+    });
+</script>
 <div class="tab-pane fade" id="company">
 
     <div class="d-md-flex">
