@@ -13,12 +13,7 @@
     #error{text-align:left;}
     #error .error{margin-top: 10px;}
 </style>
-<script src="https://cdn.rawgit.com/InventPartners/bootstrap-responsive-tabs/master/jquery.responsivetabs.js"></script>
-<script>
-    $(function() {
-        $('.nav-tabs').responsiveTabs();
-    });
-</script>
+
 <div class="tab-pane fade" id="company">
 
     <div class="d-md-flex">
@@ -63,8 +58,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="card-body card-slip">
                         <div class="text-uppercase font-size-sm font-weight-semibold mb-10"> <?LANG_PAYSLIP_LOGO?></div>
