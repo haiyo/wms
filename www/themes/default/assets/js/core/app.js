@@ -8,7 +8,6 @@ $(window).on('load', function() {
 
 $(function() {
 
-    $('.nav-tabs').responsiveTabs();
     /*var href = location.href;
     //var lastURLSegment = ( href.substr(href.lastIndexOf('/') + 1 ) );
     //console.log(href)
