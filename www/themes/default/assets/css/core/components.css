@@ -23107,11 +23107,17 @@ button[data-dismiss="modal"] {
         width: 100%!important;
     }
 }
+@media (max-width: 1150px) {
+    .nav-item {
+        width:100%!important;
+    }
+}
 .nav.nav-tabs.nav-tabs-highlight.payroll-nav {
     background-color: unset !important;
     border: none;
     border-bottom: 1px solid #ddd !important;
 }
+
 .dropdown-menu.dropdown-menu-right.show {
     left:unset !important;
     right: 0 !important;

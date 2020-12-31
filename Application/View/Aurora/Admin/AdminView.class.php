@@ -63,7 +63,7 @@ class AdminView extends SingletonHelper {
         $currencySymbol = isset( $officeInfo['currencySymbol'] ) ? $officeInfo['currencySymbol'] : '$';
 
         $this->setJScript( array( 'aurora.noiframe' => 'aurora/aurora.noiframe.js',
-                                  'jquery' => array( 'jquery-3.3.1.min.js', 'jquery-migrate-3.0.0.min.js', 'jquery.responsivetabs.js' ),
+                                  'jquery' => array( 'jquery-3.3.1.min.js', 'jquery-migrate-3.0.0.min.js' ),
                                   'core' => array( 'bootstrap.js', 'app.js', 'aurora.js', 'notification.js',
                                                    'aurora.init.js.php?ROOT_URL=' . urlencode( ROOT_URL ) .
                                                    '&THEME=' . $this->HKEY_LOCAL['theme'] .
