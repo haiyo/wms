@@ -23106,12 +23106,11 @@ button[data-dismiss="modal"] {
     .col-lg-3 {
         width: 100%!important;
     }
-}
-@media (max-width: 999px) {
     .nav-item {
         width:100%!important;
     }
 }
+
 .nav.nav-tabs.nav-tabs-highlight.payroll-nav {
     background-color: unset !important;
     border: none;
