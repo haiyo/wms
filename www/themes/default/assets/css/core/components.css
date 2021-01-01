@@ -23107,7 +23107,7 @@ button[data-dismiss="modal"] {
         width: 100%!important;
     }
 }
-@media (max-width: 1150px) {
+@media (max-width: 999px) {
     .nav-item {
         width:100%!important;
     }
