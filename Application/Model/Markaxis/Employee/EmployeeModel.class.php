@@ -63,8 +63,6 @@ class EmployeeModel extends \Model {
         $diffMonth = 0;
 
         if( isset( $this->info['startDate'] ) ) {
-            $this->info['startDate'] = '2014-10-01';
-
             $startDate = \DateTime::createFromFormat('Y-m-d', $this->info['startDate'] );
 
             if( $startDate->format('Y') == date('Y') ) {
@@ -72,7 +70,8 @@ class EmployeeModel extends \Model {
             }
             else {
                 // Employee has work for more than 1 year
-                $diffMonth = date('m')-1;
+                $years = date('Y')-$startDate->format('Y');
+                $diffMonth = $years*12+date('m')-1;
             }
         }
         return $diffMonth;

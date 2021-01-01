@@ -23120,5 +23120,5 @@ button[data-dismiss="modal"] {
 .dropdown-menu.dropdown-menu-right.show {
     left:unset !important;
     right: 0 !important;
-    transform:translate3d(0, 43px, 0px) !important;
+    transform:translate3d(0, 23px, 0px) !important;
 }
