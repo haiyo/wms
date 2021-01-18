@@ -82,7 +82,9 @@ class AdminControl extends Control {
             }
 
             $this->checkGateway( );
-            $this->global( array( 'global', 'globalInit' ) );
+
+            // Not in use currently because global actions will also run on every ajax call.
+            // $this->global( array( 'global', 'globalInit' ) );
 
             // If no event request, just redirect to main page
             if( !isset( $args[0] ) && !self::$HttpRequest->request( POST, 'auroraLogin' ) ) {

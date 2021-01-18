@@ -54,8 +54,8 @@ class LeaveBalanceModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getByltIDUserID( $ltID, $userID ) {
-        return $this->LeaveBalance->getByltIDUserID( $ltID, $userID );
+    public function getByltIDUserID( $ltID, $userID, $year=false ) {
+        return $this->LeaveBalance->getByltIDUserID( $ltID, $userID, $year );
     }
 
 
@@ -78,43 +78,6 @@ class LeaveBalanceModel extends \Model {
 
         $this->info = $this->LeaveBalance->getSidebarByUserID( $empInfo['userID'] );
         return $this->info;
-    }
-
-
-    /**
-     * Return user data by userID
-     * @return mixed
-     */
-    public function updateUserBalance( $data ) {
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getInfo( );
-
-        if( is_array( $empInfo ) && sizeof( $empInfo ) > 0 && isset( $data['leaveTypes'] ) &&
-            is_array( $data['leaveTypes'] ) && sizeof( $data['leaveTypes'] ) > 0 ) {
-
-            foreach( $data['leaveTypes'] as $type ) {
-                $totalApplied = isset( $type['totalApplied'] ) ? $type['totalApplied'] : 0;
-                $totalLeaves  = isset( $type['totalLeaves']  ) ? $type['totalLeaves']  : 0;
-
-                $info = array( );
-                $info['totalLeaves'] = (float)$totalLeaves;
-                $info['totalApplied'] = (float)$totalApplied;
-                $info['balance'] = $info['totalLeaves']-$info['totalApplied'];
-
-                $balInfo = $this->getByltIDUserID( $type['ltID'], $empInfo['userID'] );
-
-                if( !isset( $balInfo['elbID'] ) ) {
-                    $info['ltID'] = $type['ltID'];
-                    $info['userID'] = (int)$empInfo['userID'];
-                    $this->LeaveBalance->insert('employee_leave_bal', $info );
-                }
-                else {
-                    $this->LeaveBalance->update('employee_leave_bal', $info,
-                        'WHERE ltID = "' . (int)$type['ltID'] . '" AND
-                                                         userID = "' . (int)$empInfo['userID'] . '"' );
-                }
-            }
-        }
     }
 
 

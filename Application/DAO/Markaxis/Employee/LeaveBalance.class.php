@@ -31,7 +31,11 @@ class LeaveBalance extends \DAO {
      * Retrieve all user by name and role
      * @return mixed
      */
-    public function getByltIDUserID( $ltID, $userID ) {
+    public function getByltIDUserID( $ltID, $userID, $year=false ) {
+        if( !$year ) {
+            $year = 'YEAR( CURDATE( ) )';
+        }
+
         $sql = $this->DB->select( 'SELECT lb.*, la.totalPending, la2.totalConsumed, COUNT(lg.lgID) AS groupCount 
                                    FROM employee_leave_bal lb
                                    LEFT JOIN leave_group lg ON lg.ltID = lb.ltID
@@ -44,7 +48,8 @@ class LeaveBalance extends \DAO {
                                                     userID = "' . (int)$userID . '" AND
                                                     status = "1") la2 ON la2.ltID = lb.ltID
                                    WHERE lb.ltID = "' . (int)$ltID . '" AND
-                                         lb.userID = "' . (int)$userID . '"
+                                         lb.userID = "' . (int)$userID . '" AND 
+                                         lb.year = ' . addslashes( $year ) . '
                                          GROUP BY lb.elbID, la.totalPending, la2.totalConsumed',
                                    __FILE__, __LINE__ );
 
@@ -102,7 +107,9 @@ class LeaveBalance extends \DAO {
     public function getSidebarByUserID( $userID ) {
         $sql = $this->DB->select( 'SELECT lt.ltID, lt.name, elb.balance FROM employee_leave_bal elb
                                    LEFT JOIN leave_type lt ON ( lt.ltID = elb.ltID )
-                                   WHERE elb.userID = "' . (int)$userID . '" ORDER BY elbID ASC' .
+                                   WHERE elb.userID = "' . (int)$userID . '" AND
+                                         elb.year = YEAR( CURDATE( ) )
+                                   ORDER BY elbID ASC' .
                                    $this->limit,
                                    __FILE__, __LINE__ );
 

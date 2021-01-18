@@ -69,23 +69,20 @@ class StructureModel extends \Model {
      * Return user data by userID
      * @return mixed
      */
-    public function getByGroups( $leaveTypes ) {
-        $EmployeeModel = EmployeeModel::getInstance( );
-        $empInfo = $EmployeeModel->getInfo( );
-
-        $ChildrenModel = ChildrenModel::getInstance( );
-
+    public function getByGroups( $empInfo, $leaveTypes ) {
         if( sizeof( $empInfo ) > 0 ) {
-            $months = $EmployeeModel->getCurrYearWorkMonth( );
+            $ChildrenModel = ChildrenModel::getInstance( );
+            $EmployeeModel = EmployeeModel::getInstance( );
+            $months = $EmployeeModel->getCurrYearWorkMonth( $empInfo['startDate'] );
 
             foreach( $leaveTypes as $key => $type ) {
                 if( sizeof( $type['group'] ) > 0 ) {
-                    foreach( $type['group'] as $group ) {
+                    foreach( $type['group'] as $key2 => $group ) {
 
                         if( ( isset( $group['designation'] ) && isset( $empInfo['designationID'] ) &&
                               isset( $group['designation'][$empInfo['designationID']] ) && sizeof( $group['designation'] ) > 0 ) ||
                             ( isset( $group['contract'] ) && isset( $empInfo['contractID'] ) &&
-                                isset( $group['contract'][$empInfo['contractID']] ) && sizeof( $group['contract'] ) > 0 ) ) {
+                              isset( $group['contract'][$empInfo['contractID']] ) && sizeof( $group['contract'] ) > 0 ) ) {
 
                             if( $group['childCare'] && $empInfo['children'] ) {
                                 $userChild = $ChildrenModel->getYoungestByUserID( $empInfo['userID'] );
@@ -123,6 +120,9 @@ class StructureModel extends \Model {
                                     }
                                 }
                             }
+                        }
+                        else {
+                            unset( $leaveTypes[$key]['group'][$key2] );
                         }
                     }
                 }

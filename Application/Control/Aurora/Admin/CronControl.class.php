@@ -49,17 +49,26 @@ class CronControl extends Control {
 
 
     /**
+     * Connect database
+     * @return void
+     */
+    public function setup( ) {
+        $this->connectDB( );
+
+        $i18n = new i18n('Aurora/languages.xml');
+        $i18n->setUserLang( 'en_us' );
+        $this->Registry->set( HKEY_CLASS, 'i18n', $i18n );
+    }
+
+
+    /**
     * Init Control Panel Controller Main
     * Override the parent Registry and extend Registry functionalities
     * @return void
     */
     public function init( $argv ) {
         try {
-            $this->connectDB();
-            $i18n = new i18n('Aurora/languages.xml');
-            $i18n->setUserLang( 'en_us' );
-            $this->Registry->set( HKEY_CLASS, 'i18n', $i18n );
-
+            $this->setup( );
             $this->runTasks( );
             exit;
 

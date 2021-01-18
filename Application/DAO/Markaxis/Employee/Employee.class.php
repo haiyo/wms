@@ -98,7 +98,7 @@ class Employee extends \DAO {
      * Retrieve a user list normally use for building select list
      * @return mixed
      */
-    public function getList( $q='', $departmentID, $designationID, $excludeUserID='' ) {
+    public function getList( $q='', $departmentID='', $designationID='', $excludeUserID='' ) {
         $q = $q ? addslashes( $q ) : '';
         $q = $q ? 'AND ( CONCAT( u.fname, \' \', u.lname ) LIKE "' . $q . '%" OR u.email LIKE "%' . $q . '%" )' : '';
 
@@ -109,7 +109,7 @@ class Employee extends \DAO {
         $list = array( );
 
         $sql = $this->DB->select( 'SELECT DISTINCT u.userID, CONCAT( u.fname, " ", u.lname ) AS name, u.email AS email,
-                                          u.mobile, d.title AS designation,
+                                          u.mobile, d.title AS designation, startDate, contractID,
                                           IFNULL(ed.department, "" ) AS department
                                    FROM user u
                                    LEFT JOIN employee e ON ( e.userID = u.userID )
