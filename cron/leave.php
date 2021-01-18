@@ -11,6 +11,6 @@ require '/Users/andylam/Sites/wms/config.ini.php';
 
 require_once(APP . 'Application.class.php');
 new Application( );
-new \Markaxis\Cron\HolidayControl( );
+new \Markaxis\Cron\LeaveControl( );
 
 ?>

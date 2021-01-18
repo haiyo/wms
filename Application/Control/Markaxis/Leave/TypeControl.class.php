@@ -1,6 +1,5 @@
 <?php
 namespace Markaxis\Leave;
-use \Markaxis\Employee\EmployeeModel;
 use \Control;
 
 /**
@@ -46,7 +45,6 @@ class TypeControl {
      * @return string
      */
     public function settings( ) {
-        $output = Control::getOutputArray( );
         Control::setOutputArrayAppend( array( 'form' => $this->TypeView->renderSettings( ) ) );
     }
 

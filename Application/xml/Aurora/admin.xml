@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <admin>
-    <task type="global">
-        <!-- select * from employee_leave_type -->
+    <!--<task type="global">
         <observer controller="Markaxis/Employee/LeaveTypeControl"/>
         <observer controller="Markaxis/Leave/TypeControl"/>
         <observer controller="Markaxis/Leave/GroupControl"/>
@@ -10,7 +9,7 @@
         <observer controller="Markaxis/Leave/StructureControl"/>
         <observer controller="Markaxis/Leave/LeaveApplyControl"/>
         <observer controller="Markaxis/Employee/LeaveBalanceControl"/>
-    </task>
+    </task>-->
     <task type="support">
         <observer controller="Aurora/Support/SupportControl"/>
     </task>

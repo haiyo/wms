@@ -59,12 +59,11 @@ class EmployeeModel extends \Model {
      * Return total count of records
      * @return int
      */
-    public function getCurrYearWorkMonth( ) {
+    public function getCurrYearWorkMonth( $startDate ) {
         $diffMonth = 0;
+        $startDate = \DateTime::createFromFormat('Y-m-d', $startDate );
 
-        if( isset( $this->info['startDate'] ) ) {
-            $startDate = \DateTime::createFromFormat('Y-m-d', $this->info['startDate'] );
-
+        if( $startDate ) {
             if( $startDate->format('Y') == date('Y') ) {
                 $diffMonth = $startDate->diff(new \DateTime('now'))->m;
             }
@@ -82,7 +81,7 @@ class EmployeeModel extends \Model {
      * Return a list of all users
      * @return mixed
      */
-    public function getList( $q='', $departmentID, $designationID, $includeOwn=false ) {
+    public function getList( $q='', $departmentID='', $designationID='', $includeOwn=true ) {
         $exclude = '';
 
         if( !$includeOwn ) {
