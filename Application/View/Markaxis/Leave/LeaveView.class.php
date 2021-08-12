@@ -78,7 +78,7 @@ class LeaveView {
         foreach( $chartList as $ltID => $name ) {
             $balInfo = $LeaveBalanceModel->getByltIDUserID( $ltID, $empInfo['userID'] );
 
-            if( $balInfo['elbID'] ) {
+            if( isset( $balInfo['elbID'] ) ) {
                 $vars['dynamic']['balChart'][] = array( 'TPLVAR_ID' => $id,
                                                         'TPLVAR_LEAVE_NAME' => $name,
                                                         'TPLVAR_BALANCE' => (float)$balInfo['balance'],
